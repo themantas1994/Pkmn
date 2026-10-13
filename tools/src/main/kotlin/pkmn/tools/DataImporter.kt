@@ -279,6 +279,9 @@ class DataImporter(private val root: File) {
                     shortDesc = existing.shortDesc.ifEmpty { prose[row["id"]] ?: "" })
                 continue
             }
+            // "x--held"/"x--bag"/"x--letsgo"/... are PokeAPI's internal per-game duplicates of item x (e.g. the 29
+            // "normalium-z--held" Z-Crystal copies); they are not separate items.
+            if ("--" in ident) continue
             val isKey = ident in keyItemWhitelist
             if (!isKey && catName in excludedApiCategories) continue
             if (catName == "unknown") continue
@@ -384,13 +387,16 @@ class DataImporter(private val root: File) {
                 "levelExtra" -> EvolutionMethod.LEVEL_EXTRA
                 else -> EvolutionMethod.OTHER
             }
-            val cond = o.str("evoCondition")
+            var cond = o.str("evoCondition")
+            // Showdown stores some evolution items only as the condition text (Scyther -> Kleavor: "Black Augurite").
+            var evoItem = o.str("evoItem")?.let(::toId)
+            if (method == EvolutionMethod.USE_ITEM && evoItem == null && cond != null) { evoItem = toId(cond); cond = null }
             // Regional evolutions (e.g. Pikachu -> Alolan Raichu) only happen in their home region.
             val region = o.str("evoRegion") ?: o.str("forme")?.let { f -> regionalSuffixes.firstOrNull { f == it } }
                 ?.takeIf { entries[toId(prevo)]?.jsonObject?.str("forme") == null }
             val code = listOfNotNull(conditionCode(cond), region?.let { "region:$it" }).joinToString("&").ifEmpty { null }
             evolutionsOf.getOrPut(toId(prevo)) { ArrayList() }.add(EvolutionData(
-                target = id, method = method, level = o.int("evoLevel"), item = o.str("evoItem")?.let(::toId),
+                target = id, method = method, level = o.int("evoLevel"), item = evoItem,
                 move = o.str("evoMove")?.let(::toId), condition = cond, conditionCode = code,
                 gender = o.str("gender"),
             ))
@@ -435,7 +441,8 @@ class DataImporter(private val root: File) {
                 heightm = o.dbl("heightm") ?: 0.0, weightkg = o.dbl("weightkg") ?: 0.0, color = o.str("color") ?: "",
                 eggGroups = o.strList("eggGroups"), prevo = o.str("prevo")?.let(::toId),
                 evolutions = evolutionsOf[id].orEmpty(),
-                otherFormes = o.strList("otherFormes").map(::toId), battleOnly = battleOnly,
+                // Drop references to excluded entries (e.g. Xerneas-Neutral is "Custom" in Showdown and not imported).
+                otherFormes = o.strList("otherFormes").map(::toId).filter { it in entries }, battleOnly = battleOnly,
                 requiredItems = (o.strList("requiredItem") + o.strList("requiredItems")).map(::toId).distinct(),
                 requiredMove = o.str("requiredMove")?.let(::toId), requiredAbility = o.str("requiredAbility")?.let(::toId),
                 changesFrom = o.str("changesFrom")?.let(::toId), canGigantamax = o.str("canGigantamax"),

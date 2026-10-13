@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "errorCount": 0,
+  "warningCount": 0,
+  "errorsByCode": {},
+  "warningsByCode": {},
+  "generatedBy": "pkmn.tools.AssetManifestTool",
+  "bundledAssets": 0,
+  "localAssets": 0,
+  "bundledByCategory": {},
+  "localByCategory": {},
+  "errors": [],
+  "warnings": []
+}

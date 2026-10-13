@@ -1,0 +1,165 @@
+{
+  "ok": true,
+  "errorCount": 0,
+  "warningCount": 25,
+  "errorsByCode": {},
+  "warningsByCode": {
+    "evolution-unsatisfiable": 25
+  },
+  "generatedBy": "pkmn.tools.ContentValidator",
+  "contentVersion": 1,
+  "rosterCutoff": "National Pokédex #0001-#1025 (Generation IX through The Indigo Disk and Pecharunt). Mega Evolutions introduced in Pokémon Legends: Z-A are included as forms.",
+  "errors": [],
+  "warnings": [
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "pikachu->raichualola",
+      "message": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "exeggcute->exeggutoralola",
+      "message": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "cubone->marowakalola",
+      "message": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "koffing->weezinggalar",
+      "message": "regional evolution limited to Galar; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "eevee->sylveon",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns espeon, umbreon first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "quilava->typhlosionhisui",
+      "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "dunsparce->dudunsparcethreesegment",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparce first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "wurmple->cascoon",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns silcoon first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "nincada->shedinja",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns ninjask first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "burmy->wormadamsandy",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "burmy->wormadamtrash",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "mimejr->mrmimegalar",
+      "message": "regional evolution limited to Galar; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "dewott->samurotthisui",
+      "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "petilil->lilliganthisui",
+      "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "rufflet->braviaryhisui",
+      "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "spewpa->vivillonfancy",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns vivillon first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "goomy->sliggoohisui",
+      "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "bergmite->avalugghisui",
+      "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "dartrix->decidueyehisui",
+      "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "cosmoem->lunala",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns solgaleo first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "toxel->toxtricitylowkey",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns toxtricity first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "milcery->alcremie",
+      "message": "Progression has no in-game input for condition 'spin' (otherMet returns false)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "kubfu->urshifu",
+      "message": "Progression has no in-game input for condition 'tower:single' (otherMet returns false)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "kubfu->urshifurapidstrike",
+      "message": "Progression has no in-game input for condition 'tower:rapid' (otherMet returns false)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    },
+    {
+      "code": "evolution-unsatisfiable",
+      "subject": "tandemaus->mausholdfour",
+      "message": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns maushold first (first matching entry wins; the official branch-selection rule is not modelled)",
+      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
+    }
+  ]
+}

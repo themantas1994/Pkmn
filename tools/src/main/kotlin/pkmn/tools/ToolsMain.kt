@@ -8,10 +8,11 @@ fun main(args: Array<String>) {
         "import" -> DataImporter(root).run()
         "validate" -> { val ok = ContentValidator(root).run(); if (!ok) kotlin.system.exitProcess(1) }
         "maps" -> MapCompilerTool(root).run()
-        "manifest" -> AssetManifestTool(root).run()
+        "manifest" -> { val ok = AssetManifestTool(root).run(); if (!ok) kotlin.system.exitProcess(1) }
         "playtime" -> PlaytimeEstimator(root).run()
+        "sprites" -> { val ok = SpriteImporter(root, args.drop(1)).run(); if (!ok) kotlin.system.exitProcess(1) }
         else -> {
-            println("usage: tools <import|validate|maps|manifest|playtime>")
+            println("usage: tools <import|validate|maps|manifest|playtime|sprites [--only=1-151] [--force] [--from=<dir|zip>] ...>")
             kotlin.system.exitProcess(2)
         }
     }

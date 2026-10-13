@@ -1,0 +1,758 @@
+{
+  "total": 870,
+  "byCategory": {
+    "BALL": 39,
+    "BATTLE": 18,
+    "BERRY": 77,
+    "EVOLUTION": 39,
+    "HELD": 327,
+    "KEY": 28,
+    "MEDICINE": 106,
+    "MEGA_STONE": 92,
+    "VALUABLE": 80,
+    "Z_CRYSTAL": 64
+  },
+  "byPocket": {
+    "BALLS": 39,
+    "BERRIES": 77,
+    "ITEMS": 556,
+    "KEY": 92,
+    "MEDICINE": 106
+  },
+  "withBattleData": 580,
+  "nonstandardByTag": {
+    "Future": 45,
+    "Past": 283,
+    "Unobtainable": 3
+  },
+  "evolutionItems": {
+    "categoryEVOLUTION": 39,
+    "referencedByEvolutions": 40,
+    "referencedButMissing": [],
+    "uses": {
+      "auspiciousarmor": [
+        "charcadet->armarouge"
+      ],
+      "blackaugurite": [
+        "scyther->kleavor"
+      ],
+      "chippedpot": [
+        "sinisteaantique->polteageistantique"
+      ],
+      "crackedpot": [
+        "sinistea->polteageist"
+      ],
+      "dawnstone": [
+        "kirlia->gallade",
+        "snorunt->froslass"
+      ],
+      "deepseascale": [
+        "clamperl->gorebyss"
+      ],
+      "deepseatooth": [
+        "clamperl->huntail"
+      ],
+      "dragonscale": [
+        "seadra->kingdra"
+      ],
+      "dubiousdisc": [
+        "porygon2->porygonz"
+      ],
+      "duskstone": [
+        "murkrow->honchkrow",
+        "misdreavus->mismagius",
+        "lampent->chandelure",
+        "doublade->aegislash"
+      ],
+      "electirizer": [
+        "electabuzz->electivire"
+      ],
+      "firestone": [
+        "vulpix->ninetales",
+        "growlithe->arcanine",
+        "growlithehisui->arcaninehisui",
+        "eevee->flareon",
+        "pansear->simisear",
+        "capsakid->scovillain"
+      ],
+      "galaricacuff": [
+        "slowpokegalar->slowbrogalar"
+      ],
+      "galaricawreath": [
+        "slowpokegalar->slowkinggalar"
+      ],
+      "icestone": [
+        "sandshrewalola->sandslashalola",
+        "vulpixalola->ninetalesalola",
+        "eevee->glaceon",
+        "darumakagalar->darmanitangalar",
+        "crabrawler->crabominable",
+        "cetoddle->cetitan"
+      ],
+      "kingsrock": [
+        "poliwhirl->politoed",
+        "slowpoke->slowking"
+      ],
+      "leafstone": [
+        "gloom->vileplume",
+        "weepinbell->victreebel",
+        "voltorbhisui->electrodehisui",
+        "exeggcute->exeggutor",
+        "exeggcute->exeggutoralola",
+        "eevee->leafeon",
+        "nuzleaf->shiftry",
+        "pansage->simisage"
+      ],
+      "magmarizer": [
+        "magmar->magmortar"
+      ],
+      "maliciousarmor": [
+        "charcadet->ceruledge"
+      ],
+      "masterpieceteacup": [
+        "poltchageistartisan->sinistchamasterpiece"
+      ],
+      "metalalloy": [
+        "duraludon->archaludon"
+      ],
+      "metalcoat": [
+        "onix->steelix",
+        "scyther->scizor"
+      ],
+      "moonstone": [
+        "nidorina->nidoqueen",
+        "nidorino->nidoking",
+        "clefairy->clefable",
+        "jigglypuff->wigglytuff",
+        "skitty->delcatty",
+        "munna->musharna"
+      ],
+      "ovalstone": [
+        "happiny->chansey"
+      ],
+      "prismscale": [
+        "feebas->milotic"
+      ],
+      "protector": [
+        "rhydon->rhyperior"
+      ],
+      "razorclaw": [
+        "sneasel->weavile",
+        "sneaselhisui->sneasler"
+      ],
+      "razorfang": [
+        "gligar->gliscor"
+      ],
+      "reapercloth": [
+        "dusclops->dusknoir"
+      ],
+      "sachet": [
+        "spritzee->aromatisse"
+      ],
+      "shinystone": [
+        "togetic->togekiss",
+        "roselia->roserade",
+        "minccino->cinccino",
+        "floette->florges"
+      ],
+      "sunstone": [
+        "gloom->bellossom",
+        "sunkern->sunflora",
+        "cottonee->whimsicott",
+        "petilil->lilligant",
+        "petilil->lilliganthisui",
+        "helioptile->heliolisk"
+      ],
+      "sweetapple": [
+        "applin->appletun"
+      ],
+      "syrupyapple": [
+        "applin->dipplin"
+      ],
+      "tartapple": [
+        "applin->flapple"
+      ],
+      "thunderstone": [
+        "pikachu->raichu",
+        "pikachu->raichualola",
+        "magneton->magnezone",
+        "eevee->jolteon",
+        "eelektrik->eelektross",
+        "charjabug->vikavolt",
+        "tadbulb->bellibolt"
+      ],
+      "unremarkableteacup": [
+        "poltchageist->sinistcha"
+      ],
+      "upgrade": [
+        "porygon->porygon2"
+      ],
+      "waterstone": [
+        "poliwhirl->poliwrath",
+        "shellder->cloyster",
+        "staryu->starmie",
+        "eevee->vaporeon",
+        "lombre->ludicolo",
+        "panpour->simipour"
+      ],
+      "whippeddream": [
+        "swirlix->slurpuff"
+      ]
+    }
+  },
+  "megaStones": {
+    "count": 92,
+    "mapping": {
+      "abomasite": {
+        "abomasnow": "abomasnowmega"
+      },
+      "absolite": {
+        "absol": "absolmega"
+      },
+      "absolitez": {
+        "absol": "absolmegaz"
+      },
+      "aerodactylite": {
+        "aerodactyl": "aerodactylmega"
+      },
+      "aggronite": {
+        "aggron": "aggronmega"
+      },
+      "alakazite": {
+        "alakazam": "alakazammega"
+      },
+      "altarianite": {
+        "altaria": "altariamega"
+      },
+      "ampharosite": {
+        "ampharos": "ampharosmega"
+      },
+      "audinite": {
+        "audino": "audinomega"
+      },
+      "banettite": {
+        "banette": "banettemega"
+      },
+      "barbaracite": {
+        "barbaracle": "barbaraclemega"
+      },
+      "baxcalibrite": {
+        "baxcalibur": "baxcaliburmega"
+      },
+      "beedrillite": {
+        "beedrill": "beedrillmega"
+      },
+      "blastoisinite": {
+        "blastoise": "blastoisemega"
+      },
+      "blazikenite": {
+        "blaziken": "blazikenmega"
+      },
+      "cameruptite": {
+        "camerupt": "cameruptmega"
+      },
+      "chandelurite": {
+        "chandelure": "chandeluremega"
+      },
+      "charizarditex": {
+        "charizard": "charizardmegax"
+      },
+      "charizarditey": {
+        "charizard": "charizardmegay"
+      },
+      "chesnaughtite": {
+        "chesnaught": "chesnaughtmega"
+      },
+      "chimechite": {
+        "chimecho": "chimechomega"
+      },
+      "clefablite": {
+        "clefable": "clefablemega"
+      },
+      "crabominite": {
+        "crabominable": "crabominablemega"
+      },
+      "darkranite": {
+        "darkrai": "darkraimega"
+      },
+      "delphoxite": {
+        "delphox": "delphoxmega"
+      },
+      "diancite": {
+        "diancie": "dianciemega"
+      },
+      "dragalgite": {
+        "dragalge": "dragalgemega"
+      },
+      "dragoninite": {
+        "dragonite": "dragonitemega"
+      },
+      "drampanite": {
+        "drampa": "drampamega"
+      },
+      "eelektrossite": {
+        "eelektross": "eelektrossmega"
+      },
+      "emboarite": {
+        "emboar": "emboarmega"
+      },
+      "excadrite": {
+        "excadrill": "excadrillmega"
+      },
+      "falinksite": {
+        "falinks": "falinksmega"
+      },
+      "feraligite": {
+        "feraligatr": "feraligatrmega"
+      },
+      "floettite": {
+        "floetteeternal": "floettemega"
+      },
+      "froslassite": {
+        "froslass": "froslassmega"
+      },
+      "galladite": {
+        "gallade": "gallademega"
+      },
+      "garchompite": {
+        "garchomp": "garchompmega"
+      },
+      "garchompitez": {
+        "garchomp": "garchompmegaz"
+      },
+      "gardevoirite": {
+        "gardevoir": "gardevoirmega"
+      },
+      "gengarite": {
+        "gengar": "gengarmega"
+      },
+      "glalitite": {
+        "glalie": "glaliemega"
+      },
+      "glimmoranite": {
+        "glimmora": "glimmoramega"
+      },
+      "golisopite": {
+        "golisopod": "golisopodmega"
+      },
+      "golurkite": {
+        "golurk": "golurkmega"
+      },
+      "greninjite": {
+        "greninja": "greninjamega"
+      },
+      "gyaradosite": {
+        "gyarados": "gyaradosmega"
+      },
+      "hawluchanite": {
+        "hawlucha": "hawluchamega"
+      },
+      "heatranite": {
+        "heatran": "heatranmega"
+      },
+      "heracronite": {
+        "heracross": "heracrossmega"
+      },
+      "houndoominite": {
+        "houndoom": "houndoommega"
+      },
+      "kangaskhanite": {
+        "kangaskhan": "kangaskhanmega"
+      },
+      "latiasite": {
+        "latias": "latiasmega"
+      },
+      "latiosite": {
+        "latios": "latiosmega"
+      },
+      "lopunnite": {
+        "lopunny": "lopunnymega"
+      },
+      "lucarionite": {
+        "lucario": "lucariomega"
+      },
+      "lucarionitez": {
+        "lucario": "lucariomegaz"
+      },
+      "magearnite": {
+        "magearna": "magearnamega",
+        "magearnaoriginal": "magearnaoriginalmega"
+      },
+      "malamarite": {
+        "malamar": "malamarmega"
+      },
+      "manectite": {
+        "manectric": "manectricmega"
+      },
+      "mawilite": {
+        "mawile": "mawilemega"
+      },
+      "medichamite": {
+        "medicham": "medichammega"
+      },
+      "meganiumite": {
+        "meganium": "meganiummega"
+      },
+      "meowsticite": {
+        "meowstic": "meowsticmmega",
+        "meowsticf": "meowsticfmega"
+      },
+      "metagrossite": {
+        "metagross": "metagrossmega"
+      },
+      "mewtwonitex": {
+        "mewtwo": "mewtwomegax"
+      },
+      "mewtwonitey": {
+        "mewtwo": "mewtwomegay"
+      },
+      "pidgeotite": {
+        "pidgeot": "pidgeotmega"
+      },
+      "pinsirite": {
+        "pinsir": "pinsirmega"
+      },
+      "pyroarite": {
+        "pyroar": "pyroarmega"
+      },
+      "raichunitex": {
+        "raichu": "raichumegax"
+      },
+      "raichunitey": {
+        "raichu": "raichumegay"
+      },
+      "sablenite": {
+        "sableye": "sableyemega"
+      },
+      "salamencite": {
+        "salamence": "salamencemega"
+      },
+      "sceptilite": {
+        "sceptile": "sceptilemega"
+      },
+      "scizorite": {
+        "scizor": "scizormega"
+      },
+      "scolipite": {
+        "scolipede": "scolipedemega"
+      },
+      "scovillainite": {
+        "scovillain": "scovillainmega"
+      },
+      "scraftinite": {
+        "scrafty": "scraftymega"
+      },
+      "sharpedonite": {
+        "sharpedo": "sharpedomega"
+      },
+      "skarmorite": {
+        "skarmory": "skarmorymega"
+      },
+      "slowbronite": {
+        "slowbro": "slowbromega"
+      },
+      "staraptite": {
+        "staraptor": "staraptormega"
+      },
+      "starminite": {
+        "starmie": "starmiemega"
+      },
+      "steelixite": {
+        "steelix": "steelixmega"
+      },
+      "swampertite": {
+        "swampert": "swampertmega"
+      },
+      "tatsugirinite": {
+        "tatsugiri": "tatsugiricurlymega",
+        "tatsugiridroopy": "tatsugiridroopymega",
+        "tatsugiristretchy": "tatsugiristretchymega"
+      },
+      "tyranitarite": {
+        "tyranitar": "tyranitarmega"
+      },
+      "venusaurite": {
+        "venusaur": "venusaurmega"
+      },
+      "victreebelite": {
+        "victreebel": "victreebelmega"
+      },
+      "zeraorite": {
+        "zeraora": "zeraoramega"
+      },
+      "zygardite": {
+        "zygardecomplete": "zygardemega"
+      }
+    }
+  },
+  "zCrystals": {
+    "count": 35,
+    "typeCrystals": 18,
+    "exclusiveCrystals": 17,
+    "list": [
+      {
+        "id": "aloraichiumz",
+        "exclusiveMove": "Stoked Sparksurfer",
+        "from": [
+          "thunderbolt"
+        ],
+        "users": [
+          "raichualola"
+        ]
+      },
+      {
+        "id": "buginiumz",
+        "type": "Bug"
+      },
+      {
+        "id": "darkiniumz",
+        "type": "Dark"
+      },
+      {
+        "id": "decidiumz",
+        "exclusiveMove": "Sinister Arrow Raid",
+        "from": [
+          "spiritshackle"
+        ],
+        "users": [
+          "decidueye"
+        ]
+      },
+      {
+        "id": "dragoniumz",
+        "type": "Dragon"
+      },
+      {
+        "id": "eeviumz",
+        "exclusiveMove": "Extreme Evoboost",
+        "from": [
+          "lastresort"
+        ],
+        "users": [
+          "eevee"
+        ]
+      },
+      {
+        "id": "electriumz",
+        "type": "Electric"
+      },
+      {
+        "id": "fairiumz",
+        "type": "Fairy"
+      },
+      {
+        "id": "fightiniumz",
+        "type": "Fighting"
+      },
+      {
+        "id": "firiumz",
+        "type": "Fire"
+      },
+      {
+        "id": "flyiniumz",
+        "type": "Flying"
+      },
+      {
+        "id": "ghostiumz",
+        "type": "Ghost"
+      },
+      {
+        "id": "grassiumz",
+        "type": "Grass"
+      },
+      {
+        "id": "groundiumz",
+        "type": "Ground"
+      },
+      {
+        "id": "iciumz",
+        "type": "Ice"
+      },
+      {
+        "id": "inciniumz",
+        "exclusiveMove": "Malicious Moonsault",
+        "from": [
+          "darkestlariat"
+        ],
+        "users": [
+          "incineroar"
+        ]
+      },
+      {
+        "id": "kommoniumz",
+        "exclusiveMove": "Clangorous Soulblaze",
+        "from": [
+          "clangingscales"
+        ],
+        "users": [
+          "kommoo",
+          "kommoototem"
+        ]
+      },
+      {
+        "id": "lunaliumz",
+        "exclusiveMove": "Menacing Moonraze Maelstrom",
+        "from": [
+          "moongeistbeam"
+        ],
+        "users": [
+          "lunala",
+          "necrozmadawnwings"
+        ]
+      },
+      {
+        "id": "lycaniumz",
+        "exclusiveMove": "Splintered Stormshards",
+        "from": [
+          "stoneedge"
+        ],
+        "users": [
+          "lycanroc",
+          "lycanrocmidnight",
+          "lycanrocdusk"
+        ]
+      },
+      {
+        "id": "marshadiumz",
+        "exclusiveMove": "Soul-Stealing 7-Star Strike",
+        "from": [
+          "spectralthief"
+        ],
+        "users": [
+          "marshadow"
+        ]
+      },
+      {
+        "id": "mewniumz",
+        "exclusiveMove": "Genesis Supernova",
+        "from": [
+          "psychic"
+        ],
+        "users": [
+          "mew"
+        ]
+      },
+      {
+        "id": "mimikiumz",
+        "exclusiveMove": "Let's Snuggle Forever",
+        "from": [
+          "playrough"
+        ],
+        "users": [
+          "mimikyu",
+          "mimikyubusted",
+          "mimikyutotem",
+          "mimikyubustedtotem"
+        ]
+      },
+      {
+        "id": "normaliumz",
+        "type": "Normal"
+      },
+      {
+        "id": "pikaniumz",
+        "exclusiveMove": "Catastropika",
+        "from": [
+          "volttackle"
+        ],
+        "users": [
+          "pikachu"
+        ]
+      },
+      {
+        "id": "pikashuniumz",
+        "exclusiveMove": "10,000,000 Volt Thunderbolt",
+        "from": [
+          "thunderbolt"
+        ],
+        "users": [
+          "pikachuoriginal",
+          "pikachuhoenn",
+          "pikachusinnoh",
+          "pikachuunova",
+          "pikachukalos",
+          "pikachualola",
+          "pikachupartner"
+        ]
+      },
+      {
+        "id": "poisoniumz",
+        "type": "Poison"
+      },
+      {
+        "id": "primariumz",
+        "exclusiveMove": "Oceanic Operetta",
+        "from": [
+          "sparklingaria"
+        ],
+        "users": [
+          "primarina"
+        ]
+      },
+      {
+        "id": "psychiumz",
+        "type": "Psychic"
+      },
+      {
+        "id": "rockiumz",
+        "type": "Rock"
+      },
+      {
+        "id": "snorliumz",
+        "exclusiveMove": "Pulverizing Pancake",
+        "from": [
+          "gigaimpact"
+        ],
+        "users": [
+          "snorlax"
+        ]
+      },
+      {
+        "id": "solganiumz",
+        "exclusiveMove": "Searing Sunraze Smash",
+        "from": [
+          "sunsteelstrike"
+        ],
+        "users": [
+          "solgaleo",
+          "necrozmaduskmane"
+        ]
+      },
+      {
+        "id": "steeliumz",
+        "type": "Steel"
+      },
+      {
+        "id": "tapuniumz",
+        "exclusiveMove": "Guardian of Alola",
+        "from": [
+          "naturesmadness"
+        ],
+        "users": [
+          "tapukoko",
+          "tapulele",
+          "tapubulu",
+          "tapufini"
+        ]
+      },
+      {
+        "id": "ultranecroziumz",
+        "exclusiveMove": "Light That Burns the Sky",
+        "from": [
+          "photongeyser"
+        ],
+        "users": [
+          "necrozmaultra"
+        ]
+      },
+      {
+        "id": "wateriumz",
+        "type": "Water"
+      }
+    ]
+  },
+  "primalOrbs": [
+    "blueorb",
+    "redorb"
+  ]
+}

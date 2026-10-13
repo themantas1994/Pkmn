@@ -1,0 +1,3078 @@
+{
+  "total": 354,
+  "countsByKind": {
+    "ALTERNATE": 118,
+    "BATTLE_ONLY": 26,
+    "FUSION": 6,
+    "GIGANTAMAX": 34,
+    "MEGA": 97,
+    "PRIMAL": 2,
+    "REGIONAL": 58,
+    "TOTEM": 12,
+    "ULTRA_BURST": 1
+  },
+  "byKind": {
+    "REGIONAL": [
+      {
+        "id": "rattataalola",
+        "baseSpecies": "rattata",
+        "forme": "Alola",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "raticatealola",
+        "baseSpecies": "raticate",
+        "forme": "Alola",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachualola",
+        "baseSpecies": "pikachu",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "raichualola",
+        "baseSpecies": "raichu",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "sandshrewalola",
+        "baseSpecies": "sandshrew",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "sandslashalola",
+        "baseSpecies": "sandslash",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "vulpixalola",
+        "baseSpecies": "vulpix",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "ninetalesalola",
+        "baseSpecies": "ninetales",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "diglettalola",
+        "baseSpecies": "diglett",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "dugtrioalola",
+        "baseSpecies": "dugtrio",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "meowthalola",
+        "baseSpecies": "meowth",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "meowthgalar",
+        "baseSpecies": "meowth",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "persianalola",
+        "baseSpecies": "persian",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "growlithehisui",
+        "baseSpecies": "growlithe",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arcaninehisui",
+        "baseSpecies": "arcanine",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "geodudealola",
+        "baseSpecies": "geodude",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "graveleralola",
+        "baseSpecies": "graveler",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "golemalola",
+        "baseSpecies": "golem",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "ponytagalar",
+        "baseSpecies": "ponyta",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "rapidashgalar",
+        "baseSpecies": "rapidash",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "slowpokegalar",
+        "baseSpecies": "slowpoke",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "slowbrogalar",
+        "baseSpecies": "slowbro",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "farfetchdgalar",
+        "baseSpecies": "farfetchd",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "grimeralola",
+        "baseSpecies": "grimer",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "mukalola",
+        "baseSpecies": "muk",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "voltorbhisui",
+        "baseSpecies": "voltorb",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "electrodehisui",
+        "baseSpecies": "electrode",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "exeggutoralola",
+        "baseSpecies": "exeggutor",
+        "forme": "Alola",
+        "isBattleOnly": false
+      },
+      {
+        "id": "marowakalola",
+        "baseSpecies": "marowak",
+        "forme": "Alola",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "weezinggalar",
+        "baseSpecies": "weezing",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "mrmimegalar",
+        "baseSpecies": "mrmime",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "taurospaldeaaqua",
+        "baseSpecies": "tauros",
+        "forme": "Paldea-Aqua",
+        "isBattleOnly": false
+      },
+      {
+        "id": "taurospaldeablaze",
+        "baseSpecies": "tauros",
+        "forme": "Paldea-Blaze",
+        "isBattleOnly": false
+      },
+      {
+        "id": "taurospaldeacombat",
+        "baseSpecies": "tauros",
+        "forme": "Paldea-Combat",
+        "isBattleOnly": false
+      },
+      {
+        "id": "articunogalar",
+        "baseSpecies": "articuno",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "zapdosgalar",
+        "baseSpecies": "zapdos",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "moltresgalar",
+        "baseSpecies": "moltres",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "typhlosionhisui",
+        "baseSpecies": "typhlosion",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "wooperpaldea",
+        "baseSpecies": "wooper",
+        "forme": "Paldea",
+        "isBattleOnly": false
+      },
+      {
+        "id": "slowkinggalar",
+        "baseSpecies": "slowking",
+        "forme": "Galar",
+        "isBattleOnly": false
+      },
+      {
+        "id": "qwilfishhisui",
+        "baseSpecies": "qwilfish",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "sneaselhisui",
+        "baseSpecies": "sneasel",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "corsolagalar",
+        "baseSpecies": "corsola",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "zigzagoongalar",
+        "baseSpecies": "zigzagoon",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "linoonegalar",
+        "baseSpecies": "linoone",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "samurotthisui",
+        "baseSpecies": "samurott",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "lilliganthisui",
+        "baseSpecies": "lilligant",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "darumakagalar",
+        "baseSpecies": "darumaka",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "darmanitangalar",
+        "baseSpecies": "darmanitan",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "yamaskgalar",
+        "baseSpecies": "yamask",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "zoruahisui",
+        "baseSpecies": "zorua",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "zoroarkhisui",
+        "baseSpecies": "zoroark",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "stunfiskgalar",
+        "baseSpecies": "stunfisk",
+        "forme": "Galar",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "braviaryhisui",
+        "baseSpecies": "braviary",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "sliggoohisui",
+        "baseSpecies": "sliggoo",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "goodrahisui",
+        "baseSpecies": "goodra",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "avalugghisui",
+        "baseSpecies": "avalugg",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      },
+      {
+        "id": "decidueyehisui",
+        "baseSpecies": "decidueye",
+        "forme": "Hisui",
+        "isBattleOnly": false
+      }
+    ],
+    "ALTERNATE": [
+      {
+        "id": "pikachubelle",
+        "baseSpecies": "pikachu",
+        "forme": "Belle",
+        "changesFrom": "pikachucosplay",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachucosplay",
+        "baseSpecies": "pikachu",
+        "forme": "Cosplay",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachuhoenn",
+        "baseSpecies": "pikachu",
+        "forme": "Hoenn",
+        "isBattleOnly": false
+      },
+      {
+        "id": "pikachukalos",
+        "baseSpecies": "pikachu",
+        "forme": "Kalos",
+        "isBattleOnly": false
+      },
+      {
+        "id": "pikachulibre",
+        "baseSpecies": "pikachu",
+        "forme": "Libre",
+        "changesFrom": "pikachucosplay",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachuoriginal",
+        "baseSpecies": "pikachu",
+        "forme": "Original",
+        "isBattleOnly": false
+      },
+      {
+        "id": "pikachupartner",
+        "baseSpecies": "pikachu",
+        "forme": "Partner",
+        "isBattleOnly": false
+      },
+      {
+        "id": "pikachuphd",
+        "baseSpecies": "pikachu",
+        "forme": "PhD",
+        "changesFrom": "pikachucosplay",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachupopstar",
+        "baseSpecies": "pikachu",
+        "forme": "Pop-Star",
+        "changesFrom": "pikachucosplay",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachurockstar",
+        "baseSpecies": "pikachu",
+        "forme": "Rock-Star",
+        "changesFrom": "pikachucosplay",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachusinnoh",
+        "baseSpecies": "pikachu",
+        "forme": "Sinnoh",
+        "isBattleOnly": false
+      },
+      {
+        "id": "pikachustarter",
+        "baseSpecies": "pikachu",
+        "forme": "Starter",
+        "isBattleOnly": false,
+        "isNonstandard": "LGPE"
+      },
+      {
+        "id": "pikachuunova",
+        "baseSpecies": "pikachu",
+        "forme": "Unova",
+        "isBattleOnly": false
+      },
+      {
+        "id": "pikachuworld",
+        "baseSpecies": "pikachu",
+        "forme": "World",
+        "isBattleOnly": false
+      },
+      {
+        "id": "eeveestarter",
+        "baseSpecies": "eevee",
+        "forme": "Starter",
+        "isBattleOnly": false,
+        "isNonstandard": "LGPE"
+      },
+      {
+        "id": "pichuspikyeared",
+        "baseSpecies": "pichu",
+        "forme": "Spiky-eared",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "deoxysattack",
+        "baseSpecies": "deoxys",
+        "forme": "Attack",
+        "changesFrom": "deoxys",
+        "isBattleOnly": false
+      },
+      {
+        "id": "deoxysdefense",
+        "baseSpecies": "deoxys",
+        "forme": "Defense",
+        "changesFrom": "deoxys",
+        "isBattleOnly": false
+      },
+      {
+        "id": "deoxysspeed",
+        "baseSpecies": "deoxys",
+        "forme": "Speed",
+        "changesFrom": "deoxys",
+        "isBattleOnly": false
+      },
+      {
+        "id": "wormadamsandy",
+        "baseSpecies": "wormadam",
+        "forme": "Sandy",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "wormadamtrash",
+        "baseSpecies": "wormadam",
+        "forme": "Trash",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "rotomfan",
+        "baseSpecies": "rotom",
+        "forme": "Fan",
+        "changesFrom": "rotom",
+        "isBattleOnly": false
+      },
+      {
+        "id": "rotomfrost",
+        "baseSpecies": "rotom",
+        "forme": "Frost",
+        "changesFrom": "rotom",
+        "isBattleOnly": false
+      },
+      {
+        "id": "rotomheat",
+        "baseSpecies": "rotom",
+        "forme": "Heat",
+        "changesFrom": "rotom",
+        "isBattleOnly": false
+      },
+      {
+        "id": "rotommow",
+        "baseSpecies": "rotom",
+        "forme": "Mow",
+        "changesFrom": "rotom",
+        "isBattleOnly": false
+      },
+      {
+        "id": "rotomwash",
+        "baseSpecies": "rotom",
+        "forme": "Wash",
+        "changesFrom": "rotom",
+        "isBattleOnly": false
+      },
+      {
+        "id": "dialgaorigin",
+        "baseSpecies": "dialga",
+        "forme": "Origin",
+        "requiredItems": [
+          "adamantcrystal"
+        ],
+        "changesFrom": "dialga",
+        "isBattleOnly": false
+      },
+      {
+        "id": "palkiaorigin",
+        "baseSpecies": "palkia",
+        "forme": "Origin",
+        "requiredItems": [
+          "lustrousglobe"
+        ],
+        "changesFrom": "palkia",
+        "isBattleOnly": false
+      },
+      {
+        "id": "giratinaorigin",
+        "baseSpecies": "giratina",
+        "forme": "Origin",
+        "requiredItems": [
+          "griseouscore"
+        ],
+        "changesFrom": "giratina",
+        "isBattleOnly": false
+      },
+      {
+        "id": "shayminsky",
+        "baseSpecies": "shaymin",
+        "forme": "Sky",
+        "changesFrom": "shaymin",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusbug",
+        "baseSpecies": "arceus",
+        "forme": "Bug",
+        "requiredItems": [
+          "insectplate",
+          "buginiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusdark",
+        "baseSpecies": "arceus",
+        "forme": "Dark",
+        "requiredItems": [
+          "dreadplate",
+          "darkiniumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusdragon",
+        "baseSpecies": "arceus",
+        "forme": "Dragon",
+        "requiredItems": [
+          "dracoplate",
+          "dragoniumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceuselectric",
+        "baseSpecies": "arceus",
+        "forme": "Electric",
+        "requiredItems": [
+          "zapplate",
+          "electriumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusfairy",
+        "baseSpecies": "arceus",
+        "forme": "Fairy",
+        "requiredItems": [
+          "pixieplate",
+          "fairiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusfighting",
+        "baseSpecies": "arceus",
+        "forme": "Fighting",
+        "requiredItems": [
+          "fistplate",
+          "fightiniumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusfire",
+        "baseSpecies": "arceus",
+        "forme": "Fire",
+        "requiredItems": [
+          "flameplate",
+          "firiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusflying",
+        "baseSpecies": "arceus",
+        "forme": "Flying",
+        "requiredItems": [
+          "skyplate",
+          "flyiniumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusghost",
+        "baseSpecies": "arceus",
+        "forme": "Ghost",
+        "requiredItems": [
+          "spookyplate",
+          "ghostiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusgrass",
+        "baseSpecies": "arceus",
+        "forme": "Grass",
+        "requiredItems": [
+          "meadowplate",
+          "grassiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusground",
+        "baseSpecies": "arceus",
+        "forme": "Ground",
+        "requiredItems": [
+          "earthplate",
+          "groundiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusice",
+        "baseSpecies": "arceus",
+        "forme": "Ice",
+        "requiredItems": [
+          "icicleplate",
+          "iciumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceuspoison",
+        "baseSpecies": "arceus",
+        "forme": "Poison",
+        "requiredItems": [
+          "toxicplate",
+          "poisoniumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceuspsychic",
+        "baseSpecies": "arceus",
+        "forme": "Psychic",
+        "requiredItems": [
+          "mindplate",
+          "psychiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceusrock",
+        "baseSpecies": "arceus",
+        "forme": "Rock",
+        "requiredItems": [
+          "stoneplate",
+          "rockiumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceussteel",
+        "baseSpecies": "arceus",
+        "forme": "Steel",
+        "requiredItems": [
+          "ironplate",
+          "steeliumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "arceuswater",
+        "baseSpecies": "arceus",
+        "forme": "Water",
+        "requiredItems": [
+          "splashplate",
+          "wateriumz"
+        ],
+        "changesFrom": "arceus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "basculinbluestriped",
+        "baseSpecies": "basculin",
+        "forme": "Blue-Striped",
+        "isBattleOnly": false
+      },
+      {
+        "id": "basculinwhitestriped",
+        "baseSpecies": "basculin",
+        "forme": "White-Striped",
+        "isBattleOnly": false
+      },
+      {
+        "id": "tornadustherian",
+        "baseSpecies": "tornadus",
+        "forme": "Therian",
+        "changesFrom": "tornadus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "thundurustherian",
+        "baseSpecies": "thundurus",
+        "forme": "Therian",
+        "changesFrom": "thundurus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "landorustherian",
+        "baseSpecies": "landorus",
+        "forme": "Therian",
+        "changesFrom": "landorus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "keldeoresolute",
+        "baseSpecies": "keldeo",
+        "forme": "Resolute",
+        "requiredMove": "secretsword",
+        "changesFrom": "keldeo",
+        "isBattleOnly": false
+      },
+      {
+        "id": "genesectburn",
+        "baseSpecies": "genesect",
+        "forme": "Burn",
+        "requiredItems": [
+          "burndrive"
+        ],
+        "changesFrom": "genesect",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "genesectchill",
+        "baseSpecies": "genesect",
+        "forme": "Chill",
+        "requiredItems": [
+          "chilldrive"
+        ],
+        "changesFrom": "genesect",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "genesectdouse",
+        "baseSpecies": "genesect",
+        "forme": "Douse",
+        "requiredItems": [
+          "dousedrive"
+        ],
+        "changesFrom": "genesect",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "genesectshock",
+        "baseSpecies": "genesect",
+        "forme": "Shock",
+        "requiredItems": [
+          "shockdrive"
+        ],
+        "changesFrom": "genesect",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "greninjabond",
+        "baseSpecies": "greninja",
+        "forme": "Bond",
+        "isBattleOnly": false
+      },
+      {
+        "id": "vivillonfancy",
+        "baseSpecies": "vivillon",
+        "forme": "Fancy",
+        "isBattleOnly": false
+      },
+      {
+        "id": "vivillonpokeball",
+        "baseSpecies": "vivillon",
+        "forme": "Pokeball",
+        "isBattleOnly": false
+      },
+      {
+        "id": "floetteeternal",
+        "baseSpecies": "floette",
+        "forme": "Eternal",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "meowsticf",
+        "baseSpecies": "meowstic",
+        "forme": "F",
+        "isBattleOnly": false
+      },
+      {
+        "id": "pumpkaboolarge",
+        "baseSpecies": "pumpkaboo",
+        "forme": "Large",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pumpkaboosmall",
+        "baseSpecies": "pumpkaboo",
+        "forme": "Small",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pumpkaboosuper",
+        "baseSpecies": "pumpkaboo",
+        "forme": "Super",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gourgeistlarge",
+        "baseSpecies": "gourgeist",
+        "forme": "Large",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gourgeistsmall",
+        "baseSpecies": "gourgeist",
+        "forme": "Small",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gourgeistsuper",
+        "baseSpecies": "gourgeist",
+        "forme": "Super",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "zygarde10",
+        "baseSpecies": "zygarde",
+        "forme": "10%",
+        "changesFrom": "zygarde",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "hoopaunbound",
+        "baseSpecies": "hoopa",
+        "forme": "Unbound",
+        "changesFrom": "hoopa",
+        "isBattleOnly": false
+      },
+      {
+        "id": "oricoriopau",
+        "baseSpecies": "oricorio",
+        "forme": "Pa'u",
+        "changesFrom": "oricorio",
+        "isBattleOnly": false
+      },
+      {
+        "id": "oricoriopompom",
+        "baseSpecies": "oricorio",
+        "forme": "Pom-Pom",
+        "changesFrom": "oricorio",
+        "isBattleOnly": false
+      },
+      {
+        "id": "oricoriosensu",
+        "baseSpecies": "oricorio",
+        "forme": "Sensu",
+        "changesFrom": "oricorio",
+        "isBattleOnly": false
+      },
+      {
+        "id": "rockruffdusk",
+        "baseSpecies": "rockruff",
+        "forme": "Dusk",
+        "isBattleOnly": false
+      },
+      {
+        "id": "lycanrocdusk",
+        "baseSpecies": "lycanroc",
+        "forme": "Dusk",
+        "isBattleOnly": false
+      },
+      {
+        "id": "lycanrocmidnight",
+        "baseSpecies": "lycanroc",
+        "forme": "Midnight",
+        "isBattleOnly": false
+      },
+      {
+        "id": "silvallybug",
+        "baseSpecies": "silvally",
+        "forme": "Bug",
+        "requiredItems": [
+          "bugmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallydark",
+        "baseSpecies": "silvally",
+        "forme": "Dark",
+        "requiredItems": [
+          "darkmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallydragon",
+        "baseSpecies": "silvally",
+        "forme": "Dragon",
+        "requiredItems": [
+          "dragonmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyelectric",
+        "baseSpecies": "silvally",
+        "forme": "Electric",
+        "requiredItems": [
+          "electricmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyfairy",
+        "baseSpecies": "silvally",
+        "forme": "Fairy",
+        "requiredItems": [
+          "fairymemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyfighting",
+        "baseSpecies": "silvally",
+        "forme": "Fighting",
+        "requiredItems": [
+          "fightingmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyfire",
+        "baseSpecies": "silvally",
+        "forme": "Fire",
+        "requiredItems": [
+          "firememory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyflying",
+        "baseSpecies": "silvally",
+        "forme": "Flying",
+        "requiredItems": [
+          "flyingmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyghost",
+        "baseSpecies": "silvally",
+        "forme": "Ghost",
+        "requiredItems": [
+          "ghostmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallygrass",
+        "baseSpecies": "silvally",
+        "forme": "Grass",
+        "requiredItems": [
+          "grassmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyground",
+        "baseSpecies": "silvally",
+        "forme": "Ground",
+        "requiredItems": [
+          "groundmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyice",
+        "baseSpecies": "silvally",
+        "forme": "Ice",
+        "requiredItems": [
+          "icememory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallypoison",
+        "baseSpecies": "silvally",
+        "forme": "Poison",
+        "requiredItems": [
+          "poisonmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallypsychic",
+        "baseSpecies": "silvally",
+        "forme": "Psychic",
+        "requiredItems": [
+          "psychicmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallyrock",
+        "baseSpecies": "silvally",
+        "forme": "Rock",
+        "requiredItems": [
+          "rockmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallysteel",
+        "baseSpecies": "silvally",
+        "forme": "Steel",
+        "requiredItems": [
+          "steelmemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "silvallywater",
+        "baseSpecies": "silvally",
+        "forme": "Water",
+        "requiredItems": [
+          "watermemory"
+        ],
+        "changesFrom": "silvally",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "magearnaoriginal",
+        "baseSpecies": "magearna",
+        "forme": "Original",
+        "isBattleOnly": false
+      },
+      {
+        "id": "toxtricitylowkey",
+        "baseSpecies": "toxtricity",
+        "forme": "Low-Key",
+        "isBattleOnly": false
+      },
+      {
+        "id": "sinisteaantique",
+        "baseSpecies": "sinistea",
+        "forme": "Antique",
+        "isBattleOnly": false
+      },
+      {
+        "id": "polteageistantique",
+        "baseSpecies": "polteageist",
+        "forme": "Antique",
+        "isBattleOnly": false
+      },
+      {
+        "id": "indeedeef",
+        "baseSpecies": "indeedee",
+        "forme": "F",
+        "isBattleOnly": false
+      },
+      {
+        "id": "eternatuseternamax",
+        "baseSpecies": "eternatus",
+        "forme": "Eternamax",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "urshifurapidstrike",
+        "baseSpecies": "urshifu",
+        "forme": "Rapid-Strike",
+        "isBattleOnly": false
+      },
+      {
+        "id": "zarudedada",
+        "baseSpecies": "zarude",
+        "forme": "Dada",
+        "isBattleOnly": false
+      },
+      {
+        "id": "ursalunabloodmoon",
+        "baseSpecies": "ursaluna",
+        "forme": "Bloodmoon",
+        "isBattleOnly": false
+      },
+      {
+        "id": "basculegionf",
+        "baseSpecies": "basculegion",
+        "forme": "F",
+        "isBattleOnly": false
+      },
+      {
+        "id": "enamorustherian",
+        "baseSpecies": "enamorus",
+        "forme": "Therian",
+        "changesFrom": "enamorus",
+        "isBattleOnly": false
+      },
+      {
+        "id": "oinkolognef",
+        "baseSpecies": "oinkologne",
+        "forme": "F",
+        "isBattleOnly": false
+      },
+      {
+        "id": "mausholdfour",
+        "baseSpecies": "maushold",
+        "forme": "Four",
+        "isBattleOnly": false
+      },
+      {
+        "id": "squawkabillyblue",
+        "baseSpecies": "squawkabilly",
+        "forme": "Blue",
+        "isBattleOnly": false
+      },
+      {
+        "id": "squawkabillywhite",
+        "baseSpecies": "squawkabilly",
+        "forme": "White",
+        "isBattleOnly": false
+      },
+      {
+        "id": "squawkabillyyellow",
+        "baseSpecies": "squawkabilly",
+        "forme": "Yellow",
+        "isBattleOnly": false
+      },
+      {
+        "id": "tatsugiridroopy",
+        "baseSpecies": "tatsugiri",
+        "forme": "Droopy",
+        "isBattleOnly": false
+      },
+      {
+        "id": "tatsugiristretchy",
+        "baseSpecies": "tatsugiri",
+        "forme": "Stretchy",
+        "isBattleOnly": false
+      },
+      {
+        "id": "dudunsparcethreesegment",
+        "baseSpecies": "dudunsparce",
+        "forme": "Three-Segment",
+        "isBattleOnly": false
+      },
+      {
+        "id": "gimmighoulroaming",
+        "baseSpecies": "gimmighoul",
+        "forme": "Roaming",
+        "isBattleOnly": false
+      },
+      {
+        "id": "poltchageistartisan",
+        "baseSpecies": "poltchageist",
+        "forme": "Artisan",
+        "isBattleOnly": false
+      },
+      {
+        "id": "sinistchamasterpiece",
+        "baseSpecies": "sinistcha",
+        "forme": "Masterpiece",
+        "isBattleOnly": false
+      },
+      {
+        "id": "ogerponcornerstone",
+        "baseSpecies": "ogerpon",
+        "forme": "Cornerstone",
+        "requiredItems": [
+          "cornerstonemask"
+        ],
+        "changesFrom": "ogerpon",
+        "isBattleOnly": false
+      },
+      {
+        "id": "ogerponhearthflame",
+        "baseSpecies": "ogerpon",
+        "forme": "Hearthflame",
+        "requiredItems": [
+          "hearthflamemask"
+        ],
+        "changesFrom": "ogerpon",
+        "isBattleOnly": false
+      },
+      {
+        "id": "ogerponwellspring",
+        "baseSpecies": "ogerpon",
+        "forme": "Wellspring",
+        "requiredItems": [
+          "wellspringmask"
+        ],
+        "changesFrom": "ogerpon",
+        "isBattleOnly": false
+      }
+    ],
+    "MEGA": [
+      {
+        "id": "venusaurmega",
+        "baseSpecies": "venusaur",
+        "forme": "Mega",
+        "requiredItems": [
+          "venusaurite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "charizardmegax",
+        "baseSpecies": "charizard",
+        "forme": "Mega-X",
+        "requiredItems": [
+          "charizarditex"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "charizardmegay",
+        "baseSpecies": "charizard",
+        "forme": "Mega-Y",
+        "requiredItems": [
+          "charizarditey"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "blastoisemega",
+        "baseSpecies": "blastoise",
+        "forme": "Mega",
+        "requiredItems": [
+          "blastoisinite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "beedrillmega",
+        "baseSpecies": "beedrill",
+        "forme": "Mega",
+        "requiredItems": [
+          "beedrillite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pidgeotmega",
+        "baseSpecies": "pidgeot",
+        "forme": "Mega",
+        "requiredItems": [
+          "pidgeotite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "raichumegax",
+        "baseSpecies": "raichu",
+        "forme": "Mega-X",
+        "requiredItems": [
+          "raichunitex"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "raichumegay",
+        "baseSpecies": "raichu",
+        "forme": "Mega-Y",
+        "requiredItems": [
+          "raichunitey"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "clefablemega",
+        "baseSpecies": "clefable",
+        "forme": "Mega",
+        "requiredItems": [
+          "clefablite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "alakazammega",
+        "baseSpecies": "alakazam",
+        "forme": "Mega",
+        "requiredItems": [
+          "alakazite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "victreebelmega",
+        "baseSpecies": "victreebel",
+        "forme": "Mega",
+        "requiredItems": [
+          "victreebelite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "slowbromega",
+        "baseSpecies": "slowbro",
+        "forme": "Mega",
+        "requiredItems": [
+          "slowbronite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gengarmega",
+        "baseSpecies": "gengar",
+        "forme": "Mega",
+        "requiredItems": [
+          "gengarite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "kangaskhanmega",
+        "baseSpecies": "kangaskhan",
+        "forme": "Mega",
+        "requiredItems": [
+          "kangaskhanite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "starmiemega",
+        "baseSpecies": "starmie",
+        "forme": "Mega",
+        "requiredItems": [
+          "starminite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "pinsirmega",
+        "baseSpecies": "pinsir",
+        "forme": "Mega",
+        "requiredItems": [
+          "pinsirite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gyaradosmega",
+        "baseSpecies": "gyarados",
+        "forme": "Mega",
+        "requiredItems": [
+          "gyaradosite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "aerodactylmega",
+        "baseSpecies": "aerodactyl",
+        "forme": "Mega",
+        "requiredItems": [
+          "aerodactylite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "dragonitemega",
+        "baseSpecies": "dragonite",
+        "forme": "Mega",
+        "requiredItems": [
+          "dragoninite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "mewtwomegax",
+        "baseSpecies": "mewtwo",
+        "forme": "Mega-X",
+        "requiredItems": [
+          "mewtwonitex"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "mewtwomegay",
+        "baseSpecies": "mewtwo",
+        "forme": "Mega-Y",
+        "requiredItems": [
+          "mewtwonitey"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "meganiummega",
+        "baseSpecies": "meganium",
+        "forme": "Mega",
+        "requiredItems": [
+          "meganiumite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "feraligatrmega",
+        "baseSpecies": "feraligatr",
+        "forme": "Mega",
+        "requiredItems": [
+          "feraligite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "ampharosmega",
+        "baseSpecies": "ampharos",
+        "forme": "Mega",
+        "requiredItems": [
+          "ampharosite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "steelixmega",
+        "baseSpecies": "steelix",
+        "forme": "Mega",
+        "requiredItems": [
+          "steelixite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "scizormega",
+        "baseSpecies": "scizor",
+        "forme": "Mega",
+        "requiredItems": [
+          "scizorite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "heracrossmega",
+        "baseSpecies": "heracross",
+        "forme": "Mega",
+        "requiredItems": [
+          "heracronite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "skarmorymega",
+        "baseSpecies": "skarmory",
+        "forme": "Mega",
+        "requiredItems": [
+          "skarmorite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "houndoommega",
+        "baseSpecies": "houndoom",
+        "forme": "Mega",
+        "requiredItems": [
+          "houndoominite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "tyranitarmega",
+        "baseSpecies": "tyranitar",
+        "forme": "Mega",
+        "requiredItems": [
+          "tyranitarite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "sceptilemega",
+        "baseSpecies": "sceptile",
+        "forme": "Mega",
+        "requiredItems": [
+          "sceptilite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "blazikenmega",
+        "baseSpecies": "blaziken",
+        "forme": "Mega",
+        "requiredItems": [
+          "blazikenite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "swampertmega",
+        "baseSpecies": "swampert",
+        "forme": "Mega",
+        "requiredItems": [
+          "swampertite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gardevoirmega",
+        "baseSpecies": "gardevoir",
+        "forme": "Mega",
+        "requiredItems": [
+          "gardevoirite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "sableyemega",
+        "baseSpecies": "sableye",
+        "forme": "Mega",
+        "requiredItems": [
+          "sablenite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "mawilemega",
+        "baseSpecies": "mawile",
+        "forme": "Mega",
+        "requiredItems": [
+          "mawilite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "aggronmega",
+        "baseSpecies": "aggron",
+        "forme": "Mega",
+        "requiredItems": [
+          "aggronite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "medichammega",
+        "baseSpecies": "medicham",
+        "forme": "Mega",
+        "requiredItems": [
+          "medichamite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "manectricmega",
+        "baseSpecies": "manectric",
+        "forme": "Mega",
+        "requiredItems": [
+          "manectite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "sharpedomega",
+        "baseSpecies": "sharpedo",
+        "forme": "Mega",
+        "requiredItems": [
+          "sharpedonite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "cameruptmega",
+        "baseSpecies": "camerupt",
+        "forme": "Mega",
+        "requiredItems": [
+          "cameruptite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "altariamega",
+        "baseSpecies": "altaria",
+        "forme": "Mega",
+        "requiredItems": [
+          "altarianite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "banettemega",
+        "baseSpecies": "banette",
+        "forme": "Mega",
+        "requiredItems": [
+          "banettite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "chimechomega",
+        "baseSpecies": "chimecho",
+        "forme": "Mega",
+        "requiredItems": [
+          "chimechite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "absolmega",
+        "baseSpecies": "absol",
+        "forme": "Mega",
+        "requiredItems": [
+          "absolite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "absolmegaz",
+        "baseSpecies": "absol",
+        "forme": "Mega-Z",
+        "requiredItems": [
+          "absolitez"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "glaliemega",
+        "baseSpecies": "glalie",
+        "forme": "Mega",
+        "requiredItems": [
+          "glalitite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "salamencemega",
+        "baseSpecies": "salamence",
+        "forme": "Mega",
+        "requiredItems": [
+          "salamencite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "metagrossmega",
+        "baseSpecies": "metagross",
+        "forme": "Mega",
+        "requiredItems": [
+          "metagrossite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "latiasmega",
+        "baseSpecies": "latias",
+        "forme": "Mega",
+        "requiredItems": [
+          "latiasite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "latiosmega",
+        "baseSpecies": "latios",
+        "forme": "Mega",
+        "requiredItems": [
+          "latiosite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "rayquazamega",
+        "baseSpecies": "rayquaza",
+        "forme": "Mega",
+        "requiredMove": "dragonascent",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "staraptormega",
+        "baseSpecies": "staraptor",
+        "forme": "Mega",
+        "requiredItems": [
+          "staraptite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "lopunnymega",
+        "baseSpecies": "lopunny",
+        "forme": "Mega",
+        "requiredItems": [
+          "lopunnite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "garchompmega",
+        "baseSpecies": "garchomp",
+        "forme": "Mega",
+        "requiredItems": [
+          "garchompite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "garchompmegaz",
+        "baseSpecies": "garchomp",
+        "forme": "Mega-Z",
+        "requiredItems": [
+          "garchompitez"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "lucariomega",
+        "baseSpecies": "lucario",
+        "forme": "Mega",
+        "requiredItems": [
+          "lucarionite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "lucariomegaz",
+        "baseSpecies": "lucario",
+        "forme": "Mega-Z",
+        "requiredItems": [
+          "lucarionitez"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "abomasnowmega",
+        "baseSpecies": "abomasnow",
+        "forme": "Mega",
+        "requiredItems": [
+          "abomasite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gallademega",
+        "baseSpecies": "gallade",
+        "forme": "Mega",
+        "requiredItems": [
+          "galladite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "froslassmega",
+        "baseSpecies": "froslass",
+        "forme": "Mega",
+        "requiredItems": [
+          "froslassite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "heatranmega",
+        "baseSpecies": "heatran",
+        "forme": "Mega",
+        "requiredItems": [
+          "heatranite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "darkraimega",
+        "baseSpecies": "darkrai",
+        "forme": "Mega",
+        "requiredItems": [
+          "darkranite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "emboarmega",
+        "baseSpecies": "emboar",
+        "forme": "Mega",
+        "requiredItems": [
+          "emboarite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "excadrillmega",
+        "baseSpecies": "excadrill",
+        "forme": "Mega",
+        "requiredItems": [
+          "excadrite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "audinomega",
+        "baseSpecies": "audino",
+        "forme": "Mega",
+        "requiredItems": [
+          "audinite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "scolipedemega",
+        "baseSpecies": "scolipede",
+        "forme": "Mega",
+        "requiredItems": [
+          "scolipite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "scraftymega",
+        "baseSpecies": "scrafty",
+        "forme": "Mega",
+        "requiredItems": [
+          "scraftinite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "eelektrossmega",
+        "baseSpecies": "eelektross",
+        "forme": "Mega",
+        "requiredItems": [
+          "eelektrossite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "chandeluremega",
+        "baseSpecies": "chandelure",
+        "forme": "Mega",
+        "requiredItems": [
+          "chandelurite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "golurkmega",
+        "baseSpecies": "golurk",
+        "forme": "Mega",
+        "requiredItems": [
+          "golurkite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "chesnaughtmega",
+        "baseSpecies": "chesnaught",
+        "forme": "Mega",
+        "requiredItems": [
+          "chesnaughtite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "delphoxmega",
+        "baseSpecies": "delphox",
+        "forme": "Mega",
+        "requiredItems": [
+          "delphoxite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "greninjamega",
+        "baseSpecies": "greninja",
+        "forme": "Mega",
+        "requiredItems": [
+          "greninjite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "pyroarmega",
+        "baseSpecies": "pyroar",
+        "forme": "Mega",
+        "requiredItems": [
+          "pyroarite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "floettemega",
+        "baseSpecies": "floette",
+        "forme": "Mega",
+        "requiredItems": [
+          "floettite"
+        ],
+        "battleOnly": [
+          "floetteeternal"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "meowsticfmega",
+        "baseSpecies": "meowstic",
+        "forme": "F-Mega",
+        "requiredItems": [
+          "meowsticite"
+        ],
+        "battleOnly": [
+          "meowsticf"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "meowsticmmega",
+        "baseSpecies": "meowstic",
+        "forme": "M-Mega",
+        "requiredItems": [
+          "meowsticite"
+        ],
+        "battleOnly": [
+          "meowstic"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "malamarmega",
+        "baseSpecies": "malamar",
+        "forme": "Mega",
+        "requiredItems": [
+          "malamarite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "barbaraclemega",
+        "baseSpecies": "barbaracle",
+        "forme": "Mega",
+        "requiredItems": [
+          "barbaracite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "dragalgemega",
+        "baseSpecies": "dragalge",
+        "forme": "Mega",
+        "requiredItems": [
+          "dragalgite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "hawluchamega",
+        "baseSpecies": "hawlucha",
+        "forme": "Mega",
+        "requiredItems": [
+          "hawluchanite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "zygardemega",
+        "baseSpecies": "zygarde",
+        "forme": "Mega",
+        "requiredItems": [
+          "zygardite"
+        ],
+        "battleOnly": [
+          "zygarde",
+          "zygarde10"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "dianciemega",
+        "baseSpecies": "diancie",
+        "forme": "Mega",
+        "requiredItems": [
+          "diancite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "crabominablemega",
+        "baseSpecies": "crabominable",
+        "forme": "Mega",
+        "requiredItems": [
+          "crabominite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "golisopodmega",
+        "baseSpecies": "golisopod",
+        "forme": "Mega",
+        "requiredItems": [
+          "golisopite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "drampamega",
+        "baseSpecies": "drampa",
+        "forme": "Mega",
+        "requiredItems": [
+          "drampanite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "magearnamega",
+        "baseSpecies": "magearna",
+        "forme": "Mega",
+        "requiredItems": [
+          "magearnite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "magearnaoriginalmega",
+        "baseSpecies": "magearna",
+        "forme": "Original-Mega",
+        "requiredItems": [
+          "magearnite"
+        ],
+        "battleOnly": [
+          "magearnaoriginal"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "zeraoramega",
+        "baseSpecies": "zeraora",
+        "forme": "Mega",
+        "requiredItems": [
+          "zeraorite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "falinksmega",
+        "baseSpecies": "falinks",
+        "forme": "Mega",
+        "requiredItems": [
+          "falinksite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "scovillainmega",
+        "baseSpecies": "scovillain",
+        "forme": "Mega",
+        "requiredItems": [
+          "scovillainite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "glimmoramega",
+        "baseSpecies": "glimmora",
+        "forme": "Mega",
+        "requiredItems": [
+          "glimmoranite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "tatsugiricurlymega",
+        "baseSpecies": "tatsugiri",
+        "forme": "Curly-Mega",
+        "requiredItems": [
+          "tatsugirinite"
+        ],
+        "battleOnly": [
+          "tatsugiri"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "tatsugiridroopymega",
+        "baseSpecies": "tatsugiri",
+        "forme": "Droopy-Mega",
+        "requiredItems": [
+          "tatsugirinite"
+        ],
+        "battleOnly": [
+          "tatsugiridroopy"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "tatsugiristretchymega",
+        "baseSpecies": "tatsugiri",
+        "forme": "Stretchy-Mega",
+        "requiredItems": [
+          "tatsugirinite"
+        ],
+        "battleOnly": [
+          "tatsugiristretchy"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      },
+      {
+        "id": "baxcaliburmega",
+        "baseSpecies": "baxcalibur",
+        "forme": "Mega",
+        "requiredItems": [
+          "baxcalibrite"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Future"
+      }
+    ],
+    "PRIMAL": [
+      {
+        "id": "kyogreprimal",
+        "baseSpecies": "kyogre",
+        "forme": "Primal",
+        "requiredItems": [
+          "blueorb"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "groudonprimal",
+        "baseSpecies": "groudon",
+        "forme": "Primal",
+        "requiredItems": [
+          "redorb"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      }
+    ],
+    "GIGANTAMAX": [
+      {
+        "id": "venusaurgmax",
+        "baseSpecies": "venusaur",
+        "forme": "Gmax",
+        "changesFrom": "venusaur",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "charizardgmax",
+        "baseSpecies": "charizard",
+        "forme": "Gmax",
+        "changesFrom": "charizard",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "blastoisegmax",
+        "baseSpecies": "blastoise",
+        "forme": "Gmax",
+        "changesFrom": "blastoise",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "butterfreegmax",
+        "baseSpecies": "butterfree",
+        "forme": "Gmax",
+        "changesFrom": "butterfree",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "pikachugmax",
+        "baseSpecies": "pikachu",
+        "forme": "Gmax",
+        "changesFrom": "pikachu",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "meowthgmax",
+        "baseSpecies": "meowth",
+        "forme": "Gmax",
+        "changesFrom": "meowth",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "machampgmax",
+        "baseSpecies": "machamp",
+        "forme": "Gmax",
+        "changesFrom": "machamp",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gengargmax",
+        "baseSpecies": "gengar",
+        "forme": "Gmax",
+        "changesFrom": "gengar",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "kinglergmax",
+        "baseSpecies": "kingler",
+        "forme": "Gmax",
+        "changesFrom": "kingler",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "laprasgmax",
+        "baseSpecies": "lapras",
+        "forme": "Gmax",
+        "changesFrom": "lapras",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "eeveegmax",
+        "baseSpecies": "eevee",
+        "forme": "Gmax",
+        "changesFrom": "eevee",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "snorlaxgmax",
+        "baseSpecies": "snorlax",
+        "forme": "Gmax",
+        "changesFrom": "snorlax",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "garbodorgmax",
+        "baseSpecies": "garbodor",
+        "forme": "Gmax",
+        "changesFrom": "garbodor",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "melmetalgmax",
+        "baseSpecies": "melmetal",
+        "forme": "Gmax",
+        "changesFrom": "melmetal",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "rillaboomgmax",
+        "baseSpecies": "rillaboom",
+        "forme": "Gmax",
+        "changesFrom": "rillaboom",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "cinderacegmax",
+        "baseSpecies": "cinderace",
+        "forme": "Gmax",
+        "changesFrom": "cinderace",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "inteleongmax",
+        "baseSpecies": "inteleon",
+        "forme": "Gmax",
+        "changesFrom": "inteleon",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "corviknightgmax",
+        "baseSpecies": "corviknight",
+        "forme": "Gmax",
+        "changesFrom": "corviknight",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "orbeetlegmax",
+        "baseSpecies": "orbeetle",
+        "forme": "Gmax",
+        "changesFrom": "orbeetle",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "drednawgmax",
+        "baseSpecies": "drednaw",
+        "forme": "Gmax",
+        "changesFrom": "drednaw",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "coalossalgmax",
+        "baseSpecies": "coalossal",
+        "forme": "Gmax",
+        "changesFrom": "coalossal",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "flapplegmax",
+        "baseSpecies": "flapple",
+        "forme": "Gmax",
+        "changesFrom": "flapple",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "appletungmax",
+        "baseSpecies": "appletun",
+        "forme": "Gmax",
+        "changesFrom": "appletun",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "sandacondagmax",
+        "baseSpecies": "sandaconda",
+        "forme": "Gmax",
+        "changesFrom": "sandaconda",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "toxtricitygmax",
+        "baseSpecies": "toxtricity",
+        "forme": "Gmax",
+        "changesFrom": "toxtricity",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "toxtricitylowkeygmax",
+        "baseSpecies": "toxtricity",
+        "forme": "Low-Key-Gmax",
+        "changesFrom": "toxtricitylowkey",
+        "battleOnly": [
+          "toxtricitylowkey"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "centiskorchgmax",
+        "baseSpecies": "centiskorch",
+        "forme": "Gmax",
+        "changesFrom": "centiskorch",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "hatterenegmax",
+        "baseSpecies": "hatterene",
+        "forme": "Gmax",
+        "changesFrom": "hatterene",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "grimmsnarlgmax",
+        "baseSpecies": "grimmsnarl",
+        "forme": "Gmax",
+        "changesFrom": "grimmsnarl",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "alcremiegmax",
+        "baseSpecies": "alcremie",
+        "forme": "Gmax",
+        "changesFrom": "alcremie",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "copperajahgmax",
+        "baseSpecies": "copperajah",
+        "forme": "Gmax",
+        "changesFrom": "copperajah",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "duraludongmax",
+        "baseSpecies": "duraludon",
+        "forme": "Gmax",
+        "changesFrom": "duraludon",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "urshifugmax",
+        "baseSpecies": "urshifu",
+        "forme": "Gmax",
+        "changesFrom": "urshifu",
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "urshifurapidstrikegmax",
+        "baseSpecies": "urshifu",
+        "forme": "Rapid-Strike-Gmax",
+        "changesFrom": "urshifurapidstrike",
+        "battleOnly": [
+          "urshifurapidstrike"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      }
+    ],
+    "BATTLE_ONLY": [
+      {
+        "id": "castformrainy",
+        "baseSpecies": "castform",
+        "forme": "Rainy",
+        "requiredAbility": "forecast",
+        "battleOnly": [
+          "castform"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "castformsnowy",
+        "baseSpecies": "castform",
+        "forme": "Snowy",
+        "requiredAbility": "forecast",
+        "battleOnly": [
+          "castform"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "castformsunny",
+        "baseSpecies": "castform",
+        "forme": "Sunny",
+        "requiredAbility": "forecast",
+        "battleOnly": [
+          "castform"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "cherrimsunshine",
+        "baseSpecies": "cherrim",
+        "forme": "Sunshine",
+        "requiredAbility": "flowergift",
+        "battleOnly": [
+          "cherrim"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "darmanitangalarzen",
+        "baseSpecies": "darmanitan",
+        "forme": "Galar-Zen",
+        "requiredAbility": "zenmode",
+        "battleOnly": [
+          "darmanitangalar"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "darmanitanzen",
+        "baseSpecies": "darmanitan",
+        "forme": "Zen",
+        "requiredAbility": "zenmode",
+        "battleOnly": [
+          "darmanitan"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "meloettapirouette",
+        "baseSpecies": "meloetta",
+        "forme": "Pirouette",
+        "requiredMove": "relicsong",
+        "battleOnly": [
+          "meloetta"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "greninjaash",
+        "baseSpecies": "greninja",
+        "forme": "Ash",
+        "requiredAbility": "battlebond",
+        "battleOnly": [
+          "greninjabond"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "aegislashblade",
+        "baseSpecies": "aegislash",
+        "forme": "Blade",
+        "requiredAbility": "stancechange",
+        "battleOnly": [
+          "aegislash"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "zygardecomplete",
+        "baseSpecies": "zygarde",
+        "forme": "Complete",
+        "requiredAbility": "powerconstruct",
+        "battleOnly": [
+          "zygarde",
+          "zygarde10"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "wishiwashischool",
+        "baseSpecies": "wishiwashi",
+        "forme": "School",
+        "requiredAbility": "schooling",
+        "battleOnly": [
+          "wishiwashi"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "miniormeteor",
+        "baseSpecies": "minior",
+        "forme": "Meteor",
+        "requiredAbility": "shieldsdown",
+        "battleOnly": [
+          "minior"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "mimikyubusted",
+        "baseSpecies": "mimikyu",
+        "forme": "Busted",
+        "requiredAbility": "disguise",
+        "battleOnly": [
+          "mimikyu"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "cramorantgorging",
+        "baseSpecies": "cramorant",
+        "forme": "Gorging",
+        "requiredAbility": "gulpmissile",
+        "battleOnly": [
+          "cramorant"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "cramorantgulping",
+        "baseSpecies": "cramorant",
+        "forme": "Gulping",
+        "requiredAbility": "gulpmissile",
+        "battleOnly": [
+          "cramorant"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "eiscuenoice",
+        "baseSpecies": "eiscue",
+        "forme": "Noice",
+        "requiredAbility": "iceface",
+        "battleOnly": [
+          "eiscue"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "morpekohangry",
+        "baseSpecies": "morpeko",
+        "forme": "Hangry",
+        "requiredAbility": "hungerswitch",
+        "battleOnly": [
+          "morpeko"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "zaciancrowned",
+        "baseSpecies": "zacian",
+        "forme": "Crowned",
+        "requiredItems": [
+          "rustedsword"
+        ],
+        "battleOnly": [
+          "zacian"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "zamazentacrowned",
+        "baseSpecies": "zamazenta",
+        "forme": "Crowned",
+        "requiredItems": [
+          "rustedshield"
+        ],
+        "battleOnly": [
+          "zamazenta"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "palafinhero",
+        "baseSpecies": "palafin",
+        "forme": "Hero",
+        "requiredAbility": "zerotohero",
+        "battleOnly": [
+          "palafin"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "ogerponcornerstonetera",
+        "baseSpecies": "ogerpon",
+        "forme": "Cornerstone-Tera",
+        "requiredItems": [
+          "cornerstonemask"
+        ],
+        "battleOnly": [
+          "ogerponcornerstone"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "ogerponhearthflametera",
+        "baseSpecies": "ogerpon",
+        "forme": "Hearthflame-Tera",
+        "requiredItems": [
+          "hearthflamemask"
+        ],
+        "battleOnly": [
+          "ogerponhearthflame"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "ogerpontealtera",
+        "baseSpecies": "ogerpon",
+        "forme": "Teal-Tera",
+        "battleOnly": [
+          "ogerpon"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "ogerponwellspringtera",
+        "baseSpecies": "ogerpon",
+        "forme": "Wellspring-Tera",
+        "requiredItems": [
+          "wellspringmask"
+        ],
+        "battleOnly": [
+          "ogerponwellspring"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "terapagosstellar",
+        "baseSpecies": "terapagos",
+        "forme": "Stellar",
+        "battleOnly": [
+          "terapagos"
+        ],
+        "isBattleOnly": true
+      },
+      {
+        "id": "terapagosterastal",
+        "baseSpecies": "terapagos",
+        "forme": "Terastal",
+        "battleOnly": [
+          "terapagos"
+        ],
+        "isBattleOnly": true
+      }
+    ],
+    "FUSION": [
+      {
+        "id": "kyuremblack",
+        "baseSpecies": "kyurem",
+        "forme": "Black",
+        "changesFrom": "kyurem",
+        "isBattleOnly": false
+      },
+      {
+        "id": "kyuremwhite",
+        "baseSpecies": "kyurem",
+        "forme": "White",
+        "changesFrom": "kyurem",
+        "isBattleOnly": false
+      },
+      {
+        "id": "necrozmadawnwings",
+        "baseSpecies": "necrozma",
+        "forme": "Dawn-Wings",
+        "changesFrom": "necrozma",
+        "isBattleOnly": false
+      },
+      {
+        "id": "necrozmaduskmane",
+        "baseSpecies": "necrozma",
+        "forme": "Dusk-Mane",
+        "changesFrom": "necrozma",
+        "isBattleOnly": false
+      },
+      {
+        "id": "calyrexice",
+        "baseSpecies": "calyrex",
+        "forme": "Ice",
+        "changesFrom": "calyrex",
+        "isBattleOnly": false
+      },
+      {
+        "id": "calyrexshadow",
+        "baseSpecies": "calyrex",
+        "forme": "Shadow",
+        "changesFrom": "calyrex",
+        "isBattleOnly": false
+      }
+    ],
+    "ULTRA_BURST": [
+      {
+        "id": "necrozmaultra",
+        "baseSpecies": "necrozma",
+        "forme": "Ultra",
+        "requiredItems": [
+          "ultranecroziumz"
+        ],
+        "battleOnly": [
+          "necrozmadawnwings",
+          "necrozmaduskmane"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      }
+    ],
+    "TOTEM": [
+      {
+        "id": "raticatealolatotem",
+        "baseSpecies": "raticate",
+        "forme": "Alola-Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "marowakalolatotem",
+        "baseSpecies": "marowak",
+        "forme": "Alola-Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "gumshoostotem",
+        "baseSpecies": "gumshoos",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "vikavolttotem",
+        "baseSpecies": "vikavolt",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "ribombeetotem",
+        "baseSpecies": "ribombee",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "araquanidtotem",
+        "baseSpecies": "araquanid",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "lurantistotem",
+        "baseSpecies": "lurantis",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "salazzletotem",
+        "baseSpecies": "salazzle",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "togedemarutotem",
+        "baseSpecies": "togedemaru",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "mimikyubustedtotem",
+        "baseSpecies": "mimikyu",
+        "forme": "Busted-Totem",
+        "requiredAbility": "disguise",
+        "battleOnly": [
+          "mimikyutotem"
+        ],
+        "isBattleOnly": true,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "mimikyutotem",
+        "baseSpecies": "mimikyu",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      },
+      {
+        "id": "kommoototem",
+        "baseSpecies": "kommoo",
+        "forme": "Totem",
+        "isBattleOnly": false,
+        "isNonstandard": "Past"
+      }
+    ]
+  },
+  "cosmeticFormes": 89,
+  "speciesWithCanGigantamax": 34
+}
