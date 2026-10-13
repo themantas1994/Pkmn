@@ -144,6 +144,14 @@ object Abilities {
         return stats.maxByOrNull { m.rawStat(Stat.byId(it)!!) }!!
     }
 
+    /** Replaces [mon]'s Ability (Skill Swap, Role Play, Entrainment...) and runs the new Ability's start effect. */
+    fun setAbility(b: Battle, mon: BattleMon, id: String) {
+        Effects.ability(mon.ability)?.let { old -> if (b.abilityActive(mon)) old.onEnd(EffectCtx(b, old, mon, null, mon.abilityState)) }
+        mon.ability = id
+        mon.abilityState = EffectState()
+        if (b.abilityActive(mon)) Effects.ability(id)?.let { it.onStart(EffectCtx(b, it, mon, null, mon.abilityState), null) }
+    }
+
     fun registerAll() {
         // ------------------------------------------------ weather / terrain setters
         weatherSetter("drizzle", "raindance")

@@ -72,6 +72,65 @@ object Items {
         }
     })
 
+    private val PINCH_STAT = mapOf("liechiberry" to "atk", "ganlonberry" to "def", "petayaberry" to "spa", "apicotberry" to "spd", "salacberry" to "spe")
+    private val CONFUSE_BERRY = mapOf("figyberry" to Stat.ATK, "wikiberry" to Stat.SPA, "magoberry" to Stat.SPE, "aguavberry" to Stat.SPD, "iapapaberry" to Stat.DEF)
+    private val CURE_BERRY = mapOf(
+        "cheriberry" to setOf(MajorStatus.PARALYSIS), "przcureberry" to setOf(MajorStatus.PARALYSIS),
+        "chestoberry" to setOf(MajorStatus.SLEEP), "mintberry" to setOf(MajorStatus.SLEEP),
+        "pechaberry" to setOf(MajorStatus.POISON, MajorStatus.TOXIC), "psncureberry" to setOf(MajorStatus.POISON, MajorStatus.TOXIC),
+        "rawstberry" to setOf(MajorStatus.BURN), "iceberry" to setOf(MajorStatus.BURN),
+        "aspearberry" to setOf(MajorStatus.FREEZE), "burntberry" to setOf(MajorStatus.FREEZE),
+        "lumberry" to MajorStatus.entries.toSet(), "miracleberry" to MajorStatus.entries.toSet(),
+    )
+
+    /**
+     * Applies the effect of eating berry [id] to [m] regardless of its normal trigger (Bug Bite, Pluck, Stuff Cheeks,
+     * Teatime, Fling). The caller is responsible for removing the berry. Returns true if it did something.
+     */
+    fun applyBerry(b: Battle, m: BattleMon, id: String): Boolean {
+        val mult = if (m.ability == "ripen" && b.abilityActive(m)) 2 else 1
+        for (c in b.targetHandlers(m)) if (c.holder === m) c.effect.onEatItem(c, m, id)
+        m.volatiles["ateberry"] = EffectState()
+        PINCH_STAT[id]?.let { return b.boost(m, mapOf(it to mult), m, id) }
+        CONFUSE_BERRY[id]?.let { st ->
+            val healed = b.heal(m, m.baseMaxHp / 3 * mult, id) > 0
+            if (m.mon.nature.minus == st) b.addVolatile(m, "confusion", m, id)
+            return healed
+        }
+        CURE_BERRY[id]?.let { cures ->
+            var did = false
+            if (m.status != null && m.status in cures) { b.cureStatus(m); did = true }
+            if (id in setOf("lumberry", "miracleberry") && m.hasVolatile("confusion")) { m.volatiles.remove("confusion"); did = true }
+            return did
+        }
+        return when (id) {
+            "sitrusberry", "enigmaberry" -> b.heal(m, m.baseMaxHp / 4 * mult, id) > 0
+            "oranberry", "berry" -> b.heal(m, 10 * mult, id) > 0
+            "goldberry" -> b.heal(m, 30 * mult, id) > 0
+            "persimberry", "bitterberry" -> m.volatiles.remove("confusion") != null
+            "leppaberry", "mysteryberry" -> {
+                val slot = m.moveSlots.firstOrNull { it.pp == 0 } ?: m.moveSlots.firstOrNull { it.pp < it.maxPp(b.dex) } ?: return false
+                slot.pp = minOf(slot.maxPp(b.dex), slot.pp + (if (id == "leppaberry") 10 else 5) * mult); true
+            }
+            "starfberry" -> {
+                val stats = listOf("atk", "def", "spa", "spd", "spe").filter { m.boost(it) < 6 }
+                stats.isNotEmpty() && b.boost(m, mapOf(stats[b.rng.nextInt(stats.size)] to 2 * mult), m, id)
+            }
+            "lansatberry" -> b.addVolatile(m, "focusenergy", m, id) != null
+            "micleberry" -> { m.volatiles["micleberry"] = EffectState(2); true }
+            "keeberry" -> b.boost(m, mapOf("def" to mult), m, id)
+            "marangaberry" -> b.boost(m, mapOf("spd" to mult), m, id)
+            else -> false
+        }
+    }
+
+    /** [m] eats its held berry [id] right now, whatever its trigger condition. */
+    fun forceEat(b: Battle, m: BattleMon, id: String) {
+        b.message("${b.nm(m)} ate its ${itemName(b, id)}!")
+        m.lastItem = id; m.item = null; m.usedItemThisBattle = true; m.itemState = EffectState()
+        applyBerry(b, m, id)
+    }
+
     fun registerAll() {
         // ------------------------------------------------ choice items
         for ((id, stat) in listOf("choiceband" to "atk", "choicespecs" to "spa", "choicescarf" to "spe")) reg(object : I(id) {

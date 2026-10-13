@@ -260,8 +260,8 @@ object MoveScripts {
 
         // ------------------------------------------------------------ item interaction
         for (id in listOf("thief", "covet")) afterHitTarget(id) { b, mc ->
-            if (mc.user.item != null || mc.user.fainted) return@afterHit
-            val item = b.takeItem(mc.target, mc.user) ?: return@afterHit
+            if (mc.user.item != null || mc.user.fainted) return@afterHitTarget
+            val item = b.takeItem(mc.target, mc.user) ?: return@afterHitTarget
             mc.user.item = item
             b.message("${b.nm(mc.user)} stole ${b.nmL(mc.target)}'s ${b.dex.itemOrNull(item)?.name}!")
         }

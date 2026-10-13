@@ -709,6 +709,8 @@ class Battle(
 
     private fun runSelfMove(mc: MoveCtx, script: MoveScript?): Boolean {
         val user = mc.user
+        // Moves aimed only at an ally have no target in a single battle.
+        if (mc.move.target == "adjacentAlly") { message("But there was no target..."); return false }
         val mcSelf = MoveCtx(user, user, mc.move)
         if (script != null && !script.onTry(this, mcSelf)) return fail()
         for (c in moveHandlers(mcSelf)) if (!c.effect.onTryMove(c, mcSelf)) return fail().let { false }
