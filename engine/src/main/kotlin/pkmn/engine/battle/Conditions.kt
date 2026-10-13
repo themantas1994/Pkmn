@@ -591,6 +591,7 @@ object Conditions {
             if (mc.move.data.breaksProtect && !maxGuard) return true
             if ((mc.move.isZ || mc.move.isMax) && !maxGuard) return true // Z/Max moves deal 25% through protection
             if (mc.user.ability == "unseenfist" && mc.move.hasFlag("contact") && c.b.abilityActive(mc.user) && !maxGuard) return true
+            if (mc.move.data2["piercesProtect"] == true && !maxGuard) { mc.move.data2["piercedProtect"] = true; return true }
             c.b.message("${c.b.nm(c.mon)} protected itself!")
             if (mc.move.hasFlag("contact") && !(mc.user.item == "protectivepads" && c.b.itemActive(mc.user))) punish(c, mc)
             mc.user.volatiles.remove("lockedmove")
@@ -686,7 +687,13 @@ object Conditions {
         })
         reg(object : Effect("tailwind", EffectKind.SIDE) {
             override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 4
-            override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("The Tailwind blew from behind ${sideName(c)}!") }
+            override fun onStart(c: EffectCtx, source: BattleMon?) {
+                c.b.message("The Tailwind blew from behind ${sideName(c)}!")
+                val m = c.side?.active ?: return
+                if (m.fainted || !c.b.abilityActive(m)) return
+                if (m.ability == "windpower") c.b.addVolatile(m, "charge", m, "windpower")
+                if (m.ability == "windrider") c.b.boost(m, mapOf("atk" to 1), m, "windrider")
+            }
             override fun onEnd(c: EffectCtx) { c.b.message("${sideNameCap(c)}'s Tailwind petered out!") }
             override fun onModifySpe(c: EffectCtx, mon: BattleMon, mod: Mod) { if (mon.side === c.side) mod.chain(2.0) }
         })

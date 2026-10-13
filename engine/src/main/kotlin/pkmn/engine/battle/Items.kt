@@ -127,7 +127,7 @@ object Items {
     /** [m] eats its held berry [id] right now, whatever its trigger condition. */
     fun forceEat(b: Battle, m: BattleMon, id: String) {
         b.message("${b.nm(m)} ate its ${itemName(b, id)}!")
-        m.lastItem = id; m.item = null; m.usedItemThisBattle = true; m.itemState = EffectState()
+        m.lastItem = id; m.item = null; m.usedItemThisBattle = true; m.itemState = EffectState(); m.itemConsumedTurn = b.turn
         applyBerry(b, m, id)
     }
 

@@ -102,6 +102,8 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
     var lastItem: String? = null
     var itemKnockedOff: Boolean = false
     var usedItemThisBattle = false
+    /** Turn on which the held item was last consumed (Pickup). */
+    var itemConsumedTurn = -1
 
     val boosts = IntArray(7) // atk, def, spa, spd, spe, accuracy, evasion
     val volatiles = LinkedHashMap<String, EffectState>()

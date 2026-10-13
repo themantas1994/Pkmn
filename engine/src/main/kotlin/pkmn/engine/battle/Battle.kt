@@ -679,8 +679,16 @@ class Battle(
         if (hit) lastSuccessfulMoveThisTurn = move.id
         for (c in moveHandlers(mc)) if (c.holder === user) c.effect.onAfterMove(c, mc)
         script?.onAfterUse(this, mc, hit)
-        if (move.data.selfdestruct == "always" && !user.fainted) {
+        if (move.data.selfdestruct == "always" && !user.fainted && move.data2["damped"] != true) {
             directDamage(user, user.hp, user, move.id, silent = true)
+        }
+        // Dancer: the opposing holder copies a dance move right after it is used.
+        if (move.hasFlag("dance") && calledBy == null && hit && !move.isZ && !move.isMax) {
+            val dancer = user.side.foe.active
+            if (dancer != null && !dancer.fainted && dancer.ability == "dancer" && abilityActive(dancer) && !dancer.hasVolatile("twoturnmove")) {
+                message("[${nm(dancer)}'s Dancer]")
+                MoveScripts.callMove(this, dancer, move.id)
+            }
         }
         return hit
     }
@@ -860,7 +868,7 @@ class Battle(
         if (move.id == "toxic" && mc.user.hasType("Poison")) return true
         if (move.isMax || move.isZ) return true
         // Stage-based accuracy/evasion.
-        val ignoreEva = move.data.ignoreEvasion || (mc.user.ability == "keeneye" && abilityActive(mc.user)) || (mc.user.ability == "mindseye" && abilityActive(mc.user)) ||
+        val ignoreEva = move.data.ignoreEvasion || (mc.user.ability in setOf("keeneye", "mindseye", "illuminate") && abilityActive(mc.user)) ||
             mc.target.hasVolatile("foresight") || mc.target.hasVolatile("miracleeye") || (mc.user.ability == "unaware" && abilityActive(mc.user))
         val accStage = if (mc.target.ability == "unaware" && abilityActive(mc.target, mc)) 0 else mc.user.boost("accuracy")
         val evaStage = if (ignoreEva) 0 else mc.target.boost("evasion")
@@ -1131,6 +1139,7 @@ class Battle(
         if (target.isDynamaxed && move.id in setOf("behemothblade", "behemothbash", "dynamaxcannon")) finalMod.chain(2.0)
         if (move.data2["parentalbond"] == true && mc.hitIndex == 1) finalMod.chain(0.25)
         if (target.hasVolatile("protect") && (move.isZ || move.isMax)) finalMod.chain(0.25)
+        if (move.data2["piercedProtect"] == true) finalMod.chain(0.25)
         base = finalMod.apply(base)
         return max(1, base)
     }
@@ -1273,6 +1282,9 @@ class Battle(
         events.add(BattleEvent.StatusChange(target.side.index, teamIndex(target), status.id, text)); log.add(text)
         for (c in targetHandlers(target)) c.effect.onAfterSetStatus(c, target, status, source)
         if (source != null && source !== target && sourceEffect != null) {
+            // Poison Puppeteer (Pecharunt): poisoning by its moves also confuses.
+            if ((status == MajorStatus.POISON || status == MajorStatus.TOXIC) && source.ability == "poisonpuppeteer" && abilityActive(source) &&
+                source.species.baseSpecies == "pecharunt" && dex.moveOrNull(sourceEffect) != null) addVolatile(target, "confusion", source, "poisonpuppeteer")
             // Synchronize.
             if (target.ability == "synchronize" && abilityActive(target) && status != MajorStatus.SLEEP && status != MajorStatus.FREEZE) {
                 message("[${target.name}'s Synchronize]")
@@ -1492,6 +1504,7 @@ class Battle(
         mon.lastItem = item
         mon.item = null
         mon.usedItemThisBattle = true
+        mon.itemConsumedTurn = turn
         mon.itemState = EffectState()
         if (dex.itemOrNull(item)?.isBerry == true) {
             for (c in targetHandlers(mon)) if (c.holder === mon) c.effect.onEatItem(c, mon, item)
