@@ -57,15 +57,23 @@ def make_grass_alt():
     return a
 
 
-TALL_Q = grid("""
-21111112
-22111122
-23211232
-12322321
-11233211
-11122111
-11111111
-11111111
+TALL_GRASS = grid("""
+2222222222222222
+2122212222122212
+2121212222121212
+2111112212111112
+3211123222211123
+2321232222321232
+2233322222233322
+2222222222222222
+2222221222222212
+2122212122122212
+2121211122121211
+2111112211111112
+3211123232111232
+2321232223212322
+2233322222333222
+2222222222222222
 """)
 
 TREE = grid("""
@@ -172,31 +180,37 @@ LEDGE_S = grid("""
 1111112121111111
 1111111111111111
 1111111111111111
-1111111111111111
-2222222222222222
-2222222222222222
-3333333333333333
 0000000000000000
-3333333333333333
+2222222222222222
+2212222222122222
+2222222222222222
+3222222332222223
+1333333113333331
 1111111111111111
 1111111111111111
 """)
 
 
 def make_ledge_e():
-    a = make_grass()
-    a[:, 9:11] = 2
-    a[:, 11] = 3
-    a[:, 12] = 0
-    a[:, 13] = 3
-    a[:, 14:] = 1
+    """east-facing ledge: the drop is on the right side of the tile"""
+    a = rot_ledge(LEDGE_S, 1)
     return a
 
 
 def make_ledge_w():
-    a = make_ledge_e()
-    a = a[:, ::-1].copy()
-    # re-draw the lip so the highlight side faces up-left consistently
+    return rot_ledge(LEDGE_S, -1)
+
+
+def rot_ledge(src, k):
+    # rotate the lip only; keep the grass tufts upright by re-drawing grass
+    lip = np.rot90(src, k).copy()
+    a = make_grass()
+    m = np.zeros((TS, TS), bool)
+    if k == 1:   # counter-clockwise: bottom rows -> right columns
+        m[:, 8:] = True
+    else:
+        m[:, :8] = True
+    a[m] = lip[m]
     return a
 
 
@@ -1388,9 +1402,7 @@ def build_tiles():
     # ---- outdoor ground
     add("grass", "outdoor", make_grass())
     add("grass_alt", "outdoor", make_grass_alt())
-    tg = np.vstack([np.hstack([TALL_Q, TALL_Q]),
-                    np.roll(np.hstack([TALL_Q, TALL_Q]), 4, axis=1)])
-    add("tall_grass", "outdoor", tg)
+    add("tall_grass", "outdoor", TALL_GRASS)
     add("flowers", "flowers", flowers_frames())
     add("path", "path", path_base())
     for s in "nsew":

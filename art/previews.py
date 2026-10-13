@@ -265,6 +265,8 @@ def chars_contact():
     if not os.path.isdir(folder):
         return None
     ids = sorted(f[:-4] for f in os.listdir(folder) if f.endswith(".png"))
+    if not ids:
+        return None
     cols, cw, ch = 4, 128, 70
     rows = (len(ids) + cols - 1) // cols
     img = Image.new("RGBA", (cols * cw, rows * ch), BG)
@@ -284,6 +286,8 @@ def trainers_contact():
     if not os.path.isdir(folder):
         return None
     ids = sorted(f[:-4] for f in os.listdir(folder) if f.endswith(".png"))
+    if not ids:
+        return None
     cols, cw, ch = 10, 68, 76
     rows = (len(ids) + cols - 1) // cols
     img = Image.new("RGBA", (cols * cw, rows * ch), (248, 248, 248, 255))
