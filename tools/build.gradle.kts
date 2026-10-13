@@ -22,7 +22,8 @@ fun registerTool(name: String, desc: String, vararg args: String) = tasks.regist
     classpath = sourceSets["main"].runtimeClasspath
     mainClass.set("pkmn.tools.ToolsMainKt")
     workingDir = rootProject.projectDir
-    this.args = args.toList()
+    // Extra arguments: ./gradlew :tools:importSprites -Pargs="--only=1-151 --force"
+    this.args = args.toList() + ((project.findProperty("args") as String?)?.split(" ")?.filter { it.isNotBlank() } ?: emptyList())
     maxHeapSize = "2g"
 }
 
@@ -31,6 +32,7 @@ registerTool("compileMaps", "Compile maps/*.map sources into assets/maps/*.json"
 registerTool("validateContent", "Validate all content and write reports/*.json", "validate")
 registerTool("buildAssetManifest", "Scan assets and write the asset manifest", "manifest")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
+registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
 
 tasks.test {
     useJUnitPlatform()

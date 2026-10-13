@@ -1,0 +1,6 @@
+{
+  "available": false,
+  "source": "pkmn.engine.battle.BattleCoverage",
+  "kind": "items",
+  "reason": "ClassNotFoundException: pkmn.engine.battle.BattleCoverage"
+}

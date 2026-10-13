@@ -31,6 +31,7 @@
                 "pokeapi/item_prose.csv": "510fc4a9e58951dcaacf156d4cc6655dce1b173dcaea45495a29f6f343076373",
                 "pokeapi/items.csv": "f08cd6dc30b447cb91cbe9232c79052e8521f32f6105bb1489b5bfabf4ca3241",
                 "pokeapi/pokemon.csv": "16c81c33188b0eac403aa2f759fcbe9e42c611f722d263f5b5a6a5bff9f8ce6b",
+                "pokeapi/pokemon_forms.csv": "99bf8f7ad4dc1f2e291357a090cef6a575623ec3cbf9030d0e33656e6e608ae2",
                 "pokeapi/pokemon_species.csv": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45",
                 "pokeapi/pokemon_stats.csv": "fa2c44263a3706468682fefc3e0b3c4f5487fe9febed7d4ebcd6939c34b16aa8"
             },
