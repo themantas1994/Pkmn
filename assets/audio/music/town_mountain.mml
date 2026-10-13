@@ -1,0 +1,22 @@
+; Mountain village - pastoral jig in D dorian. Original composition, CC0-1.0.
+#title Highland Hearth
+#tempo 132
+#time 6/8
+#key D dorian
+#inst 1 duty=1 env=10,-5 rel=-2 vib=12,16,5
+#inst 2 duty=2 env=6,-2
+#inst 3 wave=0 env=14,0
+#def J o4 c8 e8 g8 > c8 < g8 e8
+#def j o4 c8 d+8 g8 > c8 < g8 d+8
+#def jb o2 c4. g4.
+#def ma o5 d8 e8 f8 a4 g8 | o5 e4 c8 g4 e8 | o5 f8 e8 d8 a4. | o5 c4 o4 b8 a4. | o4 a8 o5 c8 f8 a4 g8 | o5 g8 e8 c8 e4 g8 | o5 b4 a8 g8 a8 b8 | o5 a4. d4 r8 |
+#def mb o5 a8 g8 f8 c4 f8 | o5 b8 a8 g8 d4 g8 | o5 a4 e8 c4 e8 | o5 f4. d4 a8 | o6 c8 o5 a8 f8 c4 f8 | o5 d8 g8 b8 a4 g8 | o5 e8 g8 b8 a8 g8 e8 | o5 e4. a4 r8 |
+#def ha k2{j} | k0{J} | k2{j} | k-3{j} | k5{J} | k0{J} | k-5{J} | k2{j} | k0
+#def hb k5{J} | k-5{J} | k-3{j} | k2{j} | k5{J} | k-5{J} | k4{j} | k-3{j} | k0
+#def ba k2{jb} | k0{jb} | k2{jb} | k9{jb} | k5{jb} | k0{jb} | k7{jb} | k2{jb} | k0
+#def bb k5{jb} | k7{jb} | k9{jb} | k2{jb} | k5{jb} | k7{jb} | k4{jb} | k9{jb} | k0
+
+A @1 $ {ma} {mb} {ma}
+B @2 $ {ha} {hb} {ha}
+C @3 $ {ba} {bb} {ba}
+D v9 $ [K8 H8 H8 S8 H8 H8]23 K8 H8 H8 S8 S8 S8

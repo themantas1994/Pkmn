@@ -1,0 +1,29 @@
+; Hometown - a gentle waltz. Original composition, CC0-1.0.
+#title Where the Road Begins
+#tempo 92
+#time 3/4
+#key G major
+#inst 1 duty=2 env=10,-6 rel=-2 vib=24,10,4.5
+#inst 2 duty=1 env=6,-2
+#inst 3 wave=3 env=13,0
+#def W o4 c8 g8 e8 g8 > c8 < g8
+#def w o4 c8 g8 d+8 g8 > c8 < g8
+#def W2 o4 c8 g8 e8 g8
+#def w2 o4 c8 g8 d+8 g8
+#def W1 o4 c8 g8
+#def wb o2 c2 g4
+#def wb2 o2 c2
+#def wb1 o2 c4
+#def a1 o4 b4. o5 c8 d4 | o5 e4 d4 o4 b4 | o4 a4. g8 e4 | o4 f+2 r4 |
+#def a2 o4 b4. o5 c8 d4 | o5 g4 f+4 e4 | o5 e4 c4 o4 f+4 | o4 g2. |
+#def a3 o5 d4. e8 d4 | o4 b4 g4 e4 | o4 a4 o5 c4 o4 f+4 | o4 g2. |
+#def bm o5 e4. d8 c4 | o5 d4. c8 o4 a4 | o4 b4. a8 f+4 | o4 g2 b4 | o5 c4. o4 b8 a4 | o4 a4 f+4 d4 | o4 g4 b4 a4 | o4 g2 r4 |
+#def hA k-5{W} | k4{w} | k0{W} | k2{W} | k-5{W} | k4{w} | k-3{w2} k2{W1} | k-5{W} | k0
+#def hB k0{W} | k2{W} | k-1{w} | k4{w} | k0{W} | k2{W} | k4{w2} k2{W1} | k-5{W} | k0
+#def bA k7{wb} | k4{wb} | k0{wb} | k2{wb} | k7{wb} | k4{wb} | k9{wb2} k2{wb1} | k7{wb} | k0
+#def bB k0{wb} | k2{wb} | k11{wb} | k4{wb} | k0{wb} | k2{wb} | k4{wb2} k2{wb1} | k7{wb} | k0
+
+A @1 $ {a1} {a2} {a1} {a3} {bm}
+B @2 $ {hA} {hA} {hB}
+C @3 $ {bA} {bA} {bB}
+D v8 $ [K4 H4 H4]23 K4 H8 H8 X4
