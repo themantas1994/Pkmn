@@ -75,6 +75,10 @@ data class TriggerDef(
     val ifFlag: String? = null,
 )
 
+/** Tile replaced at runtime while [flag] is set (gym puzzles, opened gates, drained ponds). */
+@Serializable
+data class FlagTile(val flag: String, val x: Int, val y: Int, val tile: String)
+
 /** A field obstacle requiring a field move (also drawn by the tile layer). */
 @Serializable
 data class ObstacleDef(val x: Int, val y: Int, val kind: String, val flag: String)
@@ -113,6 +117,7 @@ data class MapData(
     val items: List<ItemPickup> = emptyList(),
     val triggers: List<TriggerDef> = emptyList(),
     val obstacles: List<ObstacleDef> = emptyList(),
+    val flagTiles: List<FlagTile> = emptyList(),
     val encounters: String? = null,
     /** Script run every time the map is entered. */
     val onEnter: String? = null,

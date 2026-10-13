@@ -1,4 +1,30 @@
+# Shared trainer classes (lead-owned). payout × highest level = prize money.
 class youngster "Youngster" payout=16 portrait=youngster
 class lass "Lass" payout=16 portrait=lass gender=f
 class bugcatcher "Bug Catcher" payout=12 portrait=bugcatcher
+class hiker "Hiker" payout=32 portrait=hiker
+class fisherman "Fisherman" payout=28 portrait=fisherman
+class swimmer_m "Swimmer" payout=8 portrait=swimmer_m
+class swimmer_f "Swimmer" payout=8 portrait=swimmer_f gender=f
+class gentleman "Gentleman" payout=72 portrait=gentleman
+class beauty "Beauty" payout=56 portrait=beauty gender=f
+class scientist "Scientist" payout=48 portrait=scientist
+class sage "Sage" payout=32 portrait=sage
+class blackbelt "Black Belt" payout=24 portrait=blackbelt
+class psychic "Psychic" payout=40 portrait=psychic
+class cooltrainer_m "Ace Trainer" payout=60 portrait=cooltrainer_m
+class cooltrainer_f "Ace Trainer" payout=60 portrait=cooltrainer_f gender=f
+class pokefan "Pokéfan" payout=40 portrait=pokefan
+class ranger "Pokémon Ranger" payout=60 portrait=ranger
+class kid "Kid" payout=8 portrait=kid
+class sailor "Sailor" payout=32 portrait=sailor
+class policeman "Officer" payout=40 portrait=policeman
+class grunt_m "Team Eclipse Grunt" payout=24 music=battle_trainer portrait=grunt_m
+class grunt_f "Team Eclipse Grunt" payout=24 music=battle_trainer portrait=grunt_f gender=f
+class admin "Team Eclipse Admin" payout=60 music=battle_villain_boss portrait=admin
+class boss "Team Eclipse Boss" payout=100 music=battle_villain_boss portrait=boss
 class rival "Rival" payout=40 music=battle_rival portrait=rival
+class leader "Gym Leader" payout=100 music=battle_gym_leader portrait=leader1
+class elite "Elite Four" payout=120 music=battle_elite_four portrait=elite1
+class champion "Champion" payout=200 music=battle_champion portrait=champion gender=f
+class professor "Professor" payout=100 music=battle_trainer portrait=professor

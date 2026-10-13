@@ -36,7 +36,8 @@ class MapCompilerTool(private val root: File) {
         val dex = Dex.loadDefault()
         val tileNames = loadTileNames()
         val legend = parseLegend(File(world, "legend.txt").takeIf { it.exists() }?.readLines() ?: emptyList(), "legend.txt")
-        val prefabs = parsePrefabs(File(world, "prefabs.txt"))
+        val prefabs = HashMap(parsePrefabs(File(world, "prefabs.txt")))
+        (File(world, "prefabs").listFiles { f -> f.extension == "txt" } ?: emptyArray()).sortedBy { it.name }.forEach { prefabs.putAll(parsePrefabs(it)) }
         val maps = (File(world, "maps").listFiles { f -> f.extension == "map" } ?: emptyArray()).sortedBy { it.name }
             .mapNotNull { f -> try { compileMap(f, legend, prefabs, tileNames) } catch (e: CompileError) { errors.add("${f.name}:${e.line}: ${e.message}"); null } }
         val (classes, trainers) = compileTrainers(dex)
@@ -163,6 +164,7 @@ class MapCompilerTool(private val root: File) {
         val items = ArrayList<ItemPickup>()
         val triggers = ArrayList<TriggerDef>()
         val obstacles = ArrayList<ObstacleDef>()
+        val flagTiles = ArrayList<FlagTile>()
         val legend = LinkedHashMap(defaultLegend)
         val layout = ArrayList<String>()
         data class Stamp(val prefab: Prefab, val x: Int, val y: Int, val line: Int)
@@ -218,6 +220,7 @@ class MapCompilerTool(private val root: File) {
                     }
                 }
                 "tile" -> tileOverrides.add(Triple(t[1].toInt(), t[2].toInt(), t[3]))
+                "tileif" -> flagTiles.add(FlagTile(t[1], t[2].toInt(), t[3].toInt(), t[4]))
                 "warp" -> {
                     val arrow = t.indexOf("->")
                     if (arrow != 3) throw CompileError("warp syntax: warp x y -> map x y [facing]  (or -> @back)", n)
@@ -271,9 +274,13 @@ class MapCompilerTool(private val root: File) {
             if (tileNames != null && tname !in tileNames) errors.add("${f.name}: unknown tile '$tname' at $x,$y")
             ground.add(pIndex.getOrPut(tname) { palette.add(tname); palette.size - 1 })
         }
+        for (ft in flagTiles) {
+            if (ft.x !in 0 until width || ft.y !in 0 until height) throw CompileError("tileif ${ft.x},${ft.y} out of bounds", 0)
+            if (tileNames != null && ft.tile !in tileNames) errors.add("${f.name}: unknown tile '${ft.tile}' in tileif")
+        }
         return MapData(id, name, width, height, "world", palette, ground, emptyList(), music, environment, weather, indoor, dark,
             regionX, regionY, location.ifEmpty { name }, flyX, flyY, connections, warps, npcs, signs, items, triggers, obstacles,
-            encounters, onEnter, tags)
+            flagTiles, encounters, onEnter, tags)
     }
 
     private fun waterVariant(isWater: (Int, Int) -> Boolean, x: Int, y: Int, names: Set<String>?): String {
@@ -387,11 +394,12 @@ class MapCompilerTool(private val root: File) {
         return out
     }
 
+    private fun sourcesFor(file: String, dir: String): List<File> =
+        listOfNotNull(File(world, file).takeIf { it.exists() }) + (File(world, dir).listFiles { f -> f.extension == "txt" } ?: emptyArray()).sortedBy { it.name }
+
     private fun compileShops(dex: Dex): List<ShopDef> {
-        val f = File(world, "shops.txt")
-        if (!f.exists()) return emptyList()
         val out = ArrayList<ShopDef>()
-        for ((i, l) in f.readLines().withIndex()) {
+        for (f in sourcesFor("shops.txt", "shops")) for ((i, l) in f.readLines().withIndex()) {
             val t = tok(l, f.name, i + 1)
             if (t.isEmpty()) continue
             if (t[0] != "shop") { errors.add("shops.txt:${i + 1}: expected 'shop <id> items...'"); continue }
@@ -404,13 +412,14 @@ class MapCompilerTool(private val root: File) {
             }
             out.add(ShopDef(t[1], items, prices))
         }
+        val dup = out.groupBy { it.id }.filter { it.value.size > 1 }.keys
+        if (dup.isNotEmpty()) errors.add("duplicate shop ids: $dup")
         return out
     }
 
     private fun compileQuests(): List<QuestDef> {
-        val f = File(world, "quests.txt")
-        if (!f.exists()) return emptyList()
         val out = ArrayList<QuestDef>()
+        for (f in sourcesFor("quests.txt", "quests")) {
         val lines = f.readLines()
         var i = 0
         while (i < lines.size) {
@@ -425,6 +434,7 @@ class MapCompilerTool(private val root: File) {
                 when (r[0]) { "desc" -> desc = r[1]; "step" -> steps.add(r[1]) }
             }
             out.add(QuestDef(t[1], t[2], desc, steps, "main" in t))
+        }
         }
         return out
     }
