@@ -1,0 +1,17 @@
+; Cave - sparse and echoing, C# minor. Original composition, CC0-1.0.
+#title Hollow Depths
+#tempo 80
+#time 4/4
+#key C# minor
+#inst 1 duty=1 env=10,-6 rel=-3 vib=24,10,4
+#inst 2 duty=1 env=4,-4 rel=-3
+#inst 3 wave=0 env=14,0
+; m15 has no bar checks because channel B plays it an eighth late as an echo
+#def m15 o4 c+4 g+4 f+8 e8 d+4 o4 e2. r4 o4 f+4 a4 g+8 f+8 e4 o4 d+2 b+4 r4 o4 c+4 g+4 f+8 e8 d+4 o4 e4 a4 g+8 f+8 e4 o4 f+4. e8 d+4 c+4 o4 b+2. r4 o5 c+2 e4 c+4 o4 b2 d+4 f+4 o4 g+2 b4 d+4 o4 e2. r4 o5 c+4. o4 b8 a4 e4 o4 a4. g+8 f+4 c+4 o4 d+4 f+4 b4 a4
+#def dn o2 c1
+#def bs k1{dn} | k9{dn} | k6{dn} | k8{dn} | k1{dn} | k9{dn} | k6{dn} | k8{dn} | k9{dn} | k11{dn} | k8{dn} | k1{dn} | k9{dn} | k6{dn} | k11{dn} | k8{dn} | k0
+
+A @1 $ {m15} o4 b+2 g+4 r4 |
+B @2 $ r8 {m15} o4 b+2 g+4 r8
+C @3 $ {bs}
+D v6 $ [r2 R8 r8 r4 | r4. R16 r16 r2 | r1 | r2 T4 r4 |]4

@@ -1,0 +1,25 @@
+; Shop - a jaunty little shopping ditty. Original composition, CC0-1.0.
+#title Aisle Seven
+#tempo 120
+#time 4/4
+#key F major
+#inst 1 duty=1 env=11,-2 rel=-1 vib=30,8,6
+#inst 2 duty=2 env=6,-1
+#inst 3 wave=6 env=12,0
+#def S o4 r8 e8 r8 g8 r8 e8 r8 g8
+#def s o4 r8 d+8 r8 g8 r8 d+8 r8 g8
+#def S2 o4 r8 e8 r8 g8
+#def s2 o4 r8 d+8 r8 g8
+#def qb o2 c4 g4 c4 g4
+#def qb2 o2 c4 g4
+#def ma o5 f8 a8 o6 c8 o5 a8 b-8 a8 g8 f8 | o5 d4 f4 b-4 r4 | o5 e8 g8 o6 c8 o5 g8 a8 g8 f8 e8 | o5 f4 a4 f4 r4 | o5 a8 f8 d8 f8 a8 b-8 a8 f8 | o5 g4 b-4 d4 r4 | o5 e8 f8 g8 a8 b-8 a8 g8 e8 | o5 f4 c4 f4 r4 |
+#def mb o5 d8 r8 d8 f8 b-4 a8 g8 | o5 a8 r8 a8 g8 f4 c4 | o5 b-8 r8 b-8 a8 g4 d4 | o5 e4 g4 o6 c4 r4 | o5 f8 e8 d8 e8 f4 b-4 | o5 a8 g8 f8 g8 a4 o6 c4 | o5 b-4 g4 e4 c4 | o5 f4 a4 f4 r4 |
+#def ha k5{S} | k-2{S} | k0{S} | k5{S} | k2{s} | k-5{s} | k0{S} | k5{S} | k0
+#def hb k-2{S} | k5{S} | k-5{s} | k0{S} | k-2{S} | k5{S} | k-5{s2} k0{S2} | k5{S} | k0
+#def ba k5{qb} | k10{qb} | k0{qb} | k5{qb} | k2{qb} | k7{qb} | k0{qb} | k5{qb} | k0
+#def bb k10{qb} | k5{qb} | k7{qb} | k0{qb} | k10{qb} | k5{qb} | k7{qb2} k0{qb2} | k5{qb} | k0
+
+A @1 q6 $ {ma} {mb}
+B @2 $ {ha} {hb}
+C @3 q5 $ {ba} {bb}
+D v9 $ [[K8 H8 S8 H8 K8 H8 S8 H8]7 K8 H8 S8 H8 S8 S8 R8 R8]2

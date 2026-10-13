@@ -1,0 +1,25 @@
+; Healing center - calm, warm and reassuring. Original composition, CC0-1.0.
+#title Safe Harbor
+#tempo 104
+#time 4/4
+#key Eb major
+#inst 1 duty=2 env=10,-5 rel=-2 vib=24,10,5
+#inst 2 duty=1 env=5,-2
+#inst 3 wave=3 env=12,0
+#def M o4 c8 g8 e8 g8 c8 g8 e8 g8
+#def m o4 c8 g8 d+8 g8 c8 g8 d+8 g8
+#def M2 o4 c8 g8 e8 g8
+#def m2 o4 c8 g8 d+8 g8
+#def sb o2 c4. g8 > c4 < g4
+#def sb2 o2 c4 g4
+#def ma o4 b-8 o5 e-8 g8 b-8 a-4 g4 | o5 a-4. g8 f4 e-4 | o5 d4 f8 b-8 a-4 f4 | o5 g2 e-4 r4 | o5 g8 o6 c8 o5 b-8 g8 e-4 g4 | o5 a-4. g8 a-4 o6 c4 | o5 c4 a-4 b-4 d4 | o5 e-2. r4 |
+#def mb o5 c4. e-8 a-4 e-4 | o5 d4. f8 b-4 f4 | o5 d8 e-8 d8 o4 b-8 g4 b-4 | o5 e-2 c4 r4 | o5 e-8 f8 e-8 c8 a-4 g4 | o5 f4 d4 b-4 a-4 | o5 c4 e-4 d4 f4 | o5 f2 r4 o4 b-4 |
+#def ha k3{M} | k-4{M} | k-2{M} | k3{M} | k0{m} | k-4{M} | k5{m2} k-2{M2} | k3{M} | k0
+#def hb k-4{M} | k-2{M} | k-5{m} | k0{m} | k-4{M} | k-2{M} | k-4{M2} k-2{M2} | k-2{M} | k0
+#def ba k3{sb} | k8{sb} | k10{sb} | k3{sb} | k0{sb} | k8{sb} | k5{sb2} k10{sb2} | k3{sb} | k0
+#def bb k8{sb} | k10{sb} | k7{sb} | k0{sb} | k8{sb} | k10{sb} | k8{sb2} k10{sb2} | k10{sb} | k0
+
+A @1 $ {ma} {mb}
+B @2 $ {ha} {hb}
+C @3 $ {ba} {bb}
+D v6 $ [R4 H8 H8 R4 H8 H8]16
