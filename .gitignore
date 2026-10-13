@@ -1,0 +1,14 @@
+.gradle/
+build/
+*/build/
+local.properties
+.idea/
+*.iml
+.kotlin/
+# Locally imported, non-redistributable assets (official sprites etc.)
+assets-local/
+android/assets-local/
+*.keystore
+*.jks
+/saves/
+android/libs/

@@ -1,0 +1,40 @@
+{
+    "contentVersion": 1,
+    "rosterCutoff": "National Pokédex #0001-#1025 (Generation IX through The Indigo Disk and Pecharunt). Mega Evolutions introduced in Pokémon Legends: Z-A are included as forms.",
+    "expectedSpeciesCount": 1025,
+    "provenance": [
+        {
+            "name": "Pokémon Showdown data",
+            "source": "https://play.pokemonshowdown.com/data/ and https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/text/",
+            "license": "MIT (code/data compilation, Copyright (c) 2011-2026 Guangcong Luo and contributors). Pokémon names and game mechanics are property of Nintendo/Creatures/GAME FREAK.",
+            "files": {
+                "showdown/abilities.js": "dc9636a7a4c98fd7b820da3390937e3aeefd772602448f766b6de6be1009f87b",
+                "showdown/formats-data.js": "f34b7733db4c080f80c14811b02eb4201f2529ac19c30284502dc5240e292804",
+                "showdown/items.js": "00608305a55d3a862fe4705a07c7418237d8cc8935a2a8d794cb1b6542745691",
+                "showdown/learnsets.json": "cedbe661968e2d69abe9f317e9a3f5d4f2dcf989e1f937cb0cdd72e7af29ab8f",
+                "showdown/moves.json": "26909a321a7e4528d14a7dffd24173aa03a6845776cf41c39cc3d76f8e14616b",
+                "showdown/pokedex.json": "e74c82c6312f3ab24cb324b92dbaccabb95a1d67745e45ea9525e0cca60f6e7e",
+                "showdown/text/abilities.ts": "f6f2a0d4fc8be06cc6051d39e11f5f0a3d3d9d11020d5855b09c9b2f34a00568",
+                "showdown/text/items.ts": "7ddfd9f71f4a957c97be72b5eb8c3619826bb8f551bb84cfc8cd10b3dac75409",
+                "showdown/text/moves.ts": "811028921074d1fd8ea8798bc0f0e29602a59f639e58bdf53b0eedf3fdcf54e5",
+                "showdown/typechart.js": "1f28413cf01f8f52c6ab35b694fafc52a537dfe31e68dcea6b9c97d41c7b9523"
+            },
+            "retrieved": "2026-10-13"
+        },
+        {
+            "name": "PokeAPI CSV data",
+            "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/",
+            "license": "BSD-3-Clause (PokeAPI). Pokémon names and game data are property of Nintendo/Creatures/GAME FREAK.",
+            "files": {
+                "pokeapi/growth_rates.csv": "2691fea161441ce97085d70c0f466c0329a9a5a587a9797bb3b757da0e8090d0",
+                "pokeapi/item_categories.csv": "8bfcaaf1dfe45d33a8cc374a602f2424e1c37ad68bab222f090cd95c691660d7",
+                "pokeapi/item_prose.csv": "510fc4a9e58951dcaacf156d4cc6655dce1b173dcaea45495a29f6f343076373",
+                "pokeapi/items.csv": "f08cd6dc30b447cb91cbe9232c79052e8521f32f6105bb1489b5bfabf4ca3241",
+                "pokeapi/pokemon.csv": "16c81c33188b0eac403aa2f759fcbe9e42c611f722d263f5b5a6a5bff9f8ce6b",
+                "pokeapi/pokemon_species.csv": "e66e2eeb25fd3836b0ebab6bf87bbf01960aa3c0555e2bac495fa8393c5e0c45",
+                "pokeapi/pokemon_stats.csv": "fa2c44263a3706468682fefc3e0b3c4f5487fe9febed7d4ebcd6939c34b16aa8"
+            },
+            "retrieved": "2026-10-13"
+        }
+    ]
+}
