@@ -33,6 +33,30 @@
       "author": "Nintendo/Creatures/GAME FREAK (collected by the PokeAPI sprites project)",
       "redistributable": false,
       "status": "local-import"
+    },
+    {
+      "pathGlob": "assets/maps/**",
+      "source": "Original world content compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "pathGlob": "assets/world/**",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "pathGlob": "assets/scripts/**",
+      "source": "Original event scripts copied from world/scripts/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
     }
   ]
 }

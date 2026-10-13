@@ -1,7 +1,203 @@
 {
   "version": 1,
   "root": "assets",
-  "count": 0,
-  "byCategory": {},
-  "assets": []
+  "count": 16,
+  "byCategory": {
+    "map": 6,
+    "other": 10
+  },
+  "assets": [
+    {
+      "id": "maps/hometown",
+      "path": "assets/maps/hometown.json",
+      "format": "json",
+      "sizeBytes": 1708,
+      "category": "map",
+      "source": "Original world content compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "maps/lab",
+      "path": "assets/maps/lab.json",
+      "format": "json",
+      "sizeBytes": 1334,
+      "category": "map",
+      "source": "Original world content compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "maps/player_house_1f",
+      "path": "assets/maps/player_house_1f.json",
+      "format": "json",
+      "sizeBytes": 748,
+      "category": "map",
+      "source": "Original world content compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "maps/player_house_2f",
+      "path": "assets/maps/player_house_2f.json",
+      "format": "json",
+      "sizeBytes": 474,
+      "category": "map",
+      "source": "Original world content compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "maps/rival_house",
+      "path": "assets/maps/rival_house.json",
+      "format": "json",
+      "sizeBytes": 598,
+      "category": "map",
+      "source": "Original world content compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "maps/route1",
+      "path": "assets/maps/route1.json",
+      "format": "json",
+      "sizeBytes": 1648,
+      "category": "map",
+      "source": "Original world content compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "scripts/hometown",
+      "path": "assets/scripts/hometown.pks",
+      "format": "pks",
+      "sizeBytes": 1071,
+      "category": "other",
+      "source": "Original event scripts copied from world/scripts/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "scripts/index",
+      "path": "assets/scripts/index.txt",
+      "format": "txt",
+      "sizeBytes": 20,
+      "category": "other",
+      "source": "Original event scripts copied from world/scripts/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "scripts/lab",
+      "path": "assets/scripts/lab.pks",
+      "format": "pks",
+      "sizeBytes": 3140,
+      "category": "other",
+      "source": "Original event scripts copied from world/scripts/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "world/campaign",
+      "path": "assets/world/campaign.json",
+      "format": "json",
+      "sizeBytes": 999,
+      "category": "other",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "world/encounters",
+      "path": "assets/world/encounters.json",
+      "format": "json",
+      "sizeBytes": 630,
+      "category": "other",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "world/index",
+      "path": "assets/world/index.json",
+      "format": "json",
+      "sizeBytes": 137,
+      "category": "other",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "world/quests",
+      "path": "assets/world/quests.json",
+      "format": "json",
+      "sizeBytes": 211,
+      "category": "other",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "world/shops",
+      "path": "assets/world/shops.json",
+      "format": "json",
+      "sizeBytes": 84,
+      "category": "other",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "world/trainer_classes",
+      "path": "assets/world/trainer_classes.json",
+      "format": "json",
+      "sizeBytes": 2277,
+      "category": "other",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    },
+    {
+      "id": "world/trainers",
+      "path": "assets/world/trainers.json",
+      "format": "json",
+      "sizeBytes": 1167,
+      "category": "other",
+      "source": "Original campaign data compiled from world/ by ./gradlew :tools:compileMaps",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "generated"
+    }
+  ]
 }

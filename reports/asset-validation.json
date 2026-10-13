@@ -5,9 +5,12 @@
   "errorsByCode": {},
   "warningsByCode": {},
   "generatedBy": "pkmn.tools.AssetManifestTool",
-  "bundledAssets": 0,
+  "bundledAssets": 16,
   "localAssets": 0,
-  "bundledByCategory": {},
+  "bundledByCategory": {
+    "map": 6,
+    "other": 10
+  },
   "localByCategory": {},
   "errors": [],
   "warnings": []

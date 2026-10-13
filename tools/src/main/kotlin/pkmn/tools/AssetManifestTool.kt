@@ -208,7 +208,7 @@ class AssetManifestTool(private val root: File) {
     }
 
     companion object {
-        val SUPPORTED = setOf("png", "json", "atlas", "fnt", "ttf", "otf", "ogg", "wav", "mp3", "tmx", "tsx", "txt", "csv", "glsl", "vert", "frag")
+        val SUPPORTED = setOf("png", "json", "atlas", "fnt", "ttf", "otf", "ogg", "wav", "mp3", "tmx", "tsx", "txt", "csv", "glsl", "vert", "frag", "pks", "mml")
         val GRID_CATEGORIES = setOf("tile", "character", "ui")
 
         fun categoryOf(rel: String, ext: String): String {

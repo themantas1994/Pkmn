@@ -44,8 +44,8 @@
     "tradewith:shelmet": 1,
     "upsidedown": 1
   },
-  "satisfiable": 504,
-  "unsatisfiable": 25,
+  "satisfiable": 507,
+  "unsatisfiable": 22,
   "method": "Each evolution is checked by searching for a game state under which pkmn.engine.mon.Progression.evolutionTarget returns its target. The game's region is fixed to Progression.EvolutionContext().region.",
   "gameRegion": "Tessera",
   "unsatisfiableEvolutions": [
@@ -83,14 +83,6 @@
       "reason": "regional evolution limited to Galar; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
     },
     {
-      "from": "eevee",
-      "to": "sylveon",
-      "method": "LEVEL_EXTRA",
-      "condition": "with a Fairy-type move and two levels of Affection",
-      "conditionCode": "movetype:Fairy+friendship",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns espeon, umbreon first (first matching entry wins; the official branch-selection rule is not modelled)"
-    },
-    {
       "from": "quilava",
       "to": "typhlosionhisui",
       "method": "LEVEL",
@@ -100,10 +92,10 @@
     },
     {
       "from": "dunsparce",
-      "to": "dudunsparcethreesegment",
+      "to": "dudunsparce",
       "method": "LEVEL_MOVE",
       "move": "hyperdrill",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparce first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparcethreesegment first (first matching entry wins; the official branch-selection rule is not modelled)"
     },
     {
       "from": "wurmple",
@@ -202,21 +194,6 @@
       "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
     },
     {
-      "from": "cosmoem",
-      "to": "lunala",
-      "method": "LEVEL",
-      "level": 53,
-      "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns solgaleo first (first matching entry wins; the official branch-selection rule is not modelled)"
-    },
-    {
-      "from": "toxel",
-      "to": "toxtricitylowkey",
-      "method": "LEVEL",
-      "level": 30,
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns toxtricity first (first matching entry wins; the official branch-selection rule is not modelled)"
-    },
-    {
       "from": "milcery",
       "to": "alcremie",
       "method": "OTHER",
@@ -243,11 +220,11 @@
     },
     {
       "from": "tandemaus",
-      "to": "mausholdfour",
+      "to": "maushold",
       "method": "LEVEL",
       "level": 25,
       "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns maushold first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns mausholdfour first (first matching entry wins; the official branch-selection rule is not modelled)"
     }
   ],
   "satisfiableOnlyWithMapOrDeviceSupport": [
@@ -1171,7 +1148,9 @@
       "method": "LEVEL_EXTRA",
       "condition": "with a Fairy-type move and two levels of Affection",
       "conditionCode": "movetype:Fairy+friendship",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns espeon, umbreon first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "knowsMove:sweetkiss"
+      ]
     },
     {
       "from": "porygon",
@@ -1452,16 +1431,16 @@
       "to": "dudunsparce",
       "method": "LEVEL_MOVE",
       "move": "hyperdrill",
-      "requires": [
-        "knowsMove:hyperdrill"
-      ]
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparcethreesegment first (first matching entry wins; the official branch-selection rule is not modelled)"
     },
     {
       "from": "dunsparce",
       "to": "dudunsparcethreesegment",
       "method": "LEVEL_MOVE",
       "move": "hyperdrill",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparce first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "knowsMove:hyperdrill"
+      ]
     },
     {
       "from": "gligar",
@@ -3752,7 +3731,9 @@
       "method": "LEVEL",
       "level": 53,
       "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns solgaleo first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "night"
+      ]
     },
     {
       "from": "poipole",
@@ -3943,7 +3924,9 @@
       "to": "toxtricitylowkey",
       "method": "LEVEL",
       "level": 30,
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns toxtricity first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "statSpread:atk"
+      ]
     },
     {
       "from": "sizzlipede",
@@ -4173,7 +4156,7 @@
       "method": "LEVEL",
       "level": 25,
       "gender": "N",
-      "requires": []
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns mausholdfour first (first matching entry wins; the official branch-selection rule is not modelled)"
     },
     {
       "from": "tandemaus",
@@ -4181,7 +4164,7 @@
       "method": "LEVEL",
       "level": 25,
       "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns maushold first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": []
     },
     {
       "from": "fidough",
