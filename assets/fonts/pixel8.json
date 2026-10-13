@@ -1,0 +1,18 @@
+{
+  "cellW": 8,
+  "cellH": 8,
+  "columns": 16,
+  "chars": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~éÉ♂♀…’“”×▶▼★♪",
+  "glyphHeight": 7,
+  "baseline": 6,
+  "lineHeight": 8,
+  "ligatures": {
+    "PK": "",
+    "MN": ""
+  },
+  "variants": {
+    "dark": "pixel8.png",
+    "white": "pixel8_white.png"
+  },
+  "notes": "Monospace; advance = cellW. Rows 0-5 caps, row 6 descenders. White variant is meant to be tinted at draw time."
+}
