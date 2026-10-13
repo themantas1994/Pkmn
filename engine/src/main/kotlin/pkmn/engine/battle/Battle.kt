@@ -42,6 +42,8 @@ class Battle(
         private set
     var runAttempts = 0
     var lastMoveUsed: String? = null
+    /** Id of the last move that succeeded this turn (Fusion Flare / Fusion Bolt). */
+    var lastSuccessfulMoveThisTurn: String? = null
     /** Debug trace for tests (every message is also mirrored here). */
     val log = ArrayList<String>()
     /** Pending learn-move prompts (team index of player Pokémon -> moves). Consumed by the UI after the battle. */
@@ -107,7 +109,14 @@ class Battle(
         "iceface", "multitype", "powerconstruct", "rkssystem", "schooling", "shieldsdown", "stancechange", "tera shift",
         "zenmode", "zerotohero", "terashift", "teraformzero", "neutralizinggas")
 
+    /** Ability Shield protects the holder's Ability from being suppressed, ignored or changed. */
+    fun hasAbilityShield(mon: BattleMon) = mon.item == "abilityshield" && !mon.hasVolatile("embargo") && !field.has("magicroom")
+
+    /** Whether [mon]'s Ability may be replaced or suppressed by a move or another Ability. */
+    fun canChangeAbility(mon: BattleMon) = !hasAbilityShield(mon) && mon.ability !in unsuppressable
+
     fun abilityActive(mon: BattleMon, mc: MoveCtx? = null): Boolean {
+        if (hasAbilityShield(mon)) return true
         if (mon.hasVolatile("gastroacid") && mon.ability !in unsuppressable) return false
         if (mon.ability != "neutralizinggas" && mon.ability !in unsuppressable && isNeutralizingGasActive()) return false
         if (mc != null && mc.user !== mon && mc.move.ignoreAbility && mon.ability !in unsuppressable) {
@@ -202,7 +211,7 @@ class Battle(
     fun isSun(mon: BattleMon) = weatherFor(mon).let { it == "sunnyday" || it == "desolateland" }
     fun isRain(mon: BattleMon) = weatherFor(mon).let { it == "raindance" || it == "primordialsea" }
     fun isSand() = weather() == "sandstorm"
-    fun isSnow() = weather() == "snow" || weather() == "hail"
+    fun isSnow() = weather().let { it == "snowscape" || it == "snow" || it == "hail" }
 
     // ================================================================= start / requests
 
@@ -257,7 +266,9 @@ class Battle(
 
     fun isMoveDisabled(mon: BattleMon, moveId: String): Boolean {
         for (c in targetHandlers(mon)) if (c.holder === mon && c.effect.onDisableMove(c, moveId)) return true
-        if (mon.isDynamaxed) return false
+        // Imprison: the foe that used it seals every move it also knows.
+        val foe = mon.side.foe.active
+        if (foe != null && !foe.fainted && foe.hasVolatile("imprison") && foe.moveSlots.any { it.id == moveId } && moveId != "struggle") return true
         return false
     }
 
@@ -332,6 +343,7 @@ class Battle(
     private fun runTurn() {
         turn++
         events.add(BattleEvent.TurnStart(turn))
+        lastSuccessfulMoveThisTurn = null
         for (s in sides) { s.faintedLastTurn = s.faintedThisTurn; s.faintedThisTurn = false }
         for (m in activeMons()) {
             m.movedThisTurn = false; m.hurtThisTurn = false; m.statsRaisedThisTurn = false; m.statsLoweredThisTurn = false
@@ -366,8 +378,11 @@ class Battle(
                     a.priority = p
                     a.mon.volatiles["pendingmove"] = EffectState().also { it.moveId = moveId; it.counter = p }
                 }
+                if (lockedMove(a.mon) == null) beforeTurnMoves.add(a.mon to moveId)
             }
         }
+        for ((mon, moveId) in beforeTurnMoves) if (!mon.fainted) Effects.move(moveId)?.onBeforeTurn(this, mon)
+        beforeTurnMoves.clear()
         val tr = field.has("trickroom")
         val ordered = actions.filter { it.kind != 3 }.sortedWith(Comparator { x, y ->
             if (x.kind != y.kind) return@Comparator x.kind.compareTo(y.kind)
@@ -407,6 +422,8 @@ class Battle(
         }
         if (outcome == BattleOutcome.ONGOING) requestReplacements()
     }
+
+    private val beforeTurnMoves = ArrayList<Pair<BattleMon, String>>()
 
     private fun resolveChosenMoveId(mon: BattleMon, choice: Choice): String {
         lockedMove(mon)?.let { return if (it == "recharge") "recharge" else it }
@@ -546,7 +563,11 @@ class Battle(
     // ================================================================= moves
 
     private fun runMoveAction(user: BattleMon, choice: Choice) {
-        val moveId = resolveChosenMoveId(user, choice)
+        var moveId = resolveChosenMoveId(user, choice)
+        // Encore replaces the move chosen this turn by the encored move (Showdown's onOverrideAction).
+        user.volatiles["encore"]?.moveId?.let { enc ->
+            if (moveId != enc && moveId != "struggle" && lockedMove(user) == null && (user.moveSlot(enc)?.pp ?: 0) > 0) moveId = enc
+        }
         if (moveId == "recharge") {
             user.volatiles.remove("mustrecharge")
             message("${nm(user)} must recharge!")
@@ -625,6 +646,9 @@ class Battle(
                 val text = script?.chargeMessage?.replace("{user}", nm(user)) ?: "${nm(user)} is charging up!"
                 events.add(BattleEvent.MoveUsed(user.side.index, move.id, move.type, move.category, "${nm(user)} used ${move.name}!", mc.target.side.index))
                 message(text)
+            }
+            script?.onChargeTurn(this, mc)
+            if (!skip) {
                 addVolatile(user, "twoturnmove", user, move.id)?.moveId = move.id
                 if (user.item == "powerherb" && itemActive(user)) {
                     message("${nm(user)} became fully charged due to its Power Herb!")
@@ -652,6 +676,7 @@ class Battle(
         }
         user.lastMoveFailed = !hit
         user.lastMoveTarget = mc.target
+        if (hit) lastSuccessfulMoveThisTurn = move.id
         for (c in moveHandlers(mc)) if (c.holder === user) c.effect.onAfterMove(c, mc)
         script?.onAfterUse(this, mc, hit)
         if (move.data.selfdestruct == "always" && !user.fainted) {
@@ -663,6 +688,10 @@ class Battle(
     private fun fail(): Boolean { message("But it failed!"); return false }
 
     private fun runFieldMove(mc: MoveCtx, script: MoveScript?): Boolean {
+        if (mc.move.target == "foeSide") {
+            val foe = mc.user.side.foe.active
+            if (foe != null && reflects(mc, foe)) { reflectMove(MoveCtx(mc.user, foe, mc.move), foe); return true }
+        }
         script?.onUseStatus(this, mc)?.let { return it || fail().let { false } }
         val m = mc.move.data
         var ok = false
@@ -698,6 +727,8 @@ class Battle(
         var accOverride: Boolean? = null
         for (c in moveHandlers(mc)) c.effect.onAccuracyOverride(c, mc)?.let { r -> if (accOverride != true) accOverride = r }
         if (accOverride == false) { message("${nm(target)} avoided the attack!"); onMiss(mc); return false }
+        // Feint-style moves lift the target's protection before it is checked.
+        if (move.data.breaksProtect) breakProtection(mc)
         // Protect, absorbing abilities, Magic Bounce etc.
         for (c in moveHandlers(mc)) if (!c.effect.onTryHit(c, mc)) { onMiss(mc, silent = true); return false }
         if (target.fainted) return false
@@ -710,7 +741,7 @@ class Battle(
             }
         }
         if (move.data.ohko != null) {
-            if (target.level > user.level || (move.data.ohko == "Ice" && target.hasType("Ice"))) { message("It doesn't affect ${nmL(target)}..."); return false }
+            if (target.level > user.level || target.isDynamaxed || (move.data.ohko == "Ice" && target.hasType("Ice"))) { message("It doesn't affect ${nmL(target)}..."); return false }
         }
         if (move.hasFlag("powder") && (target.hasType("Grass") || (target.ability == "overcoat" && abilityActive(target, mc)) || (target.item == "safetygoggles" && itemActive(target)))) {
             message("It doesn't affect ${nmL(target)}...")
@@ -727,13 +758,47 @@ class Battle(
             return false
         }
         if (move.isStatus) {
-            if (target.hasVolatile("substitute") && !move.hasFlag("bypasssub") && !move.infiltrates && target !== user && move.data.target != "self") {
-                if (move.data.boosts.isNotEmpty() || move.data.status != null || move.data.volatileStatus != null || script != null) return fail()
-            }
+            // A substitute blocks every status move aimed at its owner unless the move bypasses it (sound moves, Infiltrator...).
+            if (target.hasVolatile("substitute") && !move.hasFlag("bypasssub") && !move.infiltrates && target !== user && move.data.target != "self") return fail()
             script?.onUseStatus(this, mc)?.let { r -> if (!r) fail(); return r }
             return applyStatusMoveEffects(mc, primary = true).also { if (!it) fail() }
         }
         return runDamagingHits(mc, script)
+    }
+
+    private val protectVolatiles = listOf("protect", "kingsshield", "spikyshield", "banefulbunker", "obstruct", "silktrap", "burningbulwark", "maxguard")
+
+    private fun breakProtection(mc: MoveCtx) {
+        var broke = false
+        for (id in protectVolatiles) if (mc.target.volatiles.remove(id) != null) broke = true
+        if (mc.target.isDynamaxed && mc.move.id != "feint") return
+        for (id in listOf("quickguard", "wideguard", "craftyshield", "matblock")) if (mc.target.side.conditions.remove(id) != null) broke = true
+        if (broke) message("${nm(mc.target)} fell for the feint!")
+    }
+
+    /** Whether [target] reflects [mc] back (Magic Bounce, Magic Coat). */
+    fun reflects(mc: MoveCtx, target: BattleMon): Boolean {
+        if (!mc.move.hasFlag("reflectable") || mc.move.data2["bounced"] == true || target === mc.user || target.fainted) return false
+        if (target.hasVolatile("magiccoat")) return true
+        val probe = MoveCtx(mc.user, target, mc.move)
+        return target.ability == "magicbounce" && abilityActive(target, probe) && !target.hasVolatile("twoturnmove")
+    }
+
+    /** Uses a reflected copy of [mc]'s move from [reflector] back at the original user. */
+    fun reflectMove(mc: MoveCtx, reflector: BattleMon) {
+        if (reflector.ability == "magicbounce" && !reflector.hasVolatile("magiccoat")) message("[${nm(reflector)}'s Magic Bounce]")
+        message("${nm(reflector)} bounced the ${mc.move.name} back!")
+        val bounced = ActiveMove(mc.move.data).also { it.data2["bounced"] = true }
+        val nmc = MoveCtx(reflector, mc.user, bounced)
+        val script = Effects.move(bounced.id)
+        if (isFieldMove(bounced)) { runFieldMove(nmc, script); return }
+        val t = nmc.target
+        if (t.fainted || !t.isActive) return
+        if (t.hasVolatile("substitute") && !bounced.hasFlag("bypasssub")) { message("But it failed!"); return }
+        // A reflected move can't be reflected again, but the original user's own immunities still apply.
+        for (c in moveHandlers(nmc)) if (c.holder === t && c.effect.kind == EffectKind.ABILITY && !c.effect.onTryHit(c, nmc)) return
+        val r = script?.onUseStatus(this, nmc) ?: applyStatusMoveEffects(nmc, primary = true)
+        if (!r) message("But it failed!")
     }
 
     private fun onMiss(mc: MoveCtx, silent: Boolean = false) {
@@ -752,9 +817,9 @@ class Battle(
         var override: Boolean? = null
         for (c in moveHandlers(mc)) c.effect.onImmunity(c, mc, type)?.let { r -> override = if (override == true) true else r }
         override?.let { return it }
-        if (type == "Ground" && !isGrounded(target)) return true
         val ignore = mc.move.data.ignoreImmunity
         if (ignore == "true" || ignore?.split(',')?.contains(type) == true) return false
+        if (type == "Ground" && !isGrounded(target)) return true
         if (type == "???") return false
         for (t in target.effectiveTypes()) if (dex.typeChart.effectiveness(type, t) == 0.0) {
             if (target.hasItem("ringtarget") && itemActive(target)) continue
@@ -932,6 +997,8 @@ class Battle(
             s.status?.let { trySetStatus(mc.target, MajorStatus.byId(it)!!, mc.user, move.id, primary = false) }
             s.volatileStatus?.let { addVolatile(mc.target, it, mc.user, move.id) }
             if (s.boosts.isNotEmpty()) boost(mc.target, s.boosts, mc.user, move.id, secondary = true)
+            // Secondary effects defined by a callback (Tri Attack, Dire Claw, Alluring Voice...).
+            if (s.status == null && s.volatileStatus == null && s.boosts.isEmpty() && s.self == null) Effects.move(move.id)?.onSecondary(this, mc)
         }
     }
 
@@ -1005,10 +1072,12 @@ class Battle(
         val physical = move.category == "Physical"
         val atkSource = if (move.data.overrideOffensivePokemon == "target") target else user
         val atkStatId = move.data.overrideOffensiveStat ?: if (physical) "atk" else "spa"
-        var defStatId = move.data.overrideDefensiveStat ?: if (physical) "def" else "spd"
-        if (field.has("wonderroom")) defStatId = if (defStatId == "def") "spd" else "def"
-        val atkStat = Stat.byId(atkStatId)!!
-        val defStat = Stat.byId(defStatId)!!
+        val defStatId = move.data.overrideDefensiveStat ?: if (physical) "def" else "spd"
+        // Wonder Room swaps the raw Defense and Sp. Def stats; stat stages and modifiers keep their original stat.
+        val wonder = field.has("wonderroom")
+        fun swapped(id: String) = if (!wonder) id else when (id) { "def" -> "spd"; "spd" -> "def"; else -> id }
+        val atkStat = Stat.byId(swapped(atkStatId))!!
+        val defStat = Stat.byId(swapped(defStatId))!!
         var atkBoost = atkSource.boost(atkStatId)
         var defBoost = target.boost(defStatId)
         if (target.ability == "unaware" && abilityActive(target, mc)) atkBoost = 0
@@ -1233,8 +1302,9 @@ class Battle(
     }
 
     /** Adds a volatile condition; returns its state, or null if it failed or was already present. */
-    fun addVolatile(target: BattleMon, id: String, source: BattleMon?, sourceEffect: String?): EffectState? {
+    fun addVolatile(target: BattleMon, id0: String, source: BattleMon?, sourceEffect: String?): EffectState? {
         if (target.fainted) return null
+        val id = toId(id0)
         val eff = Effects.condition(id)
         val existing = target.volatiles[id]
         if (existing != null) {
@@ -1259,7 +1329,8 @@ class Battle(
         return true
     }
 
-    fun addSideCondition(side: Side, id: String, source: BattleMon?): Boolean {
+    fun addSideCondition(side: Side, id0: String, source: BattleMon?): Boolean {
+        val id = toId(id0)
         val eff = Effects.condition(id)
         val existing = side.conditions[id]
         if (existing != null) {
@@ -1278,7 +1349,8 @@ class Battle(
         return true
     }
 
-    fun addSlotCondition(side: Side, id: String, source: BattleMon?): Boolean {
+    fun addSlotCondition(side: Side, id0: String, source: BattleMon?): Boolean {
+        val id = toId(id0)
         if (id in side.slotConditions) return false
         val eff = Effects.condition(id)
         val st = EffectState(eff?.duration(this, null, source) ?: -1)
@@ -1288,7 +1360,8 @@ class Battle(
         return true
     }
 
-    fun addPseudoWeather(id: String, source: BattleMon?): Boolean {
+    fun addPseudoWeather(id0: String, source: BattleMon?): Boolean {
+        val id = toId(id0)
         val eff = Effects.condition(id)
         val existing = field.pseudoWeather[id]
         if (existing != null) {
@@ -1309,7 +1382,8 @@ class Battle(
 
     private val strongWeathers = setOf("desolateland", "primordialsea", "deltastream")
 
-    fun setWeather(id: String, source: BattleMon?, abilityTriggered: Boolean = false): Boolean {
+    fun setWeather(id0: String, source: BattleMon?, abilityTriggered: Boolean = false): Boolean {
+        val id = toId(id0)
         val current = field.weather
         if (current == id && field.weatherState.duration != 0) return false
         if (current in strongWeathers && id !in strongWeathers) {
@@ -1325,7 +1399,7 @@ class Battle(
         field.weatherState = EffectState(eff?.duration(this, null, source) ?: 5)
         field.weatherState.source = source
         if (source != null && id !in strongWeathers) {
-            val rock = when (id) { "sunnyday" -> "heatrock"; "raindance" -> "damprock"; "sandstorm" -> "smoothrock"; "snow", "hail" -> "icyrock"; else -> null }
+            val rock = when (id) { "sunnyday" -> "heatrock"; "raindance" -> "damprock"; "sandstorm" -> "smoothrock"; "snowscape", "snow", "hail" -> "icyrock"; else -> null }
             if (rock != null && source.item == rock && itemActive(source)) field.weatherState.duration = 8
         }
         eff?.onStart(EffectCtx(this, eff, null, null, field.weatherState), source)
@@ -1340,7 +1414,8 @@ class Battle(
         for (c in allHandlers()) c.effect.onWeatherChange(c)
     }
 
-    fun setTerrain(id: String, source: BattleMon?): Boolean {
+    fun setTerrain(id0: String, source: BattleMon?): Boolean {
+        val id = toId(id0)
         if (field.terrain == id) return false
         val eff = Effects.condition(id)
         field.terrain = id
@@ -1392,7 +1467,15 @@ class Battle(
             val text = if (delta > 0) "${nm(target)}'s ${BattleMon.boostLabel(stat)} rose$adverb!" else "${nm(target)}'s ${BattleMon.boostLabel(stat)}${if (adverb.isEmpty()) "" else adverb.replace(" sharply", " harshly").replace(" drastically", " severely")} fell!"
             events.add(BattleEvent.StatChange(target.side.index, stat, delta, text)); log.add(text)
         }
-        if (changed) for (c in targetHandlers(target)) c.effect.onAfterBoost(c, target, applied, source)
+        if (changed) {
+            for (c in targetHandlers(target)) c.effect.onAfterBoost(c, target, applied, source)
+            // Opposing effects that react to boosts (Mirror Herb, Opportunist).
+            val foe = target.side.foe.active
+            if (foe != null && !foe.fainted && foe.isActive) {
+                val l = ArrayList<EffectCtx>(); monEffects(foe, null, l)
+                for (c in l) c.effect.onFoeAfterBoost(c, target, applied, source, sourceEffect)
+            }
+        }
         if (!changed && showFailure && map.isEmpty()) message("But it failed!")
         return changed
     }

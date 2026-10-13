@@ -221,23 +221,34 @@ object Conditions {
             }
         })
         reg(object : Effect("encore", EffectKind.VOLATILE) {
-            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 3
+            override val residualOrder = 16
+            // 3 turns; one more when the target has already moved this turn (Showdown: duration++ unless willMove).
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = if (target?.movedThisTurn == true) 4 else 3
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 val last = c.mon.lastMove
-                if (last == null || last in setOf("encore", "transform", "mimic", "sketch", "struggle") || c.mon.moveSlot(last)?.pp ?: 0 <= 0) {
-                    c.mon.volatiles.remove("encore"); c.b.message("But it failed!"); return
+                val data = c.b.dex.moveOrNull(last)
+                if (last == null || data == null || c.mon.isDynamaxed || data.hasFlag("failencore") || data.isZ != null || data.isMax != null ||
+                    (c.mon.moveSlot(last)?.pp ?: 0) <= 0) {
+                    c.mon.volatiles.remove("encore"); return
                 }
                 c.state.moveId = last
                 c.b.message("${c.b.nm(c.mon)} must do an encore!")
             }
+            override fun onResidual(c: EffectCtx) {
+                if ((c.mon.moveSlot(c.state.moveId ?: "")?.pp ?: 0) <= 0) c.b.removeVolatile(c.mon, "encore")
+            }
             override fun onEnd(c: EffectCtx) { c.b.message("${c.b.nm(c.mon)}'s encore ended!") }
-            override fun onDisableMove(c: EffectCtx, moveId: String) = moveId != c.state.moveId
+            override fun onDisableMove(c: EffectCtx, moveId: String) = c.mon.moveSlot(c.state.moveId ?: "") != null && moveId != c.state.moveId
         })
         reg(object : Effect("disable", EffectKind.VOLATILE) {
-            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 4
+            // 4 turns of prevented use: Showdown's duration 5, minus one if the target has yet to move this turn.
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = if (target?.movedThisTurn == true) 5 else 4
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 val last = c.mon.lastMove
-                if (last == null || last == "struggle" || c.mon.isDynamaxed) { c.mon.volatiles.remove("disable"); c.b.message("But it failed!"); return }
+                val data = c.b.dex.moveOrNull(last)
+                if (last == null || last == "struggle" || c.mon.isDynamaxed || data?.isZ != null || data?.isMax != null || (c.mon.moveSlot(last)?.pp ?: 0) <= 0) {
+                    c.mon.volatiles.remove("disable"); return
+                }
                 c.state.moveId = last
                 c.b.message("${c.b.nm(c.mon)}'s ${c.b.dex.moveOrNull(last)?.name} was disabled!")
             }
@@ -245,7 +256,10 @@ object Conditions {
             override fun onDisableMove(c: EffectCtx, moveId: String) = moveId == c.state.moveId
         })
         reg(object : Effect("torment", EffectKind.VOLATILE) {
-            override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)} was subjected to torment!") }
+            override fun onStart(c: EffectCtx, source: BattleMon?) {
+                if (c.mon.isDynamaxed) { c.mon.volatiles.remove("torment"); return }
+                c.b.message("${c.b.nm(c.mon)} was subjected to torment!")
+            }
             override fun onDisableMove(c: EffectCtx, moveId: String) = moveId == c.mon.lastMove && moveId != "struggle"
         })
         reg(object : Effect("healblock", EffectKind.VOLATILE) {
@@ -403,7 +417,50 @@ object Conditions {
             override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)} was identified!") }
         })
         reg(object : Effect("gastroacid", EffectKind.VOLATILE) {
-            override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)}'s Ability was suppressed!") }
+            override fun onStart(c: EffectCtx, source: BattleMon?) {
+                if (!c.b.canChangeAbility(c.mon)) { c.mon.volatiles.remove("gastroacid"); return }
+                c.b.message("${c.b.nm(c.mon)}'s Ability was suppressed!")
+            }
+        })
+        reg(object : Effect("magiccoat", EffectKind.VOLATILE) {
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 1
+            override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)} shrouded itself with Magic Coat!") }
+            override fun onTryHit(c: EffectCtx, mc: MoveCtx): Boolean {
+                if (!c.isTarget(mc) || !c.b.reflects(mc, c.mon)) return true
+                if (!c.b.previewing) c.b.reflectMove(mc, c.mon)
+                return false
+            }
+        })
+        reg(object : Effect("beakblast", EffectKind.VOLATILE) {
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 1
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
+                if (c.isTarget(mc) && mc.user.side !== c.mon.side && mc.move.hasFlag("contact") && !(mc.user.item == "protectivepads" && c.b.itemActive(mc.user)))
+                    c.b.trySetStatus(mc.user, MajorStatus.BURN, c.mon, "beakblast", primary = false)
+            }
+        })
+        reg(object : Effect("shelltrap", EffectKind.VOLATILE) {
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 1
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
+                if (c.isTarget(mc) && mc.user.side !== c.mon.side && mc.move.category == "Physical") c.state.flag = true
+            }
+        })
+        reg(object : Effect("electrify", EffectKind.VOLATILE) {
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 1
+            override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)}'s moves have been electrified!") }
+            override fun onModifyType(c: EffectCtx, mc: MoveCtx) { if (c.isUser(mc) && mc.move.id != "struggle") mc.move.type = "Electric" }
+        })
+        reg(object : Effect("rage", EffectKind.VOLATILE) {
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
+                if (c.isTarget(mc) && mc.user !== c.mon && !c.mon.fainted) { c.b.message("${c.b.nm(c.mon)}'s rage is building!"); c.b.boost(c.mon, mapOf("atk" to 1), c.mon, "rage") }
+            }
+            override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean { if (mc.move.id != "rage") c.mon.volatiles.remove("rage"); return true }
+        })
+        reg(object : Effect("bide", EffectKind.VOLATILE) {
+            override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)} is storing energy!") }
+            override fun onDamage(c: EffectCtx, target: BattleMon, amount: Int, source: BattleMon?, sourceEffect: String, isMove: Boolean): Int {
+                if (target === c.holder && isMove && source != null && source !== target) c.state.hp += amount
+                return amount
+            }
         })
         reg(object : Effect("stockpile", EffectKind.VOLATILE) {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
@@ -514,8 +571,8 @@ object Conditions {
             override fun onModifyAccuracy(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc)) mod.chain(1.2) }
             override fun onAfterMove(c: EffectCtx, mc: MoveCtx) { if (c.isUser(mc)) c.mon.volatiles.remove("micleberry") }
         })
-        for (id in listOf("rage", "bide", "electrify", "snatch", "magiccoat", "followme", "ragepowder", "spotlight", "helpinghand", "ateberry",
-            "autotomize", "furycutter", "rollout", "pendingmove", "split_atk", "split_spa", "split_def", "split_spd")) {
+        // Marker volatiles whose behaviour lives in the engine or in move scripts (they carry state only).
+        for (id in listOf("ateberry", "autotomize", "furycutter", "rollout", "pendingmove", "split_atk", "split_spa", "split_def", "split_spd")) {
             if (Effects.condition(id) == null) reg(object : Effect(id, EffectKind.VOLATILE) {})
         }
     }
@@ -773,6 +830,7 @@ object Conditions {
                 c.b.message("${c.b.nm(target)} took the ${move.name} attack!")
                 val mc = MoveCtx(src, target, ActiveMove(move))
                 mc.move.flags.remove("futuremove")
+                if (c.b.dex.typeChart.effectiveness(move.type, target.effectiveTypes()) == 0.0) { c.b.message("It doesn't affect ${c.b.nmL(target)}..."); return }
                 val dmg = c.b.calcDamage(mc) ?: return
                 c.b.directDamage(target, dmg, src, move.id)
             }
@@ -947,6 +1005,14 @@ object Conditions {
             override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("It created a bizarre area in which Defense and Sp. Def stats are swapped!") }
             override fun onRestart(c: EffectCtx, source: BattleMon?): Boolean { c.b.removePseudoWeather("wonderroom"); return true }
             override fun onEnd(c: EffectCtx) { c.b.message("Wonder Room wore off, and Defense and Sp. Def stats returned to normal!") }
+        })
+        reg(object : Effect("echoedvoice", EffectKind.PSEUDO_WEATHER) {
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 2
+            override fun onStart(c: EffectCtx, source: BattleMon?) { c.state.counter = 1 }
+            override fun onRestart(c: EffectCtx, source: BattleMon?): Boolean {
+                if (c.state.duration != 2) { c.state.duration = 2; if (c.state.counter < 5) c.state.counter++ }
+                return true
+            }
         })
         reg(object : Effect("fairylock", EffectKind.PSEUDO_WEATHER) {
             override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 2

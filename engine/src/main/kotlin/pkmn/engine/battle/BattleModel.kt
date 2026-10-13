@@ -170,7 +170,8 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
     fun rawStat(stat: Stat): Int {
         if (stat == Stat.HP) return maxHp
         var s = stat
-        if ("powertrick" in volatiles) s = when (s) { Stat.ATK -> Stat.DEF; Stat.DEF -> Stat.ATK; else -> s }
+        // Power Trick and Power Shift each swap the raw Attack and Defense stats (using both cancels out).
+        if (("powertrick" in volatiles) != ("powershift" in volatiles)) s = when (s) { Stat.ATK -> Stat.DEF; Stat.DEF -> Stat.ATK; else -> s }
         volatiles["split_${s.id}"]?.let { return it.counter }
         return statCache[s.ordinal - 1]
     }

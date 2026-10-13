@@ -427,11 +427,9 @@ object Abilities {
         })
         reg(object : A("magicbounce") {
             override fun onTryHit(c: EffectCtx, mc: MoveCtx): Boolean {
-                if (!c.isTarget(mc) || mc.user === mc.target || !mc.move.hasFlag("reflectable") || mc.move.data2["bounced"] == true) return true
-                announce(c)
-                c.b.message("${c.b.nm(c.mon)} bounced the ${mc.move.name} back!")
-                val bounced = ActiveMove(mc.move.data).also { it.data2["bounced"] = true }
-                c.b.applyStatusMoveEffects(MoveCtx(c.mon, mc.user, bounced), primary = true)
+                if (!c.isTarget(mc) || !c.b.reflects(mc, c.mon)) return true
+                if (c.b.previewing) return false
+                c.b.reflectMove(mc, c.mon)
                 return false
             }
         })

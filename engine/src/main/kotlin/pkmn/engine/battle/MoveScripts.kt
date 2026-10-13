@@ -33,6 +33,11 @@ object MoveScripts {
         override fun onHit(b: Battle, mc: MoveCtx) = f(b, mc)
     })
 
+    /** After-hit effect on the target: blocked when the hit only struck a substitute. */
+    private fun afterHitTarget(id: String, f: (Battle, MoveCtx) -> Unit) = reg(object : MoveScript(id) {
+        override fun onHit(b: Battle, mc: MoveCtx) { if (!mc.substituteHit && !mc.target.fainted) f(b, mc) }
+    })
+
     private fun weightPower(w: Double) = when { w >= 200 -> 120; w >= 100 -> 100; w >= 50 -> 80; w >= 25 -> 60; w >= 10 -> 40; else -> 20 }
 
     private fun speed(b: Battle, m: BattleMon) = b.getSpeed(m)
@@ -191,16 +196,16 @@ object MoveScripts {
             }
         })
         bp("wakeupslap") { _, mc, p -> if (mc.target.status == MajorStatus.SLEEP) p * 2 else p }
-        afterHit("wakeupslap") { b, mc -> if (mc.target.status == MajorStatus.SLEEP) b.cureStatus(mc.target) }
+        afterHitTarget("wakeupslap") { b, mc -> if (mc.target.status == MajorStatus.SLEEP) b.cureStatus(mc.target) }
         bp("smellingsalts") { _, mc, p -> if (mc.target.status == MajorStatus.PARALYSIS) p * 2 else p }
-        afterHit("smellingsalts") { b, mc -> if (mc.target.status == MajorStatus.PARALYSIS) b.cureStatus(mc.target) }
+        afterHitTarget("smellingsalts") { b, mc -> if (mc.target.status == MajorStatus.PARALYSIS) b.cureStatus(mc.target) }
         for (id in listOf("collisioncourse", "electrodrift")) reg(object : MoveScript(id) {
             override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (mc.effectiveness > 1) mod.chain(5461.0 / 4096) }
         })
         bp("solarbeam") { b, mc, p -> if (b.weather() != null && !b.isSun(mc.user) && b.weather() != "deltastream") p / 2 else p }
         bp("solarblade") { b, mc, p -> if (b.weather() != null && !b.isSun(mc.user) && b.weather() != "deltastream") p / 2 else p }
         bp("knockoff") { b, mc, p -> if (mc.target.item != null && b.canRemoveItem(mc.target, mc.target.item!!)) p * 3 / 2 else p }
-        afterHit("knockoff") { b, mc ->
+        afterHitTarget("knockoff") { b, mc ->
             val item = b.takeItem(mc.target, mc.user)
             if (item != null) b.message("${b.nm(mc.user)} knocked off ${b.nmL(mc.target)}'s ${b.dex.itemOrNull(item)?.name}!")
         }
@@ -254,7 +259,7 @@ object MoveScripts {
         failUnless("hyperspacefury") { _, mc -> mc.user.species.id == "hoopaunbound" }
 
         // ------------------------------------------------------------ item interaction
-        for (id in listOf("thief", "covet")) afterHit(id) { b, mc ->
+        for (id in listOf("thief", "covet")) afterHitTarget(id) { b, mc ->
             if (mc.user.item != null || mc.user.fainted) return@afterHit
             val item = b.takeItem(mc.target, mc.user) ?: return@afterHit
             mc.user.item = item
@@ -271,19 +276,16 @@ object MoveScripts {
             b.message("${b.nm(mc.user)} switched items with its target!")
             true
         }
-        for (id in listOf("bugbite", "pluck")) afterHit(id) { b, mc ->
-            val item = mc.target.item ?: return@afterHit
-            if (b.dex.itemOrNull(item)?.isBerry != true) return@afterHit
-            if (b.takeItem(mc.target, mc.user) == null) return@afterHit
+        for (id in listOf("bugbite", "pluck")) afterHitTarget(id) { b, mc ->
+            val item = mc.target.item ?: return@afterHitTarget
+            if (b.dex.itemOrNull(item)?.isBerry != true) return@afterHitTarget
+            if (b.takeItem(mc.target, mc.user) == null) return@afterHitTarget
+            mc.target.itemKnockedOff = false
             b.message("${b.nm(mc.user)} stole and ate its target's ${b.dex.itemOrNull(item)?.name}!")
-            val saved = mc.user.item
-            mc.user.item = item
-            Effects.item(item)?.onUpdate(EffectCtx(b, Effects.item(item)!!, mc.user, null, EffectState()))
-            if (mc.user.item == item) mc.user.item = saved
-            else if (saved != null) mc.user.item = saved
+            Items.applyBerry(b, mc.user, item)
         }
-        afterHit("incinerate") { b, mc ->
-            val item = mc.target.item ?: return@afterHit
+        afterHitTarget("incinerate") { b, mc ->
+            val item = mc.target.item ?: return@afterHitTarget
             val d = b.dex.itemOrNull(item)
             if (d?.isBerry == true || d?.isGem == true) { mc.target.item = null; mc.target.itemKnockedOff = false; b.message("${b.nm(mc.target)}'s ${d.name} was burned up!") }
         }
@@ -347,7 +349,7 @@ object MoveScripts {
         afterHit("spitup") { b, mc -> b.removeVolatile(mc.user, "stockpile") }
         failUnless("spitup") { _, mc -> mc.user.hasVolatile("stockpile") }
         status("haze") { b, _ -> for (m in b.activeMons()) m.boosts.fill(0); b.message("All stat changes were eliminated!"); true }
-        afterHit("clearsmog") { b, mc -> if (!mc.target.fainted) { mc.target.boosts.fill(0); b.message("${b.nm(mc.target)}'s stat changes were removed!") } }
+        afterHitTarget("clearsmog") { b, mc -> mc.target.boosts.fill(0); b.message("${b.nm(mc.target)}'s stat changes were removed!") }
         status("psychup") { b, mc -> val t = mc.user.side.foe.active ?: return@status false; t.boosts.copyInto(mc.user.boosts); b.message("${b.nm(mc.user)} copied ${b.nmL(t)}'s stat changes!"); true }
         status("topsyturvy") { b, mc -> if (mc.target.boosts.all { it == 0 }) return@status false; for (i in mc.target.boosts.indices) mc.target.boosts[i] = -mc.target.boosts[i]; b.message("${b.nm(mc.target)}'s stat changes were all reversed!"); true }
         status("strengthsap") { b, mc ->
@@ -440,15 +442,31 @@ object MoveScripts {
         // ------------------------------------------------------------ ability / type changes
         status("skillswap") { b, mc ->
             val a = mc.user.ability; val t = mc.target.ability
-            val banned = setOf("wonderguard", "multitype", "illusion", "stancechange", "schooling", "comatose", "shieldsdown", "disguise", "rkssystem", "battlebond", "powerconstruct", "iceface", "gulpmissile", "neutralizinggas", "hungerswitch", "zerotohero", "commander", "protosynthesis", "quarkdrive", "terashift")
-            if (a in banned || t in banned) return@status false
-            mc.user.ability = t; mc.target.ability = a
-            b.message("${b.nm(mc.user)} swapped Abilities with its target!"); true
+            val banned = setOf("wonderguard", "multitype", "illusion", "stancechange", "schooling", "comatose", "shieldsdown", "disguise", "rkssystem", "battlebond", "powerconstruct", "iceface", "gulpmissile", "neutralizinggas", "hungerswitch", "zerotohero", "commander", "protosynthesis", "quarkdrive", "terashift", "poisonpuppeteer", "teraformzero", "terashell")
+            if (a in banned || t in banned || !b.canChangeAbility(mc.user) || !b.canChangeAbility(mc.target) || mc.target.isDynamaxed) return@status false
+            b.message("${b.nm(mc.user)} swapped Abilities with its target!")
+            Abilities.setAbility(b, mc.user, t); Abilities.setAbility(b, mc.target, a); true
         }
-        status("roleplay") { b, mc -> mc.user.ability = mc.target.ability; b.message("${b.nm(mc.user)} copied ${b.nmL(mc.target)}'s ${b.dex.abilityOrNull(mc.target.ability)?.name}!"); true }
-        status("entrainment") { b, mc -> mc.target.ability = mc.user.ability; b.message("${b.nm(mc.target)} acquired ${b.dex.abilityOrNull(mc.user.ability)?.name}!"); true }
-        status("simplebeam") { b, mc -> if (mc.target.ability == "simple" || mc.target.ability == "truant") false else { mc.target.ability = "simple"; b.message("${b.nm(mc.target)} acquired Simple!"); true } }
-        status("worryseed") { b, mc -> if (mc.target.ability in setOf("insomnia", "truant")) false else { mc.target.ability = "insomnia"; b.message("${b.nm(mc.target)} acquired Insomnia!"); if (mc.target.status == MajorStatus.SLEEP) b.cureStatus(mc.target); true } }
+        status("roleplay") { b, mc ->
+            val a = mc.target.ability
+            if (a == mc.user.ability || a in MoveScriptsExtra.NO_COPY_ABILITIES || !b.canChangeAbility(mc.user)) return@status false
+            b.message("${b.nm(mc.user)} copied ${b.nmL(mc.target)}'s ${b.dex.abilityOrNull(a)?.name}!")
+            Abilities.setAbility(b, mc.user, a); true
+        }
+        status("entrainment") { b, mc ->
+            val a = mc.user.ability
+            if (a == mc.target.ability || a in MoveScriptsExtra.NO_COPY_ABILITIES || mc.target.ability == "truant" || !b.canChangeAbility(mc.target) || mc.target.isDynamaxed) return@status false
+            b.message("${b.nm(mc.target)} acquired ${b.dex.abilityOrNull(a)?.name}!")
+            Abilities.setAbility(b, mc.target, a); true
+        }
+        status("simplebeam") { b, mc ->
+            if (mc.target.ability == "simple" || mc.target.ability == "truant" || !b.canChangeAbility(mc.target) || mc.target.isDynamaxed) false
+            else { b.message("${b.nm(mc.target)} acquired Simple!"); Abilities.setAbility(b, mc.target, "simple"); true }
+        }
+        status("worryseed") { b, mc ->
+            if (mc.target.ability in setOf("insomnia", "truant") || !b.canChangeAbility(mc.target) || mc.target.isDynamaxed) false
+            else { b.message("${b.nm(mc.target)} acquired Insomnia!"); Abilities.setAbility(b, mc.target, "insomnia"); if (mc.target.status == MajorStatus.SLEEP) b.cureStatus(mc.target); true }
+        }
         status("soak") { b, mc -> if (mc.target.types == listOf("Water") || mc.target.terastallized != null) false else { mc.target.types = listOf("Water"); b.message("${b.nm(mc.target)} transformed into the Water type!"); true } }
         status("magicpowder") { b, mc -> if (mc.target.types == listOf("Psychic") || mc.target.terastallized != null) false else { mc.target.types = listOf("Psychic"); b.message("${b.nm(mc.target)} transformed into the Psychic type!"); true } }
         status("trickortreat") { b, mc -> if (mc.target.hasType("Ghost")) false else { mc.target.addedType = "Ghost"; b.message("Ghost type was added to ${b.nmL(mc.target)}!"); true } }
@@ -541,11 +559,11 @@ object MoveScripts {
         afterHit("genesissupernova") { b, mc -> b.setTerrain("psychicterrain", mc.user) }
         afterHit("splinteredstormshards") { b, _ -> b.clearTerrain() }
         afterHit("icespinner") { b, _ -> b.clearTerrain() }
-        afterHit("sparklingaria") { b, mc -> if (mc.target.status == MajorStatus.BURN) b.cureStatus(mc.target) }
+        afterHitTarget("sparklingaria") { b, mc -> if (mc.target.status == MajorStatus.BURN) b.cureStatus(mc.target) }
         afterHit("uproar") { b, mc -> if (!mc.user.hasVolatile("uproar")) b.addVolatile(mc.user, "uproar", mc.user, "uproar") }
-        afterHit("thousandwaves") { b, mc -> b.addVolatile(mc.target, "trapped", mc.user, "thousandwaves") }
-        afterHit("anchorshot") { b, mc -> b.addVolatile(mc.target, "trapped", mc.user, "anchorshot") }
-        afterHit("spiritshackle") { b, mc -> b.addVolatile(mc.target, "trapped", mc.user, "spiritshackle") }
+        afterHitTarget("thousandwaves") { b, mc -> b.addVolatile(mc.target, "trapped", mc.user, "thousandwaves") }
+        afterHitTarget("anchorshot") { b, mc -> b.addVolatile(mc.target, "trapped", mc.user, "anchorshot") }
+        afterHitTarget("spiritshackle") { b, mc -> b.addVolatile(mc.target, "trapped", mc.user, "spiritshackle") }
         for (id in listOf("meanlook", "block", "spiderweb")) status(id) { b, mc -> b.addVolatile(mc.target, "trapped", mc.user, id)?.let { b.message("${b.nm(mc.target)} can no longer escape!"); true } ?: false }
 
         // ------------------------------------------------------------ Max / G-Max move effects
@@ -579,6 +597,7 @@ object MoveScripts {
         for (id in listOf("gmaxdrumsolo", "gmaxfireball", "gmaxhydrosnipe")) reg(object : MoveScript(id) {
             override fun onModifyMove(c: EffectCtx, mc: MoveCtx) { mc.move.ignoreAbility = true }
         })
+        MoveScriptsExtra.registerAll()
     }
 
     private fun maxWeather(id: String, w: String) = afterHit(id) { b, mc -> if (mc.user.isDynamaxed) b.setWeather(w, mc.user) }
