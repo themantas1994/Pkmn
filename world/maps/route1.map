@@ -1,0 +1,41 @@
+map route1
+name "Route 1"
+location "Route 1"
+music route_early
+environment grass
+region 6 16
+encounters route1
+connect south hometown 0
+
+layout
+TTTTTTTTTTTTTTTTTTTT
+TTTTTTTTT::TTTTTTTTT
+T........::........T
+T..,,,,..::..,,,,..T
+T..,,,,..::..,,,,..T
+T........::........T
+Tvvvvvvv.::.vvvvvvvT
+T........::........T
+T.,,,,...::...,,,,.T
+T.,,,,...::...,,,,.T
+T........::........T
+T..TT....::....TT..T
+T..TT....::....TT..T
+T........::........T
+T,,,,....::....,,,,T
+T,,,,....::....,,,,T
+T........::........T
+Tvvvvvvv.::.vvvvvvvT
+T........::........T
+T..,,,...::...,,,..T
+T..,,,...::...,,,..T
+T........::........T
+TTTTTTTTT::TTTTTTTTT
+end
+
+sign 11 21 text="ROUTE 1\nHollowbrook Town - north"
+trainer route1_joey 4 7 sprite=youngster face=right sight=4
+trainer route1_mia 15 13 sprite=lass face=left sight=3
+item r1_potion 17 2 potion
+hidden r1_berry 2 10 oranberry
+npc r1_guide 10 2 sprite=oldman face=down text="The road ahead is still being built. Come back later!"

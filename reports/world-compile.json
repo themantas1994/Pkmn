@@ -1,0 +1,10 @@
+{
+    "maps": 6,
+    "trainers": 5,
+    "encounterTables": 1,
+    "scripts": 10,
+    "errors": [],
+    "warnings": [
+        "assets/gfx/tiles/world.json not found: tile names are not validated"
+    ]
+}

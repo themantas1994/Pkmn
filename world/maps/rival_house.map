@@ -1,0 +1,19 @@
+map rival_house
+name "Rival's House"
+location "Hollowbrook Town"
+music hometown
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@B@w@
+________
+__tt____
+__hh____
+___RR___
+end
+
+warp 3 5 -> hometown 15 7 down
+warp 4 5 -> hometown 15 7 down
+npc rivalmom 5 3 sprite=oldwoman face=left script=rival_mom

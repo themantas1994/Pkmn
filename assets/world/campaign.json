@@ -1,0 +1,19 @@
+{
+  "title": "Pokémon Crystalline",
+  "region": "Tessera",
+  "startMap": "player_house_2f",
+  "startX": 3,
+  "startY": 4,
+  "startMoney": 3000,
+  "dynamaxTag": "powerspot",
+  "badges": [
+    {"number": 1, "name": "Sprout", "leader": "TBD", "city": "TBD", "type": "Grass", "levelCap": 14},
+    {"number": 2, "name": "Tide", "leader": "TBD", "city": "TBD", "type": "Water", "levelCap": 21},
+    {"number": 3, "name": "Spark", "leader": "TBD", "city": "TBD", "type": "Electric", "levelCap": 28},
+    {"number": 4, "name": "Stone", "leader": "TBD", "city": "TBD", "type": "Rock", "levelCap": 34},
+    {"number": 5, "name": "Mist", "leader": "TBD", "city": "TBD", "type": "Fairy", "levelCap": 40},
+    {"number": 6, "name": "Ember", "leader": "TBD", "city": "TBD", "type": "Fire", "levelCap": 46},
+    {"number": 7, "name": "Frost", "leader": "TBD", "city": "TBD", "type": "Ice", "levelCap": 52},
+    {"number": 8, "name": "Dusk", "leader": "TBD", "city": "TBD", "type": "Dragon", "levelCap": 58}
+  ]
+}

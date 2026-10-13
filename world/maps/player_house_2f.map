@@ -1,0 +1,18 @@
+map player_house_2f
+name "Player's Room"
+location "Hollowbrook Town"
+music hometown
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@@w@@w@@
+P_____D_
+________
+1___V___
+2_______
+________
+end
+
+warp 6 2 -> player_house_1f 6 2 down

@@ -1,0 +1,29 @@
+map lab
+name "Linden Pokémon Lab"
+location "Hollowbrook Town"
+music intro_professor
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@BBw@@wBB@
+__________
+______ttt_
+__________
+_p______p_
+__________
+_B______B_
+__________
+____RR____
+end
+
+warp 4 9 -> hometown 10 13 down
+warp 5 9 -> hometown 10 13 down
+npc professor 4 2 sprite=professor face=down script=lab_professor
+npc aide 1 6 sprite=scientist face=right script=lab_aide
+npc rival 2 3 sprite=rival face=down script=lab_rival hideif=rival_left_lab
+npc ball_grass 6 3 sprite=pokeball_overworld script=lab_ball_grass hideif=took_ball_grass
+npc ball_fire 7 3 sprite=pokeball_overworld script=lab_ball_fire hideif=took_ball_fire
+npc ball_water 8 3 sprite=pokeball_overworld script=lab_ball_water hideif=took_ball_water
+trigger 4 8 2 1 script=lab_rival_challenge if=got_starter unless=rival_battled

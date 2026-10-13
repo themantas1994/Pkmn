@@ -1,0 +1,50 @@
+# Building stamps. "_" keeps the underlying tile. "door x y" = door offset for warps.
+prefab house
+roof_l roof_m roof_m roof_r
+roof_l roof_m roof_m roof_r
+wall_l wall_window door wall_r
+door 2 2
+end
+
+prefab house_blue
+roof2_l roof2_m roof2_m roof2_r
+roof2_l roof2_m roof2_m roof2_r
+wall_l wall_window door wall_r
+door 2 2
+end
+
+prefab lab
+roof2_l roof2_m roof2_m roof2_m roof2_m roof2_r
+roof2_l roof2_m roof2_m roof2_m roof2_m roof2_r
+wall_l wall_window wall_m door wall_window wall_r
+door 3 2
+end
+
+prefab house_big
+roof_l roof_m roof_m roof_m roof_m roof_r
+roof_l roof_m roof_m roof_m roof_m roof_r
+wall_l wall_window wall_m door wall_window wall_r
+door 3 2
+end
+
+prefab center
+center_roof_l center_roof_m center_sign center_roof_m center_roof_r
+center_roof_l center_roof_m center_roof_m center_roof_m center_roof_r
+center_wall_l wall_window center_door wall_window center_wall_r
+door 2 2
+end
+
+prefab mart
+mart_roof_l mart_roof_m mart_sign mart_roof_r
+mart_roof_l mart_roof_m mart_roof_m mart_roof_r
+mart_wall_l mart_door wall_window mart_wall_r
+door 1 2
+end
+
+prefab gym
+gym_roof_l gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_r
+gym_roof_l gym_roof_m gym_sign gym_roof_m gym_roof_m gym_roof_r
+gym_wall_l gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_r
+gym_wall_l gym_wall_m gym_door gym_wall_m gym_wall_m gym_wall_r
+door 2 3
+end

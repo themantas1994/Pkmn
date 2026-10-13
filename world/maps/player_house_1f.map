@@ -1,0 +1,22 @@
+map player_house_1f
+name "Player's House"
+location "Hollowbrook Town"
+music hometown
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@@BB@@w@
+______U___
+__tt______
+__hh___V__
+__________
+__________
+___RR_____
+end
+
+warp 6 2 -> player_house_2f 6 2 down
+warp 3 7 -> hometown 4 7 down
+warp 4 7 -> hometown 4 7 down
+npc mom 7 4 sprite=mom face=left script=house_mom

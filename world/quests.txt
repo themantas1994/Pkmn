@@ -1,0 +1,5 @@
+quest main_story "A Journey Begins" main
+  desc "Professor Linden has asked you to help complete the Pokédex."
+  step "Meet Professor Linden in the lab."
+  step "Head north along Route 1."
+end

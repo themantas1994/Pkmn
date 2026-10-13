@@ -12,3 +12,4 @@ android/assets-local/
 *.jks
 /saves/
 android/libs/
+.claude/worktrees/

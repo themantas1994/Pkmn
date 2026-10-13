@@ -1,0 +1,4 @@
+class youngster "Youngster" payout=16 portrait=youngster
+class lass "Lass" payout=16 portrait=lass gender=f
+class bugcatcher "Bug Catcher" payout=12 portrait=bugcatcher
+class rival "Rival" payout=40 music=battle_rival portrait=rival
