@@ -28,7 +28,7 @@ object MmlParser {
     /** Built-in drum kit used by the noise channel (overridable per song with `#drum`). */
     val DEFAULT_KIT: Map<Char, DrumDef> by lazy {
         val src = mapOf(
-            'K' to "f=6000 v=15 n=1 | f=900 v=14 e=-1 sw=-1.6",            // kick
+            'K' to "f=6000 v=13 n=1 | f=1100 v=12 e=-1 sw=-1.6",            // kick
             'S' to "f=90000 v=15 n=1 | f=24000 v=12 e=-1 sw=-0.15",        // snare
             'H' to "f=262000 v=10 n=1 | v=5 e=-1",                          // closed hat
             'O' to "f=262000 v=9 e=-2",                                     // open hat
