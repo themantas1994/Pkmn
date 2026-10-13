@@ -174,6 +174,17 @@ object MoveScriptsExtra {
             val red = min(3, slot.pp); slot.pp -= red
             b.message("It reduced the PP of ${b.nmL(mc.target)}'s ${b.dex.move(last).name} by $red!")
         }
+        secondary("throatchop") { b, mc -> b.addVolatile(mc.target, "throatchop", mc.user, "throatchop") }
+        // The imported data drops the "self" part of these secondaries.
+        secondary("diamondstorm") { b, mc -> if (!mc.user.fainted) b.boost(mc.user, mapOf("def" to 2), mc.user, "diamondstorm") }
+        secondary("clangoroussoulblaze") { b, mc -> if (!mc.user.fainted) b.boost(mc.user, mapOf("atk" to 1, "def" to 1, "spa" to 1, "spd" to 1, "spe" to 1), mc.user, "clangoroussoulblaze") }
+        reg(object : MoveScript("steelbeam") {
+            override fun onAfterUse(b: Battle, mc: MoveCtx, hitAny: Boolean) {
+                // Like Mind Blown, Steel Beam costs half the user's HP even when it misses.
+                if (!hitAny && !mc.user.fainted && !(mc.user.ability == "magicguard" && b.abilityActive(mc.user)))
+                    b.directDamage(mc.user, (mc.user.baseMaxHp + 1) / 2, mc.user, "steelbeam")
+            }
+        })
         for ((id, cond) in listOf("ceaselessedge" to "spikes", "stoneaxe" to "stealthrock")) reg(object : MoveScript(id) {
             override fun onHit(b: Battle, mc: MoveCtx) { if (!mc.move.hasSheerForce && !mc.user.fainted && mc.hitIndex == 0) b.addSideCondition(mc.target.side, cond, mc.user) }
         })
@@ -429,6 +440,7 @@ object MoveScriptsExtra {
         for ((id, boosts) in listOf("magneticflux" to mapOf("def" to 1, "spd" to 1), "gearup" to mapOf("atk" to 1, "spa" to 1))) status(id) { b, mc ->
             if (mc.user.ability !in setOf("plus", "minus") || !b.abilityActive(mc.user)) false else b.boost(mc.user, boosts, mc.user, id)
         }
+        status("odorsleuth") { b, mc -> b.addVolatile(mc.target, "foresight", mc.user, "odorsleuth") != null }
         status("electrify") { b, mc ->
             if (mc.target.movedThisTurn) return@status false
             b.addVolatile(mc.target, "electrify", mc.user, "electrify") != null

@@ -131,6 +131,26 @@ object Items {
         applyBerry(b, m, id)
     }
 
+    /** Held items with no effect in battle (experience, evolution and EV items, inert berries). Never registered. */
+    val NO_BATTLE_EFFECT: Set<String> = setOf(
+        "luckyegg", "everstone", "expshare", "amuletcoin", "soothebell", "cleansetag", "mail",
+        "grepaberry", "hondewberry", "kelpsyberry", "pomegberry", "qualotberry", "tamatoberry",
+        "belueberry", "blukberry", "cornnberry", "durinberry", "magostberry", "nanabberry", "nomelberry", "pamtreberry",
+        "pinapberry", "rabutaberry", "razzberry", "spelonberry", "watmelberry", "wepearberry",
+    )
+
+    /** Held items whose effect is implemented in the engine rather than as an [Effect] (where to find it). */
+    val CORE_HANDLED: Map<String, String> = mapOf(
+        "loadeddice" to "Battle.runDamagingHits / Population Bomb", "heavydutyboots" to "hazard side conditions", "safetygoggles" to "powder check, weather residuals",
+        "utilityumbrella" to "Battle.weatherFor", "protectivepads" to "contact effects", "abilityshield" to "Battle.abilityActive / canChangeAbility",
+        "shedshell" to "Battle.canSwitchOut", "bigroot" to "drain, Leech Seed, Aqua Ring, Ingrain", "gripclaw" to "partiallytrapped duration",
+        "bindingband" to "partiallytrapped damage", "lightclay" to "screen duration", "heatrock" to "Battle.setWeather", "damprock" to "Battle.setWeather",
+        "smoothrock" to "Battle.setWeather", "icyrock" to "Battle.setWeather", "terrainextender" to "Battle.setTerrain", "smokeball" to "Battle.attemptRun",
+        "destinyknot" to "attract volatile", "ringtarget" to "Battle.isImmune", "powerherb" to "Battle.useMove (charge turn)",
+        "boosterenergy" to "Protosynthesis / Quark Drive", "adrenalineorb" to "Intimidate", "redorb" to "Gimmicks.checkPrimal", "blueorb" to "Gimmicks.checkPrimal",
+        "machobrace" to "Battle.addEvs + Speed", "ironball" to "Battle.isGrounded + Speed",
+    )
+
     fun registerAll() {
         // ------------------------------------------------ choice items
         for ((id, stat) in listOf("choiceband" to "atk", "choicespecs" to "spa", "choicescarf" to "spe")) reg(object : I(id) {
@@ -230,7 +250,6 @@ object Items {
                 if (c.isUser(mc) && mc.move.totalDamage > 0 && !c.mon.fainted && !mc.move.hasSheerForce) c.b.heal(c.mon, max(1, mc.move.totalDamage / 8), "shellbell")
             }
         })
-        reg(object : I("loadeddice") {})
         reg(object : I("throatspray") {
             override fun onAfterMove(c: EffectCtx, mc: MoveCtx) {
                 if (c.isUser(mc) && mc.move.hasFlag("sound") && !c.mon.fainted && !c.mon.lastMoveFailed) { c.b.consumeItem(c.mon); c.b.boost(c.mon, mapOf("spa" to 1), c.mon, "throatspray") }
@@ -292,10 +311,6 @@ object Items {
                 if (c.isTarget(mc) && mc.move.type == type && !c.mon.fainted) { c.b.consumeItem(c.mon); c.b.boost(c.mon, mapOf(stat to 1), c.mon, id) }
             }
         })
-        reg(object : I("heavydutyboots") {})
-        reg(object : I("safetygoggles") {})
-        reg(object : I("utilityumbrella") {})
-        reg(object : I("protectivepads") {})
         reg(object : I("covertcloak") {
             override fun onModifySecondaries(c: EffectCtx, mc: MoveCtx, secondaries: MutableList<pkmn.engine.data.SecondaryEffect>) {
                 if (c.isTarget(mc) && mc.user !== c.holder) secondaries.removeAll { it.self == null }
@@ -307,8 +322,6 @@ object Items {
                 if (boosts.values.any { it < 0 }) { boosts.entries.removeIf { it.value < 0 }; c.b.message("The effects of ${c.b.nmL(target)}'s Clear Amulet prevent its stats from being lowered!") }
             }
         })
-        reg(object : I("abilityshield") {})
-        reg(object : I("shedshell") {})
         reg(object : I("ironball") { override fun onModifySpe(c: EffectCtx, mon: BattleMon, mod: Mod) { if (mon === c.holder) mod.chain(0.5) } })
         reg(object : I("laggingtail") { override fun onFractionalPriority(c: EffectCtx, move: ActiveMove, user: BattleMon) = -0.1 })
         reg(object : I("fullincense") { override fun onFractionalPriority(c: EffectCtx, move: ActiveMove, user: BattleMon) = -0.1 })
@@ -324,20 +337,6 @@ object Items {
         for (id in listOf("machobrace", "powerweight", "powerbracer", "powerbelt", "powerlens", "powerband", "poweranklet")) reg(object : I(id) {
             override fun onModifySpe(c: EffectCtx, mon: BattleMon, mod: Mod) { if (mon === c.holder) mod.chain(0.5) }
         })
-        reg(object : I("bigroot") {})
-        reg(object : I("gripclaw") {})
-        reg(object : I("bindingband") {})
-        reg(object : I("lightclay") {})
-        reg(object : I("heatrock") {}); reg(object : I("damprock") {}); reg(object : I("smoothrock") {}); reg(object : I("icyrock") {})
-        reg(object : I("terrainextender") {})
-        reg(object : I("luckyegg") {})
-        reg(object : I("everstone") {})
-        reg(object : I("expshare") {})
-        reg(object : I("smokeball") {})
-        reg(object : I("destinyknot") {})
-        reg(object : I("ringtarget") {})
-        reg(object : I("powerherb") {})
-        reg(object : I("boosterenergy") {})
         reg(object : I("toxicorb") {
             override val residualOrder = 28
             override fun onResidual(c: EffectCtx) { c.b.trySetStatus(c.mon, MajorStatus.TOXIC, c.mon, "toxicorb", primary = false) }
@@ -365,10 +364,48 @@ object Items {
             }
         })
         reg(object : I("mirrorherb") {
-            override fun onAfterBoost(c: EffectCtx, target: BattleMon, boosts: Map<String, Int>, source: BattleMon?) {
-                if (target === c.holder || source == null || target.side === c.mon.side) return
+            override fun onFoeAfterBoost(c: EffectCtx, target: BattleMon, boosts: Map<String, Int>, source: BattleMon?, sourceEffect: String?) {
+                if (sourceEffect == "opportunist" || sourceEffect == "mirrorherb" || c.b.previewing) return
                 val pos = boosts.filterValues { it > 0 }
-                if (pos.isNotEmpty() && c.mon.item == "mirrorherb") { c.b.consumeItem(c.mon); c.b.boost(c.mon, pos, c.mon, "mirrorherb") }
+                if (pos.isEmpty() || c.mon.item != "mirrorherb") return
+                c.b.message("${c.b.nm(c.mon)} used its Mirror Herb to mirror its opponent's stat changes!")
+                c.b.consumeItem(c.mon); c.b.boost(c.mon, pos, c.mon, "mirrorherb")
+            }
+        })
+        reg(object : I("floatstone") { override fun onModifyWeight(c: EffectCtx, mon: BattleMon, weight: Double) = weight / 2 })
+        for (id in listOf("pinkbow", "polkadotbow")) typeBoostItem(id, "Normal", 1.1)
+        // Generation II berries.
+        statusBerry("przcureberry", setOf(MajorStatus.PARALYSIS))
+        statusBerry("mintberry", setOf(MajorStatus.SLEEP))
+        statusBerry("psncureberry", setOf(MajorStatus.POISON, MajorStatus.TOXIC))
+        statusBerry("iceberry", setOf(MajorStatus.BURN))
+        statusBerry("burntberry", setOf(MajorStatus.FREEZE))
+        statusBerry("bitterberry", emptySet(), confusion = true)
+        statusBerry("miracleberry", MajorStatus.entries.toSet(), confusion = true)
+        for ((id, amt) in listOf("berry" to 10, "goldberry" to 30)) reg(object : I(id) {
+            override fun onUpdate(c: EffectCtx) {
+                if (c.mon.hp <= c.mon.maxHp / 2 && !c.b.unnerved(c.mon)) { val m = eat(c.b, c.mon, id); c.b.heal(c.mon, amt * m, id) }
+            }
+        })
+        reg(object : I("mysteryberry") {
+            override fun onUpdate(c: EffectCtx) {
+                val slot = c.mon.moveSlots.firstOrNull { it.pp == 0 } ?: return
+                if (c.b.unnerved(c.mon)) return
+                val m = eat(c.b, c.mon, "mysteryberry")
+                slot.pp = minOf(slot.maxPp(c.b.dex), 5 * m)
+                c.b.message("${c.b.nm(c.mon)} restored PP to its ${c.b.dex.moveOrNull(slot.id)?.name}!")
+            }
+        })
+        // Rusted Sword / Rusted Shield: Zacian and Zamazenta take their Crowned forme while holding them.
+        for ((id, pair) in listOf("rustedsword" to Triple("zacian", "zaciancrowned", "behemothblade"), "rustedshield" to Triple("zamazenta", "zamazentacrowned", "behemothbash"))) reg(object : I(id) {
+            override fun onStart(c: EffectCtx, source: BattleMon?) {
+                val m = c.mon
+                if (m.species.id != pair.first || m.transformed) return
+                m.preTransformSpecies = m.species
+                c.b.formeChange(m, pair.second, "battle", null, changeAbility = false)
+                if (m.moveSlots.any { it.id == "ironhead" }) {
+                    m.moveSlots = m.moveSlots.map { if (it.id == "ironhead") pkmn.engine.mon.MoveSlot(pair.third, it.pp, it.ppUps) else it.copy() }.toMutableList()
+                }
             }
         })
         reg(object : I("ejectbutton") {
@@ -392,7 +429,6 @@ object Items {
                 }
             }
         })
-        reg(object : I("adrenalineorb") {})
         reg(object : I("roomservice") {
             override fun onUpdate(c: EffectCtx) {
                 if (c.b.field.has("trickroom") && c.mon.boost("spe") > -6) { c.b.consumeItem(c.mon); c.b.boost(c.mon, mapOf("spe" to -1), c.mon, "roomservice") }
@@ -402,8 +438,8 @@ object Items {
             override fun onUpdate(c: EffectCtx) { if (c.b.field.terrain == terrain) { c.b.consumeItem(c.mon); c.b.boost(c.mon, mapOf(stat to 1), c.mon, id) } }
         })
         // Weather-extending, orbs and stones without direct battle hooks are handled elsewhere (Gimmicks, setWeather).
-        for (id in listOf("redorb", "blueorb", "rustedsword", "rustedshield", "cornerstonemask", "hearthflamemask", "wellspringmask")) reg(object : I(id) {
-            override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (id.endsWith("mask") && c.isUser(mc) && c.mon.species.baseSpecies == "ogerpon") mod.chain(1.2) }
+        for (id in listOf("cornerstonemask", "hearthflamemask", "wellspringmask")) reg(object : I(id) {
+            override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && c.mon.species.baseSpecies == "ogerpon") mod.chain(1.2) }
         })
 
         // ------------------------------------------------ berries

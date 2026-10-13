@@ -1532,6 +1532,8 @@ class Battle(
         if (data.onMemory != null && mon.species.baseSpecies == "silvally") return false
         if (data.onDrive != null && mon.species.baseSpecies == "genesect") return false
         if (item in setOf("blueorb", "redorb") && mon.species.baseSpecies in setOf("kyogre", "groudon")) return false
+        if ((item == "rustedsword" && mon.species.baseSpecies == "zacian") || (item == "rustedshield" && mon.species.baseSpecies == "zamazenta")) return false
+        if (item.endsWith("mask") && mon.species.baseSpecies == "ogerpon") return false
         if (item == "boosterenergy" && mon.species.tags.contains("Paradox")) return item != "boosterenergy" || true
         if (data.forcedForme != null && toId(mon.species.baseSpecies) == toId(dex.speciesOrNull(data.forcedForme)?.baseSpecies ?: "")) return false
         return true
