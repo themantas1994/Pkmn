@@ -1,4 +1,4 @@
-# Part 3 prefabs (built only from tile names used by the shared prefabs).
+# Part 3A prefabs (built only from tile names used by the shared prefabs).
 prefab p3a_tower
 roof2_l roof2_m roof2_m roof2_r
 wall_l wall_window wall_window wall_r
@@ -6,18 +6,4 @@ roof2_l roof2_m roof2_m roof2_r
 wall_l wall_window wall_window wall_r
 wall_l wall_m door wall_r
 door 2 4
-end
-
-prefab p3a_gate
-roof_l roof_m roof_m roof_m roof_m roof_r
-wall_l wall_window wall_m door wall_window wall_r
-door 3 1
-end
-
-prefab p3a_league
-gym_roof_l gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_r
-gym_roof_l gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_r
-gym_wall_l gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_r
-gym_wall_l gym_wall_m gym_wall_m gym_door gym_wall_m gym_wall_m gym_wall_m gym_wall_r
-door 3 3
 end

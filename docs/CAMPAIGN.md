@@ -280,6 +280,6 @@ if defeated/fled (only capture hides them). Gym leader rematches are left to 3C 
 
 **Content:** 51 trainers (classes `p3a_kindler`, `p3a_skier`, `p3a_boarder`, `p3a_birdkeeper` in
 `p3a_classes.txt`), 9 encounter tables (Route 9/10/11/12 with surf/rods/rock smash, cavern + depths), shops
-`p3a_ashfall`/`p3a_frostmere`, prefabs `p3a_tower`, `p3a_gate`, `p3a_league` (last two unused, free for 3B).
+`p3a_ashfall`/`p3a_frostmere`, prefab `p3a_tower` (Ember Tower).
 **Deviations / notes:** Lapras is the Part 3 starter-line gift. The compiler's `water@auto` autotiling currently reads
 already-replaced neighbours, so most water ends up `water_nw` (visual only; lead-owned code).
