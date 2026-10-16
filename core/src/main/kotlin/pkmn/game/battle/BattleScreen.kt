@@ -494,8 +494,10 @@ class BattleScreen(
 
     private fun drawActionMenu(r: Renderer) {
         val p = battle.player.active
-        r.text("What will", 12, 176)
-        r.text("${p?.name ?: ""} do?", 12, 192)
+        val name = p?.name ?: ""
+        // The prompt shares the bottom row with the command box (x < 112); long names push "do?" to a third line.
+        if (r.textWidth("$name do?") <= 96) { r.text("What will", 12, 176); r.text("$name do?", 12, 192) }
+        else { r.text("What will", 12, 170); r.text(name, 12, 184); r.text("do?", 12, 198) }
         r.frame(112, 160, 144, 64)
         val labels = listOf("FIGHT", "PKMN", "PACK", "RUN")
         labels.forEachIndexed { i, s ->

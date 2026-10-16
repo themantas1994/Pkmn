@@ -258,7 +258,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     }
 
     private fun updateActors(dt: Float) {
-        for (a in actors.values) {
+        // Path callbacks resume scripts, which may show/hide NPCs or change maps; iterate over a snapshot.
+        for (a in actors.values.toList()) {
+            if (actors[a.id] !== a) continue
             val done = a.update(dt)
             if (!a.moving && a.path.isNotEmpty()) {
                 val d = a.path.removeFirst()

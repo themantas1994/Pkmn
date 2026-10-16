@@ -30,7 +30,8 @@ class Autopilot(private val game: PkmnGame) {
     fun tick(): Boolean {
         val t = target ?: return false
         val ow = overworld()
-        if (ow == null) { release(); stuckFrames++; return stuckFrames < 3600 }
+        // Dialogue, menus or a battle took over: the walk is interrupted, like a player's would be.
+        if (ow == null) { game.platform.log("autopilot: interrupted by ${game.top()?.javaClass?.simpleName} -> $t"); cancel(); return false }
         val p = ow.player
         // Release as soon as a step starts so a held button never carries the player past the planned tile.
         if (p.moving) { release(); return true }

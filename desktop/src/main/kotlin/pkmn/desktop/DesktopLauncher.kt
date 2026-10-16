@@ -100,7 +100,7 @@ class Automation(script: List<String>, private val shots: File) {
     private fun screenshot(f: File) {
         val w = Gdx.graphics.backBufferWidth; val h = Gdx.graphics.backBufferHeight
         val pixels = ScreenUtils.getFrameBufferPixels(0, 0, w, h, true)
-        for (i in 4 until pixels.size step 4) pixels[i - 1] = 255.toByte()
+        for (i in 3 until pixels.size step 4) pixels[i] = 255.toByte()
         val pm = Pixmap(w, h, Pixmap.Format.RGBA8888)
         BufferUtils.copy(pixels, 0, pm.pixels, pixels.size)
         PixmapIO.writePNG(Gdx.files.absolute(f.absolutePath), pm)
