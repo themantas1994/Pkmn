@@ -467,8 +467,8 @@ obstacles only guard shortcuts, items and side rooms.
 
 **New species families** (wild, gift or trade): Timburr, Klawf, Orthworm, Durant, Alolan Diglett, Honedge, Sinistea,
 Greavard, Gimmighoul, Solosis, Silicobra, Rockruff, Cubone, Yamper, Tadbulb, Wattrel, Minun/Plusle, Minior, Dewpider,
-Clefairy, Jigglypuff, Petilil, Fomantis, Phantump, Foongus, Impidimp, Skiddo, Rufflet, Vullaby, Axew, Bagon, Darumaka,
-Sizzlipede, Litleo, Pansear, Capsakid, Cacnea, Skorupi, Fletchinder, Slowpoke; fossils Cranidos, Shieldon, Kabuto, Omanyte,
+Clefairy, Jigglypuff, Petilil, Fomantis, Phantump, Foongus, Impidimp, Axew, Bagon, Darumaka, Sizzlipede, Litleo,
+Pansear, Capsakid, Cacnea, Skorupi; fossils Cranidos, Shieldon, Kabuto, Omanyte,
 Anorith, Lileep; gifts Hisuian Growlithe, Carbink, Larvesta egg; trade-only Charcadet.
 
 **Estimator** (`./gradlew :tools:estimatePlaytime`, minutes critical / with optional):
