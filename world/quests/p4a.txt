@@ -16,3 +16,20 @@ quest p4a_feathered_trade "Birds of a Feather"
   desc "A trader in Fernwick's Pokémon Center will swap his Rookidee for a Pidgey."
   step "Bring a Pidgey to the trader in Fernwick Town's Pokémon Center."
 end
+
+# ---- Leg 2
+quest p4a_lamp_key "The Dark Lighthouse"
+  desc "A Wingull stole the Tidewater Lighthouse keeper's lamp-room key."
+  step "Find the keeper's key in the sea cave below Tidewater Cape and bring it to him."
+  step "Climb to the lamp room and help the keeper light the lamp."
+end
+
+quest p4a_orchard_fertilizer "Mushroom Fertilizer"
+  desc "The Sunberry Orchard keeper needs a Big Mushroom for his tired trees."
+  step "Bring a Big Mushroom to the orchard keeper north of Route 3."
+end
+
+quest p4a_inky_trade "Deckhand Wanted"
+  desc "A sailor in Port Tidewater wants a Machop and offers his Clobbopus, Inky."
+  step "Bring a Machop to the sailor in Port Tidewater."
+end

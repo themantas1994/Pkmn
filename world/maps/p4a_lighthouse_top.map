@@ -1,0 +1,27 @@
+# Tidewater Lighthouse lamp room (Expansion E1): the keeper's reward and a view over the bay.
+map p4a_lighthouse_top
+name "Lighthouse Lamp Room"
+location "Tidewater Cape"
+music town_mid
+environment building
+indoor
+
+layout
+^^^^^^^^^^
+@w@@@@@@w@
+oooooooooo
+oooKGGKooo
+oooKGGKooo
+oooooooooo
+oooooooooo
+oUoooooooo
+end
+
+legend
+o floor_wood
+end
+
+warp 1 7 -> p4a_lighthouse_2f 2 2 right
+npc p4a_lh_keeper_top 7 5 sprite=sailor face=left script=p4a_lh_keeper_top
+tile 8 1 sign
+sign 8 1 script=p4a_lh_window

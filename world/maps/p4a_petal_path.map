@@ -1,0 +1,45 @@
+# Petal Path (Expansion E1): optional flower meadow east of Fernwick Town. Berry grower's cottage, a fishing pond.
+map p4a_petal_path
+name "Petal Path"
+location "Petal Path"
+music route_early
+environment grass
+region 8 16
+encounters p4a_petal_path
+connect west fernwick_town 0
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTFFFFTTTTT,,,,,,TTTTTTTTTTTTTT
+TTF....FTTT,,,,,,,,TTTT.......TT
+TF......FTT,,,,,,,,TTTT.......TT
+TF..,,..F.............FF......TT
+TT..,,......,,,,......FF..,,,.TT
+TT.........,,,,,,.........,,,.TT
+:::::::::::::::::::::::.....,,TT
+:::::::::::::::::::::::.......TT
+TT......F........,,,..::......TT
+TT.,,,,.FF.......,,,..::..~~~.TT
+TT.,,,,..........,,,..::.~~~~.TT
+TTvvvvvv....TTT.......::.~~~~.TT
+TT..........TTT..,,,,.::..~~..TT
+TT.FFF..,,,......,,,,.::......TT
+TTFFFFF.,,,...F..,,,,.::....F.TT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+building house 25 1 -> p4a_petal_cottage 3 6 up
+tile 21 9 sign
+sign 21 9 script=p4a_pp_sign
+
+trainer p4a_pp_lass_rose 7 4 sprite=lass face=left sight=3
+trainer p4a_pp_bug_dale 14 4 sprite=bugcatcher face=down sight=2
+trainer p4a_pp_kid_tess 8 11 sprite=kid face=left sight=4
+trainer p4a_pp_youngster_hal 20 12 sprite=youngster face=down sight=3
+trainer p4a_pp_fisher_otto 24 11 sprite=fisherman face=right sight=1
+trainer p4a_pp_beauty_lily 27 6 sprite=beauty face=left sight=4
+
+item p4a_pp_ball 12 1 pokeball 2
+item p4a_pp_repel 3 14 repel
+hidden p4a_pp_berry 28 15 sitrusberry
+hidden p4a_pp_honey 29 9 honey

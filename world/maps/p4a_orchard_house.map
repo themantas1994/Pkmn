@@ -1,0 +1,22 @@
+# Orchard keeper's house (Expansion E1): Big Mushroom fetch quest (reward: Leftovers) and a rest stop.
+map p4a_orchard_house
+name "Orchard House"
+location "Route 3"
+music route_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+_______p
+_tt__tt_
+_hh__hh_
+p_______
+___RR___
+end
+
+warp 3 6 -> p4a_orchard 5 4 down
+warp 4 6 -> p4a_orchard 5 4 down
+npc p4a_orchard_keeper 5 2 sprite=gentleman face=down script=p4a_orchard_keeper
+npc p4a_orchard_wife 1 4 sprite=oldwoman face=right script=p4a_orchard_wife

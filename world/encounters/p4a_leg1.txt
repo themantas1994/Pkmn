@@ -90,3 +90,28 @@ encounters p4a_root_hollow
   cave any roggenrola 9-11 10
   cave any phantump 10-11 5
 end
+
+encounters p4a_petal_path
+  rate grass 25
+  grass morning combee 4-6 25
+  grass morning cutiefly 4-6 25
+  grass morning flabebe 4-6 20
+  grass morning ledyba 4-6 15
+  grass morning skitty 4-6 15
+  grass day flabebe 4-6 25
+  grass day tandemaus 4-6 25
+  grass day lechonk 4-6 20
+  grass day combee 4-6 15
+  grass day skitty 4-6 15
+  grass night volbeat 5-7 25
+  grass night illumise 5-7 25
+  grass night lechonk 4-6 20
+  grass night hoothoot 4-6 20
+  grass night tandemaus 4-6 10
+  oldrod any magikarp 4-7 50
+  oldrod any lotad 4-7 30
+  oldrod any goldeen 4-7 20
+  goodrod any lotad 10-14 40
+  goodrod any goldeen 10-14 35
+  goodrod any surskit 10-14 25
+end

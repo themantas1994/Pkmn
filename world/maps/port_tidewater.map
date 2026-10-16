@@ -9,9 +9,10 @@ encounters port_tidewater
 tags town
 connect west route4 -6
 connect south route5 5
+connect north p4a_tidewater_cape -4
 
 layout
-TTTTTTTTTTTTTTTTTTTTTTTT~~~~~~~~
+TTTTTT..TTTTTTTTTTTTTTTT~~~~~~~~
 TF.....................s~~~~~~~~
 T......................s~~~~~~~~
 T......................s~~~~~~~~
@@ -68,3 +69,7 @@ item tw_superpotion 1 24 superpotion
 hidden tw_pearl 23 20 pearl
 hidden tw_bigpearl 28 18 bigpearl
 hidden tw_shell 22 1 heartscale
+# Expansion E1: north path to Tidewater Cape.
+tile 8 2 sign
+sign 8 2 script=p4a_tw_cape_sign
+npc p4a_tw_trader 12 21 sprite=sailor face=left script=p4a_tw_trader

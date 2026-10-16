@@ -1,0 +1,51 @@
+# Sunberry Orchard (Expansion E1): optional orchard north of Route 3, behind a Cut tree. Berry rows, a fishing
+# pond, the orchard keeper's house (Big Mushroom fetch quest, rest stop).
+map p4a_orchard
+name "Sunberry Orchard"
+location "Route 3"
+music route_mid
+environment grass
+region 11 8
+encounters p4a_orchard
+connect south route3 2
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TT......TTTTTTTTTTTTT..,,,,.TT
+TT......T.............,,,,..TT
+TT.......bbbb.bbbb....,,,,..TT
+TT..........................TT
+TT.......bbbb.bbbb..b.b.b...TT
+TT,,,,......................TT
+TT,,,,...bbbb.bbbb..b.b.b...TT
+TT,,,,.....................,TT
+TT:::::::::::::::::::::::::.TT
+TT......,,,,..:..,,,,.......TT
+TT..bb..,,,,..:..,,,,..bb...TT
+TT..bb........:........bb..~TT
+TT............:...........~~TT
+TT,,,,,.......:.......,,,~~~TT
+TT,,,,,.......:.......,,,~~~TT
+TTvvvvv.......:.......vvv...TT
+TT............:.............TT
+TTTTTTTTTTTTTT:TTTTTTTTTTTTTTT
+TTTTTTTTTTTTTT:TTTTTTTTTTTTTTT
+end
+
+building house 3 1 -> p4a_orchard_house 3 6 up
+tile 15 17 sign
+sign 15 17 script=p4a_or_sign
+
+trainer p4a_or_lass_cherry 8 6 sprite=lass face=left sight=4
+trainer p4a_or_bug_ned 21 1 sprite=bugcatcher face=right sight=4
+trainer p4a_or_pokefan_milo 13 10 sprite=pokefan face=left sight=5
+trainer p4a_or_youngster_rob 20 13 sprite=youngster face=down sight=3
+trainer p4a_or_beauty_celia 26 10 sprite=beauty face=left sight=4
+trainer p4a_or_fisher_lou 24 15 sprite=fisherman face=right sight=1
+
+item p4a_or_revive 27 1 revive
+item p4a_or_fullheal 2 14 fullheal
+item p4a_or_greatball 13 4 greatball 2
+hidden p4a_or_sitrus 13 2 sitrusberry
+hidden p4a_or_lum 26 17 lumberry
+hidden p4a_or_leaf 2 8 leafstone

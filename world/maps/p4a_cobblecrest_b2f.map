@@ -1,0 +1,51 @@
+# Cobblecrest Cave B2F (Expansion E1): optional depths around an underground lake. Switch puzzle: the stone in
+# the far northeast opens the south gate; the stone in the south gallery opens the old miners' vault.
+map p4a_cobblecrest_b2f
+name "Cobblecrest Cave B2F"
+location "Cobblecrest Cave"
+music cave
+environment cave
+region 14 11
+encounters p4a_cobblecrest_b2f
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWfffffWWWWWWWWWWWWWfffffzfW
+WLffffffffffffffffffffffffWW
+WffffkfWWWWWWWWWWWWWfffkffWW
+WfffffffWW~~~~~~~WWWffffffWW
+WWfffffW~~~~~~~~~~~WWfffffWW
+WffkfffW~~~~~fff~~~~WffkffWW
+Wffffffff~~~~fff~~~WfffffffW
+WWffffffW~~~~~~~~~~WffffffWW
+WfffkfffWW~~~~~~~WWWfffkffWW
+WffffffffWWWWWWWWWWffffffffW
+WWWWZWWWWWWWWWWWWWWWWWWWWWWW
+WfffffffffkffffffffWWWWWWWWW
+WffzffffffffffkfffffZffffffW
+WfffffWWWffffffffffWWffffffW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 1 2 -> cobblecrest_b1f 20 4 down
+tileif p4a_cc2_gate1 4 11 cave_floor
+tileif p4a_cc2_gate2 20 13 cave_floor
+trigger 25 1 1 1 script=p4a_cc2_switch1 unless=p4a_cc2_gate1
+trigger 3 13 1 1 script=p4a_cc2_switch2 unless=p4a_cc2_gate2
+
+trainer p4a_cc2_hiker_rocco 3 7 sprite=hiker face=right sight=4
+trainer p4a_cc2_blackbelt_jun 22 4 sprite=blackbelt face=down sight=4
+trainer p4a_cc2_psychic_ora 14 12 sprite=psychic face=left sight=5
+trainer p4a_cc2_hiker_dunn 25 8 sprite=hiker face=left sight=4
+npc p4a_cc2_miner 2 9 sprite=hiker face=right script=p4a_cc2_miner
+
+item p4a_cc2_vault 25 13 tm:bulldoze
+item p4a_cc2_island 14 6 rarecandy
+item p4a_cc2_hyper 1 14 hyperpotion
+item p4a_cc2_ether 24 1 ether
+hidden p4a_cc2_star 6 9 stardust
+hidden p4a_cc2_nugget 17 13 nugget

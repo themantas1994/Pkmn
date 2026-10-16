@@ -1,0 +1,22 @@
+# Berry grower's cottage on the Petal Path (Expansion E1).
+map p4a_petal_cottage
+name "Berry Cottage"
+location "Petal Path"
+music town_small
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@pp@w@
+p______p
+_tt__tt_
+_hh__hh_
+________
+___RR___
+end
+
+warp 3 6 -> p4a_petal_path 27 4 down
+warp 4 6 -> p4a_petal_path 27 4 down
+npc p4a_berry_grower 4 2 sprite=oldman face=down script=p4a_berry_grower
+npc p4a_honey_girl 7 5 sprite=lass face=left script=p4a_honey_girl

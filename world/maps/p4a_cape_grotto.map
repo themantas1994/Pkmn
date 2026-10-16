@@ -1,0 +1,33 @@
+# Sea Grotto (Expansion E1): hidden sea cave in the cliffs of Tidewater Cape. The lighthouse keeper's lost key.
+map p4a_cape_grotto
+name "Sea Grotto"
+location "Tidewater Cape"
+music cave
+environment cave
+region 16 9
+encounters p4a_cape_grotto
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWWWWW
+W~~~~ffffWWffffkfW
+W~~~~fffffffffffWW
+W~~~fffkffff~~ffWW
+WW~~fffffff~~~~ffW
+WWffffWWfff~~~~ffW
+WfffkfWWffff~~fffW
+WffffffffffffffkfW
+WWfffffWWWffffffWW
+WWfffffffffffffWWW
+WWWWWWWWfWWWWWWWWW
+WWWWWWWWEWWWWWWWWW
+end
+
+warp 8 11 -> p4a_tidewater_cape 23 3 down
+item p4a_cg_key 13 1 basementkey
+item p4a_cg_kingsrock 2 7 kingsrock
+hidden p4a_cg_pearl 5 1 bigpearl
+hidden p4a_cg_star 16 4 stardust

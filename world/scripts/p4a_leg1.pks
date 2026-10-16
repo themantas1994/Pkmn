@@ -241,3 +241,47 @@ script p4a_dex_aide_1
     say "AIDE: I'm Prof. Linden's aide. I'm studying how trainers fill their Pokédex.\pCatch ten different kinds of Pokémon and show me. There's a reward in it for you!"
   end
 end
+
+# ---------------------------------------------------------------- Fernwick east: Petal Path
+script p4a_fw_path_sign
+  say "PETAL PATH - east\nA meadow of flowers and berries."
+end
+
+script p4a_pp_sign
+  say "PETAL PATH\pBerry Cottage - north\nFishing pond - south"
+end
+
+script p4a_berry_grower
+  faceplayer
+  if not flag p4a_berry_gift
+    say "BERRY GROWER: Welcome, welcome! I grow berries for the whole valley.\pTake these. An Oran Berry heals a Pokémon in a pinch, all by itself!"
+    giveitem oranberry 3
+    giveitem pechaberry 2
+    setflag p4a_berry_gift
+    say "BERRY GROWER: Come back whenever you earn a new badge. My bushes will have something special by then."
+  elif badges >= 3 and not flag p4a_berry_b3
+    say "BERRY GROWER: Three badges! Here, my Lum Berries finally ripened. They cure any status problem."
+    giveitem lumberry 2
+    setflag p4a_berry_b3
+  elif badges >= 1 and not flag p4a_berry_b1
+    say "BERRY GROWER: Ah, a badge! Have some Sitrus Berries. They heal far more than an Oran."
+    giveitem sitrusberry 2
+    setflag p4a_berry_b1
+  else
+    say "BERRY GROWER: Berries grow best with patience and good dirt. Pokémon, too!"
+  end
+end
+
+script p4a_honey_girl
+  faceplayer
+  if flag p4a_honey_shown
+    say "Combee are so cute when they buzz. Grandpa says they help his berries grow!"
+  elif party has combee
+    say "A Combee! Can I hold it? Bzzz! Thank you, thank you!"
+    say "Here, Grandpa's Honey. Spread it on a tree... I mean, just keep it!"
+    giveitem honey 3
+    setflag p4a_honey_shown
+  else
+    say "I love Combee! They buzz around the flowers outside in the morning.\pIf you catch one, will you show me?"
+  end
+end

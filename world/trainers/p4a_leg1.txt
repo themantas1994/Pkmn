@@ -261,3 +261,65 @@ trainer p4a_rh_hiker_mort
   mon whismur 11
   mon geodude 11
 end
+
+# ---------------------------------------------------------------- Petal Path (east of Fernwick)
+trainer p4a_pp_lass_rose
+  class lass
+  name "Rose"
+  intro "Isn't this meadow lovely? Let's battle among the flowers!"
+  defeat "You trampled my daisies... and my team."
+  after "Flabébé each pick one flower and carry it forever. Mine chose a white one."
+  mon flabebe 6
+  mon cutiefly 6
+end
+
+trainer p4a_pp_bug_dale
+  class bugcatcher
+  name "Dale"
+  intro "Combee! Swarm formation!"
+  defeat "They flew back to the hive..."
+  after "Only female Combee evolve. I've been checking every one I catch!"
+  mon combee 5
+  mon combee 6
+  mon ledyba 6
+end
+
+trainer p4a_pp_kid_tess
+  class kid
+  name "Tess"
+  intro "I'm having a picnic with my Pokémon! You can join if you win!"
+  defeat "Okay, you can have a sandwich."
+  after "Lechonk eat everything in the picnic basket. EVERYTHING."
+  mon lechonk 6
+  mon tandemaus 6
+end
+
+trainer p4a_pp_youngster_hal
+  class youngster
+  name "Hal"
+  intro "I'm training for the Brindle Gym. You look like good practice!"
+  defeat "Maybe I need more practice first..."
+  after "Hazel uses Grass types. Pidgey's Gust really helped me. Or it would have, if I'd won."
+  mon pidgey 6
+  mon skitty 7
+end
+
+trainer p4a_pp_fisher_otto
+  class fisherman
+  name "Otto"
+  intro "This pond's my secret spot! How'd you find it? Battle!"
+  defeat "My secret's out... and so am I."
+  after "Lotad drift around here like lily pads. A Good Rod hooks bigger fish."
+  mon lotad 6
+  mon goldeen 7
+end
+
+trainer p4a_pp_beauty_lily
+  class beauty
+  name "Lily"
+  intro "I come to Petal Path to pick flowers for my hair. Want to battle?"
+  defeat "My petals are wilting!"
+  after "The berry grower in the cottage up north is so generous. Say hi to him!"
+  mon skitty 7
+  mon budew 7
+end

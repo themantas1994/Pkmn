@@ -38,3 +38,6 @@ item ccb_ether 22 1 ether
 item ccb_superpotion 22 16 superpotion
 hidden ccb_candy 14 13 rarecandy
 hidden ccb_stardust 4 6 stardust
+# Expansion E1: ladder down to the B2F depths.
+tile 20 3 cave_ladder
+warp 20 3 -> p4a_cobblecrest_b2f 2 2 right

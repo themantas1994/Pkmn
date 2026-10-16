@@ -1,0 +1,33 @@
+# Tidewater Lighthouse 2F (Expansion E1): the stairs to the lamp room are locked until the keeper gets his key.
+map p4a_lighthouse_2f
+name "Tidewater Lighthouse"
+location "Tidewater Cape"
+music town_mid
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^
+@@w@@@@@@w@@
+oZoooooooooo
+oooooooooDoo
+oooKKoooKKoo
+oooooooooooo
+oooooooooooo
+oKKoooooKKoo
+oooooooooooo
+end
+
+legend
+o floor_wood
+end
+
+warp 9 3 -> p4a_lighthouse_1f 8 2 left
+warp 1 2 -> p4a_lighthouse_top 2 7 right
+tileif p4a_lh_unlocked 1 2 stairs_in_up
+tile 2 1 sign
+sign 2 1 script=p4a_lh_lockdoor
+trainer p4a_lh_gentleman_ward 6 5 sprite=gentleman face=down sight=3
+trainer p4a_lh_lass_mira 10 7 sprite=lass face=left sight=4
+npc p4a_lh_keeper 3 3 sprite=sailor face=left script=p4a_lh_keeper hideif=p4a_lh_unlocked
+item p4a_lh2_ball 11 2 greatball

@@ -7,9 +7,10 @@ region 11 10
 encounters route3
 connect west brindle_city -2
 connect east route4 6
+connect north p4a_orchard -2
 
 layout
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTT:TTTTTTTTTTTTTTTTTTTTTTTTTTT
 T...,,,,,,....TTT......,,,,,,.....TTTTTT
 T...,,,,,,....TTT......,,,,,,......,,,,T
 T.............TTT..................,,,,T
@@ -47,3 +48,7 @@ item r3_paralyze 11 1 paralyzeheal
 hidden r3_rawst 2 12 rawstberry
 hidden r3_ether 37 7 ether
 hidden r3_water 35 18 freshwater
+# Expansion E1: Cut tree to Sunberry Orchard, more trainers.
+obstacle 12 1 cut flag=p4a_cut_orchard
+trainer p4a_r3_lass_wendy 34 14 sprite=lass face=left sight=4
+trainer p4a_r3_youngster_lex 9 3 sprite=youngster face=right sight=4
