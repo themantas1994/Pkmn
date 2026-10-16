@@ -109,9 +109,9 @@
         "SURF"
       ],
       "blockedFieldMoves": [],
-      "maps": 136,
-      "tiles": 31686,
-      "obtainableSpecies": 547
+      "maps": 150,
+      "tiles": 35217,
+      "obtainableSpecies": 560
     },
     {
       "badges": 5,
@@ -124,9 +124,9 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 136,
-      "tiles": 31686,
-      "obtainableSpecies": 547
+      "maps": 150,
+      "tiles": 35217,
+      "obtainableSpecies": 560
     },
     {
       "badges": 6,
@@ -139,9 +139,9 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 136,
-      "tiles": 31686,
-      "obtainableSpecies": 547
+      "maps": 150,
+      "tiles": 35217,
+      "obtainableSpecies": 560
     },
     {
       "badges": 7,
@@ -155,9 +155,9 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 145,
-      "tiles": 33356,
-      "obtainableSpecies": 547
+      "maps": 164,
+      "tiles": 38546,
+      "obtainableSpecies": 563
     },
     {
       "badges": 8,
@@ -171,9 +171,9 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 145,
-      "tiles": 33356,
-      "obtainableSpecies": 547
+      "maps": 164,
+      "tiles": 38546,
+      "obtainableSpecies": 563
     }
   ],
   "errors": [],
