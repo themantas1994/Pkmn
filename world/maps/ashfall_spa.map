@@ -1,0 +1,23 @@
+map ashfall_spa
+name "Ashfall Hot Spring Inn"
+location "Ashfall City"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@BB@@w@@
+__________
+_tt____tt_
+_hh____hh_
+__________
+p________p
+___RR_____
+end
+
+warp 3 7 -> ashfall_city 22 20 down
+warp 4 7 -> ashfall_city 22 20 down
+npc attendant 4 2 sprite=beauty face=down script=p3a_ash_spa_attendant
+npc soaker 8 5 sprite=gentleman face=left script=p3a_ash_spa_gentleman
+npc spa_girl 1 5 sprite=swimmer_f face=right text="The water here is warmed by the volcano. Even Blaise relaxes here after a big match."

@@ -1,0 +1,29 @@
+# Part 3: Route 9 (34-38).
+encounters p3a_route9
+  rate grass 25
+  grass morning swablu 34-36 25
+  grass morning spoink 34-36 20
+  grass morning gligar 35-37 20
+  grass morning numel 34-36 20
+  grass morning spinda 34-36 15
+  grass day numel 34-37 20
+  grass day torkoal 35-38 15
+  grass day zangoose 35-37 15
+  grass day seviper 35-37 15
+  grass day trapinch 34-36 15
+  grass day skarmory 36-38 10
+  grass day ponyta 35-37 10
+  grass night houndour 34-36 25
+  grass night murkrow 34-36 20
+  grass night sableye 35-37 15
+  grass night noctowl 36-38 15
+  grass night slugma 34-36 15
+  grass night grumpig 36-38 10
+  surf any psyduck 34-37 60
+  surf any golduck 36-38 39
+  oldrod any magikarp 20-30 100
+  goodrod any barboach 30-35 70
+  goodrod any goldeen 30-35 30
+  superrod any whiscash 36-40 60
+  superrod any seaking 36-40 40
+end

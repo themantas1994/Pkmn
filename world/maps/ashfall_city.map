@@ -1,0 +1,62 @@
+map ashfall_city
+name "Ashfall City"
+location "Ashfall City"
+music city_mid
+environment plain
+region 12 4
+fly 16 16
+tags town
+connect east route9 4
+connect south route10 0
+
+layout
+MMMMMMMMMMMMMmmmmmmmmMMMMMMMMMMM
+MMMMMMMMMMMMMmmmmmmmmMMMMMMMMMMM
+MMMMMMMMMMMMMmmmmmmmmMMMMMMMMMMM
+MMMMMMMMMMMMMmmmmmmmmMMMMMMMMMMM
+MMMMMMMMMMMMMmmmmmmmmMMMMMMMMMMM
+MMMMMMMMMMMMMmmmmmmmmMMMMMMMMMMM
+T...........::::::::::.........T
+T...........::::::::::.........T
+TFFF...........::..........FFFFT
+TFFF...........::..........FFFFT
+TFFF...........::..............T
+T..............::..............T
+T....::::::....::.....:........T
+T.....:...:....::.....:........T
+T:::::::::::::::::::::::::::::::
+T:::::::::::::::::::::::::::::::
+T..............::..............T
+T..............::..............T
+T..............::..............T
+T..............::..............T
+T.:::::::::::::::::::::::::::..T
+T..............::..............T
+T........~~~~..::..............T
+T.......~~~~~~.::.........TTTTTT
+Trrrrrr.~~~~~~.::.........TTTTTT
+Trrrrrr..~~~~..::.........TTTTTT
+Trrrrrr........::.........TTTTTT
+TTTTTTTTTTTTTTT::TTTTTTTTTTTTTTT
+end
+
+building p3a_tower 14 3 -> ember_tower_1f 4 9 up
+building center 4 9 -> ashfall_center 4 7 up
+building mart 9 9 -> ashfall_mart 3 7 up
+building gym 20 8 -> ashfall_gym 7 15 up
+building house 3 17 -> ashfall_house 3 5 up
+building house_big 19 17 -> ashfall_spa 4 7 up
+tile 13 13 sign
+tile 21 12 sign
+tile 18 8 sign
+tile 17 26 sign
+sign 13 13 text="ASHFALL CITY\nWhere embers become dawn."
+sign 21 12 text="ASHFALL CITY POKéMON GYM\nLEADER: BLAISE\nThe blazing heart of the volcano!"
+sign 18 8 text="EMBER TOWER\nShrine of the rainbow bird. Closed to visitors."
+sign 17 26 text="South: Route 10, Crystal Cavern"
+npc ash_rival 28 13 sprite=rival face=left hideif=p3a_rival_ashfall text="..."
+npc ash_oldman 11 7 sprite=oldman face=down text="Ember Tower was built to welcome a rainbow bird. Legend says it only lands for a true Champion."
+npc ash_girl 14 23 sprite=lass face=left text="The hot spring is lovely! Everyone soaks here after losing to Blaise."
+npc ash_kid 25 16 sprite=kid face=left text="Blaise's Gym has lava floors! The stones only cool when you step on the right switch."
+npc ash_scientist 17 22 sprite=scientist face=down script=p3a_ash_quartz_hint
+trigger 30 14 1 2 script=p3a_ash_rival_battle unless=p3a_rival_ashfall

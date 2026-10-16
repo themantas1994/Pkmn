@@ -1,0 +1,51 @@
+map route12
+name "Route 12"
+location "Route 12"
+music route_snow
+environment snow
+weather snow
+region 6 2
+encounters p3a_route12
+connect west frostmere_town -2
+connect east dragonspire_city -4
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+Tn,,,,,,,,rnnnnMMMmmmmmmMMM,,nnnnnTTTTTT
+Tn,,,,,,,,nnnnnMMMmmmmmmMMM,,nnnnnTTTTTT
+::::::::::::::nMMMmmmmmmMMM,,nnrnnTTTTTT
+::::::::::::::nMMMMMMMMMMMM,,nnnnnnnnnnT
+Tnnnnnnnnnnn::nMMMMMMMMMMMM,,nnnnnnnnnnT
+Tvvvvvvvvvvn::nMMMMMMMMMMMMnn:::::::::::
+Tniiiiiiiiin::nMMMMMMMMMMMMnn:::::::::::
+TiiGiiiiGiin::nMMMMMMMMMMMMnn::nnnnnnnnT
+Tiiiiiiiiiin::rnnnnnnnnnnnnnn::n,,,,,,nT
+TiiiiiGiiiin::nnnnnnnnnnnnnnn::n,,,,,,nT
+TiGiiiiiiiGn:::::::::::::::::::n,,,,,,nT
+TiiiGiiiiiin:::::::::::::::::::n,,,,,,nT
+Tiniiiiiiiinnnnn,,,,,,,,,nrnnnnn,,,,,,nT
+TTTTTTTTTTTnnnnn,,,,,,,,,nnnnnnnnnnnnnnT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+legend
+G rock
+end
+tile 3 5 sign
+sign 3 5 text="ROUTE 12\nWest: Frostmere Town\nEast: Dragonspire City"
+tile 37 8 sign
+sign 37 8 text="Dragonspire City just ahead!"
+npc r12_pip 1 7 sprite=kid face=down script=p3a_r12_pip hideif=p3a_pip_home
+trainer r12_skier_hanna 6 4 sprite=cooltrainer_f face=up sight=2 trainer=p3a_r12_skier_hanna
+trainer r12_boarder_jett 13 9 sprite=cooltrainer_m face=left sight=1 trainer=p3a_r12_boarder_jett
+trainer r12_hiker_bjorn 20 11 sprite=hiker face=down sight=3 trainer=p3a_r12_hiker_bjorn
+trainer r12_ranger_sky 29 8 sprite=ranger face=right sight=4 trainer=p3a_r12_ranger_sky
+trainer r12_cool_vera 33 6 sprite=cooltrainer_f face=up sight=3 trainer=p3a_r12_cool_vera
+trainer r12_black_tor 30 12 sprite=blackbelt face=up sight=4 trainer=p3a_r12_black_tor
+trainer r12_bird_alba 27 3 sprite=youngster face=down sight=2 trainer=p3a_r12_bird_alba
+item r12_icestone 2 13 icestone
+item r12_maxpotion 28 1 maxpotion
+item r12_nevermeltice 37 13 nevermeltice
+item r12_iceshard 11 13 iceterashard 2
+hidden r12_hidden_maxrevive 38 9 maxrevive
+hidden r12_hidden_rarecandy 9 2 rarecandy

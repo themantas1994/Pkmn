@@ -1,0 +1,25 @@
+map ember_tower_1f
+name "Ember Tower 1F"
+location "Ashfall City"
+music dungeon_tower
+environment building
+indoor
+
+layout
+xxxxxxxxxx
+xxxxxUxxxx
+uuuuuuuuuu
+uGuuuuuuGu
+uuuuuuuuuu
+uuuuuuuuuu
+uGuuuuuuGu
+uuuuuuuuuu
+uuuuuuuuuu
+uuuuRRuuuu
+end
+
+warp 4 9 -> ashfall_city 16 8 down
+warp 5 9 -> ashfall_city 16 8 down
+warp 5 1 -> ember_tower_roof 6 10 up
+npc sage_stairs 5 2 sprite=sage face=down script=p3a_ember_sage_stairs hideif=hall_of_fame
+npc sage_keeper 7 7 sprite=sage face=left script=p3a_ember_sage_keeper

@@ -228,7 +228,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
         "SWAP A/B" to { if (o.leftHanded) "ON" else "OFF" },
         "VIBRATION" to { if (o.haptics) "ON" else "OFF" },
         "REDUCE MOTION" to { if (o.reduceMotion) "ON" else "OFF" },
-    )
+    ) + (if (game.platform.canImportAssets) listOf("IMPORT SPRITES" to { "PRESS A" }) else emptyList())
 
     private fun change(i: Int, d: Int) {
         when (i) {
@@ -246,6 +246,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
             11 -> o.leftHanded = !o.leftHanded
             12 -> o.haptics = !o.haptics
             13 -> o.reduceMotion = !o.reduceMotion
+            IMPORT_ROW -> { if (d > 0) importSprites(); return }
         }
         game.applyOptions()
     }
@@ -254,8 +255,17 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
         if (input.repeat(Button.UP)) cursor = (cursor - 1 + entries.size) % entries.size
         if (input.repeat(Button.DOWN)) cursor = (cursor + 1) % entries.size
         if (input.repeat(Button.LEFT)) change(cursor, -1)
-        if (input.repeat(Button.RIGHT) || input.justPressed(Button.A)) change(cursor, 1)
+        if (input.justPressed(Button.A) || (input.repeat(Button.RIGHT) && cursor < IMPORT_ROW)) change(cursor, 1)
         if (input.justPressed(Button.B) || input.justPressed(Button.START)) close()
+    }
+
+    private companion object { const val IMPORT_ROW = 14 }
+
+    private fun importSprites() {
+        game.platform.importAssets { msg ->
+            game.attachDexToAssets()
+            game.say(msg)
+        }
     }
 
     private fun close() { game.saveOptions(); pop(); onClose() }

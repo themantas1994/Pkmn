@@ -256,8 +256,10 @@ class MapCompilerTool(private val root: File) {
             legend[ch] ?: throw CompileError("unknown legend char '$ch' at $x,$y", 0)
         } }
         // Water autotiling: "water@auto" picks shoreline variants based on neighbours.
-        val isWater = { x: Int, y: Int -> x !in 0 until width || y !in 0 until height || grid[y][x].startsWith("water@auto") || grid[y][x] == "water" }
-        for (y in 0 until height) for (x in 0 until width) if (grid[y][x] == "water@auto") grid[y][x] = waterVariant(isWater, x, y, tileNames)
+        // Neighbours are read from a snapshot so tiles converted earlier in the pass still count as water.
+        val source = grid.map { it.toList() }
+        val isWater = { x: Int, y: Int -> x !in 0 until width || y !in 0 until height || source[y][x].startsWith("water@auto") || source[y][x] == "water" }
+        for (y in 0 until height) for (x in 0 until width) if (source[y][x] == "water@auto") grid[y][x] = waterVariant(isWater, x, y, tileNames)
         for (s in stamps) for ((ry, row) in s.prefab.rows.withIndex()) for ((rx, tile) in row.withIndex()) {
             if (tile == "_") continue
             val x = s.x + rx; val y = s.y + ry

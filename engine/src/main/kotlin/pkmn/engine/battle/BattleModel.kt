@@ -28,6 +28,8 @@ data class BattleRules(
     /** "Set" style: the player is not told which Pokémon the foe will send next. */
     val setMode: Boolean = true,
     val inverse: Boolean = false,
+    /** The player's trainer id; Pokémon with another OT id (traded) earn 1.5× experience. 0 = no traded bonus. */
+    val playerOtId: Int = 0,
 ) {
     companion object {
         val ALL_GIMMICKS = Gimmick.entries.toSet()

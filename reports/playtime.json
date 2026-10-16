@@ -1,0 +1,192 @@
+{
+  "model": "content-derived estimate, not a measurement; constants listed under 'constants'",
+  "complete": false,
+  "milestones": [
+    "start: player_house_2f",
+    "gym 1: brindle_gym",
+    "gym 2: tidewater_gym",
+    "gym 3: voltara_gym",
+    "gym 4: quarrytown_gym",
+    "gym 5: seraphine_gym",
+    "gym 6: ashfall_gym",
+    "gym 7: frostmere_gym"
+  ],
+  "criticalPathHours": 6.5,
+  "withOptionalContentHours": 8.7,
+  "postGameHours": 0.0,
+  "legs": [
+    {
+      "leg": "start -> gym 1",
+      "badges": 0,
+      "path": [
+        "player_house_2f",
+        "player_house_1f",
+        "hometown",
+        "route1",
+        "fernwick_town",
+        "route2",
+        "brindle_city",
+        "brindle_gym"
+      ],
+      "criticalMinutes": 43,
+      "fullMinutes": 64,
+      "trainersOnPath": 13,
+      "expectedWildEncounters": 6,
+      "partyLevelOnArrival": 17,
+      "bossAceLevel": 14,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 10
+    },
+    {
+      "leg": "gym 1 -> gym 2",
+      "badges": 1,
+      "path": [
+        "brindle_gym",
+        "brindle_city",
+        "route3",
+        "route4",
+        "port_tidewater",
+        "tidewater_gym"
+      ],
+      "criticalMinutes": 51,
+      "fullMinutes": 75,
+      "trainersOnPath": 17,
+      "expectedWildEncounters": 10,
+      "partyLevelOnArrival": 24,
+      "bossAceLevel": 21,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 6
+    },
+    {
+      "leg": "gym 2 -> gym 3",
+      "badges": 2,
+      "path": [
+        "tidewater_gym",
+        "port_tidewater",
+        "route5",
+        "lumen_village",
+        "route6",
+        "voltara_city",
+        "voltara_gym"
+      ],
+      "criticalMinutes": 50,
+      "fullMinutes": 83,
+      "trainersOnPath": 15,
+      "expectedWildEncounters": 13,
+      "partyLevelOnArrival": 31,
+      "bossAceLevel": 28,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 14
+    },
+    {
+      "leg": "gym 3 -> gym 4",
+      "badges": 3,
+      "path": [
+        "voltara_gym",
+        "voltara_city",
+        "route7",
+        "route8",
+        "quarrytown",
+        "quarrytown_gym"
+      ],
+      "criticalMinutes": 48,
+      "fullMinutes": 60,
+      "trainersOnPath": 16,
+      "expectedWildEncounters": 16,
+      "partyLevelOnArrival": 38,
+      "bossAceLevel": 34,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 7
+    },
+    {
+      "leg": "gym 4 -> gym 5",
+      "badges": 4,
+      "path": [
+        "quarrytown_gym",
+        "quarrytown",
+        "mt_prism_1f",
+        "mt_prism_2f",
+        "mt_prism_3f",
+        "seraphine_town",
+        "seraphine_gym"
+      ],
+      "criticalMinutes": 58,
+      "fullMinutes": 61,
+      "trainersOnPath": 17,
+      "expectedWildEncounters": 22,
+      "partyLevelOnArrival": 45,
+      "bossAceLevel": 40,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 4
+    },
+    {
+      "leg": "gym 5 -> gym 6",
+      "badges": 5,
+      "path": [
+        "seraphine_gym",
+        "seraphine_town",
+        "route9",
+        "ashfall_city",
+        "ashfall_gym"
+      ],
+      "criticalMinutes": 40,
+      "fullMinutes": 48,
+      "trainersOnPath": 11,
+      "expectedWildEncounters": 4,
+      "partyLevelOnArrival": 50,
+      "bossAceLevel": 46,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 6
+    },
+    {
+      "leg": "gym 6 -> gym 7",
+      "badges": 6,
+      "path": [
+        "ashfall_gym",
+        "ashfall_city",
+        "route10",
+        "crystal_cavern_1f",
+        "crystal_cavern_b1",
+        "route11",
+        "frostmere_town",
+        "frostmere_gym"
+      ],
+      "criticalMinutes": 66,
+      "fullMinutes": 87,
+      "trainersOnPath": 21,
+      "expectedWildEncounters": 27,
+      "partyLevelOnArrival": 57,
+      "bossAceLevel": 52,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 8
+    }
+  ],
+  "constants": {
+    "SECONDS_PER_TILE": 0.27,
+    "CROSSING_FACTOR": 1.3,
+    "EXPLORED_TILE_SHARE": 0.25,
+    "TRAINER_BASE": 25.0,
+    "TRAINER_PER_MON": 40.0,
+    "BOSS_BASE": 45.0,
+    "BOSS_PER_MON": 65.0,
+    "WILD_FOUGHT": 32.0,
+    "WILD_FLED": 9.0,
+    "WILD_FIGHT_SHARE": 0.6,
+    "SAY": 3.0,
+    "INTERIOR_VISIT": 35.0,
+    "GYM_PUZZLE": 150.0,
+    "TOWN_SERVICES": 90.0,
+    "OVERHEAD": 0.1,
+    "TRAINERS_FOUGHT_ON_PATH": 0.85,
+    "TRAINERS_FOUGHT_OPTIONAL": 0.6,
+    "NPC_TALK_SHARE": 0.55,
+    "LEVEL_MARGIN": 2
+  }
+}

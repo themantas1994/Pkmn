@@ -1,0 +1,28 @@
+map ember_tower_roof
+name "Ember Tower Roof"
+location "Ashfall City"
+music dungeon_tower
+environment plain
+indoor
+
+layout
+xxxxxxxxxxxxx
+xuuuuuuuuuuux
+xuGuuuuuuuGux
+xuuuFFFFFuuux
+xuuuFFFFFuuux
+xuuuFFFFFuuux
+xuuuFFFFFuuux
+xuuuuuuuuuuux
+xuGuuuuuuuGux
+xuuuuuuuuuuux
+xuuuuuDuuuuux
+xxxxxxxxxxxxx
+end
+
+warp 6 10 -> ember_tower_1f 5 2 down
+npc hooh 6 4 sprite=legendary_shadow face=down script=p3a_leg_hooh showif=hall_of_fame hideif=p3a_hooh_done
+trainer et_sage_ren 3 6 sprite=sage face=right sight=3 trainer=p3a_et_sage_ren showif=hall_of_fame
+trainer et_sage_ilo 9 6 sprite=sage face=left sight=3 trainer=p3a_et_sage_ilo showif=hall_of_fame
+sign 7 9 text="Here the rainbow bird rests when the land is at peace."
+tile 7 9 sign

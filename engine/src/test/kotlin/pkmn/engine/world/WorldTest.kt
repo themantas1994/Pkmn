@@ -64,6 +64,21 @@ class WorldTest {
     }
 
     @Test
+    fun `trade swaps the offered pokemon and reports trade evolutions`() {
+        val ctx = newCtx()
+        ctx.receivePokemon(ctx.factory.create("wooper", 12, ctx.rng))
+        val s = ScriptParser.parseFile("script t\n  trade wooper haunter 20 nick=Spooky ot=KEN\nend", "t.pks").single()
+        val req = ScriptVM(ctx, s, { null }).next() as ScriptRequest.Trade
+        assertEquals("wooper", req.want)
+        assertEquals("KEN", req.offer.otName)
+        assertEquals(listOf(0), ctx.tradeCandidates("wooper"))
+        assertTrue(ctx.tradeCandidates("pikachu").isEmpty())
+        assertEquals("gengar", ctx.performTrade(0, "wooper", req.offer))
+        assertEquals("haunter", ctx.state.party.single().speciesId)
+        assertFailsWith<IllegalArgumentException> { ctx.performTrade(0, "wooper", req.offer) }
+    }
+
+    @Test
     fun `professor gives the pokedex after the starter`() {
         val ctx = newCtx()
         run(ctx, "lab_ball_water", mutableListOf(1))

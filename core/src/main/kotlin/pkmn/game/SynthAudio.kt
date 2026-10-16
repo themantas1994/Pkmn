@@ -9,7 +9,7 @@ class SynthAudio : GameAudio {
     private val engine = AudioEngine({ id -> Gdx.files.internal("audio/music/$id.mml").takeIf { it.exists() }?.readString("UTF-8") })
     private val aliases = mapOf(
         "door" to Sfx.DOOR_ENTER, "ledge" to Sfx.LEDGE_JUMP, "cut" to Sfx.HIT_NORMAL, "rock_smash" to Sfx.HIT_NORMAL,
-        "cry" to Sfx.STATUS_INFLICTED, "encounter" to Sfx.TRAINER_SPOTTED,
+        "cry" to Sfx.STATUS_INFLICTED, "encounter" to Sfx.TRAINER_SPOTTED, "trade" to Sfx.WARP,
     )
     private val jingles = setOf("heal", "item_get", "level_up", "save")
     override var currentMusic: String? = null

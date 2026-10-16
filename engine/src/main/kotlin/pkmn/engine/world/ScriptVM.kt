@@ -41,6 +41,8 @@ sealed class ScriptRequest {
     object Save : ScriptRequest()
     object Fly : ScriptRequest()
     data class Special(val name: String, val args: List<String>) : ScriptRequest()
+    /** In-game trade: the player offers a party member of species [want] and receives [offer]. Resume with 1 if traded. */
+    data class Trade(val want: String, val offer: Pokemon) : ScriptRequest()
 }
 
 /**
@@ -186,7 +188,12 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "blackout" -> { val (m, x, y) = ctx.respawnPoint(); ctx.healParty(); ScriptRequest.Warp(m, x, y, Facing.DOWN) }
             "save" -> ScriptRequest.Save
             "fly" -> ScriptRequest.Fly
-            "trade" -> ScriptRequest.Special("trade", a)
+            "trade" -> {
+                // trade <want> <give> <level> [nick=] [item=] ...: the received Pokémon belongs to the NPC trainer.
+                val mon = buildMon(a.drop(1))
+                mon.otName = opt(a, "ot") ?: "TRADER"; mon.otId = ctx.rng.nextInt(65536)
+                ScriptRequest.Trade(toId(a[0]), mon)
+            }
             "special" -> ScriptRequest.Special(a[0], a.drop(1))
             else -> throw ScriptError("command '${c.name}' not implemented", stack.last().script.file, c.line)
         }

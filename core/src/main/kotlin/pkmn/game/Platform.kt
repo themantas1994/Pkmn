@@ -14,6 +14,10 @@ interface Platform {
     /** Device held upside-down (used for Inkay's evolution), if a sensor is available. */
     fun isUpsideDown(): Boolean = false
     fun log(msg: String) = println(msg)
+    /** Whether the player can import a sprite archive from inside the game (Android document picker). */
+    val canImportAssets: Boolean get() = false
+    /** Lets the player pick a sprite archive and extracts it into [importedAssetsDir]; [done] runs on the game thread. */
+    fun importAssets(done: (message: String) -> Unit) {}
     /** Quits the app (desktop) or moves it to the background (Android). */
     fun exit() {}
 }
