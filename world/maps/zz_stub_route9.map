@@ -1,0 +1,33 @@
+# STUB — replaced by Part 1/3, delete on merge.
+# Minimal stand-in for Part 3's route9 so Part 2 compiles in isolation (B2 boundary).
+map route9
+name "Route 9"
+location "Route 9"
+music route_early
+environment grass
+region 16 5
+encounters none
+connect east seraphine_town -3
+
+layout
+TTTT
+T..T
+T..T
+T..T
+T..T
+T..T
+T..T
+T..T
+T...
+T...
+T..T
+T..T
+T..T
+T..T
+T..T
+T..T
+T..T
+T..T
+T..T
+TTTT
+end

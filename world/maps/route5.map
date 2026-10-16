@@ -1,0 +1,76 @@
+# Route 5 — coastal meadow south of Port Tidewater (Part 2 start). B1 boundary: top row open only at x=9,10.
+map route5
+name "Route 5"
+location "Route 5"
+music route_mid
+environment grass
+region 17 15
+encounters p2_route5
+connect north port_tidewater -5
+connect south lumen_village -2
+
+layout
+TTTTTTTTT::TTTTTTTTT
+TTTTTTTTT::TTTTTTTTT
+TTTT....S::....TTTTT
+TT.......::.......TT
+TT.,,,,..::...FF..TT
+TT.,,,,..::.......TT
+TT.,,,,..::::::...TT
+TT..........::..ssTT
+TTvvvvvv....::.ss~~T
+TT..........::.s~~~T
+TT.,,,,.....::.s~~~T
+TT.,,,,..TT.::.s~~~T
+TT.,,,,..TT.::.s~~~T
+TT.......TT.::.s~s~T
+TTTTT.......::.s~~~T
+TT.TT.......::.s~~~T
+TT.TT..,,,,.::.s~~~T
+TT.TT..,,,,.::.s~~~T
+TT.TT..,,,,.::.s~~~T
+TT..........::.s~~~T
+TTTTTvvvvv..::.s~~~T
+TT..........::.s~~~T
+TT..........::..s~~T
+TT.,,,,,,...::..s~~T
+TT.,,,,,,...::..s~~T
+TT.,,,,,,...::...ssT
+TT..........::....TT
+TT..TTTT....::....TT
+TT..TTTT....::.,,,TT
+TT..........::.,,,TT
+TT.,,,......::.,,,TT
+TT.,,,..FF..::....TT
+TT.,,,..FF..::....TT
+TT..........::....TT
+TTvvvvvv.:::::vvvvTT
+TT.......::::.....TT
+TT..,,,..::...,,,.TT
+TT..,,,..::...,,,.TT
+TTTTTTTTT::TTTTTTTTT
+TTTTTTTTT::TTTTTTTTT
+end
+
+sign 8 2 text="ROUTE 5\nPort Tidewater - Lumen Village"
+# Badge-2 checkpoint (B1 contract): nobody heads south before beating Marina.
+npc r5_officer 11 3 sprite=policeman face=left script=p2_route5_officer
+trigger 9 3 2 1 script=p2_route5_gate unless=p2_route5_open
+
+trainer p2_r5_lass_tessa 6 9 sprite=lass face=right sight=4
+trainer p2_r5_youngster_ned 11 16 sprite=youngster face=left sight=4
+trainer p2_r5_fisher_wade 15 19 sprite=fisherman face=left sight=2
+trainer p2_r5_bug_otto 8 23 sprite=bugcatcher face=down sight=3
+trainer p2_r5_pokefan_rhea 14 27 sprite=pokefan face=left sight=2
+trainer p2_r5_hiker_bram 5 33 sprite=hiker face=right sight=3
+npc r5_rodguy 16 22 sprite=fisherman face=left script=p2_route5_rodguy
+npc r5_beachgirl 16 24 sprite=swimmer_f face=up text="The tide pools get fun once you can SURF. There's a shiny thing on that sandbar!"
+
+item superpotion 17 4 superpotion
+item bigpearl 17 13 bigpearl
+item thunderstone 2 15 thunderstone
+item greatball 3 36 greatball 3
+hidden ether 2 17 ether
+hidden sitrusberry 18 25 sitrusberry
+hidden heartscale 9 31 heartscale
+obstacle 3 19 cut flag=p2_r5_cut1

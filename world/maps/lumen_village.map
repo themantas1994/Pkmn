@@ -1,0 +1,50 @@
+# Lumen Village — quiet hamlet built around the Lumen Ruins.
+map lumen_village
+name "Lumen Village"
+location "Lumen Village"
+music town_mid
+environment plain
+region 15 16
+fly 12 6
+tags town
+connect north route5 2
+connect east route6 -5
+
+layout
+TTTTTTTTTTT::TTTTTTTTTTT
+T..........::..........T
+T..........::..........T
+T..........::..........T
+T.....:....::...:...:..T
+T.::::::::::::::::::::.T
+T.:........::........:.T
+T.:..FF....::....FF..:.T
+T.:........::........:.T
+T.:::::::::::::::::::::.
+T.:........::.........::
+T.:........::..........T
+T.:........::..........T
+T.:........::..........T
+T.:...:....::...:......T
+Tx:xx......::.....~~~..T
+TxExx......::.....~~~..T
+Txxxx......::.....~~~..T
+T.FF.......::..........T
+TTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+building house_big 3 1 -> lumen_elder 4 7 up
+building center 14 1 -> lumen_center 4 7 up
+building mart 19 1 -> lumen_mart 1 7 up
+building house 4 11 -> lumen_researcher 3 5 up
+building house_blue 14 11 -> lumen_house 3 5 up
+warp 2 16 -> lumen_ruins 9 18 up
+tile 9 8 sign
+sign 9 8 text="LUMEN VILLAGE\nWhere old light still lingers."
+tile 3 14 sign
+sign 3 14 text="LUMEN RUINS\nPlease do not scratch the murals."
+npc lv_kid 7 7 sprite=kid move=wander text="The ruins are full of Pokémon shaped like letters! I'm trying to spell my name."
+npc lv_gardener 17 8 sprite=oldwoman face=down text="Voltara City is east, past Route 6. You can see its lights at night... usually."
+npc lv_hiker 20 16 sprite=hiker face=left text="This pond never freezes. Folks say the ruins keep it warm. I say it's the sun."
+hidden revive 21 18 revive
+hidden pokeball 1 18 ultraball

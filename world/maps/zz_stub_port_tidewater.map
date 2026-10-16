@@ -1,0 +1,18 @@
+# STUB — replaced by Part 1/3, delete on merge.
+# Minimal stand-in for Part 1's port_tidewater so Part 2 compiles in isolation (B1 boundary).
+map port_tidewater
+name "Port Tidewater"
+location "Port Tidewater"
+music route_early
+environment plain
+region 16 12
+fly 14 2
+tags town
+connect south route5 5
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T............................T
+T............................T
+TTTTTTTTTTTTTT..TTTTTTTTTTTTTT
+end
