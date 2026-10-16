@@ -127,7 +127,7 @@ class BattleScreen(
         val t = text ?: return true
         val cps = when (game.options.textSpeed) { 0 -> 30f; 1 -> 60f; 2 -> 120f; else -> 10000f }
         if (textShown < t.length) {
-            textShown += dt * cps * if (input.pressed(Button.A) || input.pressed(Button.B)) 4 else 1
+            textShown = if (input.justPressed(Button.A) || input.justPressed(Button.B)) t.length.toFloat() else textShown + dt * cps
             return false
         }
         textHold += dt

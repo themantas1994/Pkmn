@@ -30,7 +30,8 @@ class TextBox(game: PkmnGame, text: String, private val autoClose: Boolean = fal
     override fun update(dt: Float, input: InputState) {
         val total = pages[page].sumOf { it.length }
         if (!finishedPage) {
-            shown += dt * charsPerSecond * (if (input.pressed(Button.A) || input.pressed(Button.B)) 4f else 1f)
+            // A/B while typing reveals the whole page at once.
+            shown = if (input.justPressed(Button.A) || input.justPressed(Button.B)) total.toFloat() else shown + dt * charsPerSecond
             if (shown >= total) { shown = total.toFloat(); finishedPage = true }
             return
         }

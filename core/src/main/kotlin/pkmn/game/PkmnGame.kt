@@ -63,6 +63,8 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     /** Frames rendered (for tests and the screenshot harness). */
     var frameCount = 0L
         private set
+    /** Debug: player name for skipping the title and intro (desktop --quickstart). */
+    var quickstart: String? = null
     /** Optional per-frame hook (automation). */
     var frameHook: ((PkmnGame) -> Unit)? = null
 

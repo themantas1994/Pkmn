@@ -30,6 +30,7 @@ class DesktopPlatform(override val saveDir: File) : Platform {
  *   --mute               no audio
  *   --scale=N            window scale (default 3)
  *   --portrait           phone-like portrait window with touch controls
+ *   --quickstart[=NAME]  skip title/intro and start a new game (debugging)
  */
 fun main(args: Array<String>) {
     val opts = args.associate { a -> a.removePrefix("--").substringBefore('=') to a.substringAfter('=', "true") }
@@ -37,6 +38,7 @@ fun main(args: Array<String>) {
     val platform = DesktopPlatform(saves)
     val audio: (() -> GameAudio)? = if (opts["mute"] == "true") ({ NoAudio }) else ({ SynthAudio() })
     val game = PkmnGame(platform, audio)
+    opts["quickstart"]?.let { game.quickstart = if (it == "true") "ARI" else it }
     opts["script"]?.let { Automation(File(it).readLines(), File(opts["shots"] ?: "shots")).attach(game) }
     val scale = opts["scale"]?.toIntOrNull() ?: 3
     val config = Lwjgl3ApplicationConfiguration().apply {
@@ -50,10 +52,12 @@ fun main(args: Array<String>) {
 }
 
 /** Feeds scripted input and captures screenshots (used for headless verification under Xvfb). */
-class Automation(private val lines: List<String>, private val shots: File) {
+class Automation(script: List<String>, private val shots: File) {
+    private val lines = script.toMutableList()
     private var pc = 0
     private var wait = 0
     private var hold: Button? = null
+    private var pilot: pkmn.game.overworld.Autopilot? = null
 
     fun attach(game: PkmnGame) {
         shots.mkdirs()
@@ -61,6 +65,8 @@ class Automation(private val lines: List<String>, private val shots: File) {
     }
 
     private fun tick(g: PkmnGame) {
+        val p = pilot ?: pkmn.game.overworld.Autopilot(g).also { pilot = it }
+        if (p.active) { p.tick(); return }
         if (wait > 0) { wait--; if (wait == 0) hold?.let { g.input.inject(it, false); hold = null }; return }
         while (pc < lines.size) {
             val parts = lines[pc++].trim().split(Regex("\\s+"))
@@ -72,6 +78,18 @@ class Automation(private val lines: List<String>, private val shots: File) {
                     val frames = parts.getOrNull(2)?.toInt() ?: 2
                     g.input.inject(b, true); hold = b; wait = frames; return
                 }
+                "mash" -> {
+                    // mash BUTTON N: press N times, 12 frames apart.
+                    val b = parts[1].uppercase(); val n = parts[2].toInt()
+                    val expanded = (0 until n).flatMap { listOf("press $b", "wait 10") }
+                    lines.addAll(pc, expanded); continue
+                }
+                "log" -> {
+                    val ow = g.screens().filterIsInstance<pkmn.game.overworld.OverworldScreen>().lastOrNull()
+                    println("AUTOMATION top=${g.top()?.javaClass?.simpleName} map=${ow?.baseMap?.id} pos=${ow?.player?.x},${ow?.player?.y} moving=${ow?.player?.moving}")
+                    continue
+                }
+                "goto" -> { p.goto(parts[1].toInt(), parts[2].toInt()); return }
                 "shot" -> { screenshot(File(shots, parts[1] + ".png")); continue }
                 "quit" -> { Gdx.app.exit(); return }
                 else -> if (parts[0].startsWith("#")) continue

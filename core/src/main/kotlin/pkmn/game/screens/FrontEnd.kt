@@ -19,7 +19,12 @@ class LoadingScreen(game: PkmnGame) : Screen(game) {
         if (game.loadError != null) return
         if (game.dex != null && game.content != null && t > 0.2f) {
             game.attachDexToAssets()
-            replace(TitleScreen(game))
+            val quick = game.quickstart
+            if (quick != null) {
+                // Debug/automation: skip the intro with a fresh game.
+                val state = GameContext.newGame(game.content!!, quick, "m", "KAI", 12345)
+                game.resetTo(OverworldScreen(game, game.startSession(state)))
+            } else replace(TitleScreen(game))
         }
     }
 
@@ -91,8 +96,8 @@ class TitleScreen(game: PkmnGame) : Screen(game) {
         // Blinking crystal sparkle.
         if ((t * 2).toInt() % 2 == 0) r.text("★", 200, 30, Palette.EXP_BLUE)
         if (!menuOpen && (t * 2).toInt() % 2 == 0) r.text("PRESS START", 84, 150)
-        r.text("Fan-made, non-commercial. Pokémon © Nintendo/", 4, 196, Palette.GREY, small = true)
-        r.text("Creatures/GAME FREAK. Not affiliated.", 4, 206, Palette.GREY, small = true)
+        r.text("Fan game. Pokémon (c) Nintendo, Creatures,", 4, 196, Palette.GREY, small = true)
+        r.text("GAME FREAK. Not affiliated or endorsed.", 4, 206, Palette.GREY, small = true)
     }
 }
 
