@@ -41,3 +41,6 @@ item cc_rockterashard 24 4 rockterashard 2
 item cc_ultraball 9 10 ultraball 2
 hidden cc_hidden_rarecandy 22 12 rarecandy
 obstacle 19 13 boulder flag=p3a_cc_boulder1
+# --- Expansion E3: more trainers
+trainer p4c_cc_hiker_garn 6 4 sprite=hiker face=right sight=3
+trainer p4c_cc_sci_beryl 13 9 sprite=scientist face=left sight=2

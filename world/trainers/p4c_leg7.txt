@@ -1,0 +1,280 @@
+# Expansion E3, leg 7 (Ember Badge -> Frost Badge, cap 52): Route 10, Crystal Cavern, Route 11, Tide Grotto,
+# S.S. Halcyon, Rime Hollow. Route trainers 44-47, optional areas 45-50.
+
+# ------------------------------------------------------------------ Route 10
+trainer p4c_r10_kindler_cinda
+  class p3a_kindler
+  name "Cinda"
+  intro "Ashfall's ash is still in my hair. My Pokémon say it suits me!"
+  defeat "Snuffed out like a candle..."
+  after "Torkoal puff smoke when they're happy. Mine never stops."
+  mon camerupt 45
+  mon torkoal 45
+  mon magmar 44
+end
+
+trainer p4c_r10_pokefan_bert
+  class pokefan
+  name "Bert"
+  intro "Look how fluffy they are! Okay, now look how strong they are!"
+  defeat "My babies did their best!"
+  after "I comb Wigglytuff every night. It takes an hour. Worth it."
+  mon wigglytuff 44
+  mon audino 45
+  mon clefable 45
+end
+
+trainer p4c_r10_cool_selene
+  class cooltrainer_f
+  name "Selene"
+  intro "The cavern's crystals made my team shine brighter. Let me show you!"
+  defeat "Outshone. Impressive."
+  after "Quartz says a Tera Type can turn a weakness into a strength. Think about that before Frostmere."
+  mon espeon 45 moves=psychic,dazzlinggleam,shadowball,morningsun
+  mon arcanine 45
+  mon togekiss 46 moves=airslash,dazzlinggleam,aurasphere,roost
+end
+
+# ------------------------------------------------------------------ Crystal Cavern 1F
+trainer p4c_cc_hiker_garn
+  class hiker
+  name "Garn"
+  intro "This is MY crystal vein! Well, I found it first. Probably."
+  defeat "Fine, share it!"
+  after "Sudowoodo isn't a tree. Don't tell it I said that."
+  mon crustle 44
+  mon sudowoodo 44
+  mon aggron 45
+end
+
+trainer p4c_cc_sci_beryl
+  class scientist
+  name "Beryl"
+  intro "My instruments say your team is about to lose! My instruments are often wrong."
+  defeat "Recalibrating..."
+  after "Klinklang's gears hum at the same pitch as the Tera crystals. Coincidence? Yes, probably."
+  mon magneton 44
+  mon klinklang 45
+  mon porygon2 45
+end
+
+# ------------------------------------------------------------------ Route 11
+trainer p4c_r11_swim_marlo
+  class swimmer_m
+  name "Marlo"
+  intro "I swim the bay twice a day! Want to race? No? Battle, then!"
+  defeat "Swamped!"
+  after "There's a cave in the cliff of the southwest islet. Divers say a ship's down there."
+  mon seismitoad 45
+  mon golduck 44
+  mon kingdra 46
+end
+
+trainer p4c_r11_swim_ondine
+  class swimmer_f
+  name "Ondine"
+  intro "The current here is perfect for training. And for battling you!"
+  defeat "Swept away..."
+  after "Araquanid carry a bubble of water everywhere. Like a tiny aquarium!"
+  mon lumineon 44
+  mon araquanid 45
+  mon azumarill 45
+end
+
+trainer p4c_r11_fisher_gus
+  class fisherman
+  name "Gus"
+  intro "Shh! The fish here are smarter than me. You, too, maybe. Battle!"
+  defeat "Out-fished on dry land..."
+  after "The Halcyon sank in a storm when the sky went black at noon. My dad saw it."
+  mon politoed 45
+  mon crawdaunt 45
+  mon qwilfish 44
+end
+
+# ------------------------------------------------------------------ Tide Grotto
+trainer p4c_tg_fisher_wade
+  class fisherman
+  name "Wade"
+  intro "A whole cave lake and nobody fishing it! Except me. And now you."
+  defeat "Line snapped!"
+  after "Bruxish grind their teeth so loud the whole grotto echoes."
+  mon barraskewda 45
+  mon bruxish 45
+  mon cramorant 46
+end
+
+trainer p4c_tg_swim_reef
+  class swimmer_m
+  name "Reef"
+  intro "Careful, the water down here stings. So do my Pokémon!"
+  defeat "Ouch. You sting too."
+  after "Toxapex sit on the rocks like little crowns. Don't touch them."
+  mon tentacruel 46
+  mon toxapex 46
+end
+
+trainer p4c_tg_swim_lagoon
+  class swimmer_f
+  name "Lagoon"
+  intro "It's so quiet in here. Let's make some noise!"
+  defeat "Echo... echo... I lost..."
+  after "Swim out to the little islets. People drop things there."
+  mon dewgong 45
+  mon vaporeon 46
+end
+
+trainer p4c_tg_ranger_coralie
+  class ranger
+  name "Coralie"
+  intro "This grotto is a nursery for reef Pokémon. Prove you'll respect it!"
+  defeat "You battle with care. Good."
+  after "Golisopod guard the wreck's deck like knights. Very grumpy knights."
+  mon corsola 45
+  mon pyukumuku 45
+  mon golisopod 47
+end
+
+# ------------------------------------------------------------------ S.S. Halcyon cabins
+trainer p4c_wc_medium_mireille
+  class psychic
+  name "Mireille"
+  intro "The crew still walks these halls... Can you hear their footsteps? They're angry."
+  defeat "The spirits... applaud?"
+  after "The captain's ghost isn't here. He's still alive, you know. He just left his heart on this ship."
+  mon jellicent 46
+  mon mismagius 46
+  mon cofagrigus 46
+end
+
+trainer p4c_wc_hunter_brack
+  class hiker
+  name "Brack"
+  intro "Treasure! Gold! Doubloons! ...Or at least a battle!"
+  defeat "Bankrupt!"
+  after "The good loot sank into the hold. It's flooded and pitch black down there."
+  mon excadrill 46
+  mon sableye 45
+  mon probopass 46
+end
+
+trainer p4c_wc_sailor_quill
+  class sailor
+  name "Quill"
+  intro "I served on the Halcyon's sister ship. Show some respect, landlubber!"
+  defeat "Abandon ship!"
+  after "Captain Morrel was the best skipper on the coast. He lives in the Sea Cottage now."
+  mon poliwrath 46
+  mon pelipper 45
+  mon conkeldurr 46
+end
+
+trainer p4c_wc_gent_aldous
+  class gentleman
+  name "Aldous"
+  intro "I collect maritime antiques. You are standing on one. Shall we duel?"
+  defeat "A most refined defeat."
+  after "The captain's log would fetch a fortune. Yet it belongs with the captain, wouldn't you say?"
+  mon slowking 46
+  mon mrmime 45
+  mon perrserker 46
+end
+
+# ------------------------------------------------------------------ S.S. Halcyon hold
+trainer p4c_wh_diver_finn
+  class swimmer_m
+  name "Finn"
+  intro "Diving in a dark wreck is the best training! You can't see what's coming!"
+  defeat "I didn't see that coming either."
+  after "Carracosta lived in shipwrecks long before people built ships. Think about that."
+  mon carracosta 46
+  mon overqwil 46
+  mon frillish 45
+end
+
+trainer p4c_wh_sci_tamsin
+  class scientist
+  name "Tamsin"
+  intro "The hold's water is full of strange energy. My Rotom loves it!"
+  defeat "Short circuit!"
+  after "The energy comes from the anchor. Or from what's living in it."
+  mon rotomwash 47
+  mon magnezone 46
+  mon porygonz 46
+end
+
+trainer p4c_wh_beauty_nerissa
+  class beauty
+  name "Nerissa"
+  intro "Dark, damp and full of ghosts. Exactly my kind of evening!"
+  defeat "Simply divine."
+  after "Big Pearls wash up in here. The sea gives back what it takes."
+  mon milotic 47
+  mon clawitzer 46
+end
+
+# ------------------------------------------------------------------ Rime Hollow
+trainer p4c_rh1_skier_sigrid
+  class p3a_skier
+  name "Sigrid"
+  intro "Isolde sent me to scout for students! Let's see if you're worth reporting!"
+  defeat "I'll report... that I lost."
+  after "The ice field has a pattern. Rocks are your friends, walls are your friends. Gaps are not."
+  mon abomasnow 47
+  mon ninetalesalola 47
+end
+
+trainer p4c_rh1_boarder_lars
+  class p3a_boarder
+  name "Lars"
+  intro "Cave boarding! It's like snowboarding, except with more walls!"
+  defeat "Faceplant!"
+  after "Crabominable climbed all the way up here from the coast. Respect the climb."
+  mon crabominable 47
+  mon weavile 47
+end
+
+trainer p4c_rh1_hiker_tove
+  class hiker
+  name "Tove"
+  intro "Made it across the ice! My legs are jelly but my team is fresh!"
+  defeat "Jelly legs AND a loss..."
+  after "The ladder goes down to the frozen lake. I'm resting here a while."
+  mon mamoswine 47
+  mon sandslashalola 46
+  mon steelix 47
+end
+
+trainer p4c_rh2_cool_astrid
+  class cooltrainer_f
+  name "Astrid"
+  intro "I'm Isolde's top student. Beat me and you might stand a chance against her!"
+  defeat "...You might really stand a chance."
+  after "Isolde's Lapras can Gigantamax. Its G-Max Resonance sets up Aurora Veil. Break it fast!"
+  mon lapras 48 moves=freezedry,surf,thunderbolt,iceshard
+  mon jynx 48
+  mon glalie 47
+  mon froslass 48
+end
+
+trainer p4c_rh2_psychic_aurora
+  class psychic
+  name "Aurora"
+  intro "The Power Spot hums through the ice... I've been listening for days."
+  defeat "The humming stopped. Oh, it's just my ears ringing."
+  after "Galar particles pool deepest in the den below. Something big sleeps there."
+  mon gothitelle 48
+  mon gardevoir 48
+  mon cryogonal 47
+end
+
+trainer p4c_rh2_boarder_soren
+  class p3a_boarder
+  name "Soren"
+  intro "You crossed the frozen lake? Took me a week! Battle!"
+  defeat "Wiped out, for real."
+  after "The den ladder is just past me. Bring something that can handle a Gigantamax body slam."
+  mon beartic 48
+  mon avalugg 49
+  mon eiscue 48
+end

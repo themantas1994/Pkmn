@@ -1,0 +1,21 @@
+# Expansion E3 quests (legs 7-9).
+
+# ------------------------------------------------------------------ leg 7
+quest p4c_power_survey "The Breathing Ice"
+  desc "Brynn, Hollis's assistant, needs Power Spot readings from the three glowing vents in Rime Hollow."
+  step "Find the three glowing vents in Rime Hollow, north of Frostmere."
+  step "Two more vents to go."
+  step "One more vent to go."
+  step "Report the readings to Brynn at Hollis's Lodge."
+end
+
+quest p4c_halcyon "The Halcyon's Log"
+  desc "Captain Morrel of the Sea Cottage lost his logbook when the S.S. Halcyon ran aground in Tide Grotto."
+  step "Find the captain's strongbox in the flooded hold of the S.S. Halcyon."
+  step "Bring the logbook to Captain Morrel at the Sea Cottage on Route 11."
+end
+
+quest p4c_heart_tutor "Tuition in Scales"
+  desc "Margit, a retired move tutor in Frostmere, will teach your Pokémon for the old fee: one Heart Scale."
+  step "Bring Margit a Heart Scale."
+end

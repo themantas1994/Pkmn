@@ -1,0 +1,46 @@
+# S.S. Halcyon cargo hold (Expansion E3) — flooded and pitch dark (Flash helps). Surf between the cargo decks.
+# The captain's strongbox sank on the northwest deck; something lives in the old anchor to the southwest.
+map p4c_wreck_hold
+name "Halcyon Hold"
+location "Route 11"
+music ruins
+environment cave
+indoor
+dark
+region 4 8
+encounters p4c_wreck_hold
+
+legend
+a cave_water
+end
+
+layout
+^^^^^^^^^^^^^^^^^^^^^^^^^
+@@@@@@@@@@@@@@@@@@@@@@@@@
+@__k_aaaaaaaaaaaa__k____@
+@____aaaaaaaaaaaa_______@
+@_t__aaaaakaaaaaa__kk___@
+@____aaaaaaaaaaaa_______@
+@@@@aaaaaaaaaaaaaa@@@@@@@
+@aaaaaaaaaakaaaaaaaaaaaa@
+@aaaaaaaaaaaaaaaaaaaaaaa@
+@aaaaakaaaaaaaaaaaakaaaa@
+@aaaaaaaaaaaaaaaaaaaaaaa@
+@@@aaaaaaaaaaaaaaaaa@@@@@
+@_____aaaaaaaaaaa_______@
+@__k__aaaaaaaaaaa__k____@
+@_____aaaaaaaaaaa_______@
+@@@@@@@@@@@@@@@@@@@@@@@@@
+end
+
+warp 21 2 -> p4c_wreck_cabins 20 12 left
+tile 21 2 stairs_in_up
+trainer p4c_wh_diver_finn 12 8 sprite=swimmer_m face=down sight=3
+trainer p4c_wh_sci_tamsin 21 12 sprite=scientist face=left sight=3
+trainer p4c_wh_beauty_nerissa 3 12 sprite=beauty face=right sight=3
+npc wh_strongbox 1 2 sprite=boulder script=p4c_wreck_strongbox
+npc wh_anchor 2 14 sprite=legendary_shadow face=right script=p4c_wreck_anchor hideif=p4c_dhelmise_done
+item wh_maxrevive 22 5 maxrevive
+item wh_bigpearl 1 5 bigpearl
+hidden wh_hidden_heartscale 22 14 heartscale
+hidden wh_hidden_pp 4 3 ppup

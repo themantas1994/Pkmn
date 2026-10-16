@@ -1,0 +1,42 @@
+# S.S. Halcyon, below decks (Expansion E3). Ghost Pokémon haunt the old cabins; the stairs in the captain's
+# cabin (southeast) lead down to the flooded hold.
+map p4c_wreck_cabins
+name "S.S. Halcyon"
+location "Route 11"
+music ruins
+environment cave
+indoor
+region 4 8
+encounters p4c_wreck
+
+layout
+^^^^^^^^^^^^^^^^^^^^^^^^
+@w@@@@@@w@@@@@@w@@@@w@@@
+@____1@______@__1@_B__B@
+@____2@__tt__@__2@_____@
+@_____@__hh__@___@__t__@
+@@@_@@@@@_@@@@@_@@@_@@@@
+@______________________@
+@______________________@
+@@@@_@@@@@@@@_@@@@@@_@@@
+@______@_______@_______@
+@__tt__@_t___B_@___1___@
+@__hh__@_h_____@___2___@
+@______@_______@_____D_@
+@@@@@@@@@@@@@@@@@@@@@@@@
+end
+
+warp 1 6 -> p4c_tide_grotto 12 5 up
+tile 1 6 stairs_in_up
+warp 21 12 -> p4c_wreck_hold 20 2 left
+tile 21 12 stairs_in_down
+trainer p4c_wc_medium_mireille 8 2 sprite=psychic face=down sight=2
+trainer p4c_wc_hunter_brack 12 7 sprite=hiker face=up sight=3
+trainer p4c_wc_sailor_quill 5 9 sprite=sailor face=down sight=3
+trainer p4c_wc_gent_aldous 17 9 sprite=gentleman face=down sight=3
+npc wc_logpage 9 10 sprite=sign script=p4c_wreck_logpage
+item wc_spelltag 20 2 spelltag
+item wc_reapercloth 2 11 reapercloth
+item wc_fullrestore 14 12 fullrestore
+hidden wc_hidden_heartscale 18 3 heartscale
+hidden wc_hidden_nugget 4 2 nugget

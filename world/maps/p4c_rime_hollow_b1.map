@@ -1,0 +1,51 @@
+# Rime Hollow B1 (Expansion E3) — the frozen lake. A larger ice field (solver-verified: 11 moves, no soft-lock)
+# separates the upper gallery from the den ladder. The east gallery holds Hollis's second Power Spot vent.
+map p4c_rime_hollow_b1
+name "Rime Hollow B1"
+location "Rime Hollow"
+music cave
+environment cave
+region 3 3
+encounters p4c_rime_hollow
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWfLffffffffffffffffWWWWWWffffWW
+WWffffffffffffffffffffffffffffWW
+WWffffkfffffffffffffWWWWWWffffWW
+WWWWWWWWWWWWWWWfWWWWWWWWWWffffWW
+WWWWWWWWkiiiikiiiiiiiikiWWffffWW
+WWWWWWWWiiiiiiiiiiiiiiiiWWffffWW
+WWWWWWWWiiiiiiiiiiikiiiikWfkffWW
+WWWWWWWWiiiiiiiiiiikiikiiWffffWW
+WWWWWWWWiiiiiikiiiiiiiiiWWffffWW
+WWWWWWWWiiiikiiikiiiiiiiWWffffWW
+WWWWWWWWiiiiiikiiiiikikiWWffffWW
+WWWWWWWWiiikiiiiiiiiiikiWWWWWWWW
+WWWWWWWWkiiiiiiiiiiiiiiiWWWWWWWW
+WWWWWWWWiiiiiiiiikiiikiiWWWWWWWW
+WWWWWWWWWWfWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWfffWWWWWWWWWWWWWWWWWWWW
+WWWWWffffffffffffffffWWWWWWWWWWW
+WWWWWfffkfffffffffffffffffWWWWWW
+WWWWWffffffffWWWWffffffffffWWWWW
+WWWWWWWfffffWWWWWfffkffffffWWWWW
+WWWWWWWfffffWWWWWffffffLfffWWWWW
+WWWWWWWWWWWWWWWWWffffffffffWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 2 -> p4c_rime_hollow_1f 23 2 left
+warp 23 22 -> p4c_rime_den 7 2 right
+tile 28 10 puzzle_switch
+trigger 28 10 1 1 script=p4c_rime_reading2 if=p4c_hollis_survey unless=p4c_rime_read2
+trainer p4c_rh2_cool_astrid 18 3 sprite=cooltrainer_f face=left sight=4
+trainer p4c_rh2_psychic_aurora 28 6 sprite=psychic face=down sight=3
+trainer p4c_rh2_boarder_soren 16 19 sprite=cooltrainer_m face=left sight=4
+item rh2_freezedry 6 18 tm:freezedry
+item rh2_maxrevive 29 2 maxrevive
+item rh2_ultraball 26 12 ultraball 3
+hidden rh2_hidden_nugget 2 4 bignugget
+hidden rh2_hidden_candy 26 23 rarecandy

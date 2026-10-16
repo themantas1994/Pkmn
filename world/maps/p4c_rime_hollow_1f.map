@@ -1,0 +1,54 @@
+# Rime Hollow 1F (Expansion E3) — glacier cave behind Frostmere Town where Isolde's students train.
+# Ice field in the middle (solver-verified: 11 moves, no soft-lock); the ladder down is on the north landing.
+map p4c_rime_hollow_1f
+name "Rime Hollow"
+location "Rime Hollow"
+music cave
+environment cave
+region 3 3
+encounters p4c_rime_hollow
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWffffffffffLffWWW
+WWWWWWWWWWWWWWfffffffffffffWWW
+WWWWWWWWWWWWWWWWWWWfWWWWWWWWWW
+WWWWWWWWWWiiikiiikkiiiWWWWWWWW
+WWWWWWWWWWiiiiiiiiiiikWWWWWWWW
+WWWWWWWWWWkiiiiiiiiiikWWWWWWWW
+WWWWWWWWWWiiiiiiiiikiiWWWWWWWW
+WWWWWWWWWWiiiiiiiiiiiiWWWWWWWW
+WWWWWWWWWWiiiiiiiiiiiiWWWWWWWW
+WWWWWWWWWWkiiiikiiiiiiWWWWWWWW
+WWWWWWWWWWiikiiiiiiiiiWWWWWWWW
+WWWWWWWWWWikiiikiikiiiWWWWWWWW
+WWWWWWWWWWWWfWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWfffWWWWWWWWWWWWWWWW
+WWffffffWWWfffffffffWWWWffffWW
+WWffffffffffffffffffWWWWffffWW
+WWfffkffffffffffffffffffffffWW
+WWffffffWWWWfffffkffWWWWffffWW
+WWWWffWWWWWWffffffffWWWWfkffWW
+WWffffffWWWWffffffffWWWWffffWW
+WWfkffffWWWWffffffffffffffffWW
+WWffffffWWWWWWffffffWWWWWWWWWW
+WWWWWWWWWWWWWWffffffWWWWWWWWWW
+WWWWWWWWWWWWWWWEWWWWWWWWWWWWWW
+end
+
+warp 15 25 -> frostmere_town 26 1 down
+warp 24 2 -> p4c_rime_hollow_b1 4 2 right
+tile 11 15 sign
+sign 11 15 text="ICE FIELD AHEAD\nOnce you slide, you won't stop until something stops you. -Isolde"
+tile 25 21 puzzle_switch
+trigger 25 21 1 1 script=p4c_rime_reading1 if=p4c_hollis_survey unless=p4c_rime_read1
+trainer p4c_rh1_skier_sigrid 16 17 sprite=cooltrainer_f face=left sight=4
+trainer p4c_rh1_boarder_lars 4 21 sprite=cooltrainer_m face=up sight=3
+trainer p4c_rh1_hiker_tove 20 3 sprite=hiker face=left sight=4
+npc rh1_student 26 17 sprite=lass face=left text="Isolde makes her students cross that ice field blindfolded. I keep my eyes open. I still fall."
+item rh1_nevermeltice 3 16 nevermeltice
+item rh1_fullheal 14 2 fullheal 2
+item rh1_icestone 27 22 icestone
+hidden rh1_hidden_heartscale 7 16 heartscale
+hidden rh1_hidden_ether 18 23 maxether

@@ -1,0 +1,70 @@
+# Expansion E3, leg 7 wild encounters (levels 44-50).
+
+encounters p4c_rime_hollow
+  rate cave 12
+  cave any snorunt 44-47 15
+  cave any sneasel 45-47 12
+  cave any swinub 44-46 10
+  cave any piloswine 46-48 8
+  cave any bergmite 44-47 10
+  cave any vanillish 45-48 10
+  cave any smoochum 44-46 8
+  cave any spheal 44-46 8
+  cave any cryogonal 46-48 7
+  cave any glalie 47-49 5
+  cave any froslass 47-49 4
+  cave any avalugg 48-50 3
+end
+
+encounters p4c_tide_grotto
+  rate cave 10
+  cave any woobat 44-46 30
+  cave any shellos 44-46 30
+  cave any binacle 44-46 25
+  cave any corsola 45-47 15
+  surf any tentacool 44-46 30
+  surf any shellder 44-46 20
+  surf any clauncher 44-47 20
+  surf any corsola 45-47 15
+  surf any mareanie 44-46 15
+  oldrod any magikarp 30-40 60
+  oldrod any luvdisc 35-42 40
+  goodrod any bruxish 42-46 40
+  goodrod any luvdisc 40-45 30
+  goodrod any chinchou 40-45 30
+  superrod any lanturn 45-48 35
+  superrod any clawitzer 46-48 25
+  superrod any barraskewda 45-48 25
+  superrod any relicanth 46-48 15
+end
+
+encounters p4c_wreck
+  rate cave 12
+  cave night shuppet 44-46 30
+  cave night drifloon 44-46 25
+  cave night banette 46-48 15
+  cave night sableye 45-47 15
+  cave night golett 44-46 15
+  cave morning shuppet 44-46 30
+  cave morning sableye 45-47 25
+  cave morning rattata 44-46 25
+  cave morning golett 44-46 20
+  cave day shuppet 44-46 25
+  cave day sableye 45-47 25
+  cave day golett 44-46 25
+  cave day drifloon 44-46 25
+end
+
+encounters p4c_wreck_hold
+  rate cave 12
+  cave any sableye 45-47 40
+  cave any banette 46-48 30
+  cave any golett 44-46 30
+  surf any frillish 44-47 60
+  surf any jellicent 47-49 20
+  surf any pyukumuku 44-46 20
+  goodrod any frillish 44-46 70
+  goodrod any luvdisc 42-45 30
+  superrod any jellicent 46-49 60
+  superrod any carvanha 45-47 40
+end

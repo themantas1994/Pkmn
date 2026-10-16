@@ -55,3 +55,12 @@ npc fm_skater 17 23 sprite=kid move=wander text="Wheee! The pond is frozen solid
 npc fm_oldwoman 26 15 sprite=oldwoman face=left script=p3a_fm_scarf_quest
 npc fm_gentleman 12 13 sprite=gentleman face=down text="Isolde is the most elegant trainer in Tessera. Her Pokémon hail and blizzard like a winter storm."
 trigger 21 17 1 1 script=p3a_fm_gym_sealed unless=p3a_got_dynamaxband
+# --- Expansion E3: Rime Hollow entrance (north), heart-scale tutor
+tile 25 0 mountain_wall
+tile 26 0 cave_entrance
+tile 27 0 mountain_wall
+warp 26 0 -> p4c_rime_hollow_1f 15 24 up
+tile 24 1 sign
+sign 24 1 text="RIME HOLLOW\nIsolde's training cave. The floors are solid ice!"
+npc p4c_fm_margit 8 3 sprite=oldwoman face=down script=p4c_fm_margit
+npc p4c_fm_aurora_kid 21 3 sprite=youngster move=wander text="When the lights dance over Rime Hollow, Grandpa says the Power Spot is breathing. I think it's just pretty."

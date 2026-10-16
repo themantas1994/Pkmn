@@ -1,0 +1,56 @@
+# Tide Grotto (Expansion E3) — sea cave under the Route 11 islet. Surf across the cave lake to the wreck of the
+# S.S. Halcyon, run aground on the north shore forty years ago. The deck hatch leads below decks.
+map p4c_tide_grotto
+name "Tide Grotto"
+location "Route 11"
+music ocean_surf
+environment cave
+region 4 8
+encounters p4c_tide_grotto
+
+legend
+a cave_water
+_ floor_wood
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWffff=========WWWWWffffWWWW
+WWWfffff|_______|fffWWfkffWWWW
+WWffffff|___D___|ffffffffffWWW
+WWfkffff|_______|fffffffffffWW
+WWffffff===_=====ffffkffffffWW
+WWfffffffffffffffffffffffffaWW
+WWaaaaaaaaaaaaaaaaaaaaaaaaaaWW
+WWaaaaaffaaaaaaaaaaaaaaaaaaaWW
+WWaaaaaffaaaaaaaaaaakkaaaaaaWW
+WWaaaaaaaaaaaaaaaaaaffaaaaaaWW
+WWaaaaaaaaaaaaaaaaaaffaaaaaaWW
+WWaaakaaaaaaaaaaaaaaaaaaaaaaWW
+WWaaaaaaaaaaaffaaaaaaaaaaaaaWW
+WWaaaaaaaaaaaffaaaaaaaaaakaaWW
+WWaaaaaaaaaaaaaaaaaaaaaaaaaaWW
+WWaaaaaaaaaaaaaaaaaaaaaaaaaaWW
+WWffffaaaaaaaaaaaaaaaaafffffWW
+WWfkffaaaaaaaaaaaaaaaaaffkffWW
+WWffffffaaaaaaaaaaaaaaffffffWW
+WWWWffffffffaaaaaaafffffffWWWW
+WWWWWWffffffffffffffffffWWWWWW
+WWWWWWWWWWWWWEWWWWWWWWWWWWWWWW
+end
+
+warp 13 23 -> route11 6 25 down
+warp 12 4 -> p4c_wreck_cabins 2 6 right
+tile 10 7 sign
+sign 10 7 text="S.S. HALCYON\nTessera Coastal Line. Lost in the Dark Noon storm, forty years ago."
+npc tg_diver 18 3 sprite=swimmer_m face=left text="I dive here for salvage. Lately the cabins below deck have been... humming. And something keeps moving the anchor."
+trainer p4c_tg_fisher_wade 8 9 sprite=fisherman face=down sight=3
+trainer p4c_tg_swim_reef 16 11 sprite=swimmer_m face=left sight=4
+trainer p4c_tg_swim_lagoon 10 16 sprite=swimmer_f face=up sight=4
+trainer p4c_tg_ranger_coralie 24 5 sprite=ranger face=left sight=4
+item tg_pearlstring 21 12 pearlstring
+item tg_starpiece 3 18 starpiece
+item tg_diveball 25 2 diveball 3
+hidden tg_hidden_heartscale 13 14 heartscale
+hidden tg_hidden_ultra 26 20 ultraball
