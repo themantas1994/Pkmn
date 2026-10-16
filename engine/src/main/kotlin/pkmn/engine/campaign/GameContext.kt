@@ -116,6 +116,24 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return state.addPokemon(mon)
     }
 
+    /** Party indices whose species (any forme) matches [want] — candidates for an in-game trade. */
+    fun tradeCandidates(want: String): List<Int> = state.party.indices.filter { i ->
+        val sp = state.party[i].species(dex)
+        sp.id == want || sp.baseSpecies == want
+    }
+
+    /**
+     * Swaps party member [index] for [received] (an NPC trade). Returns the species the received Pokémon evolves into
+     * by trading, or null. Returns null without trading if [index] does not match [want].
+     */
+    fun performTrade(index: Int, want: String, received: Pokemon): String? {
+        require(index in tradeCandidates(want)) { "party slot $index is not a $want" }
+        state.party[index] = received
+        val base = received.species(dex).baseSpecies
+        state.seen.add(base); state.caught.add(base)
+        return evolutionByItem(received, "linkingcord", null)
+    }
+
     fun markSeen(speciesId: String) { state.seen.add(dex.speciesOrNull(speciesId)?.baseSpecies ?: speciesId) }
 
     fun healParty() { for (m in state.party) m.healFully(dex) }

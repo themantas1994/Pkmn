@@ -46,7 +46,7 @@ object ScriptParser {
         "givemon" to 2, "giveegg" to 2, "battle" to 1, "wildbattle" to 2, "heal" to 0, "healcenter" to 0, "warp" to 3, "music" to 1, "restoremusic" to 0,
         "sfx" to 1, "cry" to 1, "fadeout" to 0, "fadein" to 0, "show" to 1, "hide" to 1, "emote" to 2, "badge" to 1, "shop" to 1, "pc" to 0,
         "setrespawn" to 0, "call" to 1, "return" to 0, "quest" to 2, "pokedex" to 0, "movetutor" to 1, "moverelearner" to 0, "nickname" to 0,
-        "weather" to 1, "tm" to 1, "trade" to 2, "credits" to 0, "halloffame" to 0, "settime" to 1, "evolve" to 0, "flash" to 0, "shake" to 0,
+        "weather" to 1, "tm" to 1, "trade" to 3, "credits" to 0, "halloffame" to 0, "settime" to 1, "evolve" to 0, "flash" to 0, "shake" to 0,
         "playerface" to 1, "sign" to 1, "nameinput" to 1, "unlock" to 1, "setmonflag" to 1, "teleport" to 0, "blackout" to 0, "save" to 0,
         "special" to 1, "fly" to 0,
     )

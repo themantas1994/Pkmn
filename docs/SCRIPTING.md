@@ -65,5 +65,6 @@ Script ids are global; the compiler rejects duplicates and unknown references.
 | `quest <id> start|next|done|<step>` | quest log |
 | `unlock mega|zmove|dynamax|tera` | enable a battle gimmick |
 | `setrespawn`, `save`, `fly`, `evolve`, `halloffame`, `credits`, `pokedex` | misc |
+| `trade <want> <give> <level> [nick=] [item=] [ot=] [moves=]…` | in-game trade: player picks a party `<want>` (any forme) and receives `<give>` (OT = `ot`, default TRADER); trade evolutions trigger; `result` 1 if traded, 0 if declined / no match |
 | `call <script>` / `return` | subroutine |
 | `special <name> [args]` | engine hook for one-off features |
