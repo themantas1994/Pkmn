@@ -1,0 +1,29 @@
+map tidewater_warehouse
+name "Harbor Warehouse"
+location "Port Tidewater"
+music team_eclipse
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^
+@w@@@@@@@@w@
+_KK____KK___
+_KK_K__KK_K_
+____K_______
+_KK___KK__K_
+_KK___KK____
+____________
+_K________K_
+_____RR_____
+end
+
+warp 5 9 -> port_tidewater 20 16 down
+warp 6 9 -> port_tidewater 20 16 down
+npc marina 4 2 sprite=leader2 face=right script=p1_wh_marina hideif=p1_marina_left
+npc wh_grunt_boss 5 2 sprite=grunt_m face=left script=p1_wh_grunt_boss hideif=p1_heist_foiled
+trigger 5 3 1 1 script=p1_wh_grunt_boss unless=p1_heist_foiled
+trainer wh_grunt_a 9 4 sprite=grunt_f face=left sight=4 trainer=p1_wh_grunt_a hideif=p1_heist_foiled
+trainer wh_grunt_b 2 7 sprite=grunt_m face=right sight=5 trainer=p1_wh_grunt_b hideif=p1_heist_foiled
+item wh_greatball 11 2 greatball
+hidden wh_crate 0 8 fullheal

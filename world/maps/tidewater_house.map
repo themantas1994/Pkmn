@@ -1,0 +1,21 @@
+map tidewater_house
+name "Sailor's House"
+location "Port Tidewater"
+music city_port
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+________
+_tt___p_
+_hh_____
+________
+___RR___
+end
+
+warp 3 6 -> port_tidewater 5 17 down
+warp 4 6 -> port_tidewater 5 17 down
+npc old_sailor 5 2 sprite=fisherman face=down script=p1_tw_rod_sailor
+npc pen_pal_kid 6 4 sprite=kid face=left script=p1_tw_pen_pal

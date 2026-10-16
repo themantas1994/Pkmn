@@ -150,3 +150,37 @@ to learn the required field move is obtainable before its first mandatory use (d
 ## Writing style
 GSC tone: short, warm, slightly humorous lines; ≤ 3 text boxes per NPC; signs give directions; no profanity.
 All NPCs have a purpose (hint, lore, item, trade, battle). Avoid long unskippable cutscenes.
+
+## Part 1 notes
+**Maps (29):** hometown, player_house_1f/2f, rival_house, lab, route1, fernwick_town (+ fernwick_center/mart/house),
+route2, whisperwood, brindle_city (+ brindle_center/mart/gym/house/bikeshop), route3, route4, cobblecrest_1f,
+cobblecrest_b1f, port_tidewater (+ tidewater_center/mart/gym/house/warehouse). Route 2 is split by a tree line: the
+south half's gate leads into Whisperwood, whose north exit leads to the north half (rival L11) and Brindle. Route 4 is
+split by a ridge; Cobblecrest 1F is the critical path between its halves. Connections: brindle_city `south route2 4`,
+`east route3 2`; route3 `east route4 6`; route4 `east port_tidewater 6`.
+
+**Merge placeholders (delete/replace on merge):** `world/maps/route5.map` is a stub honouring B1 (take Part 2's file);
+`world/scripts/p1_stub_ferry.pks` defines a stub `ferry_to_coral` (delete when Part 3 lands — duplicate id error).
+B1 is implemented exactly (port_tidewater bottom row open only at x=14,15, `connect south route5 5`). Ferry sailor
+`ferry_sailor` on the north pier uses script `tidewater_ferry` per contract. Generated `assets/` were not committed.
+
+**Flags others may test:** `p1_got_expshare`, `p1_got_oldrod`, `p1_got_goodrod`, `p1_got_bicycle`, `p1_got_eevee`,
+`p1_ww_grunts_fled` (Whisperwood Eclipse event), `p1_rival_route2`, `p1_rival_port`, `p1_heist_foiled` (docks heist;
+also opens Gym 2), `p1_marina_left`, `p1_beat_hazel`, `p1_beat_marina`, `p1_got_rocksmash`, `p1_found_hiker`,
+gym switches `p1_gym1_sw1/2`, `p1_gym2_sw1/2`, obstacles `p1_cut_route1`, `p1_cut_route2`, `p1_cut_brindle`,
+`p1_smash_cc1..3`. Quests (world/quests/p1.txt): `p1_light_shards` (main, done at badge 2), `p1_lost_doll`,
+`p1_mushroom_survey`, `p1_pen_pal`, `p1_cave_hiker`.
+
+**Field moves:** Cut is optional in Part 1 (route1 item nook, route2 shortcut, Brindle garden). Rock Smash TM is a gift
+on Route 4; smash rocks gate only optional Cobblecrest pockets. Early
+learners: Rattata, Bidoof (Route 1) and Bunnelby (Route 2) learn both Cut and Rock Smash; Geodude/Machop (Route 4/cave) learn Rock
+Smash. TM Flash is given by the Whisperwood sage.
+
+**Rewards:** Hazel → badge 1 + `tm bulletseed`; Marina → badge 2 + `tm waterpulse`. Gifts: Exp. Share (Fernwick aide),
+Old Rod (Hollowbrook fisherman), Bicycle (Brindle bike shop), Eevee L10 (Brindle), Good Rod (Tidewater sailor's house),
+Shellos L15 (pen pal, for showing a Wooper). Stone seller: `tidewater_stones` (Fire/Water/Thunder/Leaf/Moon/Everstone).
+
+**Deviations:** no real trade — the "trade" NPC (pen pal) gives a Shellos when a Wooper is in the party, since the
+`trade` host semantics are unspecified. campaign.json badge leaders/cities are still "TBD" (lead-owned): Gym 1 Hazel /
+Brindle City, Gym 2 Marina / Port Tidewater. Gym puzzles rely on runtime `tileif` + step triggers on `puzzle_switch`
+tiles (one-way switches). Ladders in Cobblecrest land on the ladder tile (GSC style).

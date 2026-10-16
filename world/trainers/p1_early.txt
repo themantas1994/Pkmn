@@ -1,3 +1,5 @@
+# Part 1: Route 1 trainers and the Lab rival battle.
+
 trainer route1_joey
   class youngster
   name "Joey"
@@ -15,6 +17,16 @@ trainer route1_mia
   after "Tall grass is full of wild Pokémon. Be careful!"
   mon sentret 3
   mon pidgey 4
+end
+
+trainer route1_tim
+  class kid
+  name "Tim"
+  intro "I just got my first Pokémon too! Battle me!"
+  defeat "Already? No fair!"
+  after "Mom says Pokémon get stronger when you battle a lot.\pI'm gonna battle EVERYONE."
+  mon caterpie 3
+  mon bidoof 4
 end
 
 trainer rival_lab_cyndaquil

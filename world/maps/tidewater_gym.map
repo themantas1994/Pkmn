@@ -1,0 +1,43 @@
+map tidewater_gym
+name "Port Tidewater Gym"
+location "Port Tidewater"
+music gym
+environment water
+indoor
+tags gym
+
+layout
+^^^^^^^^^^^^^^
+@w@@@@@@@@@@w@
+@GggggggggggG@
+@gggggggggggg@
+@gggggggggggg@
+@~~~~~~~~~~~~@
+@~~~~~~~~~~~~@
+@gggggggggggg@
+@gg~~gggg~~gz@
+@gg~~gggg~~gg@
+@gggggggggggg@
+@~~~~~~~~~~~~@
+@~~~~~~~~~~~~@
+@gggggggggggg@
+@gg~~gggg~~gg@
+@zg~~gggg~~gg@
+@gggggggggggg@
+@@@@@@RR@@@@@@
+end
+
+warp 6 17 -> port_tidewater 5 6 down
+warp 7 17 -> port_tidewater 5 6 down
+tileif p1_gym2_sw1 6 11 bridge_v
+tileif p1_gym2_sw1 6 12 bridge_v
+tileif p1_gym2_sw2 7 5 bridge_v
+tileif p1_gym2_sw2 7 6 bridge_v
+trigger 1 15 1 1 script=p1_gym2_sw1 unless=p1_gym2_sw1
+trigger 12 8 1 1 script=p1_gym2_sw2 unless=p1_gym2_sw2
+npc marina 7 3 sprite=leader2 face=down script=p1_marina
+npc gym2_guide 4 16 sprite=gentleman face=right script=p1_gym2_guide
+trainer gym2_nell 11 16 sprite=swimmer_f face=left sight=4
+trainer gym2_otis 12 13 sprite=swimmer_m face=left sight=4
+trainer gym2_pearl 2 10 sprite=swimmer_f face=right sight=4
+trainer gym2_quinn 11 7 sprite=sailor face=left sight=4

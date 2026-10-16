@@ -1,0 +1,26 @@
+map tidewater_mart
+name "Poké Mart"
+location "Port Tidewater"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@@KKK@w@
+ooocoooooo
+cccooKKKoo
+oooooooooo
+oooooKKKoo
+oooooooooo
+ooRRoooooo
+end
+
+legend
+o floor_tile
+end
+
+warp 2 7 -> port_tidewater 18 5 down
+warp 3 7 -> port_tidewater 18 5 down
+npc clerk 1 2 sprite=clerk face=down script=p1_tidewater_clerk
+npc m_shopper 6 6 sprite=beauty face=up text="Great Balls catch Pokémon more easily than regular ones.\pWorth every coin!"

@@ -1,0 +1,21 @@
+map brindle_house
+name "Eevee House"
+location "Brindle City"
+music city_early
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+________
+_tt____p
+_hh_____
+________
+___RR___
+end
+
+warp 3 6 -> brindle_city 5 18 down
+warp 4 6 -> brindle_city 5 18 down
+npc eevee_lady 5 3 sprite=pokefan face=left script=p1_eevee_lady
+npc eevee_ball 6 2 sprite=pokeball_overworld script=p1_eevee_ball hideif=p1_got_eevee

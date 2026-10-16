@@ -1,0 +1,70 @@
+map port_tidewater
+name "Port Tidewater"
+location "Port Tidewater"
+music city_port
+environment plain
+region 16 12
+fly 10 11
+encounters port_tidewater
+tags town
+connect west route4 -6
+connect south route5 5
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTT~~~~~~~~
+TF.....................s~~~~~~~~
+T......................s~~~~~~~~
+T......................s~~~~~~~~
+T......................s~~~~~~~~
+T............:....:....s~~~~~~~~
+T....:.......:....:....sHHHHHH~~
+T....:.......:....:....s~~~~~~~~
+T....:.......:....:....s~~~~~~~~
+T....:.......:....:....s~~~~~~~~
+:::::::::::::::::::::::s~~~~~~~~
+:::::::::::::::::::::::s~~~~~~~~
+T.............::.......s~~~~~~~~
+T.............::.......s~~~~~~~~
+T.............::.......s~~~~~~~~
+T.............::.......s~~~~~~~~
+T.............::....:..s~~~~~~~~
+T....::::::::::::::::..s~~~~~~~~
+T.............::.......sHHHHHH~~
+T.............::.......s~~~~~~~~
+TF............::.......s~~~~~~~~
+T.............::.......s~~~~~~~~
+T.............::.......s~~~~~~~~
+T.............::......Fs~~~~~~~~
+TFF...........::.......s~~~~~~~~
+TTTTTTTTTTTTTT::TTTTTTTTTTTTTTTT
+end
+
+building gym 3 2 -> tidewater_gym 6 17 up
+building center 11 2 -> tidewater_center 4 7 up
+building mart 17 2 -> tidewater_mart 2 7 up
+building house_big 17 13 -> tidewater_warehouse 5 9 up
+building house 3 14 -> tidewater_house 3 6 up
+sign 9 9 text="PORT TIDEWATER\nWhere every tide brings something new."
+sign 2 6 text="PORT TIDEWATER GYM\nLeader: Marina\nThe tempest of the tides!"
+sign 16 23 text="ROUTE 5 - south\nLumen Village beyond."
+sign 22 6 text="FERRY PIER\nService to the islands."
+sign 21 16 text="HARBOR WAREHOUSE 3\nNo unauthorized entry."
+tile 9 9 sign
+tile 2 6 sign
+tile 16 23 sign
+tile 22 6 sign
+tile 21 16 sign
+npc rival 4 10 sprite=rival face=left script=p1_port_rival hideif=p1_rival_port
+trigger 1 10 1 2 script=p1_port_rival unless=p1_rival_port
+npc gym_guard 5 6 sprite=sailor face=down script=p1_tw_gym_guard hideif=p1_heist_foiled
+npc warehouse_cop 19 16 sprite=policeman face=right script=p1_tw_cop
+npc ferry_sailor 28 6 sprite=sailor face=left script=tidewater_ferry
+npc stone_merchant 8 7 sprite=gentleman face=down script=p1_tw_stones
+npc net_vendor 10 7 sprite=fisherman face=down script=p1_tw_netstall
+npc tw_lass 7 20 sprite=beauty move=wander text="The ferry only sails for Champions. Someday I'll ride it to the Coral Isles!"
+npc tw_oldman 20 21 sprite=oldman face=left text="Lumen Village lies south along Route 5.\pThe guard there won't let anyone through without Marina's Tide Badge."
+trainer tw_sailor_ray 29 18 sprite=sailor face=left sight=5
+item tw_superpotion 1 24 superpotion
+hidden tw_pearl 23 20 pearl
+hidden tw_bigpearl 28 18 bigpearl
+hidden tw_shell 22 1 heartscale
