@@ -1,0 +1,22 @@
+map seraphine_mart
+name "Poké Mart"
+location "Seraphine Town"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^
+@w@@@@@w@
+ooooooooo
+ccooKKoKK
+ooooooooo
+ooooKKoKK
+ooooooooo
+oRRoooooo
+end
+
+warp 1 7 -> seraphine_town 19 18 down
+warp 2 7 -> seraphine_town 19 18 down
+npc clerk 0 2 sprite=clerk face=down script=p2_shop_seraphine
+npc sm_shopper 6 4 sprite=lass face=left text="Steel and Poison moves cut right through Fairy-types. That's what my big brother says."

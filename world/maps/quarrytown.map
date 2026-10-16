@@ -43,7 +43,7 @@ building house 19 7 -> quarrytown_house 3 5 up
 building center 4 13 -> quarrytown_center 4 7 up
 building mart 9 13 -> quarrytown_mart 1 7 up
 building gym 20 14 -> quarrytown_gym 7 17 up
-# warp 3 3 -> mt_prism_1f 10 22 up  (TEMP)
+warp 3 3 -> mt_prism_1f 10 22 up
 sign 16 12 text="QUARRYTOWN\nDig deep, stand tall."
 sign 19 17 text="QUARRYTOWN GYM\nLeader: GARNET\nThe Unbreakable Foreman!"
 sign 9 6 text="QUARRYTOWN FOSSIL LAB\nWe bring the past back to life!"

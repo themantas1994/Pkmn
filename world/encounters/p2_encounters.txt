@@ -149,3 +149,87 @@ encounters p2_ruins_of_sol
   grass night absol 28-30 5
   grass night murkrow 27-29 10
 end
+
+encounters p2_mt_prism_lower
+  rate cave 12
+  cave morning golbat 28-31 20
+  cave morning graveler 28-31 20
+  cave morning boldore 28-31 20
+  cave morning meditite 28-30 15
+  cave morning cufant 28-30 15
+  cave morning carbink 30-32 5
+  cave morning onix 29-31 5
+  cave day golbat 28-31 15
+  cave day graveler 28-31 20
+  cave day roggenrola 28-30 20
+  cave day aron 28-30 20
+  cave day mawile 29-31 15
+  cave day carbink 30-32 5
+  cave day onix 29-31 5
+  cave night golbat 28-31 25
+  cave night woobat 28-30 25
+  cave night noibat 28-30 20
+  cave night sableye 29-31 15
+  cave night graveler 28-31 15
+  surf any golduck 30-34 35
+  surf any seaking 30-34 30
+  surf any whiscash 30-34 35
+  oldrod any magikarp 15-20 100
+  goodrod any barboach 26-30 50
+  goodrod any goldeen 26-30 50
+  superrod any whiscash 32-36 50
+  superrod any gyarados 32-36 50
+  rocksmash any graveler 28-32 50
+  rocksmash any boldore 28-32 50
+end
+
+encounters p2_mt_prism_upper
+  rate cave 12
+  cave morning golbat 31-34 20
+  cave morning graveleralola 31-34 20
+  cave morning boldore 31-34 15
+  cave morning lairon 31-34 20
+  cave morning carbink 32-34 10
+  cave morning glimmet 31-33 13
+  cave morning gible 31-33 2
+  cave day golbat 31-34 15
+  cave day graveleralola 31-34 20
+  cave day lairon 31-34 20
+  cave day mawile 31-34 15
+  cave day glimmet 31-33 15
+  cave day carbink 32-34 13
+  cave day gible 31-33 2
+  cave night golbat 31-34 25
+  cave night sableye 31-34 25
+  cave night woobat 31-33 20
+  cave night noibat 31-33 18
+  cave night carbink 32-34 10
+  cave night deino 31-33 2
+end
+
+encounters p2_seraphine
+  rate grass 25
+  grass morning snubbull 32-35 25
+  grass morning spritzee 32-35 20
+  grass morning fidough 32-34 20
+  grass morning swablu 32-35 20
+  grass morning cottonee 32-34 15
+  grass day swirlix 32-35 20
+  grass day milcery 32-34 15
+  grass day kirlia 32-35 15
+  grass day ponytagalar 33-35 15
+  grass day hatenna 32-34 20
+  grass day swablu 32-35 15
+  grass night morgrem 32-35 25
+  grass night hattrem 32-35 20
+  grass night spritzee 32-35 20
+  grass night snubbull 32-35 20
+  grass night kirlia 32-35 13
+  grass night togepi 30-32 2
+  surf any marill 30-34 50
+  surf any azumarill 32-35 30
+  surf any lombre 30-34 20
+  oldrod any magikarp 15-20 100
+  goodrod any goldeen 28-32 60
+  goodrod any lumineon 28-32 40
+end
