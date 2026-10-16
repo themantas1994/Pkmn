@@ -396,3 +396,75 @@ Gigantamax-factor species L65). Quests in `world/quests/p3c.txt`: `p3c_isles`, `
 **Deviations:** givemon/giveitem results are overwritten by their message box, so scripts check `hasmon`/flags instead.
 E4/Champion rematch names follow the CAMPAIGN cast (3B may rename). `checkProgression` counts the ferry as an edge
 without the `hall_of_fame` gate, so 3C maps appear reachable from 4 badges (Surf) in its report.
+
+## Expansion E3 notes (legs 7–9: Ember Badge → Hall of Fame)
+**Scope:** 19 new maps, 96 new trainers (`world/trainers/p4c_leg7/8/9.txt`, shared + 3A/3B classes only), 11 encounter
+tables (`world/encounters/p4c_leg7/8/9.txt`), scripts `world/scripts/p4c_leg7/8/9.pks`, 9 quests in `world/quests/p4c.txt`.
+No leader, rival, admin, boss, E4 or Champion team was touched; campaign.json, legend.txt, prefabs.txt and
+classes.txt are unchanged. Existing flags, script ids, warps and connections are kept. B3 still holds: route12 is
+16 tall, its east column is open only at y=6,7, and the connect offsets are the same. Every ice field was checked with a
+slide simulator that copies the engine's ice and ledge rules: each is solvable and none can trap the player. Waterfalls
+can only be climbed, so every upper level that a waterfall leads to has one-way ledges back down.
+
+**Leg 7 (cap 52; trainers 44–50).**
+* `p4c_rime_hollow_1f` / `_b1` / `p4c_rime_den`: ice cave behind Frostmere (cave mouth at frostmere_town 26,0).
+  It has two ice fields (11 and 13 moves) and a `powerspot` den with a one-time G-Max Snorlax L50 (`p4c_snorlax_done`).
+  Quest `p4c_power_survey`: Brynn (new NPC in hollis_lodge, after `p3a_got_dynamaxband`) sends you to step on 3 glowing
+  vents (`p4c_hollis_survey`, `p4c_rime_read1..3`), then gives a Weakness Policy and 3 Dynamax Candy (`p4c_hollis_done`).
+* `p4c_tide_grotto` → `p4c_wreck_cabins` → `p4c_wreck_hold` (dark, flooded; Surf inside): a sea cave in the Route 11
+  islet cliff (route11 6,24) holding the wreck of the S.S. Halcyon. Quest `p4c_halcyon`: Captain Morrel (new NPC in
+  route11_cottage) → the strongbox in the hold (`p4c_got_halcyon_log`, Relic Gold) → TM Liquidation and Leftovers
+  (`p4c_halcyon_quest`, `p4c_halcyon_done`). The anchor in the hold is a static Dhelmise L47 (`p4c_dhelmise_done`).
+* `p4c_geode_hollow`: Crystal Cavern's lowest floor, reached by a ladder in 1F's east room behind the Strength boulder
+  (crystal_cavern_1f 18,4). It holds Tera Shards of five types. Quest `p4c_crystal_thief`: the porter at Quartz's camp
+  (b1) → beat Grunt Dorran (`p4c_straggler_beaten`) → TM Tera Blast and 3 Steel Tera Shards (`p4c_crystal_thief_done`).
+* Quest `p4c_heart_tutor`: Margit in Frostmere takes one Heart Scale as tuition, then tutors for free from then on
+  (`movetutor p4c_margit`, which uses the engine's default tutor list). Heart Scales are hidden in Rime Hollow, Tide
+  Grotto, the wreck and Skyfall Grotto.
+* New trainers: Route 10 +3, Route 11 +3, Crystal Cavern 1F +2. New NPCs: a geologist on Route 10, an aurora-watching
+  kid in Frostmere.
+
+**Leg 8 (cap 58; trainers 49–57).**
+* Route 12 is wider (40 → 60) with **Hailstone Ridge**, 20 new columns at x=21; existing objects east of it moved +20.
+  The ridge has 5 trainers and a frozen tarn. Its waterfall (badge 7) climbs to a ledge with the Frost Tablet, TM
+  Avalanche and the cave mouth to `p4c_frozen_falls`. Inside are an ice floor, a cave lake and a second waterfall up to
+  an upper gallery. A ladder in the gallery leads to `p4c_frozen_falls_depths`, an ice field (11 moves) with a Choice
+  Band at the end.
+* `p4c_roost_trail` → `p4c_dragon_roost` → `p4c_roost_shrine`: a switchback mountain shrine above Dragonspire (cave mouth
+  at dragonspire_city 30,3). Quest `p4c_roost_trial`: after Draca's `p3b_dragon_trial`, beat Hermit Sorin (5 dragons,
+  L55–57) for TM Draco Meteor.
+* `p4c_dragonspire_archive`: the Clan Archive (a house at dragonspire_city 26,21). Quest `p4c_prism_tablets` (legendary
+  lore): make rubbings of the Frost, Sky and Pond tablets (`p4c_tablet_frost/sky/pond`). The Pond Tablet stands on a rock
+  in Scalemirror Pond (Surf). Archivist Wen then pieces the legend together: the Dark Noon of forty years ago happened
+  when the Halcyon took crystals off the mountain. Reward: TM Meteor Beam and a Comet Shard.
+* `p4c_eclipse_workshop` → `p4c_eclipse_lab`: an Eclipse lens workshop off Umbral Pass (cave mouth at umbral_pass 1,30).
+  Two floor switches (`p4c_ws_a/b`, `tileif`) lower the gates to the lab. Quest `p4c_second_lens`: Clan scout Haru →
+  beat Chief Halloran (`p4c_ws_chief_beaten`) → tip over the backup lens (`p4c_lens_destroyed`) → TM Dark Pulse and an
+  Exp. Candy XL. In-game this is reached after the Dusk Badge, but the estimator counts it in leg 8, as it does Umbral Pass.
+* New trainers: Umbral Pass +2.
+
+**Leg 9 (E4 60–64; trainers 55–62).**
+* Route 13 +3 trainers and a painter. Surf to the river's north end to reach the cave mouth at route13 15,1 →
+  `p4c_skyfall_grotto` (waterfall up, ledges down) → `p4c_skyfall_basin`, a hidden valley with Dratini/Dragonair on the
+  Super Rod.
+* `p4c_vr_deep_b1` / `_b2` (**Victory Road Depths**): an optional branch down a ladder on Victory Road 2F (5,21), with
+  10 strong trainers (L59–61, mostly 4 Pokémon) and rare items: Rocky Helmet, Choice Specs, Assault Vest, TMs Stone
+  Edge and Focus Blast, a Gold Bottle Cap and a PP Max. A Rock Smash pocket uses `p4c_vd1_smash`.
+* Quest `p4c_remnants` (Eclipse remnant hunt): Agent Calloway (new NPC in route13_lodge) sends you after three cells.
+  They are a grunt on the Route 13 lake islet (`p4c_remnant_islet_done`), Dr. Vexley in the Depths
+  (`p4c_remnant_depths_done`) and Captain Sable (admin class, L59–60) in Skyfall Basin (`p4c_remnant_leader_done`).
+  Reward: an Ability Patch and TM Knock Off.
+* Victory Road +3 Ace Trainers (1F +1, 3F +2). The E4/Champion rooms and prism_league are untouched.
+
+**Estimator (`./gradlew :tools:estimatePlaytime`), minutes critical / with optional:**
+| Leg | Before | After | Δ with optional |
+|---|---|---|---|
+| 7 gym 6 → gym 7 | 66 / 75 | 82 / 146 | +71 |
+| 8 gym 7 → gym 8 | 47 / 109 | 58 / 179 | +70 |
+| 9 gym 8 → Hall of Fame | 107 / 108 | 123 / 178 | +70 |
+| Whole game | 9.3 h / 12.5 h | 10.1 h / 16.4 h | (E3 only) |
+
+**Deviations / notes:** map ids also carry the `p4c_` prefix. Tutor lists come from `assets/world/tutors.json`, which
+the compiler doesn't generate, so Margit teaches the engine's default list. Wild battles in the new dens use the
+`gmax`/`norun` options as 3C does. Every waterfall-reached area has its own ledge exit because the engine cannot
+descend waterfalls. Generated `assets/` and `reports/` output is not committed.
