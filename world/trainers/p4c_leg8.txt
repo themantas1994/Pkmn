@@ -1,0 +1,232 @@
+# Expansion E3, leg 8 (Frost Badge -> Dusk Badge, cap 58): Route 12 Hailstone Ridge, Frozen Falls, Roost Trail,
+# Dragon's Roost. Route trainers 49-52, Frozen Falls 51-53, Roost 52-57.
+
+# ------------------------------------------------------------------ Route 12, Hailstone Ridge
+trainer p4c_r12_skier_britt
+  class p3a_skier
+  name "Britt"
+  intro "The ridge run is the best slope in Tessera! Battle first, slope later!"
+  defeat "Off-piste and out of the race!"
+  after "The frozen waterfall only thaws for trainers with the Frost Badge. That's what the locals say, anyway."
+  mon froslass 50
+  mon sandslashalola 50
+  mon dewgong 50
+end
+
+trainer p4c_r12_fisher_ike
+  class fisherman
+  name "Ike"
+  intro "Ice fishing! You cut a hole, you wait, you freeze. Then you battle passers-by."
+  defeat "Frozen solid..."
+  after "Walrein come up through the ice holes to breathe. Gave me the fright of my life."
+  mon walrein 50
+  mon cloyster 50
+  mon lanturn 51
+end
+
+trainer p4c_r12_cool_dane
+  class cooltrainer_m
+  name "Dane"
+  intro "Seven badges? I'm on my way to Ryuga too. Let's see who's readier!"
+  defeat "You're readier. Clearly."
+  after "Ryuga's dragons can all Terastallize into Dragon type. Pack Ice, Fairy and Dragon moves."
+  mon metagross 51
+  mon gardevoir 51 moves=moonblast,psychic,mysticalfire,calmmind
+  mon weavile 51
+end
+
+trainer p4c_r12_hiker_runa
+  class hiker
+  name "Runa"
+  intro "Hiked up here with my whole team in my backpack. My back hurts. Battle!"
+  defeat "My back hurts more now."
+  after "Above the frozen falls there's a cave full of ice. Even hikers turn around there."
+  mon mamoswine 51
+  mon gigalith 50
+  mon bergmite 49
+  mon avalugg 51
+end
+
+trainer p4c_r12_bird_cyra
+  class p3a_birdkeeper
+  name "Cyra"
+  intro "My birds ride the updrafts off the ridge! Watch them dive!"
+  defeat "Grounded..."
+  after "Dragons nest on the Roost above Dragonspire. My birds won't fly within a mile of it."
+  mon corviknight 51
+  mon skarmory 50
+  mon swanna 50
+end
+
+# ------------------------------------------------------------------ Frozen Falls
+trainer p4c_ff_skier_maren
+  class p3a_skier
+  name "Maren"
+  intro "Indoor ice! No wind, no snow, just a perfect slide. And a battle!"
+  defeat "Spun out!"
+  after "Slide across the ice for the stone in the middle. Rocks will stop you; nothing else will."
+  mon vanilluxe 51
+  mon abomasnow 51
+  mon ninetalesalola 52
+end
+
+trainer p4c_ff_swim_tarn
+  class swimmer_m
+  name "Tarn"
+  intro "Swimming in a frozen cave lake keeps you young! I'm actually ninety!"
+  defeat "Okay, I'm thirty. But I feel ninety now."
+  after "The waterfall at the north end climbs to an upper gallery. There's a ledge to get back down."
+  mon sealeo 51
+  mon seaking 51
+  mon golduck 52
+end
+
+trainer p4c_ff_hiker_ulla
+  class hiker
+  name "Ulla"
+  intro "The ice here is thousands of years old! So are my jokes. Battle!"
+  defeat "That one landed, at least."
+  after "Icy Rock makes hail last longer. Isolde swears by it."
+  mon beartic 51
+  mon rhyperior 52
+  mon golem 51
+end
+
+trainer p4c_ff_ranger_kiri
+  class ranger
+  name "Kiri"
+  intro "Frigibax hatch in this cave. Keep it down and battle me quietly!"
+  defeat "Shh... good battle."
+  after "Baxcalibur hold their breath underwater for an hour. Their dorsal blade cuts through ice like paper."
+  mon arctibax 52
+  mon lucario 52
+  mon crabominable 52
+end
+
+trainer p4c_ff_cool_halvard
+  class cooltrainer_m
+  name "Halvard"
+  intro "Climbed a waterfall to get here, didn't you? So did I. Let's see whose climb was worth it."
+  defeat "Yours was."
+  after "I train up here before every League attempt. This year might be the year. Maybe."
+  mon baxcalibur 53 moves=glaiverush,iciclecrash,earthquake,iceshard
+  mon excadrill 52
+  mon togekiss 52
+  mon kingdra 52
+end
+
+# ------------------------------------------------------------------ Roost Trail
+trainer p4c_rt_tamer_vey
+  class p3b_dragontamer
+  name "Vey"
+  intro "The Roost Trail is for Clan pilgrims! Are you a pilgrim? Prove it!"
+  defeat "...You're a very strong pilgrim."
+  after "The hermit at the top taught Elder Draca everything she knows. And he never lets her forget it."
+  mon fraxure 52
+  mon shelgon 52
+  mon dragonair 53
+end
+
+trainer p4c_rt_bird_osric
+  class p3a_birdkeeper
+  name "Osric"
+  intro "Fog this thick means the dragons are flying. Better battle before they land on us!"
+  defeat "Blown into the fog!"
+  after "Noivern can see through fog with their ears. Echolocation! Mine can't, but it tries."
+  mon noivern 53
+  mon staraptor 52
+  mon honchkrow 52
+end
+
+trainer p4c_rt_cool_maeve
+  class cooltrainer_f
+  name "Maeve"
+  intro "Halfway up and I'm out of breath. Not out of fight, though!"
+  defeat "Now I'm out of both."
+  after "Rest at the Dragonspire Center before the summit. The hermit doesn't do refreshments."
+  mon goodra 53
+  mon chandelure 53
+  mon clefable 52
+end
+
+trainer p4c_rt_hiker_brann
+  class hiker
+  name "Brann"
+  intro "I carry firewood up to the hermit every week. Today I carry a battle!"
+  defeat "Dropped the firewood..."
+  after "The hermit's apprentice eats all the snacks I bring. Don't tell him I said that."
+  mon onix 52
+  mon steelix 53
+  mon donphan 53
+end
+
+trainer p4c_rt_tamer_isha
+  class p3b_dragontamer
+  name "Isha"
+  intro "My Druddigon has climbed this trail a hundred times. You're new. Let's fix that."
+  defeat "Okay, you're not new anymore."
+  after "Draco Meteor is the Clan's secret technique. Only the hermit teaches it."
+  mon druddigon 54
+  mon flygon 53
+  mon dragalge 53
+end
+
+trainer p4c_rt_veteran_cort
+  class p3b_veteran_m
+  name "Cort"
+  intro "I've climbed to the Roost every spring for forty years. Never missed one. Never lost here, either."
+  defeat "Well. There goes the streak."
+  after "The year of the Dark Noon, the dragons on the Roost wouldn't stop roaring. I was a boy. I remember."
+  mon tyranitar 54
+  mon salamence 54
+  mon aegislash 53
+end
+
+trainer p4c_rt_psychic_nim
+  class psychic
+  name "Nim"
+  intro "The air thins, the mind sharpens. Yours is about to be sharpened against mine."
+  defeat "My mind... is a blunt instrument."
+  after "The Sky Tablet on the summit hums when the wind blows. I think it's trying to say something."
+  mon reuniclus 54
+  mon slowbro 53
+  mon xatu 53
+end
+
+# ------------------------------------------------------------------ Dragon's Roost
+trainer p4c_dr_tamer_rhea
+  class p3b_dragontamer
+  name "Rhea"
+  intro "You climbed the whole trail? The hermit might actually talk to you. Battle me first!"
+  defeat "Fine, you've earned an audience."
+  after "Don't stare at the hermit's eyebrows. He's sensitive about them."
+  mon hakamoo 54
+  mon haxorus 55
+  mon altaria 54
+end
+
+trainer p4c_dr_cool_corwin
+  class cooltrainer_m
+  name "Corwin"
+  intro "I came for the hermit's blessing and stayed for the view. And the battles!"
+  defeat "The view's still nice, at least."
+  after "The founders kept their dragons up here. The statues are older than the city."
+  mon garchomp 55
+  mon volcarona 54
+  mon azumarill 54
+end
+
+trainer p4c_dr_hermit_sorin
+  class p3b_dragontamer
+  name "Sorin"
+  ai 2
+  intro "Draca sent you? Then let us see whether she has finally learned to judge character."
+  defeat "Ha! She has. Well, well."
+  after "Draco Meteor spends a dragon's strength in one blow. Use it wisely, and only when it matters."
+  items hyperpotion=2
+  mon kingdra 55 moves=dragonpulse,surf,icebeam,focusenergy
+  mon flygon 55 moves=earthquake,dragonclaw,uturn,firepunch
+  mon goodra 56 moves=dracometeor,sludgebomb,fireblast,thunderbolt
+  mon noivern 56 moves=boomburst,dragonpulse,airslash,flamethrower
+  mon dragonite 57 moves=dracometeor,extremespeed,earthquake,firepunch
+end

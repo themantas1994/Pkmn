@@ -1,0 +1,25 @@
+# Roost Shrine (Expansion E3) — Hermit Sorin, Elder Draca's old teacher, keeps the founders' shrine.
+map p4c_roost_shrine
+name "Roost Shrine"
+location "Dragon's Roost"
+music ruins
+environment indoor
+indoor
+
+layout
+xxxxxxxxxxx
+xGuuuuuuuGx
+xuuuuuuuuux
+xuuqqqqquux
+xGuqqqqquGx
+xuuqqqqquux
+xuuuuuuuuux
+xuuuuuuuuux
+xuuuuuuuuux
+xxxxxRxxxxx
+end
+
+warp 5 9 -> p4c_dragon_roost 11 5 down
+npc p4c_rs_sorin 5 2 sprite=sage face=down script=p4c_roost_sorin
+npc p4c_rs_apprentice 8 6 sprite=kid face=left script=p4c_roost_apprentice
+sign 1 7 text="A faded mural: a dragon shields a mountain from a falling black star."

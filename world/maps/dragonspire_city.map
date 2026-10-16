@@ -74,3 +74,10 @@ item ds_maxrevive 2 24 maxrevive
 hidden ds_hidden1 34 5 bignugget
 hidden ds_hidden2 1 22 dragonscale
 hidden ds_hidden3 27 17 pearlstring
+# --- Expansion E3: Roost Trail cave in the north cliff, Clan Archive (SE), Pond Tablet on a rock in Scalemirror Pond
+tile 30 3 cave_entrance
+warp 30 3 -> p4c_roost_trail 15 34 up
+sign 29 3 text="ROOST TRAIL\nTo the Dragon's Roost. The old pilgrims' path."
+building house 26 21 -> p4c_dragonspire_archive 3 5 up
+tile 27 15 rock
+npc p4c_ds_pond_tablet 27 15 sprite=sign script=p4c_tablet_pond

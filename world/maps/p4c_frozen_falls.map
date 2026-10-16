@@ -1,0 +1,54 @@
+# Frozen Falls (Expansion E3) — cave behind the frozen waterfall on Route 12's Hailstone Ridge. An ice floor guards
+# the entrance hall, the cave lake needs Surf, and a second waterfall (Waterfall, badge 7) climbs to the upper
+# gallery. The ledge at x=22 drops back to the lake shore, so the gallery is never a dead end.
+map p4c_frozen_falls
+name "Frozen Falls"
+location "Route 12"
+music cave
+environment cave
+region 7 2
+encounters p4c_frozen_falls
+
+legend
+a cave_water
+* waterfall
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWffffffffffffffffffffffWWW
+WWWfffkfffaaafffffkffffffWWW
+WWWffffffWaaaWfffffffffffWWW
+WWWWWWWWWWWaWWWWWWWWWWvWWWWW
+WWWWWWWWWWW*WWWWWWWWWWfWWWWW
+WWWWWWWWWWW*WWWWWWWWWWfWWWWW
+WWffffffffaaaaaaaaaaaaffffWW
+WWfffkffffaaaaaaaaaaaaffkfWW
+WWffffffffaaaaaakaaaaaffffWW
+WWffffffffaaaaaaaaaaaaffffWW
+WWWWffffffaaaaaaaaaaaaffWWWW
+WWWWWWffffffffffffffffffWWWW
+WWWWWWfiiiiiiiiiiiiiifffWWWW
+WWffffiiikiiiiiiiikiifffffWW
+WWffffiiiiiiikiiiiiiiffkffWW
+WWfkffiiiiiiiiiiiiikiffffWWW
+WWffffiiiikiiiiiiiiiifffffWW
+WWWWfffffffffffffffffffWWWWW
+WWWWWWWWWWWWfffWWWWWWWWWWWWW
+WWWWWWWWWWWWWEWWWWWWWWWWWWWW
+end
+
+warp 13 21 -> route12 30 2 down
+trainer p4c_ff_skier_maren 14 13 sprite=cooltrainer_f face=down sight=3
+trainer p4c_ff_swim_tarn 16 11 sprite=swimmer_m face=left sight=4
+trainer p4c_ff_hiker_ulla 3 9 sprite=hiker face=right sight=3
+trainer p4c_ff_ranger_kiri 23 11 sprite=ranger face=left sight=3
+trainer p4c_ff_cool_halvard 18 2 sprite=cooltrainer_m face=left sight=4
+npc ff_icesculptor 4 16 sprite=gentleman face=right text="I carve ice sculptures of Pokémon. This one is Avalugg. Or a fridge. I haven't decided."
+item ff_lifeorb 4 2 lifeorb
+item ff_ppmax 24 3 ppmax
+item ff_hailstone 14 16 icyrock
+item ff_ultraball 24 15 ultraball 3
+hidden ff_hidden_nugget 20 4 bignugget
+hidden ff_hidden_candy 2 18 rarecandy

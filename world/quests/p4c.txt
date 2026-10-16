@@ -25,3 +25,17 @@ quest p4c_crystal_thief "Crystal Thief"
   step "Find the thief in Geode Hollow, below Crystal Cavern 1F."
   step "Return the stolen shards to the porter at Quartz's camp."
 end
+
+# ------------------------------------------------------------------ leg 8
+quest p4c_prism_tablets "Light Before the Dusk"
+  desc "Archivist Wen of Dragonspire wants rubbings of the three Prism Tablets, which tell what sleeps on Mt. Prism."
+  step "Find the three Prism Tablets: Route 12's ridge, the Dragon's Roost and Scalemirror Pond."
+  step "Two tablets to go."
+  step "One tablet to go."
+  step "Bring the rubbings to Wen at the Clan Archive in Dragonspire."
+end
+
+quest p4c_roost_trial "The Hermit of the Roost"
+  desc "Hermit Sorin, Elder Draca's teacher, guards the Dragon Clan's secret technique on the Dragon's Roost."
+  step "Pass Elder Draca's Dragon Trial, then defeat Hermit Sorin."
+end
