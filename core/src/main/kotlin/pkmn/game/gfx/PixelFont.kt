@@ -32,7 +32,7 @@ class PixelFont(private val glyphs: Map<Char, TextureRegion>, val cellW: Int, va
     }
 
     private fun mapFallback(c: Char): Char = when (c) {
-        'é', 'è', 'ê' -> 'é'; 'É' -> 'É'; '’', '‘' -> '\''; '“', '”' -> '"'; '¥' -> 'Y'; '–', '—' -> '-'
+        'é', 'è', 'ê' -> 'é'; 'É' -> 'É'; '’', '‘' -> '\''; '“', '”' -> '"'; '–', '—' -> '-'
         else -> c
     }
 

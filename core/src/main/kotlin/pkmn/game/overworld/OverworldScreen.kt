@@ -508,7 +508,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         scriptBusy = true
         game.audio.playSfx("battle_start")
         val screen = BattleScreen(game, ctx, battle, trainerId, music) { outcome ->
-            val msgs = ctx.applyBattleResult(battle, trainerId)
+            val msgs = ctx.applyBattleResult(battle, trainerId, canLose)
             val lost = outcome == BattleOutcome.LOSE || outcome == BattleOutcome.DRAW
             val after = {
                 if (lost && !canLose) blackout { scriptBusy = false; onDone(outcome) }
@@ -523,8 +523,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                     }
                 }
             }
-            val shown = if (lost && !canLose) msgs else msgs.filter { !it.contains("blacked out") && !it.contains("out of usable") && !it.contains("panicked") }
-            if (shown.isEmpty()) after() else game.say(*shown.toTypedArray()) { after() }
+            if (msgs.isEmpty()) after() else game.say(*msgs.toTypedArray()) { after() }
         }
         push(screen)
     }

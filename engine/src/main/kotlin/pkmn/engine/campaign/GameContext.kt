@@ -286,8 +286,11 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return payout * (t.team.maxOfOrNull { it.level } ?: 1)
     }
 
-    /** Applies the outcome of a battle to the game state. Returns messages to show. */
-    fun applyBattleResult(b: Battle, trainerId: String?): List<String> {
+    /**
+     * Applies the outcome of a battle to the game state. Returns messages to show. A loss in a [canLose] battle
+     * (scripted story fights) costs nothing and does not black out.
+     */
+    fun applyBattleResult(b: Battle, trainerId: String?, canLose: Boolean = false): List<String> {
         val msgs = ArrayList<String>()
         when (b.outcome) {
             BattleOutcome.WIN -> if (trainerId != null) {
@@ -302,7 +305,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
                 val where = receivePokemon(mon)
                 if (where != null && where != "party") msgs.add("${mon.species(dex).name} was sent to the PC.")
             }
-            BattleOutcome.LOSE, BattleOutcome.DRAW -> {
+            BattleOutcome.LOSE, BattleOutcome.DRAW -> if (!canLose) {
                 val lost = (state.money / 2).coerceAtMost(state.money)
                 state.money -= lost
                 msgs.add("${state.playerName} is out of usable Pokémon!")
