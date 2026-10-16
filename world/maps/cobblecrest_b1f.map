@@ -41,3 +41,4 @@ hidden ccb_stardust 4 6 stardust
 # Expansion E1: ladder down to the B2F depths.
 tile 20 3 cave_ladder
 warp 20 3 -> p4a_cobblecrest_b2f 2 2 right
+trainer p4a_ccb_psychic_noor 17 13 sprite=psychic face=left sight=4

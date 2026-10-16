@@ -285,3 +285,40 @@ script p4a_honey_girl
     say "I love Combee! They buzz around the flowers outside in the morning.\pIf you catch one, will you show me?"
   end
 end
+
+# ---------------------------------------------------------------- Brindle City: Lantern Tower
+script p4a_bc_tower_sign
+  say "LANTERN TOWER\nA place of quiet training. Visitors welcome."
+end
+
+script p4a_lt_greeter
+  faceplayer
+  if trainer p4a_lt_elder_rowan
+    say "The Elder told us about your battle! Even Hazel took three tries to beat him."
+  else
+    say "Welcome to the Lantern Tower. Our sages train their minds and their Pokémon here.\pElder Rowan waits on the top floor for trainers brave enough to climb."
+  end
+end
+
+script p4a_lt_lantern
+  say "A great bronze lantern, green with age. Its glass holder is empty.\pSomething bright must have rested inside it once."
+end
+
+script p4a_lt_elder
+  faceplayer
+  if flag p4a_lt_elder_gift
+    say "ELDER ROWAN: The light shards are scattered and stolen, but light always finds its way home.\pRemember that when the darkness gets close."
+  elif trainer p4a_lt_elder_rowan
+    say "ELDER ROWAN: Take this. Swift's stars never miss, just as true light never strays."
+    tm swift
+    setflag p4a_lt_elder_gift
+  else
+    say "ELDER ROWAN: This lantern once held a shard of light from Mt. Prism. Long ago it was hidden away, for safety."
+    say "ELDER ROWAN: Now I hear people in dark uniforms are stealing shards from the shrines. Troubling.\pBut first... show me the strength of your bond!"
+    battle p4a_lt_elder_rowan
+    say "ELDER ROWAN: Well done. Take this. Swift's stars never miss, just as true light never strays."
+    tm swift
+    setflag p4a_lt_elder_gift
+    say "ELDER ROWAN: If those dark uniforms seek the light, they will go where it is strongest. Mt. Prism. Be watchful, young one."
+  end
+end

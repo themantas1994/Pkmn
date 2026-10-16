@@ -44,3 +44,8 @@ quest p4a_zappy_trade "Run, Zappy, Run"
   desc "A trainer in Voltara's Pokémon Center wants an Electrike for her Blitzle, Zappy."
   step "Bring an Electrike to the trader in Voltara City's Pokémon Center."
 end
+
+quest p4a_shell_bell "Treasure of the Tide"
+  desc "A shell collector in Seabreeze Cove has always wanted a Big Pearl."
+  step "Bring a Big Pearl to the collector's hut in Seabreeze Cove, east of Route 5."
+end

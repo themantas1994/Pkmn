@@ -83,3 +83,29 @@ encounters p4a_ridge_grotto
   cave any carbink 22-24 15
   cave any minior 22-24 10
 end
+
+encounters p4a_seabreeze_cove
+  rate grass 25
+  grass morning wingull 18-21 30
+  grass morning krabby 18-21 25
+  grass morning crabrawler 18-21 20
+  grass morning dwebble 18-21 25
+  grass day dwebble 18-21 25
+  grass day sandygast 18-21 25
+  grass day krabby 18-21 25
+  grass day wingull 18-21 25
+  grass night sandygast 18-21 35
+  grass night crabrawler 18-21 25
+  grass night meowth 18-21 20
+  grass night hoothoot 18-21 20
+  surf any tentacool 20-24 40
+  surf any wingull 20-24 25
+  surf any buizel 20-24 20
+  surf any pelipper 22-25 15
+  oldrod any magikarp 15-20 60
+  oldrod any corphish 15-20 40
+  goodrod any corphish 20-24 35
+  goodrod any shellder 20-24 25
+  goodrod any clamperl 20-24 20
+  goodrod any staryu 20-24 20
+end

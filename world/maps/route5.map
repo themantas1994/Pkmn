@@ -8,6 +8,7 @@ region 17 15
 encounters p2_route5
 connect north port_tidewater -5
 connect south lumen_village -2
+connect east p4a_seabreeze_cove 15
 
 layout
 TTTTTTTTT::TTTTTTTTT
@@ -35,8 +36,8 @@ TT..........::.s~~~T
 TT..........::..s~~T
 TT.,,,,,,...::..s~~T
 TT.,,,,,,...::..s~~T
-TT.,,,,,,...::...ssT
-TT..........::....TT
+TT.,,,,,,...::...sss
+TT..........::......
 TT..TTTT....::....TT
 TT..TTTT....::.,,,TT
 TT..........::.,,,TT
@@ -77,3 +78,5 @@ obstacle 3 19 cut flag=p2_r5_cut1
 # Expansion E1: more trainers.
 trainer p4a_r5_picnic_ada 14 29 sprite=lass face=right sight=3
 trainer p4a_r5_kid_milo 2 36 sprite=kid face=right sight=3
+tile 17 26 sign
+sign 17 26 script=p4a_r5_cove_sign

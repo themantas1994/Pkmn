@@ -277,3 +277,65 @@ trainer p4a_sr_fisher_watt
   mon goldeen 22
   mon tympole 22
 end
+
+# ---------------------------------------------------------------- Seabreeze Cove (east of Route 5)
+trainer p4a_sb_swimmer_dylan
+  class swimmer_m
+  name "Dylan"
+  intro "I swim here every morning! The water's perfect. So is my team!"
+  defeat "Glub glub..."
+  after "Once you can Surf, swim out past the cove. The current carries you along the coast."
+  mon buizel 20
+  mon wingull 20
+end
+
+trainer p4a_sb_swimmer_coral
+  class swimmer_f
+  name "Coral"
+  intro "Sun, sand and a battle! What a day!"
+  defeat "Time for a nap in the sun."
+  after "Sandygast are made of sand. Kids build sandcastles and sometimes they just... walk away."
+  mon sandygast 21
+  mon marill 20
+end
+
+trainer p4a_sb_fisher_merle
+  class fisherman
+  name "Merle"
+  intro "The tide pools are full of surprises! So am I!"
+  defeat "Should've stuck to fishing."
+  after "Corphish snap at anything in the tide pools. Good Rod's the way to go."
+  mon corphish 21
+  mon shellder 21
+end
+
+trainer p4a_sb_sailor_barney
+  class sailor
+  name "Barney"
+  intro "I'm on shore leave and I'm itching for a fight! Har!"
+  defeat "Back to the ship with me."
+  after "The Coral Isles? Only the ferry goes there. Champions only, they say."
+  mon crabrawler 21
+  mon machop 20
+  mon pelipper 21
+end
+
+trainer p4a_sb_beauty_shelly
+  class beauty
+  name "Shelly"
+  intro "I collect pretty shells. And pretty victories!"
+  defeat "My collection is incomplete!"
+  after "The gentleman in the hut buys Big Pearls. He pays in something much shinier."
+  mon clamperl 21
+  mon finneon 21
+end
+
+trainer p4a_sb_kid_robin
+  class kid
+  name "Robin"
+  intro "I found a Dwebble in my sandcastle! Wanna see it fight?"
+  defeat "My sandcastle collapsed..."
+  after "Dwebble carry rocks as houses. Mine keeps trying to move into my bucket."
+  mon dwebble 20
+  mon krabby 20
+end

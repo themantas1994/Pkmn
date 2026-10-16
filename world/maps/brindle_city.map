@@ -61,3 +61,7 @@ npc bc_kid 9 20 sprite=kid face=up text="I want an Eevee! The lady in the blue-r
 npc bc_gym_fan 16 7 sprite=youngster face=left script=p1_bc_gym_fan
 sign 24 5 script=p4a_bc_florist_sign
 tile 24 5 sign
+# Expansion E1: Lantern Tower.
+stamp p4a_lighthouse 8 15 -> p4a_lantern_tower_1f 5 8 up
+tile 12 18 sign
+sign 12 18 script=p4a_bc_tower_sign

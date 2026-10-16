@@ -181,3 +181,42 @@ script p4a_dot
     say "DOT: I'm still charging up! Come back after you earn a couple more badges."
   end
 end
+
+# ---------------------------------------------------------------- Route 5 east: Seabreeze Cove
+script p4a_r5_cove_sign
+  say "SEABREEZE COVE - east\nTide pools and sandy beaches."
+end
+
+script p4a_sb_sign
+  say "SEABREEZE COVE\pPlease take your litter home. And your Krabby. Especially your Krabby."
+end
+
+script p4a_shell_collector
+  faceplayer
+  if quest p4a_shell_bell done
+    say "COLLECTOR: My Big Pearl gleams on the shelf every morning. Thank you again."
+  elif item bigpearl
+    say "COLLECTOR: Oh my! Is that a Big Pearl? I've searched this beach for one for years!"
+    ask "Would you trade it for a Shell Bell?"
+    if result yes
+      takeitem bigpearl
+      giveitem shellbell
+      quest p4a_shell_bell done
+      say "COLLECTOR: A Pokémon holding a Shell Bell heals a little whenever it lands a hit. Splendid, isn't it?"
+    else
+      say "COLLECTOR: Ah, I understand. A Big Pearl is a treasure. If you change your mind..."
+    end
+  else
+    say "COLLECTOR: I collect treasures from the sea. Shells, sea glass, pearls... but never a Big Pearl!"
+    say "COLLECTOR: If you find one, I'll trade you my finest Shell Bell for it.\pThey wash up in sea caves and on sandbars, I hear."
+    if not quest p4a_shell_bell started
+      quest p4a_shell_bell start
+    end
+  end
+end
+
+script p4a_old_salt
+  faceplayer
+  say "OLD SALT: Fifty years I sailed between Port Tidewater and the Coral Isles. Fifty years!"
+  say "OLD SALT: Now they only let Champions on the ferry. Bah! In my day, any kid with a Magikarp could ride."
+end

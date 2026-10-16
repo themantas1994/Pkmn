@@ -1,0 +1,35 @@
+# Riptide Dojo (Expansion E1): Port Tidewater's sailors' fighting dojo. Beat the students, then Master Kaito,
+# for a Tyrogue of your own.
+map p4a_riptide_dojo
+name "Riptide Dojo"
+location "Port Tidewater"
+music gym
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^
+@w@@BBBB@@w@
+oooooooooooo
+oqqqqqqqqqqo
+oqqqqqqqqqqo
+oqqqqqqqqqqo
+oqqqqqqqqqqo
+oqqqqqqqqqqo
+oooooooooooo
+oooooRRooooo
+end
+
+legend
+o floor_wood
+end
+
+warp 5 9 -> port_tidewater 11 21 down
+warp 6 9 -> port_tidewater 11 21 down
+tile 0 2 sign
+sign 0 2 script=p4a_dojo_scroll
+npc p4a_dojo_master 6 2 sprite=blackbelt face=down script=p4a_dojo_master
+trainer p4a_dj_blackbelt_haru 2 4 sprite=blackbelt face=right sight=3
+trainer p4a_dj_sailor_fitz 9 4 sprite=sailor face=left sight=3
+trainer p4a_dj_blackbelt_sora 2 6 sprite=blackbelt face=right sight=3
+trainer p4a_dj_sailor_nash 9 6 sprite=sailor face=left sight=3

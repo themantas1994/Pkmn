@@ -284,3 +284,76 @@ trainer p4a_cc2_hiker_dunn
   mon rolycoly 17
   mon nosepass 18
 end
+
+# ---------------------------------------------------------------- Riptide Dojo (Port Tidewater)
+trainer p4a_dj_blackbelt_haru
+  class blackbelt
+  name "Haru"
+  intro "Students of the Riptide fight like the tide: relentless! Hyah!"
+  defeat "Washed away..."
+  after "Master Kaito learned to fight on the decks of fishing boats. Balance is everything!"
+  mon machop 16
+  mon makuhita 16
+end
+
+trainer p4a_dj_sailor_fitz
+  class sailor
+  name "Fitz"
+  intro "I joined the dojo to toughen up for storm season! Let's go!"
+  defeat "Man overboard!"
+  after "A real sailor can tie forty knots and throw a punch at the same time."
+  mon mankey 16
+  mon wingull 16
+end
+
+trainer p4a_dj_blackbelt_sora
+  class blackbelt
+  name "Sora"
+  intro "My fists are faster than a Buizel! Can you keep up?"
+  defeat "Too slow. Me, I mean."
+  after "Clobbopus from the bay hit like little hammers. The Master trains with them."
+  mon mienfoo 17
+  mon timburr 17
+end
+
+trainer p4a_dj_sailor_nash
+  class sailor
+  name "Nash"
+  intro "Before you face the Master, you face the Riptide's last wave: me!"
+  defeat "The wave broke!"
+  after "Go on, the Master's been watching you. He's grinning. That's either good or very bad."
+  mon machop 17
+  mon tentacool 17
+  mon crabrawler 17
+end
+
+trainer p4a_dj_master_kaito
+  class blackbelt
+  name "Master Kaito"
+  intro "The sea teaches patience, then strikes without warning. So do I!"
+  defeat "Ha! You ride the waves well."
+  mon machoke 18
+  mon hariyama 18
+  mon clobbopus 19
+end
+
+# ---------------------------------------------------------------- Cobblecrest extras
+trainer p4a_cc_hiker_lyle
+  class hiker
+  name "Lyle"
+  intro "I map every tunnel in Cobblecrest! This one's mine!"
+  defeat "I'll add you to the map. As a hazard."
+  after "There's a ladder on B1F that goes even deeper now. Miners must have dug it out again."
+  mon geodude 15
+  mon dwebble 15
+end
+
+trainer p4a_ccb_psychic_noor
+  class psychic
+  name "Noor"
+  intro "I came down here to escape the noise of the port. Now you're here."
+  defeat "So much for peace and quiet."
+  after "The deeper you go in Cobblecrest, the quieter it gets. Except for the Noibat."
+  mon noibat 16
+  mon drowzee 16
+end

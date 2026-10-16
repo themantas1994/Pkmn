@@ -1,0 +1,48 @@
+# Seabreeze Cove (Expansion E1): optional beach east of Route 5. Tide pools for fishing, beach trainers and the
+# shell collector's hut (Big Pearl -> Shell Bell).
+map p4a_seabreeze_cove
+name "Seabreeze Cove"
+location "Route 5"
+music route_mid
+environment sand
+region 19 15
+encounters p4a_seabreeze_cove
+connect west route5 -15
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTT~~~~
+TT,,,,.....TTTTTT....sss~~~~
+TT,,,,.................ss~~~
+TT.......rr.............s~~~
+TT......................ss~~
+TT..,,,,....sssssss......s~~
+TTT.,,,,...sss~~~~ss.....s~~
+TT.........ss~~~~~~ss....ss~
+TT........sss~~~~~~ss.....s~
+TT........sss~~~~sss.....ss~
+::::::::...sssssss.......ss~
+::::::::....ssssss......sss~
+TT..........ssss.......sss~~
+TT..rr....sss........sss~~~~
+TT.......sss...rr...sss~~~~~
+TT......sss........sss~~~~~~
+TT.....sssssssssssss~~~~~~~~
+TTTTTTssssssss~~~~~~~~~~~~~~
+end
+
+building house 3 1 -> p4a_cove_hut 3 6 up
+tile 9 9 sign
+sign 9 9 script=p4a_sb_sign
+
+trainer p4a_sb_swimmer_dylan 19 4 sprite=swimmer_m face=down sight=3
+trainer p4a_sb_swimmer_coral 24 11 sprite=swimmer_f face=left sight=5
+trainer p4a_sb_fisher_merle 12 8 sprite=fisherman face=right sight=1
+trainer p4a_sb_sailor_barney 8 13 sprite=sailor face=right sight=4
+trainer p4a_sb_beauty_shelly 6 6 sprite=beauty face=left sight=2
+trainer p4a_sb_kid_robin 18 14 sprite=kid face=right sight=3
+
+item p4a_sb_ether 2 15 ether
+item p4a_sb_star 25 9 stardust
+item p4a_sb_net 21 1 netball 2
+hidden p4a_sb_pearl 24 4 pearl
+hidden p4a_sb_heart 14 12 heartscale

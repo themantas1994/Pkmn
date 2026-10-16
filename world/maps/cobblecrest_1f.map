@@ -45,3 +45,5 @@ item cc_potion 1 1 superpotion
 item cc_rope 27 20 escaperope
 hidden cc_ether 20 1 ether
 hidden cc_berry 1 17 leppaberry
+# Expansion E1: more trainers.
+trainer p4a_cc_hiker_lyle 4 13 sprite=hiker face=right sight=4

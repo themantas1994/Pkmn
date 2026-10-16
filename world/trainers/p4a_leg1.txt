@@ -323,3 +323,55 @@ trainer p4a_pp_beauty_lily
   mon skitty 7
   mon budew 7
 end
+
+# ---------------------------------------------------------------- Lantern Tower (Brindle City)
+trainer p4a_lt_sage_toru
+  class sage
+  name "Toru"
+  intro "The tower sways, but the sages do not. Show me your balance!"
+  defeat "I swayed after all."
+  after "This tower is built around one great pillar. In storms the whole tower bends like grass."
+  mon bellsprout 9
+  mon hoppip 9
+end
+
+trainer p4a_lt_sage_gaku
+  class sage
+  name "Gaku"
+  intro "Every step up this tower is a step toward the light. Battle!"
+  defeat "Your light is brighter."
+  after "Natu stare at the sun all day. They say Natu can see the future in it."
+  mon bellsprout 10
+  mon natu 10
+end
+
+trainer p4a_lt_sage_masa
+  class sage
+  name "Masa"
+  intro "Hoothoot keep watch over the tower by night. And I by day!"
+  defeat "Caught napping!"
+  after "Elder Rowan waits at the top. He has tested every Brindle Gym Leader since Hazel's grandmother."
+  mon hoothoot 10
+  mon bellsprout 10
+end
+
+trainer p4a_lt_sage_edmund
+  class sage
+  name "Edmund"
+  intro "Before you meet the Elder, you must pass me!"
+  defeat "You may pass."
+  after "The lantern has been empty for a hundred years. Still, we light candles every night."
+  mon sunkern 11
+  mon bellsprout 11
+  mon weepinbell 12
+end
+
+trainer p4a_lt_elder_rowan
+  class sage
+  name "Elder Rowan"
+  intro "Let us see whether your bond with your Pokémon bends without breaking."
+  defeat "Ho ho! You bend like grass in the wind, and stand back up."
+  mon bellsprout 11
+  mon bellsprout 11
+  mon weepinbell 13
+end

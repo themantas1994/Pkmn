@@ -201,3 +201,34 @@ script p4a_teo
     say "TEO: Still training! Come back once you've earned a couple more badges."
   end
 end
+
+# ---------------------------------------------------------------- Riptide Dojo
+script p4a_tw_dojo_sign
+  say "RIPTIDE DOJO\nStrong as the tide, steady as the shore."
+end
+
+script p4a_dojo_scroll
+  say "A scroll hangs on the wall:\p\"Bend with the wave. Strike with the tide.\""
+end
+
+script p4a_dojo_master
+  faceplayer
+  if flag p4a_dojo_gift
+    say "MASTER KAITO: How is Tyrogue? Train it well and it will choose its own fighting style when it grows."
+  elif trainer p4a_dj_master_kaito
+    say "MASTER KAITO: Ready to take my student along now?"
+    givemon tyrogue 15
+    if hasmon tyrogue
+      setflag p4a_dojo_gift
+    end
+  else
+    say "MASTER KAITO: A challenger! My students say you've got a fighting spirit. Show me!"
+    battle p4a_dj_master_kaito
+    say "MASTER KAITO: Ha ha! A fine battle. Take my youngest student with you. It needs to see the world."
+    givemon tyrogue 15
+    if hasmon tyrogue
+      setflag p4a_dojo_gift
+    end
+    say "MASTER KAITO: Tyrogue becomes Hitmonlee, Hitmonchan or Hitmontop, depending on whether its Attack or Defense is stronger."
+  end
+end
