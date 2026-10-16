@@ -89,6 +89,15 @@ class Automation(script: List<String>, private val shots: File) {
                     println("AUTOMATION top=${g.top()?.javaClass?.simpleName} map=${ow?.baseMap?.id} pos=${ow?.player?.x},${ow?.player?.y} moving=${ow?.player?.moving}")
                     continue
                 }
+                "perf" -> {
+                    // CPU time per frame (update + draw submission) over the last FRAME_SAMPLES frames, plus FPS.
+                    val n = minOf(g.frameCount, pkmn.game.FRAME_SAMPLES.toLong()).toInt()
+                    val v = g.frameNanos.take(n).sorted()
+                    if (v.isNotEmpty()) println("PERF frames=$n meanMs=%.3f p95Ms=%.3f maxMs=%.3f fps=%d heapMb=%d".format(
+                        v.average() / 1e6, v[(v.size - 1) * 95 / 100] / 1e6, v.last() / 1e6, Gdx.graphics.framesPerSecond,
+                        (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576))
+                    continue
+                }
                 "goto" -> { p.goto(parts[1].toInt(), parts[2].toInt()); return }
                 "shot" -> { screenshot(File(shots, parts[1] + ".png")); continue }
                 "quit" -> { Gdx.app.exit(); return }
