@@ -48,3 +48,7 @@ item mp2_steeliumz 22 12 steeliumz
 item mp2_rarecandy 1 20 rarecandy
 hidden mp2_hidden1 8 2 revive
 hidden mp2_hidden2 22 20 maxrepel
+# Expansion E2: a ladder down to Team Eclipse's secret dig site.
+tile 7 3 cave_ladder
+warp 7 3 -> p4b_prism_dig 3 2 down
+trainer p4b_mp2_psychic_orin 4 16 sprite=psychic face=down sight=3

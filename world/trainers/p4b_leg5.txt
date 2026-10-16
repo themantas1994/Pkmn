@@ -1,0 +1,375 @@
+# Expansion E2, leg 5 (Gym 4 -> Gym 5): Mt. Prism additions, Prism Grotto, Eclipse Dig Site, Mistwood. Levels 33-38.
+
+# --- Mt. Prism ---
+trainer p4b_mp1_ace_kestrel
+  class cooltrainer_m
+  name "Kestrel"
+  intro "The Warden let you in too? Then you must be good. Prove it!"
+  defeat "The Warden chose well."
+  after "The lake in the next cavern drains east, into a grotto full of crystals. You'd need to Surf."
+  mon rhydon 34
+  mon golduck 33
+  mon noctowl 33
+end
+
+trainer p4b_mp2_psychic_orin
+  class psychic
+  name "Orin"
+  intro "I hear digging beneath this floor. Shovels. Voices. Do you hear them too?"
+  defeat "My ears are ringing now."
+  after "There's an old ladder in this room. The digging sounds come from below it."
+  mon chimecho 34
+  mon grumpig 34
+end
+
+trainer p4b_mp3_grunt_g
+  class grunt_f
+  name "Grunt"
+  intro "You got past the boulders? Ugh, I was promised this post would be boring!"
+  defeat "So much for boring."
+  after "Our real work's under the second floor. The admin doesn't want anybody to know. Oops."
+  mon toxicroak 35
+  mon liepard 34
+end
+
+# --- Prism Grotto ---
+trainer p4b_grotto_diver_tess
+  class p4b_diver_f
+  name "Tess"
+  intro "The crystals glow brighter underwater! Want to see? First, a battle!"
+  defeat "I'm all washed up."
+  after "The hermit on the central island collects glowing shards. He hums at them."
+  mon araquanid 35
+  mon lanturn 34
+end
+
+trainer p4b_grotto_diver_kenji
+  class p4b_diver
+  name "Kenji"
+  intro "Nobody dives here but me! Well, me and now you. Let's battle for the record!"
+  defeat "New record: fastest loss."
+  after "The lake is fed by snowmelt from the summit. Cold, clear, and full of Barboach."
+  mon floatzel 35
+  mon golduck 35
+  mon quagsire 34
+end
+
+trainer p4b_grotto_diver_lorna
+  class p4b_diver_f
+  name "Lorna"
+  intro "Shh, you'll scare the Lumineon! ...Too late. Battle!"
+  defeat "Lights out, like a Lumineon diving deep."
+  after "Lumineon's fins glow in the dark. In this grotto, everything glows."
+  mon lumineon 35
+  mon masquerain 35
+end
+
+trainer p4b_grotto_lass_gemma
+  class lass
+  name "Gemma"
+  intro "Carbink and Minior are the prettiest gems in the grotto. Present company excluded!"
+  defeat "Cracked my favorite gem..."
+  after "Minior fall from the sky inside their shells. Some cracked open when they landed in here."
+  mon carbink 35
+  mon minior 35
+end
+
+trainer p4b_grotto_hiker_flint
+  class hiker
+  name "Flint"
+  intro "Surfed in, did ya? I walked! Through a lot of very cold water. Battle!"
+  defeat "Brr. Losing's colder."
+  after "Push the boulder at the south end of this gallery. There's a crystal chamber past it."
+  mon probopass 36
+  mon lairon 35
+end
+
+trainer p4b_grotto_scientist_pryce
+  class scientist
+  name "Pryce"
+  intro "Prism crystals split light into seven colors! I've only counted six. Let's battle while I recount!"
+  defeat "Seven! Seven colors and one defeat."
+  after "Team Eclipse wants this light. They'd drain the whole grotto if they found it."
+  mon glimmora 36
+  mon magneton 35
+end
+
+# --- Eclipse Dig Site ---
+trainer p4b_dig_grunt_a
+  class grunt_m
+  name "Grunt"
+  intro "How'd you find our dig?! This site is top secret!"
+  defeat "Top secret, bottom of the barrel."
+  after "We're not stealing crystals here. We're stealing the HEART of the crystals. Totally different."
+  mon houndoom 35
+  mon golbat 34
+end
+
+trainer p4b_dig_grunt_b
+  class grunt_f
+  name "Grunt"
+  intro "Lord Umbra's darkness needs light to devour. We dig it up, he eats it. Simple!"
+  defeat "Not so simple after all."
+  after "The scientist runs the siphon at the far end. He's... intense."
+  mon liepard 35
+  mon seviper 35
+end
+
+trainer p4b_dig_grunt_c
+  class grunt_m
+  name "Grunt"
+  intro "Hey! No kids in the pit! Hard hats only!"
+  defeat "Should've worn a hard hat myself."
+  after "That cracked rock leads straight to the siphon. Smash it if you dare."
+  mon weezing 36
+end
+
+trainer p4b_dig_grunt_d
+  class grunt_f
+  name "Grunt"
+  intro "Ghosts love the dark down here. So do I. You? Not so much."
+  defeat "Boo. I mean, boo-hoo."
+  after "We caught a Carbink feeding on the crystal heart. The scientist keeps it caged to test the siphon."
+  mon drifblim 35
+  mon banette 35
+end
+
+trainer p4b_dig_grunt_e
+  class grunt_m
+  name "Grunt"
+  intro "Last guard before the siphon! I take this very seriously!"
+  defeat "Seriously beaten."
+  after "Don't bother the scientist. He bites. Figuratively. Mostly."
+  mon scrafty 36
+  mon mightyena 35
+end
+
+trainer p4b_dig_sci_nyle
+  class p3b_eclipse_sci
+  name "Nyle"
+  ai 2
+  intro "A child? In MY laboratory? The siphon is nearly calibrated. I won't have you jostling it!"
+  defeat "Calibration... ruined..."
+  after "Fine. Take the Carbink. The heart's light is already half drained. Lord Umbra will have his eclipse regardless."
+  items hyperpotion=1
+  mon magneton 36
+  mon porygon2 36
+  mon bronzong 37
+end
+
+# --- Mistwood ---
+trainer p4b_mist_fairy_bryony
+  class p4b_fairytale
+  name "Bryony"
+  intro "Once upon a time, a trainer walked into Mistwood... and lost a battle! The end!"
+  defeat "That's not how the story goes!"
+  after "Clefairy dance around the moon pond at night. That part of the story is true."
+  mon clefairy 34
+  mon jigglypuff 34
+  mon togetic 35
+end
+
+trainer p4b_mist_bug_moth
+  class bugcatcher
+  name "Moth"
+  intro "The fog is full of bug Pokémon! I'm catching them all! You're next! Wait, you're not a bug."
+  defeat "I got squashed."
+  after "Ribombee roll pollen into little puffs. Fairies sell them in the market. Probably."
+  mon ribombee 35
+  mon vivillon 35
+  mon venomoth 34
+end
+
+trainer p4b_mist_beauty_vivi
+  class beauty
+  name "Vivi"
+  intro "The mist does wonders for my complexion. And for my Sylveon's ribbons!"
+  defeat "My ribbons are all tangled."
+  after "Eevee evolves into Sylveon when it loves you and knows a Fairy move. Romantic, isn't it?"
+  mon sylveon 36
+end
+
+trainer p4b_mist_ranger_hale
+  class ranger
+  name "Hale"
+  intro "Ranger Hale, keeping travelers on the path. You're off the path! Battle!"
+  defeat "You're on the path to victory, I guess."
+  after "The cut tree at the bottom of this trail is a shortcut back to the glade."
+  mon shiinotic 35
+  mon sawsbuck 36
+  mon lurantis 36
+end
+
+trainer p4b_mist_psychic_wren
+  class psychic
+  name "Wren"
+  intro "The fog blinds the eyes, not the mind. I saw you coming three trees ago."
+  defeat "Didn't see THAT coming."
+  after "Something mimes in a hidden hollow in the north clearing. A cut tree hides the way."
+  mon espeon 36
+  mon meowstic 35
+end
+
+trainer p4b_mist_fairy_thistle
+  class p4b_fairytale
+  name "Thistle"
+  intro "Step into the fairy ring and you have to battle! Those are the rules! I made them up!"
+  defeat "I'm making up a new rule: you win."
+  after "A little girl wandered past the ring earlier, crying for her mom. Poor thing."
+  mon comfey 36
+  mon morgrem 35
+end
+
+trainer p4b_mist_gent_aurel
+  class gentleman
+  name "Aurel"
+  intro "I walk Mistwood every evening with my companions. Would you join us for a bout?"
+  defeat "A splendid evening, all the same."
+  after "Lady Elowen trained in this very forest as a child. The fog taught her patience."
+  mon granbull 37
+  mon florges 37
+end
+
+# --- Mistwood Depths ---
+trainer p4b_depths_fairy_lark
+  class p4b_fairytale
+  name "Lark"
+  intro "Deep in the forest lives a trainer who never loses! ...That's me! Probably!"
+  defeat "Okay, so it's a fairy tale."
+  after "Granny Moss lives by the old shrine. She knows every story in Mistwood."
+  mon clefairy 35
+  mon wigglytuff 36
+end
+
+trainer p4b_depths_ace_seren
+  class cooltrainer_f
+  name "Seren"
+  intro "I'm preparing for Elowen's Gym. Fairy against Fairy! Ready to be my practice?"
+  defeat "I needed that. The losing, I mean."
+  after "Elowen's Togekiss knows Aura Sphere. Bring something that can take it."
+  mon gardevoir 37
+  mon azumarill 36
+  mon whimsicott 36
+end
+
+trainer p4b_depths_bug_alder
+  class bugcatcher
+  name "Alder"
+  intro "I came for Venonat, but the webs here are HUGE! Something big lives here! Is it you?!"
+  defeat "Not you. Definitely something bigger."
+  after "Galvantula spin electric webs between the trees. Watch your step in the dark."
+  mon galvantula 35
+  mon butterfree 35
+end
+
+trainer p4b_depths_psychic_nima
+  class psychic
+  name "Nima"
+  intro "The fog muffles thoughts. Except yours. Yours are very loud."
+  defeat "Loud and strong."
+  after "Hattrem can sense emotions. It hides when people shout. So I whisper. Always."
+  mon hattrem 36
+  mon xatu 36
+end
+
+trainer p4b_depths_ranger_corin
+  class ranger
+  name "Corin"
+  intro "Old trees here have spirits in them. Trevenant protects the forest. So do I!"
+  defeat "The forest forgives you."
+  after "A tree on the east trail can be cut. It's an old shortcut to the shrine."
+  mon breloom 36
+  mon trevenant 37
+end
+
+trainer p4b_depths_beauty_lumi
+  class beauty
+  name "Lumi"
+  intro "Flowers bloom brighter in the fog. Shall we see whose bloom is brightest?"
+  defeat "Wilted..."
+  after "Petilil turn into Lilligant with a Sun Stone. The Ruins of Sol have plenty of those."
+  mon bellossom 36
+  mon lilligant 37
+end
+
+trainer p4b_depths_gent_basil
+  class gentleman
+  name "Basil"
+  intro "I bake for my Alcremie, and she bakes for me. Today's special: one battle, lightly whipped."
+  defeat "Overbaked."
+  after "Alcremie's cream changes flavor with its mood. It's sweet today. You were kind to it."
+  mon mawile 36
+  mon alcremie 37
+end
+
+trainer p4b_depths_ace_rowen
+  class cooltrainer_m
+  name "Rowen"
+  intro "Granny Moss trained Elowen. I want to be her next student. You're my entrance exam!"
+  defeat "Failed the exam."
+  after "Granny says a fairy's strength is patience. I'm working on it. Impatiently."
+  mon togetic 36
+  mon klefki 37
+  mon morgrem 37
+end
+
+# --- Crystal Depths ---
+trainer p4b_cdepth_ace_ines
+  class cooltrainer_f
+  name "Ines"
+  intro "You found the ladder too? This is the deepest crystal gallery in Tessera!"
+  defeat "Deepest loss, too."
+  after "Gible nest in these dark galleries, but I've only ever seen one."
+  mon gabite 37
+  mon mawile 36
+end
+
+trainer p4b_cdepth_hiker_dunn
+  class hiker
+  name "Dunn"
+  intro "Down here, the rock grows like trees! Crystals growing out of crystals! Battle!"
+  defeat "Ground down..."
+  after "These crystals are where Mt. Prism's glow comes from. Eclipse would love to know that."
+  mon boldore 36
+  mon golem 37
+end
+
+trainer p4b_cdepth_psychic_ash
+  class psychic
+  name "Ash"
+  intro "The crystals hum in a frequency only Psychic types hear. They're humming 'battle'."
+  defeat "They're humming 'ouch' now."
+  after "The heart chamber in the middle is sealed by a boulder. Strength will open it."
+  mon claydol 36
+  mon bronzong 37
+end
+
+trainer p4b_cdepth_maniac_vey
+  class p4b_ruinmaniac
+  name "Vey"
+  intro "Ancient Pokémon swam here when this cave was a sea! I've brought two to prove it!"
+  defeat "Sunk, like an ancient sea."
+  after "Relicanth hasn't changed in a hundred million years. It doesn't need to."
+  mon relicanth 36
+  mon aerodactyl 37
+end
+
+trainer p4b_cdepth_scientist_lux
+  class scientist
+  name "Lux"
+  intro "My Rotom lives in my flashlight. It's brighter than Flash! Let's test it on you!"
+  defeat "Battery's dead."
+  after "Rotom loves crawling into appliances. Last week it got into the lab fridge."
+  mon magneton 37
+  mon rotom 37
+end
+
+trainer p4b_cdepth_ace_teo
+  class cooltrainer_m
+  name "Teo"
+  intro "The crystal heart chamber is mine! I've waited weeks for a worthy challenger!"
+  defeat "Worthy indeed."
+  after "Feel the warmth from the crystals? The mountain is alive. Eclipse wants to bleed it dry."
+  mon minior 37
+  mon glimmora 38
+end

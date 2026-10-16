@@ -17,3 +17,22 @@ quest p4b_strata_survey "Strata Survey"
   desc "Dr. Fenna is recording which Pokémon live in each rock layer around Quarrytown."
   step "Catch a Klawf, a Silicobra and a Timburr, then visit Dr. Fenna in Strata Gulch."
 end
+
+# --- Leg 5: Mt. Prism, Seraphine Town ---
+quest p4b_prism_choir "The Silent Crystals"
+  desc "A hermit in the Prism Grotto wants the three prism shards scattered around its crystal lake."
+  step "Find the three prism shards in the Prism Grotto."
+  step "Bring the shards to the hermit on the central island."
+end
+
+quest p4b_stolen_light "Stolen Light"
+  desc "Surveyor Maeve found Team Eclipse siphoning the crystal heart beneath Mt. Prism 2F."
+  step "Stop the Eclipse scientist at the far end of the dig site."
+  step "Tell Maeve the siphon has stopped."
+end
+
+quest p4b_lost_poppy "Lost in the Mist"
+  desc "Mrs. Rowan's daughter Poppy chased a Clefairy into Mistwood, north of Seraphine Town."
+  step "Find Poppy in Mistwood."
+  step "Let Mrs. Rowan in Seraphine Town know that Poppy is safe."
+end
