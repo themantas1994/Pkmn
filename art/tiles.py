@@ -916,6 +916,23 @@ def window_in():
 
 WOOD_BG = 1  # index of the floor-tan colour in furniture palettes
 
+
+def on_wood(src, bg=WOOD_BG):
+    """Replace the border-connected background of a furniture grid with the
+    floor_wood plank pattern (furniture palette == floor_wood tones)."""
+    a = src.copy()
+    seen = np.zeros((TS, TS), bool)
+    stack = [(y, x) for y in range(TS) for x in (0, TS - 1)] + \
+            [(y, x) for x in range(TS) for y in (0, TS - 1)]
+    while stack:
+        y, x = stack.pop()
+        if not (0 <= y < TS and 0 <= x < TS) or seen[y, x] or a[y, x] != bg:
+            continue
+        seen[y, x] = True
+        stack += [(y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)]
+    a[seen] = floor_wood()[seen]
+    return a
+
 COUNTER = grid("""
 3333333333333333
 0000000000000000
@@ -1481,12 +1498,12 @@ def build_tiles():
     add("counter", "furniture", COUNTER)
     add("pc", "tech", PC)
     add("bookshelf", "furniture", BOOKSHELF)
-    add("table", "furniture", TABLE)
-    add("chair", "furniture", CHAIR)
+    add("table", "furniture", on_wood(TABLE))
+    add("chair", "furniture", on_wood(CHAIR))
     add("bed_top", "bed", BED_TOP)
     add("bed_bottom", "bed", BED_BOTTOM)
     add("plant", "plant", PLANT)
-    add("tv", "tech", TV)
+    add("tv", "tv", TV)
     add("rug_l", "rug", rug("l"))
     add("rug_r", "rug", rug("r"))
     add("rug_mat", "rug", rug("single"))
