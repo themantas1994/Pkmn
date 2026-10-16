@@ -7,7 +7,7 @@ music route_early
 environment grass
 region 16 5
 encounters none
-connect east seraphine_town -3
+# connect east seraphine_town -3  (TEMP)
 
 layout
 TTTT

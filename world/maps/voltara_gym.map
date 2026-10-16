@@ -1,0 +1,41 @@
+# Voltara Gym — Volta (Electric). Floor switches cut power to the barrier gates.
+map voltara_gym
+name "Voltara Gym"
+location "Voltara City"
+music gym
+environment building
+indoor
+tags gym
+
+layout
+@@@@@@@@@@@@@
+@GgggggggggG@
+@ggggggggggg@
+@ZZZZZZZZZZZ@
+@ggggggggggg@
+@gggGgggGggz@
+@ggggggggggg@
+@ZZZZZZZZZZZ@
+@ggggggggggg@
+@zggGgggGggg@
+@ggggggggggg@
+@ZZZZZZZZZZZ@
+@ggggggggggg@
+@gggggggggzg@
+@gggGgggGggg@
+@@@@@@R@@@@@@
+end
+
+warp 6 15 -> voltara_city 13 7 down
+tileif p2_vg_1 3 11 gym_floor
+tileif p2_vg_2 9 7 gym_floor
+tileif p2_vg_3 6 3 gym_floor
+trigger 10 13 1 1 script=p2_vgym_sw1 unless=p2_vg_1
+trigger 1 9 1 1 script=p2_vgym_sw2 unless=p2_vg_2
+trigger 11 5 1 1 script=p2_vgym_sw3 unless=p2_vg_3
+npc vg_guide 7 13 sprite=gentleman face=down script=p2_vgym_guide
+trainer p2_vg_scientist_ohm 6 9 sprite=scientist face=down sight=3
+trainer p2_vg_cooltrainer_zap 2 5 sprite=cooltrainer_f face=right sight=4
+trainer p2_vg_youngster_amp 9 10 sprite=youngster face=left sight=3
+trainer p2_vg_beauty_watt 9 2 sprite=beauty face=left sight=2
+npc volta 6 1 sprite=leader3 face=down script=p2_volta

@@ -1,0 +1,46 @@
+# Voltara Power Plant — Team Eclipse siphon operation (rival joins; Part 2 story).
+map voltara_powerplant
+name "Power Plant"
+location "Voltara City"
+music dungeon_eclipse
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^^^^^^^^^
+@@@@@PPPPPPPPPP@@@@@
+@@@@oooooooooooo@oo@
+@@@@ooKKooooKKoo@oo@
+@@@@oooooooooooo@oo@
+@@@@oooooooooooo@oo@
+@@@@@@@@@oo@@@@@@oo@
+@oooooooooooooooooo@
+@ooooKKKoooooKKKooo@
+@oooooooooooooooooo@
+@@oo@@@@@@@@@@@@@@@@
+@oooooooooooooooooo@
+@oooKKKooKKKooooooo@
+@oooooooooooooooooo@
+@@@@@@@@@@@@@@@@oo@@
+@oooooooooooooooooo@
+@oooKKKoooooKKKoooo@
+@oooooooooooooooooo@
+@@@@@@@@@RR@@@@@@@@@
+end
+
+warp 9 18 -> voltara_city 29 24 down
+warp 10 18 -> voltara_city 29 24 down
+trainer p2_pp_grunt1 2 16 sprite=grunt_m face=right sight=4
+trainer p2_pp_grunt2 15 15 sprite=grunt_f face=left sight=3
+trainer p2_pp_grunt3 8 11 sprite=grunt_m face=down sight=2
+trainer p2_pp_grunt4 1 11 sprite=grunt_f face=right sight=3
+trainer p2_pp_grunt5 11 9 sprite=grunt_m face=up sight=2
+trainer p2_pp_grunt6 17 8 sprite=grunt_f face=left sight=4
+npc pp_captain 9 2 sprite=grunt_m face=down script=p2_plant_captain hideif=p2_power_restored
+npc pp_rival 11 4 sprite=rival face=left script=p2_plant_rival_talk showif=p2_plant_rival_in hideif=p2_power_restored
+npc pp_worker 17 2 sprite=scientist face=down script=p2_plant_worker
+trigger 8 4 4 1 script=p2_plant_captain unless=p2_power_restored
+item electriumz 18 6 electriumz
+item hyperpotion 1 9 hyperpotion
+item fullheal 18 13 fullheal
+hidden ultraball 4 2 ultraball

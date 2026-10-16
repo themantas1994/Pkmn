@@ -1,0 +1,98 @@
+# Part 2 wild encounters (Route 5 -> Mt. Prism / Seraphine). Levels follow docs/CAMPAIGN.md.
+
+encounters p2_route5
+  rate grass 25
+  grass morning skiploom 16-19 25
+  grass morning ledian 17-19 20
+  grass morning herdier 17-19 25
+  grass morning flabebe 16-18 30
+  grass day herdier 17-19 25
+  grass day ponyta 16-19 20
+  grass day skiddo 16-18 25
+  grass day nincada 16-18 15
+  grass day flabebe 16-18 15
+  grass night noctowl 17-19 30
+  grass night venonat 16-18 25
+  grass night kricketune 17-19 25
+  grass night stunky 16-18 20
+  surf any tentacool 18-22 45
+  surf any wingull 18-22 40
+  surf any pelipper 22-24 15
+  oldrod any magikarp 10-15 70
+  oldrod any finneon 12-16 30
+  goodrod any finneon 16-20 35
+  goodrod any remoraid 16-20 35
+  goodrod any shellder 16-20 30
+  superrod any staryu 25-30 50
+  superrod any lumineon 25-30 50
+end
+
+encounters p2_lumen_ruins
+  rate cave 12
+  cave morning unown 16-20 45
+  cave morning natu 17-19 20
+  cave morning baltoy 17-20 20
+  cave morning sigilyph 19-21 5
+  cave morning bronzor 17-20 10
+  cave day unown 16-20 45
+  cave day baltoy 17-20 20
+  cave day bronzor 17-20 20
+  cave day sigilyph 19-21 5
+  cave day elgyem 18-20 10
+  cave night unown 16-20 40
+  cave night golett 18-20 20
+  cave night litwick 17-19 20
+  cave night elgyem 18-20 15
+  cave night sigilyph 19-21 5
+end
+
+encounters p2_route6
+  rate grass 25
+  grass morning electrike 17-20 30
+  grass morning flaaffy 18-21 20
+  grass morning psyduck 17-20 20
+  grass morning wooper 17-20 25
+  grass morning pikachu 18-20 5
+  grass day electrike 17-20 25
+  grass day luxio 18-21 20
+  grass day croagunk 18-20 20
+  grass day wooperpaldea 17-20 30
+  grass day pikachu 18-20 5
+  grass night tympole 17-20 30
+  grass night croagunk 18-20 20
+  grass night wooperpaldea 17-20 25
+  grass night murkrow 18-21 25
+  surf any psyduck 20-24 35
+  surf any marill 20-24 30
+  surf any buizel 20-24 25
+  surf any lombre 22-24 10
+  oldrod any magikarp 10-15 70
+  oldrod any poliwag 12-16 30
+  goodrod any goldeen 18-22 35
+  goodrod any barboach 18-22 35
+  goodrod any poliwag 18-22 30
+  superrod any whiscash 30-33 50
+  superrod any poliwhirl 28-32 50
+end
+
+encounters p2_route7
+  rate grass 25
+  grass morning machop 23-26 30
+  grass morning girafarig 24-26 15
+  grass morning helioptile 23-25 25
+  grass morning magnemite 23-26 20
+  grass morning voltorbhisui 24-26 10
+  grass day machop 23-26 25
+  grass day pawmo 24-26 15
+  grass day rhyhorn 24-26 20
+  grass day hippopotas 23-26 20
+  grass day magnemite 23-26 20
+  grass night voltorb 23-26 25
+  grass night joltik 23-25 25
+  grass night gligar 24-26 20
+  grass night golbat 24-27 20
+  grass night sandshrew 23-26 10
+  rocksmash any geodude 23-26 50
+  rocksmash any dwebble 23-26 35
+  rocksmash any nosepass 24-26 15
+end

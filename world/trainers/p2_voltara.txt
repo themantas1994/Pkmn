@@ -1,0 +1,168 @@
+# Part 2 trainers: Voltara power plant, rival L26, Voltara Gym (cap 28).
+
+trainer p2_pp_grunt1
+  class grunt_m
+  name "Grunt"
+  intro "Lights out, kid! Team Eclipse is busy here!"
+  defeat "Short-circuited!"
+  after "The boss says harsh light hurts everyone. We're doing the world a favor!"
+  mon zubat 22
+  mon stunky 23
+end
+
+trainer p2_pp_grunt2
+  class grunt_f
+  name "Grunt"
+  intro "Isn't the dark lovely? Let's keep it that way!"
+  defeat "Too bright... you're too bright!"
+  after "Our siphon stores light in crystal shards. Clever, huh?"
+  mon murkrow 23
+  mon koffing 22
+end
+
+trainer p2_pp_grunt3
+  class grunt_m
+  name "Grunt"
+  intro "You can't stop the eclipse!"
+  defeat "Okay, maybe you can stop me."
+  after "Admin Corvin would never lose to a kid. Never!"
+  mon grimer 23
+  mon golbat 23
+end
+
+trainer p2_pp_grunt4
+  class grunt_f
+  name "Grunt"
+  intro "Hold it! This area is off-limits!"
+  defeat "Fine! Go, then!"
+  after "Ugh, my shift was almost over."
+  mon poochyena 22
+  mon mightyena 24
+end
+
+trainer p2_pp_grunt5
+  class grunt_m
+  name "Grunt"
+  intro "The captain is busy! Busy beating you, eventually!"
+  defeat "That's not how that was supposed to go."
+  after "The control room is just ahead. Not that it'll help you."
+  mon stunky 23
+  mon croagunk 23
+end
+
+trainer p2_pp_grunt6
+  class grunt_f
+  name "Grunt"
+  intro "Guarding a storeroom. Thrilling. A battle would be nice."
+  defeat "Well, at least it wasn't boring."
+  after "There's a worker tied up back there. We're not monsters, we gave him snacks."
+  mon sneasel 24
+end
+
+trainer p2_pp_captain
+  class grunt_m
+  name "Captain Dusk"
+  ai 2
+  intro "The siphon stays on!"
+  defeat "The light... slipping away..."
+  after "We'll take the light from Mt. Prism itself next."
+  mon golbat 24 moves=wingattack,bite,confuseray,poisonfang
+  mon skuntank 25 moves=poisonjab,bite,smokescreen,screech
+  mon mightyena 25 moves=crunch,takedown,roar,swagger
+end
+
+trainer p2_rival_plant_quilava
+  class rival
+  name "{rival}"
+  ai 2
+  intro "Let's see who's stronger now!"
+  defeat "No way! Again?!"
+  after "Next time, I'll win for sure."
+  mon pidgeotto 24
+  mon haunter 24
+  mon murkrow 24
+  mon quilava 26 moves=flamewheel,swift,quickattack,defensecurl
+end
+
+trainer p2_rival_plant_croconaw
+  class rival
+  name "{rival}"
+  ai 2
+  intro "Let's see who's stronger now!"
+  defeat "No way! Again?!"
+  after "Next time, I'll win for sure."
+  mon pidgeotto 24
+  mon haunter 24
+  mon murkrow 24
+  mon croconaw 26 moves=bite,watergun,icefang,scaryface
+end
+
+trainer p2_rival_plant_bayleef
+  class rival
+  name "{rival}"
+  ai 2
+  intro "Let's see who's stronger now!"
+  defeat "No way! Again?!"
+  after "Next time, I'll win for sure."
+  mon pidgeotto 24
+  mon haunter 24
+  mon murkrow 24
+  mon bayleef 26 moves=razorleaf,reflect,poisonpowder,magicalleaf
+end
+
+trainer p2_vg_scientist_ohm
+  class scientist
+  name "Ohm"
+  intro "Resistance is futile! Get it? Because Ohm?"
+  defeat "Current status: defeated."
+  after "Volta's Raichu is FAST. Paralysis helps if you can land it."
+  mon magnemite 24
+  mon voltorb 24
+  mon klink 25
+end
+
+trainer p2_vg_cooltrainer_zap
+  class cooltrainer_f
+  name "Zap"
+  intro "Volta picked me for her backup dancers! And battlers!"
+  defeat "I missed my cue!"
+  after "Ground-types don't care about Electric moves at all. So unfair."
+  mon helioptile 25
+  mon luxio 26 moves=spark,bite,swagger,charge
+end
+
+trainer p2_vg_youngster_amp
+  class youngster
+  name "Amp"
+  intro "My hair's standing on end! That means I'm READY!"
+  defeat "...that means I'm fried."
+  after "I wonder if Volta's hair is naturally like that."
+  mon electrike 25
+  mon pawmo 25
+end
+
+trainer p2_vg_beauty_watt
+  class beauty
+  name "Watt"
+  intro "The main act is right behind me. Consider me the opening number!"
+  defeat "The crowd goes mild."
+  after "Go on, the star is waiting."
+  mon flaaffy 25
+  mon eelektrik 26
+end
+
+trainer p2_leader_volta
+  class leader
+  name "Volta"
+  portrait leader3
+  ai 3
+  intro "Showtime!"
+  defeat "Bravo! Encore! ...wait, I'm the one who lost."
+  after "Keep that spark alive, superstar!"
+  items hyperpotion=2
+  prize 2800
+  mon magneton 26 moves=thunderbolt,flashcannon,thunderwave,supersonic
+  mon eelektrik 26 moves=thunderfang,crunch,acid,chargebeam
+  mon luxio 27 moves=spark,crunch,swagger,icefang
+  mon raichu 28 moves=thunderbolt,brickbreak,quickattack,nastyplot item=sitrusberry
+end

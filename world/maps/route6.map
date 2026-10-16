@@ -1,0 +1,55 @@
+# Route 6 — marshy grassland under Voltara's power lines.
+map route6
+name "Route 6"
+location "Route 6"
+music route_mid
+environment grass
+region 18 18
+encounters p2_route6
+connect west lumen_village 5
+connect east voltara_city -6
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T...............................TTTTTTTT
+T.,,,,,,,....TTTTTTTT.,,,,,,,,,.TT....TT
+T.,,,,,,,....TTTTTTTT.,,,,,,,,,.TT....TT
+T.,,,,,,,....TTTTTTTT.,,,,,,,,,.TT....TT
+T.,,,,,,,....TTTTTTTT.,,,,,,,,,.TTT.TTTT
+T.,,,,,,,.............,,,,,,,,,.TTT.TTTT
+T....................................S.T
+T.........::::::::::::::::::::::::::::::
+T.vvvvvvv.::::::::::::::::::::::::::::::
+T..,,,,,,.::...........................T
+T..,,,,,,.::..,,,,,,,,,,,,.TTT.FFFFFFF.T
+T..,,,,,,.::..,,,,,,,,,,,,.TTT.FFFFFFF.T
+T..S......::..,,,,,,,,,,,,.TTT.........T
+::::::::::::...........................T
+::::::::::::.ssssssssssssss..,,,,,,,,,.T
+T.vvvvvvvv...s~~~~~~~~~~~~s..,,,,,,,,,.T
+T.,,,,,,,,...s~~~~~~~~~~~~s..,,,,,,,,,.T
+T.,,,,,,,,TTTs~~~~~ss~~~~~s..,,,,,,,,,.T
+T.,,,,,,,,TTTs~~~~~ss~~~~~s..,,,,,,,,,.T
+T.,,,,,,,,TTTs~~~~~~~~~~~~s..,,,,,,,,,.T
+T.,,,,,,,,TTTs~~~~~~~~~~~~s............T
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+sign 3 13 text="ROUTE 6\nLumen Village - Voltara City"
+sign 37 7 text="VOLTARA CITY ahead\nThe city that never sleeps... unless the power's out."
+trainer p2_r6_youngster_cal 15 10 sprite=youngster face=down sight=3
+trainer p2_r6_lass_poppy 6 7 sprite=lass face=down sight=3
+trainer p2_r6_fisher_hal 13 17 sprite=fisherman face=right sight=1
+trainer p2_r6_cooltrainer_jin 24 7 sprite=cooltrainer_m face=down sight=3
+trainer p2_r6_scientist_vale 30 10 sprite=scientist face=left sight=4
+trainer p2_r6_beauty_lila 33 14 sprite=beauty face=down sight=4
+trainer p2_r6_kid_tobi 5 13 sprite=kid face=right sight=4
+npc r6_lineman 36 10 sprite=hiker face=up text="These power lines run all the way to Voltara. Lately they hum... then go quiet. Spooky."
+obstacle 35 6 boulder flag=p2_r6_boulder
+item magnet 37 2 magnet
+item hyperpotion 2 2 hyperpotion
+item waterstone 19 18 waterstone
+item repel 37 20 superrepel
+hidden nugget 34 2 nugget
+hidden rarecandy 2 21 rarecandy

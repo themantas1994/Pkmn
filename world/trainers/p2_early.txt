@@ -1,0 +1,178 @@
+# Part 2 trainers: Route 5, Lumen Ruins, Route 6 (levels 18-23; next cap 28).
+
+# --- Route 5 ---
+trainer p2_r5_lass_tessa
+  class lass
+  name "Tessa"
+  intro "The meadow flowers are blooming! So are my Pokémon!"
+  defeat "Wilted..."
+  after "Flabébé holds a flower its whole life. Isn't that sweet?"
+  mon flabebe 18 moves=fairywind,razorleaf,wish,vinewhip
+  mon skiploom 19 moves=bulletseed,poisonpowder,tailwhip,acrobatics
+end
+
+trainer p2_r5_youngster_ned
+  class youngster
+  name "Ned"
+  intro "Two badges? I have two shoes. Same thing! Battle!"
+  defeat "Not the same thing at all..."
+  after "Herdier's fur is super soft. Want to pet it? No? Okay."
+  mon herdier 20 moves=bite,takedown,workup,retaliate
+  mon ponyta 19 moves=flamecharge,stomp,ember,tailwhip
+end
+
+trainer p2_r5_fisher_wade
+  class fisherman
+  name "Wade"
+  intro "You scared the fish! Now you owe me a battle!"
+  defeat "Reeled in by a kid..."
+  after "The tide's coming in. Good time for Remoraid."
+  mon tentacool 19
+  mon wingull 19
+  mon remoraid 20 moves=watergun,psybeam,aurorabeam,lockon
+end
+
+trainer p2_r5_bug_otto
+  class bugcatcher
+  name "Otto"
+  intro "My net's empty, but my party's full!"
+  defeat "Squashed!"
+  after "Venonat's eyes are radar. That's why it found you."
+  mon venonat 19
+  mon ledian 20
+  mon kricketune 20
+end
+
+trainer p2_r5_pokefan_rhea
+  class pokefan
+  name "Rhea"
+  intro "Isn't my Floette precious? Let me show you how precious!"
+  defeat "Precious AND defeated..."
+  after "I'm going to make Floette a tiny flower crown. Well, another one."
+  mon skiddo 20 moves=razorleaf,bulldoze,leechseed,takedown
+  mon floette 21 moves=fairywind,magicalleaf,wish,razorleaf
+end
+
+trainer p2_r5_hiker_bram
+  class hiker
+  name "Bram"
+  intro "Hoo! The sea air makes my rocks extra rocky!"
+  defeat "Crumbled like sandstone!"
+  after "Rock Smash those cracked boulders around Tessera. Who knows what's inside?"
+  mon geodude 20 moves=rockthrow,bulldoze,rollout,defensecurl
+  mon nosepass 21 moves=rockthrow,thunderwave,block,rockblast
+end
+
+# --- Lumen Ruins ---
+trainer p2_lr_psychic_iris
+  class psychic
+  name "Iris"
+  intro "I foresaw you coming. I also foresee me winning."
+  defeat "...I need a new crystal ball."
+  after "The Unown whisper at night. Mostly vowels."
+  mon natu 20 moves=psychic,nightshade,teleport,peck
+  mon elgyem 21 moves=psybeam,confusion,headbutt,growl
+end
+
+trainer p2_lr_sage_ono
+  class sage
+  name "Ono"
+  intro "The ruins test all who enter. I am the test!"
+  defeat "You have passed. Barely. Okay, easily."
+  after "Two glowing stones guard the sealed door. Find them both."
+  mon baltoy 21 moves=psybeam,rapidspin,mudslap,ancientpower
+  mon bronzor 21 moves=confusion,payback,imprison,confuseray
+end
+
+trainer p2_lr_scientist_kurt
+  class scientist
+  name "Kurt"
+  intro "Field research! You are now a field. Prepare to be researched!"
+  defeat "Fascinating. And humiliating."
+  after "My readings show tremendous Psychic energy here."
+  mon magnemite 20
+  mon porygon 21 moves=psybeam,agility,signalbeam,recover
+end
+
+trainer p2_lr_hiker_dale
+  class hiker
+  name "Dale"
+  intro "I came for fossils and found... you!"
+  defeat "Dug my own hole there."
+  after "Quarrytown's the place for fossils. It's way east, past Voltara."
+  mon golett 20
+  mon rhyhorn 21 moves=stomp,bulldoze,rockblast,scaryface
+end
+
+# --- Route 6 ---
+trainer p2_r6_youngster_cal
+  class youngster
+  name "Cal"
+  intro "I've been charging up all day! Literally. Look at my hair!"
+  defeat "Fizzled out..."
+  after "Electrike love the tall grass here. They're quick, though!"
+  mon electrike 21 moves=spark,howl,bite,quickattack
+  mon flaaffy 21
+end
+
+trainer p2_r6_lass_poppy
+  class lass
+  name "Poppy"
+  intro "My Azumarill can bounce higher than you can jump!"
+  defeat "Splish, splash, crash."
+  after "Azumarill floats like a balloon. A very strong balloon."
+  mon azumarill 22 moves=aquatail,rollout,bubblebeam,playrough
+end
+
+trainer p2_r6_fisher_hal
+  class fisherman
+  name "Hal"
+  intro "This pond is my office. Battling is my coffee break!"
+  defeat "Back to work, then."
+  after "With SURF you could reach the islet in the middle. I bet something's out there."
+  mon barboach 21
+  mon goldeen 21
+  mon poliwhirl 22
+end
+
+trainer p2_r6_cooltrainer_jin
+  class cooltrainer_m
+  name "Jin"
+  intro "A balanced team wins battles. Let me show you balance!"
+  defeat "Unbalanced... by you."
+  after "Volta's Gym is all Electric-types. Bring a Ground-type and you'll be fine."
+  mon luxio 22 moves=spark,bite,roar,swagger
+  mon croagunk 22 moves=poisonjab,suckerpunch,revenge,mudslap
+  mon ponyta 22 moves=flamecharge,stomp,firespin,agility
+end
+
+trainer p2_r6_scientist_vale
+  class scientist
+  name "Vale"
+  intro "I'm measuring the voltage on these lines. You'll make a fine control sample!"
+  defeat "Data inconclusive. Mostly because I lost."
+  after "The readings dropped to zero last week. Something is siphoning power from Voltara."
+  mon magnemite 22
+  mon voltorb 22
+  mon joltik 21
+end
+
+trainer p2_r6_beauty_lila
+  class beauty
+  name "Lila"
+  intro "Battling in the marsh ruins my shoes. You'd better be worth it!"
+  defeat "...and my pride."
+  after "Psyduck always has a headache. I relate."
+  mon psyduck 22 moves=confusion,waterpulse,furyswipes,disable
+  mon floette 22
+end
+
+trainer p2_r6_kid_tobi
+  class kid
+  name "Tobi"
+  intro "Pikachu! It's me and Pikachu against the world!"
+  defeat "Pika... noooo..."
+  after "I'm gonna give Pikachu a Thunder Stone when it's older. Maybe."
+  mon pikachu 20 moves=thundershock,quickattack,doubleteam,spark
+  mon wooper 20
+end

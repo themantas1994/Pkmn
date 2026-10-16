@@ -1,0 +1,58 @@
+# Route 7 — rocky foothills crossed by Voltara's power lines.
+map route7
+name "Route 7"
+location "Route 7"
+music route_mid
+environment grass
+region 23 16
+encounters p2_route7
+connect west voltara_city 6
+# connect east route8 -30  (TEMP: enabled once route8 exists)
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T.MMMMMMMMM...................rrrrrrrr.T
+T.MmmmmmmmM...,,,,,,,,,,............S..T
+T.MmmmmmmmM...,,,,,,,,,,..::::::::::::::
+T.MmmmmmmmM...,,,,,,,,,,..::::::::::::::
+T.MmmmmmmmM...,,,,,,,,,,..::...........T
+T.MmmmmmmmM...,,,,,,,,,,..::.,,,,,,,,,.T
+T.MmmmmmmmM...vvvvvvvvvvv.::.,,,,,,,,,.T
+T.MMMMMMMMM...............::.,,,,,,,,,.T
+T...........::::::::::::::::.,,,,,,,,,.T
+T...........::::::::::::::::.,,,,,,,,,.T
+T.,,,,,,,,..::...............,,,,,,,,,.T
+T.,,,,,,,,..::.,,,,,,,,,.....vvvvvvvvv.T
+T.,,,,,,,,..::.,,,,,,,,,.MMM.sssssssss.T
+T.,,,,,,,,..::.,,,,,,,,,.MMM.ss,,,,,ss.T
+T.,,,,,,,,..::.,,,,,,,,,.MMM.ss,,,,,ss.T
+T.,,,,,,,,..::.,,,,,,,,,.MMM.ss,,,,,ss.T
+T.vvvvvvvvv.::.,,,,,,,,,.MMM.ss,,,,,ss.T
+T..........S::Trrrr.rrrrTMMM.sssssssss.T
+::::::::::::::T.........TMMM...........T
+::::::::::::::T.FFF.....TMMMTTTTTTTTTTTT
+T.............T.........TMMMTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTMMMTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTMMMTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+sign 11 19 text="ROUTE 7\nVoltara City - Route 8 - Quarrytown"
+sign 36 3 text="ROUTE 8 ahead\nQuarrytown is north through the canyon."
+trainer p2_r7_hiker_gus 14 16 sprite=hiker face=right sight=3
+trainer p2_r7_blackbelt_ken 11 13 sprite=blackbelt face=right sight=1
+trainer p2_r7_cooltrainer_mae 22 12 sprite=cooltrainer_f face=up sight=1
+trainer p2_r7_ranger_finn 28 6 sprite=ranger face=left sight=1
+trainer p2_r7_psychic_lux 24 4 sprite=psychic face=down sight=3
+trainer p2_r7_pokefan_dot 38 15 sprite=pokefan face=left sight=4
+trainer p2_r7_scientist_bolt 9 19 sprite=scientist face=down sight=1
+npc r7_toolbox 20 21 sprite=itemball script=p2_r7_toolbox hideif=p2_found_toolbox
+npc r7_crew 34 9 sprite=hiker face=left text="We're stringing new lines after the blackout. Mind the Voltorb, they love the pylons."
+obstacle 19 19 smash flag=p2_r7_smash1
+item revive 2 22 revive
+item superrepel 37 8 superrepel
+item buginiumz 33 16 buginiumz
+hidden maxether 38 20 ether
+hidden hardstone 15 2 hardstone
+hidden pppup 23 22 ppup

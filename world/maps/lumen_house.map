@@ -1,0 +1,19 @@
+map lumen_house
+name "Lumen House"
+location "Lumen Village"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@wB@@Vw@
+________
+p_______
+__tt____
+___RR___
+end
+
+warp 3 5 -> lumen_village 16 14 down
+warp 4 5 -> lumen_village 16 14 down
+npc weaver 2 2 sprite=oldwoman face=down script=p2_lumen_weaver

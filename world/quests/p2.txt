@@ -1,0 +1,47 @@
+# Part 2 quests.
+quest p2_story "Shadows over Tessera" main
+  desc "Team Eclipse is stealing light across Tessera. Follow the trail from Lumen Village to Seraphine Town."
+  step "Head south to Lumen Village."
+  step "Find out why Voltara City is blacked out."
+  step "Earn the Spark Badge from Volta."
+  step "Visit Dr. Mira's lab in Voltara City."
+  step "Earn the Stone Badge from Garnet in Quarrytown."
+  step "Meet Warden Talo at the Ruins of Sol."
+  step "Cross Mt. Prism and stop Team Eclipse."
+  step "Earn the Mist Badge from Elowen in Seraphine Town."
+end
+
+quest p2_kanto_legacy "The Traveler's Gift"
+  desc "Elder Ione of Lumen Village keeps Pokémon left by a traveler from Kanto."
+  step "See the mural deep in the Lumen Ruins."
+  step "Tell Elder Ione about the mural."
+  step "Return to Elder Ione with a Key Stone."
+end
+
+quest p2_ruins_research "Psychic Survey"
+  desc "A researcher in Lumen Village wants proof that Psychic Pokémon gather in the ruins."
+  step "Catch Unown, Natu, Baltoy and Sigilyph, then report back."
+end
+
+quest p2_live_wire "Live Wire"
+  desc "A Voltara lineman dropped his toolbox somewhere on Route 7."
+  step "Find the lineman's toolbox on Route 7."
+  step "Return the toolbox to the lineman in Voltara City."
+end
+
+quest p2_fossil_dig "Dig Site Duty"
+  desc "Quarrytown's foreman lost his lucky pickaxe on Route 8."
+  step "Find the foreman's pickaxe on Route 8."
+  step "Return the pickaxe to the foreman."
+  step "Bring a fossil to the Quarrytown Fossil Lab."
+end
+
+quest p2_sun_and_moon "Sun and Moon"
+  desc "An acolyte at the Ruins of Sol wants to see the sun and the moon side by side."
+  step "Catch Solrock and Lunatone, then visit the acolyte."
+end
+
+quest p2_mist_song "Song of the Mist"
+  desc "A bard in Seraphine Town is writing a ballad about cotton-winged birds."
+  step "Show the bard a Swablu."
+end

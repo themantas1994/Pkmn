@@ -1,0 +1,24 @@
+map voltara_dept_1f
+name "Voltara Dept. Store 1F"
+location "Voltara City"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^^^
+@w@@@@@@@w@U
+oooooooooooo
+cc..KK.KK...
+oooooooooooo
+....KK.KK.p.
+oooooooooooo
+.RR.........
+end
+
+warp 1 7 -> voltara_city 6 6 down
+warp 2 7 -> voltara_city 6 6 down
+warp 11 1 -> voltara_dept_2f 11 2 down
+npc clerk 0 2 sprite=clerk face=down script=p2_shop_voltara_1f
+npc d1_guide 4 6 sprite=lass face=up text="1F: everyday goods. 2F: Evolution Corner and TMs. The Linking Cord is upstairs!"
+npc d1_dad 10 4 sprite=pokefan face=left text="My Graveler hasn't evolved since we stopped trading. Maybe a Linking Cord will do it!"

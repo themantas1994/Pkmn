@@ -1,0 +1,52 @@
+# Lumen Ruins — Unown halls. Two floor switches open the sealed stair room (tileif).
+map lumen_ruins
+name "Lumen Ruins"
+location "Lumen Village"
+music dungeon_ruins
+environment cave
+region 15 16
+encounters p2_lumen_ruins
+
+layout
+xxxxxxxxxxxxxxxxxxxx
+xuuuuuuuuxxuuuuuuuzx
+xuuxxuuuuxxuuuuxxuux
+xuuxxuuuuuuuuuuxxuux
+xuuuuuuxxxxxxuuuuuux
+xxxxuuuxuuuuxuuuxxxx
+xuuuuuuxuuDuxuuuuuux
+xuuuuuuxuuuuxuuuuuux
+xuuxxuuxxZxxxuuxxuux
+xuuxxuuuuuuuuuuxxuux
+xuuuuuuuuuuuuuuuuuux
+xxxxxxuuuxxuuuxxxxxx
+xzuuuuuuuxxuuuuuuuux
+xuuGuuuuuuuuuuuuGuux
+xuuuuuuuuuuuuuuuuuux
+xuuuuuuuuuuuuuuuuuux
+xuuxxxxuuuuuuxxxxuux
+xuuxxxxuuuuuuxxxxuux
+xuuuuuuuuuuuuuuuuuux
+xxxxxxxxxRRxxxxxxxxx
+end
+
+warp 9 19 -> lumen_village 2 15 up
+warp 10 19 -> lumen_village 2 15 up
+warp 10 6 -> lumen_ruins_chamber 6 9 up
+tileif p2_lumen_door 9 8 ruins_floor
+trigger 18 1 1 1 script=p2_lumen_switch_a unless=p2_lumen_sw_a
+trigger 1 12 1 1 script=p2_lumen_switch_b unless=p2_lumen_sw_b
+tile 8 8 sign
+sign 8 8 script=p2_lumen_door_sign
+
+trainer p2_lr_psychic_iris 5 14 sprite=psychic face=right sight=4
+trainer p2_lr_sage_ono 14 10 sprite=sage face=left sight=4
+trainer p2_lr_scientist_kurt 13 3 sprite=scientist face=down sight=3
+trainer p2_lr_hiker_dale 2 6 sprite=hiker face=right sight=3
+npc lr_student 11 17 sprite=lass face=up text="Step on the two glowing stones and the sealed door opens. My professor told me so... then left me here."
+
+item psychiumz 17 6 psychiumz
+item fullheal 2 2 fullheal
+item escaperope 13 1 escaperope
+hidden stardust 3 13 stardust
+hidden moonstone 18 17 moonstone
