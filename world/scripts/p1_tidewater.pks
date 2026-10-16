@@ -20,6 +20,7 @@ script p1_port_rival
   say "{rival}: Listen. Team Eclipse is in the harbor warehouse by the docks.\pI saw them hauling crates. Marina went in after them alone!"
   say "{rival}: I'll keep watch out here. Go!"
   setflag p1_rival_port
+  quest p1_light_shards next
   move rival right2
   hide rival
 end
