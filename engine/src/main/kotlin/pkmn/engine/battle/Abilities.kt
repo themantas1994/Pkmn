@@ -144,6 +144,14 @@ object Abilities {
         return stats.maxByOrNull { m.rawStat(Stat.byId(it)!!) }!!
     }
 
+    /** Replaces [mon]'s Ability (Skill Swap, Role Play, Entrainment...) and runs the new Ability's start effect. */
+    fun setAbility(b: Battle, mon: BattleMon, id: String) {
+        Effects.ability(mon.ability)?.let { old -> if (b.abilityActive(mon)) old.onEnd(EffectCtx(b, old, mon, null, mon.abilityState)) }
+        mon.ability = id
+        mon.abilityState = EffectState()
+        if (b.abilityActive(mon)) Effects.ability(id)?.let { it.onStart(EffectCtx(b, it, mon, null, mon.abilityState), null) }
+    }
+
     fun registerAll() {
         // ------------------------------------------------ weather / terrain setters
         weatherSetter("drizzle", "raindance")
@@ -226,15 +234,23 @@ object Abilities {
         moveFlagBoost("toughclaws", 1.3) { it.move.hasFlag("contact") }
         moveFlagBoost("punkrock", 1.3) { it.move.hasFlag("sound") }
         moveFlagBoost("reckless", 1.2) { it.move.data.recoil != null || it.move.data.hasCrashDamage }
-        moveFlagBoost("sandforce", 1.3) { it.move.type in setOf("Rock", "Ground", "Steel") && it.user.side.foe.let { _ -> true } }
+        reg(object : A("sandforce") {
+            override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && c.b.isSand() && mc.move.type in setOf("Rock", "Ground", "Steel")) mod.chain(1.3) }
+        })
         moveFlagBoost("steelworker", 1.5) { it.move.type == "Steel" }
         moveFlagBoost("steelyspirit", 1.5) { it.move.type == "Steel" }
         moveFlagBoost("dragonsmaw", 1.5) { it.move.type == "Dragon" }
         moveFlagBoost("transistor", 1.3) { it.move.type == "Electric" }
         moveFlagBoost("rockypayload", 1.5) { it.move.type == "Rock" }
-        moveFlagBoost("waterbubble", 2.0) { it.move.type == "Water" }
+        reg(object : A("waterbubble") {
+            override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.move.type == "Water") mod.chain(2.0) }
+            override fun onModifyAtk(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isTarget(mc) && mc.move.type == "Fire") mod.chain(0.5) }
+            override fun onModifySpA(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isTarget(mc) && mc.move.type == "Fire") mod.chain(0.5) }
+            override fun onSetStatus(c: EffectCtx, target: BattleMon, status: MajorStatus, source: BattleMon?, sourceEffect: String?) = !(target === c.holder && status == MajorStatus.BURN)
+            override fun onUpdate(c: EffectCtx) { if (c.mon.status == MajorStatus.BURN) { announce(c); c.b.cureStatus(c.mon) } }
+        })
         moveFlagBoost("analytic", 1.3) { it.target.movedThisTurn }
-        moveFlagBoost("supremeoverlord", 1.0) { false }
+
         reg(object : A("sheerforce") {
             override fun onModifyMove(c: EffectCtx, mc: MoveCtx) {
                 if (c.isUser(mc) && (mc.move.secondaries.isNotEmpty() || mc.move.data.self?.boosts?.values?.any { it > 0 } == true && false)) {
@@ -247,7 +263,6 @@ object Abilities {
         reg(object : A("tintedlens") { override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.effectiveness < 1) mod.chain(2.0) } })
         reg(object : A("sniper") { override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.crit) mod.chain(1.5) } })
         reg(object : A("superluck") { override fun onModifyCritRatio(c: EffectCtx, mc: MoveCtx, ratio: Int) = if (c.isUser(mc)) ratio + 1 else ratio })
-        reg(object : A("skilllink") {})
         reg(object : A("serenegrace") {
             override fun onModifySecondaries(c: EffectCtx, mc: MoveCtx, secondaries: MutableList<pkmn.engine.data.SecondaryEffect>) {
                 if (!c.isUser(mc)) return
@@ -303,7 +318,6 @@ object Abilities {
         })
         reg(object : A("infiltrator") { override fun onModifyMove(c: EffectCtx, mc: MoveCtx) { if (c.isUser(mc)) mc.move.infiltrates = true } })
         reg(object : A("longreach") { override fun onModifyMove(c: EffectCtx, mc: MoveCtx) { if (c.isUser(mc)) mc.move.flags.remove("contact") } })
-        reg(object : A("parentalbond") {})
         reg(object : A("stakeout") {
             override fun onModifyAtk(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.target.activeTurns == 0) mod.chain(2.0) }
             override fun onModifySpA(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.target.activeTurns == 0) mod.chain(2.0) }
@@ -385,7 +399,6 @@ object Abilities {
                 else if (c.b.isSun(c.mon)) c.b.directDamage(c.mon, max(1, c.mon.baseMaxHp / 8), c.mon, "dryskin")
             }
         })
-        reg(object : A("levitate") {})
         reg(object : A("wonderguard") {
             override fun onTryHit(c: EffectCtx, mc: MoveCtx): Boolean {
                 if (!c.isTarget(mc) || mc.user === mc.target || mc.move.isStatus || mc.move.id == "struggle" || mc.move.type == "???") return true
@@ -427,11 +440,9 @@ object Abilities {
         })
         reg(object : A("magicbounce") {
             override fun onTryHit(c: EffectCtx, mc: MoveCtx): Boolean {
-                if (!c.isTarget(mc) || mc.user === mc.target || !mc.move.hasFlag("reflectable") || mc.move.data2["bounced"] == true) return true
-                announce(c)
-                c.b.message("${c.b.nm(c.mon)} bounced the ${mc.move.name} back!")
-                val bounced = ActiveMove(mc.move.data).also { it.data2["bounced"] = true }
-                c.b.applyStatusMoveEffects(MoveCtx(c.mon, mc.user, bounced), primary = true)
+                if (!c.isTarget(mc) || !c.b.reflects(mc, c.mon)) return true
+                if (c.b.previewing) return false
+                c.b.reflectMove(mc, c.mon)
                 return false
             }
         })
@@ -478,9 +489,6 @@ object Abilities {
             override fun onDamage(c: EffectCtx, target: BattleMon, amount: Int, source: BattleMon?, sourceEffect: String, isMove: Boolean) =
                 if (target === c.holder && !isMove && sourceEffect !in setOf("confusion", "substitute", "bellydrum", "mindblown", "struggle", "curse", "painsplit", "destinybond", "perishsong", "finalgambit", "clangoroussoul", "filletaway")) 0 else amount
         })
-        reg(object : A("rockhead") {})
-        reg(object : A("overcoat") {})
-        reg(object : A("unaware") {})
         reg(object : A("disguise") {
             override fun onDamage(c: EffectCtx, target: BattleMon, amount: Int, source: BattleMon?, sourceEffect: String, isMove: Boolean): Int {
                 if (target !== c.holder || !isMove || target.species.id != "mimikyu" && target.species.id != "mimikyutotem") return amount
@@ -509,7 +517,6 @@ object Abilities {
         reg(object : A("innerfocus") {
             override fun onTryAddVolatile(c: EffectCtx, target: BattleMon, volatile: String, source: BattleMon?) = !(target === c.holder && volatile == "flinch")
         })
-        reg(object : A("steadfast") {})
         reg(object : A("aromaveil") {
             override fun onTryAddVolatile(c: EffectCtx, target: BattleMon, volatile: String, source: BattleMon?) = !(target === c.holder && volatile in setOf("attract", "disable", "encore", "healblock", "taunt", "torment"))
         })
@@ -521,6 +528,13 @@ object Abilities {
         statusImmunity("sweetveil", MajorStatus.SLEEP)
         statusImmunity("waterveil", MajorStatus.BURN)
         statusImmunity("thermalexchange", MajorStatus.BURN)
+        Effects.ability("thermalexchange")?.let { base -> reg(object : A("thermalexchange") {
+            override fun onSetStatus(c: EffectCtx, target: BattleMon, status: MajorStatus, source: BattleMon?, sourceEffect: String?) = base.onSetStatus(c, target, status, source, sourceEffect)
+            override fun onUpdate(c: EffectCtx) = base.onUpdate(c)
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
+                if (c.isTarget(mc) && mc.move.type == "Fire" && !c.mon.fainted) { announce(c); c.b.boost(c.mon, mapOf("atk" to 1), c.mon, "thermalexchange") }
+            }
+        }) }
         statusImmunity("magmaarmor", MajorStatus.FREEZE)
         statusImmunity("comatose", *MajorStatus.entries.toTypedArray())
         reg(object : A("leafguard") {
@@ -580,7 +594,7 @@ object Abilities {
         })
         reg(object : A("aftermath") {
             override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
-                if (c.isTarget(mc) && c.mon.fainted && mc.move.hasFlag("contact")) { announce(c); c.b.directDamage(mc.user, max(1, mc.user.baseMaxHp / 4), c.mon, "aftermath") }
+                if (c.isTarget(mc) && c.mon.fainted && mc.move.hasFlag("contact") && !dampActive(c.b)) { announce(c); c.b.directDamage(mc.user, max(1, mc.user.baseMaxHp / 4), c.mon, "aftermath") }
             }
         })
         reg(object : A("innardsout") {
@@ -782,9 +796,6 @@ object Abilities {
         reg(object : A("cheekpouch") {
             override fun onEatItem(c: EffectCtx, mon: BattleMon, item: String) { if (mon === c.holder) c.b.heal(mon, mon.baseMaxHp / 3, "cheekpouch") }
         })
-        reg(object : A("klutz") {})
-        reg(object : A("synchronize") {})
-        reg(object : A("runaway") {})
         reg(object : A("shadowtag") {
             override fun onTrapPokemon(c: EffectCtx, mon: BattleMon) = mon.side !== c.mon.side && mon.ability != "shadowtag" && !mon.hasType("Ghost")
         })
@@ -915,7 +926,6 @@ object Abilities {
                 announce(c); c.b.boost(foe, mapOf("evasion" to -1), c.mon, "supersweetsyrup", secondary = true)
             }
         })
-        reg(object : A("costar") {})
         reg(object : A("embodyaspectteal") { override fun onStart(c: EffectCtx, source: BattleMon?) { if (c.mon.terastallized != null) c.b.boost(c.mon, mapOf("spe" to 1), c.mon, id) } })
         reg(object : A("embodyaspecthearthflame") { override fun onStart(c: EffectCtx, source: BattleMon?) { if (c.mon.terastallized != null) c.b.boost(c.mon, mapOf("atk" to 1), c.mon, id) } })
         reg(object : A("embodyaspectwellspring") { override fun onStart(c: EffectCtx, source: BattleMon?) { if (c.mon.terastallized != null) c.b.boost(c.mon, mapOf("spd" to 1), c.mon, id) } })
@@ -938,23 +948,9 @@ object Abilities {
                 c.b.clearWeather(); c.b.clearTerrain()
             }
         })
-        reg(object : A("commander") {})
-        reg(object : A("ballfetch") {})
-        reg(object : A("honeygather") {})
-        reg(object : A("curiousmedicine") {})
-        reg(object : A("hospitality") {})
-        reg(object : A("telepathy") {})
-        reg(object : A("friendguard") {})
-        reg(object : A("healer") {})
-        reg(object : A("plus") {})
-        reg(object : A("minus") {})
-        reg(object : A("battery") {})
-        reg(object : A("powerspot") {})
-        reg(object : A("symbiosis") {})
         reg(object : A("victorystar") { override fun onModifyAccuracy(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc)) mod.chain(1.1) } })
         reg(object : A("lightmetal") { override fun onModifyWeight(c: EffectCtx, mon: BattleMon, weight: Double) = weight / 2 })
         reg(object : A("heavymetal") { override fun onModifyWeight(c: EffectCtx, mon: BattleMon, weight: Double) = weight * 2 })
-        reg(object : A("aurabreak") {})
         for ((id, type) in listOf("fairyaura" to "Fairy", "darkaura" to "Dark")) reg(object : A(id) {
             override fun onStart(c: EffectCtx, source: BattleMon?) { announce(c); c.b.message("${c.b.nm(c.mon)} is radiating a ${type.lowercase()} aura!") }
             override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) {
@@ -981,15 +977,12 @@ object Abilities {
         reg(object : A("supremeoverlord") {
             override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc)) mod.chain(1.0 + 0.1 * minOf(5, c.mon.side.totalFainted)) }
         })
-        reg(object : A("unseenfist") {})
         reg(object : A("guarddog") {
             override fun onTryBoost(c: EffectCtx, target: BattleMon, boosts: MutableMap<String, Int>, source: BattleMon?, sourceEffect: String?) {
                 if (target === c.holder && sourceEffect == "intimidate" && (boosts["atk"] ?: 0) < 0) boosts["atk"] = 1
             }
             override fun onDragOut(c: EffectCtx, mon: BattleMon) = mon !== c.holder
         })
-        reg(object : A("rkssystem") {})
-        reg(object : A("multitype") {})
         reg(object : A("emergencyexit") {
             override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
                 if (!c.isTarget(mc) || c.mon.fainted) return
@@ -1013,10 +1006,7 @@ object Abilities {
         reg(object : A("quickdraw") {
             override fun onFractionalPriority(c: EffectCtx, move: ActiveMove, user: BattleMon) = if (!move.isStatus && c.b.rng.nextInt(10) < 3) 0.1 else 0.0
         })
-        reg(object : A("propellertail") {})
-        reg(object : A("stalwart") {})
-        reg(object : A("receiver") {})
-        reg(object : A("powerofalchemy") {})
+        registerExtra()
         reg(object : A("pickpocket") {
             override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
                 if (!c.isTarget(mc) || c.mon.item != null || !mc.move.hasFlag("contact") || c.mon.fainted) return
@@ -1034,6 +1024,203 @@ object Abilities {
             }
         })
     }
+
+    fun dampActive(b: Battle) = b.activeMons().any { it.ability == "damp" && b.abilityActive(it) }
+
+    /** Sets the battle forme matching the held Plate (Arceus) or Memory (Silvally). */
+    private fun itemForme(c: EffectCtx, base: String, typeOf: (pkmn.engine.data.ItemData) -> String?) {
+        val m = c.mon
+        if (m.species.baseSpecies != base || m.transformed) return
+        val t = c.b.dex.itemOrNull(m.item)?.let(typeOf)
+        val target = if (t == null || t == "Normal") base else base + t.lowercase()
+        if (m.species.id != target && c.b.dex.speciesOrNull(target) != null) {
+            m.setSpecies(c.b.dex.species(target), changeAbility = false)
+            c.b.events.add(BattleEvent.FormeChange(m.side.index, c.b.teamIndex(m), target, "permanent", ""))
+        }
+    }
+
+    private fun registerExtra() {
+        reg(object : A("multitype") { override fun onStart(c: EffectCtx, source: BattleMon?) = itemForme(c, "arceus") { it.onPlate?.takeIf { _ -> it.zMove == null } } })
+        reg(object : A("rkssystem") { override fun onStart(c: EffectCtx, source: BattleMon?) = itemForme(c, "silvally") { it.onMemory } })
+        reg(object : A("damp") {
+            override fun onTryMove(c: EffectCtx, mc: MoveCtx): Boolean {
+                if (mc.move.id !in setOf("explosion", "selfdestruct", "mindblown", "mistyexplosion")) return true
+                if (!c.b.previewing) { announce(c); c.b.message("${c.b.nm(mc.user)} cannot use ${mc.move.name}!") }
+                mc.move.data2["damped"] = true; mc.move.data2["silentFail"] = true
+                return false
+            }
+        })
+        reg(object : A("merciless") {
+            override fun onModifyCritRatio(c: EffectCtx, mc: MoveCtx, ratio: Int) =
+                if (c.isUser(mc) && (mc.target.status == MajorStatus.POISON || mc.target.status == MajorStatus.TOXIC)) 5 else ratio
+        })
+        reg(object : A("neuroforce") { override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.effectiveness > 1) mod.chain(1.25) } })
+        reg(object : A("wonderskin") {
+            override fun onModifyAccuracy(c: EffectCtx, mc: MoveCtx, mod: Mod) {
+                if (c.isTarget(mc) && mc.user !== c.holder && mc.move.isStatus && mc.move.accuracy > 0) mod.chain(50.0 / mc.move.accuracy)
+            }
+        })
+        reg(object : A("forewarn") {
+            override fun onStart(c: EffectCtx, source: BattleMon?) {
+                val foe = c.mon.side.foe.active ?: return
+                fun power(id: String): Int {
+                    val m = c.b.dex.moveOrNull(id) ?: return 0
+                    return when {
+                        m.ohko != null -> 150
+                        m.id in setOf("counter", "metalburst", "mirrorcoat") -> 120
+                        m.basePower == 1 || (m.basePower == 0 && !m.isStatus) -> 80
+                        else -> m.basePower
+                    }
+                }
+                val best = foe.moveSlots.maxByOrNull { power(it.id) } ?: return
+                announce(c); c.b.message("${c.b.nm(c.mon)} was alerted to ${c.b.nmL(foe)}'s ${c.b.dex.moveOrNull(best.id)?.name}!")
+            }
+        })
+        reg(object : A("mimicry") {
+            override fun onStart(c: EffectCtx, source: BattleMon?) = update(c)
+            override fun onTerrainChange(c: EffectCtx) { if (c.holder?.isActive == true) update(c) }
+            private fun update(c: EffectCtx) {
+                val m = c.mon
+                if (m.terastallized != null) return
+                val t = when (c.b.field.terrain) {
+                    "electricterrain" -> listOf("Electric"); "grassyterrain" -> listOf("Grass"); "mistyterrain" -> listOf("Fairy"); "psychicterrain" -> listOf("Psychic")
+                    else -> m.species.types
+                }
+                if (m.types == t) return
+                m.types = t
+                c.b.message(if (c.b.field.terrain != null) "${c.b.nm(m)}'s type changed to ${t.joinToString("/")}!" else "${c.b.nm(m)} returned to its original type!")
+            }
+        })
+        reg(object : A("flowergift") {
+            override fun onStart(c: EffectCtx, source: BattleMon?) = update(c)
+            override fun onWeatherChange(c: EffectCtx) { if (c.holder?.isActive == true) update(c) }
+            private fun update(c: EffectCtx) {
+                val m = c.mon
+                if (m.species.baseSpecies != "cherrim" || m.transformed || m.fainted) return
+                val sun = c.b.isSun(m)
+                if (sun && m.species.id != "cherrimsunshine") c.b.formeChange(m, "cherrimsunshine", "battle", "${c.b.nm(m)} transformed!", changeAbility = false)
+                else if (!sun && m.species.id == "cherrimsunshine") c.b.formeChange(m, "cherrim", "battle", "${c.b.nm(m)} transformed!", changeAbility = false)
+            }
+            override fun onModifyAtk(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && c.mon.species.baseSpecies == "cherrim" && c.b.isSun(c.mon)) mod.chain(1.5) }
+            override fun onModifySpD(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isTarget(mc) && c.mon.species.baseSpecies == "cherrim" && c.b.isSun(c.mon)) mod.chain(1.5) }
+        })
+        reg(object : A("gulpmissile") {
+            override fun onModifyMove(c: EffectCtx, mc: MoveCtx) {
+                val m = c.mon
+                if (!c.isUser(mc) || m.species.id != "cramorant" || mc.move.id !in setOf("surf", "dive") || c.b.previewing) return
+                if (mc.move.id == "dive" && !m.hasVolatile("twoturnmove")) return
+                val forme = if (m.hp <= m.maxHp / 2) "cramorantgorging" else "cramorantgulping"
+                c.b.formeChange(m, forme, "battle", null, changeAbility = false)
+            }
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
+                val m = c.mon
+                if (!c.isTarget(mc) || mc.user.fainted || m.species.id !in setOf("cramorantgulping", "cramorantgorging")) return
+                announce(c)
+                c.b.directDamage(mc.user, max(1, mc.user.baseMaxHp / 4), m, "gulpmissile")
+                if (m.species.id == "cramorantgulping") c.b.boost(mc.user, mapOf("def" to -1), m, "gulpmissile", secondary = true)
+                else c.b.trySetStatus(mc.user, MajorStatus.PARALYSIS, m, "gulpmissile", primary = false)
+                c.b.formeChange(m, "cramorant", "battle", null, changeAbility = false)
+            }
+        })
+        reg(object : A("cudchew") {
+            override fun onEatItem(c: EffectCtx, mon: BattleMon, item: String) {
+                if (mon !== c.holder || c.state.flag || c.b.dex.itemOrNull(item)?.isBerry != true) return
+                c.state.type = item; c.state.counter = 2
+            }
+            override val residualOrder = 28
+            override fun onResidual(c: EffectCtx) {
+                val berry = c.state.type ?: return
+                if (--c.state.counter > 0) return
+                c.state.type = null
+                announce(c); c.b.message("${c.b.nm(c.mon)} ate its ${c.b.dex.itemOrNull(berry)?.name} again!")
+                c.state.flag = true
+                Items.applyBerry(c.b, c.mon, berry)
+                c.state.flag = false
+            }
+        })
+        reg(object : A("opportunist") {
+            override fun onFoeAfterBoost(c: EffectCtx, target: BattleMon, boosts: Map<String, Int>, source: BattleMon?, sourceEffect: String?) {
+                if (sourceEffect == "opportunist" || sourceEffect == "mirrorherb") return
+                val pos = boosts.filterValues { it > 0 }
+                if (pos.isEmpty()) return
+                announce(c); c.b.boost(c.mon, pos, c.mon, "opportunist")
+            }
+        })
+        reg(object : A("pickup") {
+            override val residualOrder = 28
+            override fun onResidual(c: EffectCtx) {
+                if (c.mon.item != null) return
+                val foe = c.mon.side.foe.active ?: return
+                val item = foe.lastItem ?: return
+                if (foe.itemConsumedTurn != c.b.turn) return
+                foe.lastItem = null
+                c.mon.item = item; c.mon.itemState = EffectState()
+                announce(c); c.b.message("${c.b.nm(c.mon)} found one ${c.b.dex.itemOrNull(item)?.name}!")
+            }
+        })
+        reg(object : A("wanderingspirit") {
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
+                val u = mc.user; val m = c.mon
+                if (!c.isTarget(mc) || !mc.move.hasFlag("contact") || u.fainted || u.isDynamaxed) return
+                if (u.item == "protectivepads" && c.b.itemActive(u)) return
+                if (u.ability in MoveScriptsExtra.NO_COPY_ABILITIES || !c.b.canChangeAbility(u) || !c.b.canChangeAbility(m)) return
+                val mine = m.ability; val theirs = u.ability
+                announce(c); c.b.message("${c.b.nm(m)} swapped Abilities with its target!")
+                setAbility(c.b, m, theirs); setAbility(c.b, u, mine)
+            }
+        })
+        reg(object : A("windpower") {
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
+                if (c.isTarget(mc) && mc.move.hasFlag("wind") && !c.mon.fainted) { announce(c); c.b.addVolatile(c.mon, "charge", c.mon, "windpower") }
+            }
+        })
+        // Legends Z-A abilities present in the data set.
+        reg(object : A("dragonize") {
+            override fun onModifyType(c: EffectCtx, mc: MoveCtx) {
+                if (c.isUser(mc) && mc.move.type == "Normal" && !mc.move.isZ && mc.move.id !in setOf("judgment", "multiattack", "naturalgift", "revelationdance", "technoblast", "terrainpulse", "weatherball") &&
+                    !(mc.move.id == "terablast" && mc.user.terastallized != null)) { mc.move.type = "Dragon"; mc.move.data2["ate"] = true }
+            }
+            override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.move.data2["ate"] == true) mod.chain(4915.0 / 4096) }
+        })
+        reg(object : A("firemane") {
+            override fun onModifyAtk(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.move.type == "Fire") mod.chain(1.5) }
+            override fun onModifySpA(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.move.type == "Fire") mod.chain(1.5) }
+        })
+        reg(object : A("auraguard") { override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isTarget(mc) && mc.move.hasFlag("contact")) mod.chain(0.5) } })
+        reg(object : A("spicyspray") {
+            override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) { if (c.isTarget(mc) && !mc.user.fainted) c.b.trySetStatus(mc.user, MajorStatus.BURN, c.mon, "spicyspray", primary = false) }
+        })
+        reg(object : A("eelevate") {
+            override fun onGrounded(c: EffectCtx, mon: BattleMon): Boolean? = if (mon === c.holder && !c.b.field.has("gravity") && !mon.hasVolatile("ingrain") && !mon.hasVolatile("smackdown") && !(mon.item == "ironball" && c.b.itemActive(mon))) false else null
+            override fun onSourceFaint(c: EffectCtx, target: BattleMon, move: ActiveMove?) {
+                if (c.mon.fainted) return
+                announce(c); c.b.boost(c.mon, mapOf(bestStat(c.mon) to 1), c.mon, "eelevate")
+            }
+        })
+        reg(object : A("piercingdrill") {
+            override fun onModifyMove(c: EffectCtx, mc: MoveCtx) { if (c.isUser(mc) && mc.move.hasFlag("contact")) mc.move.data2["piercesProtect"] = true }
+        })
+    }
+
+    /**
+     * Abilities with no effect in a single battle: they only affect allies, or only act outside battle.
+     * They are deliberately not registered; coverage tooling reports them as needing no implementation.
+     */
+    val NO_SINGLES_EFFECT: Set<String> = setOf(
+        "telepathy", "friendguard", "plus", "minus", "battery", "powerspot", "receiver", "powerofalchemy", "commander", "costar",
+        "hospitality", "healer", "symbiosis", "curiousmedicine", "propellertail", "stalwart", "honeygather", "ballfetch", "noability",
+    )
+
+    /** Abilities implemented directly in the battle engine rather than as an [Effect] (see the referenced code). */
+    val CORE_HANDLED: Map<String, String> = mapOf(
+        "skilllink" to "Battle.runDamagingHits (always max hits)", "parentalbond" to "Battle.runDamagingHits / calcDamage",
+        "levitate" to "Battle.isGrounded", "rockhead" to "Battle.runDamagingHits (recoil)", "overcoat" to "powder check and weather residuals",
+        "unaware" to "Battle.calcDamage / accuracyCheck", "steadfast" to "flinch volatile", "klutz" to "Battle.itemActive",
+        "synchronize" to "Battle.trySetStatus", "runaway" to "Battle.attemptRun", "aurabreak" to "Fairy/Dark Aura", "unseenfist" to "Protect effects",
+        "gluttony" to "Items.pinchThreshold", "ripen" to "Items.eat / resist berries", "liquidooze" to "drain and Leech Seed",
+        "corrosion" to "Battle.trySetStatus", "earlybird" to "sleep status", "dancer" to "Battle.useMove (copies dance moves)",
+        "poisonpuppeteer" to "Battle.trySetStatus", "illuminate" to "accuracy check (ignores evasion) + boost blocker",
+    )
 
     private fun endStrong(c: EffectCtx, w: String) {
         if (c.b.field.weather != w) return
