@@ -1,0 +1,260 @@
+# Part 3B trainers: Umbral Pass (52-55), Prism Summit (53-57), Admins Vesper & Corvin, Boss Umbra (58-60).
+
+# --- Umbral Pass ---------------------------------------------------------------
+trainer p3b_up_hiker_basalt
+  class hiker
+  name "Basalt"
+  intro "The pass is steep, the air is thin, and I'm feeling feisty!"
+  defeat "Out of breath. Out of Pokémon."
+  after "Summit caves glitter, but watch your step. Eclipse left crates everywhere."
+  mon golem 52
+  mon rhydon 52
+  mon steelix 53
+end
+
+trainer p3b_up_tamer_wyn
+  class p3b_dragontamer
+  name "Wyn"
+  intro "Ryuga let you through? Then let's see if he was right!"
+  defeat "He was right. Annoyingly right."
+  after "Clan scouts are tracking Eclipse up to the summit. Hurry!"
+  mon zweilous 53
+  mon fraxure 53
+  mon dragonair 53
+end
+
+trainer p3b_up_grunt_a
+  class grunt_m
+  name "Grunt"
+  intro "Rear guard of Team Eclipse! Nobody follows the lens!"
+  defeat "The lens... is probably fine without me."
+  after "Lord Umbra's already climbing. You're too late!"
+  mon skuntank 53
+  mon crobat 53
+  mon liepard 52
+end
+
+trainer p3b_up_grunt_b
+  class grunt_f
+  name "Grunt"
+  intro "Halt! This canyon is closed for, um, eclipse maintenance!"
+  defeat "Maintenance failed."
+  after "The summit caves are full of our people. Turn back while you can."
+  mon scrafty 53
+  mon mightyena 53
+  mon seviper 53
+end
+
+trainer p3b_up_ranger_cass
+  class ranger
+  name "Cass"
+  intro "I patrol this pass. Prove you're not with those Eclipse creeps!"
+  defeat "Okay, definitely not with them."
+  after "The tarn has an islet with something shiny on it. Bring a Surfer."
+  mon sandslash 53
+  mon lycanroc 53
+  mon skarmory 54
+end
+
+trainer p3b_up_psychic_lune
+  class psychic
+  name "Lune"
+  intro "The stars are hiding. Something up there is drinking their light..."
+  defeat "Your light is still bright, at least."
+  after "When the Prism Pokémon wakes, it will be hungry. Be ready."
+  mon girafarig 52
+  mon xatu 53
+  mon claydol 54
+end
+
+trainer p3b_up_cooltrainer_dax
+  class cooltrainer_m
+  name "Dax"
+  intro "Last stretch before the caves. Last chance to impress me!"
+  defeat "Consider me impressed."
+  after "The cave mouth is just south. Good luck up there."
+  mon toxicroak 54
+  mon arcanine 54
+  mon garchomp 55 moves=dragonclaw,earthquake,crunch,swordsdance
+end
+
+# --- Prism Summit 1F -----------------------------------------------------------
+trainer p3b_ps1_grunt_a
+  class grunt_m
+  name "Grunt"
+  intro "Intruder in the crystal halls! Sound the alarm! ...Fine, I'll just battle you."
+  defeat "Alarm sounded. Battle lost."
+  after "We cleared a path to the summit with those crates. Science!"
+  mon weezinggalar 54
+  mon golbat 53
+  mon honchkrow 54
+end
+
+trainer p3b_ps1_grunt_b
+  class grunt_f
+  name "Grunt"
+  intro "These crystals are worth a fortune! And they'll power the eclipse forever!"
+  defeat "My fortune!"
+  after "Admin Vesper is upstairs. She can see the future. Supposedly."
+  mon sableye 54
+  mon muk 54
+  mon cacturne 54
+end
+
+trainer p3b_ps1_grunt_c
+  class grunt_m
+  name "Grunt"
+  intro "You again?! I saw you in Voltara! And Mt. Prism! Do you ever take a day off?"
+  defeat "Clearly not."
+  after "Lord Umbra says when the eclipse comes, nobody will ever squint again. Inspiring!"
+  mon arbok 54
+  mon krookodile 55
+end
+
+trainer p3b_ps1_scientist_hex
+  class p3b_eclipse_sci
+  name "Hex"
+  intro "The Umbral Lens is my masterpiece! It will drink the Prism's light like a sponge!"
+  defeat "My calculations... did not include you."
+  after "Once the lens is charged, Necrozma's light belongs to Team Eclipse. Theoretically."
+  mon magnezone 54
+  mon porygon2 55
+  mon rotom 54
+end
+
+trainer p3b_ps1_grunt_d
+  class grunt_f
+  name "Grunt"
+  intro "I'm guarding the pretty pool! Off-limits!"
+  defeat "Fine. It's not even that pretty."
+  after "There's something on that little islet. I can't swim, so... yeah."
+  mon toxapex 54
+  mon sharpedo 54
+end
+
+# --- Prism Summit 2F -----------------------------------------------------------
+trainer p3b_ps2_grunt_a
+  class grunt_m
+  name "Grunt"
+  intro "Second floor, second line of defense! I'm the line!"
+  defeat "The line has been crossed."
+  after "Don't wake Admin Vesper's Pokémon. They don't sleep anyway."
+  mon houndoom 55
+  mon bisharp 55
+end
+
+trainer p3b_ps2_grunt_b
+  class grunt_f
+  name "Grunt"
+  intro "Shh! The lens is humming. Isn't it beautiful? Now go away!"
+  defeat "Not beautiful. Not anymore."
+  after "Vesper's corridor is north. Bring something that hits Ghosts hard."
+  mon banette 55
+  mon zoroark 55
+end
+
+trainer p3b_ps2_psychic_mor
+  class psychic
+  name "Mor"
+  intro "I joined Eclipse for the free robes. I stayed for the dramatic lighting."
+  defeat "The lighting was not in my favor."
+  after "Vesper reads futures. Mine said 'loses to a kid'. Rude, but accurate."
+  mon gallade 55
+  mon bronzong 55
+  mon meowstic 55
+end
+
+trainer p3b_ps2_grunt_c
+  class grunt_m
+  name "Grunt"
+  intro "Nobody gets near Admin Vesper. Nobody!"
+  defeat "Somebody got near me, though."
+  after "Fine. She's right through there. Don't say I didn't warn you."
+  mon drapion 55
+  mon weezing 55
+  mon mandibuzz 56
+end
+
+trainer p3b_admin_vesper
+  class admin
+  name "Vesper"
+  ai 3
+  intro "I foresaw this moment, child. In every future, you fall."
+  defeat "This... was not in any vision."
+  after "Futures can change, it seems. How very inconvenient."
+  items hyperpotion=2 fullheal=1
+  prize 4500
+  mon mismagius 56 moves=shadowball,dazzlinggleam,mysticalfire,nastyplot
+  mon bronzong 56 moves=gyroball,psychic,earthquake,trickroom
+  mon gothitelle 57 moves=psychic,shadowball,thunderbolt,calmmind
+  mon dusknoir 57 moves=shadowpunch,icepunch,earthquake,willowisp
+  mon banette 58 moves=shadowclaw,gunkshot,suckerpunch,willowisp item=sitrusberry
+end
+
+# --- Prism Summit 3F -----------------------------------------------------------
+trainer p3b_ps3_grunt_a
+  class grunt_f
+  name "Grunt"
+  intro "Your friend is holding the stairwell? Cute. I'm holding THIS one!"
+  defeat "Couldn't hold it."
+  after "Admin Corvin is in a VERY bad mood. He hasn't forgotten Mt. Prism."
+  mon toxicroak 56
+  mon liepard 55
+  mon crobat 56
+end
+
+trainer p3b_ps3_grunt_b
+  class grunt_m
+  name "Grunt"
+  intro "The summit is right above us. You'll never see it!"
+  defeat "Okay, you might see it."
+  after "Corvin's waiting in the west corridor. Tell him I tried."
+  mon skuntank 56
+  mon obstagoon 56
+end
+
+trainer p3b_ps3_grunt_c
+  class grunt_m
+  name "Grunt"
+  intro "I was told to guard this dead end. Is it a dead end? I've been here for days."
+  defeat "Days wasted. Battle lost."
+  after "If Lord Umbra wins, do we get overtime? Nobody tells me anything."
+  mon cacturne 56
+  mon sableye 56
+  mon weezinggalar 56
+end
+
+trainer p3b_admin_corvin
+  class admin
+  name "Corvin"
+  ai 3
+  intro "You. The light-bearer who embarrassed me on Mt. Prism. This time the darkness wins."
+  defeat "Again?! How is your light still this bright?"
+  after "Go, then. Lord Umbra will extinguish you himself."
+  items hyperpotion=2 fullheal=1
+  prize 4500
+  mon crobat 56 moves=crosspoison,bravebird,crunch,uturn
+  mon skuntank 56 moves=poisonjab,suckerpunch,flamethrower,crunch
+  mon mukalola 57 moves=poisonjab,knockoff,shadowsneak,icepunch
+  mon toxicroak 57 moves=poisonjab,drainpunch,suckerpunch,earthquake
+  mon drapion 58 moves=crosspoison,crunch,knockoff,earthquake item=sitrusberry
+end
+
+# --- Prism Summit peak -----------------------------------------------------------
+trainer p3b_boss_umbra
+  class boss
+  name "Umbra"
+  ai 3
+  intro "Look around you, child. The Prism's light is ours. Soon the sun itself will hide."
+  defeat "Impossible... my eclipse..."
+  after "Light always casts a shadow. Remember that."
+  gimmicks mega tera
+  items fullrestore=2 hyperpotion=2
+  prize 9000
+  mon houndoom 58 moves=darkpulse,flamethrower,sludgebomb,nastyplot
+  mon weavile 58 moves=knockoff,iceshard,icepunch,lowkick
+  mon obstagoon 59 moves=obstruct,knockoff,closecombat,gunkshot
+  mon kingambit 59 moves=kowtowcleave,ironhead,suckerpunch,swordsdance
+  mon honchkrow 59 moves=nightslash,bravebird,suckerpunch,heatwave tera=Dark
+  mon absol 60 moves=nightslash,psychocut,playrough,swordsdance item=absolite
+end

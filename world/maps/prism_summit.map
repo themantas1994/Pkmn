@@ -1,0 +1,53 @@
+# Prism Summit 1F — crystal caverns under Mt. Prism's peak, occupied by Team Eclipse. Entered from Umbral Pass.
+map prism_summit
+name "Prism Summit"
+location "Prism Summit"
+music villain_hideout
+environment cave
+region 18 8
+encounters p3b_prism_summit
+
+legend
+a cave_water
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+WWfffffWWWWWWWWWWfffffffWW
+WWfLffkWWWWWWWWWWffaaaafWW
+WWfffffWWWWWWWWWWffaafafWW
+WWfffffWWWWWWWWWWffaaaafWW
+WWfffffWWWWWWWWWWfffffffWW
+WWWffffffffffffffffffffWWW
+WWWffkfffffffffkfffffffWWW
+WWWfffffffkffffffffffffWWW
+WWWfffffffffffffffffkffWWW
+WWWWWWWWWWWWffWWWWWWWWWWWW
+WWWWWWWWWWWWffWWWWWWWWWWWW
+WWfffffWWWWWffWWWWWWWWWWWW
+WWfffffWWWWWffWWWWWfffffWW
+WWfffffWffffffffffWfffkfWW
+WWffffffffffffffffWfffffWW
+WWfffffWfkffffffffffffffWW
+WWfkfffWffffffffffWfffffWW
+WWfffffWffffffffkfWfffffWW
+WWWWWWWWffffffffffWWWWWWWW
+WWWWWWWWWWWWEWWWWWWWWWWWWW
+end
+
+warp 12 21 -> umbral_pass 12 39 up
+warp 3 3 -> prism_summit_2f 3 20 down
+obstacle 7 16 smash flag=p3b_ps1_smash
+trainer p3b_ps1_grunt_a 13 12 sprite=grunt_m face=down sight=3
+trainer p3b_ps1_grunt_b 4 9 sprite=grunt_f face=right sight=4
+trainer p3b_ps1_grunt_c 21 8 sprite=grunt_m face=left sight=4
+trainer p3b_ps1_scientist_hex 5 5 sprite=scientist face=down sight=2
+trainer p3b_ps1_grunt_d 17 3 sprite=grunt_f face=right sight=1
+npc ps1_crate 10 15 sprite=boulder text="A crate stamped with a black sun. It's full of crystal shards wrapped in dark cloth."
+item ps1_islet 21 4 maxrevive
+item ps1_side1 23 19 ultraball 3
+item ps1_side2 20 14 fullheal 2
+item ps1_west 2 13 absolite
+hidden ps1_hidden1 2 19 rarecandy
+hidden ps1_hidden2 22 2 starpiece

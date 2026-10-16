@@ -1,0 +1,5 @@
+# Part 3B trainer classes (only classes missing from the shared classes.txt).
+class p3b_dragontamer "Dragon Tamer" payout=48 portrait=blackbelt
+class p3b_veteran_m "Veteran" payout=80 portrait=cooltrainer_m
+class p3b_veteran_f "Veteran" payout=80 portrait=cooltrainer_f gender=f
+class p3b_eclipse_sci "Team Eclipse Scientist" payout=48 music=battle_trainer portrait=scientist

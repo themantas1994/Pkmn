@@ -1,0 +1,79 @@
+# Umbral Pass — dusky mountain trail from Dragonspire's south gate to the Prism Summit caves.
+# Opened by the Clan guard once the player holds the Dusk Badge (flag p3b_badge8).
+map umbral_pass
+name "Umbral Pass"
+location "Umbral Pass"
+music route_late
+environment grass
+region 13 4
+encounters p3b_umbral_pass
+connect north dragonspire_city -6
+
+layout
+MMMMMMMMMMM::MMMMMMMMMMM
+MMMMMMMMMMM::MMMMMMMMMMM
+MMMMMMMMMMM::MMMMMMMMMMM
+MM.......::.......,,,,MM
+MM..,,,,.::.......,,,,MM
+MM..,,,,.::..rr...,,,,MM
+MM..,,,,.::.......,,,,MM
+MM.......:::::::::....MM
+MMMMMM...........:..r.MM
+MM...M..,,,,,....:....MM
+MM.T.M..,,,,,....:.T..MM
+MM...M..,,,,,....:....MM
+MM......,,,,,....:....MM
+MMvvvvvvvvvvvvvvv::vvvMM
+MM...............::...MM
+MM.~~~~~~~~~.....::...MM
+MM.~~~~~~~~~.....::,,,MM
+MM.~~~~~~~~~.....::,,,MM
+MM.~~~ss~~~~..r..::,,,MM
+MM.~~~ss~~~~.....::,,,MM
+MM.~~~~~~~~~.....::...MM
+MM.~~~~~~~~~...:::....MM
+MM............::......MM
+MMMMMMMMMM....::MMMMMMMM
+MMMMMMMMMM....::MMMMMMMM
+MMMMMMMMMM.r..::MMMMMMMM
+MMMMMMMMMM....::MMMMMMMM
+MM..........::........MM
+MM........S.::.,,,,,,.MM
+MM.,,,,,,...::.,,,,,,.MM
+MM.,,,,,T...::.,,,,,,.MM
+MM.,,,,,,.T.::.,,,,,,.MM
+MM.,,,,,,...::.,,,,,,.MM
+MM..........::........MM
+MM.......,,,::,.T.MMMMMM
+MM.......,,,::,...M...MM
+MMMM.M...,,,::,...M...MM
+MM...M......::....M...MM
+MM...M......::....M...MM
+MM...M......::....M...MM
+MMMMMMMMMMMMEMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMM
+end
+
+warp 12 40 -> prism_summit 12 20 up
+sign 10 28 text="UMBRAL PASS\nNorth: Dragonspire City\nSouth: Prism Summit caves"
+obstacle 4 36 smash flag=p3b_up_smash1
+obstacle 18 37 cut flag=p3b_up_cut1
+tile 18 37 grass
+trainer p3b_up_hiker_basalt 15 4 sprite=hiker face=left sight=4
+trainer p3b_up_tamer_wyn 6 10 sprite=blackbelt face=right sight=3
+trainer p3b_up_grunt_a 17 17 sprite=grunt_m face=down sight=3
+trainer p3b_up_grunt_b 13 25 sprite=grunt_f face=left sight=3
+trainer p3b_up_ranger_cass 20 22 sprite=ranger face=left sight=4
+trainer p3b_up_psychic_lune 3 27 sprite=psychic face=right sight=5
+trainer p3b_up_cooltrainer_dax 15 36 sprite=cooltrainer_m face=left sight=3
+npc up_scout 11 3 sprite=ranger face=down script=p3b_umbral_scout
+npc up_climber 20 30 sprite=hiker face=left text="Eclipse grunts marched through here at dawn, carrying some kind of huge black lens. Rude, too. They didn't even say hi."
+item up_islet 6 18 dragonscale
+item up_fullrestore 2 12 fullrestore
+item up_nook_west 3 38 expertbelt
+item up_nook_east 20 38 ppup
+hidden up_hidden1 21 4 maxelixir
+hidden up_hidden2 2 22 duskstone
+hidden up_hidden3 16 39 rarecandy

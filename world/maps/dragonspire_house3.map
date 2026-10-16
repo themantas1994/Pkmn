@@ -1,0 +1,21 @@
+map dragonspire_house3
+name "Memory Sage's House"
+location "Dragonspire City"
+music town_mountain
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@B@w@
+________
+__tt____
+__hh___p
+___RR___
+end
+
+warp 3 5 -> dragonspire_city 13 17 down
+warp 4 5 -> dragonspire_city 13 17 down
+
+npc dh3_sage 5 3 sprite=sage face=left script=p3b_relearner
+npc dh3_girl 1 4 sprite=lass face=right text="Grandma remembers every move a Pokémon ever forgot. She forgets where she put her glasses, though."

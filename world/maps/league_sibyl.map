@@ -1,0 +1,28 @@
+# Elite Four 3 — Sibyl (Psychic).
+map league_sibyl
+name "Sibyl's Room"
+location "Prism Plateau"
+music league_hall
+environment indoor
+indoor
+tags powerspot league
+
+layout
+^^^^^^^^^^^
+@@@@@U@@@@@
+@qqqqZqqqq@
+@qqqqqqqqq@
+@GqqqqqqqG@
+@qqqqqqqqq@
+@qqqqqqqqq@
+@GqqqqqqqG@
+@qqqqqqqqq@
+@qqqqqqqqq@
+@GqqqqqqqG@
+@@@@@@@@@@@
+end
+
+warp 5 1 -> league_nox 5 10 up
+tileif p3b_e4_3 5 2 floor_carpet
+npc sibyl 5 4 sprite=elite3 face=down script=p3b_e4_sibyl
+trigger 1 7 9 1 script=p3b_e4_sibyl unless=p3b_e4_3

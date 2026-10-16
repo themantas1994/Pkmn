@@ -1,0 +1,28 @@
+# Elite Four 2 — Ferrum (Steel).
+map league_ferrum
+name "Ferrum's Room"
+location "Prism Plateau"
+music league_hall
+environment indoor
+indoor
+tags powerspot league
+
+layout
+^^^^^^^^^^^
+@@@@@U@@@@@
+@ggggZgggg@
+@ggggggggg@
+@GgggggggG@
+@ggggggggg@
+@ggggggggg@
+@GgggggggG@
+@ggggggggg@
+@ggggggggg@
+@GgggggggG@
+@@@@@@@@@@@
+end
+
+warp 5 1 -> league_sibyl 5 10 up
+tileif p3b_e4_2 5 2 gym_floor
+npc ferrum 5 4 sprite=elite2 face=down script=p3b_e4_ferrum
+trigger 1 7 9 1 script=p3b_e4_ferrum unless=p3b_e4_2

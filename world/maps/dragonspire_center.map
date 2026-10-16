@@ -1,0 +1,24 @@
+map dragonspire_center
+name "Pokémon Center"
+location "Dragonspire City"
+music pokecenter
+environment indoor
+indoor
+tags pokecenter
+
+layout
+^^^^^^^^^^^
+@w@@@X@@@w@
+ooooooooooP
+ooocccccooo
+ooooooooooo
+ptoooooooto
+phooooooohp
+ooooRRooooo
+end
+
+warp 4 7 -> dragonspire_city 25 9 down
+warp 5 7 -> dragonspire_city 25 9 down
+npc nurse 5 2 sprite=nurse face=down script=p3b_nurse
+npc dc_cooltrainer 8 5 sprite=cooltrainer_m face=left text="Dragon-types shrug off fire, water, grass and electricity. Hit them with Ice, Fairy or Dragon!"
+npc dc_gentleman 1 4 sprite=gentleman face=right script=p3b_center_gentleman

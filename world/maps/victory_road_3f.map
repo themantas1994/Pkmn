@@ -1,0 +1,53 @@
+# Victory Road 3F — last cavern. The rival waits at the exit (trigger on the tile below the exit) before Prism Plateau.
+map victory_road_3f
+name "Victory Road 3F"
+location "Victory Road"
+music cave
+environment cave
+region 15 3
+encounters p3b_victory_road
+
+legend
+a cave_water
+* waterfall
+end
+
+layout
+YYYEYYYYYYYYYYYYYYYYYYYYYYYY
+WWffffWWWWWWWWWWWWWWWWWWWWWW
+WWffffWWffffffffffffffWWWWWW
+WWfffffWffkfffffffffffWWWWWW
+WWffffWWffffffffffffffWWWWWW
+WWffffWWfffffffffkffffWWWWWW
+WWffffWWffffffffffffffWWWWWW
+WWffWWWWWWWWWWWWWWWWffWWWWWW
+WWffWWWWWWWWWWWWWWWWffWWWWWW
+WWffWWWWWWWWWWWWffffffffffWW
+WWffWWWWWWWWWWWWffffffffffWW
+WWffffffffffffWWffkfffffffWW
+WWffkfffffffffffffffffffffWW
+WWfffffffffkffffffffffffffWW
+WWffffffffffffWWffffffffffWW
+WWffffffWWWWWWWWfffffffkffWW
+WWffffffWWWWWWWWffffffffffWW
+WWffffffffffffffffffffffffWW
+WWffkffffffffffffffkffffffWW
+WWffffffWWWWWWWWffffffffffWW
+WWffffffWWWWWWWWfffffffffLWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 25 20 -> victory_road_2f 25 20 down
+warp 3 0 -> prism_plateau 11 17 up
+obstacle 6 3 smash flag=p3b_vr3_smash
+trainer p3b_vr3_cooltrainer_zed 18 14 sprite=cooltrainer_m face=down sight=4
+trainer p3b_vr3_cooltrainer_nova 9 12 sprite=cooltrainer_f face=right sight=4
+trainer p3b_vr3_veteran_mara 5 17 sprite=cooltrainer_f face=right sight=4
+trainer p3b_vr3_sage_onn 12 4 sprite=sage face=down sight=2
+npc vr3_rival 2 1 sprite=rival face=right script=p3b_vr_rival_talk hideif=p3b_rival_vr_done
+trigger 3 1 1 1 script=p3b_vr_rival unless=p3b_rival_vr_done
+item vr3_north 20 2 fullrestore
+item vr3_pocket 2 20 maxrevive
+item vr3_gallery 13 11 ppup
+hidden vr3_hidden1 21 3 goldbottlecap
+hidden vr3_hidden2 25 9 maxelixir

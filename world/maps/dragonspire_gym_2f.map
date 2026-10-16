@@ -1,0 +1,62 @@
+# Dragonspire Gym 2F — Ryuga's crown above the void. Bridge flags p3b_dg_b4..b6; one switch is a trap.
+map dragonspire_gym_2f
+name "Dragonspire Gym"
+location "Dragonspire City"
+music gym
+environment building
+indoor
+tags gym powerspot
+
+legend
+* void
+end
+
+layout
+@@@@@@@@@@@@@@@@@
+@ddGdddddddddGdd@
+@ddddddddddddddd@
+@ddddddddddddddd@
+@***************@
+@***************@
+@zdddd*****ddddd@
+@ddddd*****ddddd@
+@ddddd*****ddddd@
+@ddddd*****ddddz@
+@***************@
+@***************@
+@***************@
+@ddddddddddddddz@
+@zdddddddddddddd@
+@ddddddddddddddd@
+@dddddddDddddddd@
+@@@@@@@@@@@@@@@@@
+end
+
+warp 8 16 -> dragonspire_gym 8 2 down
+tileif p3b_dg_b4 3 10 bridge_v
+tileif p3b_dg_b4 3 11 bridge_v
+tileif p3b_dg_b4 3 12 bridge_v
+tileif p3b_dg_b5 6 8 bridge_h
+tileif p3b_dg_b5 7 8 bridge_h
+tileif p3b_dg_b5 8 8 bridge_h
+tileif p3b_dg_b5 9 8 bridge_h
+tileif p3b_dg_b5 10 8 bridge_h
+tileif p3b_dg_b6 13 4 bridge_v
+tileif p3b_dg_b6 13 5 bridge_v
+trigger 1 14 1 1 script=p3b_dgym_sw4 unless=p3b_dg_b4
+trigger 1 6 1 1 script=p3b_dgym_sw5 unless=p3b_dg_b5
+trigger 15 9 1 1 script=p3b_dgym_sw6 unless=p3b_dg_b6
+trigger 15 13 1 1 script=p3b_dgym_trap
+trigger 1 10 2 3 script=p3b_dgym_fall
+trigger 3 10 1 3 script=p3b_dgym_fall unless=p3b_dg_b4
+trigger 4 10 12 3 script=p3b_dgym_fall
+trigger 6 6 5 2 script=p3b_dgym_fall
+trigger 6 8 5 1 script=p3b_dgym_fall unless=p3b_dg_b5
+trigger 6 9 5 1 script=p3b_dgym_fall
+trigger 1 4 12 2 script=p3b_dgym_fall
+trigger 13 4 1 2 script=p3b_dgym_fall unless=p3b_dg_b6
+trigger 14 4 2 2 script=p3b_dgym_fall
+trainer p3b_dg_veteran_sora 5 7 sprite=cooltrainer_m face=left sight=3
+trainer p3b_dg_tamer_ivo 15 6 sprite=blackbelt face=left sight=4
+npc ryuga 8 1 sprite=leader8 face=down script=p3b_ryuga
+hidden dg2_hidden 15 3 dragonscale

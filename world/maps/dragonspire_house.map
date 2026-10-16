@@ -1,0 +1,21 @@
+map dragonspire_house
+name "Elder's House"
+location "Dragonspire City"
+music town_mountain
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+________
+__tt____
+__hh___p
+___RR___
+end
+
+warp 3 5 -> dragonspire_city 5 9 down
+warp 4 5 -> dragonspire_city 5 9 down
+
+npc dh_elder 5 3 sprite=oldman face=left script=p3b_elder_lore
+npc dh_grandson 1 4 sprite=youngster face=right text="Grandpa tells the Prism story every night. I could recite it in my sleep. Sometimes I do!"

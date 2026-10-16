@@ -1,0 +1,26 @@
+# Dragon Shrine — the Clan's ancient hall. Elder Draca's Dragon Trial (quiz) rewards a Dratini.
+map dragonspire_shrine
+name "Dragon Shrine"
+location "Dragonspire City"
+music ruins
+environment indoor
+indoor
+
+layout
+xxxxxxxxxxx
+xGuuuuuuuGx
+xuuuuuuuuux
+xuuqqqqquux
+xuuqqqqquux
+xGuqqqqquGx
+xuuuuuuuuux
+xuuuuuuuuux
+xuuuuuuuuux
+xxxxxRxxxxx
+end
+
+warp 5 9 -> dragonspire_city 7 17 down
+npc dsh_draca 5 2 sprite=sage face=down script=p3b_draca
+npc dsh_monk 2 7 sprite=blackbelt face=right text="Members of the Clan study here for years before facing the Elder's trial. No pressure!"
+npc dsh_tablet 8 7 sprite=sign script=p3b_shrine_tablet
+hidden dsh_hidden 9 8 dracoplate

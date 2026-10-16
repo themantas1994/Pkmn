@@ -1,0 +1,75 @@
+# Part 3B trainers: Dragonspire Gym (the Dusk Spire, cap 58) and Gym Leader Ryuga.
+
+trainer p3b_dg_tamer_kaz
+  class p3b_dragontamer
+  name "Kaz"
+  intro "The Dusk Spire tests your footing and your nerve. I test your team!"
+  defeat "My dragons stumbled in the dark..."
+  after "Step on the glowing switches. Never step off the stone!"
+  mon fraxure 52
+  mon sliggoo 52
+  mon flygon 53 moves=dragonclaw,earthquake,uturn,rockslide
+end
+
+trainer p3b_dg_cooltrainer_mei
+  class cooltrainer_f
+  name "Mei"
+  intro "Made it across the first bridge? Don't get comfortable!"
+  defeat "Okay, you're comfortable. And good."
+  after "Ice moves are the dragon's bane. Fairy moves too, if you have them."
+  mon altaria 53 moves=dragonpulse,moonblast,cottonguard,roost
+  mon noivern 53
+  mon ampharos 52
+end
+
+trainer p3b_dg_tamer_ren
+  class p3b_dragontamer
+  name "Ren"
+  intro "From up here I can see every misstep. Including yours!"
+  defeat "I didn't see THAT coming."
+  after "The far switch on this ledge is a trick. Ryuga loves a good prank."
+  mon shelgon 53
+  mon druddigon 53
+  mon dragalge 54
+end
+
+trainer p3b_dg_veteran_sora
+  class p3b_veteran_m
+  name "Sora"
+  intro "I've trained under Ryuga for ten years. Show me what a challenger looks like!"
+  defeat "So that's what one looks like. Impressive."
+  after "Ryuga's dragons can Terastallize into pure Dragon. Then his ace grows to giant size. Brace yourself."
+  mon hakamoo 54
+  mon tyrantrum 54 moves=dragonclaw,crunch,rockslide,earthquake
+  mon goodra 55
+end
+
+trainer p3b_dg_tamer_ivo
+  class p3b_dragontamer
+  name "Ivo"
+  intro "Last guard before the crown. My dragon has never lost on this ledge!"
+  defeat "Never lost... until now."
+  after "Step on the switch behind me. The final bridge leads to Ryuga."
+  mon flapple 54
+  mon appletun 54
+  mon salamence 55 moves=dragonclaw,crunch,aerialace,firefang
+end
+
+trainer p3b_leader_ryuga
+  class leader
+  name "Ryuga"
+  portrait leader8
+  ai 3
+  intro "Dragons do not fear the dusk. They own it."
+  defeat "Ha! The twilight bows to you today."
+  after "Your wings are strong. Fly high, and never let the dusk swallow your light."
+  gimmicks tera dynamax
+  items fullrestore=2 hyperpotion=1
+  music battle_gym_leader
+  prize 5800
+  mon druddigon 54 moves=dragonclaw,firefang,suckerpunch,glare tera=Dragon
+  mon kingdra 55 moves=dragonpulse,surf,icebeam,raindance tera=Dragon
+  mon gyarados 56 moves=dragondance,waterfall,crunch,outrage tera=Dragon
+  mon haxorus 56 moves=dragonclaw,earthquake,poisonjab,swordsdance tera=Dragon
+  mon dragonite 58 moves=dragonclaw,extremespeed,firepunch,thunderpunch item=sitrusberry tera=Dragon
+end

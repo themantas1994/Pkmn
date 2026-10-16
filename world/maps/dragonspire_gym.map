@@ -1,0 +1,65 @@
+# Dragonspire Gym 1F — the Dusk Spire. Platforms float over a black void; floor switches raise bridges.
+# Stepping into the void drops you back to the entrance. Bridge flags: p3b_dg_b1..b3 (persist).
+map dragonspire_gym
+name "Dragonspire Gym"
+location "Dragonspire City"
+music gym
+environment building
+indoor
+tags gym powerspot
+
+legend
+* void
+end
+
+layout
+@@@@@@@@@@@@@@@@@
+@GddddddUddddddG@
+@ddddddddddddddd@
+@ddddddddddddddd@
+@***************@
+@***************@
+@***************@
+@dddddd***dddddd@
+@dzdddd***dddddz@
+@dddddd***dddddd@
+@dddddd***dddddd@
+@dddddd***dddddz@
+@***************@
+@***************@
+@***************@
+@ddddddddddddddd@
+@ddddddddddddddd@
+@dzddddddddddddd@
+@ddddGdddddGdddd@
+@@@@@@@@R@@@@@@@@
+end
+
+warp 8 19 -> dragonspire_city 17 7 down
+warp 8 1 -> dragonspire_gym_2f 8 15 up
+tileif p3b_dg_b1 4 12 bridge_v
+tileif p3b_dg_b1 4 13 bridge_v
+tileif p3b_dg_b1 4 14 bridge_v
+tileif p3b_dg_b2 7 9 bridge_h
+tileif p3b_dg_b2 8 9 bridge_h
+tileif p3b_dg_b2 9 9 bridge_h
+tileif p3b_dg_b3 12 4 bridge_v
+tileif p3b_dg_b3 12 5 bridge_v
+tileif p3b_dg_b3 12 6 bridge_v
+trigger 2 17 1 1 script=p3b_dgym_sw1 unless=p3b_dg_b1
+trigger 2 8 1 1 script=p3b_dgym_sw2 unless=p3b_dg_b2
+trigger 15 8 1 1 script=p3b_dgym_sw3 unless=p3b_dg_b3
+trigger 15 11 1 1 script=p3b_dgym_trap
+trigger 1 12 3 3 script=p3b_dgym_fall
+trigger 4 12 1 3 script=p3b_dgym_fall unless=p3b_dg_b1
+trigger 5 12 11 3 script=p3b_dgym_fall
+trigger 7 7 3 2 script=p3b_dgym_fall
+trigger 7 9 3 1 script=p3b_dgym_fall unless=p3b_dg_b2
+trigger 7 10 3 2 script=p3b_dgym_fall
+trigger 1 4 11 3 script=p3b_dgym_fall
+trigger 12 4 1 3 script=p3b_dgym_fall unless=p3b_dg_b3
+trigger 13 4 3 3 script=p3b_dgym_fall
+npc dg_guide 10 17 sprite=gentleman face=down script=p3b_dgym_guide
+trainer p3b_dg_tamer_kaz 13 16 sprite=blackbelt face=left sight=4
+trainer p3b_dg_cooltrainer_mei 1 11 sprite=cooltrainer_f face=right sight=3
+trainer p3b_dg_tamer_ren 14 10 sprite=blackbelt face=left sight=4

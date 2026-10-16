@@ -1,0 +1,300 @@
+# Part 3B trainers: Route 13 (55-58), Victory Road (56-59) and the final rival battle (57-59).
+
+# --- Route 13 ------------------------------------------------------------------
+trainer p3b_r13_cooltrainer_abel
+  class cooltrainer_m
+  name "Abel"
+  intro "Route 13 just reopened and I've been waiting all week for a real opponent!"
+  defeat "Worth the wait!"
+  after "Victory Road has a waterfall you'll have to climb. Bring a strong swimmer."
+  mon braviary 55
+  mon conkeldurr 55
+  mon starmie 56
+end
+
+trainer p3b_r13_beauty_iris
+  class beauty
+  name "Iris"
+  intro "The highland air does wonders for my Pokémon's coats. And their tempers!"
+  defeat "Ruffled!"
+  after "Milotic are said to live in the Victory Road lake. Gorgeous, aren't they?"
+  mon milotic 56
+  mon florges 56
+  mon lopunny 55
+end
+
+trainer p3b_r13_tamer_garm
+  class p3b_dragontamer
+  name "Garm"
+  intro "I trained in Dragonspire for years and never beat Ryuga. You did? Prove it!"
+  defeat "Proven. Painfully proven."
+  after "Dragons sulk when they lose. Mine is sulking very loudly right now."
+  mon kommoo 57 moves=clangingscales,closecombat,poisonjab,irondefense
+  mon dragalge 56
+end
+
+trainer p3b_r13_fisher_old
+  class fisherman
+  name "Wade"
+  intro "Shh! The Skyfall trout are biting! ...Fine, a quick battle."
+  defeat "There goes my catch AND my battle."
+  after "Super Rod, highland river. That's where the big Gyarados hide."
+  mon gyarados 56
+  mon seaking 55
+  mon barraskewda 56
+end
+
+trainer p3b_r13_swimmer_nell
+  class swimmer_f
+  name "Nell"
+  intro "Brr! This tarn is freezing! Battle me so I can warm up!"
+  defeat "Still cold. Now sad, too."
+  after "There's a little island in the middle. I found a PP Max there once. Or was it a rock?"
+  mon lapras 56
+  mon pelipper 55
+  mon dewgong 55
+end
+
+trainer p3b_r13_veteran_hale
+  class p3b_veteran_f
+  name "Hale"
+  intro "Every challenger walks this road. Few walk back with a Championship."
+  defeat "You might be one of the few."
+  after "Rest at the lodge before Victory Road. The keeper's tea fixes everything."
+  mon lucario 57
+  mon gardevoir 56
+  mon excadrill 57
+end
+
+trainer p3b_r13_ranger_tov
+  class ranger
+  name "Tov"
+  intro "Ranger on duty! Let's see if you can handle the highland wild."
+  defeat "You handle it fine."
+  after "Victory Road is a three-floor climb. Strength and Waterfall, both. Pack accordingly."
+  mon tauros 56
+  mon ursaring 56
+  mon skarmory 57
+end
+
+trainer p3b_r13_cooltrainer_ysa
+  class cooltrainer_f
+  name "Ysa"
+  intro "I'm warming up for the Elite Four. You're my warm-up!"
+  defeat "Okay, maybe I need a longer warm-up."
+  after "Morrow, the first Elite, uses Ghost-types. Pack Dark moves."
+  mon chandelure 57
+  mon togekiss 57
+  mon hippowdon 56
+end
+
+# --- Victory Road 1F -----------------------------------------------------------
+trainer p3b_vr1_cooltrainer_bren
+  class cooltrainer_m
+  name "Bren"
+  intro "Welcome to Victory Road! The last road. The hardest road!"
+  defeat "Okay, maybe not that hard for you."
+  after "The waterfall is the only way up. Surf the lake and climb!"
+  mon machamp 57
+  mon aerodactyl 57
+  mon tyranitar 58
+end
+
+trainer p3b_vr1_cooltrainer_lia
+  class cooltrainer_f
+  name "Lia"
+  intro "This cave has turned back hundreds of trainers. Will you be number hundred-and-one?"
+  defeat "Guess not!"
+  after "If you can't climb the falls yet, you need a Pokémon that can learn Waterfall and seven Badges."
+  mon slowbro 57
+  mon roserade 57
+  mon magmortar 57
+end
+
+trainer p3b_vr1_blackbelt_goro
+  class blackbelt
+  name "Goro"
+  intro "HYAAH! Victory Road builds strong legs! And strong fists!"
+  defeat "My fists are tired. My legs too."
+  after "I've climbed that waterfall barehanded. Don't try it. Use a Pokémon."
+  mon hariyama 57
+  mon hitmonlee 57
+  mon hitmontop 57
+end
+
+trainer p3b_vr1_psychic_ena
+  class psychic
+  name "Ena"
+  intro "I sensed you'd drop down that ledge. Now sense THIS!"
+  defeat "Didn't sense that."
+  after "The ledge is a shortcut down. Handy if you need to go back to the Center."
+  mon espeon 57
+  mon metagross 58
+end
+
+trainer p3b_vr1_veteran_rook
+  class p3b_veteran_m
+  name "Rook"
+  intro "You climbed the falls! Few get this far. Fewer get farther!"
+  defeat "Farther it is."
+  after "The ladder is to the west. Upstairs, boulders block the way."
+  mon rhyperior 58
+  mon scizor 57
+  mon swampert 58
+end
+
+# --- Victory Road 2F -----------------------------------------------------------
+trainer p3b_vr2_hiker_crag
+  class hiker
+  name "Crag"
+  intro "Boulders! Boulders everywhere! I love it!"
+  defeat "I love it slightly less now."
+  after "Push the boulder in that gap east. Strength makes it easy."
+  mon golem 57
+  mon gigalith 58
+  mon donphan 57
+end
+
+trainer p3b_vr2_cooltrainer_vale
+  class cooltrainer_f
+  name "Vale"
+  intro "Pushing boulders AND battling? You're multitasking!"
+  defeat "And winning at both."
+  after "There's a breakable rock on the east wall. Treasure behind it, probably."
+  mon mamoswine 58
+  mon jolteon 57
+  mon sylveon 58
+end
+
+trainer p3b_vr2_tamer_drake
+  class p3b_dragontamer
+  name "Drake"
+  intro "My name is Drake and I train dragons. Yes, I've heard every joke!"
+  defeat "That one was new, at least."
+  after "The ladder up is in the far corner of this chamber."
+  mon haxorus 58
+  mon noivern 58
+  mon dragonite 58
+end
+
+trainer p3b_vr2_veteran_osk
+  class p3b_veteran_m
+  name "Osk"
+  intro "I've made it to the League five times. You'll make it zero times if I win!"
+  defeat "Six for me, one for you. Wait, that's not how it works."
+  after "Ferrum's Steel-types are tough. Fire and Ground moves help."
+  mon aggron 58
+  mon krookodile 58
+  mon breloom 58
+end
+
+trainer p3b_vr2_beauty_rue
+  class beauty
+  name "Rue"
+  intro "This gallery has the prettiest crystals in all of Victory Road. Admire them later!"
+  defeat "Admire my defeat instead."
+  after "Sibyl, the third Elite, is a Psychic. Her Pokémon grow huge in the League's power spot."
+  mon froslass 58
+  mon vaporeon 58
+end
+
+# --- Victory Road 3F -----------------------------------------------------------
+trainer p3b_vr3_cooltrainer_zed
+  class cooltrainer_m
+  name "Zed"
+  intro "The exit is close. But I'm closer!"
+  defeat "You went right through me."
+  after "Your rival went through here an hour ago. They looked nervous."
+  mon blaziken 58
+  mon electivire 58
+  mon heracross 59
+end
+
+trainer p3b_vr3_cooltrainer_nova
+  class cooltrainer_f
+  name "Nova"
+  intro "I'm the last real challenge before the plateau! Probably!"
+  defeat "Probably not, then."
+  after "Nox, the fourth Elite, uses Dark-types. Fighting and Fairy moves shine."
+  mon gardevoir 58
+  mon toxtricity 58
+  mon garchomp 59
+end
+
+trainer p3b_vr3_veteran_mara
+  class p3b_veteran_f
+  name "Mara"
+  intro "Thirty years of battling, and I still get butterflies here. Let's battle!"
+  defeat "Butterflies, gone. Respect, gained."
+  after "The Champion, Celeste, adapts. She'll use whichever power fits the battle."
+  mon volcarona 59
+  mon azumarill 58
+  mon ninetales 58
+end
+
+trainer p3b_vr3_sage_onn
+  class sage
+  name "Onn"
+  intro "The crystals hum with the Prism's light again. You restored it. Now show me your strength."
+  defeat "A strength worthy of the light."
+  after "Necrozma devours light only when it is starved. Thanks to you, it will rest."
+  mon bronzong 58
+  mon claydol 58
+  mon solrock 58
+  mon lunatone 58
+end
+
+# --- Final rival battle (Victory Road 3F exit). Rival takes the starter strong vs the player's. ----------
+trainer p3b_rival_vr_typhlosion
+  class rival
+  name "{rival}"
+  ai 3
+  intro "This is it. The last battle before the League. Everything I've got!"
+  defeat "...Yeah. You're the real deal. You always were."
+  after "Go win it all. For both of us."
+  gimmicks mega
+  items fullrestore=2 hyperpotion=1
+  prize 6000
+  mon pidgeot 57 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 58 moves=shadowball,sludgebomb,focusblast,dazzlinggleam
+  mon honchkrow 57 moves=nightslash,bravebird,suckerpunch,heatwave
+  mon magnezone 57 moves=thunderbolt,flashcannon,voltswitch,bodypress
+  mon garchomp 58 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon typhlosion 59 moves=flamethrower,focusblast,solarbeam,extrasensory
+end
+
+trainer p3b_rival_vr_feraligatr
+  class rival
+  name "{rival}"
+  ai 3
+  intro "This is it. The last battle before the League. Everything I've got!"
+  defeat "...Yeah. You're the real deal. You always were."
+  after "Go win it all. For both of us."
+  gimmicks mega
+  items fullrestore=2 hyperpotion=1
+  prize 6000
+  mon pidgeot 57 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 58 moves=shadowball,sludgebomb,focusblast,dazzlinggleam
+  mon honchkrow 57 moves=nightslash,bravebird,suckerpunch,heatwave
+  mon magnezone 57 moves=thunderbolt,flashcannon,voltswitch,bodypress
+  mon garchomp 58 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon feraligatr 59 moves=waterfall,crunch,icepunch,dragondance
+end
+
+trainer p3b_rival_vr_meganium
+  class rival
+  name "{rival}"
+  ai 3
+  intro "This is it. The last battle before the League. Everything I've got!"
+  defeat "...Yeah. You're the real deal. You always were."
+  after "Go win it all. For both of us."
+  gimmicks mega
+  items fullrestore=2 hyperpotion=1
+  prize 6000
+  mon pidgeot 57 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 58 moves=shadowball,sludgebomb,focusblast,dazzlinggleam
+  mon honchkrow 57 moves=nightslash,bravebird,suckerpunch,heatwave
+  mon magnezone 57 moves=thunderbolt,flashcannon,voltswitch,bodypress
+  mon garchomp 58 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon meganium 59 moves=petalblizzard,earthquake,bodyslam,dragontail
+end

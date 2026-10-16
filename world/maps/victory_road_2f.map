@@ -1,0 +1,56 @@
+# Victory Road 2F — Strength boulders plug the gaps between chambers (each gap opens into an open room, so no soft-lock).
+map victory_road_2f
+name "Victory Road 2F"
+location "Victory Road"
+music cave
+environment cave
+region 15 3
+encounters p3b_victory_road
+
+legend
+a cave_water
+* waterfall
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWffLffffffWfffffffffWffffffWW
+WWfffffffffWffkffffffWffffffWW
+WWfffffffffWffffffffffffffffWW
+WWfffffffffWfffffffffWffffffWW
+WWfffffffffffffffffffWffffffWW
+WWfffffffffWfffffffffWffffffWW
+WWffffkffffWfffffffffWffkfffWW
+WWfffffffffWfffffffkfWffffffWW
+WWfffffffffWfffffffffWffffffWW
+WWWWWWWWWWWWWWWWfWWWWWWWWWWWWW
+WWWWWWWWWWWWffffffffffffffffWW
+WWffffffffWWffffffffffffffkfWW
+WWffffffffWWffffffffffkfffffWW
+WWffffffffWWffffffffffffffffWW
+WWffkfffffWWffffffffffffffffWW
+WWffffffffffffffffffffffffffWW
+WWffffffffffffffffffffffffffWW
+WWffffffffWWffkfffffffffffffWW
+WWffffffkfWWfffffffffffffLffWW
+WWffffffffWWffffffffffffffffWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 4 2 -> victory_road_1f 4 2 down
+warp 25 20 -> victory_road_3f 25 20 down
+obstacle 11 6 boulder flag=p3b_vr2_boulder1
+obstacle 16 11 boulder flag=p3b_vr2_boulder2
+obstacle 21 4 smash flag=p3b_vr2_smash
+trainer p3b_vr2_hiker_crag 8 4 sprite=hiker face=down sight=4
+trainer p3b_vr2_cooltrainer_vale 18 8 sprite=cooltrainer_f face=left sight=4
+trainer p3b_vr2_tamer_drake 13 15 sprite=blackbelt face=right sight=5
+trainer p3b_vr2_veteran_osk 22 19 sprite=cooltrainer_m face=up sight=4
+trainer p3b_vr2_beauty_rue 5 14 sprite=beauty face=down sight=4
+item vr2_d1 26 3 maxrevive
+item vr2_d2 23 9 ppup
+item vr2_e 2 20 fullrestore
+hidden vr2_hidden1 27 10 rarecandy
+hidden vr2_hidden2 9 13 bignugget
