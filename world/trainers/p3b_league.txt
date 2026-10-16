@@ -1,0 +1,133 @@
+# Part 3B trainers: Elite Four (60-64, one gimmick each) and Champion Celeste (65-66).
+# Gimmicks: Morrow Z-Move (Ghostium Z), Ferrum Mega (Metagrossite), Sibyl Dynamax (G-Max Hatterene, rooms are
+# powerspots), Nox Terastal. Celeste has three variants (Mega / Z-Move / Tera); the room script picks one at random,
+# so the Champion uses exactly one gimmick per battle.
+
+trainer p3b_elite_morrow
+  class elite
+  name "Morrow"
+  portrait elite1
+  ai 3
+  intro "Welcome, challenger. I am Morrow. The departed whisper your name... and they whisper it with pity."
+  defeat "The spirits fall silent. How rare. How wonderful."
+  after "Go on. The spirits will watch your back."
+  gimmicks zmove
+  items fullrestore=2
+  music battle_elite_four
+  mon dusknoir 60 moves=shadowpunch,earthquake,icepunch,painsplit
+  mon chandelure 60 moves=shadowball,flamethrower,energyball,calmmind
+  mon mimikyu 60 moves=playrough,shadowclaw,swordsdance,shadowsneak
+  mon dragapult 60 moves=dragondarts,phantomforce,uturn,fireblast
+  mon gengar 61 moves=shadowball,sludgebomb,focusblast,thunderbolt item=ghostiumz
+end
+
+trainer p3b_elite_ferrum
+  class elite
+  name "Ferrum"
+  portrait elite2
+  ai 3
+  intro "Ferrum. I forge steel, and steel forges me. Let's see what you're made of."
+  defeat "Tempered and true. You are made of strong stuff."
+  after "The next room belongs to Sibyl. Do not let her get inside your head."
+  gimmicks mega
+  items fullrestore=2
+  music battle_elite_four
+  mon skarmory 61 moves=bravebird,steelwing,spikes,roost
+  mon excadrill 61 moves=earthquake,ironhead,rockslide,swordsdance
+  mon magnezone 61 moves=thunderbolt,flashcannon,voltswitch,thunderwave
+  mon corviknight 61 moves=bravebird,ironhead,bulkup,roost
+  mon metagross 62 moves=meteormash,zenheadbutt,earthquake,bulletpunch item=metagrossite
+end
+
+trainer p3b_elite_sibyl
+  class elite
+  name "Sibyl"
+  portrait elite3
+  ai 3
+  intro "I am Sibyl. I have already seen how this battle ends. Shall we find out if I was right?"
+  defeat "I saw it wrongly. For the first time in years... I am glad."
+  after "Nox waits beyond. He is gentler than he looks. Usually."
+  gimmicks dynamax
+  items fullrestore=2
+  music battle_elite_four
+  mon espeon 62 moves=psychic,dazzlinggleam,shadowball,calmmind
+  mon reuniclus 62 moves=psychic,focusblast,shadowball,recover
+  mon slowking 62 moves=psychic,scald,icebeam,slackoff
+  mon alakazam 62 moves=psychic,focusblast,shadowball,energyball
+  mon hatterene 63 moves=psychic,dazzlinggleam,mysticalfire,calmmind gmax
+end
+
+trainer p3b_elite_nox
+  class elite
+  name "Nox"
+  portrait elite4
+  ai 3
+  intro "Nox. Most challengers flinch at the dark. You don't. Good. Now let's see you shine."
+  defeat "There it is. The light that broke Team Eclipse."
+  after "The Champion is waiting. She has been waiting for someone like you."
+  gimmicks tera
+  items fullrestore=2
+  music battle_elite_four
+  mon umbreon 63 moves=foulplay,moonlight,toxic,yawn tera=Dark
+  mon krookodile 63 moves=earthquake,crunch,stoneedge,bulkup tera=Ground
+  mon grimmsnarl 63 moves=spiritbreak,falsesurrender,suckerpunch,bulkup tera=Fairy
+  mon tyranitar 63 moves=stoneedge,crunch,earthquake,dragondance tera=Rock
+  mon hydreigon 64 moves=darkpulse,dracometeor,flamethrower,earthpower tera=Steel
+end
+
+trainer p3b_champion_celeste_mega
+  class champion
+  name "Celeste"
+  ai 3
+  intro "Hello, {player}. I watched you on the summit. Now show me that light up close."
+  defeat "Brilliant... You are the brightest star I have ever faced."
+  after "Tessera has a new Champion."
+  gimmicks mega
+  items fullrestore=3
+  music battle_champion
+  prize 13200
+  mon milotic 65 moves=scald,icebeam,recover,dragontail tera=Water
+  mon volcarona 65 moves=fierydance,bugbuzz,quiverdance,gigadrain tera=Fire
+  mon lucario 65 moves=aurasphere,flashcannon,nastyplot,vacuumwave tera=Fighting
+  mon garchomp 65 moves=earthquake,dragonclaw,stoneedge,swordsdance tera=Steel
+  mon glimmora 65 moves=powergem,sludgewave,earthpower,mortalspin tera=Rock
+  mon gardevoir 66 moves=moonblast,psychic,mysticalfire,calmmind item=gardevoirite tera=Fairy
+end
+
+trainer p3b_champion_celeste_zmove
+  class champion
+  name "Celeste"
+  ai 3
+  intro "Hello, {player}. I watched you on the summit. Now show me that light up close."
+  defeat "Brilliant... You are the brightest star I have ever faced."
+  after "Tessera has a new Champion."
+  gimmicks zmove
+  items fullrestore=3
+  music battle_champion
+  prize 13200
+  mon milotic 65 moves=scald,icebeam,recover,dragontail tera=Water
+  mon volcarona 65 moves=fierydance,bugbuzz,quiverdance,gigadrain tera=Fire
+  mon lucario 65 moves=aurasphere,flashcannon,nastyplot,vacuumwave tera=Fighting
+  mon garchomp 65 moves=earthquake,dragonclaw,stoneedge,swordsdance tera=Steel
+  mon glimmora 65 moves=powergem,sludgewave,earthpower,mortalspin tera=Rock
+  mon gardevoir 66 moves=moonblast,psychic,mysticalfire,calmmind item=fairiumz tera=Fairy
+end
+
+trainer p3b_champion_celeste_tera
+  class champion
+  name "Celeste"
+  ai 3
+  intro "Hello, {player}. I watched you on the summit. Now show me that light up close."
+  defeat "Brilliant... You are the brightest star I have ever faced."
+  after "Tessera has a new Champion."
+  gimmicks tera
+  items fullrestore=3
+  music battle_champion
+  prize 13200
+  mon milotic 65 moves=scald,icebeam,recover,dragontail tera=Water
+  mon volcarona 65 moves=fierydance,bugbuzz,quiverdance,gigadrain tera=Fire
+  mon lucario 65 moves=aurasphere,flashcannon,nastyplot,vacuumwave tera=Fighting
+  mon garchomp 65 moves=earthquake,dragonclaw,stoneedge,swordsdance tera=Steel
+  mon glimmora 65 moves=powergem,sludgewave,earthpower,mortalspin tera=Rock
+  mon gardevoir 66 moves=moonblast,psychic,mysticalfire,calmmind item=leftovers tera=Fairy
+end

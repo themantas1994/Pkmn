@@ -1,0 +1,28 @@
+# Prism League lobby — Pokémon Center counter, mart and the Elite Four gate (guard warps the challenger in).
+map prism_league
+name "Pokémon League"
+location "Prism Plateau"
+music league_hall
+environment indoor
+indoor
+tags powerspot pokecenter
+
+layout
+^^^^^^^^^^^^^^^
+@X@@@@@R@@@@@w@
+lllllllllllllll
+ccclllllllllccc
+llllllllllllllP
+lGlllllllllllGl
+lllllllllllllll
+plllllllllllllp
+lllllllllllllll
+@@@@@@@R@@@@@@@
+end
+
+warp 7 9 -> prism_plateau 11 7 down
+npc nurse 1 2 sprite=nurse face=down script=p3b_nurse
+npc pl_clerk 12 2 sprite=clerk face=down script=p3b_shop_league
+npc pl_guard 7 2 sprite=policeman face=down script=p3b_league_gate
+npc pl_fan 4 6 sprite=pokefan face=right text="I come here every day to cheer for whoever walks through that door. Today it's you! Go, um... you!"
+npc pl_scientist 10 7 sprite=scientist face=left script=p3b_league_scientist

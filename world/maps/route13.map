@@ -1,0 +1,54 @@
+# Route 13 — highland road from Dragonspire City east to the Victory Road cliffs. Closed until Team Eclipse is stopped.
+map route13
+name "Route 13"
+location "Route 13"
+music route_late
+environment grass
+region 12 1
+encounters p3b_route13
+connect west dragonspire_city -2
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+T.............~~~~..TT....,,,,,,,,..MMMM
+T.,,,,,,......~~~~,.......,,,,,,,,..MMMM
+T.,,,,,,.TT...~~~~,.......,,,,,,,,..MMMM
+T.,,,,,,......~~~~,.......,,,,,,,,..MMMM
+T.,,,,,,......~~~~..................MMMM
+T............S~~~~.................SMMMM
+::::::::::::::HHHH::::::::::::::::::::EM
+::::::::::::::HHHH::::::::::::::::::::MM
+T.............~~~~.vvv.........vvvvvMMMM
+TT..........T.~~~~....~~~~~~~~~.,,,,MMMM
+T..,,,,,,,,,..~~~~....~~~~~~~~~.,,,,MMMM
+T..,,,,,,,,,..~~~~....~~~ss~~~~.,,,,MMMM
+T..,,,,,,,,,..~~~~....~~~ss~~~~.,,,,MMMM
+T..,,,,,,,,,..~~~~....~~~~~~~~~.,,,,MMMM
+T..,,,,,,,,,..~~~~....~~~~~~~~~.,,,,MMMM
+T.............~~~~..................MMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+end
+
+building house 21 3 -> route13_lodge 3 5 up
+warp 38 8 -> victory_road_1f 14 22 up
+sign 13 7 text="ROUTE 13\nWest: Dragonspire City\nEast: Victory Road"
+sign 35 7 text="VICTORY ROAD\nOnly trainers with eight Badges may enter."
+trigger 37 8 1 1 script=p3b_vr_gate unless=p3b_vr_checked
+npc r13_officer 37 9 sprite=policeman face=up script=p3b_vr_officer
+trainer p3b_r13_cooltrainer_abel 6 6 sprite=cooltrainer_m face=down sight=3
+trainer p3b_r13_beauty_iris 11 12 sprite=beauty face=left sight=4
+trainer p3b_r13_tamer_garm 12 3 sprite=blackbelt face=down sight=4
+trainer p3b_r13_fisher_old 18 13 sprite=fisherman face=right sight=3
+trainer p3b_r13_swimmer_nell 24 12 sprite=swimmer_f face=right sight=3
+trainer p3b_r13_veteran_hale 28 6 sprite=cooltrainer_f face=down sight=2
+trainer p3b_r13_ranger_tov 34 13 sprite=ranger face=left sight=2
+trainer p3b_r13_cooltrainer_ysa 30 3 sprite=cooltrainer_f face=left sight=4
+npc r13_birdwatcher 19 6 sprite=pokefan face=right text="The Skyfall River starts at Prism Plateau. Champions have washed their faces in it for a hundred years. Ew, I know."
+item r13_islet 25 13 ppmax
+item r13_ne 33 2 maxrepel 2
+item r13_sw 2 16 fullrestore
+hidden r13_hidden1 1 2 bignugget
+hidden r13_hidden2 35 17 maxrevive
+hidden r13_hidden3 31 16 heartscale

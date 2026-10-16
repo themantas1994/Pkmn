@@ -1,0 +1,34 @@
+# STUB (Part 3B isolated compile only) — Part 3A owns route9. DELETE ON MERGE.
+# Honours B2: 20 tiles tall, connect east seraphine_town -3, east column open exactly at y=8,9.
+map route9
+name "Route 9"
+location "Route 9"
+music route_mid
+environment grass
+region 16 5
+connect east seraphine_town -3
+
+layout
+TTTTTTTTTTTT
+TTTTTTTTTTTT
+T..........T
+T..........T
+T..........T
+T..........T
+T..........T
+T..........T
+T:::::::::::
+T:::::::::::
+T..........T
+T..........T
+T..........T
+T..........T
+T..........T
+T..........T
+T..........T
+T..........T
+TTTTTTTTTTTT
+TTTTTTTTTTTT
+end
+
+sign 2 7 text="ROUTE 9 (placeholder)"

@@ -1,0 +1,34 @@
+# Prism Summit — the crystal altar at the top of Mt. Prism. Boss Umbra's siphon; Necrozma awakens here.
+map prism_summit_peak
+name "Prism Summit"
+location "Prism Summit"
+music villain_hideout
+environment cave
+region 18 8
+
+layout
+MMMMMMMMMMMMMMMMMMMMM
+MnnnnnkuuuuuuuknnnnnM
+MnknnnuuuuuuuuunnnnnM
+MnnnnnuuuuuuuuunnknnM
+MnnnnnuuuuuuuuunnnnnM
+MnnnnnkuuuuuuuknnnnnM
+Mnnknnnnn:::nnnnnnnnM
+Mnnnnnnnn:::nnnnnnnnM
+Mnnnnnnnn:::nnnnknnnM
+Mnnnnnnnn:::nnnnnnnnM
+Mnnnnnnnn:::nnnnnnnnM
+Mnnnknnnn:::nnnnnnnnM
+Mnnnnnnnn:::nnnknnnnM
+Mnnnnnnnn:::nnnnnnnnM
+Mnknnnnnn:::nnnnnnknM
+MMMMMMMMMMEMMMMMMMMMM
+end
+
+warp 10 15 -> prism_summit_3f 3 1 down
+npc umbra 10 6 sprite=boss face=down script=p3b_umbra hideif=p3b_beat_umbra
+npc pk_grunt1 8 6 sprite=grunt_m face=down text="Lord Umbra's lens is almost charged. Once it drinks the Prism's light, the eclipse never ends!" hideif=p3b_beat_umbra
+npc pk_grunt2 12 6 sprite=grunt_f face=down text="Shh! Lord Umbra is concentrating. Go away. Please?" hideif=p3b_beat_umbra
+npc necrozma 10 3 sprite=legendary_shadow face=down script=p3b_necrozma showif=p3b_beat_umbra hideif=p3b_necrozma_done
+trigger 1 9 19 1 script=p3b_umbra unless=p3b_beat_umbra
+hidden pk_hidden 18 1 starpiece

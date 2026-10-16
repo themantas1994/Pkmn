@@ -1,0 +1,41 @@
+# Prism Plateau — the League's summit gate above Victory Road. Fly point; tagged powerspot like the League rooms.
+map prism_plateau
+name "Prism Plateau"
+location "Prism Plateau"
+music league_hall
+environment grass
+region 18 7
+fly 11 8
+tags town powerspot
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMM
+MTTTTTTTTTTTTTTTTTTTTTTM
+M.FFFFF..........FFFFF.M
+M.FFFFF..........FFFFF.M
+M.FFFFF..........FFFFF.M
+M......................M
+M........S.::..........M
+M...::::::::::::::::...M
+M.........G::G.........M
+M..........::..........M
+M.,,,,,,..G::G..,,,,,,.M
+M.,,,,,,...::...,,,,,,.M
+M.,,,,,,..G::G..,,,,,,.M
+M.,,,,,,...::...,,,,,,.M
+M.,,,,,,..G::G..,,,,,,.M
+M..........::.S........M
+M..........::..........M
+MMMMMMMMMMMEMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMM
+end
+
+building p3b_league 8 3 -> prism_league 7 9 up
+warp 11 18 -> victory_road_3f 3 1 down
+sign 14 16 text="PRISM PLATEAU\nThe summit of every trainer's journey."
+sign 9 7 text="POKéMON LEAGUE\nElite Four: MORROW, FERRUM, SIBYL, NOX\nChampion: CELESTE"
+npc pp_veteran 6 8 sprite=gentleman face=right text="Forty years ago I stood where you stand. I lost to the second Elite. I've been admiring the view ever since."
+npc pp_ace 17 10 sprite=cooltrainer_f face=left script=p3b_plateau_ace
+hidden pp_hidden1 2 17 ppmax
+hidden pp_hidden2 21 6 starpiece

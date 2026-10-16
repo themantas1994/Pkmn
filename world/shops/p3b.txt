@@ -1,0 +1,4 @@
+# Part 3B shops.
+shop p3b_dragonspire ultraball greatball duskball quickball hyperpotion maxpotion fullrestore revive fullheal maxrepel escaperope xattack xdefense xspatk xspdef xspeed direhit guardspec
+shop p3b_dragonspire_tm tm:dragonclaw=8000 tm:dragonpulse=10000 tm:icebeam=10000 tm:dazzlinggleam=8000 tm:earthquake=10000 tm:dragontail=6000 tm:roost=5000
+shop p3b_league ultraball fullrestore maxpotion revive fullheal maxrepel maxether=4500 maxelixir=8000

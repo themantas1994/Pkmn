@@ -1,0 +1,76 @@
+# Dragonspire City — mountain citadel of the Dragon Clan at the foot of the Dusk Spire. Gym 8 (Ryuga, Dragon).
+# B3: west column open exactly at y=10,11 (connect west route12 4). East: Route 13 (closed until Eclipse is stopped).
+# South: Umbral Pass toward Prism Summit (opened by the Dusk Badge). B4: Pokémon Center map id = dragonspire_center.
+map dragonspire_city
+name "Dragonspire City"
+location "Dragonspire City"
+music town_mountain
+environment grass
+region 9 1
+fly 25 9
+tags town
+encounters p3b_dragonspire
+connect west route12 4
+connect east route13 2
+connect south umbral_pass 6
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+TMMMMMMMMMMMMMM......MMMMMMMMMMMMMMT
+TMMMMMMMMMMMMM........MMMMMMMMMMMMMT
+TFFFFFFFFFFFFF........FFFFFFFFFFFFFT
+T..................................T
+T..................................T
+T................::S...............T
+T..............G.::.G..............T
+T....:....:......::......:......:..T
+::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::
+T..S.............::..............S.T
+TT........T....T.::.TSs~~~~~~~~~s.TT
+TT...............::.T.s~~~~~~~~~s.TT
+TT...............::...s~~~~~~~~~s.TT
+TT...............::...s~~~~~~~~~s.TT
+TT.....:.....:...::...sssssssssss.TT
+T......:.....:...::................T
+T.:::::::::::::::::::::::::::::::..T
+T.:::::::::::::::::::::::::::::::..T
+T.FFFF...........::..........FFFF..T
+T.,,,,,,,,,,,,,.G::G.,,,,,,,,,,,,..T
+T.,,,,,,,,,,,,,..::..,,,,,,,,,,,,..T
+T.,,,,,,,,,,,,,..::..,,,,,,,,,,,,..T
+T...............S::................T
+TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
+end
+
+building p3b_tower 15 2 -> dragonspire_gym 8 18 up
+building house 3 6 -> dragonspire_house 3 5 up
+building mart 9 6 -> dragonspire_mart 1 7 up
+building center 23 6 -> dragonspire_center 4 7 up
+building house_blue 30 6 -> dragonspire_house2 3 5 up
+building lab 4 14 -> dragonspire_shrine 5 9 up
+building house 11 14 -> dragonspire_house3 3 5 up
+sign 3 12 text="DRAGONSPIRE CITY\nWhere wings meet the dusk."
+sign 19 7 text="DRAGONSPIRE GYM - THE DUSK SPIRE\nLeader: RYUGA\nThe Wings of Twilight!\pChallengers must carry seven Badges."
+sign 16 25 text="UMBRAL PASS ahead\nTo PRISM SUMMIT.\nClan permission required."
+sign 33 12 text="ROUTE 13 ahead\nVictory Road - Prism Plateau"
+sign 21 13 text="SCALEMIRROR POND\nPlease do not feed the Dratini. They are not here. Probably."
+trigger 1 10 1 2 script=p3b_dragonspire_arrive unless=p3b_arrived
+trigger 17 7 1 1 script=p3b_gym_door unless=p3b_gym_open
+trigger 17 24 2 1 script=p3b_umbral_gate unless=p3b_badge8
+trigger 33 10 1 2 script=p3b_route13_gate unless=p3b_eclipse_defeated
+npc ds_lys 5 12 sprite=cooltrainer_f face=up script=p3b_dragonspire_lys
+npc ds_clanguard 16 24 sprite=blackbelt face=right script=p3b_clanguard
+npc ds_officer 34 9 sprite=policeman face=down script=p3b_route13_officer
+npc ds_fisher 22 18 sprite=fisherman face=up script=p3b_dragonspire_fisher
+npc ds_kid 12 11 sprite=kid move=wander text="Ryuga's tower is SO dark inside. The bridges only appear when you step on the glowing switches!"
+npc ds_oldwoman 28 20 sprite=oldwoman face=left text="The sky above Mt. Prism turned purple last night. My hip says it'll be an eclipse. My hip is never wrong."
+npc ds_scientist 21 9 sprite=scientist face=down script=p3b_dragonspire_scientist
+npc ds_hiker 8 20 sprite=hiker move=wander text="Umbral Pass is steep but short. The summit caves past it glitter like a jewel box... full of very grumpy Pokémon."
+item ds_dragonfang 33 24 dragonfang
+item ds_maxrevive 2 24 maxrevive
+hidden ds_hidden1 34 5 bignugget
+hidden ds_hidden2 1 22 dragonscale
+hidden ds_hidden3 27 17 pearlstring

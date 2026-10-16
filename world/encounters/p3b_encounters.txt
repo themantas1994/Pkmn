@@ -1,0 +1,160 @@
+# Part 3B wild encounters (Dragonspire -> Prism Summit -> Route 13 -> Victory Road). Levels 50-56 per CAMPAIGN.md.
+
+encounters p3b_dragonspire
+  rate grass 20
+  grass morning fraxure 50-52 30
+  grass morning altaria 50-53 25
+  grass morning bouffalant 50-52 25
+  grass morning sawsbuck 50-52 20
+  grass day fraxure 50-52 25
+  grass day bouffalant 50-52 25
+  grass day sawsbuck 50-52 20
+  grass day flygon 51-53 15
+  grass day druddigon 51-53 15
+  grass night zweilous 50-52 25
+  grass night noivern 51-53 25
+  grass night mightyena 50-52 25
+  grass night sliggoo 50-52 25
+  surf any seaking 48-52 40
+  surf any whiscash 48-52 30
+  surf any politoed 48-52 20
+  surf any dragonair 50-52 10
+  oldrod any magikarp 20-30 100
+  goodrod any goldeen 40-45 40
+  goodrod any poliwhirl 40-45 30
+  goodrod any seadra 42-46 30
+  superrod any dratini 40-45 30
+  superrod any seaking 48-52 30
+  superrod any gyarados 48-52 20
+  superrod any dragonair 50-52 20
+end
+
+encounters p3b_umbral_pass
+  rate grass 25
+  grass morning ursaring 51-53 25
+  grass morning sandslash 51-53 20
+  grass morning skarmory 52-54 20
+  grass morning lycanroc 51-53 15
+  grass morning mienshao 51-53 20
+  grass day rhydon 51-53 20
+  grass day donphan 51-53 20
+  grass day skarmory 52-54 20
+  grass day braviary 52-54 20
+  grass day gabite 50-52 20
+  grass night weavile 52-54 25
+  grass night ursaring 51-53 20
+  grass night crobat 52-54 20
+  grass night lycanrocmidnight 51-53 15
+  grass night zweilous 51-53 20
+  surf any golduck 50-54 50
+  surf any azumarill 50-54 40
+  surf any lanturn 50-54 10
+  oldrod any magikarp 20-30 100
+  goodrod any poliwhirl 40-45 50
+  goodrod any chinchou 40-45 50
+  superrod any gyarados 50-54 50
+  superrod any lanturn 50-54 50
+end
+
+encounters p3b_prism_summit
+  rate cave 12
+  cave morning golbat 52-54 20
+  cave morning solrock 52-55 15
+  cave morning carbink 52-54 20
+  cave morning bronzong 53-55 15
+  cave morning metang 52-54 10
+  cave morning mawile 52-54 10
+  cave morning claydol 53-55 10
+  cave day crobat 53-55 20
+  cave day solrock 52-55 15
+  cave day carbink 52-54 20
+  cave day bronzong 53-55 15
+  cave day metang 52-54 10
+  cave day mawile 52-54 10
+  cave day gigalith 53-55 10
+  cave night crobat 53-55 20
+  cave night lunatone 52-55 15
+  cave night sableye 52-54 20
+  cave night bronzong 53-55 15
+  cave night metang 52-54 10
+  cave night dusclops 52-54 10
+  cave night claydol 53-55 10
+  surf any golduck 50-54 40
+  surf any seaking 50-54 60
+  oldrod any magikarp 20-30 100
+  goodrod any goldeen 40-45 100
+  superrod any seaking 50-54 60
+  superrod any gyarados 50-54 40
+  rocksmash any carbink 50-53 50
+  rocksmash any boldore 50-53 50
+end
+
+encounters p3b_route13
+  rate grass 25
+  grass morning braviary 54-56 20
+  grass morning tauros 54-56 25
+  grass morning wyrdeer 54-56 20
+  grass morning granbull 53-55 20
+  grass morning ninetales 54-56 15
+  grass day tauros 54-56 25
+  grass day farigiraf 54-56 20
+  grass day heracross 54-56 20
+  grass day pinsir 54-56 20
+  grass day braviary 54-56 15
+  grass night houndoom 54-56 25
+  grass night gourgeist 54-56 20
+  grass night ursaring 54-56 20
+  grass night noctowl 53-55 15
+  grass night zoroark 54-56 20
+  surf any dewgong 52-56 30
+  surf any seaking 52-56 30
+  surf any quagsire 52-56 25
+  surf any golduck 52-56 10
+  surf any lapras 54-56 5
+  oldrod any magikarp 20-30 100
+  goodrod any poliwhirl 42-46 40
+  goodrod any krabby 42-46 30
+  goodrod any goldeen 42-46 30
+  superrod any gyarados 52-56 40
+  superrod any kingler 52-56 30
+  superrod any barraskewda 52-56 30
+end
+
+encounters p3b_victory_road
+  rate cave 14
+  cave morning machoke 54-56 15
+  cave morning golem 55-57 15
+  cave morning steelix 55-57 10
+  cave morning marowak 54-56 15
+  cave morning excadrill 55-57 15
+  cave morning lairon 54-56 15
+  cave morning gabite 54-56 10
+  cave morning hariyama 54-56 5
+  cave day machamp 55-57 10
+  cave day golem 55-57 15
+  cave day steelix 55-57 10
+  cave day marowak 54-56 15
+  cave day excadrill 55-57 15
+  cave day aggron 55-57 10
+  cave day gabite 54-56 15
+  cave day druddigon 55-57 10
+  cave night crobat 55-57 20
+  cave night golem 55-57 15
+  cave night steelix 55-57 10
+  cave night marowak 54-56 15
+  cave night excadrill 55-57 15
+  cave night lairon 54-56 15
+  cave night sableye 54-56 10
+  surf any golduck 52-56 35
+  surf any whiscash 52-56 35
+  surf any lanturn 52-56 20
+  surf any milotic 54-56 10
+  oldrod any magikarp 20-30 100
+  goodrod any barboach 42-46 60
+  goodrod any feebas 30-40 40
+  superrod any whiscash 52-56 50
+  superrod any gyarados 52-56 50
+  rocksmash any golem 54-56 50
+  rocksmash any gigalith 54-56 30
+  rocksmash any shuckle 50-54 20
+end

@@ -1,0 +1,28 @@
+# Elite Four 4 — Nox (Dark).
+map league_nox
+name "Nox's Room"
+location "Prism Plateau"
+music league_hall
+environment indoor
+indoor
+tags powerspot league
+
+layout
+^^^^^^^^^^^
+@@@@@U@@@@@
+@ddddZdddd@
+@ddddddddd@
+@GdddddddG@
+@ddddddddd@
+@ddddddddd@
+@GdddddddG@
+@ddddddddd@
+@ddddddddd@
+@GdddddddG@
+@@@@@@@@@@@
+end
+
+warp 5 1 -> league_champion 5 12 up
+tileif p3b_e4_4 5 2 dark_floor
+npc nox 5 4 sprite=elite4 face=down script=p3b_e4_nox
+trigger 1 7 9 1 script=p3b_e4_nox unless=p3b_e4_4

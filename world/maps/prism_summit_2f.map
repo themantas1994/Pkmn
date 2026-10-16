@@ -1,0 +1,53 @@
+# Prism Summit 2F — Admin Vesper's ward. Her corridor (x=10..13, y=4..5) is sealed by a trigger until she is beaten.
+map prism_summit_2f
+name "Prism Summit 2F"
+location "Prism Summit"
+music villain_hideout
+environment cave
+region 18 8
+encounters p3b_prism_summit
+
+legend
+a cave_water
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+WWffffffffWWWWWWWWWWWWWWWW
+WWfLffffffWWWWffffffffffWW
+WWfffffkffffffffffffffkfWW
+WWffffffffffffffkfffffffWW
+WWffffffffWWWWffffffffffWW
+WWfffkffffWWWWffffffffffWW
+WWffffffffWWWWffffffffffWW
+WWWWWWWWWWWWWWWWWWWWffWWWW
+WWWWWWWWfffffffWWWWWffWWWW
+WWWWWWfffffffffWWWWWffWWWW
+WWWWWWffffffkffWWWWWffWWWW
+WWWWWWfffffffffWWWWWffWWWW
+WWWWWWfffffffffWffffffffWW
+WWWWWWffWWWWWWWWffffffffWW
+WWffffffffWWWWWWffkfffffWW
+WWffffffffffffffffffffffWW
+WWffkfffffffffffffffffffWW
+WWffffffffWWWWWWffffffkfWW
+WWfLffffffWWWWWWffffffffWW
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 20 -> prism_summit 3 3 down
+warp 3 3 -> prism_summit_3f 20 18 down
+trainer p3b_ps2_grunt_a 8 17 sprite=grunt_m face=left sight=4
+trainer p3b_ps2_grunt_b 17 15 sprite=grunt_f face=down sight=3
+trainer p3b_ps2_psychic_mor 21 10 sprite=psychic face=down sight=3
+trainer p3b_ps2_grunt_c 16 7 sprite=grunt_m face=right sight=4
+npc vesper 11 4 sprite=admin face=right script=p3b_vesper hideif=p3b_beat_vesper
+trigger 13 4 1 2 script=p3b_vesper unless=p3b_beat_vesper
+npc ps2_lens 11 11 sprite=scientist face=down script=p3b_ps2_lens_tech
+item ps2_shrine1 14 14 maxpotion 2
+item ps2_shrine2 8 10 spookyplate
+item ps2_ne 23 8 ppup
+item ps2_nw 9 2 fullrestore
+hidden ps2_hidden1 2 8 bignugget
+hidden ps2_hidden2 23 20 maxether

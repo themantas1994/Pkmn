@@ -1,0 +1,29 @@
+# Champion's Room — Celeste. Victory: Hall of Fame, credits, flag hall_of_fame, warp home (B5).
+map league_champion
+name "Champion's Room"
+location "Prism Plateau"
+music league_hall
+environment indoor
+indoor
+tags powerspot league
+
+layout
+^^^^^^^^^^^
+@lllllllll@
+@llqqqqqll@
+@GlqqqqqlG@
+@llqqqqqll@
+@llqqqqqll@
+@GlllqlllG@
+@llllqllll@
+@llllqllll@
+@GlllqlllG@
+@llllqllll@
+@llllqllll@
+@GlllqlllG@
+@@@@@@@@@@@
+end
+
+npc celeste 5 3 sprite=champion face=down script=p3b_champion
+npc ch_linden 4 12 sprite=professor face=up script=p3b_champion_linden showif=p3b_champion_beaten hideif=hall_of_fame
+trigger 1 8 9 1 script=p3b_champion unless=p3b_champion_beaten

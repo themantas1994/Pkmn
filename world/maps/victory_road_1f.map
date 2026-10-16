@@ -1,0 +1,56 @@
+# Victory Road 1F — a lake under the Skyfall falls. Surf, then climb the waterfall (badge 7 + a Waterfall learner)
+# to the upper shelf and the ladder. A ledge on the east side drops back down (no soft-lock).
+map victory_road_1f
+name "Victory Road"
+location "Victory Road"
+music cave
+environment cave
+region 15 3
+encounters p3b_victory_road
+
+legend
+a cave_water
+* waterfall
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWffLfffffffffffffffffffffffWW
+WWffffffffffffffkfffffffffkfWW
+WWffffffffffffffffffffffffffWW
+WWWWWWWWWWWaaaaaaaWWWWffffffWW
+WWWWWWWWWWWaaaaaaaWWWWffffffWW
+WWWWWWWWWWWWWW*WWWWWWWffffffWW
+WWWWWWWWWWWWWW*WWWWWWWffffffWW
+WWWWWWWWWWWWWW*WWWWWWWWvvvvWWW
+WWffffaaaaaaaaaaaaaaaaffffffWW
+WWffffaaaaaaaaaaaaaaaaffffffWW
+WWfkffaaaaaaaaaaaaaaaaffffffWW
+WWffffaaaaaaaaaaaaaaaaffffffWW
+WWWfWWaaaaaaaaaaaaaaaaffffffWW
+WWffffffffffffffffffffffffffWW
+WWfffffffffffffffffffffffkffWW
+WWfffffkffffffffffffffffffffWW
+WWffffffffffffffffffffffffffWW
+WWffffffffffffffffffkfffffffWW
+WWfffffffffkffffffffffffffffWW
+WWfkffffffffffffffffffffffffWW
+WWffffffffffffffffffffffffffWW
+WWWWWWWWWWWWWWEWWWWWWWWWWWWWWW
+end
+
+warp 14 23 -> route13 37 8 left
+warp 4 2 -> victory_road_2f 4 2 down
+obstacle 3 14 smash flag=p3b_vr1_smash
+trainer p3b_vr1_cooltrainer_bren 9 17 sprite=cooltrainer_m face=right sight=4
+trainer p3b_vr1_cooltrainer_lia 22 18 sprite=cooltrainer_f face=left sight=4
+trainer p3b_vr1_blackbelt_goro 4 19 sprite=blackbelt face=up sight=3
+trainer p3b_vr1_psychic_ena 25 11 sprite=psychic face=down sight=3
+trainer p3b_vr1_veteran_rook 10 3 sprite=cooltrainer_m face=right sight=4
+npc vr1_hiker 18 21 sprite=hiker face=left script=p3b_vr1_hiker
+item vr1_west 2 10 fullrestore
+item vr1_shelf 27 2 maxelixir
+item vr1_lower 27 21 ultraball 3
+hidden vr1_hidden1 2 22 maxrevive
+hidden vr1_hidden2 17 4 bottlecap
