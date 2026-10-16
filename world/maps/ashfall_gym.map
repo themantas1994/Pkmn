@@ -1,0 +1,47 @@
+map ashfall_gym
+name "Ashfall Gym"
+location "Ashfall City"
+music gym
+environment building
+indoor
+tags gym
+
+layout
+@^^^^^^^^^^^^^^@
+@@@w@@@@@@@@w@@@
+@ZGggggGZZZZZZZ@
+@ZggggggggggggZ@
+@ZggggggZgggggZ@
+@ZZZZZZZZgggggZ@
+@ZZZZZZZZZZZZZZ@
+@ZZZZZZZZZZZZZZ@
+@zgggZZZZgggggZ@
+@ggggZZZZgggggZ@
+@ggggZZZZggggzZ@
+@ZZZZZZZZZZZZZZ@
+@ZZZZZZZZZZZZZZ@
+@ggggggggggggzg@
+@gggggggggggggg@
+@GggggggggggggG@
+@@@@@@@RR@@@@@@@
+end
+
+warp 7 16 -> ashfall_city 22 12 down
+warp 8 16 -> ashfall_city 22 12 down
+npc gym_guide 10 15 sprite=gentleman face=left script=ash_gym_guide
+npc blaise 4 2 sprite=leader6 face=down script=ash_blaise
+trainer g6_kindler_rex 5 13 sprite=hiker face=right sight=3 trainer=p3_g6_kindler_rex
+trainer g6_cool_sol 3 9 sprite=cooltrainer_f face=down sight=2 trainer=p3_g6_cool_sol
+trainer g6_black_pyre 10 9 sprite=blackbelt face=left sight=4 trainer=p3_g6_black_pyre
+trainer g6_beauty_cinder 11 3 sprite=beauty face=down sight=4 trainer=p3_g6_beauty_cinder
+trigger 13 13 1 1 script=ash_gym_s1 unless=p3_ash_s1
+trigger 1 8 1 1 script=ash_gym_s2 unless=p3_ash_s2
+trigger 13 10 1 1 script=ash_gym_s3 unless=p3_ash_s3
+tileif p3_ash_s1 2 11 gym_floor
+tileif p3_ash_s1 2 12 gym_floor
+tileif p3_ash_s2 5 9 gym_floor
+tileif p3_ash_s2 6 9 gym_floor
+tileif p3_ash_s2 7 9 gym_floor
+tileif p3_ash_s2 8 9 gym_floor
+tileif p3_ash_s3 11 6 gym_floor
+tileif p3_ash_s3 11 7 gym_floor

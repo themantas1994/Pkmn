@@ -1,0 +1,36 @@
+# STUB — replaced by Part 2, delete on merge.
+# Only exists so Part 3's boundary B2 (route9 east edge) can be compiled and tested.
+map seraphine_town
+name "Seraphine Town"
+location "Seraphine Town"
+music town_mid
+environment plain
+region 20 5
+fly 5 12
+tags town
+connect west route9 3
+
+layout
+TTTTTTTTTTTT
+T..........T
+T..........T
+T..........T
+T.......::.T
+T.......::.T
+T.......::.T
+T.......::.T
+T.......::.T
+T.......::.T
+T.......::.T
+::::::::::.T
+::::::::::.T
+T.......::.T
+T.......::.T
+T.......::.T
+T.......::.T
+T..........T
+T..........T
+TTTTTTTTTTTT
+end
+
+sign 6 10 text="SERAPHINE TOWN (stub)\nWest: Route 9"
