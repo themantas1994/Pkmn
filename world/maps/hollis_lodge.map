@@ -18,5 +18,5 @@ end
 
 warp 3 7 -> frostmere_town 6 18 down
 warp 4 7 -> frostmere_town 6 18 down
-npc hollis 4 2 sprite=ranger face=down script=fm_hollis
-npc lodge_scientist 8 5 sprite=scientist face=left text="Power Spots gather Galar particles from deep underground. On those spots, Pokémon can grow gigantic!"
+npc hollis 4 2 sprite=ranger face=down script=p3a_fm_hollis
+npc lodge_scientist 8 5 sprite=scientist face=left script=p3a_fm_lodge_scientist

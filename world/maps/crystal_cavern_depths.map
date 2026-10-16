@@ -4,7 +4,7 @@ location "Crystal Cavern"
 music dungeon_cave
 environment cave
 region 11 7
-encounters p3_crystal_depths
+encounters p3a_crystal_depths
 
 layout
 YYYYYYYYYYYYYYYYYYYY
@@ -28,9 +28,9 @@ WWWWWWWWWWWWWWWWWWWW
 end
 
 warp 9 1 -> crystal_cavern_b1 23 17 up
-npc terapagos 10 13 sprite=legendary_shadow face=up script=leg_terapagos hideif=p3_terapagos_done
-trainer ccd_cool_prism 3 9 sprite=cooltrainer_f face=down sight=3 trainer=p3_ccd_cool_prism
-trainer ccd_sci_facet 16 9 sprite=scientist face=down sight=3 trainer=p3_ccd_sci_facet
+npc terapagos 10 13 sprite=legendary_shadow face=up script=p3a_leg_terapagos showif=hall_of_fame hideif=p3a_terapagos_done
+trainer ccd_cool_prism 3 9 sprite=cooltrainer_f face=down sight=3 trainer=p3a_ccd_cool_prism
+trainer ccd_sci_facet 16 9 sprite=scientist face=down sight=3 trainer=p3a_ccd_sci_facet
 item ccd_stellarshard 2 14 dragonterashard 3
 item ccd_ghostshard 17 14 ghostterashard 3
 item ccd_ppmax 17 5 ppmax

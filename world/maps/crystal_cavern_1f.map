@@ -4,7 +4,7 @@ location "Crystal Cavern"
 music dungeon_cave
 environment cave
 region 11 7
-encounters p3_crystal_cavern
+encounters p3a_crystal_cavern
 
 layout
 YYYYYYYYYYYYYYYYYYYYYYYYYYYY
@@ -33,11 +33,11 @@ end
 
 warp 13 20 -> route10 7 23 down
 warp 14 4 -> crystal_cavern_b1 4 3 down
-trainer cc_grunt_a 6 13 sprite=grunt_m face=right sight=4 trainer=p3_cc_grunt_a
-trainer cc_grunt_b 15 4 sprite=grunt_f face=left sight=4 trainer=p3_cc_grunt_b
-trainer cc_hiker_opal 21 10 sprite=hiker face=left sight=3 trainer=p3_cc_hiker_opal
-trainer cc_psychic_lux 11 8 sprite=psychic face=down sight=2 trainer=p3_cc_psychic_lux
+trainer cc_grunt_a 6 13 sprite=grunt_m face=right sight=4 trainer=p3a_cc_grunt_a
+trainer cc_grunt_b 15 4 sprite=grunt_f face=left sight=4 trainer=p3a_cc_grunt_b
+trainer cc_hiker_opal 21 10 sprite=hiker face=left sight=3 trainer=p3a_cc_hiker_opal
+trainer cc_psychic_lux 11 8 sprite=psychic face=down sight=2 trainer=p3a_cc_psychic_lux
 item cc_rockterashard 24 4 rockterashard 2
 item cc_ultraball 9 10 ultraball 2
 hidden cc_hidden_rarecandy 22 12 rarecandy
-obstacle 19 13 boulder flag=p3_cc_boulder1
+obstacle 19 13 boulder flag=p3a_cc_boulder1

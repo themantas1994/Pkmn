@@ -4,7 +4,7 @@ location "Route 11"
 music route_sea
 environment water
 region 5 7
-encounters p3_route11
+encounters p3a_route11
 connect north frostmere_town -6
 
 layout
@@ -32,7 +32,7 @@ T~~~~~~~~~~~~~~~~~~~~~~~~ssssss~~~~T
 T~~~~~~~~~~~~~~~~~~~~~~~~s,,,ss~~~~T
 T~~~MMMMM~~~~~~~~~~~~~~~~s,,,ss~~~~T
 T~~~MMMMM~~~~~~~~~r~~~~~~ssssss~~~~T
-T~~~MMEMM~~~~~~~~~~~~~~~~ssssss~~~~T
+T~~~MMMMM~~~~~~~~~~~~~~~~ssssss~~~~T
 T~~~sssss~~~~~~~~~~~r~~~~~~~~~~~~~~T
 T~~~sssss~~~~~~~~~~~~~~~~~~~~~~~~~~T
 T~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~T
@@ -41,24 +41,20 @@ TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 end
 
 warp 31 3 -> crystal_cavern_b1 1 13 right
-warp 6 24 -> shattered_cave 9 14 up
-tileif hall_of_fame 6 24 cave_entrance
-tile 6 24 mountain_wall
 building house 13 13 -> route11_cottage 3 5 up
 tile 24 9 sign
 sign 24 9 text="ROUTE 11\nNorthwest across the bay: Frostmere Town"
 tile 7 1 sign
 sign 7 1 text="ROUTE 11\nSouth: Coral Bay and Crystal Cavern"
-npc r11_suicune 16 6 sprite=legendary_shadow face=down script=leg_suicune showif=hall_of_fame hideif=p3_suicune_done
 npc r11_sailor 30 5 sprite=sailor face=down text="Frostmere's across the bay. No bridge, so you'll need a Pokémon that can Surf!"
-trainer r11_fisher_hal 25 11 sprite=fisherman face=left sight=3 trainer=p3_r11_fisher_hal
-trainer r11_swim_nami 19 8 sprite=swimmer_f face=down sight=4 trainer=p3_r11_swim_nami
-trainer r11_swim_kai 13 10 sprite=swimmer_m face=right sight=4 trainer=p3_r11_swim_kai
-trainer r11_swim_pearl 8 15 sprite=swimmer_f face=up sight=4 trainer=p3_r11_swim_pearl
-trainer r11_swim_reed 21 18 sprite=swimmer_m face=left sight=4 trainer=p3_r11_swim_reed
-trainer r11_sailor_brine 27 23 sprite=sailor face=left sight=3 trainer=p3_r11_sailor_brine
-trainer r11_fisher_moss 3 7 sprite=fisherman face=right sight=3 trainer=p3_r11_fisher_moss
-trainer r11_swim_coral 13 4 sprite=swimmer_f face=down sight=3 trainer=p3_r11_swim_coral
+trainer r11_fisher_hal 25 11 sprite=fisherman face=left sight=3 trainer=p3a_r11_fisher_hal
+trainer r11_swim_nami 19 8 sprite=swimmer_f face=down sight=4 trainer=p3a_r11_swim_nami
+trainer r11_swim_kai 13 10 sprite=swimmer_m face=right sight=4 trainer=p3a_r11_swim_kai
+trainer r11_swim_pearl 8 15 sprite=swimmer_f face=up sight=4 trainer=p3a_r11_swim_pearl
+trainer r11_swim_reed 21 18 sprite=swimmer_m face=left sight=4 trainer=p3a_r11_swim_reed
+trainer r11_sailor_brine 27 23 sprite=sailor face=left sight=3 trainer=p3a_r11_sailor_brine
+trainer r11_fisher_moss 3 7 sprite=fisherman face=right sight=3 trainer=p3a_r11_fisher_moss
+trainer r11_swim_coral 13 4 sprite=swimmer_f face=down sight=3 trainer=p3a_r11_swim_coral
 item r11_mysticwater 29 23 mysticwater
 item r11_ultraball 33 11 ultraball 3
 item r11_waterterashard 8 25 waterterashard 2

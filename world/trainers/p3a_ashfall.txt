@@ -1,6 +1,6 @@
-# Part 3: Route 9, Ashfall Gym, rival (Ashfall), Ember Tower, Magma Chamber.
+# Part 3A: Route 9, Ashfall Gym, rival (Ashfall), Ember Tower (post-game).
 
-trainer p3_r9_hiker_doran
+trainer p3a_r9_hiker_doran
   class hiker
   name "Doran"
   intro "The ash makes my boots crunch! Let's rumble!"
@@ -11,7 +11,7 @@ trainer p3_r9_hiker_doran
   mon sandslash 38
 end
 
-trainer p3_r9_lass_wren
+trainer p3a_r9_lass_wren
   class lass
   name "Wren"
   intro "My fluffy friends love this warm weather!"
@@ -21,19 +21,19 @@ trainer p3_r9_lass_wren
   mon whimsicott 38
 end
 
-trainer p3_r9_cool_brigid
+trainer p3a_r9_cool_brigid
   class cooltrainer_f
   name "Brigid"
   intro "I came all the way out here to train for the Ashfall Gym. Spar with me!"
   defeat "Your team's balanced. Mine needs work."
   after "Bring Water and Rock types to the Gym. Trust me."
-  mon vaporeon 40 moves=scald,icebeam,wish,protect
+  mon vaporeon 40 moves=scald,icebeam,haze,protect
   mon lucario 40 moves=aurasphere,flashcannon,dragonpulse,nastyplot
   mon tyranitar 41 moves=stoneedge,crunch,earthquake,dragondance
 end
 
-trainer p3_r9_kindler_ash
-  class p3_kindler
+trainer p3a_r9_kindler_ash
+  class p3a_kindler
   name "Ash"
   intro "Kindler Ash, at your service! Feel the heat!"
   defeat "Fizzled out..."
@@ -43,7 +43,7 @@ trainer p3_r9_kindler_ash
   mon torkoal 39
 end
 
-trainer p3_r9_psychic_omar
+trainer p3a_r9_psychic_omar
   class psychic
   name "Omar"
   intro "I foresaw our battle... and the volcano erupting with joy."
@@ -53,8 +53,8 @@ trainer p3_r9_psychic_omar
   mon xatu 39
 end
 
-trainer p3_r9_bird_kelsey
-  class p3_birdkeeper
+trainer p3a_r9_bird_kelsey
+  class p3a_birdkeeper
   name "Kelsey"
   intro "My birds ride the hot updrafts! Can you keep up?"
   defeat "Grounded!"
@@ -64,7 +64,7 @@ trainer p3_r9_bird_kelsey
   mon swellow 39
 end
 
-trainer p3_r9_pokefan_gale
+trainer p3a_r9_pokefan_gale
   class pokefan
   name "Gale"
   intro "Isn't my Spinda adorable? Every one has different spots!"
@@ -75,8 +75,8 @@ trainer p3_r9_pokefan_gale
 end
 
 # ------------------------------------------------------------------ Ashfall Gym
-trainer p3_g6_kindler_rex
-  class p3_kindler
+trainer p3a_g6_kindler_rex
+  class p3a_kindler
   name "Rex"
   intro "Welcome to the furnace! Hope you packed sunscreen!"
   defeat "I'm toast..."
@@ -85,7 +85,7 @@ trainer p3_g6_kindler_rex
   mon rapidash 42
 end
 
-trainer p3_g6_cool_sol
+trainer p3a_g6_cool_sol
   class cooltrainer_f
   name "Sol"
   intro "Only the hottest trainers reach Blaise!"
@@ -95,7 +95,7 @@ trainer p3_g6_cool_sol
   mon salazzle 43 moves=flamethrower,sludgebomb,dragonpulse,nastyplot
 end
 
-trainer p3_g6_black_pyre
+trainer p3a_g6_black_pyre
   class blackbelt
   name "Pyre"
   intro "HYAAAH! Fire Fighting spirit!"
@@ -105,7 +105,7 @@ trainer p3_g6_black_pyre
   mon infernape 43 moves=flareblitz,closecombat,machpunch,uturn
 end
 
-trainer p3_g6_beauty_cinder
+trainer p3a_g6_beauty_cinder
   class beauty
   name "Cinder"
   intro "Isn't fire beautiful? Let me show you!"
@@ -115,7 +115,7 @@ trainer p3_g6_beauty_cinder
   mon flareon 43
 end
 
-trainer p3_leader_blaise
+trainer p3a_leader_blaise
   class leader
   name "Blaise"
   portrait leader6
@@ -133,26 +133,8 @@ trainer p3_leader_blaise
   mon houndoom 46 moves=flamethrower,darkpulse,sludgebomb,nastyplot item=houndoominite
 end
 
-trainer p3_leader_blaise_rematch
-  class leader
-  name "Blaise"
-  portrait leader6
-  ai 3
-  intro "The Champion returns! My flames have only grown hotter."
-  defeat "Burned to a crisp!"
-  after "Come back anytime, Champion!"
-  items fullrestore=3
-  gimmicks mega tera
-  mon torkoal 72 moves=lavaplume,earthpower,solarbeam,stealthrock ability=H
-  mon volcarona 73 moves=fierydance,bugbuzz,gigadrain,quiverdance
-  mon salazzle 73 moves=flamethrower,sludgebomb,dragonpulse,nastyplot
-  mon arcanine 74 moves=flareblitz,extremespeed,closecombat,wildcharge
-  mon ceruledge 74 moves=bitterblade,poltergeist,closecombat,swordsdance tera=Fire
-  mon houndoom 76 moves=flamethrower,darkpulse,sludgebomb,nastyplot item=houndoominite
-end
-
 # ------------------------------------------------------------------ Rival at Ashfall (L44)
-trainer p3_rival_ashfall_typhlosion
+trainer p3a_rival_ashfall_typhlosion
   class rival
   name "{rival}"
   intro "Let's see how strong you've gotten!"
@@ -166,7 +148,7 @@ trainer p3_rival_ashfall_typhlosion
   mon typhlosion 44 moves=eruption,flamethrower,focusblast,earthquake
 end
 
-trainer p3_rival_ashfall_feraligatr
+trainer p3a_rival_ashfall_feraligatr
   class rival
   name "{rival}"
   intro "Let's see how strong you've gotten!"
@@ -180,7 +162,7 @@ trainer p3_rival_ashfall_feraligatr
   mon feraligatr 44 moves=waterfall,crunch,icefang,dragondance
 end
 
-trainer p3_rival_ashfall_meganium
+trainer p3a_rival_ashfall_meganium
   class rival
   name "{rival}"
   intro "Let's see how strong you've gotten!"
@@ -194,8 +176,8 @@ trainer p3_rival_ashfall_meganium
   mon meganium 44 moves=petalblizzard,earthquake,bodyslam,swordsdance
 end
 
-# ------------------------------------------------------------------ Ember Tower & Magma Chamber (post-game)
-trainer p3_et_sage_ren
+# ------------------------------------------------------------------ Ember Tower (post-game)
+trainer p3a_et_sage_ren
   class sage
   name "Ren"
   intro "Only the worthy may stand before the rainbow bird!"
@@ -206,7 +188,7 @@ trainer p3_et_sage_ren
   mon talonflame 65
 end
 
-trainer p3_et_sage_ilo
+trainer p3a_et_sage_ilo
   class sage
   name "Ilo"
   intro "Show me the heart of a Champion!"
@@ -215,26 +197,4 @@ trainer p3_et_sage_ilo
   mon arcanine 65
   mon houndoom 65
   mon rapidash 66
-end
-
-trainer p3_mc_hiker_basalt
-  class hiker
-  name "Basalt"
-  intro "It's sweltering down here! You must be tough to come this deep!"
-  defeat "Melted..."
-  after "The heat comes from that sleeping giant up north."
-  mon golem 63
-  mon coalossal 64
-  mon camerupt 64
-end
-
-trainer p3_mc_sci_ember
-  class scientist
-  name "Ember"
-  intro "My readings are off the charts! Help me test them!"
-  defeat "Data overload!"
-  after "Something in this chamber reacts to the Red Orb..."
-  mon magmortar 64
-  mon magnezone 64
-  mon rotomheat 65
 end

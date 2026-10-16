@@ -1,6 +1,6 @@
 # Part 3 wild encounters (Route 10 onward). Levels follow docs/CAMPAIGN.md.
 
-encounters p3_route10
+encounters p3a_route10
   rate grass 25
   grass morning rhyhorn 39-42 20
   grass morning mudbray 39-41 20
@@ -31,7 +31,7 @@ encounters p3_route10
   superrod any palpitoad 40-44 50
 end
 
-encounters p3_crystal_cavern
+encounters p3a_crystal_cavern
   rate cave 12
   cave any roggenrola 40-43 15
   cave any boldore 42-45 10
@@ -49,7 +49,7 @@ encounters p3_crystal_cavern
   superrod any lanturn 42-46 100
 end
 
-encounters p3_crystal_depths
+encounters p3a_crystal_depths
   rate cave 12
   cave any glimmora 62-66 20
   cave any carbink 62-66 20
@@ -60,7 +60,7 @@ encounters p3_crystal_depths
   cave any klefki 62-65 10
 end
 
-encounters p3_route11
+encounters p3a_route11
   rate surf 10
   surf any tentacool 40-43 30
   surf any tentacruel 43-46 20
@@ -91,7 +91,7 @@ encounters p3_route11
   grass night shellos 40-43 30
 end
 
-encounters p3_route12
+encounters p3a_route12
   rate grass 25
   grass morning snover 44-47 25
   grass morning swinub 44-47 20
@@ -113,81 +113,4 @@ encounters p3_route12
   grass night piloswine 46-49 15
   grass night snom 44-46 15
   grass night frigibax 44-46 5
-end
-
-encounters p3_route13
-  rate grass 25
-  grass morning tauros 50-54 20
-  grass morning miltank 50-54 20
-  grass morning girafarig 50-53 15
-  grass morning tropius 50-54 15
-  grass morning deerling 50-53 15
-  grass morning heracross 51-54 15
-  grass day tauros 50-54 15
-  grass day kangaskhan 51-54 15
-  grass day sawsbuck 51-54 15
-  grass day bouffalant 51-54 15
-  grass day pinsir 51-54 15
-  grass day cyclizar 51-54 15
-  grass day gogoat 51-54 10
-  grass night stantler 50-54 30
-  grass night noctowl 50-54 25
-  grass night girafarig 50-53 20
-  grass night noibat 50-53 25
-  surf any golduck 50-54 60
-  surf any azumarill 50-54 40
-  oldrod any magikarp 40-50 100
-  goodrod any dratini 45-50 40
-  goodrod any poliwhirl 45-50 60
-  superrod any dragonair 50-55 30
-  superrod any politoed 50-55 40
-  superrod any tatsugiri 50-55 30
-end
-
-encounters p3_victory_road
-  rate cave 12
-  cave any golbat 52-55 15
-  cave any graveler 52-55 10
-  cave any machoke 52-55 10
-  cave any lairon 52-55 10
-  cave any ursaring 52-56 10
-  cave any gurdurr 52-55 10
-  cave any marowak 52-55 8
-  cave any onix 52-55 7
-  cave any durant 52-55 7
-  cave any excadrill 54-56 5
-  cave any gabite 52-55 4
-  cave any deino 50-53 2
-  cave any jangmoo 50-53 2
-  surf any golduck 52-56 60
-  surf any seaking 52-56 40
-  goodrod any goldeen 48-52 100
-  superrod any seaking 52-56 60
-  superrod any gyarados 52-56 40
-end
-
-encounters p3_shattered_cave
-  rate cave 12
-  cave any ditto 64-68 15
-  cave any chansey 64-68 10
-  cave any wobbuffet 64-68 15
-  cave any electrode 64-68 15
-  cave any kadabra 64-68 15
-  cave any machamp 65-69 10
-  cave any rhydon 65-69 10
-  cave any crobat 65-69 10
-  surf any golduck 64-68 50
-  surf any lapras 64-68 10
-  surf any slowbro 64-68 40
-end
-
-encounters p3_sky_spire
-  rate grass 25
-  grass any altaria 64-68 25
-  grass any dragonair 64-68 20
-  grass any noivern 65-69 15
-  grass any shelgon 64-68 15
-  grass any sliggoo 64-68 10
-  grass any hakamoo 64-68 10
-  grass any drampa 65-69 5
 end

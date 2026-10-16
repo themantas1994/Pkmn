@@ -4,7 +4,7 @@ location "Route 10"
 music route_mid
 environment grass
 region 9 6
-encounters p3_route10
+encounters p3a_route10
 connect north ashfall_city 0
 
 layout
@@ -45,17 +45,16 @@ tile 17 2 sign
 sign 17 2 text="ROUTE 10\nNorth: Ashfall City\nSouth: Crystal Cavern"
 tile 9 23 sign
 sign 9 23 text="CRYSTAL CAVERN\nResearch site of Quartz. Please mind the crystals."
-npc r10_assistant 7 23 sprite=scientist face=up script=r10_cavern_guard hideif=p3_beat_blaise
-trainer r10_hiker_flint 10 15 sprite=hiker face=left sight=3 trainer=p3_r10_hiker_flint
-trainer r10_black_kenji 15 5 sprite=blackbelt face=left sight=3 trainer=p3_r10_black_kenji
-trainer r10_ranger_tali 24 6 sprite=ranger face=down sight=3 trainer=p3_r10_ranger_tali
-trainer r10_cool_marcus 22 16 sprite=cooltrainer_m face=down sight=3 trainer=p3_r10_cool_marcus
-trainer r10_lass_ivy 4 8 sprite=lass face=right sight=2 trainer=p3_r10_lass_ivy
-trainer r10_fisher_ned 17 11 sprite=fisherman face=right sight=2 trainer=p3_r10_fisher_ned
-npc r10_entei 26 20 sprite=legendary_shadow face=left script=leg_entei showif=hall_of_fame hideif=p3_entei_done
+npc r10_assistant 7 23 sprite=scientist face=up script=p3a_r10_cavern_guard hideif=p3a_beat_blaise
+trainer r10_hiker_flint 10 15 sprite=hiker face=left sight=3 trainer=p3a_r10_hiker_flint
+trainer r10_black_kenji 15 5 sprite=blackbelt face=left sight=3 trainer=p3a_r10_black_kenji
+trainer r10_ranger_tali 24 6 sprite=ranger face=down sight=3 trainer=p3a_r10_ranger_tali
+trainer r10_cool_marcus 22 16 sprite=cooltrainer_m face=down sight=3 trainer=p3a_r10_cool_marcus
+trainer r10_lass_ivy 4 8 sprite=lass face=right sight=2 trainer=p3a_r10_lass_ivy
+trainer r10_fisher_ned 17 11 sprite=fisherman face=right sight=2 trainer=p3a_r10_fisher_ned
 item r10_maxrepel 3 3 maxrepel
 item r10_hardstone 27 22 hardstone
 item r10_protein 1 22 protein
 hidden r10_hidden_revive 29 13 revive
 hidden r10_hidden_starpiece 12 22 starpiece
-obstacle 5 21 smash flag=p3_r10_smash1
+obstacle 5 21 smash flag=p3a_r10_smash1

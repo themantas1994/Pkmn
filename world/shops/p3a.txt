@@ -1,0 +1,2 @@
+shop p3a_ashfall ultraball greatball hyperpotion superpotion fullheal burnheal revive superrepel escaperope
+shop p3a_frostmere ultraball hyperpotion maxpotion fullheal iceheal revive maxrepel escaperope nevermeltice

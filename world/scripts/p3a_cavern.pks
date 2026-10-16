@@ -1,31 +1,31 @@
 # Route 10, Crystal Cavern (Quartz, Tera Orb, Tera Shard exchange), Route 11 (Lapras gift).
 
-script r10_cavern_guard
+script p3a_r10_cavern_guard
   faceplayer
   say "QUARTZ'S AIDE: Sorry! The cavern is unstable, so Quartz only lets in trainers with the Ember Badge.\pBlaise's Gym is back in Ashfall City."
 end
 
-script cc_quartz
+script p3a_cc_quartz
   faceplayer
-  if not flag p3_got_teraorb
-    if trainer p3_cc_grunt_c and trainer p3_cc_grunt_d
+  if not flag p3a_got_teraorb
+    if trainer p3a_cc_grunt_c and trainer p3a_cc_grunt_d
       say "QUARTZ: You drove off those Eclipse goons! They wanted my crystals to power some machine on Mt. Prism.\pI'm Quartz. I study Tera crystals, the gems that let Pokémon shine with a new type."
       say "QUARTZ: Blaise told me about you. Here. This orb is charged with Tera energy."
       giveitem teraorb
       unlock tera
-      setflag p3_got_teraorb
+      setflag p3a_got_teraorb
       say "QUARTZ: Once per battle, your Pokémon can Terastallize and become its Tera Type! The orb recharges at any Pokémon Center.\pBring me 3 Tera Shards of a type and I'll change a Pokémon's Tera Type."
       say "QUARTZ: Those grunts fled west. The tunnel there leads to Route 11 and the sea. Frostmere is across the bay."
-      quest p3_story next
+      quest p3a_story next
     else
       say "QUARTZ: Ah! A trainer! Those Team Eclipse grunts by the west tunnel are trying to haul away my crystals.\pPlease, chase them off!"
     end
   else
-    call cc_tera_exchange
+    call p3a_cc_tera_exchange
   end
 end
 
-script cc_tera_exchange
+script p3a_cc_tera_exchange
   ask "QUARTZ: Want to change a Pokémon's Tera Type? It costs 3 Tera Shards of the new type."
   if result yes
     choice "Which type?" "Fire" "Water" "Grass" "Electric" "Ice" "Fighting" "Poison" "Ground" "Flying" "Psychic" "Bug" "Rock" "Ghost" "Dragon" "Dark" "Steel" "Fairy" "Normal"
@@ -91,16 +91,28 @@ script cc_tera_exchange
   end
 end
 
-script cc_quartz_aide
+script p3a_cc_quartz_aide
   faceplayer
-  if flag hall_of_fame
+  if not flag p3a_carbink_done and party has carbink
+    say "AIDE: A Carbink! Look how its jewels sparkle in the lamplight... Thank you!\pHere, these shards fell off the cavern ceiling. Quartz says you should have them."
+    giveitem normalterashard 3
+    giveitem rarecandy
+    setflag p3a_carbink_done
+    quest p3a_carbink done
+  elif flag hall_of_fame
     say "AIDE: The Champion! The sealed crystal to the south has started to glow. Quartz thinks something lives down there."
-  else
+  elif not flag p3a_carbink_asked
+    say "AIDE: I've never seen a Carbink up close. They hide among the crystals in this cave.\pIf you catch one, would you show me?"
+    setflag p3a_carbink_asked
+    quest p3a_carbink start
+  elif flag p3a_carbink_done
     say "AIDE: These crystals hum when a Pokémon Terastallizes nearby. Isn't that amazing?"
+  else
+    say "AIDE: Carbink like the deep, quiet parts of the cavern. Good luck!"
   end
 end
 
-script cc_camp_rest
+script p3a_cc_camp_rest
   faceplayer
   say "Camping in a cave is tiring. Let your Pokémon rest by the fire."
   heal
@@ -108,22 +120,22 @@ script cc_camp_rest
 end
 
 # ------------------------------------------------------------------ Route 11 Sea Cottage: Lapras gift quest
-script r11_lapras_lady
+script p3a_r11_lapras_lady
   faceplayer
-  if flag p3_got_lapras
+  if flag p3a_got_lapras
     say "Lapras is happy with you, I can tell. Sing to it on calm nights!"
-  elif not flag p3_lapras_quest
+  elif not flag p3a_lapras_quest
     say "Oh, a traveler! I've been caring for a young Lapras that washed up in a fishing net.\pIt's healed, but it's homesick for the open sea. It wants to travel with someone strong."
     say "Lapras loves pearls. A big one is said to be buried on the little islet in the bay. If you found one, I'm sure it would trust you."
-    setflag p3_lapras_quest
-    quest p3_lapras start
+    setflag p3a_lapras_quest
+    quest p3a_lapras start
   elif item bigpearl
     say "That's a Big Pearl! Lapras is singing!"
     takeitem bigpearl
     givemon lapras 40 moves=surf,icebeam,sing,bodyslam
     if result 1
-      setflag p3_got_lapras
-      quest p3_lapras done
+      setflag p3a_got_lapras
+      quest p3a_lapras done
       say "Please take good care of it. It can carry you across any sea!"
     end
   else
@@ -131,12 +143,12 @@ script r11_lapras_lady
   end
 end
 
-script r11_cottage_fisher
+script p3a_r11_cottage_fisher
   faceplayer
-  if not flag p3_got_goodrod_tip
+  if not flag p3a_got_goodrod_tip
     say "I'm the one who found Lapras in my net. Felt terrible!\pHere, take this. Fish around Route 11 with it and you'll hook some real beauties."
     giveitem diveball 3
-    setflag p3_got_goodrod_tip
+    setflag p3a_got_goodrod_tip
   else
     say "Mantine glide over the waves out there. Some say a blue beast runs across the water at dusk..."
   end

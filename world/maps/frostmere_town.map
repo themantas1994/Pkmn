@@ -52,6 +52,6 @@ tile 27 7 sign
 sign 27 7 text="East: Route 12 to Dragonspire City"
 npc fm_hollis_aide 8 20 sprite=ranger face=down text="Hollis studies Power Spots. This whole town sits on one! It's why the Gym can host Dynamax battles."
 npc fm_skater 17 23 sprite=kid move=wander text="Wheee! The pond is frozen solid. Isolde's Gym floor is the same, except slipperier!"
-npc fm_oldwoman 24 15 sprite=oldwoman face=left script=fm_scarf_quest
+npc fm_oldwoman 26 15 sprite=oldwoman face=left script=p3a_fm_scarf_quest
 npc fm_gentleman 12 13 sprite=gentleman face=down text="Isolde is the most elegant trainer in Tessera. Her Pokémon hail and blizzard like a winter storm."
-trigger 21 17 1 1 script=fm_gym_sealed unless=p3_got_dynamaxband
+trigger 21 17 1 1 script=p3a_fm_gym_sealed unless=p3a_got_dynamaxband

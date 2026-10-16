@@ -1,6 +1,6 @@
-# Part 3: Route 10, Crystal Cavern, Route 11, Frostmere Gym, Route 12, post-game caves near them.
+# Part 3A: Route 10, Crystal Cavern, Route 11, Frostmere Gym, Route 12, Crystal Cavern depths.
 
-trainer p3_r10_hiker_flint
+trainer p3a_r10_hiker_flint
   class hiker
   name "Flint"
   intro "Rocks everywhere! Perfect for my Pokémon!"
@@ -11,7 +11,7 @@ trainer p3_r10_hiker_flint
   mon onix 42
 end
 
-trainer p3_r10_black_kenji
+trainer p3a_r10_black_kenji
   class blackbelt
   name "Kenji"
   intro "I train on the volcano slopes. My fists are hotter than lava!"
@@ -21,7 +21,7 @@ trainer p3_r10_black_kenji
   mon machamp 44
 end
 
-trainer p3_r10_ranger_tali
+trainer p3a_r10_ranger_tali
   class ranger
   name "Tali"
   intro "I keep the wild Pokémon here safe. Let's see if you treat yours well!"
@@ -32,18 +32,18 @@ trainer p3_r10_ranger_tali
   mon braviary 44
 end
 
-trainer p3_r10_cool_marcus
+trainer p3a_r10_cool_marcus
   class cooltrainer_m
   name "Marcus"
   intro "Let me guess, you're after the Frostmere badge next? Get through me first!"
   defeat "Okay, you'll do fine."
   after "Steel types are great against Ice. Just saying."
-  mon bisharp 45 moves=ironhead,nightslash,suckerpunch,swordsdance
+  mon bisharp 45 moves=ironhead,nightslash,knockoff,swordsdance
   mon golurk 44
   mon copperajah 45
 end
 
-trainer p3_r10_lass_ivy
+trainer p3a_r10_lass_ivy
   class lass
   name "Ivy"
   intro "These flowers grow even in volcanic soil! Isn't that lovely?"
@@ -53,7 +53,7 @@ trainer p3_r10_lass_ivy
   mon lilligant 43
 end
 
-trainer p3_r10_fisher_ned
+trainer p3a_r10_fisher_ned
   class fisherman
   name "Ned"
   intro "The tarn's quiet. Too quiet. Let's battle!"
@@ -64,7 +64,7 @@ trainer p3_r10_fisher_ned
   mon quagsire 44
 end
 
-trainer p3_cc_grunt_a
+trainer p3a_cc_grunt_a
   class grunt_m
   name "Grunt"
   intro "Hey! This cave's off-limits by order of Team Eclipse!"
@@ -74,7 +74,7 @@ trainer p3_cc_grunt_a
   mon skuntank 44
 end
 
-trainer p3_cc_grunt_b
+trainer p3a_cc_grunt_b
   class grunt_f
   name "Grunt"
   intro "Shh! We're mining here. You saw nothing!"
@@ -84,7 +84,7 @@ trainer p3_cc_grunt_b
   mon mightyena 44
 end
 
-trainer p3_cc_hiker_opal
+trainer p3a_cc_hiker_opal
   class hiker
   name "Opal"
   intro "I came for the crystals, but I'll take a battle too!"
@@ -95,7 +95,7 @@ trainer p3_cc_hiker_opal
   mon probopass 44
 end
 
-trainer p3_cc_psychic_lux
+trainer p3a_cc_psychic_lux
   class psychic
   name "Lux"
   intro "The crystals amplify my powers... Behold!"
@@ -105,7 +105,7 @@ trainer p3_cc_psychic_lux
   mon beheeyem 44
 end
 
-trainer p3_cc_grunt_c
+trainer p3a_cc_grunt_c
   class grunt_m
   name "Grunt"
   intro "You got past the others? Doesn't matter. This crystal's ours!"
@@ -115,7 +115,7 @@ trainer p3_cc_grunt_c
   mon drapion 45
 end
 
-trainer p3_cc_grunt_d
+trainer p3a_cc_grunt_d
   class grunt_f
   name "Grunt"
   intro "Two against one! Wait, it's a single battle. Ugh, fine!"
@@ -125,7 +125,7 @@ trainer p3_cc_grunt_d
   mon toxicroak 44
 end
 
-trainer p3_r11_fisher_hal
+trainer p3a_r11_fisher_hal
   class fisherman
   name "Hal"
   intro "I've been fishing here since sunrise. Battle me while I wait!"
@@ -136,7 +136,7 @@ trainer p3_r11_fisher_hal
   mon kingler 44
 end
 
-trainer p3_r11_swim_nami
+trainer p3a_r11_swim_nami
   class swimmer_f
   name "Nami"
   intro "The water's freezing! A battle will warm me up!"
@@ -146,7 +146,7 @@ trainer p3_r11_swim_nami
   mon starmie 45
 end
 
-trainer p3_r11_swim_kai
+trainer p3a_r11_swim_kai
   class swimmer_m
   name "Kai"
   intro "Out here, only the strong swimmers survive!"
@@ -156,7 +156,7 @@ trainer p3_r11_swim_kai
   mon wailord 45
 end
 
-trainer p3_r11_swim_pearl
+trainer p3a_r11_swim_pearl
   class swimmer_f
   name "Pearl"
   intro "I'm diving for pearls! Want to see my treasures?"
@@ -166,7 +166,7 @@ trainer p3_r11_swim_pearl
   mon gorebyss 45
 end
 
-trainer p3_r11_swim_reed
+trainer p3a_r11_swim_reed
   class swimmer_m
   name "Reed"
   intro "Sharks in the water! Well, Sharpedo. Close enough!"
@@ -176,7 +176,7 @@ trainer p3_r11_swim_reed
   mon floatzel 44
 end
 
-trainer p3_r11_sailor_brine
+trainer p3a_r11_sailor_brine
   class sailor
   name "Brine"
   intro "Ahoy! You look like you could use some sea legs!"
@@ -186,7 +186,7 @@ trainer p3_r11_sailor_brine
   mon machoke 44
 end
 
-trainer p3_r11_fisher_moss
+trainer p3a_r11_fisher_moss
   class fisherman
   name "Moss"
   intro "Shh, I've got a bite! Oh, it's you. Battle!"
@@ -196,7 +196,7 @@ trainer p3_r11_fisher_moss
   mon barbaracle 45
 end
 
-trainer p3_r11_swim_coral
+trainer p3a_r11_swim_coral
   class swimmer_f
   name "Coral"
   intro "Racing to Frostmere! Battle me if you can keep up!"
@@ -207,8 +207,8 @@ trainer p3_r11_swim_coral
 end
 
 # ------------------------------------------------------------------ Frostmere Gym
-trainer p3_g7_skier_frida
-  class p3_skier
+trainer p3a_g7_skier_frida
+  class p3a_skier
   name "Frida"
   intro "Whoosh! Can you keep your footing on Isolde's ice?"
   defeat "Wipeout!"
@@ -217,8 +217,8 @@ trainer p3_g7_skier_frida
   mon vanilluxe 48
 end
 
-trainer p3_g7_boarder_axel
-  class p3_boarder
+trainer p3a_g7_boarder_axel
+  class p3a_boarder
   name "Axel"
   intro "Nice stop! Now let's see your tricks!"
   defeat "Bailed hard."
@@ -228,8 +228,8 @@ trainer p3_g7_boarder_axel
   mon glalie 48
 end
 
-trainer p3_g7_skier_noelle
-  class p3_skier
+trainer p3a_g7_skier_noelle
+  class p3a_skier
   name "Noelle"
   intro "The ice here is polished every morning. Isn't it gorgeous?"
   defeat "I slipped..."
@@ -238,8 +238,8 @@ trainer p3_g7_skier_noelle
   mon froslass 48
 end
 
-trainer p3_g7_boarder_rime
-  class p3_boarder
+trainer p3a_g7_boarder_rime
+  class p3a_boarder
   name "Rime"
   intro "Last stop before Isolde! Show me your best run!"
   defeat "Gnarly. You're through."
@@ -248,7 +248,7 @@ trainer p3_g7_boarder_rime
   mon cetitan 49
 end
 
-trainer p3_leader_isolde
+trainer p3a_leader_isolde
   class leader
   name "Isolde"
   portrait leader7
@@ -262,30 +262,13 @@ trainer p3_leader_isolde
   mon froslass 49 moves=icebeam,shadowball,willowisp,spikes
   mon cloyster 50 moves=iciclespear,rockblast,shellsmash,iceshard
   mon weavile 50 moves=icepunch,knockoff,iceshard,swordsdance
-  mon mamoswine 51 moves=iciclecrash,earthquake,iceshard,stoneedge
-  mon lapras 52 moves=freezedry,surf,thunderbolt,sparklingaria gmax
-end
-
-trainer p3_leader_isolde_rematch
-  class leader
-  name "Isolde"
-  portrait leader7
-  ai 3
-  intro "The Champion graces my rink."
-  defeat "Exquisite. Winter bows to you."
-  items fullrestore=3
-  gimmicks dynamax mega tera
-  mon ninetalesalola 73 moves=blizzard,moonblast,auroraveil,freezedry
-  mon froslass 73 moves=icebeam,shadowball,willowisp,spikes
-  mon baxcalibur 74 moves=glaiverush,iciclecrash,earthquake,dragondance
-  mon mamoswine 74 moves=iciclecrash,earthquake,iceshard,stoneedge
-  mon abomasnow 75 moves=blizzard,gigadrain,earthpower,iceshard item=abomasite
-  mon lapras 76 moves=freezedry,surf,thunderbolt,sparklingaria gmax
+  mon mamoswine 51 moves=icefang,earthquake,iceshard,stoneedge
+  mon lapras 52 moves=icebeam,surf,thunderbolt,bodyslam gmax
 end
 
 # ------------------------------------------------------------------ Route 12
-trainer p3_r12_skier_hanna
-  class p3_skier
+trainer p3a_r12_skier_hanna
+  class p3a_skier
   name "Hanna"
   intro "Fresh powder! Let's battle before it melts!"
   defeat "Face-planted in the snow..."
@@ -295,8 +278,8 @@ trainer p3_r12_skier_hanna
   mon dewgong 49
 end
 
-trainer p3_r12_boarder_jett
-  class p3_boarder
+trainer p3a_r12_boarder_jett
+  class p3a_boarder
   name "Jett"
   intro "Halfpipe? Nah, mountain pass! Battle!"
   defeat "Totally wiped out."
@@ -305,7 +288,7 @@ trainer p3_r12_boarder_jett
   mon walrein 50
 end
 
-trainer p3_r12_hiker_bjorn
+trainer p3a_r12_hiker_bjorn
   class hiker
   name "Bjorn"
   intro "I've climbed every peak in Tessera! This one's a breeze!"
@@ -316,7 +299,7 @@ trainer p3_r12_hiker_bjorn
   mon rhyperior 50
 end
 
-trainer p3_r12_ranger_sky
+trainer p3a_r12_ranger_sky
   class ranger
   name "Sky"
   intro "The mountain winds are perfect for battling!"
@@ -326,18 +309,18 @@ trainer p3_r12_ranger_sky
   mon absol 50
 end
 
-trainer p3_r12_cool_vera
+trainer p3a_r12_cool_vera
   class cooltrainer_f
   name "Vera"
   intro "Heading to Dragonspire? Then you'll need to be strong!"
   defeat "You're ready for Ryuga."
   after "Dragons hate Ice and Fairy moves. Pack both!"
   mon glaceon 51 moves=icebeam,shadowball,freezedry,calmmind
-  mon sylveon 51 moves=moonblast,hypervoice,calmmind,wish
+  mon sylveon 51 moves=moonblast,hypervoice,calmmind,shadowball
   mon mamoswine 50
 end
 
-trainer p3_r12_black_tor
+trainer p3a_r12_black_tor
   class blackbelt
   name "Tor"
   intro "Mountain training builds the strongest legs! Hiyah!"
@@ -348,8 +331,8 @@ trainer p3_r12_black_tor
   mon hitmonchan 50
 end
 
-trainer p3_r12_bird_alba
-  class p3_birdkeeper
+trainer p3a_r12_bird_alba
+  class p3a_birdkeeper
   name "Alba"
   intro "My birds love the cold, crisp air!"
   defeat "Feathers everywhere!"
@@ -360,24 +343,26 @@ trainer p3_r12_bird_alba
 end
 
 # ------------------------------------------------------------------ Shattered Cave (post-game)
-trainer p3_sc_cool_dante
-  class cooltrainer_m
-  name "Dante"
-  intro "Something terrifyingly strong lives deeper in. I'm training to face it!"
-  defeat "I'm not ready... are you?"
-  after "Whatever's in there reads your mind before you move."
-  mon gallade 68
-  mon conkeldurr 68
-  mon scizor 69
+
+# ------------------------------------------------------------------ Crystal Cavern depths (post-game)
+trainer p3a_ccd_cool_prism
+  class cooltrainer_f
+  name "Prisma"
+  intro "These crystals are older than Tessera itself. Let's battle by their light!"
+  defeat "Dazzling!"
+  after "Something small and shell-shaped is sleeping in the center."
+  mon glimmora 66
+  mon klefki 66
+  mon gigalith 67
 end
 
-trainer p3_sc_psychic_mira
-  class psychic
-  name "Mira"
-  intro "I hear its voice... it's calling the strongest trainers..."
-  defeat "The voice is laughing..."
-  after "It was born from science, not nature. And it's lonely."
-  mon alakazam 68
-  mon reuniclus 69
-  mon espeon 68
+trainer p3a_ccd_sci_facet
+  class scientist
+  name "Facet"
+  intro "My spectrometer just exploded! Something here gives off Stellar energy!"
+  defeat "More data, please!"
+  after "Quartz will be thrilled when I tell her."
+  mon tinkaton 66
+  mon garganacl 67
+  mon carbink 66
 end

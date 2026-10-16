@@ -1,8 +1,0 @@
-# Part 3 trainer classes (missing from the shared classes.txt).
-class p3_kindler "Kindler" payout=32 portrait=hiker
-class p3_skier "Skier" payout=40 portrait=cooltrainer_f gender=f
-class p3_boarder "Boarder" payout=40 portrait=cooltrainer_m
-class p3_dragontamer "Dragon Tamer" payout=48 portrait=blackbelt
-class p3_veteran "Veteran" payout=80 portrait=gentleman
-class p3_birdkeeper "Bird Keeper" payout=32 portrait=youngster
-class p3_towertycoon "Tower Tycoon" payout=150 music=battle_champion portrait=gentleman

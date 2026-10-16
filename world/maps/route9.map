@@ -4,7 +4,7 @@ location "Route 9"
 music route_mid
 environment grass
 region 16 5
-encounters p3_route9
+encounters p3a_route9
 connect east seraphine_town -3
 connect west ashfall_city -4
 
@@ -33,20 +33,20 @@ end
 
 sign 33 7 text="ROUTE 9\nWest: Ashfall City\nEast: Seraphine Town"
 sign 3 12 text="Ashfall City ahead. Mind the falling ash!"
-trainer r9_hiker_doran 26 8 sprite=hiker face=left sight=3 trainer=p3_r9_hiker_doran
-trainer r9_lass_wren 21 13 sprite=lass face=up sight=3 trainer=p3_r9_lass_wren
-trainer r9_cool_brigid 30 3 sprite=cooltrainer_f face=down sight=4 trainer=p3_r9_cool_brigid
-trainer r9_kindler_ash 12 11 sprite=hiker face=up sight=3 trainer=p3_r9_kindler_ash
-trainer r9_psychic_omar 5 4 sprite=psychic face=right sight=4 trainer=p3_r9_psychic_omar
-trainer r9_bird_kelsey 16 4 sprite=cooltrainer_m face=left sight=3 trainer=p3_r9_bird_kelsey
-trainer r9_pokefan_gale 27 16 sprite=pokefan face=left sight=3 trainer=p3_r9_pokefan_gale
+trainer r9_hiker_doran 26 8 sprite=hiker face=left sight=3 trainer=p3a_r9_hiker_doran
+trainer r9_lass_wren 21 13 sprite=lass face=up sight=3 trainer=p3a_r9_lass_wren
+trainer r9_cool_brigid 30 3 sprite=cooltrainer_f face=down sight=4 trainer=p3a_r9_cool_brigid
+trainer r9_kindler_ash 12 11 sprite=hiker face=up sight=3 trainer=p3a_r9_kindler_ash
+trainer r9_psychic_omar 5 4 sprite=psychic face=right sight=4 trainer=p3a_r9_psychic_omar
+trainer r9_bird_kelsey 16 4 sprite=cooltrainer_m face=left sight=3 trainer=p3a_r9_bird_kelsey
+trainer r9_pokefan_gale 27 16 sprite=pokefan face=left sight=3 trainer=p3a_r9_pokefan_gale
 npc r9_ranger 33 10 sprite=ranger face=left text="The ash from Mt. Ashfall makes the grass here grow tall and tough. Fire types love it."
 item r9_fullheal 17 4 fullheal
 item r9_firestone 1 2 firestone
 item r9_hyperpotion 36 16 hyperpotion
 hidden r9_hidden_ultraball 11 16 ultraball
 hidden r9_hidden_ether 25 2 ether
-obstacle 2 3 cut flag=p3_r9_cut1
+obstacle 2 3 cut flag=p3a_r9_cut1
+trigger 39 8 1 2 script=p3a_r9_enter unless=p3a_story_started
 tile 33 7 sign
 tile 3 12 sign
-trigger 39 8 1 2 script=r9_enter unless=p3_story_started

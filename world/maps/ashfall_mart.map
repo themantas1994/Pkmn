@@ -18,5 +18,5 @@ end
 
 warp 2 7 -> ashfall_city 10 12 down
 warp 3 7 -> ashfall_city 10 12 down
-npc clerk 1 2 sprite=clerk face=down script=p3_mart_ashfall
+npc clerk 1 2 sprite=clerk face=down script=p3a_mart_ashfall
 npc am_youngster 5 4 sprite=youngster face=left text="Burn Heals sell out fast in this town. Grab a few before the Gym!"

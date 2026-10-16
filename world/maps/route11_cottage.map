@@ -16,5 +16,5 @@ end
 
 warp 3 5 -> route11 15 16 down
 warp 4 5 -> route11 15 16 down
-npc lapras_lady 5 3 sprite=oldwoman face=left script=r11_lapras_lady
-npc cottage_fisher 1 4 sprite=fisherman face=right script=r11_cottage_fisher
+npc lapras_lady 5 3 sprite=oldwoman face=left script=p3a_r11_lapras_lady
+npc cottage_fisher 1 4 sprite=fisherman face=right script=p3a_r11_cottage_fisher

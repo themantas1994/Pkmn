@@ -1,5 +1,5 @@
-# Part 3: Route 9 (34-38) and the Magma Chamber (post-game).
-encounters p3_route9
+# Part 3: Route 9 (34-38).
+encounters p3a_route9
   rate grass 25
   grass morning swablu 34-36 25
   grass morning spoink 34-36 20
@@ -26,17 +26,4 @@ encounters p3_route9
   goodrod any goldeen 30-35 30
   superrod any whiscash 36-40 60
   superrod any seaking 36-40 40
-end
-
-encounters p3_magma_chamber
-  rate cave 12
-  cave any magcargo 60-64 20
-  cave any camerupt 60-64 15
-  cave any torkoal 60-64 15
-  cave any magmortar 62-65 10
-  cave any coalossal 61-64 10
-  cave any centiskorch 61-64 10
-  cave any heatmor 60-63 10
-  cave any salazzle 61-64 8
-  cave any volcarona 63-66 2
 end

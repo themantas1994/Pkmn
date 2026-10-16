@@ -16,5 +16,5 @@ end
 
 warp 3 5 -> ashfall_city 5 20 down
 warp 4 5 -> ashfall_city 5 20 down
-npc elder 5 3 sprite=oldman face=left script=ash_magma_elder
-npc grandkid 1 4 sprite=kid face=right script=ash_charcoal_kid
+npc elder 5 3 sprite=oldman face=left script=p3a_ash_magma_elder
+npc grandkid 1 4 sprite=kid face=right script=p3a_ash_charcoal_kid
