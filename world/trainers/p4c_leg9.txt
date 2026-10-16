@@ -1,0 +1,341 @@
+# Expansion E3, leg 9 (Dusk Badge -> Hall of Fame; E4 60-64): Route 13, Skyfall Grotto and Basin, Victory Road
+# Depths, Eclipse remnants. Route trainers 55-57, Skyfall 56-59, Depths 59-62.
+
+# ------------------------------------------------------------------ Route 13
+trainer p4c_r13_cool_orla
+  class cooltrainer_f
+  name "Orla"
+  intro "Eight badges and a road to the League. Same as you! Let's find out who goes first."
+  defeat "You first. Clearly."
+  after "Victory Road has a ladder down on the second floor. The trainers down there are... something else."
+  mon starmie 56
+  mon breloom 56
+  mon salamence 57
+end
+
+trainer p4c_r13_swim_bastian
+  class swimmer_m
+  name "Bastian"
+  intro "I swim the Skyfall every day. Cold enough to wake the dead! Or at least me."
+  defeat "Sunk like a stone."
+  after "The river comes out of a cave at its north end. Swim up past the bridge if you're brave."
+  mon kingdra 56
+  mon floatzel 55
+  mon gyarados 56
+end
+
+trainer p4c_r13_black_petra
+  class blackbelt
+  name "Petra"
+  intro "Before the League, a warm-up! For me, I mean. You're my warm-up."
+  defeat "I'm warmed up. And beaten."
+  after "Some Eclipse grunts didn't get the memo that it's over. One's camping on the lake islet."
+  mon lucario 56
+  mon machamp 56
+  mon hawlucha 56
+end
+
+# ------------------------------------------------------------------ Skyfall Grotto
+trainer p4c_sg_swim_maris
+  class swimmer_f
+  name "Maris"
+  intro "You swam into the grotto? Me too! Let's celebrate with a battle!"
+  defeat "Celebration cancelled."
+  after "Climb the inner waterfall and you'll come out in a valley nobody knows about. Well, nobody except me."
+  mon milotic 57
+  mon lanturn 56
+  mon pelipper 56
+end
+
+trainer p4c_sg_fisher_tobin
+  class fisherman
+  name "Tobin"
+  intro "Secret fishing spot! Well, it was secret. Now you know. Battle me to forget!"
+  defeat "I'll never forget this loss, though."
+  after "Barraskewda bite anything shiny. Including fishing lures. Including my watch."
+  mon barraskewda 56
+  mon whiscash 56
+  mon dondozo 57
+end
+
+trainer p4c_sg_cool_reza
+  class cooltrainer_m
+  name "Reza"
+  intro "This is my last training stop before the League. Make it count!"
+  defeat "It counted. Against me."
+  after "Morrow's Gengar knows a Z-Move. Save a Normal or Dark type to take it."
+  mon tyranitar 57
+  mon togekiss 57
+  mon excadrill 57
+end
+
+trainer p4c_sg_veteran_ilse
+  class p3b_veteran_f
+  name "Ilse"
+  intro "I lost to the Elite Four nine times. Battle me, and I'll tell you how not to make it ten."
+  defeat "Well. You won't need my advice."
+  after "Ferrum's Metagross Mega Evolves. Fire and Ground hit it hardest. That's the advice. You're welcome."
+  mon arcanine 57
+  mon scizor 57
+  mon gastrodon 56
+  mon alakazam 57
+end
+
+# ------------------------------------------------------------------ Skyfall Basin
+trainer p4c_sb_bird_tamsin
+  class p3a_birdkeeper
+  name "Tamsin"
+  intro "My birds followed the river all the way here! Smart birds. Strong too!"
+  defeat "Smart birds, dumb trainer..."
+  after "Some people in black are camping by the old crates on the west side. They look miserable."
+  mon staraptor 57
+  mon corviknight 57
+  mon noctowl 56
+end
+
+trainer p4c_sb_cool_nadia
+  class cooltrainer_f
+  name "Nadia"
+  intro "I came here to find the river's source. I found a battle instead. Fair trade!"
+  defeat "Unfair trade, actually."
+  after "The water up here is so clear you can see the Basculin arguing at the bottom."
+  mon roserade 57
+  mon gardevoir 57
+  mon krookodile 57
+end
+
+trainer p4c_sb_veteran_gregor
+  class p3b_veteran_m
+  name "Gregor"
+  intro "Forty years a trainer and I've never seen this valley. A good day for a battle!"
+  defeat "A good day for a loss, too, it turns out."
+  after "Sibyl's Hatterene can Gigantamax in the League. Hit it before it walls you."
+  mon heracross 57
+  mon steelix 58
+  mon slowking 57
+end
+
+trainer p4c_sb_hiker_bodil
+  class hiker
+  name "Bodil"
+  intro "The cliffs here go all the way up to Prism Plateau! I'm not climbing them. Battle instead!"
+  defeat "Good call not climbing."
+  after "Nox used to be in Team Eclipse, they say. Now she's Elite Four. People change."
+  mon golem 57
+  mon rhyperior 58
+  mon garganacl 57
+end
+
+trainer p4c_sb_swim_coralyn
+  class swimmer_f
+  name "Coralyn"
+  intro "The spring pool is the coldest water in Tessera! Brr! Battle!"
+  defeat "Brr! And beaten!"
+  after "Somebody dropped a capsule on the little islet. I'm too cold to fetch it."
+  mon vaporeon 57
+  mon cloyster 57
+  mon araquanid 56
+end
+
+# ------------------------------------------------------------------ Victory Road Depths
+trainer p4c_vd1_veteran_aurel
+  class p3b_veteran_m
+  name "Aurel"
+  intro "These depths are where the old champions trained. Only the strongest come down here."
+  defeat "You belong down here."
+  after "Celeste trained in these galleries when she was a kid. Look for her name on the wall."
+  mon metagross 60
+  mon gyarados 59
+  mon conkeldurr 59
+  mon chandelure 60
+end
+
+trainer p4c_vd1_cool_sasha
+  class cooltrainer_f
+  name "Sasha"
+  intro "Nobody comes down here by accident. So you came looking for a fight. Found one!"
+  defeat "Found a loss, too."
+  after "The rarest items are deeper still. So are the rarest trainers."
+  mon hydreigon 60
+  mon sylveon 59
+  mon kingambit 60
+end
+
+trainer p4c_vd1_tamer_kenrick
+  class p3b_dragontamer
+  name "Kenrick"
+  intro "Ryuga sends his best tamers down here to harden their dragons. Feel the result!"
+  defeat "Softened, not hardened..."
+  after "A dragon's scale gets tougher with every hit it takes. Mine is very tough now. And sore."
+  mon dragapult 60
+  mon kommoo 59
+  mon tyrantrum 59
+end
+
+trainer p4c_vd1_psychic_seren
+  class psychic
+  name "Seren"
+  intro "I sense four more battles in your future before the Champion. Five, counting me."
+  defeat "I didn't sense that coming."
+  after "Sibyl reads minds. I read faces. Yours says: confident. Keep it that way."
+  mon espeon 59
+  mon reuniclus 60
+  mon farigiraf 59
+end
+
+trainer p4c_vd1_black_jiro
+  class blackbelt
+  name "Jiro"
+  intro "One hundred battles in the depths! You are number one hundred and one!"
+  defeat "And my first loss down here..."
+  after "Ferrum's Steel types fear my fists. Well, Fighting moves. Not my actual fists."
+  mon annihilape 60
+  mon hitmontop 59
+  mon lucario 60
+end
+
+trainer p4c_vd2_veteran_marisol
+  class p3b_veteran_f
+  name "Marisol"
+  intro "I made it to the Champion twice. Celeste beat me twice. Let's see if you'd do better."
+  defeat "You might, at that."
+  after "Celeste only uses one gimmick per battle. You never know which until she does it."
+  mon gardevoir 61
+  mon volcarona 60
+  mon swampert 61
+  mon skarmory 60
+end
+
+trainer p4c_vd2_cool_teodor
+  class cooltrainer_m
+  name "Teodor"
+  intro "Rock bottom of Victory Road. Literally. Let's battle like it's the League!"
+  defeat "League-level loss, at least."
+  after "Nox Terastallizes. Watch what colour her Pokémon glow before you pick your move."
+  mon garchomp 61
+  mon rotomwash 60
+  mon weavile 60
+  mon magnezone 60
+end
+
+trainer p4c_vd2_sage_ondrej
+  class sage
+  name "Ondrej"
+  intro "I meditate in the deepest dark to hear the mountain breathe. You're interrupting."
+  defeat "The mountain has spoken. It said 'ow'."
+  after "Something below the summit sleeps lighter now. Whatever you did up there, it worked."
+  mon bronzong 60
+  mon dusknoir 60
+  mon claydol 60
+  mon gallade 61
+end
+
+trainer p4c_vd2_hiker_magnus
+  class hiker
+  name "Magnus"
+  intro "I dug this gallery myself! With help. Mostly Excadrill's help. Battle!"
+  defeat "Dug my own grave..."
+  after "There's a group in black hiding in the south chamber. They told me they were spelunkers. In matching outfits."
+  mon excadrill 61
+  mon tyranitar 60
+  mon aggron 60
+end
+
+# ------------------------------------------------------------------ Eclipse remnants
+trainer p4c_rem_grunt_islet
+  class grunt_f
+  name "Grunt"
+  intro "The boss lost? So what! Team Eclipse lives on! On this islet. Alone. Please go away."
+  defeat "Fine! I'll go home! My mom's been texting anyway."
+  after "The others went deeper. Victory Road and some valley up north."
+  mon honchkrow 57
+  mon toxicroak 57
+  mon drapion 57
+end
+
+trainer p4c_rem_sci_depths
+  class p3b_eclipse_sci
+  name "Dr. Vexley"
+  intro "You followed us into the depths? We only need a little light to try again. Just a little!"
+  defeat "Data... insufficient..."
+  after "Captain Sable has the last lens fragments. She's in the valley past Skyfall Grotto."
+  mon magnezone 58
+  mon porygonz 58
+  mon klinklang 58
+  mon rotomheat 58
+end
+
+trainer p4c_rem_captain_sable
+  class admin
+  name "Sable"
+  ai 3
+  intro "Umbra fell, but I kept the fragments of his lens. With them, Team Eclipse rises again. Starting by putting you down."
+  defeat "So this is what the boss felt. The light really is too bright."
+  after "Take the fragments. Tell Calloway I'll come quietly. I'm tired of camping."
+  items hyperpotion=2
+  mon houndoom 59 moves=darkpulse,flamethrower,sludgebomb,nastyplot
+  mon crobat 59 moves=crosspoison,bravebird,uturn,roost
+  mon zoroark 59 moves=nightdaze,flamethrower,focusblast,sludgebomb
+  mon bisharp 59 moves=knockoff,ironhead,suckerpunch,swordsdance
+  mon mandibuzz 60 moves=foulplay,bravebird,roost,knockoff item=sitrusberry
+end
+
+# ------------------------------------------------------------------ extra Victory Road / side-area trainers
+trainer p4c_vr1_ace_lorne
+  class cooltrainer_m
+  name "Lorne"
+  intro "The waterfall's the easy part. The trainers after it are the hard part. Starting with me!"
+  defeat "Hard part... handled."
+  after "Rest at the Highland Lodge if you need to. Pride won't heal your Pokémon."
+  mon aerodactyl 58
+  mon blastoise 58
+  mon gallade 58
+  mon electivire 58
+end
+
+trainer p4c_vr3_ace_brigid
+  class cooltrainer_f
+  name "Brigid"
+  intro "So close to the exit I can smell the plateau air. You're not getting there first!"
+  defeat "Okay. You're getting there first."
+  after "Your rival went through an hour ago. They looked nervous. And determined. Mostly nervous."
+  mon milotic 59
+  mon houndoom 58
+  mon jolteon 58
+  mon tangrowth 59
+end
+
+trainer p4c_vr3_veteran_garrick
+  class p3b_veteran_m
+  name "Garrick"
+  intro "Thirty years I've guarded the last stretch of Victory Road. Unofficially. Nobody asked me to."
+  defeat "Thirty years, and you're the best I've seen. Officially."
+  after "Celeste was eleven when she beat me. You're about the same age she was. Make of that what you will."
+  mon dragonite 59
+  mon scizor 59
+  mon hippowdon 58
+  mon starmie 58
+end
+
+trainer p4c_vd2_tamer_yuna
+  class p3b_dragontamer
+  name "Yuna"
+  intro "The deepest gallery is the Clan's oldest training spot. Ryuga trained here. Now I do!"
+  defeat "Ryuga would be disappointed. In me, not you."
+  after "Draco Meteor is strong, but it drops your Special Attack. Switch out after you use it."
+  mon garchomp 61
+  mon goodra 60
+  mon flygon 60
+  mon druddigon 60
+end
+
+trainer p4c_sb_ranger_eskil
+  class ranger
+  name "Eskil"
+  intro "I patrol this valley so nobody spoils it. You look like you'll behave. Prove it in a battle!"
+  defeat "You behave very well. And battle better."
+  after "The campers in black haven't hurt anything. They mostly sit around looking sad."
+  mon braviary 57
+  mon tauros 57
+  mon decidueye 57
+end

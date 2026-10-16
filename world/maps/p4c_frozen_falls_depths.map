@@ -1,0 +1,38 @@
+# Frozen Falls Depths (Expansion E3) — sealed ice chamber below the upper gallery. Ice field solver-verified
+# (11 moves from the north gap, no soft-lock); the treasure chamber is in the south.
+map p4c_frozen_falls_depths
+name "Frozen Falls Depths"
+location "Route 12"
+music cave
+environment cave
+region 7 2
+encounters p4c_frozen_falls
+
+layout
+YYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWW
+WWfLffffWWWWWWWWWWWW
+WWffffffWWWWWWWWWWWW
+WWWWWWfWWWWWWWWWWWWW
+WWWkiiikiiiiikiikWWW
+WWWiiiiiikiiiiiiiWWW
+WWWiiiiiiiiiiiiiiWWW
+WWWiiikiiiiiiiikiWWW
+WWWiiiiiiiiikiiikWWW
+WWWikiiiiiiiiiiiiWWW
+WWWiikiiiiiiiikiiWWW
+WWWiikiiiiikiiiiiWWW
+WWWWWWWWWWWWWfWWWWWW
+WWWWWWWWWWWWfffWWWWW
+WWWWWWWWffffffffffWW
+WWWWWWWWffffffffffWW
+WWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 2 -> p4c_frozen_falls 4 3 down
+trainer p4c_ffd_cool_ingrid 9 15 sprite=cooltrainer_f face=up sight=3
+trainer p4c_ffd_boarder_kale 7 3 sprite=cooltrainer_m face=left sight=2
+npc ffd_sculpture 16 16 sprite=boulder text="A statue of ice in the shape of a great dragon. Its eyes are two chips of Never-Melt Ice."
+item ffd_choiceband 17 15 choiceband
+item ffd_neverice 8 16 nevermeltice
+hidden ffd_hidden_ppmax 14 16 ppmax

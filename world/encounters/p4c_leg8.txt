@@ -1,0 +1,52 @@
+# Expansion E3, leg 8 wild encounters (levels 48-54).
+
+encounters p4c_frozen_falls
+  rate cave 12
+  cave any snorunt 48-50 15
+  cave any sneasel 48-51 15
+  cave any piloswine 49-52 12
+  cave any bergmite 48-50 12
+  cave any cubchoo 48-50 10
+  cave any beartic 50-52 8
+  cave any frigibax 48-50 8
+  cave any glalie 50-52 8
+  cave any arctibax 51-53 4
+  cave any weavile 51-53 4
+  cave any mamoswine 52-54 4
+  surf any spheal 48-50 40
+  surf any sealeo 50-52 30
+  surf any seel 48-50 20
+  surf any walrein 52-54 10
+end
+
+encounters p4c_roost_trail
+  rate grass 25
+  grass morning bagon 48-50 15
+  grass morning swablu 48-50 20
+  grass morning altaria 50-52 10
+  grass morning rufflet 49-51 20
+  grass morning skarmory 50-52 15
+  grass morning noibat 48-50 20
+  grass day bagon 48-50 15
+  grass day gible 48-50 10
+  grass day altaria 50-52 15
+  grass day druddigon 50-52 10
+  grass day braviary 51-53 10
+  grass day skarmory 50-52 20
+  grass day axew 48-50 20
+  grass night noibat 48-50 25
+  grass night noivern 51-53 10
+  grass night deino 48-50 15
+  grass night zweilous 50-52 10
+  grass night honchkrow 50-52 20
+  grass night sneasel 48-50 20
+end
+
+encounters p4c_eclipse_workshop
+  rate cave 10
+  cave any golbat 52-54 30
+  cave any magneton 52-54 25
+  cave any murkrow 52-54 20
+  cave any koffing 50-52 15
+  cave any weezing 53-55 10
+end

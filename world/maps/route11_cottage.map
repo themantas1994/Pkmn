@@ -18,3 +18,5 @@ warp 3 5 -> route11 15 16 down
 warp 4 5 -> route11 15 16 down
 npc lapras_lady 5 3 sprite=oldwoman face=left script=p3a_r11_lapras_lady
 npc cottage_fisher 1 4 sprite=fisherman face=right script=p3a_r11_cottage_fisher
+# --- Expansion E3: Captain Morrel (S.S. Halcyon quest)
+npc p4c_cottage_captain 6 2 sprite=sailor face=down script=p4c_r11_captain

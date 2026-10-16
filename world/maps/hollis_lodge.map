@@ -20,3 +20,5 @@ warp 3 7 -> frostmere_town 6 18 down
 warp 4 7 -> frostmere_town 6 18 down
 npc hollis 4 2 sprite=ranger face=down script=p3a_fm_hollis
 npc lodge_scientist 8 5 sprite=scientist face=left script=p3a_fm_lodge_scientist
+# --- Expansion E3: Hollis's field assistant (Power Spot survey quest)
+npc p4c_hl_brynn 7 2 sprite=ranger face=down script=p4c_hl_brynn

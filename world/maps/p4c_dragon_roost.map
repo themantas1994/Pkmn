@@ -1,0 +1,40 @@
+# Dragon's Roost (Expansion E3) — wind-scoured summit above Dragonspire where the Dragon Clan's founders kept their
+# dragons. Hermit Sorin lives in the old shrine; the Sky Tablet stands between the statues.
+map p4c_dragon_roost
+name "Dragon's Roost"
+location "Dragon's Roost"
+music town_mountain
+environment grass
+weather fog
+region 9 0
+
+layout
+MMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMM
+MM.FFFF........FFFF.MM
+MM.FFFF........FFFF.MM
+MM..................MM
+MM..G............G..MM
+MM........::........MM
+MM..G.....::.....G..MM
+MM........::........MM
+MM.,,,,...::...,,,,.MM
+MM.,,,,...::...,,,,.MM
+MM.,,,,...::...,,,,.MM
+MM........::........MM
+MMM.......::.......MMM
+MMMM......::......MMMM
+MMMMM.....::.....MMMMM
+MMMMMMMMMM::MMMMMMMMMM
+MMMMMMMMMMEMMMMMMMMMMM
+end
+
+building lab 8 2 -> p4c_roost_shrine 5 8 up
+warp 10 17 -> p4c_roost_trail 11 1 down
+npc p4c_dr_tablet 12 6 sprite=sign script=p4c_tablet_sky
+trainer p4c_dr_tamer_rhea 5 11 sprite=blackbelt face=right sight=3
+trainer p4c_dr_cool_corwin 16 9 sprite=cooltrainer_m face=left sight=3
+item dr_dracoshard 18 4 dragonterashard 3
+hidden dr_hidden_ppmax 3 4 ppmax
+trainer p4c_dr_bird_wren 16 13 sprite=youngster face=left sight=3
+trainer p4c_dr_sage_aldric 4 6 sprite=sage face=right sight=3

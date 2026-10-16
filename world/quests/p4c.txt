@@ -1,0 +1,56 @@
+# Expansion E3 quests (legs 7-9).
+
+# ------------------------------------------------------------------ leg 7
+quest p4c_power_survey "The Breathing Ice"
+  desc "Brynn, Hollis's assistant, needs Power Spot readings from the three glowing vents in Rime Hollow."
+  step "Find the three glowing vents in Rime Hollow, north of Frostmere."
+  step "Two more vents to go."
+  step "One more vent to go."
+  step "Report the readings to Brynn at Hollis's Lodge."
+end
+
+quest p4c_halcyon "The Halcyon's Log"
+  desc "Captain Morrel of the Sea Cottage lost his logbook when the S.S. Halcyon ran aground in Tide Grotto."
+  step "Find the captain's strongbox in the flooded hold of the S.S. Halcyon."
+  step "Bring the logbook to Captain Morrel at the Sea Cottage on Route 11."
+end
+
+quest p4c_heart_tutor "Tuition in Scales"
+  desc "Margit, a retired move tutor in Frostmere, will teach your Pokémon for the old fee: one Heart Scale."
+  step "Bring Margit a Heart Scale."
+end
+
+quest p4c_crystal_thief "Crystal Thief"
+  desc "Someone has been stealing Tera Shards from Quartz's sample crates in Geode Hollow."
+  step "Find the thief in Geode Hollow, below Crystal Cavern 1F."
+  step "Return the stolen shards to the porter at Quartz's camp."
+end
+
+# ------------------------------------------------------------------ leg 8
+quest p4c_prism_tablets "Light Before the Dusk"
+  desc "Archivist Wen of Dragonspire wants rubbings of the three Prism Tablets, which tell what sleeps on Mt. Prism."
+  step "Find the three Prism Tablets: Route 12's ridge, the Dragon's Roost and Scalemirror Pond."
+  step "Two tablets to go."
+  step "One tablet to go."
+  step "Bring the rubbings to Wen at the Clan Archive in Dragonspire."
+end
+
+quest p4c_roost_trial "The Hermit of the Roost"
+  desc "Hermit Sorin, Elder Draca's teacher, guards the Dragon Clan's secret technique on the Dragon's Roost."
+  step "Pass Elder Draca's Dragon Trial, then defeat Hermit Sorin."
+end
+
+quest p4c_second_lens "The Second Lens"
+  desc "Clan scout Haru suspects Team Eclipse is building a backup lens in a cave off Umbral Pass."
+  step "Find and destroy the backup lens in the Eclipse Workshop."
+  step "Tell Haru in Umbral Pass."
+end
+
+# ------------------------------------------------------------------ leg 9
+quest p4c_remnants "Eclipse Remnants"
+  desc "Agent Calloway at the Highland Lodge is hunting the last Team Eclipse cells and the fragments of Umbra's lens."
+  step "Find the three remnant cells: the Route 13 lake islet, under Victory Road, and past the Skyfall Grotto."
+  step "Two cells to go."
+  step "One cell to go."
+  step "Report to Agent Calloway at the Highland Lodge on Route 13."
+end

@@ -1,0 +1,53 @@
+# Geode Hollow (Expansion E3) — Crystal Cavern's lowest floor, below the boulder room on 1F. Tera crystals of
+# every colour; an Eclipse straggler is still mining in the far chamber (crystal-thief quest).
+map p4c_geode_hollow
+name "Geode Hollow"
+location "Crystal Cavern"
+music cave
+environment cave
+region 11 7
+encounters p4c_geode_hollow
+
+legend
+a cave_water
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWfLffWWWWWffffffffWWWWffffWWW
+WWffffWWWWWfkfffkffWWWWffffWWW
+WWffffffffffffffffffffffffkfWW
+WWWWfffWWWWffkfffffWWWWWffffWW
+WWWWfffWWWWWWWWWfffWWWWWWffWWW
+WWkfffffffkWWWWWfffWWWWWWffWWW
+WWffffffffffWaaaaaaaaaWWWffWWW
+WWfffkffffffWaaaaaaaaaWWffffWW
+WWWWWWfffWWWWaaaffaaaaWWffkfWW
+WWWWWWfffWWWWaaaffaaaaWWffffWW
+WWffffffffffaaaaaaaaaaffffffWW
+WWfkffffffffaaaaaaaaaaffffffWW
+WWffffWWWWWWWWWWWWWWWWWWffffWW
+WWffffWWWWWWWWWWWWWWWWWWWffWWW
+WWfffffffffkfffffWWWWWWWWffWWW
+WWfffffffffffffffffffffffffWWW
+WWWWWfffWWWWWWWfffWWWWWkfffWWW
+WWWWWfffWWWWWWWfffWWWWWffffWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 2 -> crystal_cavern_1f 18 5 down
+sign 12 3 text="Sample crates, stamped QUARTZ LAB. The lids have been pried open."
+trainer p4c_gh_hiker_marlstone 14 3 sprite=hiker face=down sight=3
+trainer p4c_gh_psychic_iolite 8 7 sprite=psychic face=right sight=3
+trainer p4c_gh_cool_jasper 25 9 sprite=cooltrainer_m face=left sight=4
+trainer p4c_gh_beauty_opaline 16 16 sprite=beauty face=down sight=3
+npc gh_straggler 25 18 sprite=grunt_m face=left script=p4c_gh_straggler hideif=p4c_straggler_beaten
+item gh_dragonshard 16 10 dragonterashard 2
+item gh_ghostshard 2 13 ghostterashard 2
+item gh_iceshard 26 2 iceterashard 2
+item gh_darkshard 6 18 darkterashard 2
+item gh_fireshard 17 18 fireterashard 2
+hidden gh_hidden_nugget 2 7 bignugget
+hidden gh_hidden_capsule 22 16 abilitycapsule

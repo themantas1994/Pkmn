@@ -1,0 +1,22 @@
+# Clan Archive (Expansion E3) — Archivist Wen keeps the Dragon Clan's records (Prism Tablets quest).
+map p4c_dragonspire_archive
+name "Clan Archive"
+location "Dragonspire City"
+music town_mountain
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@BB@@BBB
+________
+_tt__B__
+_hh_____
+___RR___
+end
+
+warp 3 5 -> dragonspire_city 28 24 down
+warp 4 5 -> dragonspire_city 28 24 down
+npc p4c_da_wen 6 2 sprite=scientist face=down script=p4c_archivist
+npc p4c_da_reader 1 4 sprite=lass face=up text="I'm reading the Clan's whole history, A to Z. I'm on B. There are a lot of Bagons."
+sign 1 1 script=p4c_archive_shelf

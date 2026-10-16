@@ -1,0 +1,54 @@
+# Skyfall Basin (Expansion E3) — hidden valley where the Skyfall River springs from Prism Plateau's cliffs.
+# The last Team Eclipse remnants camp here (remnant hunt finale).
+map p4c_skyfall_basin
+name "Skyfall Basin"
+location "Skyfall Basin"
+music route_late
+environment grass
+region 13 0
+encounters p4c_skyfall_basin
+
+legend
+* waterfall
+end
+
+layout
+TTTTTTTTTTTTTMMMMTTTTTTTTTTTTT
+TTTTTTTTTTTTTM**MTTTTTTTTTTTTT
+T....,,,,,..T.~~.T..,,,,,....T
+T....,,,,,....~~....,,,,,....T
+T..TT,,,,,....~~....,,,,,.TT.T
+T..TT.........~~.........TT..T
+T.............~~.............T
+T....:::::::::HH::::::::::...T
+T....:........~~.........:...T
+T.,,,:,,,,....~~....,,,,.:,,.T
+T.,,,:,,,,....~~....,,,,.:,,.T
+T.,,,:,,,,....~~....,,,,.:,,.T
+T....:.......~~~~........:...T
+T.TT.:......~~~~~~.......:.TTT
+T.TT.:......~~ss~~.......:.TTT
+T....:......~~~~~~.......:...T
+T....:.......~~~~........:...T
+T....::::::::::::::::::::::..T
+T............::..............T
+TTTTTTTTTTTTM::MTTTTTTTTTTTTTT
+TTTTTTTTTTTTMEMMTTTTTTTTTTTTTT
+end
+
+warp 13 20 -> p4c_skyfall_grotto 11 2 down
+sign 11 18 text="SKYFALL BASIN\nThe Skyfall River is born here, and flows on under the mountain."
+npc sb_remnant_crate 3 2 sprite=boulder text="A crate stamped with a black sun. Inside: blankets, canned food and a very sad-looking lens polishing cloth."
+npc sb_remnant_leader 4 5 sprite=admin face=down script=p4c_remnant_leader hideif=p4c_remnant_leader_done
+trainer p4c_sb_bird_tamsin 21 3 sprite=youngster face=left sight=3
+trainer p4c_sb_cool_nadia 22 10 sprite=cooltrainer_f face=left sight=3
+trainer p4c_sb_veteran_gregor 8 12 sprite=cooltrainer_m face=right sight=3
+trainer p4c_sb_hiker_bodil 26 6 sprite=hiker face=left sight=3
+trainer p4c_sb_swim_coralyn 16 15 sprite=swimmer_f face=left sight=3
+item sb_islet 14 14 abilitycapsule
+item sb_ne 27 2 fullrestore
+item sb_sw 2 15 maxelixir
+hidden sb_hidden_cap 27 18 bottlecap
+hidden sb_hidden_star 1 9 cometshard
+tile 11 18 sign
+trainer p4c_sb_ranger_eskil 11 2 sprite=ranger face=down sight=3
