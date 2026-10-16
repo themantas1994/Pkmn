@@ -419,7 +419,7 @@ can only be climbed, so every upper level that a waterfall leads to has one-way 
   (crystal_cavern_1f 18,4). It holds Tera Shards of five types. Quest `p4c_crystal_thief`: the porter at Quartz's camp
   (b1) → beat Grunt Dorran (`p4c_straggler_beaten`) → TM Tera Blast and 3 Steel Tera Shards (`p4c_crystal_thief_done`).
 * Quest `p4c_heart_tutor`: Margit in Frostmere takes one Heart Scale as tuition, then tutors for free from then on
-  (`movetutor p4c_margit`, which uses the engine's default tutor list). Heart Scales are hidden in Rime Hollow, Tide
+  (`movetutor p4c_margit`; her ice/coverage list is in `world/tutors.txt`). Heart Scales are hidden in Rime Hollow, Tide
   Grotto, the wreck and Skyfall Grotto.
 * New trainers: Route 10 +3, Route 11 +3, Crystal Cavern 1F +2. New NPCs: a geologist on Route 10, an aurora-watching
   kid in Frostmere.

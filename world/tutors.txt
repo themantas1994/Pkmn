@@ -1,0 +1,6 @@
+# Move tutors: tutor <id> <move> <move> ...
+# Compiled to assets/world/tutors.json; `movetutor <id>` in a script opens the list.
+# A Pokémon can learn a tutor move if its learnset allows it as a machine/tutor move.
+tutor seraphine_tutor drainingkiss dazzlinggleam mistyterrain playrough charm healbell
+tutor voltara_tutor thunderpunch electroweb risingvoltage voltswitch thunderwave magnetrise
+tutor p4c_margit icepunch icywind avalanche iciclespear tripleaxel auroraveil drainpunch superpower ironhead earthpower
