@@ -1,0 +1,57 @@
+# Quarrytown — mining town, Gym 4 (Garnet, Rock), Fossil Lab, gateway to Mt. Prism and the Ruins of Sol.
+map quarrytown
+name "Quarrytown"
+location "Quarrytown"
+music town_mid
+environment plain
+region 26 11
+fly 14 12
+tags town
+connect south route8 3
+connect east ruins_of_sol 0
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMM.....................M
+MMMMMMMM...............ssssssM
+MMMEMMMM...............srrsssM
+M..:...................srrsssM
+M..:S..................ssssssM
+M..:.....S.:..::.......ssssrsM
+M..:.......:..::.......ssrsrsM
+M..:.......:..::.......ssssssM
+M..:.......:..::.............M
+M:::::::::::::::::::::::::::::
+M:::::::::::::::::::::::::::::
+M.............::S............M
+M.............::.............M
+M.............::.............M
+M.............::.............M
+M.....:...:...::.............M
+M.....:...:...::...S.........M
+M...::::::::::::::::::::::...M
+M.............::.............M
+Mssssssssssss.::.ssssssssssssM
+Mssssssssssss.::.ssssssssssssM
+Mssssssssssss.::.ssssssssssssM
+MMMMMMMMMMMMMM::MMMMMMMMMMMMMM
+end
+
+building lab 8 3 -> quarrytown_fossil_lab 4 7 up
+building house_blue 2 7 -> quarrytown_house2 3 5 up
+building house 19 7 -> quarrytown_house 3 5 up
+building center 4 13 -> quarrytown_center 4 7 up
+building mart 9 13 -> quarrytown_mart 1 7 up
+building gym 20 14 -> quarrytown_gym 7 17 up
+warp 3 3 -> mt_prism_1f 10 22 up
+sign 16 12 text="QUARRYTOWN\nDig deep, stand tall."
+sign 19 17 text="QUARRYTOWN GYM\nLeader: GARNET\nThe Unbreakable Foreman!"
+sign 9 6 text="QUARRYTOWN FOSSIL LAB\nWe bring the past back to life!"
+sign 4 5 text="MT. PRISM - SOUTH ENTRANCE\nBeware of boulders. Strength recommended."
+npc qt_acolyte 3 4 sprite=sage face=down script=p2_quarry_acolyte hideif=p2_got_zring
+npc qt_miner 26 9 sprite=hiker face=left text="The Ruins of Sol are east of town. The old Warden there doesn't talk to just anybody."
+npc qt_kid 17 19 sprite=kid move=wander text="Garnet can lift a mine cart with one hand! I saw it! Okay, maybe two hands."
+npc qt_lady 10 12 sprite=oldwoman face=down text="Fossils come from these hills. The lab in the north can wake them from their long sleep."
+hidden quarry_star 26 5 starpiece
+hidden quarry_nug 2 21 nugget
+item quarry_ether 28 21 ether

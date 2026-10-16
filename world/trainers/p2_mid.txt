@@ -1,0 +1,233 @@
+# Part 2 trainers: Route 7, Route 8, Quarrytown Gym, Ruins of Sol (levels 25-34).
+
+# --- Route 7 ---
+trainer p2_r7_hiker_gus
+  class hiker
+  name "Gus"
+  intro "These hills are made for climbing! And battling!"
+  defeat "I've hit rock bottom."
+  after "Machop can push boulders with Strength. Handy in Mt. Prism, I hear."
+  mon machop 26 moves=lowkick,lowsweep,focusenergy,seismictoss
+  mon graveler 27 moves=rockthrow,bulldoze,rollout,selfdestruct
+end
+
+trainer p2_r7_blackbelt_ken
+  class blackbelt
+  name "Ken"
+  intro "Hyah! My fists are faster than lightning!"
+  defeat "...but not faster than you."
+  after "Train your body and your Pokémon. Mostly your Pokémon."
+  mon machoke 27 moves=lowkick,revenge,lowsweep,bulkup
+  mon pawmo 26
+end
+
+trainer p2_r7_cooltrainer_mae
+  class cooltrainer_f
+  name "Mae"
+  intro "You beat Volta? Then let's see your real strength!"
+  defeat "So that's a Spark Badge holder."
+  after "Garnet in Quarrytown uses Rock-types. Water, Grass and Fighting are your friends."
+  mon girafarig 27 moves=psybeam,stomp,agility,crunch
+  mon manectric 28 moves=spark,bite,howl,quickattack
+end
+
+trainer p2_r7_ranger_finn
+  class ranger
+  name "Finn"
+  intro "I patrol these hills. That includes testing trainers!"
+  defeat "Patrol report: I lost."
+  after "Rhyhorn charge in straight lines. Step aside and they'll run right past."
+  mon rhyhorn 27
+  mon hippopotas 27
+  mon gligar 27
+end
+
+trainer p2_r7_psychic_lux
+  class psychic
+  name "Lux"
+  intro "I sense a strong aura around you. Let's measure it!"
+  defeat "Off the charts..."
+  after "Mt. Prism's aura feels sick lately. Like it's being drained."
+  mon kadabra 27 moves=psybeam,confusion,reflect,kinesis
+  mon girafarig 27
+end
+
+trainer p2_r7_pokefan_dot
+  class pokefan
+  name "Dot"
+  intro "Isn't the sand warm? My babies love it here!"
+  defeat "My babies need a nap now."
+  after "Hippopotas sleeps in the sand all day. Living the dream."
+  mon hippopotas 26
+  mon sandshrew 27
+end
+
+trainer p2_r7_scientist_bolt
+  class scientist
+  name "Bolt"
+  intro "The new power lines need testing. You're my test!"
+  defeat "Test failed. Successfully."
+  after "Some Voltorb near the pylons look like Poké Balls made of wood! Regional variant, I think."
+  mon voltorbhisui 26
+  mon magneton 27
+end
+
+# --- Route 8 ---
+trainer p2_r8_hiker_rocco
+  class hiker
+  name "Rocco"
+  intro "The canyon echoes! Battle! Battle! Battle!"
+  defeat "Lost! Lost! Lost!"
+  after "There are fossils in these walls. Quarrytown's lab can bring them back to life!"
+  mon onix 28
+  mon graveler 29
+end
+
+trainer p2_r8_blackbelt_tora
+  class blackbelt
+  name "Tora"
+  intro "The bull charges forward. So do I!"
+  defeat "Gored by my own pride."
+  after "That Tauros came from Paldea. It's a Fighting-type there!"
+  mon taurospaldeacombat 29 moves=doublekick,zenheadbutt,rest,headbutt
+end
+
+trainer p2_r8_cooltrainer_sol
+  class cooltrainer_m
+  name "Sol"
+  intro "I'm headed for Garnet's Gym. You're my warm-up!"
+  defeat "Warmed up, then cooled off."
+  after "Garnet's ace is ancient and fast. Watch out for its Mega Evolution!"
+  mon mudsdale 29 moves=bulldoze,doublekick,irondefense,stomp
+  mon drilbur 28
+  mon vibrava 30
+end
+
+trainer p2_r8_lass_gem
+  class lass
+  name "Gem"
+  intro "I'm collecting pretty rocks! Show me your Pokémon instead!"
+  defeat "You're a gem yourself."
+  after "Carbink live inside Mt. Prism. They're the prettiest rocks of all!"
+  mon nacli 28
+  mon bonsly 28
+end
+
+trainer p2_r8_fisher_moss
+  class fisherman
+  name "Moss"
+  intro "The river's too fast for you, kid. Unless you can SURF!"
+  defeat "Swept away..."
+  after "Feebas hide in this river. Ugly fish, but they turn into something beautiful."
+  mon basculin 28
+  mon seaking 29
+end
+
+trainer p2_r8_ranger_ivy
+  class ranger
+  name "Ivy"
+  intro "Halt! Rangers check every trainer heading for the quarry!"
+  defeat "You passed. With flying colors."
+  after "Larvitar sometimes crawl out of the canyon walls. Lucky you if you spot one."
+  mon sandile 28
+  mon krokorok 30
+end
+
+trainer p2_r8_youngster_flint
+  class youngster
+  name "Flint"
+  intro "I'm gonna be a miner when I grow up! Then a champion! Then a miner again!"
+  defeat "I mined my own business... and lost."
+  after "Rolycoly is made of coal. It's warm to hug!"
+  mon rolycoly 27
+  mon carkol 29
+end
+
+# --- Quarrytown Gym ---
+trainer p2_qg_hiker_slate
+  class hiker
+  name "Slate"
+  intro "Mine carts and rock slides! Welcome to the quarry!"
+  defeat "Avalanche of failure!"
+  after "Flip the track switches to send the mine carts out of the way."
+  mon boldore 30
+  mon onix 30
+end
+
+trainer p2_qg_blackbelt_shale
+  class blackbelt
+  name "Shale"
+  intro "My body is as hard as granite! Let's test it!"
+  defeat "...it was more like sandstone."
+  after "Garnet trains in the deepest pit every morning."
+  mon machoke 31
+  mon sudowoodo 31
+end
+
+trainer p2_qg_cooltrainer_ruby
+  class cooltrainer_f
+  name "Ruby"
+  intro "Rocks are beautiful AND tough. Like me!"
+  defeat "Chipped..."
+  after "Garnet's Aerodactyl is a living fossil. And it can Mega Evolve!"
+  mon lairon 31
+  mon naclstack 32
+end
+
+trainer p2_qg_hiker_basalt
+  class hiker
+  name "Basalt"
+  intro "Last line before Garnet! Let's rumble!"
+  defeat "Ka-boom! That was me exploding with defeat."
+  after "Go on. The boss is waiting."
+  mon crustle 32
+  mon rhydon 32
+end
+
+trainer p2_leader_garnet
+  class leader
+  name "Garnet"
+  portrait leader4
+  ai 3
+  intro "Let's see if you're bedrock or gravel!"
+  defeat "Well, I'll be. Solid as granite."
+  after "Bedrock. Definitely bedrock."
+  gimmicks mega
+  items hyperpotion=2
+  prize 3400
+  mon sudowoodo 31 moves=rockslide,suckerpunch,woodhammer,block
+  mon naclstack 32 moves=rockslide,saltcure,irondefense,headbutt
+  mon rhydon 33 moves=rockslide,bulldoze,horndrill,hammerarm
+  mon aerodactyl 34 moves=rockslide,crunch,wingattack,ancientpower item=aerodactylite
+end
+
+# --- Ruins of Sol ---
+trainer p2_sol_sage_ra
+  class sage
+  name "Ra"
+  intro "The sun watches all battles here. Make it a good one!"
+  defeat "The sun has set on me."
+  after "Warden Talo guards the inner temple. He seeks a trainer worthy of the Sun Ring."
+  mon solrock 31
+  mon bronzong 32
+end
+
+trainer p2_sol_psychic_luna
+  class psychic
+  name "Luna"
+  intro "By moonlight, my powers peak! ...it's daytime? Oh well."
+  defeat "Eclipsed."
+  after "Lunatone floats here at night. Solrock by day. They never meet."
+  mon lunatone 31
+  mon kadabra 31
+end
+
+trainer p2_sol_ranger_kai
+  class ranger
+  name "Kaia"
+  intro "These ruins need protecting. Show me you mean no harm!"
+  defeat "Okay, you're clearly harmless. To the ruins, anyway."
+  after "Team Eclipse grunts were snooping here. Talo chased them off."
+  mon krokorok 31
+  mon absol 32
+end

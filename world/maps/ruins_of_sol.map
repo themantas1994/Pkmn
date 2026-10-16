@@ -1,0 +1,45 @@
+# Ruins of Sol — sun-worshippers' plaza east of Quarrytown; temple of Warden Talo.
+map ruins_of_sol
+name "Ruins of Sol"
+location "Ruins of Sol"
+music dungeon_ruins
+environment grass
+region 28 11
+encounters p2_ruins_of_sol
+connect west quarrytown 0
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTT
+T......xxxxxxxxxxxx......T
+T,,,,..xxxxxExxxxxx......T
+T,,,,.xuuuuuuuuuuuux,,,,,T
+T,,,,.xuxuuuuuuuuxux,,,,,T
+T,,,,.xuuuuuuuuuuuux,,,,,T
+T,,,,.xuxuuuuuuuuxux,,,,,T
+T,,,,.uuuuuuuuuuuuuu,,,,,T
+T,,,,.uuuuuuuuuuuuuu,,,,,T
+T.........S.uu......,,,,,T
+::::::::::::uu...........T
+::::::::::::uu...........T
+T..........uuuu..........T
+T.,,,,,,,,,uuuu,,,,,,,,,.T
+T.,,,,,,,,,uxxu,,,,,,,,,.T
+T.,,,,,,,,,uxxu,,,,,,,,,.T
+T.,,,,,,,,,uxxu,,,,,,,,,.T
+T.,,,,,,,,,uuuu,,,,,,,,,.T
+T.,,,,,,,,,uuuu,,,,,,,,,.T
+T.,,,,,,,,,uuuu,,,,,,,,,.T
+T..........uuuu..........T
+TTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+warp 12 2 -> ruins_of_sol_temple 7 12 up
+sign 10 9 text="RUINS OF SOL\nWhere the sun first touched Tessera."
+trainer p2_sol_sage_ra 11 5 sprite=sage face=right sight=1
+trainer p2_sol_psychic_luna 5 15 sprite=psychic face=right sight=3
+trainer p2_sol_ranger_kai 22 11 sprite=ranger face=left sight=4
+npc sol_acolyte 14 5 sprite=sage face=left script=p2_sol_acolyte
+item sol_sunstone 23 4 sunstone
+item sol_fullrestore 13 20 fullrestore
+hidden sol_moon 2 2 moonstone
+hidden sol_pearl 23 19 bigpearl

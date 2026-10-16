@@ -1,0 +1,50 @@
+# Mt. Prism 2F — crystal galleries.
+map mt_prism_2f
+name "Mt. Prism 2F"
+location "Mt. Prism"
+music dungeon_cave
+environment cave
+region 23 8
+encounters p2_mt_prism_upper
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWW
+WffffffffWffffffffffLffW
+WfkffffffWfffffffffffffW
+WffffffffWfffffffffffffW
+WffffffffWffkffffffffffW
+WffkfffffWfffffffffffffW
+WffffffffWfffffffffffffW
+WffffffffWfffffkfffffffW
+WfffffkffWfffffffffffffW
+WffffffffWfffffffffkfffW
+WffffffffWfffkfffffffffW
+WffffffffWfffffffffffffW
+WWWWWfWWWWWWWWWWWWfWWWWW
+WffffffffWfffffffffffffW
+WffffffffWfffffffffffkfW
+WffffkfffWfffkfffffffffW
+WffffffffffffffffffffffW
+WffffffffWffffffkffffffW
+WffffffffWfffffffffffffW
+WffLfffffWfffffffffffffW
+WWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 20 -> mt_prism_1f 4 3 down
+warp 20 2 -> mt_prism_3f 20 17 up
+obstacle 9 17 boulder flag=p2_mp2_boulder1
+obstacle 18 13 boulder flag=p2_mp2_boulder2
+obstacle 5 13 smash flag=p2_mp2_smash1
+trainer p2_mp2_cooltrainer_rin 15 15 sprite=cooltrainer_f face=left sight=4
+trainer p2_mp2_hiker_peb 20 19 sprite=hiker face=up sight=3
+trainer p2_mp2_grunt_b 14 4 sprite=grunt_f face=down sight=4
+trainer p2_mp2_grunt_c 21 7 sprite=grunt_m face=left sight=4
+trainer p2_mp2_scientist_quill 11 9 sprite=scientist face=right sight=3
+item mp2_sablenite 2 2 sablenite
+item mp2_hyper 7 12 hyperpotion
+item mp2_steeliumz 22 12 steeliumz
+item mp2_rarecandy 1 20 rarecandy
+hidden mp2_hidden1 8 2 revive
+hidden mp2_hidden2 22 20 maxrepel

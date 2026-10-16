@@ -1,0 +1,35 @@
+# Lumen Ruins inner chamber — the mural of the Prism Pokémon.
+map lumen_ruins_chamber
+name "Mural Chamber"
+location "Lumen Village"
+music dungeon_ruins
+environment cave
+region 15 16
+encounters p2_lumen_ruins
+
+layout
+xxxxxxxxxxxxxx
+xxxxxxxxxxxxxx
+xuuuuuuuuuuuux
+xuGuuuuuuuuGux
+xuuuuuuuuuuuux
+xuuuuuuuuuuuux
+xuGuuuuuuuuGux
+xuuuuuuuuuuuux
+xuuuuuuuuuuuux
+xuuuuuuuuuuuux
+xuuuuuUuuuuuux
+xxxxxxxxxxxxxx
+end
+
+warp 6 10 -> lumen_ruins 10 7 down
+sign 5 1 script=p2_lumen_mural
+sign 6 1 script=p2_lumen_mural
+sign 7 1 script=p2_lumen_mural
+sign 8 1 script=p2_lumen_mural
+sign 2 3 text="Carved runes: \"LIGHT WAS BROKEN INTO SEVEN COLORS, AND THE COLORS SLEPT.\""
+sign 11 3 text="Carved runes: \"WHO STEALS THE LIGHT WILL BE SWALLOWED BY IT.\""
+sign 2 6 text="Carved runes: \"THE MOUNTAIN IS ITS CRADLE.\""
+sign 11 6 text="Carved runes: \"SUN AND MOON GUARD THE WAY.\""
+item rarecandy 12 9 rarecandy
+hidden starpiece 1 2 starpiece

@@ -1,0 +1,45 @@
+# Mt. Prism 3F — Team Eclipse siphon camp below the summit. Exit north to Seraphine Town.
+map mt_prism_3f
+name "Mt. Prism 3F"
+location "Mt. Prism"
+music dungeon_eclipse
+environment cave
+region 22 7
+encounters p2_mt_prism_upper
+
+layout
+YYYEYYYYYYYYYYYYYYYYYYYY
+WWfffffffffffffffffffffW
+WWffffkffffffffffffkfffW
+WWffffffffkffffffffffffW
+WWfffffffffffffffffffffW
+WWfffffffffffffffffffffW
+WWfffffffWWWWWWWfWWWWWWW
+WWfffffffWWWWWWWfWWWWWWW
+WWfffffffWWWWWWWfWWWWWWW
+WWffkffffWWWWWWWfWWWWWWW
+WWfffffffWWWWWWWfWWWWWWW
+WWWWWWWWWWWWWWWWfWWWWWWW
+WWWWWWWWWWWWfffffffffffW
+WWWWWWWWWWWWfffffffkfffW
+WWWWWWWWWWWWfffffffffffW
+WWWWWWWWWWWWfffffffffffW
+WWWWWWWWWWWWffkffffffkfW
+WWWWWWWWWWWWfffffffffffW
+WWWWWWWWWWWWffffffffLffW
+WWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 20 18 -> mt_prism_2f 20 3 down
+warp 3 0 -> seraphine_town 29 13 down
+npc mp3_pilgrim 13 13 sprite=sage face=down script=p2_prism_pilgrim
+trainer p2_mp3_grunt_d 18 14 sprite=grunt_m face=left sight=3
+trainer p2_mp3_grunt_e 15 12 sprite=grunt_f face=down sight=2
+npc corvin 16 6 sprite=admin face=down script=p2_corvin hideif=p2_beat_corvin
+trigger 16 8 1 1 script=p2_corvin unless=p2_beat_corvin
+trainer p2_mp3_grunt_f 10 4 sprite=grunt_m face=left sight=0
+npc mp3_rival 5 2 sprite=rival face=right script=p2_prism_rival_talk showif=p2_beat_corvin hideif=p2_rival_prism_done
+trigger 2 1 3 2 script=p2_prism_rival unless=p2_rival_prism_done
+item mp3_fullrestore 2 10 fullrestore
+item mp3_maxpotion 22 1 maxpotion
+hidden mp3_hidden 8 6 nugget

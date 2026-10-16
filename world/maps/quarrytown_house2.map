@@ -1,0 +1,19 @@
+map quarrytown_house2
+name "Foreman's House"
+location "Quarrytown"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@wB@@Vw@
+________
+p_______
+__tt____
+___RR___
+end
+
+warp 3 5 -> quarrytown 4 10 down
+warp 4 5 -> quarrytown 4 10 down
+npc foreman 2 2 sprite=hiker face=down script=p2_quarry_foreman

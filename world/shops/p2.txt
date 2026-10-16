@@ -1,0 +1,7 @@
+# Part 2 shops.
+shop p2_lumen pokeball greatball potion superpotion antidote paralyzeheal awakening burnheal iceheal repel superrepel escaperope
+shop p2_voltara_1f pokeball greatball ultraball superpotion hyperpotion revive fullheal antidote paralyzeheal awakening repel superrepel escaperope xattack xdefense xspeed direhit guardspec
+shop p2_voltara_evo firestone waterstone thunderstone leafstone moonstone sunstone duskstone shinystone dawnstone icestone linkingcord=3000 everstone metalcoat=2000 upgrade=2100 electirizer=2100 magmarizer=2100 protector=2100 reapercloth=2100 dubiousdisc=2100 sachet=2100 whippeddream=2100
+shop p2_voltara_tm tm:thunderbolt=10000 tm:thunderwave=2000 tm:voltswitch=5000 tm:reflect=3000 tm:lightscreen=3000 tm:protect=3000 tm:substitute=5000
+shop p2_quarrytown greatball ultraball superpotion hyperpotion revive fullheal antidote paralyzeheal awakening burnheal iceheal superrepel maxrepel escaperope
+shop p2_seraphine ultraball greatball healball hyperpotion maxpotion revive fullheal superrepel maxrepel escaperope pokedoll=1000

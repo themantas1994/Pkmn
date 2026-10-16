@@ -1,0 +1,19 @@
+map voltara_house2
+name "Lineman's House"
+location "Voltara City"
+music town_city
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@wB@@Vw@
+________
+p_______
+__tt____
+___RR___
+end
+
+warp 3 5 -> voltara_city 4 22 down
+warp 4 5 -> voltara_city 4 22 down
+npc lineman 2 2 sprite=hiker face=down script=p2_voltara_lineman

@@ -1,0 +1,20 @@
+map quarrytown_house
+name "Miner's House"
+location "Quarrytown"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@B@w@
+________
+__tt____
+__hh___p
+___RR___
+end
+
+warp 3 5 -> quarrytown 21 10 down
+warp 4 5 -> quarrytown 21 10 down
+npc relearner 5 3 sprite=oldman face=left script=p2_quarry_relearner
+npc trader 2 4 sprite=kid face=right script=p2_quarry_trader

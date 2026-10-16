@@ -1,0 +1,22 @@
+map quarrytown_mart
+name "Poké Mart"
+location "Quarrytown"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^
+@w@@@@@w@
+ooooooooo
+ccooKKoKK
+ooooooooo
+ooooKKoKK
+ooooooooo
+oRRoooooo
+end
+
+warp 1 7 -> quarrytown 10 16 down
+warp 2 7 -> quarrytown 10 16 down
+npc clerk 0 2 sprite=clerk face=down script=p2_shop_quarrytown
+npc qm_shopper 6 4 sprite=blackbelt face=left text="Escape Ropes! Mt. Prism is a maze, and the boulders don't move themselves."

@@ -1,0 +1,70 @@
+# Voltara City — Gym 3 (Volta, Electric), power plant, Dr. Mira's lab, department store.
+map voltara_city
+name "Voltara City"
+location "Voltara City"
+music town_city
+environment plain
+region 20 17
+fly 17 16
+tags town
+encounters p2_town_ponds
+connect west route6 6
+connect east route7 -6
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T................::........FFFFFFF.T
+T................::........FFFFFFF.T
+T................::........FFFFFFF.T
+T................::................T
+T::::::::::::::::::::::::::::::::::T
+T:::::::::S::::::::::::::::::::::::T
+T................::................T
+T.FFFFFFF........::................T
+T................::................T
+T................::................T
+T................::................T
+T......:........S::..........:::...T
+::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::
+T................::S...............T
+T........TTTT.::::::::TT...........T
+T........TTTT.::~~~~::TT...........T
+T........TTTT.::~~~~::TT...........T
+T........TTTT.::~~~~::TT.|=======|.T
+T........TTTT.::::::::TT.|.......|.T
+T...:............::......|.......|.T
+T...:............::......|.......|.T
+T::::::::::::::::::::::::::::::::::T
+T::::::::::::::::::::::::::::::S:::T
+T................::................T
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+building house_big 3 3 -> voltara_dept_1f 1 7 up
+building gym 11 3 -> voltara_gym 6 15 up
+building house 22 4 -> voltara_house 3 5 up
+building lab 27 10 -> voltara_lab 4 9 up
+building center 5 11 -> voltara_center 4 7 up
+building house_blue 2 19 -> voltara_house2 3 5 up
+building house_big 26 21 -> voltara_powerplant 9 17 up
+tile 31 23 path
+sign 16 13 text="VOLTARA CITY\nCharged with possibility!"
+sign 19 16 text="CITY PLAZA\nThe fountain runs on solar power. Probably."
+sign 10 7 text="VOLTARA CITY GYM\nLeader: VOLTA\nThe Shocking Showman!"
+sign 31 25 text="VOLTARA POWER PLANT\nAuthorized personnel only."
+onenter p2_voltara_enter
+npc vc_gymguard 13 7 sprite=youngster face=down script=p2_voltara_gymguard hideif=p2_power_restored
+npc vc_officer 33 13 sprite=policeman face=left script=p2_voltara_officer hideif=p2_got_keystone
+npc vc_rival 30 25 sprite=rival face=left script=p2_voltara_rival_talk showif=p2_rival_at_plant hideif=p2_power_restored
+npc vc_kid 20 22 sprite=kid move=wander text="When the lights went out, the Magnemite in the park all floated away. Where'd they go?"
+npc vc_lady 8 16 sprite=beauty face=down text="The department store sells a Linking Cord! Some Pokémon evolve when you use it. Like magic!"
+npc vc_oldman 25 15 sprite=oldman face=left script=p2_voltara_oldman
+trigger 34 14 1 2 script=p2_voltara_east_gate unless=p2_got_keystone
+trigger 27 24 5 2 script=p2_voltara_plant_rival unless=p2_rival_at_plant
+hidden elixir 2 2 ether
+hidden thunderstone 34 26 thunderstone
+item cellbattery 33 3 cellbattery

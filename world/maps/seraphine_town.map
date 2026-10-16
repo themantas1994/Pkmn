@@ -1,0 +1,57 @@
+# Seraphine Town — misty hillside town below Mt. Prism's north face. Gym 5 (Elowen, Fairy). B2: west column open at y=11,12.
+map seraphine_town
+name "Seraphine Town"
+location "Seraphine Town"
+music town_mid
+environment grass
+weather fog
+region 20 5
+fly 15 13
+tags town
+encounters p2_seraphine
+connect west route9 3
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTMMMT
+T.................,,,,,,,,,.MMMT
+T..............::.,,,,,,,,,.MMMT
+T..............::.,,,,,,,,,.MMMT
+T..............::.,,,,,,,,,.MMMT
+T.....:........::.,,,,,,,,,.MMMT
+T.....:........::.,,,,,,,,,.MMMT
+T.....:........::.,,,,,,,,,.MMMT
+T.....:........::SFFFFFFFFF.MMMT
+T.....:.......S::...........MMMT
+::::::::::::::::::::::::::::MMMM
+::::::::::::::::::::::::::::MEMM
+T..............::.........:.::MT
+T.FFFFFFFF.....::...........MMMT
+T.FFFFFFFF.....::...........MMMT
+T.FFFFFFFF.....::...........MMMT
+T..............::...........MMMT
+T...........:..::..:........MMMT
+T...........:..::..:........MMMT
+T...:::::::::::::::::::::::.MMMT
+T......:.......::...........MMMT
+T......:..S....::...~~~~~~~.MMMT
+T..............::...~~~~~~~.MMMT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTMMMT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+building house 4 3 -> seraphine_house 3 5 up
+building center 10 15 -> seraphine_center 4 7 up
+building mart 18 15 -> seraphine_mart 1 7 up
+building house_blue 24 10 -> seraphine_house2 3 5 up
+building gym 5 18 -> seraphine_gym 7 17 up
+warp 29 12 -> mt_prism_3f 3 1 down
+sign 14 10 text="SERAPHINE TOWN\nWhere the mist remembers."
+sign 10 22 text="SERAPHINE GYM\nLeader: ELOWEN\nThe Veiled Enchantress!"
+sign 17 9 text="MIST GROVE\nFairy Pokémon play here. Please tread softly."
+npc st_girl 21 13 sprite=lass move=wander text="Pokémon from the grove sometimes follow people home. My Fidough followed me AND my sandwich."
+npc st_oldman 9 12 sprite=oldman face=down script=p2_seraphine_oldman
+npc st_ranger 2 10 sprite=ranger face=right text="Route 9 runs west toward Ashfall City. The air gets hot and smoky out there."
+hidden st_hidden1 2 16 pixieplate
+hidden st_hidden2 26 2 moonstone
+item st_gardevoirite 18 2 gardevoirite
