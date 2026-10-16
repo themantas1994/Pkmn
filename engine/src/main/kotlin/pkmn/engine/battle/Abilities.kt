@@ -1221,6 +1221,8 @@ object Abilities {
         "gluttony" to "Items.pinchThreshold", "ripen" to "Items.eat / resist berries", "liquidooze" to "drain and Leech Seed",
         "corrosion" to "Battle.trySetStatus", "earlybird" to "sleep status", "dancer" to "Battle.useMove (copies dance moves)",
         "poisonpuppeteer" to "Battle.trySetStatus", "illuminate" to "accuracy check (ignores evasion) + boost blocker",
+        "megasol" to "Battle.weatherFor / calcDamage (holder acts as in harsh sunlight)",
+        "illusion" to "Battle.applyIllusion on switch-in / breakIllusion on damage (name, sprite, messages)",
     )
 
     private fun endStrong(c: EffectCtx, w: String) {

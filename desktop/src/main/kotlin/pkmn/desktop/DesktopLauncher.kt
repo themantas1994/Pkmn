@@ -25,7 +25,8 @@ class DesktopPlatform(override val saveDir: File) : Platform {
 /**
  * Desktop launcher. Options:
  *   --saves=<dir>        save directory (default ~/.pkmn-crystalline)
- *   --script=<file>      automation script: lines "wait N", "press BUTTON [frames]", "shot NAME", "quit"
+ *   --script=<file>      automation script, one command per line: wait N, press BUTTON [frames], mash BUTTON N,
+ *                        goto X Y (walk on the current map), log, perf, shot NAME, quit
  *   --shots=<dir>        where screenshots go
  *   --mute               no audio
  *   --scale=N            window scale (default 3)
@@ -87,6 +88,15 @@ class Automation(script: List<String>, private val shots: File) {
                 "log" -> {
                     val ow = g.screens().filterIsInstance<pkmn.game.overworld.OverworldScreen>().lastOrNull()
                     println("AUTOMATION top=${g.top()?.javaClass?.simpleName} map=${ow?.baseMap?.id} pos=${ow?.player?.x},${ow?.player?.y} moving=${ow?.player?.moving}")
+                    continue
+                }
+                "perf" -> {
+                    // CPU time per frame (update + draw submission) over the last FRAME_SAMPLES frames, plus FPS.
+                    val n = minOf(g.frameCount, pkmn.game.FRAME_SAMPLES.toLong()).toInt()
+                    val v = g.frameNanos.take(n).sorted()
+                    if (v.isNotEmpty()) println("PERF frames=$n meanMs=%.3f p95Ms=%.3f maxMs=%.3f fps=%d heapMb=%d".format(
+                        v.average() / 1e6, v[(v.size - 1) * 95 / 100] / 1e6, v.last() / 1e6, Gdx.graphics.framesPerSecond,
+                        (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576))
                     continue
                 }
                 "goto" -> { p.goto(parts[1].toInt(), parts[2].toInt()); return }

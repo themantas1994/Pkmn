@@ -249,6 +249,8 @@ class Progression(private val dex: Dex) {
         val region: String = "Tessera",
         val coins: Int = 0,
         val deviceUpsideDown: Boolean = false,
+        /** Battle environment of the current map (plain, grass, cave, sand, indoor, building...): decides Burmy's cloak. */
+        val environment: String = "plain",
     )
 
     /** Returns the species this Pokémon would evolve into now, or null. Unusable region-specific evolutions are skipped. */
@@ -294,6 +296,12 @@ class Progression(private val dex: Dex) {
             // 1-in-100 rare forms (Dudunsparce Three-Segment, Maushold Family of Four).
             "dunsparce" -> (if (mon.uid % 100 == 0L) has("dudunsparcethreesegment") else has("dudunsparce")) ?: ok[0].target
             "tandemaus" -> (if (mon.uid % 100 == 0L) has("mausholdfour") else has("maushold")) ?: ok[0].target
+            // Burmy's cloak follows where it last battled: Sandy in caves and sand, Trash indoors, Plant elsewhere.
+            "burmy" -> when (ctx.environment) {
+                "cave", "sand" -> has("wormadamsandy")
+                "indoor", "building" -> has("wormadamtrash")
+                else -> has("wormadam")
+            } ?: ok.maxByOrNull { specificity(it) }!!.target
             else -> ok.maxByOrNull { specificity(it) }!!.target
         }
     }
