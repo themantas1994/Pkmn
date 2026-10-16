@@ -1,0 +1,21 @@
+; Victory over a gym leader - triumphant F major. Original composition, CC0-1.0.
+#title The Badge Is Yours
+#tempo 128
+#time 4/4
+#key F major
+#inst 1 duty=2 env=13,-5 rel=-2 vib=18,14,5.5
+#inst 2 duty=1 env=7,-2
+#inst 3 wave=6 env=12,0
+#def M o4 c8 g8 e8 g8 c8 g8 e8 g8
+#def m o4 c8 g8 d+8 g8 c8 g8 d+8 g8
+#def M2 o4 c8 g8 e8 g8
+#def m2 o4 c8 g8 d+8 g8
+#def ob o2 [c8 > c8 <]4
+#def ob2 o2 [c8 > c8 <]2
+#def ma o5 c4 f4 a4. g8 | o5 f4 d4 b-4. a8 | o5 g4 e4 o6 c4. o5 b-8 | o5 a2. r4 | o5 a4 f4 d4. e8 | o5 f4 d4 b-4. o6 c8 | o6 d4 o5 b-4 o6 c4 o5 g4 | o5 f2 a4 o6 c4 |
+#def mb o6 d4. c8 o5 b-4 f4 | o6 c4. o5 b-8 g4 e4 | o5 a4. g8 e4 c4 | o5 d2 f4 a4 | o5 b-4. a8 b-4 o6 d4 | o6 e2 c4 o5 g4 | o5 f4 d4 e4 g4 | o5 c8 d8 e8 f8 g8 a8 b-8 g8 |
+
+A @1 o5 f8 r8 f8 f8 a8 r8 o6 c4 | o6 f2 r2 | $ {ma} {mb}
+B @2 o5 c8 r8 c8 c8 f8 r8 a4 | o6 c2 r2 | $ k5{M} | k-2{M} | k0{M} | k5{M} | k2{m} | k-2{M} | k-5{m2} k0{M2} | k5{M} | k-2{M} | k0{M} | k-3{m} | k2{m} | k-2{M} | k0{M} | k-2{M2} k0{M2} | k0{M} | k0
+C @3 o2 f8 r8 f8 f8 > c8 r8 c4 | o2 f2 r2 | $ k5{ob} | k10{ob} | k0{ob} | k5{ob} | k2{ob} | k10{ob} | k7{ob2} k0{ob2} | k5{ob} | k10{ob} | k0{ob} | k9{ob} | k2{ob} | k10{ob} | k0{ob} | k10{ob2} k0{ob2} | k0{ob} | k0
+D v10 K8 r8 K8 K8 S8 r8 C4 | C2 r2 | $ [[K8. S16 S8 H8 K8 K8 S8 H8]7 K8 S16 S16 S8 S16 S16 S8 S8 C4]2

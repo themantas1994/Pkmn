@@ -1,0 +1,26 @@
+; Wild encounter battle - driving A minor. Original composition, CC0-1.0.
+#title Tall Grass Ambush
+#tempo 168
+#time 4/4
+#key A minor
+#inst 1 duty=2 env=12,-3 rel=-1 vib=20,12,6.5
+#inst 2 duty=1 env=6,-1
+#inst 3 wave=6 env=12,0
+#def R o4 l16 [c e g > c <]4 l8
+#def r o4 l16 [c d+ g > c <]4 l8
+#def r2 o4 l16 [c d+ g > c <]2 l8
+#def R2 o4 l16 [c e g > c <]2 l8
+#def bb o2 c8 c8 > c8 < c8 c8 c8 > c8 < c8
+#def bt K8 H8 S8 H8 K8 K8 S8 H8
+#def fl K8 H8 S8 H8 S16 S16 S16 S16 M16 M16 T16 T16
+#def ma o5 a4 e8 a8 r8 b8 o6 c8 d8 | o6 e4 d8 c8 o5 b8 a8 b8 o6 c8 | o5 a4. f8 a8 o6 c8 f8 e8 | o6 d4. o5 b8 g4 b4 | o5 a4 e8 a8 r8 b8 o6 c8 e8 | o6 a4 g8 e8 c8 e8 d8 c8 | o5 f4 a4 o6 d4 c4 | o5 b4 g+4 e4 g+4 |
+#def mb o5 c8 f8 a8 o6 c8 o5 a4 f4 | o5 d8 g8 b8 o6 d8 o5 b4 g4 | o5 e8 g8 b8 o6 e8 d4 o5 b4 | o6 c2 o5 a4 e4 | o6 c4. o5 a8 f4 a4 | o6 d4. o5 b8 g4 b4 | o5 g+4 b4 o6 e4 d4 | o5 b8 o6 c8 o5 b8 a8 g+8 a8 b8 g+8 |
+#def ha k-3{r} | k-3{r} | k5{R} | k-5{R} | k-3{r} | k-3{r} | k2{r} | k4{R} | k0
+#def hb k5{R} | k-5{R} | k4{r} | k-3{r} | k5{R} | k-5{R} | k4{R} | k4{R} | k0
+#def ba k9{bb} | k9{bb} | k5{bb} | k7{bb} | k9{bb} | k9{bb} | k2{bb} | k4{bb} | k0
+#def bc k5{bb} | k7{bb} | k4{bb} | k9{bb} | k5{bb} | k7{bb} | k4{bb} | k4{bb} | k0
+
+A @1 o6 l16 a g+ f e d c o5 b a g+ f e d c o4 b a g+ | o4 a8 r8 a8 a8 a4 o5 e4 l8 | $ {ma} {mb} {ma}
+B @2 o5 l16 a g+ f e d c o4 b a g+ f e d c o3 b a g+ | o3 a8 r8 a8 a8 a4 o4 e4 l8 | $ {ha} {hb} {ha}
+C @3 o2 a1 | o2 a8 a8 a8 a8 a4 e4 | $ {ba} {bc} {ba}
+D v11 [S16]16 | K8 r8 K8 K8 S8 S8 S16 S16 S16 S16 | $ [[{bt}]7 {fl}]3

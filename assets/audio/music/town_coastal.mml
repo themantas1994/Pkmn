@@ -1,0 +1,25 @@
+; Coastal town - breezy and syncopated. Original composition, CC0-1.0.
+#title Salt Breeze
+#tempo 108
+#time 4/4
+#key A major
+#inst 1 duty=2 env=11,-4 rel=-2 vib=18,14,6
+#inst 2 duty=0 env=7,-2
+#inst 3 wave=6 env=11,0
+#def P o4 r8 e8 g8 e8 r8 e8 g8 e8
+#def p o4 r8 d+8 g8 d+8 r8 d+8 g8 d+8
+#def P2 o4 r8 e8 g8 e8
+#def sb o2 c4. c8 r8 c8 g8 > c8 <
+#def sb2 o2 c4. g8
+#def bt K8 H8 S8 K8 H8 K8 S8 H8
+#def ma o5 e8 c+8 r8 e8 a4 g+8 e8 | o5 f+4. e8 c+4 o4 a4 | o4 b8 o5 d8 r8 f+8 a4 f+8 d8 | o5 e2 r8 e8 f+8 g+8 | o5 a8 e8 r8 c+8 e4 a8 b8 | o6 c+4. o5 b8 g+4 e4 | o5 f+4 a4 g+4 b4 | o5 a2. r4 |
+#def mb o5 f+8 a8 r8 f+8 d4 f+4 | o5 e8 g+8 r8 e8 b4 g+4 | o5 g+4. f+8 e4 c+4 | o5 c+2 r4 o4 a4 | o5 d8 f+8 r8 b8 a4 f+4 | o5 g+4. f+8 e4 o4 b4 | o5 a4. f+8 d4 f+4 | o5 e4 g+4 b4 d4 |
+#def ha k-3{P} | k-6{p} | k2{P} | k4{P} | k-3{P} | k1{p} | k2{P2} k4{P2} | k-3{P} | k0
+#def hb k2{P} | k4{P} | k1{p} | k-6{p} | k-1{p} | k4{P} | k2{P} | k4{P} | k0
+#def ba k9{sb} | k6{sb} | k2{sb} | k4{sb} | k9{sb} | k1{sb} | k2{sb2} k4{sb2} | k9{sb} | k0
+#def bb k2{sb} | k4{sb} | k1{sb} | k6{sb} | k11{sb} | k4{sb} | k2{sb} | k4{sb} | k0
+
+A @1 $ {ma} {mb}
+B @2 $ {ha} {hb}
+C @3 $ {ba} {bb}
+D v10 $ [[{bt}]7 K8 H8 S8 H8 S8 S8 S16 S16 S8]2

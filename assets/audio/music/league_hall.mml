@@ -1,0 +1,20 @@
+; League hall / Hall of Fame - stately and majestic. Original composition, CC0-1.0.
+#title Hall of Echoing Names
+#tempo 76
+#time 4/4
+#key Eb major
+#inst 1 duty=2 env=12,-7 rel=-3 vib=16,16,4.5
+#inst 2 duty=2 env=6,0 rel=-2
+#inst 3 wave=7 env=13,0
+#def P o4 e2 g2
+#def p o4 d+2 g2
+#def P2 o4 e4 g4
+#def p2 o4 d+4 g4
+#def hb o2 c2 g2
+#def hb2 o2 c4 g4
+#def ml o5 e-2 g4 b-4 | o6 c2 o5 a-4 e-4 | o5 d2 f4 b-4 | o5 g1 | o5 g2 o6 c4 e-4 | o6 e-2 c4 o5 a-4 | o5 b-2 o6 d4 c4 | o5 b-2 a-4 f4 | o5 e-4. f8 a-4 o6 c4 | o6 d4. c8 o5 b-4 f4 | o5 g4 b-4 o6 c4 e-4 | o6 c4 o5 a-4 b-4 d4 |
+
+A @1 $ {ml}
+B @2 $ k3{P} | k-4{P} | k-2{P} | k3{P} | k0{p} | k-4{P} | k-2{P} | k-2{P} | k-4{P} | k-2{P} | k-5{p2} k0{p2} | k-4{P2} k-2{P2} | k0
+C @3 $ k3{hb} | k8{hb} | k10{hb} | k3{hb} | k0{hb} | k8{hb} | k10{hb} | k10{hb} | k8{hb} | k10{hb} | k7{hb2} k0{hb2} | k8{hb2} k10{hb2} | k0
+D v9 $ C4 r4 T4 r4 | [T4 r4 r4 T8 T8 |]10 T8 T8 M8 M8 U8 U8 C4 |

@@ -1,0 +1,26 @@
+; Rival battle - the rival's motif at full speed, E minor. Original composition, CC0-1.0.
+#title Showdown With a Friend
+#tempo 180
+#time 4/4
+#key E minor
+#inst 1 duty=2 env=13,-3 rel=-1 vib=18,14,7
+#inst 2 duty=1 env=6,-1
+#inst 3 wave=6 env=12,0
+#def R o4 l16 [c e g > c <]4 l8
+#def r o4 l16 [c d+ g > c <]4 l8
+#def R2 o4 l16 [c e g > c <]2 l8
+#def bb o2 c8 c8 > c8 < c8 c8 c8 > c8 < c8
+#def bb2 o2 c8 c8 > c8 < c8
+#def bt K8 H8 S8 K8 K8 H8 S8 H8
+#def fl K8 H8 S8 H8 S16 S16 S16 S16 U16 U16 M16 M16
+#def ma o5 e8 r8 e8 g8 r8 b4 a8 | o5 g8 r8 g8 e8 r8 c4 d8 | o5 f+8 r8 f+8 a8 r8 o6 d4 c8 | o5 b4. a8 f+4 d+4 | o5 e8 r8 e8 g8 r8 b4 o6 c8 | o6 c8 r8 c8 o5 b8 r8 a4 g8 | o5 g4 e4 f+4 d+4 | o5 e2 r8 b8 a8 b8 |
+#def mb o5 a8 b8 o6 c8 e8 d8 c8 o5 b8 a8 | o5 g4 b4 e4 g4 | o5 a8 b8 o6 c8 e8 g8 e8 d8 c8 | o5 b2 d+4 f+4 | o5 e8 g8 o6 c8 e8 g4 e4 | o6 f+4 d4 o5 a4 f+4 | o5 b4 d+4 f+4 a4 | o5 b8 a8 g8 f+8 e8 f+8 g8 a8 |
+#def ha k4{r} | k0{R} | k2{R} | k-1{R} | k4{r} | k-3{r} | k0{R2} k-1{R2} | k4{r} | k0
+#def hb k-3{r} | k4{r} | k-3{r} | k-1{R} | k0{R} | k2{R} | k-1{R} | k-1{R} | k0
+#def ba k4{bb} | k0{bb} | k2{bb} | k11{bb} | k4{bb} | k9{bb} | k0{bb2} k11{bb2} | k4{bb} | k0
+#def bc k9{bb} | k4{bb} | k9{bb} | k11{bb} | k0{bb} | k2{bb} | k11{bb} | k11{bb} | k0
+
+A @1 o6 l16 e o5 b g e o4 b g e o3 b o6 d+ o5 b f+ d+ o4 b f+ d+ o3 b | o4 e8 r8 e8 e8 b8 r8 b4 l8 | $ {ma} {mb} {ma}
+B @2 o5 l16 e o4 b g e o3 b g e o3 b o5 d+ o4 b f+ d+ o3 b f+ d+ o3 b | o3 b8 r8 b8 b8 o4 d+8 r8 d+4 l8 | $ {ha} {hb} {ha}
+C @3 o2 e2 b2 | o2 e8 r8 e8 e8 b8 r8 b4 | $ {ba} {bc} {ba}
+D v11 [S16]14 C8 | K8 r8 K8 K8 S8 r8 S16 S16 S16 S16 | $ [[{bt}]7 {fl}]3

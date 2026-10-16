@@ -1,0 +1,27 @@
+; Cycling - fast, carefree and sunny. Original composition, CC0-1.0.
+#title Downhill Freewheel
+#tempo 160
+#time 4/4
+#key G major
+#inst 1 duty=2 env=12,-3 rel=-1 vib=24,10,6
+#inst 2 duty=1 env=5,-1
+#inst 3 wave=6 env=12,0
+#def R o4 l16 [c e g > c <]4 l8
+#def r o4 l16 [c d+ g > c <]4 l8
+#def R2 o4 l16 [c e g > c <]2 l8
+#def r2 o4 l16 [c d+ g > c <]2 l8
+#def ob o2 [c8 > c8 <]4
+#def ob2 o2 [c8 > c8 <]2
+#def bt K8 H8 S8 H8 K8 H8 S8 K8
+#def fl K8 H8 S8 H8 S16 S16 S16 S16 S8 C8
+#def ma o5 d8 g8 b8 g8 o6 d4 o5 b4 | o6 c8 o5 b8 a8 g8 e4 g4 | o5 f+8 a8 o6 d8 c8 o5 a4 f+4 | o5 g4 b8 a8 g4 r4 | o5 e8 g8 b8 g8 e4 b4 | o6 c4. o5 b8 a4 g4 | o5 e4 c4 d4 f+4 | o5 g2 r4 d4 |
+#def mb o5 e8 g8 o6 c8 o5 g8 e4 c4 | o5 f+8 a8 o6 d8 o5 a8 f+4 d4 | o5 d8 f+8 b8 f+8 d4 b4 | o5 e2 g4 b4 | o6 c4. o5 b8 a8 g8 e8 g8 | o5 a4. g8 f+8 e8 d8 f+8 | o5 e4 g4 f+4 a4 | o5 d8 e8 f+8 g8 a8 b8 o6 c8 o5 a8 |
+#def ha k-5{R} | k0{R} | k2{R} | k-5{R} | k4{r} | k0{R} | k-3{r2} k2{R2} | k-5{R} | k0
+#def hb k0{R} | k2{R} | k-1{r} | k4{r} | k0{R} | k2{R} | k0{R2} k2{R2} | k2{R} | k0
+#def ba k7{ob} | k0{ob} | k2{ob} | k7{ob} | k4{ob} | k0{ob} | k9{ob2} k2{ob2} | k7{ob} | k0
+#def bb k0{ob} | k2{ob} | k11{ob} | k4{ob} | k0{ob} | k2{ob} | k0{ob2} k2{ob2} | k2{ob} | k0
+
+A @1 $ {ma} {mb} {ma}
+B @2 $ {ha} {hb} {ha}
+C @3 $ {ba} {bb} {ba}
+D v11 $ [[{bt}]7 {fl}]3

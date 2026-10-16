@@ -1,0 +1,22 @@
+; Forest - rippling and a little mysterious. Original composition, CC0-1.0.
+#title Whispering Canopy
+#tempo 100
+#time 4/4
+#key E minor
+#inst 1 duty=1 env=9,-7 rel=-3 vib=20,18,4.5
+#inst 2 duty=0 env=6,-1
+#inst 3 wave=3 env=13,0
+#def F o4 l16 [c g > e < g]4 l8
+#def f o4 l16 [c g > d+ < g]4 l8
+#def lb o2 c2. g4
+#def ma o5 e4. f+8 g4 b4 | o5 g4. f+8 e4 c4 | o5 e2 a4 o6 c4 | o5 b2. d+4 | o5 e4. f+8 g4 b4 | o6 c4. o5 b8 a4 g4 | o5 f+4. e8 d4 f+4 | o5 d+2 f+4 b4 |
+#def mb o5 g4. a8 b4 d4 | o5 a4. g8 f+4 d4 | o5 e4. f+8 g4 c4 | o5 a2. r4 | o5 b4. o6 c8 d4 o5 b4 | o6 d4. c8 o5 a4 f+4 | o5 g4 e4 c4 e4 | o5 d+2 f+4 a4 |
+#def ha k4{f} | k0{F} | k-3{f} | k-1{F} | k4{f} | k0{F} | k2{F} | k-1{F} | k0
+#def hb k-5{F} | k2{F} | k0{F} | k-3{f} | k-5{F} | k2{F} | k0{F} | k-1{F} | k0
+#def ba k4{lb} | k0{lb} | k9{lb} | k11{lb} | k4{lb} | k0{lb} | k2{lb} | k11{lb} | k0
+#def bb k7{lb} | k2{lb} | k0{lb} | k9{lb} | k7{lb} | k2{lb} | k0{lb} | k11{lb} | k0
+
+A @1 $ {ma} {mb}
+B @2 $ {ha} {hb}
+C @3 $ {ba} {bb}
+D v7 $ [H8 H8 R8 H8 H8 H8 R8 H16 H16]16

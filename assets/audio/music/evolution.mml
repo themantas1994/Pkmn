@@ -1,0 +1,17 @@
+; Evolution - rising tension and wonder, A minor. Original composition, CC0-1.0.
+#title Something Is Changing
+#tempo 120
+#time 4/4
+#key A minor
+#inst 1 duty=2 env=11,-7 rel=-3 vib=20,20,5
+#inst 2 duty=0 env=6,-1
+#inst 3 wave=6 env=11,0
+#def R o4 l16 [c e g > c <]4 l8
+#def r o4 l16 [c d+ g > c <]4 l8
+#def pl o2 [c8]8
+#def ml o5 e1 | o5 f1 | o5 g1 | o5 g+1 | o5 a2 b2 | o6 c1 | o6 d2 c2 | o5 b1 | o5 a4 o6 c4 f4 e4 | o6 d4 o5 b4 g4 b4 | o6 c4 o5 a4 e4 a4 | o6 c2 e2 | o6 f2 c2 | o6 d2 o5 b2 | o5 g+2 b2 | o6 e2 d2 |
+
+A @1 $ {ml}
+B @2 $ k-3{r} | k5{R} | k-5{R} | k4{R} | k-3{r} | k5{R} | k2{r} | k4{R} | k5{R} | k-5{R} | k-3{r} | k-3{r} | k5{R} | k-5{R} | k4{R} | k4{R} | k0
+C @3 $ k9{pl} | k5{pl} | k7{pl} | k4{pl} | k9{pl} | k5{pl} | k2{pl} | k4{pl} | k5{pl} | k7{pl} | k9{pl} | k9{pl} | k5{pl} | k7{pl} | k4{pl} | k4{pl} | k0
+D v8 $ [K4 r8 K8 r4 H4 |]7 K4 r8 K8 S16 S16 S16 S16 S8 S8 | [K8 H8 S8 H8 K8 K8 S8 H8 |]7 K8 H8 S8 H8 S16 S16 S16 S16 N4 |

@@ -1,0 +1,27 @@
+; Gym leader battle - proud and heroic D minor. Original composition, CC0-1.0.
+#title Badge on the Line
+#tempo 176
+#time 4/4
+#key D minor
+#inst 1 duty=2 env=13,-3 rel=-1 vib=16,14,6.5
+#inst 2 duty=0 env=7,-1
+#inst 3 wave=6 env=12,0
+#def R o4 l16 [c e g > c <]4 l8
+#def r o4 l16 [c d+ g > c <]4 l8
+#def r2 o4 l16 [c d+ g > c <]2 l8
+#def R2 o4 l16 [c e g > c <]2 l8
+#def bb o2 c8 c8 > c8 < c8 c8 c8 > c8 < c8
+#def bb2 o2 c8 c8 > c8 < c8
+#def bt K8 H8 S8 H8 K8 K16 K16 S8 H8
+#def fl K8 S16 S16 S8 S16 S16 T16 T16 M16 M16 U16 U16 C8
+#def ma o5 d4 a4 f8 e8 d8 f8 | o5 b-4. a8 g8 f8 d4 | o5 c4 g4 e8 d8 c8 e8 | o5 a4. g8 e4 c+4 | o5 d4 a4 o6 d8 c8 o5 a8 f8 | o5 f4. b-8 o6 d4 o5 b-4 | o5 b-4 g4 a4 o6 c+4 | o6 d2. r4 |
+#def mb o5 a8 c8 f8 a8 o6 c4 o5 a4 | o5 g8 c8 e8 g8 o6 c4 o5 g4 | o5 f8 b-8 o6 d8 f8 e8 d8 c8 o5 b-8 | o5 a2 f4 c4 | o5 d8 g8 b-8 o6 d8 c8 o5 b-8 a8 g8 | o5 e4 g4 o6 c4 e4 | o6 d4. c8 o5 b-4 f4 | o5 e4 a4 o6 c+4 e4 |
+#def ha k2{r} | k-2{R} | k0{R} | k-3{R} | k2{r} | k-2{R} | k-5{r2} k-3{R2} | k2{r} | k0
+#def hb k5{R} | k0{R} | k-2{R} | k5{R} | k-5{r} | k0{R} | k-2{R} | k-3{R} | k0
+#def ba k2{bb} | k10{bb} | k0{bb} | k9{bb} | k2{bb} | k10{bb} | k7{bb2} k9{bb2} | k2{bb} | k0
+#def bc k5{bb} | k0{bb} | k10{bb} | k5{bb} | k7{bb} | k0{bb} | k10{bb} | k9{bb} | k0
+
+A @1 o4 l16 d e f g a b- o5 c+ d e f g a b- o6 c+ d e | o6 d8 r8 d8 d8 o5 a8 r8 a4 l8 | $ {ma} {mb} {ma}
+B @2 o3 l16 a b- o4 c+ d e f g a b- o5 c+ d e f g a b- | o5 a8 r8 a8 a8 f8 r8 f4 l8 | $ {ha} {hb} {ha}
+C @3 o2 d1 | o2 d8 r8 d8 d8 a8 r8 a4 | $ {ba} {bc} {ba}
+D v11 [S16]8 [S8]3 C8 | K8 r8 K8 K8 S8 r8 S16 S16 S16 S16 | $ [[{bt}]7 {fl}]3
