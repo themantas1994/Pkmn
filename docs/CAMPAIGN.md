@@ -112,6 +112,23 @@ Region map grid: 32 × 28 cells of 8 px on the 256 × 224 region map (`region x 
   `script=tidewater_ferry` and Part 1 writes that script as: if `flag hall_of_fame` then `call ferry_to_coral`
   else a "ferry not running" line. Part 3 defines script `ferry_to_coral`.
 * Fly: every town/city map sets `fly x y` and `tags town`; the game records visits automatically.
+* **Part 3 split** (3A / 3B / 3C, parallel authors). 3A: route9 → ashfall_city (Gym 6, Ember Tower) →
+  crystal_cavern (Tera Orb) → route10/route11 (Surf, Lapras gift) → frostmere_town (Gym 7, Dynamax Band) → route12.
+  3A also owns the post-game encounters inside its own maps (Ho-Oh on ember_tower_roof, Terapagos in crystal_cavern
+  depths), gated on `flag hall_of_fame`. 3B: dragonspire_city (Gym 8) → prism_summit (Eclipse climax, Necrozma) →
+  route13 → victory_road_* → prism_plateau + E4/Champion rooms, Hall of Fame + credits (sets `hall_of_fame`).
+  3C: post-game (`ferry_to_coral` script, coral_isles…, battle_tower, legendary dens except Ho-Oh/Terapagos,
+  Necrozma reappearance if defeated, leader/E4 rematches hosted on 3C maps). Prefixes: `p3a_`, `p3b_`, `p3c_` for
+  flags and files (`world/trainers/p3a_*.txt`, `world/scripts/p3b_*.pks`, `world/prefabs/p3c.txt`, …).
+* **B3 route12 ↔ dragonspire_city** (seamless, 3A ↔ 3B): `route12` is **16 tiles tall**, has
+  `connect east dragonspire_city -4`, and its east column is open exactly at y = 6,7. `dragonspire_city` has
+  `connect west route12 4` and its west column is open exactly at y = 10,11. Gym 8 requires 7 badges; route12's
+  east end has no gate (3B gates inside Dragonspire).
+* **B4 prism_summit access** (3B only): from dragonspire_city via a 3B-owned route/cave; prism_plateau is reached
+  from route13 → victory_road. Dragonspire has a Pokémon Center whose map id is `dragonspire_center` (respawn point).
+* **B5 post-game** (3B → 3C): the Champion victory script sets `hall_of_fame` and warps to `player_house_2f` 3 4
+  after credits. 3C content is reached only via `ferry_to_coral` (called by Part 1's tidewater ferry sailor) and
+  must not edit 3A/3B maps; rematches with gym leaders/E4 happen on 3C maps (e.g. a "Champions' Hall" on Coral Isles).
 
 ## File ownership (parallel authors must not edit each other's files)
 | Owner | Files |
