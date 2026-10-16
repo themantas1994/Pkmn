@@ -10,9 +10,10 @@ fun main(args: Array<String>) {
         "maps" -> MapCompilerTool(root).run()
         "manifest" -> { val ok = AssetManifestTool(root).run(); if (!ok) kotlin.system.exitProcess(1) }
         "playtime" -> PlaytimeEstimator(root).run()
+        "progression" -> { val ok = ProgressionChecker(root).run(); if (!ok) kotlin.system.exitProcess(1) }
         "sprites" -> { val ok = SpriteImporter(root, args.drop(1)).run(); if (!ok) kotlin.system.exitProcess(1) }
         else -> {
-            println("usage: tools <import|validate|maps|manifest|playtime|sprites [--only=1-151] [--force] [--from=<dir|zip>] ...>")
+            println("usage: tools <import|validate|maps|manifest|playtime|progression|sprites [--only=1-151] [--force] [--from=<dir|zip>] ...>")
             kotlin.system.exitProcess(2)
         }
     }
