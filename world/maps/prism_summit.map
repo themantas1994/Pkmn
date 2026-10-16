@@ -44,7 +44,7 @@ trainer p3b_ps1_grunt_b 4 9 sprite=grunt_f face=right sight=4
 trainer p3b_ps1_grunt_c 21 8 sprite=grunt_m face=left sight=4
 trainer p3b_ps1_scientist_hex 5 5 sprite=scientist face=down sight=2
 trainer p3b_ps1_grunt_d 17 3 sprite=grunt_f face=right sight=1
-npc ps1_crate 10 15 sprite=pokeball_overworld text="A crate stamped with a black sun. It's full of crystal shards wrapped in dark cloth."
+npc ps1_crate 10 15 sprite=boulder text="A crate stamped with a black sun. It's full of crystal shards wrapped in dark cloth."
 item ps1_islet 21 4 maxrevive
 item ps1_side1 23 19 ultraball 3
 item ps1_side2 20 14 fullheal 2

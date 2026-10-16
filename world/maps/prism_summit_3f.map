@@ -37,7 +37,7 @@ end
 warp 20 18 -> prism_summit_2f 3 3 down
 warp 3 0 -> prism_summit_peak 10 14 up
 npc ps3_rival 16 14 sprite=rival face=down script=p3b_summit_rival
-trainer p3b_ps3_grunt_a 19 9 sprite=grunt_f face=down sight=2
+trainer p3b_ps3_grunt_a 18 9 sprite=grunt_f face=down sight=2
 trainer p3b_ps3_grunt_b 14 4 sprite=grunt_m face=right sight=4
 trainer p3b_ps3_grunt_c 3 10 sprite=grunt_m face=down sight=3
 npc corvin 7 3 sprite=admin face=right script=p3b_corvin hideif=p3b_beat_corvin

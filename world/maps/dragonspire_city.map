@@ -40,7 +40,7 @@ T.FFFF...........::..........FFFF..T
 T.,,,,,,,,,,,,,.G::G.,,,,,,,,,,,,..T
 T.,,,,,,,,,,,,,..::..,,,,,,,,,,,,..T
 T.,,,,,,,,,,,,,..::..,,,,,,,,,,,,..T
-T...............S::................T
+T..............S.::................T
 TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
 TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
 end
@@ -54,15 +54,15 @@ building lab 4 14 -> dragonspire_shrine 5 9 up
 building house 11 14 -> dragonspire_house3 3 5 up
 sign 3 12 text="DRAGONSPIRE CITY\nWhere wings meet the dusk."
 sign 19 7 text="DRAGONSPIRE GYM - THE DUSK SPIRE\nLeader: RYUGA\nThe Wings of Twilight!\pChallengers must carry seven Badges."
-sign 16 25 text="UMBRAL PASS ahead\nTo PRISM SUMMIT.\nClan permission required."
+sign 15 25 text="UMBRAL PASS ahead\nTo PRISM SUMMIT.\nClan permission required."
 sign 33 12 text="ROUTE 13 ahead\nVictory Road - Prism Plateau"
 sign 21 13 text="SCALEMIRROR POND\nPlease do not feed the Dratini. They are not here. Probably."
 trigger 1 10 1 2 script=p3b_dragonspire_arrive unless=p3b_arrived
 trigger 17 7 1 1 script=p3b_gym_door unless=p3b_gym_open
-trigger 17 24 2 1 script=p3b_umbral_gate unless=p3b_badge8
+trigger 17 26 2 1 script=p3b_umbral_gate unless=p3b_badge8
 trigger 33 10 1 2 script=p3b_route13_gate unless=p3b_eclipse_defeated
 npc ds_lys 5 12 sprite=cooltrainer_f face=up script=p3b_dragonspire_lys
-npc ds_clanguard 16 24 sprite=blackbelt face=right script=p3b_clanguard
+npc ds_clanguard 16 25 sprite=blackbelt face=right script=p3b_clanguard
 npc ds_officer 34 9 sprite=policeman face=down script=p3b_route13_officer
 npc ds_fisher 22 18 sprite=fisherman face=up script=p3b_dragonspire_fisher
 npc ds_kid 12 11 sprite=kid move=wander text="Ryuga's tower is SO dark inside. The bridges only appear when you step on the glowing switches!"

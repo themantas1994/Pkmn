@@ -241,3 +241,70 @@ Tutors: `movetutor voltara_tutor`, `movetutor seraphine_tutor`; move relearner i
 the `trade` special. Shops in `world/shops/p2.txt` (`p2_voltara_evo` sells `linkingcord`). Rival battles use `canlose`.
 Mt. Prism 3F exit leads straight into Seraphine Town (no extra route map). Seraphine Town has a Mist Grove grass patch
 and `weather fog`. Generated `assets/` output is not committed by Part 2 (run `compileMaps` after merge).
+
+## Part 3B notes (Dragonspire → Prism Summit → Victory Road → League)
+**Maps (27 + 2 stubs):** dragonspire_city (+dragonspire_center, dragonspire_mart, dragonspire_house [Elder lore],
+dragonspire_house2 [trader + scale collector], dragonspire_house3 [move relearner], dragonspire_shrine [Dragon Trial],
+dragonspire_gym, dragonspire_gym_2f), umbral_pass, prism_summit (1F), prism_summit_2f, prism_summit_3f,
+prism_summit_peak, route13 (+route13_lodge), victory_road_1f/2f/3f, prism_plateau, prism_league (lobby: nurse, mart,
+gate guard), league_morrow, league_ferrum, league_sibyl, league_nox, league_champion. New prefabs in
+`world/prefabs/p3b.txt` (`p3b_tower`, `p3b_league`); extra trainer classes in `world/trainers/p3b_classes.txt`
+(`p3b_dragontamer`, `p3b_veteran_m/f`, `p3b_eclipse_sci`).
+**Stubs — delete on merge:** `world/maps/zz_stub_route12.map` (map id route12, honours B3) and
+`world/maps/zz_stub_route9.map` (map id route9, honours B2; only added because seraphine_town's `connect west route9`
+was the one pre-existing compile error). Both belong to 3A.
+
+**Connections:** B3 exactly: dragonspire_city `connect west route12 4`, west column open only at y=10,11.
+dragonspire_city `connect east route13 2` (route13 `connect west dragonspire_city -2`, open y=8,9) and
+`connect south umbral_pass 6` (umbral_pass `connect north dragonspire_city -6`, top row open x=11,12).
+B4: umbral_pass cave (12,40) → prism_summit → 2f → 3f → prism_summit_peak (all ladders/cave mouths). route13 cave
+(38,8) → victory_road_1f → 2f → 3f → exit (3,0) → prism_plateau (11,17); the league door → prism_league; the lobby
+guard warps into league_morrow; each E4 room's stairs (5,1) lead to the next room; league_nox → league_champion.
+Respawn/heal: dragonspire_center, prism_league nurse (both `healcenter`); extra heals: Highland Lodge keeper,
+Clan scout on summit 2F, rival on summit 3F.
+
+**Gating:** Gym door trigger (17,7) needs 7 badges (sets `p3b_gym_open`). South gate trigger (17..18,26) needs the
+Dusk Badge (`p3b_badge8`). East gate trigger (33,10..11) blocks Route 13 until `p3b_eclipse_defeated`. Victory Road
+officer checks 8 badges (`p3b_vr_checked`). Summit: Vesper's (2F) and Corvin's (3F) corridors and the peak are sealed
+by triggers until each boss is beaten.
+**Field moves:** Victory Road 1F requires Surf + Waterfall (badge 7): surf the lake, climb the falls at x=14 to the
+upper shelf/ladder; a ledge on the east side drops back to the entrance (no soft-lock). 2F requires Strength: boulders
+plug two 1-tile gaps, each opening into an open chamber. Waterfall learners available by then: Seaking/Goldeen,
+Gyarados (Super Rod given in Dragonspire), Politoed, Golduck/Azumarill (Umbral Pass surf), Whiscash, 3A's Lapras.
+Cut/Rock Smash/Surf only guard optional items (Umbral nooks, tarn islets, summit pool, VR pockets).
+**Gym 8 puzzle:** dark platforms over a `void` chasm. `void` is walkable per TileRules, so falling is done with step
+triggers (`p3b_dgym_fall`, back to the entrance); switches set `p3b_dg_b1..b6` and `tileif` turns the void into
+`bridge_v/h` (the matching fall triggers use `unless=`). Two trap switches send you back to the entrance.
+
+**Story flags:** `p3b_arrived`, `p3b_gym_open`, `p3b_badge8`, `p3b_beat_vesper`, `p3b_summit_rival_met`,
+`p3b_beat_corvin`, `p3b_beat_umbra`, **`p3b_necrozma_caught`** / **`p3b_necrozma_defeated`** (exactly one is set;
+3C makes Necrozma reappear when `p3b_necrozma_defeated`), `p3b_necrozma_done`, `p3b_eclipse_defeated` (Route 13 open),
+`p3b_vr_checked`, `p3b_rival_vr_done`, `p3b_e4_1..4` and `p3b_champion_beaten` (cleared by the lobby guard on every
+entry, so a loss means restarting from Morrow), `hall_of_fame` (shared). Side flags: `p3b_got_superrod`,
+`p3b_traded_seadra`, `p3b_lodge_gift`; var `p3b_trial_score`. Quests (`world/quests/p3b.txt`): `p3b_story` (main),
+`p3b_dragon_trial`, `p3b_scale_trade`, `p3b_skyfall_trade`.
+
+**Battles:** Ryuga (`p3b_leader_ryuga`, L54–58, cap 58) uses `gimmicks tera dynamax`: every mon has `tera=Dragon`,
+and the ace Dragonite Dynamaxes (both gym floors are tagged `gym powerspot`). Vesper L56–58, Corvin L56–58, Umbra
+L58–60 (Mega Absol + Tera Dark Honchkrow). Necrozma: `wildbattle necrozma 60 norun` at the altar; if you black out it
+stays there (Umbra stays beaten). Rival L57–59 with Mega Pidgeot, `canlose`, three variants by starter flag.
+Elite Four, one gimmick each: Morrow (Ghost, L60–61, Z-Move Gengar), Ferrum (Steel, L61–62, Mega Metagross), Sibyl
+(Psychic, L62–63, G-Max Hatterene; rooms tagged `powerspot`), Nox (Dark, L63–64, Terastal). Champion Celeste
+L65–66, six mixed types; the room script picks one of three trainer variants at random (`…_mega`, `…_zmove`, `…_tera`),
+so she uses exactly one gimmick per battle. Victory (B5): `halloffame`, `credits`, `setflag hall_of_fame`,
+`warp player_house_2f 3 4`.
+
+**Rewards:** Ryuga → badge 8 + `tm dragonpulse` + `dragoniumz`. Super Rod (Dragonspire fisherman), Dragonair L50 with
+Extreme Speed (Dragon Trial quiz), Choice Scarf (3 Dragon Scales to the collector: Dragonspire hidden, Umbral islet,
+gym 2F hidden, plus the one TIDES holds), Seadra "TIDES" L50 @ Dragon Scale via
+`trade seaking seadra 50 nick=TIDES item=dragonscale`, `tm earthquake` (Highland Lodge), Absolite (summit 1F), Draco and
+Spooky Plates, PP Max, Gold Bottle Cap, rare candies and the usual endgame consumables. Shops (`world/shops/p3b.txt`):
+`p3b_dragonspire`, `p3b_dragonspire_tm`, `p3b_league`.
+
+**Deviations:** Champion is L65–66 (brief said 65–66; the table above says 65–68), and "one gimmick chosen by the AI"
+is a random choice between three variants, since the engine lets a trainer use each listed gimmick once. E4 levels
+are 60–64 (brief), not 60–65. Credits play only on the first Hall of Fame; later wins still record the Hall of Fame.
+New map ids not in the geography table: umbral_pass (region 13,4), prism_summit_2f/3f/peak, route13_lodge,
+prism_league, league_* rooms. Nox's backstory (ex-Eclipse) is new lore. TMs are handed out only by scripts, because a
+map `item … tm:x` line loses its `:` when the compiler applies toId. Music ids are real tracks from assets/audio/music.
+Generated `assets/` and `reports/` output is not committed.

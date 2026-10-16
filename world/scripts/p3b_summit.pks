@@ -12,6 +12,17 @@ script p3b_umbral_scout
 end
 
 # --- Prism Summit --------------------------------------------------------------
+script p3b_summit_scout
+  faceplayer
+  if flag p3b_eclipse_defeated
+    say "SCOUT: I'm mapping the crystal halls for the Clan archives. Mostly I'm mapping where I tripped."
+  else
+    say "SCOUT: Psst! Clan scout, undercover. Well, under a rock. Let me tend to your Pokémon."
+    heal
+    say "SCOUT: Admin Vesper waits past the north room. Her Pokémon are Psychic and Ghost. Dark moves will serve you well."
+  end
+end
+
 script p3b_ps2_lens_tech
   faceplayer
   if flag p3b_eclipse_defeated
