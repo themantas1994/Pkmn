@@ -10,6 +10,8 @@ interface Platform {
     val saveDir: File
     /** Directory holding locally imported, non-redistributable assets (official sprites), or null. */
     val importedAssetsDir: File?
+    /** Show the on-screen controls even without a touch screen (desktop phone preview). */
+    val forceTouchControls: Boolean get() = false
     fun vibrate(ms: Int) {}
     /** Device held upside-down (used for Inkay's evolution), if a sensor is available. */
     fun isUpsideDown(): Boolean = false
