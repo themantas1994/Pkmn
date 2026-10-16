@@ -54,3 +54,5 @@ item tg_starpiece 3 18 starpiece
 item tg_diveball 25 2 diveball 3
 hidden tg_hidden_heartscale 13 14 heartscale
 hidden tg_hidden_ultra 26 20 ultraball
+trainer p4c_tg_swim_kelp 20 15 sprite=swimmer_f face=up sight=3
+trainer p4c_tg_sailor_bosun 23 19 sprite=sailor face=left sight=3

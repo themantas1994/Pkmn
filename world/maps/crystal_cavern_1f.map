@@ -44,3 +44,6 @@ obstacle 19 13 boulder flag=p3a_cc_boulder1
 # --- Expansion E3: more trainers
 trainer p4c_cc_hiker_garn 6 4 sprite=hiker face=right sight=3
 trainer p4c_cc_sci_beryl 13 9 sprite=scientist face=left sight=2
+# --- Expansion E3: ladder down to Geode Hollow (east room, behind the Strength boulder)
+tile 18 4 cave_ladder
+warp 18 4 -> p4c_geode_hollow 4 2 right

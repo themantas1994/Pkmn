@@ -19,3 +19,9 @@ quest p4c_heart_tutor "Tuition in Scales"
   desc "Margit, a retired move tutor in Frostmere, will teach your Pokémon for the old fee: one Heart Scale."
   step "Bring Margit a Heart Scale."
 end
+
+quest p4c_crystal_thief "Crystal Thief"
+  desc "Someone has been stealing Tera Shards from Quartz's sample crates in Geode Hollow."
+  step "Find the thief in Geode Hollow, below Crystal Cavern 1F."
+  step "Return the stolen shards to the porter at Quartz's camp."
+end

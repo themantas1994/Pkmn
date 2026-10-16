@@ -154,3 +154,49 @@ script p4c_r10_geologist
   faceplayer
   say "GEOLOGIST: Ashfall's volcano and Crystal Cavern share the same roots. Heat below, crystals above!\pThe old records say every crystal in the cavern glowed red for a whole day, forty years ago. The day of the Dark Noon."
 end
+
+# ------------------------------------------------------------------ Crystal thief (Crystal Cavern B1 / Geode Hollow)
+script p4c_ccb_porter
+  faceplayer
+  if flag p4c_crystal_thief_done
+    say "PORTER: The crates are full again and Quartz is humming. That's the happiest sound in this cave."
+  elif flag p4c_straggler_beaten
+    say "PORTER: You got the sack back? Every shard's here! Quartz is going to faint. Happily, I mean."
+    if not quest p4c_crystal_thief started
+      quest p4c_crystal_thief start
+    end
+    tm terablast
+    giveitem steelterashard 3
+    setflag p4c_crystal_thief_done
+    quest p4c_crystal_thief done
+    say "PORTER: Tera Blast takes on its user's Tera Type once it Terastallizes. Quartz says it's the purest Tera move there is."
+  elif flag p3a_got_teraorb
+    say "PORTER: Someone's been stealing Tera Shards from our sample crates in Geode Hollow, below the boulder room upstairs.\pIf you can push that boulder, could you take a look? Bring back what you find!"
+    if not quest p4c_crystal_thief started
+      quest p4c_crystal_thief start
+    end
+  else
+    say "PORTER: I haul Quartz's samples. Heavy work, but the crystals are pretty. Mind the grunts by the tunnel!"
+  end
+end
+
+script p4c_gh_straggler
+  faceplayer
+  if flag p4c_straggler_beaten
+    say "Nothing left here but crowbar marks."
+  else
+    say "GRUNT: Huh? A kid? Down HERE? This sack of shards is Team Eclipse property now!"
+    battle p4c_gh_grunt_dorran
+    if result win
+      say "GRUNT: Fine! Take your rocks! I'm going to go find the others. They're... somewhere north. Probably."
+      setflag p4c_straggler_beaten
+      if quest p4c_crystal_thief started
+        quest p4c_crystal_thief next
+      end
+      fadeout
+      hide gh_straggler
+      fadein
+      say "You recovered the sack of stolen Tera Shards!"
+    end
+  end
+end

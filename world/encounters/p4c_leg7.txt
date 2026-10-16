@@ -68,3 +68,20 @@ encounters p4c_wreck_hold
   superrod any jellicent 46-49 60
   superrod any carvanha 45-47 40
 end
+
+encounters p4c_geode_hollow
+  rate cave 12
+  cave any carbink 45-47 20
+  cave any boldore 45-47 15
+  cave any glimmet 44-46 15
+  cave any nacli 44-46 10
+  cave any naclstack 46-48 8
+  cave any tinkatuff 45-47 10
+  cave any sableye 45-47 10
+  cave any mawile 45-47 7
+  cave any glimmora 47-49 5
+  surf any chinchou 44-46 70
+  surf any lanturn 46-48 30
+  goodrod any chinchou 42-46 100
+  superrod any lanturn 45-48 100
+end

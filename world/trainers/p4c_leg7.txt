@@ -278,3 +278,82 @@ trainer p4c_rh2_boarder_soren
   mon avalugg 49
   mon eiscue 48
 end
+
+# ------------------------------------------------------------------ Geode Hollow
+trainer p4c_gh_hiker_marlstone
+  class hiker
+  name "Marlstone"
+  intro "Every colour of crystal, all in one cave! I could live here. I might already live here."
+  defeat "Cracked like a geode!"
+  after "Somebody's been prying open Quartz's sample crates. Wasn't me. I only lick the crystals."
+  mon gigalith 46
+  mon glimmora 47
+  mon diggersby 46
+end
+
+trainer p4c_gh_psychic_iolite
+  class psychic
+  name "Iolite"
+  intro "Each crystal sings a different note. Yours is off-key. Allow me to tune it!"
+  defeat "A perfect chord. Of defeat."
+  after "A Pokémon's Tera Type is like a hidden note. You only hear it when it shines."
+  mon espathra 47
+  mon hatterene 47
+  mon bronzong 46
+end
+
+trainer p4c_gh_cool_jasper
+  class cooltrainer_m
+  name "Jasper"
+  intro "I came down here to Terastallize in peace. You'll do as a test!"
+  defeat "Tera-fied. I mean, terrified."
+  after "There's a guy in black at the far end hauling a sack. I figured he was a very serious hiker."
+  mon kingambit 47
+  mon garganacl 47
+  mon baxcalibur 48
+end
+
+trainer p4c_gh_beauty_opaline
+  class beauty
+  name "Opaline"
+  intro "I only wear crystals I find myself. Battle me and I'll show you my favourites!"
+  defeat "My sparkle... faded."
+  after "Tinkaton smash crystals with their hammers. Mine is very gentle. Mostly."
+  mon tinkaton 47
+  mon klefki 46
+  mon carbink 47
+end
+
+trainer p4c_gh_grunt_dorran
+  class grunt_m
+  name "Grunt Dorran"
+  intro "Retreat? Nobody told ME to retreat! These shards are going to Prism Summit, and so am I. Eventually."
+  defeat "Okay, okay! Take the sack! It was giving me a backache anyway."
+  after "Umbra won't even notice I'm late. Right? ...Right?"
+  mon drapion 47
+  mon honchkrow 47
+  mon toxicroak 46
+  mon sableye 47
+end
+
+trainer p4c_tg_swim_kelp
+  class swimmer_f
+  name "Kelp"
+  intro "I'm mapping the grotto by swimming every inch of it! You're on my map now!"
+  defeat "Blotted out!"
+  after "The lake is deepest under the wreck. Lanturn light it up at night like lanterns."
+  mon lanturn 46
+  mon floatzel 45
+  mon golisopod 46
+end
+
+trainer p4c_tg_sailor_bosun
+  class sailor
+  name "Bosun"
+  intro "I was a deckhand on the Halcyon, back in the day! I still come to keep her company."
+  defeat "Ship's bell rings for you, matey."
+  after "The captain lives at the Sea Cottage. Never talks about the Dark Noon. Maybe you can get him to."
+  mon gyarados 46
+  mon hariyama 46
+  mon wailord 45
+end

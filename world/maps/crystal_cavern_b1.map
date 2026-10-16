@@ -49,3 +49,5 @@ sign 21 14 text="Sealed crystal. It gleams with Stellar light... (Opens for the 
 item ccb_steelterashard 26 5 steelterashard 2
 item ccb_fairyterashard 6 2 fairyterashard 2
 hidden ccb_hidden_maxrevive 7 9 maxrevive
+# --- Expansion E3: lab porter (crystal-thief quest)
+npc p4c_ccb_porter 24 5 sprite=hiker face=down script=p4c_ccb_porter
