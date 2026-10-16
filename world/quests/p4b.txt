@@ -1,0 +1,19 @@
+# Expansion E2 side quests (legs 4-6).
+
+# --- Leg 4: Quarrytown, Ruins of Sol, Route 8 ---
+quest p4b_canary_lamp "Tam's Lamp"
+  desc "Old Bryn of Quarrytown left his late partner's lamp in the vault of the collapsed Shaft No. 3."
+  step "Find Tam's lamp in the deepest gallery of the Old Shaft."
+  step "Bring the lamp back to Bryn in Quarrytown."
+end
+
+quest p4b_sol_tablets "Tablets of Sol"
+  desc "A scholar at the Temple of Sol wants the four tablets of the Sol Catacombs read in full."
+  step "Read the four tablets in the Sol Catacombs and the Sun Sanctum."
+  step "Report to the scholar in the Temple of Sol."
+end
+
+quest p4b_strata_survey "Strata Survey"
+  desc "Dr. Fenna is recording which Pokémon live in each rock layer around Quarrytown."
+  step "Catch a Klawf, a Silicobra and a Timburr, then visit Dr. Fenna in Strata Gulch."
+end

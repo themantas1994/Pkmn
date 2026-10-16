@@ -71,3 +71,8 @@ item maxrepel 9 8 maxrepel
 hidden hyperpotion 19 18 hyperpotion
 hidden rockiumz_spare 5 5 hardstone
 hidden ironball 2 13 nugget
+# Expansion E2: crack in the west wall to Strata Gulch, two more trainers.
+tile 2 17 cave_entrance
+warp 2 17 -> p4b_strata_gulch 34 15 left
+trainer p4b_r8_hiker_ulric 6 22 sprite=hiker face=right sight=3
+trainer p4b_r8_ace_juno 14 36 sprite=cooltrainer_f face=left sight=4

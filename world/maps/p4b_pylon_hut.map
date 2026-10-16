@@ -1,0 +1,20 @@
+map p4b_pylon_hut
+name "Lineman's Hut"
+location "Route 7"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@PB@w@
+________
+_tt_____
+_hh___p_
+___RR___
+end
+
+warp 3 5 -> p4b_pylon_ridge 8 6 down
+warp 4 5 -> p4b_pylon_ridge 8 6 down
+npc p4b_hugo 5 2 sprite=hiker face=down script=p4b_lineman_hugo
+npc p4b_nell 2 2 sprite=lass face=down script=p4b_trade_nell

@@ -8,6 +8,7 @@ region 23 16
 encounters p2_route7
 connect west voltara_city 6
 connect east route8 -30
+connect north p4b_pylon_ridge -2
 
 layout
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
@@ -56,3 +57,11 @@ item buginiumz 33 16 buginiumz
 hidden maxether 38 20 ether
 hidden hardstone 15 2 hardstone
 hidden pppup 23 22 ppup
+# Expansion E2: two more trainers.
+trainer p4b_r7_lass_tilly 6 16 sprite=lass face=right sight=3
+trainer p4b_r7_ranger_dex 33 11 sprite=ranger face=down sight=3
+# Expansion E2: service trail north to Pylon Ridge.
+tile 12 0 path
+tile 13 0 path
+tile 12 1 path
+tile 13 1 path

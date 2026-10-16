@@ -1,0 +1,42 @@
+# Old Shaft B2F — the Fossil Vault where the No. 3 crew made their last find.
+map p4b_old_mine_b2f
+name "Old Shaft B2F"
+location "Quarrytown"
+music cave
+environment cave
+region 27 10
+encounters p4b_old_mine_deep
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWSWWWWWWWWWWWWW
+WWffffffffffffffffffffWffW
+WWffffffkffffffkfffffffffW
+WWffffffffffffffffffffWffW
+WWffffffffffffffffffffWWWW
+WWffffffffffffffffffffWWWW
+WWWWWffWWWWWWWWWWWWffWWWWW
+WWWWWffWWWWWWWffffffffffWW
+WWWWWffWWWWWWWffffffffffWW
+WWWWWffWWWWWWWfffffffkffWW
+WWffffffffffWWffffffffffWW
+WWffffffffffWWfffkffffffWW
+WWffffffkfffffffffffffffWW
+WWffffffffffffffffffffffWW
+WWfLffffffffWWffffffffffWW
+WWffffffffffWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 15 -> p4b_old_mine_b1f 3 22 down
+sign 12 1 text="IN MEMORY OF THE CREW OF SHAFT No. 3\n\"We dug for stone and found the old world.\""
+npc p4b_fossil_skull 10 3 sprite=itemball script=p4b_mine_fossil_skull hideif=p4b_mine_fossil
+npc p4b_fossil_armor 13 3 sprite=itemball script=p4b_mine_fossil_armor hideif=p4b_mine_fossil
+npc p4b_lamp 24 3 sprite=itemball script=p4b_mine_lamp hideif=p4b_found_lamp
+obstacle 22 3 smash flag=p4b_mine3_smash
+trainer p4b_mine3_maniac_rudd 17 5 sprite=hiker face=left sight=4
+trainer p4b_mine3_hiker_bram 19 11 sprite=hiker face=down sight=4
+trainer p4b_mine3_ace_opal 16 14 sprite=cooltrainer_f face=up sight=3
+item p4b_mine3_balls 14 15 ultraball 2
+hidden p4b_mine3_candy 21 6 rarecandy
+hidden p4b_mine3_star 23 15 starpiece

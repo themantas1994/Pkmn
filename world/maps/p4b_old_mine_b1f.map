@@ -1,0 +1,56 @@
+# Old Shaft B1F — flooded galleries (dark). Two Strength boulders guard the way down; the reservoir islet needs Surf.
+map p4b_old_mine_b1f
+name "Old Shaft B1F"
+location "Quarrytown"
+music cave
+environment cave
+dark
+region 27 10
+encounters p4b_old_mine
+
+legend
+a cave_water
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWffffffLffW
+WWWWWWWWWWWWWWWWWffffWfffffffffW
+WWWWWWWWWWWWWWWWWfffffffkffffffW
+WWWWWWWWWWWWWWWWWffffWfffffffffW
+WWWWWWWWWWWWWWWWWffffWfffffffffW
+WWWWWWWWWWWWWWWWWffffWWWWWffWWWW
+WWWaaaaaaaaaaaaWWffffWWWWWffWWWW
+WWWaaaaaaaaaaaaWWWWWWWWWWWffWWWW
+WWWaaaaaaaaaaaaWWWWWWWWWWWffWWWW
+WWWaaaaaaaaaaaaWWWfffffffffffffW
+WWWaaaaaffaaaaaWWWfffffffffffkfW
+WWWaaaaaffaaaaaWWWfffffffkfffffW
+WWWaaaaaaaaaaaaWWWfffffffffffffW
+WWWaaaaaaaaaaaaWWWfffffffffffffW
+WWWaaaaaaaaaaaaWWWfffffffffffffW
+WWWaaaaaaaaaaaaWWWWWWWWWfWWWWWWW
+WWfffffffffffffWfffffffffffffffW
+WWfffffffffffffWfffffffffffffffW
+WWfffffffffffffWffffkffffffffffW
+WWffffkfffffffffffffffffffffkffW
+WWfLfffffffffffWfffffffffffffffW
+WWfffffffffffffWfffffffffffffffW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 28 2 -> p4b_old_mine_1f 26 2 down
+warp 3 22 -> p4b_old_mine_b2f 3 15 down
+obstacle 24 17 boulder flag=p4b_mine2_boulder1
+obstacle 15 21 boulder flag=p4b_mine2_boulder2
+trainer p4b_mine2_worker_hal 20 13 sprite=hiker face=right sight=4
+trainer p4b_mine2_maniac_pell 28 20 sprite=hiker face=left sight=4
+trainer p4b_mine2_lass_corra 18 5 sprite=lass face=down sight=3
+trainer p4b_mine2_fisher_nils 12 19 sprite=fisherman face=left sight=3
+item p4b_mine2_islet 8 12 ppup
+item p4b_mine2_heal 29 15 fullheal
+item p4b_mine2_potion 17 8 hyperpotion
+hidden p4b_mine2_nugget 30 23 nugget
+hidden p4b_mine2_ether 30 6 ether
