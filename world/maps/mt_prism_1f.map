@@ -61,3 +61,6 @@ tile 21 7 cave_water
 tile 22 5 cave_entrance
 warp 22 5 -> p4b_prism_grotto 1 14 right
 trainer p4b_mp1_ace_kestrel 18 11 sprite=cooltrainer_m face=left sight=3
+# Expansion E2: side tunnel out to the Prism Foothills.
+tile 1 19 cave_entrance
+warp 1 19 -> p4b_prism_foothills 38 13 left

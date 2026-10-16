@@ -373,3 +373,76 @@ trainer p4b_cdepth_ace_teo
   mon minior 37
   mon glimmora 38
 end
+
+# --- Prism Foothills ---
+trainer p4b_fh_hiker_gorm
+  class hiker
+  name "Gorm"
+  intro "Came out the side tunnel, did you? Best view on Mt. Prism! And the best battles!"
+  defeat "Rolled right down the slope..."
+  after "The ledges here drop you to the lower terrace. Walk up the west edge to climb back."
+  mon sudowoodo 35
+  mon mudsdale 35
+end
+
+trainer p4b_fh_bird_ayla
+  class p3a_birdkeeper
+  name "Ayla"
+  intro "Rufflet love the updrafts on these slopes! Watch them soar, then watch them win!"
+  defeat "Clipped wings..."
+  after "Vullaby wear bones like diapers. Rufflet think that's hilarious. So do I."
+  mon fearow 35
+  mon rufflet 34
+end
+
+trainer p4b_fh_blackbelt_ryo
+  class blackbelt
+  name "Ryo"
+  intro "Kicks! Punches! My brothers in arms! HYAH!"
+  defeat "My arms... and legs..."
+  after "Tyrogue evolves depending on whether it's stronger in attack or defense. Mine chose both. Twice."
+  mon hitmonlee 35
+  mon hitmonchan 35
+end
+
+trainer p4b_fh_ace_mirela
+  class cooltrainer_f
+  name "Mirela"
+  intro "The upper terrace is for serious trainers only. Are you serious?"
+  defeat "Seriously strong."
+  after "Axew are rare on these slopes. If you find one, train it. Haxorus is worth the wait."
+  mon gogoat 36
+  mon fraxure 35
+  mon ninetales 36
+end
+
+trainer p4b_fh_psychic_odo
+  class psychic
+  name "Odo"
+  intro "The summit's glow is fading. I can feel it. Can you feel this battle coming?"
+  defeat "I felt that."
+  after "Seven colors of light, they say, one for each crystal heart. Something is drinking them."
+  mon girafarig 35
+  mon gallade 36
+end
+
+trainer p4b_fh_picnicker_nan
+  class p4b_picnicker
+  name "Nan"
+  intro "I rode Skiddo all the way up here! It's lunchtime, and battle time!"
+  defeat "Skiddo wants a snack now."
+  after "Skiddo can sense your feelings through its horns. Mine knows I'm a sore loser."
+  mon skiddo 33
+  mon deerling 34
+  mon ponyta 34
+end
+
+trainer p4b_fh_hiker_bo
+  class hiker
+  name "Bo"
+  intro "Found a Bagon headbutting a cliff up here! Raised it myself! Wanna see what it can do?"
+  defeat "Headbutted by reality."
+  after "Bagon dream of flying. Mine evolved and still can't. Someday, buddy. Someday."
+  mon graveler 34
+  mon shelgon 35
+end

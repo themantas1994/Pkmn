@@ -90,3 +90,36 @@ encounters p4b_crystal_depths
   cave night chingling 34-36 5
   cave night deino 33-35 2
 end
+
+encounters p4b_prism_foothills
+  rate grass 25
+  rate surf 10
+  grass morning skiddo 32-35 25
+  grass morning ponyta 32-35 20
+  grass morning rufflet 32-34 15
+  grass morning fearow 33-35 15
+  grass morning girafarig 33-35 15
+  grass morning axew 32-34 5
+  grass morning bagon 32-34 5
+  grass day skiddo 32-35 20
+  grass day deerling 32-35 20
+  grass day vullaby 32-34 15
+  grass day rufflet 32-34 15
+  grass day ponyta 32-35 15
+  grass day girafarig 33-35 10
+  grass day axew 32-34 5
+  grass night noctowl 33-35 20
+  grass night vullaby 32-34 20
+  grass night girafarig 33-35 15
+  grass night mightyena 33-35 15
+  grass night gligar 32-35 15
+  grass night misdreavus 32-34 10
+  grass night bagon 32-34 5
+  surf any marill 32-35 60
+  surf any azumarill 34-36 40
+  oldrod any magikarp 20-25 100
+  goodrod any goldeen 30-34 60
+  goodrod any poliwag 30-34 40
+  superrod any poliwhirl 34-37 60
+  superrod any seaking 34-37 40
+end
