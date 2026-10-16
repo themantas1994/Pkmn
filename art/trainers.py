@@ -300,7 +300,7 @@ def portrait(cid, spec):
     # ---- details
     shade = torso & (XC > HCX + 13) & ~ell(HCX - 5, 74, 32, 35)
     p.dither(shade)
-    p.dither((p.region == neck_id) & (YC < CHIN + 4))
+    p.col[(p.region == neck_id) & (Y == HCY + HRY + 1) & (p.col == S)] = K
     if style not in ("bald", "hood"):
         sh = front & ~ell(HCX - 4, HCY - 4, HRX + 1, HRY + 1)
         p.dither(sh)
