@@ -59,14 +59,14 @@
       "status": "generated"
     },
     {
-      "pathGlob": "audio/music/*.mml",
+      "pathGlob": "assets/audio/music/*.mml",
       "source": "Original compositions written for Pokémon Crystalline (MML song data, synthesised at runtime by pkmn.game.audio.ChipSynth)",
       "license": "CC0-1.0",
       "author": "Pokémon Crystalline contributors",
       "redistributable": true
     },
     {
-      "pathGlob": "audio/sfx/*",
+      "pathGlob": "assets/audio/sfx/*",
       "source": "Original procedural sound effects defined in core/src/main/kotlin/pkmn/game/audio/SoundEffects.kt (no audio files shipped)",
       "license": "CC0-1.0",
       "author": "Pokémon Crystalline contributors",
