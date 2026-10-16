@@ -80,3 +80,61 @@ encounters p4b_ashen_trail
   superrod any whiscash 40-43 60
   superrod any gyarados 40-43 40
 end
+
+encounters p4b_ashfall_caldera
+  rate grass 25
+  rate surf 10
+  grass morning fletchinder 39-42 20
+  grass morning camerupt 40-42 15
+  grass morning ponyta 39-42 15
+  grass morning torkoal 40-42 15
+  grass morning skarmory 40-42 15
+  grass morning vullaby 39-42 15
+  grass morning magmar 40-42 5
+  grass day fletchinder 39-42 20
+  grass day rapidash 40-43 15
+  grass day torkoal 40-42 15
+  grass day skarmory 40-42 15
+  grass day camerupt 40-42 15
+  grass day litleo 39-42 15
+  grass day magmar 40-42 5
+  grass night houndour 39-42 20
+  grass night mandibuzz 41-43 10
+  grass night vullaby 39-42 20
+  grass night magmar 40-42 15
+  grass night noctowl 40-42 15
+  grass night camerupt 40-42 20
+  surf any barboach 39-42 50
+  surf any whiscash 40-43 30
+  surf any golduck 40-43 20
+  oldrod any magikarp 25-30 100
+  goodrod any barboach 35-39 100
+  superrod any whiscash 40-43 70
+  superrod any gyarados 40-43 30
+end
+
+encounters p4b_steam_grotto
+  rate cave 12
+  rate surf 10
+  cave morning numel 38-41 30
+  cave morning woobat 38-40 25
+  cave morning slugma 38-41 25
+  cave morning slowpoke 38-41 20
+  cave day numel 38-41 30
+  cave day slowpoke 38-41 30
+  cave day slugma 38-41 20
+  cave day torkoal 39-41 20
+  cave night woobat 38-40 35
+  cave night slugma 38-41 25
+  cave night numel 38-41 20
+  cave night golbat 39-41 20
+  surf any psyduck 38-41 40
+  surf any slowpoke 38-41 30
+  surf any golduck 40-42 20
+  surf any slowbro 40-42 10
+  oldrod any magikarp 25-30 100
+  goodrod any goldeen 35-39 60
+  goodrod any barboach 35-39 40
+  superrod any seaking 40-43 50
+  superrod any whiscash 40-43 50
+end

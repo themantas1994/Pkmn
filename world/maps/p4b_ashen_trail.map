@@ -43,6 +43,8 @@ MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 end
 
 warp 8 3 -> p4b_obsidian_grotto 8 12 up
+tile 32 2 cave_entrance
+warp 32 2 -> p4b_magma_tunnel 14 18 up
 sign 31 13 text="ASHEN TRAIL\nMaster Kaen's training ground. Fire Breathers ahead: approach with caution and a Burn Heal."
 npc p4b_apprentice_sora 34 13 sprite=youngster face=down script=p4b_apprentice_sora
 trainer p4b_trail_breather_ash 27 15 sprite=hiker face=right sight=4

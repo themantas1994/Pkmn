@@ -121,3 +121,25 @@ script p4b_glass_kid
     end
   end
 end
+
+# --- Ashfall Caldera ------------------------------------------------------------------
+script p4b_caldera_shrine
+  say "A weathered stone shrine on the crater islet. A carving shows a great bird with rainbow wings rising from the fire.\pThe inscription reads: \"When light returns to the mountain of crystal, the rainbow will return to the tower.\""
+end
+
+script p4b_caldera_sage
+  faceplayer
+  if flag p3a_got_teraorb
+    say "SAGE: The crystals beneath the cavern are awake again, and so is the rainbow's promise. Become Champion, and Ember Tower may open to you."
+  else
+    say "SAGE: From this rim, the first sages watched a rainbow bird circle the crater. They built Ember Tower to welcome it home.\pIt has not come back since the light began to fade. Team Eclipse's work, I'd wager.\pThe bird lands only for a true Champion, they say. Perhaps one day, for you."
+  end
+end
+
+# --- Steam Grotto -----------------------------------------------------------------------
+script p4b_steam_attendant
+  faceplayer
+  say "ATTENDANT: Welcome to the Steam Grotto! The pools are fed by Cinder Hollow's heat. Let your Pokémon have a soak."
+  heal
+  say "ATTENDANT: All rested! The old lady by the spring outside found this place. She still won't tell anyone how."
+end

@@ -1,0 +1,58 @@
+# Ashfall Caldera — the smoking rim of Mt. Ashfall above the city, with a crater lake (Surf) and a view of Ember Tower.
+map p4b_ashfall_caldera
+name "Ashfall Caldera"
+location "Ashfall City"
+music route_late
+environment sand
+weather sand
+region 12 2
+encounters p4b_ashfall_caldera
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMM.......r......................MMM
+MMM...,,,,,,,,,.......,,,,,,,,...MMM
+MMM...,,,,,,,,,.......,,,,,,,,.r.MMM
+MMM..............................MMM
+MMM.....MMMMMMMMMM.MMMMMMMMM.....MMM
+MMM.....MMMMMMMMMM.MMMMMMMMM.....MMM
+MMM.,,,.M..................M.....MMM
+MMM.,,,.M................r.M.,,,.MMM
+MMM.,,,.M...~~~~~~~~~~~~...M.,,,.MMM
+MMM.,,,.M...~~~~~~~~~~~~...M.,,,.MMM
+MMM.,,,.....~~~~.G..~~~~...M.,,,.MMM
+MMM.,,,.....~~~~....~~~~...M.,,,.MMM
+MMM.....M...~~~~....~~~~...M.,,,.MMM
+MMM.....M...~~~~~~~~~~~~...M.,,,.MMM
+MMM.....M...~~~~~~~~~~~~.........MMM
+MMM.....M...~~~~~~~~~~~~...M.....MMM
+MMMr....M.r................M.....MMM
+MMM.....M..................M....rMMM
+MMM.....MMvvvvvvvvvvvvvvvvMM.....MMM
+MMM.....MM................MM.....MMM
+MMMM............................MMMM
+MMMM..,,,,,,,,................r.MMMM
+MMMM..,,,,,,,,........,,,,,,,,..MMMM
+MMMM..,,,,,,,,........,,,,,,,,..MMMM
+MMMM..,,,,,,,,........,,,,,,,,..MMMM
+MMMM.r................,,,,,,,,..MMMM
+MMMM............................MMMM
+MMMMMMMMMMMMMMMMMMEMMMMMMMMMMMMMMMMM
+end
+
+warp 18 29 -> p4b_magma_tunnel 20 2 down
+sign 17 12 script=p4b_caldera_shrine
+npc p4b_caldera_sage 18 3 sprite=sage face=down script=p4b_caldera_sage
+trainer p4b_cal_breather_hob 9 25 sprite=hiker face=right sight=3
+trainer p4b_cal_ace_lyra 26 25 sprite=cooltrainer_f face=left sight=4
+trainer p4b_cal_bird_corvo 5 11 sprite=youngster face=down sight=4
+trainer p4b_cal_ranger_teal 30 12 sprite=ranger face=left sight=4
+trainer p4b_cal_psychic_auri 10 4 sprite=psychic face=right sight=3
+trainer p4b_cal_ace_garr 26 3 sprite=cooltrainer_m face=left sight=4
+trainer p4b_cal_hiker_mott 24 18 sprite=hiker face=up sight=3
+item p4b_cal_tm 3 2 tm:sunnyday
+item p4b_cal_islet 19 14 rarecandy
+item p4b_cal_revive 32 21 maxrevive
+hidden p4b_cal_star 4 28 starpiece
+hidden p4b_cal_feather 9 9 prettyfeather

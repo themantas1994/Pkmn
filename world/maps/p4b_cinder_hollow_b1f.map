@@ -36,6 +36,8 @@ WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 end
 
 warp 28 3 -> p4b_cinder_hollow_1f 26 9 down
+tile 12 10 cave_ladder
+warp 12 10 -> p4b_cinder_hollow_b2f 12 10 down
 obstacle 15 14 boulder flag=p4b_ch2_boulder
 npc p4b_hurt_hiker 24 18 sprite=hiker face=left script=p4b_hurt_hiker hideif=p4b_hiker_rescued
 trainer p4b_ch2_breather_fumo 25 4 sprite=hiker face=left sight=3

@@ -64,3 +64,5 @@ npc p4b_r9_springgoer 3 13 sprite=oldwoman face=right script=p4b_r9_springgoer
 item p4b_r9_burnheal 21 3 burnheal
 item p4b_r9_charcoal 21 17 charcoal
 hidden p4b_r9_ember 3 6 fireterashard
+tile 14 18 cave_entrance
+warp 14 18 -> p4b_steam_grotto 15 2 down

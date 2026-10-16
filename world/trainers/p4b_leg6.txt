@@ -219,3 +219,219 @@ trainer p4b_kaen_master
   mon emboar 44
   mon blaziken 45
 end
+
+# --- Magma Tunnel ---
+trainer p4b_tun_breather_sol
+  class p4b_firebreather
+  name "Flick"
+  intro "A lava tube! The best place to practice breathing fire! Nothing to burn but you!"
+  defeat "I burned myself out."
+  after "The tube climbs up to the caldera. The view from the rim is worth every step."
+  mon magmar 42
+  mon pyroar 42
+end
+
+trainer p4b_tun_hex_morwen
+  class p4b_hexmaniac
+  name "Morwen"
+  intro "Chandelure's flames burn souls, not wood... hehehe. Shall it light yours?"
+  defeat "My candle guttered out..."
+  after "A Dusk Stone turns Lampent into Chandelure. The Sol Catacombs had one, if you looked."
+  mon chandelure 43
+end
+
+trainer p4b_tun_ace_hector
+  class cooltrainer_m
+  name "Hector"
+  intro "Steel and poison, forged in volcanic heat! Ready to test your armor?"
+  defeat "My armor cracked."
+  after "Aggron eat iron ore. In here, they practically live in a buffet."
+  mon drapion 42
+  mon aggron 43
+end
+
+trainer p4b_tun_hiker_ferro
+  class hiker
+  name "Ferro"
+  intro "Iron in the walls, iron in my Pokémon! Can you dent 'em?"
+  defeat "Dented!"
+  after "Cracked rock down south opens a shortcut back to the entrance."
+  mon golem 42
+  mon steelix 42
+end
+
+trainer p4b_tun_scientist_inga
+  class scientist
+  name "Inga"
+  intro "My Rotom moved into a space heater! It's never been happier! Battle test!"
+  defeat "Overheated, both of us."
+  after "Magmar evolve when traded holding a Magmarizer. There's one lying around up here somewhere."
+  mon magneton 42
+  mon rotomheat 42
+end
+
+# --- Ashfall Caldera ---
+trainer p4b_cal_breather_hob
+  class p4b_firebreather
+  name "Hob"
+  intro "The caldera rim! Where the volcano breathes and so do I! FWOOSH!"
+  defeat "Fizzled on the rim."
+  after "Every Fire Breather climbs up here once. It's tradition. Also, the view."
+  mon torkoal 42
+  mon camerupt 43
+end
+
+trainer p4b_cal_ace_lyra
+  class cooltrainer_f
+  name "Lyra"
+  intro "I climbed the whole way to train before Blaise. Let's warm up together!"
+  defeat "Warmed up, cooled down."
+  after "Blaise's Houndoom Mega Evolves. Hit it hard before it gets going."
+  mon roserade 42
+  mon talonflame 43
+  mon starmie 43
+end
+
+trainer p4b_cal_bird_corvo
+  class p3a_birdkeeper
+  name "Corvo"
+  intro "The thermals over the crater are the strongest in Tessera! My birds love it!"
+  defeat "Lost the thermal..."
+  after "They say a rainbow bird once circled this crater. Ember Tower was built facing it."
+  mon skarmory 42
+  mon honchkrow 43
+end
+
+trainer p4b_cal_ranger_teal
+  class ranger
+  name "Teal"
+  intro "Rangers patrol the rim for gas vents. And for trainers who need a battle!"
+  defeat "Patrol report: humbled."
+  after "Don't drink from the crater lake. It tastes like eggs. I learned the hard way."
+  mon rapidash 43
+  mon mudsdale 43
+end
+
+trainer p4b_cal_psychic_auri
+  class psychic
+  name "Auri"
+  intro "The crater focuses the mind. Or maybe that's the fumes. Battle!"
+  defeat "Unfocused..."
+  after "The sage up here says the rainbow bird will return when the eclipse is broken. I believe him."
+  mon slowking 42
+  mon alakazam 43
+end
+
+trainer p4b_cal_ace_garr
+  class cooltrainer_m
+  name "Garr"
+  intro "Top of the volcano, top of my game! Bring it!"
+  defeat "Bottom of my game, apparently."
+  after "From up here you can see Ember Tower's roof. Nobody's been up there in a hundred years."
+  mon houndoom 43
+  mon excadrill 43
+  mon gyarados 43
+end
+
+trainer p4b_cal_hiker_mott
+  class hiker
+  name "Mott"
+  intro "Ledges everywhere! Once you jump down to the south rim there's no climbing back. Battle first!"
+  defeat "Jumped off the deep end."
+  after "Surf out to the little shrine in the lake. There's something shiny next to it."
+  mon golem 43
+  mon rhydon 43
+end
+
+# --- Steam Grotto ---
+trainer p4b_steam_swim_kai
+  class swimmer_m
+  name "Nalo"
+  intro "Hot water, cold drinks and a battle! This is the life!"
+  defeat "Boiled over..."
+  after "The pools stay warm all year. The volcano does the heating. Free!"
+  mon golduck 41
+  mon floatzel 41
+end
+
+trainer p4b_steam_swim_mina
+  class swimmer_f
+  name "Mina"
+  intro "No splashing! ...Okay, a little splashing. In battle!"
+  defeat "Splashed out."
+  after "Slowbro love the hot pools. They doze off and forget to leave for days."
+  mon lanturn 41
+  mon slowbro 42
+end
+
+trainer p4b_steam_swim_oto
+  class swimmer_m
+  name "Oto"
+  intro "I've soaked so long my fingers are prunes! Still battle-ready!"
+  defeat "Pruned."
+  after "Step on the stones across the lower pool if you didn't bring a Surfer."
+  mon quagsire 41
+  mon whiscash 42
+end
+
+trainer p4b_steam_gent_horace
+  class gentleman
+  name "Horace"
+  intro "A gentleman takes the waters, then takes on all challengers. In that order."
+  defeat "Most invigorating!"
+  after "My Bewear hugs a little too hard after a bath. I'm told it means affection."
+  mon kangaskhan 42
+  mon bewear 42
+end
+
+trainer p4b_steam_beauty_coralie
+  class beauty
+  name "Coralie"
+  intro "Steam is the secret to beautiful Pokémon. Let me show you the results!"
+  defeat "My hair's all frizzy now..."
+  after "The attendant here will rest your Pokémon for free. Such a dear."
+  mon vaporeon 42
+  mon gardevoir 42
+end
+
+# --- Cinder Hollow B2F ---
+trainer p4b_ch3_breather_kiln
+  class p4b_firebreather
+  name "Kiln"
+  intro "The Vent Core! The hottest place in Tessera! The perfect place for my fire!"
+  defeat "Out-burned..."
+  after "Magmortar fire flame cannons from their arms. Mine evolved from a Magmar I raised in this very vent."
+  mon torkoal 43
+  mon magmortar 43
+end
+
+trainer p4b_ch3_ace_selene
+  class cooltrainer_f
+  name "Selene"
+  intro "Only the strongest trainers find the Vent Core. Let's see if you belong here."
+  defeat "You belong."
+  after "Blaise trains her Houndoom in this heat. That's why it never flinches at fire."
+  mon salazzle 43
+  mon starmie 43
+  mon steelix 43
+end
+
+trainer p4b_ch3_hex_ember
+  class p4b_hexmaniac
+  name "Ashlyn"
+  intro "The vent spirits whisper... they say you'll lose... hehehe..."
+  defeat "The spirits lied..."
+  after "Ghosts and fire get along wonderfully. They both like to haunt dark places."
+  mon mismagius 43
+  mon chandelure 43
+end
+
+trainer p4b_ch3_kindler_ash2
+  class p3a_kindler
+  name "Tinder"
+  intro "The deepest vent is mine! I've been stoking it for a week!"
+  defeat "Fire's out."
+  after "Centiskorch curl up in the vents to stay warm. I've been trying the same thing."
+  mon coalossal 43
+  mon centiskorch 44
+end
