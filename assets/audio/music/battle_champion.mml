@@ -1,0 +1,31 @@
+; Champion battle - the final duel, C minor with an Eb major bridge. Original composition, CC0-1.0.
+#title Crown of Tessera
+#tempo 184
+#time 4/4
+#key C minor, Eb major
+#inst 1 duty=2 env=13,-4 rel=-1 vib=16,16,7
+#inst 2 duty=1 env=6,-1
+#inst 3 wave=6 env=13,0
+#inst 4 duty=3 env=12,-3 rel=-1 vib=16,12,6
+#def R o4 l16 [c e g > c <]4 l8
+#def r o4 l16 [c d+ g > c <]4 l8
+#def R2 o4 l16 [c e g > c <]2 l8
+#def r2 o4 l16 [c d+ g > c <]2 l8
+#def bb o2 c8 c8 > c8 < c8 c8 c8 > c8 < c8
+#def bb2 o2 c8 c8 > c8 < c8
+#def bt K8 H8 S8 H8 K8 K8 S8 H8
+#def fl K8 H8 S8 H8 S16 S16 S16 S16 T16 M16 U16 U16
+#def ma o6 c4. o5 g8 e-4 g4 | o5 a-4. o6 c8 e-4 c4 | o5 b-4. g8 e-4 b-4 | o5 f8 g8 a-8 b-8 o6 d4 o5 b-4 | o6 c4. d8 e-4 c4 | o6 e-4. d8 c4 o5 a-4 | o5 a-4 o6 c4 o5 b4 o6 d4 | o6 c2. r4 |
+#def mb o5 g2 b-4 o6 e-4 | o6 d2 o5 b-4 f4 | o5 g4. a-8 g4 e-4 | o5 c2 e-4 a-4 | o5 b-2 o6 e-4 g4 | o6 f2 d4 o5 b-4 | o6 c4 e-4 c4 o5 a-4 | o5 b-8 a-8 g8 f8 g8 a-8 b-8 o6 d8 |
+#def mc o5 f8 a-8 o6 c8 f8 e-8 c8 o5 a-8 f8 | o5 g8 o6 c8 e-8 g8 f8 e-8 d8 c8 | o5 a-4 o6 c4 e-4 a-4 | o6 g2 d4 o5 b4 | o6 f4. e-8 c4 o5 a-4 | o6 e-4. d8 c4 o5 g4 | o5 a-4 o6 c4 o5 b4 o6 d4 | o5 b8 o6 c8 d8 e-8 f8 e-8 d8 o5 b8 |
+#def ha k0{r} | k-4{R} | k3{R} | k-2{R} | k0{r} | k-4{R} | k5{r2} k-5{R2} | k0{r} | k0
+#def hb k3{R} | k-2{R} | k0{r} | k-4{R} | k3{R} | k-2{R} | k-4{R} | k-2{R} | k0
+#def hc k5{r} | k0{r} | k-4{R} | k-5{R} | k5{r} | k0{r} | k-4{R2} k-5{R2} | k-5{R} | k0
+#def ba k0{bb} | k8{bb} | k3{bb} | k10{bb} | k0{bb} | k8{bb} | k5{bb2} k7{bb2} | k0{bb} | k0
+#def bc k3{bb} | k10{bb} | k0{bb} | k8{bb} | k3{bb} | k10{bb} | k8{bb} | k10{bb} | k0
+#def bd k5{bb} | k0{bb} | k8{bb} | k7{bb} | k5{bb} | k0{bb} | k8{bb2} k7{bb2} | k7{bb} | k0
+
+A @1 o5 c4 r8 c8 e-4 r8 e-8 | o5 g4 r8 g8 b4 o6 d4 | $ {ma} {mb} @4 {mc} @1 {ma}
+B @2 o4 g4 r8 g8 o5 c4 r8 c8 | o5 e-4 r8 e-8 d4 g4 | $ {ha} {hb} {hc} {ha}
+C @3 o2 c4 r8 c8 c4 r8 c8 | o2 g4 r8 g8 g4 g4 | $ {ba} {bc} {bd} {ba}
+D v11 C4 r8 K8 S4 r8 K8 | S4 r8 S8 [S16]4 | $ [[{bt}]7 {fl}]4

@@ -1,0 +1,27 @@
+; Elite Four battle - relentless G minor. Original composition, CC0-1.0.
+#title The Four Walls
+#tempo 178
+#time 4/4
+#key G minor
+#inst 1 duty=2 env=13,-3 rel=-1 vib=16,14,7
+#inst 2 duty=1 env=6,-1
+#inst 3 wave=6 env=13,0
+#def R o4 l16 [c e g > c <]4 l8
+#def r o4 l16 [c d+ g > c <]4 l8
+#def R2 o4 l16 [c e g > c <]2 l8
+#def r2 o4 l16 [c d+ g > c <]2 l8
+#def bb o2 c8 c8 > c8 < c8 c8 c8 > c8 < c8
+#def bb2 o2 c8 c8 > c8 < c8
+#def bt K8 H8 S8 H8 K8 K8 S8 K8
+#def fl K8 S16 S16 S8 S16 S16 S16 S16 T16 T16 M16 M16 C8
+#def ma o5 g8 b-8 o6 d8 o5 g8 r8 b-8 o6 d8 e-8 | o6 e-4 d8 c8 o5 b-4 g4 | o5 f8 a8 o6 c8 o5 f8 r8 a8 o6 c8 d8 | o6 d4 c8 o5 b-8 a4 f+4 | o5 g8 b-8 o6 d8 g8 f8 e-8 d8 c8 | o5 b-4 g4 e-4 g4 | o5 g4 e-4 f+4 a4 | o5 g2. r4 |
+#def mb o5 c8 e-8 g8 o6 c8 o5 b-4 g4 | o5 d8 g8 b-8 o6 d8 c4 o5 b-4 | o5 e-8 g8 b-8 o6 e-8 d4 c4 | o5 a2 f+4 d4 | o6 e-4. d8 c4 o5 g4 | o6 c4. o5 b-8 a4 f4 | o5 b-4 o6 d4 f4 d4 | o5 a8 b-8 a8 g8 f+8 g8 a8 f+8 |
+#def ha k-5{r} | k3{R} | k5{R} | k2{R} | k-5{r} | k3{R} | k0{r2} k2{R2} | k-5{r} | k0
+#def hb k0{r} | k-5{r} | k3{R} | k2{R} | k0{r} | k5{R} | k-2{R} | k2{R} | k0
+#def ba k7{bb} | k3{bb} | k5{bb} | k2{bb} | k7{bb} | k3{bb} | k0{bb2} k2{bb2} | k7{bb} | k0
+#def bc k0{bb} | k7{bb} | k3{bb} | k2{bb} | k0{bb} | k5{bb} | k10{bb} | k2{bb} | k0
+
+A @1 o4 l16 g a b- o5 c d e- f+ g a b- o6 c d e- f+ g a | o6 g8 r8 g8 g8 d8 r8 d4 l8 | $ {ma} {mb} {ma}
+B @2 o3 l16 g a b- o4 c d e- f+ g a b- o5 c d e- f+ g a | o5 d8 r8 d8 d8 o4 b-8 r8 b-4 l8 | $ {ha} {hb} {ha}
+C @3 o2 g1 | o2 g8 r8 g8 g8 d8 r8 d4 | $ {ba} {bc} {ba}
+D v11 [S16]16 | K8 r8 K8 K8 S8 r8 S16 S16 S16 S16 | $ [[{bt}]7 {fl}]3

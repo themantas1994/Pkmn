@@ -1,0 +1,17 @@
+; Victory over a wild creature - short, cheerful loop. Original composition, CC0-1.0.
+#title Well Fought
+#tempo 140
+#time 4/4
+#key G major
+#inst 1 duty=2 env=12,-4 rel=-1 vib=20,12,6
+#inst 2 duty=1 env=7,-1
+#inst 3 wave=6 env=12,0
+#def S o4 r8 e8 r8 g8 r8 e8 r8 g8
+#def s o4 r8 d+8 r8 g8 r8 d+8 r8 g8
+#def qb o2 c4 g4 c4 g4
+#def lp o5 b4 g8 a8 b4 d4 | o5 c8 e8 g8 o6 c8 o5 b4 g4 | o5 a4 f+8 g8 a4 d4 | o5 g4 b4 o6 d4 o5 b4 | o5 e8 g8 b8 o6 e8 d4 o5 b4 | o6 c4 o5 a8 g8 e4 g4 | o5 f+4 a4 o6 d4 c4 | o5 a2 f+4 d4 |
+
+A @1 o5 d8 g8 b8 o6 d8 o5 b8 o6 d8 g4 | o6 g2 r2 | $ {lp}
+B @2 o4 b8 o5 d8 g8 b8 g8 b8 o6 d4 | o5 b2 r2 | $ k-5{S} | k0{S} | k2{S} | k-5{S} | k4{s} | k0{S} | k2{S} | k2{S} | k0
+C @3 o2 g4 r4 g4 r4 | o2 g2 r2 | $ k7{qb} | k0{qb} | k2{qb} | k7{qb} | k4{qb} | k0{qb} | k2{qb} | k2{qb} | k0
+D v10 K4 S4 K4 S8 S8 | C2 r2 | $ [K8 H8 S8 H8 K8 H8 S8 H8]7 K8 H8 S8 H8 S8 S8 S16 S16 S8
