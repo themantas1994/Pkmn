@@ -1,0 +1,37 @@
+# Eclipse Lens Lab (Expansion E3) — where the backup lens for Prism Summit is being polished.
+map p4c_eclipse_lab
+name "Eclipse Lens Lab"
+location "Umbral Pass"
+music villain_hideout
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^^^^^^^^^^^
+@BB@@P@@@@@@@@P@@BB@
+@oooooooooooooooooo@
+@ottooooooooooootto@
+@ohhooooooooooooohh@
+@oooooooooooooooooo@
+@ooooocccccccccoooo@
+@oooooooooooooooooo@
+@oooooooooooooooooo@
+@ottooooooooooootto@
+@oooooooooooooooooo@
+@oooooooooooooooooo@
+@ooooooooooLooooooo@
+@@@@@@@@@@@@@@@@@@@@
+end
+
+legend
+L cave_ladder
+end
+
+warp 11 12 -> p4c_eclipse_workshop 14 3 down
+npc el_lens 9 2 sprite=boulder script=p4c_ws_lens
+npc el_chief 10 4 sprite=scientist face=down script=p4c_ws_chief hideif=p4c_ws_chief_beaten
+trainer p4c_el_grunt_d 4 8 sprite=grunt_f face=right sight=4
+trainer p4c_el_grunt_e 16 7 sprite=grunt_m face=left sight=4
+sign 2 5 text="Whiteboard: \"Lens #1 - Prism Summit. Lens #2 - backup. Lens #3 - ???\" Someone has drawn a sad face under #3."
+item el_ppup 18 11 ppup
+item el_xspatk 1 11 xspatk 2

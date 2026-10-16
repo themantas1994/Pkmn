@@ -41,3 +41,12 @@ encounters p4c_roost_trail
   grass night honchkrow 50-52 20
   grass night sneasel 48-50 20
 end
+
+encounters p4c_eclipse_workshop
+  rate cave 10
+  cave any golbat 52-54 30
+  cave any magneton 52-54 25
+  cave any murkrow 52-54 20
+  cave any koffing 50-52 15
+  cave any weezing 53-55 10
+end

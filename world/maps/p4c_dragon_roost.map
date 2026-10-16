@@ -36,3 +36,5 @@ trainer p4c_dr_tamer_rhea 5 11 sprite=blackbelt face=right sight=3
 trainer p4c_dr_cool_corwin 16 9 sprite=cooltrainer_m face=left sight=3
 item dr_dracoshard 18 4 dragonterashard 3
 hidden dr_hidden_ppmax 3 4 ppmax
+trainer p4c_dr_bird_wren 16 13 sprite=youngster face=left sight=3
+trainer p4c_dr_sage_aldric 4 6 sprite=sage face=right sight=3

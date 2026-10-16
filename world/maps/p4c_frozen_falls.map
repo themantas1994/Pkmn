@@ -52,3 +52,6 @@ item ff_hailstone 14 16 icyrock
 item ff_ultraball 24 15 ultraball 3
 hidden ff_hidden_nugget 20 4 bignugget
 hidden ff_hidden_candy 2 18 rarecandy
+tile 3 2 cave_ladder
+warp 3 2 -> p4c_frozen_falls_depths 4 2 right
+trainer p4c_ff_black_haldor 25 18 sprite=blackbelt face=left sight=3

@@ -98,3 +98,69 @@ script p4c_roost_apprentice
     say "APPRENTICE: The master only teaches Draco Meteor to people who beat him. Nobody's beaten him since Elder Draca. She was nineteen!"
   end
 end
+
+# ------------------------------------------------------------------ The second lens (Umbral Pass, Eclipse Workshop)
+script p4c_up_haru
+  faceplayer
+  if quest p4c_second_lens done
+    say "HARU: The spare lens is rubble and the Clan owes you twice over. Now get up that mountain!"
+  elif flag p4c_lens_destroyed
+    say "HARU: You smashed the spare lens? Ha! Umbra gets one shot at the summit and no second chances."
+    if not quest p4c_second_lens started
+      quest p4c_second_lens start
+    end
+    tm darkpulse
+    giveitem expcandyxl
+    quest p4c_second_lens done
+    say "HARU: Dark Pulse, from the Clan's own TM case. Seems fitting to turn their darkness back on them."
+  else
+    say "HARU: Clan scout Haru. Eclipse grunts dug into that cave in the west cliff and haul crates in and out all night.\pWe think they're building a second lens, in case the first one fails. If you can, wreck it!"
+    if not quest p4c_second_lens started
+      quest p4c_second_lens start
+    end
+  end
+end
+
+script p4c_ws_switch_a
+  setflag p4c_ws_a
+  say "Click! Machinery grinds somewhere to the east. The first gate in front of the ladder sinks into the floor."
+end
+
+script p4c_ws_switch_b
+  setflag p4c_ws_b
+  say "Click! Machinery grinds somewhere to the west. The second gate in front of the ladder sinks into the floor."
+end
+
+script p4c_ws_chief
+  faceplayer
+  say "CHIEF HALLORAN: Who let a child into the Lens Lab?! That lens is three years of my life!"
+  battle p4c_ws_chief_halloran
+  if result win
+    say "CHIEF HALLORAN: Fine! Fine. Do what you like. Umbra has the first lens anyway... I'm going back to my mother's."
+    setflag p4c_ws_chief_beaten
+    fadeout
+    hide el_chief
+    fadein
+  end
+end
+
+script p4c_ws_lens
+  if flag p4c_lens_destroyed
+    say "Shards of black glass, swept into a neat pile. Someone in Team Eclipse is very tidy."
+  elif not flag p4c_ws_chief_beaten
+    say "A huge black lens on a steel frame. Chief Halloran glares at you over it."
+  else
+    say "A huge black lens on a steel frame, still warm from polishing. A crank on the side tilts it..."
+    ask "Tip the lens off its frame?"
+    if result yes
+      shake
+      say "CRASH! The backup lens shattered into a thousand black shards!"
+      setflag p4c_lens_destroyed
+      if quest p4c_second_lens started
+        quest p4c_second_lens next
+      end
+    else
+      say "You left the lens alone. For now."
+    end
+  end
+end

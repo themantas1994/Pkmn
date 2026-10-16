@@ -39,3 +39,9 @@ quest p4c_roost_trial "The Hermit of the Roost"
   desc "Hermit Sorin, Elder Draca's teacher, guards the Dragon Clan's secret technique on the Dragon's Roost."
   step "Pass Elder Draca's Dragon Trial, then defeat Hermit Sorin."
 end
+
+quest p4c_second_lens "The Second Lens"
+  desc "Clan scout Haru suspects Team Eclipse is building a backup lens in a cave off Umbral Pass."
+  step "Find and destroy the backup lens in the Eclipse Workshop."
+  step "Tell Haru in Umbral Pass."
+end
