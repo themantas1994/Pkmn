@@ -1,0 +1,17 @@
+; Ancient ruins - slow, hollow and mysterious, E phrygian. Original composition, CC0-1.0.
+#title Script of the First People
+#tempo 70
+#time 4/4
+#key E phrygian
+#inst 1 duty=1 env=10,-7 rel=-4 vib=28,14,4
+#inst 2 duty=0 env=5,-3
+#inst 3 wave=0 env=13,0
+; open fifths (no thirds) keep the harmony ambiguous
+#def Q o4 c4 g4 > c4 < g4
+#def dn o2 c1
+#def ml o4 b2. o5 c4 | o5 c2 o4 a4 f4 | o4 g4 f4 e2 | o4 d2 f4 a4 | o4 b2 o5 e4 d4 | o5 c2. o4 a4 | o4 a4 o5 c4 e4 d4 | o5 d2 o4 b2 | o5 c4. o4 b8 a4 f4 | o4 g2 e4 b4 | o4 a2 f4 d4 | o4 f2 g4 f4 |
+
+A @1 $ {ml}
+B @2 $ k4{Q} | k5{Q} | k4{Q} | k2{Q} | k4{Q} | k5{Q} | k-3{Q} | k-5{Q} | k5{Q} | k4{Q} | k2{Q} | k5{Q} | k0
+C @3 $ k4{dn} | k5{dn} | k4{dn} | k2{dn} | k4{dn} | k5{dn} | k9{dn} | k7{dn} | k5{dn} | k4{dn} | k2{dn} | k5{dn} | k0
+D v6 $ [T2 r4 R4 | r2 R8 r8 r4 |]6

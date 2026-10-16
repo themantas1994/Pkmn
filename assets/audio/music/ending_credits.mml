@@ -1,0 +1,27 @@
+; Ending credits - the title theme returns, unhurried, with a new middle strain. Original composition, CC0-1.0.
+#title Every Road Behind Us
+#tempo 112
+#time 4/4
+#key D major
+#inst 1 duty=2 env=11,-7 rel=-3 vib=20,14,5
+#inst 2 duty=1 env=7,-3
+#inst 3 wave=7 env=12,0
+#inst 4 duty=1 env=11,-6 rel=-3 vib=20,18,5
+#def maj o4 c8 g8 e8 g8 c8 g8 e8 g8
+#def min o4 c8 g8 d+8 g8 c8 g8 d+8 g8
+#def bas o2 c2 g2
+#def ma o5 f+4. e8 d4 o4 a4 | o5 g4. f+8 e4 o4 b4 | o5 e8 f+8 g8 a8 b4 g4 | o5 a4. g8 f+4 e4 | o5 f+4. e8 d4 a4 | o5 b4. a8 g4 b4 | o5 a4 o6 c+4 o5 b8 a8 g8 e8 | o5 d2. r4 |
+#def mb o5 f+2 b4 a4 | o5 g2 d4 e4 | o5 f+4. g8 a4 f+4 | o5 e2. r4 | o5 f+2 b4 o6 c+4 | o6 d2 o5 b4 g4 | o5 e4 f+8 g8 a4 b4 | o5 a2 r8 o5 c+8 d8 e8 |
+#def mc o5 b2 a4 g4 | o5 a2 e4 c+4 | o5 c+4 f+4 a4 f+4 | o5 f+2 d4 o4 b4 | o5 e4 g4 b4 o6 e4 | o6 c+2 o5 a4 g4 | o5 f+4 a4 o6 d4 c+4 | o6 d2 r8 o5 c+8 d8 e8 |
+#def ha k2{maj} | k-5{maj} | k4{min} | k-3{maj} | k2{maj} | k-5{maj} | k-3{maj} | k2{maj} | k0
+#def hb k-1{min} | k-5{maj} | k2{maj} | k-3{maj} | k-1{min} | k-5{maj} | k4{min} | k-3{maj} | k0
+#def hc k-5{maj} | k-3{maj} | k-6{min} | k-1{min} | k4{min} | k-3{maj} | k2{maj} | k2{maj} | k0
+#def ba k2{bas} | k7{bas} | k4{bas} | k9{bas} | k2{bas} | k7{bas} | k9{bas} | k2{bas} | k0
+#def bb k11{bas} | k7{bas} | k2{bas} | k9{bas} | k11{bas} | k7{bas} | k4{bas} | k9{bas} | k0
+#def bc k7{bas} | k9{bas} | k6{bas} | k11{bas} | k4{bas} | k9{bas} | k2{bas} | k2{bas} | k0
+#def soft K8 H8 X8 H8 K8 H8 X8 H8
+
+A @1 $ {ma} {mb} @4 {mc} @1 {ma}
+B @2 $ {ha} {hb} {hc} {ha}
+C @3 $ {ba} {bb} {bc} {ba}
+D v8 $ [[{soft}]7 K8 H8 X8 H8 X16 X16 X16 X16 C4]4
