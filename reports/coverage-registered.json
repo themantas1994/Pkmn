@@ -499,11 +499,11 @@
     ]
   },
   "moveScripts": {
-    "registered": 339,
+    "registered": 341,
     "total": 951,
     "totalDefinition": "moves in moves.json",
-    "registeredInDex": 339,
-    "percent": 35.6,
+    "registeredInDex": 341,
+    "percent": 35.9,
     "unknownIds": [],
     "ids": [
       "acrobatics",
@@ -782,8 +782,10 @@
       "skillswap",
       "skullbash",
       "skyattack",
+      "skydrop",
       "sleeptalk",
       "smellingsalts",
+      "snatch",
       "snore",
       "soak",
       "solarbeam",
@@ -848,7 +850,7 @@
     ]
   },
   "conditions": {
-    "registered": 131,
+    "registered": 133,
     "totalDefinition": "no fixed universe (statuses, volatiles, weather, terrain, side conditions)",
     "ids": [
       "aquaring",
@@ -948,8 +950,10 @@
       "sandstorm",
       "shelltrap",
       "silktrap",
+      "skydropped",
       "slp",
       "smackdown",
+      "snatch",
       "snowscape",
       "sparklingaria",
       "spikes",

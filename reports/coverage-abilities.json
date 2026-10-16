@@ -5,9 +5,8 @@
   "totalInDex": 318,
   "reported": 318,
   "byStatus": {
-    "IMPLEMENTED_SCRIPT": 297,
-    "NO_EFFECT_NEEDED": 19,
-    "UNIMPLEMENTED": 2
+    "IMPLEMENTED_SCRIPT": 299,
+    "NO_EFFECT_NEEDED": 19
   },
   "idsByStatus": {
     "IMPLEMENTED_SCRIPT": [
@@ -116,6 +115,7 @@
       "iceface",
       "icescales",
       "illuminate",
+      "illusion",
       "immunity",
       "imposter",
       "infiltrator",
@@ -146,6 +146,7 @@
       "magnetpull",
       "marvelscale",
       "megalauncher",
+      "megasol",
       "merciless",
       "mimicry",
       "mindseye",
@@ -329,10 +330,6 @@
       "stalwart",
       "symbiosis",
       "telepathy"
-    ],
-    "UNIMPLEMENTED": [
-      "illusion",
-      "megasol"
     ]
   }
 }

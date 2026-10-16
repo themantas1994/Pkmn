@@ -265,6 +265,26 @@ object MoveScriptsExtra {
             if (Effects.move(id) == null) reg(object : MoveScript(id) { override val chargeMessage = msg })
         }
 
+        reg(object : MoveScript("skydrop") {
+            override val chargeMessage = "{user} took its target into the sky!"
+            override fun onChargeTurn(b: Battle, mc: MoveCtx) {
+                val t = mc.target
+                if (t.fainted || t.side === mc.user.side || t.hasVolatile("substitute") || b.getWeight(t) >= 200.0) { mc.move.data2["skydropFailed"] = true; return }
+                b.addVolatile(t, "skydropped", mc.user, "skydrop")
+            }
+            override fun onTry(b: Battle, mc: MoveCtx): Boolean {
+                if (!mc.target.hasType("Flying")) return true
+                b.message("It doesn't affect ${b.nmL(mc.target)}...")
+                mc.move.data2["silentFail"] = true
+                return false
+            }
+            override fun onAfterUse(b: Battle, mc: MoveCtx, hitAny: Boolean) {
+                if (mc.move.data2["skydropFailed"] == true) { mc.user.volatiles.remove("twoturnmove"); b.message("But it failed!") }
+                else if (!mc.user.hasVolatile("twoturnmove")) mc.target.volatiles.remove("skydropped")
+            }
+        })
+        status("snatch") { b, mc -> b.addVolatile(mc.user, "snatch", mc.user, "snatch"); b.message("${b.nm(mc.user)} waits for a target to make a move!"); true }
+
         // ------------------------------------------------------------ start-of-turn charge moves
         reg(object : MoveScript("focuspunch") {
             override fun onBeforeTurn(b: Battle, user: BattleMon) { b.message("${b.nm(user)} is tightening its focus!") }

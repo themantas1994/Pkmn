@@ -6,9 +6,8 @@
   "reported": 951,
   "byStatus": {
     "DATA_DRIVEN": 517,
-    "IMPLEMENTED_SCRIPT": 414,
-    "NO_EFFECT_NEEDED": 18,
-    "UNIMPLEMENTED": 2
+    "IMPLEMENTED_SCRIPT": 416,
+    "NO_EFFECT_NEEDED": 18
   },
   "idsByStatus": {
     "DATA_DRIVEN": [
@@ -860,9 +859,11 @@
       "skillswap",
       "skullbash",
       "skyattack",
+      "skydrop",
       "sleeptalk",
       "smackdown",
       "smellingsalts",
+      "snatch",
       "snore",
       "soak",
       "solarbeam",
@@ -965,10 +966,6 @@
       "round",
       "spotlight",
       "waterpledge"
-    ],
-    "UNIMPLEMENTED": [
-      "skydrop",
-      "snatch"
     ]
   }
 }
