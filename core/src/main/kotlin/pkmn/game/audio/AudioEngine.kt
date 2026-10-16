@@ -173,7 +173,7 @@ class AudioEngine(
         java.util.Arrays.fill(mix, 0, n, 0f)
 
         if (jingleActive) {
-            jingle.render(mix, 0, frames, musicVolume)
+            jingle.render(mix, 0, frames, musicVolume * MUSIC_BUS_GAIN)
             if (!jingle.isActive) {
                 jingleActive = false
                 jingle.stop()
@@ -183,7 +183,7 @@ class AudioEngine(
         } else if (music.song != null) {
             java.util.Arrays.fill(musicBuf, 0, n, 0f)
             music.render(musicBuf, 0, frames)
-            val mv = musicVolume
+            val mv = musicVolume * MUSIC_BUS_GAIN
             var gain = fadeGain
             val step = fadeStep
             var i = 0
@@ -301,6 +301,8 @@ class AudioEngine(
 
     companion object {
         const val SFX_SLOTS = 2
+        /** Music sits below sound effects by default (songs are denser than SFX). */
+        const val MUSIC_BUS_GAIN = 0.7f
 
         private fun defaultLog(msg: String) {
             val app = try { Gdx.app } catch (_: Throwable) { null }
