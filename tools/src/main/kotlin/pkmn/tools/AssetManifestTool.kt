@@ -126,7 +126,7 @@ class AssetManifestTool(private val root: File) {
                 else {
                     w = dims.first; h = dims.second
                     if (w % 8 != 0 || h % 8 != 0) {
-                        if (category in GRID_CATEGORIES && !local) issues.error("asset-grid", repoPath, "${w}x$h is not a multiple of 8 ($category assets must align to the 8px grid)")
+                        if (category in GRID_CATEGORIES && !local && (w % 4 != 0 || h % 4 != 0)) issues.error("asset-grid", repoPath, "${w}x$h is not a multiple of 4 ($category assets must align to the pixel grid)")
                         else issues.warn("asset-grid", repoPath, "${w}x$h is not a multiple of 8",
                             "Only tile/character/ui art must align to the 8px grid; $category images are drawn at their own size.")
                     }

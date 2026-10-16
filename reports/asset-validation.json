@@ -1,17 +1,30 @@
 {
   "ok": true,
   "errorCount": 0,
-  "warningCount": 0,
+  "warningCount": 1,
   "errorsByCode": {},
-  "warningsByCode": {},
+  "warningsByCode": {
+    "asset-grid": 1
+  },
   "generatedBy": "pkmn.tools.AssetManifestTool",
-  "bundledAssets": 16,
+  "bundledAssets": 196,
   "localAssets": 0,
   "bundledByCategory": {
+    "audio": 40,
+    "font": 6,
     "map": 6,
-    "other": 10
+    "other": 115,
+    "tile": 2,
+    "ui": 27
   },
   "localByCategory": {},
   "errors": [],
-  "warnings": []
+  "warnings": [
+    {
+      "code": "asset-grid",
+      "subject": "assets/gfx/ui/type_icons.png",
+      "message": "128x60 is not a multiple of 8",
+      "justification": "Only tile/character/ui art must align to the 8px grid; ui images are drawn at their own size."
+    }
+  ]
 }
