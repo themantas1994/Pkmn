@@ -1,0 +1,31 @@
+# Light Crater — a glittering hollow under the atoll's islet. If Necrozma was defeated (not caught) at Prism Summit,
+# it recovers here (L72). The Prism Pedestal can fuse Necrozma with Solgaleo's or Lunala's light (Ultra Burst forms).
+map light_crater
+name "Light Crater"
+location "Eclipse Atoll"
+music ruins
+environment cave
+region 26 26
+
+layout
+WWWWWWWWWWWWWWW
+WWWWWfffffWWWWW
+WWWfffffffffWWW
+WWffkfffffkffWW
+WWfffffffffffWW
+WfffffGfGffffWW
+WffffffffffffWW
+WWffkffffffkfWW
+WWfffffffffffWW
+WWWfffffffffWWW
+WWWWfffffffWWWW
+WWWWWfffffWWWWW
+WWWWWWfffWWWWWW
+WWWWWWWEWWWWWWW
+end
+
+warp 7 13 -> eclipse_atoll 14 11 down
+npc necrozma 7 2 sprite=legendary_shadow face=down script=p3c_necrozma showif=p3b_necrozma_defeated hideif=p3c_necrozma_gone
+npc prism_pedestal 7 5 sprite=sign script=p3c_prism_pedestal
+item lc_lightclay 3 8 lightclay
+hidden lc_hidden1 11 4 starpiece

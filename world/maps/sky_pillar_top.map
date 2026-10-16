@@ -1,0 +1,25 @@
+# Sky Pillar summit — open to the sky. Rayquaza (L75) coils here once Kyogre and Groudon have been faced.
+map sky_pillar_top
+name "Sky Pillar Summit"
+location "Pillar Isle"
+music ruins
+environment plain
+
+layout
+xxxxxxxxxxxxxxx
+xxxxuuuuuuuxxxx
+xxxuuuuuuuuuxxx
+xxuuGuuuuuGuuxx
+xxuuuuuuuuuuuxx
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xxuuuuuuuuuuuxx
+xxuuGuuuuuGuuxx
+xxxuuuuuuuuuxxx
+xxxxuuuDuuuxxxx
+xxxxxxxxxxxxxxx
+end
+
+warp 7 10 -> sky_pillar_1f 12 1 left
+npc rayquaza 7 2 sprite=legendary_shadow face=down script=p3c_rayquaza hideif=p3c_caught_rayquaza
+hidden spt_hidden1 2 5 dracoplate

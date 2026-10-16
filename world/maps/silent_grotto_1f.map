@@ -1,0 +1,43 @@
+# Silent Grotto 1F — sealed cave on Route 17's crag, opened after the Champion rematch. Strong wild Pokémon (L65-72).
+map silent_grotto_1f
+name "Silent Grotto"
+location "Route 17"
+music cave
+environment cave
+region 27 20
+encounters p3c_silent_grotto
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWWWWWW
+WffffWWWWWWWWWfLffW
+Wffkf~~~~~~~~~ffffW
+Wffff~~~~~~~~~fkffW
+WWfff~~~ff~~~~ffWWW
+WWfff~~~ff~~~~ffWWW
+WffffffWWWWWWffffWW
+WfkfffWWWWWWWWfffWW
+WffffffffffffffffWW
+WWWfffffkffffffkfWW
+WWWWWWfffWWWWWWWWWW
+WffffffffffffffffWW
+WfkfffffffffffkffWW
+WffffffffffffffffWW
+WWWfffffffffffffWWW
+WWWWWWWffffffWWWWWW
+WWWWWWWWWfWWWWWWWWW
+WWWWWWWWWEWWWWWWWWW
+end
+
+warp 9 17 -> coral_route17 18 16 down
+warp 15 1 -> silent_grotto_b1f 3 1 down
+trainer p3c_sg_ace_vega 4 12 sprite=cooltrainer_f face=right sight=5
+trainer p3c_sg_ace_altair 13 8 sprite=cooltrainer_m face=left sight=5
+item sg_ppmax 8 4 ppmax
+item sg_fullrestore 1 1 fullrestore
+item sg_abilitypatch 3 7 abilitypatch
+hidden sg_hidden1 16 13 rarecandy
+hidden sg_hidden2 9 5 bignugget

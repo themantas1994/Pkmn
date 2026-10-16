@@ -1,0 +1,24 @@
+# Altar of the Sun — Solgaleo (L70) descends here. Catching it lets the atoll warden grant Ultra Burst.
+map altar_of_sun
+name "Altar of the Sun"
+location "Eclipse Atoll"
+music ruins
+environment building
+indoor
+
+layout
+xxxxxxxxxxx
+xuuuuuuuuux
+xuGuuuuuGux
+xuuuuuuuuux
+xuuuuluuuux
+xuGullluGux
+xuuuuluuuux
+xuuuuuuuuux
+xuuuuuuuuux
+xxxxxRxxxxx
+end
+
+warp 5 9 -> eclipse_atoll 14 6 down
+npc solgaleo 5 2 sprite=legendary_shadow face=down script=p3c_solgaleo hideif=p3c_caught_solgaleo
+hidden as_hidden1 1 8 solganiumz

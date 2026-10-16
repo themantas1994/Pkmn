@@ -1,0 +1,24 @@
+# Altar of the Moon — Lunala (L70) alights here. Catching it lets the atoll warden grant Ultra Burst.
+map altar_of_moon
+name "Altar of the Moon"
+location "Eclipse Atoll"
+music ruins
+environment building
+indoor
+
+layout
+xxxxxxxxxxxx
+xddddddddddx
+xdGddddddGdx
+xddddddddddx
+xddddddddddx
+xdGddddddGdx
+xddddddddddx
+xddddddddddx
+xddddddddddx
+xxxxxxRxxxxx
+end
+
+warp 6 9 -> eclipse_atoll 14 17 down
+npc lunala 6 2 sprite=legendary_shadow face=down script=p3c_lunala hideif=p3c_caught_lunala
+hidden am_hidden1 10 8 lunaliumz

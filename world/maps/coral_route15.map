@@ -1,0 +1,58 @@
+# Route 15 — warm reef sea south of Coral Town (surf). Sandbars and a grassy reef islet host trainers.
+# Edges: N coral_town, S eclipse_atoll, E coral_route16 — all open water.
+map coral_route15
+name "Route 15"
+location "Route 15"
+music ocean_surf
+environment water
+region 26 24
+encounters p3c_route15
+connect north coral_town 0
+connect south eclipse_atoll 0
+connect east coral_route16 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~ssss~~~~~~~~~~~~~~~~~~~~~~
+~~~ssFFss~~~~~~~~~~~~~ssss~~~~
+~~~~ssss~~~~~~~~~~~~~ssrrss~~~
+~~~~~~~~~~~~~~~~~~~~~~ssss~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~sssssss~~~~~~~~~~~~
+~~~~~~~~~~ss,,,,,ss~~~~~~~~~~~
+~~~~~~~~~~s,,,T,,,s~~~~~~~~~~~
+~~~~~~~~~~ss,,,,,ss~~~~~~~~~~~
+~~~~~~~~~~~sssssss~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~ssss~~~~~~~~~~~~~ssss~~~~
+~~~~ssssss~~~~~~~~~~ssssss~~~~
+~~~~~ssss~~~~~~~~~~~~ssss~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+trainer p3c_r15_swimmer_kana 14 2 sprite=swimmer_f face=down sight=5
+trainer p3c_r15_swimmer_loa 3 10 sprite=swimmer_m face=right sight=5
+trainer p3c_r15_swimmer_pua 25 9 sprite=swimmer_f face=left sight=5
+trainer p3c_r15_fisher_mako 6 4 sprite=fisherman face=right sight=4
+trainer p3c_r15_ace_nalani 12 14 sprite=cooltrainer_f face=right sight=3
+trainer p3c_r15_swimmer_keoni 15 20 sprite=swimmer_m face=up sight=5
+trainer p3c_r15_beauty_mahina 23 23 sprite=beauty face=left sight=4
+trainer p3c_r15_sailor_hale 6 23 sprite=sailor face=right sight=4
+item r15_waterstone 25 5 waterstone
+item r15_heartscale 16 14 heartscale 3
+item r15_mysticwater 7 22 mysticwater
+hidden r15_hidden1 5 4 pearlstring
+hidden r15_hidden2 21 23 splashplate
+hidden r15_hidden3 13 16 bignugget
