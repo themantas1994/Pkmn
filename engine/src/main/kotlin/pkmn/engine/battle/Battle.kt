@@ -1632,9 +1632,9 @@ class Battle(
         val recipients = if (rules.expShareAll) receivers else participants
         for (r in recipients) {
             val participated = r in participants
-            var amount = progression.expYield(defeated.mon, r.level, rules.isTrainerBattle, luckyEgg = r.item == "luckyegg")
+            val traded = rules.playerOtId != 0 && r.mon.otId != rules.playerOtId
+            var amount = progression.expYield(defeated.mon, r.level, rules.isTrainerBattle, luckyEgg = r.item == "luckyegg", traded = traded)
             if (!participated) amount /= 2
-            if (r.mon.otId != 0 && r.mon.otName.isNotEmpty() && false) amount = amount * 3 / 2
             val capExp = r.mon.species(dex).growthRate.expForLevel(rules.levelCap)
             amount = min(amount, max(0, capExp - r.mon.exp))
             if (amount <= 0) continue
