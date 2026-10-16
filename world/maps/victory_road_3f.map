@@ -51,3 +51,6 @@ item vr3_pocket 2 20 maxrevive
 item vr3_gallery 13 11 ppup
 hidden vr3_hidden1 21 3 goldbottlecap
 hidden vr3_hidden2 25 9 maxelixir
+# --- Expansion E3: two more trainers
+trainer p4c_vr3_ace_brigid 6 13 sprite=cooltrainer_f face=right sight=3
+trainer p4c_vr3_veteran_garrick 22 17 sprite=cooltrainer_m face=left sight=3

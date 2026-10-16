@@ -45,3 +45,12 @@ quest p4c_second_lens "The Second Lens"
   step "Find and destroy the backup lens in the Eclipse Workshop."
   step "Tell Haru in Umbral Pass."
 end
+
+# ------------------------------------------------------------------ leg 9
+quest p4c_remnants "Eclipse Remnants"
+  desc "Agent Calloway at the Highland Lodge is hunting the last Team Eclipse cells and the fragments of Umbra's lens."
+  step "Find the three remnant cells: the Route 13 lake islet, under Victory Road, and past the Skyfall Grotto."
+  step "Two cells to go."
+  step "One cell to go."
+  step "Report to Agent Calloway at the Highland Lodge on Route 13."
+end
