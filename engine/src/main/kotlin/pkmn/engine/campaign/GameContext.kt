@@ -116,6 +116,24 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return state.addPokemon(mon)
     }
 
+    /** Party indices whose species (any forme) matches [want] — candidates for an in-game trade. */
+    fun tradeCandidates(want: String): List<Int> = state.party.indices.filter { i ->
+        val sp = state.party[i].species(dex)
+        sp.id == want || sp.baseSpecies == want
+    }
+
+    /**
+     * Swaps party member [index] for [received] (an NPC trade). Returns the species the received Pokémon evolves into
+     * by trading, or null. Returns null without trading if [index] does not match [want].
+     */
+    fun performTrade(index: Int, want: String, received: Pokemon): String? {
+        require(index in tradeCandidates(want)) { "party slot $index is not a $want" }
+        state.party[index] = received
+        val base = received.species(dex).baseSpecies
+        state.seen.add(base); state.caught.add(base)
+        return evolutionByItem(received, "linkingcord", null)
+    }
+
     fun markSeen(speciesId: String) { state.seen.add(dex.speciesOrNull(speciesId)?.baseSpecies ?: speciesId) }
 
     fun healParty() { for (m in state.party) m.healFully(dex) }
@@ -241,7 +259,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         val rules = BattleRules(
             allowedGimmicks = allowedGimmicks(map) + g.filter { it != Gimmick.DYNAMAX || map?.tags?.contains(content.info.dynamaxTag) == true },
             canRun = false, canCatch = false, isTrainerBattle = true, expShareAll = state.options.expShare, levelCap = levelCap(),
-            setMode = state.options.battleStyle == "set",
+            setMode = state.options.battleStyle == "set", playerOtId = state.trainerId,
         )
         for (m in foe.mons) markSeen(m.mon.speciesId)
         return Battle(dex, listOf(playerSide(), foe), rules, seed, environment = map?.environment ?: "plain", isNight = isNight())
@@ -250,7 +268,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
     fun createWildBattle(wild: Pokemon, map: MapData?, canRun: Boolean = true, seed: Long = rng.nextLong()): Battle {
         val foe = Side(1, "Wild", listOf(wild), Controller.WILD, dex)
         val rules = BattleRules(allowedGimmicks = allowedGimmicks(map), canRun = canRun, isTrainerBattle = false,
-            expShareAll = state.options.expShare, levelCap = levelCap())
+            expShareAll = state.options.expShare, levelCap = levelCap(), playerOtId = state.trainerId)
         CatchCalc.repeatCheck = { base -> base in state.caught }
         CatchCalc.caughtCount = { state.caught.size }
         markSeen(wild.speciesId)

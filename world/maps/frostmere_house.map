@@ -1,0 +1,20 @@
+map frostmere_house
+name "Frostmere House"
+location "Frostmere Town"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@B@w@
+________
+__tt____
+__hh____
+___RR___
+end
+
+warp 3 5 -> frostmere_town 17 5 down
+warp 4 5 -> frostmere_town 17 5 down
+npc fh_grandpa 5 3 sprite=oldman face=left script=p3a_fm_grandpa
+npc fh_girl 1 4 sprite=lass face=right script=p3a_fm_trade_girl

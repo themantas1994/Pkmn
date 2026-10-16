@@ -253,7 +253,8 @@ object Abilities {
 
         reg(object : A("sheerforce") {
             override fun onModifyMove(c: EffectCtx, mc: MoveCtx) {
-                if (c.isUser(mc) && (mc.move.secondaries.isNotEmpty() || mc.move.data.self?.boosts?.values?.any { it > 0 } == true && false)) {
+                // Showdown: only moves with secondary effects are boosted (self-boosts in `secondaries` count, plain `self` does not).
+                if (c.isUser(mc) && mc.move.secondaries.isNotEmpty()) {
                     mc.move.secondaries.clear(); mc.move.hasSheerForce = true
                 }
             }

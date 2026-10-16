@@ -1,0 +1,200 @@
+# Part 3A: Route 9, Ashfall Gym, rival (Ashfall), Ember Tower (post-game).
+
+trainer p3a_r9_hiker_doran
+  class hiker
+  name "Doran"
+  intro "The ash makes my boots crunch! Let's rumble!"
+  defeat "Buried under the ash..."
+  after "Ground types shrug off the heat. Remember that for Blaise."
+  mon graveler 38
+  mon camerupt 39
+  mon sandslash 38
+end
+
+trainer p3a_r9_lass_wren
+  class lass
+  name "Wren"
+  intro "My fluffy friends love this warm weather!"
+  defeat "Aww, my fluffballs!"
+  after "Altaria sings so nicely when it's sunny."
+  mon altaria 39 moves=dragonpulse,moonblast,cottonguard,roost
+  mon whimsicott 38
+end
+
+trainer p3a_r9_cool_brigid
+  class cooltrainer_f
+  name "Brigid"
+  intro "I came all the way out here to train for the Ashfall Gym. Spar with me!"
+  defeat "Your team's balanced. Mine needs work."
+  after "Bring Water and Rock types to the Gym. Trust me."
+  mon vaporeon 40 moves=scald,icebeam,haze,protect
+  mon lucario 40 moves=aurasphere,flashcannon,dragonpulse,nastyplot
+  mon tyranitar 41 moves=stoneedge,crunch,earthquake,dragondance
+end
+
+trainer p3a_r9_kindler_ash
+  class p3a_kindler
+  name "Ash"
+  intro "Kindler Ash, at your service! Feel the heat!"
+  defeat "Fizzled out..."
+  after "My name's Ash, I live by Ashfall. People think I'm joking."
+  mon slugma 37
+  mon magcargo 39
+  mon torkoal 39
+end
+
+trainer p3a_r9_psychic_omar
+  class psychic
+  name "Omar"
+  intro "I foresaw our battle... and the volcano erupting with joy."
+  defeat "I did not foresee that."
+  after "I sense a cavern of crystals in your future."
+  mon grumpig 39
+  mon xatu 39
+end
+
+trainer p3a_r9_bird_kelsey
+  class p3a_birdkeeper
+  name "Kelsey"
+  intro "My birds ride the hot updrafts! Can you keep up?"
+  defeat "Grounded!"
+  after "Skarmory's steel feathers never burn."
+  mon skarmory 39
+  mon fearow 38
+  mon swellow 39
+end
+
+trainer p3a_r9_pokefan_gale
+  class pokefan
+  name "Gale"
+  intro "Isn't my Spinda adorable? Every one has different spots!"
+  defeat "Its dizzy dance didn't work..."
+  after "No two Spinda are the same. Just like trainers!"
+  mon spinda 38
+  mon zangoose 40
+end
+
+# ------------------------------------------------------------------ Ashfall Gym
+trainer p3a_g6_kindler_rex
+  class p3a_kindler
+  name "Rex"
+  intro "Welcome to the furnace! Hope you packed sunscreen!"
+  defeat "I'm toast..."
+  after "Step on the switch to the east. The lava cools, see?"
+  mon ponyta 40
+  mon rapidash 42
+end
+
+trainer p3a_g6_cool_sol
+  class cooltrainer_f
+  name "Sol"
+  intro "Only the hottest trainers reach Blaise!"
+  defeat "Cooled off completely."
+  after "The next switch is right behind me."
+  mon salandit 41
+  mon salazzle 43 moves=flamethrower,sludgebomb,dragonpulse,nastyplot
+end
+
+trainer p3a_g6_black_pyre
+  class blackbelt
+  name "Pyre"
+  intro "HYAAAH! Fire Fighting spirit!"
+  defeat "My fists are smoking..."
+  after "Blaise trains with us at dawn. Her punches are scorching."
+  mon monferno 41
+  mon infernape 43 moves=flareblitz,closecombat,machpunch,uturn
+end
+
+trainer p3a_g6_beauty_cinder
+  class beauty
+  name "Cinder"
+  intro "Isn't fire beautiful? Let me show you!"
+  defeat "Ah, my lovely flames..."
+  after "Blaise's last Pokémon can Mega Evolve. Be ready!"
+  mon ninetales 42 moves=flamethrower,extrasensory,willowisp,nastyplot
+  mon flareon 43
+end
+
+trainer p3a_leader_blaise
+  class leader
+  name "Blaise"
+  portrait leader6
+  ai 3
+  intro "Fire isn't just destruction. It's the spark before every dawn!"
+  defeat "You doused my fire completely!"
+  after "Quartz is waiting in Crystal Cavern."
+  items hyperpotion=2
+  gimmicks mega
+  prize 4600
+  mon magcargo 43 moves=lavaplume,earthpower,ancientpower,shellsmash
+  mon rapidash 43 moves=flareblitz,wildcharge,megahorn,bounce
+  mon salazzle 44 moves=flamethrower,sludgebomb,dragonpulse,nastyplot
+  mon arcanine 45 moves=flareblitz,extremespeed,crunch,wildcharge
+  mon houndoom 46 moves=flamethrower,darkpulse,sludgebomb,nastyplot item=houndoominite
+end
+
+# ------------------------------------------------------------------ Rival at Ashfall (L44)
+trainer p3a_rival_ashfall_typhlosion
+  class rival
+  name "{rival}"
+  intro "Let's see how strong you've gotten!"
+  defeat "Tch. You're the real deal."
+  ai 2
+  items hyperpotion=1
+  mon pidgeot 41 moves=hurricane,heatwave,uturn,roost
+  mon gengar 42 moves=shadowball,sludgebomb,thunderbolt,hypnosis
+  mon honchkrow 41 moves=nightslash,bravebird,suckerpunch,superpower
+  mon lucario 42 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon typhlosion 44 moves=eruption,flamethrower,focusblast,earthquake
+end
+
+trainer p3a_rival_ashfall_feraligatr
+  class rival
+  name "{rival}"
+  intro "Let's see how strong you've gotten!"
+  defeat "Tch. You're the real deal."
+  ai 2
+  items hyperpotion=1
+  mon pidgeot 41 moves=hurricane,heatwave,uturn,roost
+  mon gengar 42 moves=shadowball,sludgebomb,thunderbolt,hypnosis
+  mon honchkrow 41 moves=nightslash,bravebird,suckerpunch,superpower
+  mon lucario 42 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon feraligatr 44 moves=waterfall,crunch,icefang,dragondance
+end
+
+trainer p3a_rival_ashfall_meganium
+  class rival
+  name "{rival}"
+  intro "Let's see how strong you've gotten!"
+  defeat "Tch. You're the real deal."
+  ai 2
+  items hyperpotion=1
+  mon pidgeot 41 moves=hurricane,heatwave,uturn,roost
+  mon gengar 42 moves=shadowball,sludgebomb,thunderbolt,hypnosis
+  mon honchkrow 41 moves=nightslash,bravebird,suckerpunch,superpower
+  mon lucario 42 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon meganium 44 moves=petalblizzard,earthquake,bodyslam,swordsdance
+end
+
+# ------------------------------------------------------------------ Ember Tower (post-game)
+trainer p3a_et_sage_ren
+  class sage
+  name "Ren"
+  intro "Only the worthy may stand before the rainbow bird!"
+  defeat "You are worthy indeed."
+  after "Ho-Oh's flames revive what was lost."
+  mon chandelure 64
+  mon ninetales 65
+  mon talonflame 65
+end
+
+trainer p3a_et_sage_ilo
+  class sage
+  name "Ilo"
+  intro "Show me the heart of a Champion!"
+  defeat "Your heart burns brightly."
+  after "Go. The rainbow bird awaits."
+  mon arcanine 65
+  mon houndoom 65
+  mon rapidash 66
+end

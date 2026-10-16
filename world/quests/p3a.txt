@@ -1,0 +1,30 @@
+quest p3a_story "Embers and Frost" main
+  desc "Team Eclipse is hunting for light west of Seraphine. Earn the Ember and Frost Badges."
+  step "Travel west along Route 9 and defeat Blaise at the Ashfall Gym."
+  step "Find Quartz in Crystal Cavern, south of Ashfall."
+  step "Cross the bay on Route 11 and meet Hollis in Frostmere Town."
+  step "Defeat Isolde at the Frostmere Gym."
+  step "Climb Route 12 to Dragonspire City."
+end
+
+quest p3a_lapras "Lapras's Song"
+  desc "A homesick Lapras at the Sea Cottage on Route 11 loves pearls."
+  step "Find a Big Pearl on the islet in the middle of Route 11."
+  step "Bring the Big Pearl to the Sea Cottage."
+end
+
+quest p3a_lost_pip "Lost on the Ice"
+  desc "Pip from Frostmere went to watch the Snom on Route 12's frozen slope."
+  step "Find Pip on the frozen slope of Route 12."
+  step "Tell Pip's grandmother in Frostmere that he's safe."
+end
+
+quest p3a_letter "Hot Spring Mail"
+  desc "A gentleman at the Ashfall hot spring inn wants a letter delivered to his daughter."
+  step "Deliver the letter to the scientist at Hollis's Lodge in Frostmere."
+end
+
+quest p3a_carbink "Crystal Companion"
+  desc "Quartz's aide wants to see a Carbink, the jewel Pokémon of Crystal Cavern."
+  step "Catch a Carbink and show it to Quartz's aide."
+end

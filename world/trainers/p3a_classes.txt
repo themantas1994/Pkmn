@@ -1,0 +1,5 @@
+# Part 3A trainer classes (missing from the shared classes.txt).
+class p3a_kindler "Kindler" payout=32 portrait=hiker
+class p3a_skier "Skier" payout=40 portrait=cooltrainer_f gender=f
+class p3a_boarder "Boarder" payout=40 portrait=cooltrainer_m
+class p3a_birdkeeper "Bird Keeper" payout=32 portrait=youngster

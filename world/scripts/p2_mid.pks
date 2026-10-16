@@ -43,8 +43,13 @@ script p2_quarry_trader
   else
     ask "I want a Drilbur so bad! I'll trade you my Onix for one. Deal?"
     if result yes
-      trade drilbur onix
-      setflag p2_quarry_traded
+      trade drilbur onix 30 nick=Rocky item=metalcoat ot=DIGGER
+      if result 1
+        setflag p2_quarry_traded
+        say "Yahoo! Take good care of Rocky!"
+      else
+        say "You don't have a Drilbur? They live on Route 8!"
+      end
     else
       say "Aww. Drilbur live on Route 8, if you change your mind!"
     end

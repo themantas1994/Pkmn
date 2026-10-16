@@ -6,6 +6,11 @@ plugins {
 val gdxVersion: String by project
 val natives: Configuration by configurations.creating
 
+// Personal builds only: -Ppkmn.bundleLocalAssets=true copies assets-local/sprites into the APK as assets/imported/.
+// Such an APK contains non-redistributable files and must never be published (docs/ASSET_IMPORT.md).
+val bundleLocalAssets = (findProperty("pkmn.bundleLocalAssets") as String?)?.toBoolean() == true
+val localAssetsDir = layout.buildDirectory.dir("generated/localAssets")
+
 android {
     namespace = "pkmn.android"
     compileSdk = 35
@@ -23,6 +28,7 @@ android {
         java.srcDirs("src/main/kotlin")
         res.srcDirs("res")
         assets.srcDirs(rootProject.file("assets"))
+        if (bundleLocalAssets) assets.srcDir(localAssetsDir)
         jniLibs.srcDirs("libs")
     }
 
@@ -76,3 +82,13 @@ val copyAndroidNatives by tasks.registering {
     }
 }
 tasks.matching { it.name.contains("merge") && it.name.contains("JniLibFolders") }.configureEach { dependsOn(copyAndroidNatives) }
+
+val copyLocalAssets by tasks.registering(Sync::class) {
+    from(rootProject.file("assets-local/sprites"))
+    into(localAssetsDir.map { it.dir("imported/sprites") })
+    doFirst {
+        if (!rootProject.file("assets-local/sprites").isDirectory) throw GradleException("pkmn.bundleLocalAssets: assets-local/sprites does not exist")
+        logger.warn("pkmn.bundleLocalAssets=true: this APK contains locally imported, non-redistributable sprites. Do not publish it.")
+    }
+}
+if (bundleLocalAssets) tasks.matching { it.name.contains("merge") && it.name.endsWith("Assets") }.configureEach { dependsOn(copyLocalAssets) }

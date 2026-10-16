@@ -242,6 +242,48 @@ the `trade` special. Shops in `world/shops/p2.txt` (`p2_voltara_evo` sells `link
 Mt. Prism 3F exit leads straight into Seraphine Town (no extra route map). Seraphine Town has a Mist Grove grass patch
 and `weather fog`. Generated `assets/` output is not committed by Part 2 (run `compileMaps` after merge).
 
+## Part 3A notes (Route 9 → Route 12)
+**Maps (22 + 1 stub):** `route9`, `ashfall_city` (+ `ashfall_center`, `ashfall_mart`, `ashfall_gym`, `ashfall_house`,
+`ashfall_spa`), `ember_tower_1f`, `ember_tower_roof`, `route10`, `crystal_cavern_1f`, `crystal_cavern_b1`,
+`crystal_cavern_depths`, `route11`, `route11_cottage`, `frostmere_town` (+ `frostmere_center`, `frostmere_mart`,
+`frostmere_gym`, `hollis_lodge`, `frostmere_house`), `route12`. **Stub to delete on merge:**
+`world/maps/zz_stub_dragonspire_city.map` (honours B3 only).
+
+**Connections:** seraphine_town ⇄ route9 (B2, exact) · route9 west ⇄ ashfall_city east (`connect west ashfall_city -4`) ·
+ashfall_city south ⇄ route10 (offset 0) · route10 cave → crystal_cavern_1f → ladder → crystal_cavern_b1 → west tunnel →
+route11 (cliff cave at 31,3) · route11 north ⇄ frostmere_town south (`-6`/`6`) · frostmere_town east ⇄ route12 west
+(`2`/`-2`) · route12 east ⇄ dragonspire_city (B3, exact: 16 tall, open y=6,7, `connect east dragonspire_city -4`).
+Ember Tower door is in Ashfall's north plaza; crystal_cavern_depths is behind a crystal wall in b1 (`tileif hall_of_fame`).
+
+**Story & gating:** rival battle at the Ashfall east entrance (L44, `p3a_rival_ashfall`, variant by `starter_*`).
+Gym 6 Blaise (lava stepping stones: switches `p3a_ash_s1..3`), badge 6, `tm overheat` (+ `firiumz` if Z unlocked),
+ace Mega Houndoom L46 → `p3a_beat_blaise`. Route 10's cavern entrance is guarded until `p3a_beat_blaise`. Team Eclipse
+grunts mine the cavern; the two in b1 block the west tunnel (hidden by `p3a_got_teraorb`). Quartz (after both grunts
+are beaten) gives `teraorb` + `unlock tera` → `p3a_got_teraorb`, then exchanges 3 `<type>terashard` for a Tera Type change
+via `special set_tera_type <Type>` (**engine hook needed**: pick a party member, set its Tera Type). A camp nurse in b1
+heals. Route 11 needs Surf (badge 4 / Part 2 surfers). Frostmere Gym door is sealed (trigger) until Hollis gives
+`dynamaxband` + `unlock dynamax` (`p3a_got_dynamaxband`). Gym 7 Isolde (ice-sliding floor, solver-verified), badge 7,
+`tm blizzard` (+ `iciumz`), ace Gigantamax Lapras L52 with `gimmicks dynamax` → `p3a_beat_isolde`. `frostmere_town` and
+`frostmere_gym` are tagged `powerspot`. Main quest `p3a_story` (start on entering Route 9; `next` at Blaise, Quartz,
+Hollis, Isolde).
+
+**Side quests (world/quests/p3a.txt):** `p3a_lapras` (Big Pearl hidden on the bay islet → Lapras L40 gift,
+`p3a_got_lapras`), `p3a_lost_pip` (find Pip on Route 12's ice slope → Snom egg + Exp. Candy L), `p3a_letter` (Ashfall spa
+gentleman → Hollis's Lodge scientist), `p3a_carbink` (show a Carbink to Quartz's aide → shards + Rare Candy). In-game
+trade: Delibird → Sneasel "Frosty" L44 holding Razor Claw (`trade delibird sneasel 44 ...`, `p3a_traded_sneasel`).
+Other gifts: Fresh Water (gym guide), Charcoal, Lava Cookies, Dive Balls, Sacred Ash (after Ho-Oh). Heals: Ashfall hot
+spring attendant, cavern camp nurse, centers in Ashfall/Frostmere.
+
+**Post-game (gated on `hall_of_fame`):** Ember Tower sages step aside; roof has 2 sage trainers and Ho-Oh L70
+(`p3a_hooh_done` on capture). Crystal Cavern depths open: 2 trainers, Terapagos L70 (`p3a_terapagos_done`). Both stay
+if defeated/fled (only capture hides them). Gym leader rematches are left to 3C (Blaise/Isolde just comment on them).
+
+**Content:** 51 trainers (classes `p3a_kindler`, `p3a_skier`, `p3a_boarder`, `p3a_birdkeeper` in
+`p3a_classes.txt`), 9 encounter tables (Route 9/10/11/12 with surf/rods/rock smash, cavern + depths), shops
+`p3a_ashfall`/`p3a_frostmere`, prefab `p3a_tower` (Ember Tower).
+**Deviations / notes:** Lapras is the Part 3 starter-line gift. The compiler's `water@auto` autotiling currently reads
+already-replaced neighbours, so most water ends up `water_nw` (visual only; lead-owned code).
+
 ## Part 3B notes (Dragonspire → Prism Summit → Victory Road → League)
 **Maps (27 + 2 stubs):** dragonspire_city (+dragonspire_center, dragonspire_mart, dragonspire_house [Elder lore],
 dragonspire_house2 [trader + scale collector], dragonspire_house3 [move relearner], dragonspire_shrine [Dragon Trial],
@@ -250,9 +292,7 @@ prism_summit_peak, route13 (+route13_lodge), victory_road_1f/2f/3f, prism_platea
 gate guard), league_morrow, league_ferrum, league_sibyl, league_nox, league_champion. New prefabs in
 `world/prefabs/p3b.txt` (`p3b_tower`, `p3b_league`); extra trainer classes in `world/trainers/p3b_classes.txt`
 (`p3b_dragontamer`, `p3b_veteran_m/f`, `p3b_eclipse_sci`).
-**Stubs — delete on merge:** `world/maps/zz_stub_route12.map` (map id route12, honours B3) and
-`world/maps/zz_stub_route9.map` (map id route9, honours B2; only added because seraphine_town's `connect west route9`
-was the one pre-existing compile error). Both belong to 3A.
+**Stubs:** none left. The isolated-compile stubs (zz_stub_route12, zz_stub_route9) and 3A's zz_stub_dragonspire_city were deleted when the lead branch (with Part 3A) was merged into this branch.
 
 **Connections:** B3 exactly: dragonspire_city `connect west route12 4`, west column open only at y=10,11.
 dragonspire_city `connect east route13 2` (route13 `connect west dragonspire_city -2`, open y=8,9) and
