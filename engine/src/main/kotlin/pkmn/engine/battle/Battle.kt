@@ -219,10 +219,10 @@ class Battle(
     /** Effective weather, accounting for Cloud Nine / Air Lock. */
     fun weather(): String? = if (weatherSuppressed()) null else field.weather
 
-    /** Weather as it affects [mon] (Utility Umbrella ignores sun and rain). */
     /** Mega Sol (Mega Meganium): the holder's moves and weather checks behave as in harsh sunlight. */
     fun hasMegaSol(mon: BattleMon) = mon.ability == "megasol" && abilityActive(mon)
 
+    /** Weather as it affects [mon] (Utility Umbrella ignores sun and rain; Mega Sol always sees sun). */
     fun weatherFor(mon: BattleMon): String? {
         if (hasMegaSol(mon)) return "sunnyday"
         val w = weather() ?: return null
@@ -240,7 +240,8 @@ class Battle(
     fun start() {
         if (started) return
         started = true
-        for (s in sides) {
+        // GSC order: the foe appears ("A wild X appeared!" / "Y sent out X!") before the player's "Go! Z!".
+        for (s in sides.reversed()) {
             val lead = s.mons.firstOrNull { !it.fainted } ?: continue
             for (m in s.mons) m.mon.ensureHp(dex)
             s.active = lead
@@ -253,7 +254,7 @@ class Battle(
             }
             events.add(BattleEvent.SwitchIn(s.index, teamIndex(lead), shownSpecies(lead), lead.hp, lead.maxHp, text)); log.add(text)
         }
-        // Wild/trainer intro message ordering: foe first is handled by the UI; run switch-in effects by speed.
+        // Switch-in effects (Intimidate, weather...) run by speed.
         for (m in activeMonsBySpeed()) runSwitchInEffects(m)
         updateFacedFoes()
         checkFaints()
