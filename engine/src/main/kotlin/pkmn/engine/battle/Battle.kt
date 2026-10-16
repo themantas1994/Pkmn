@@ -829,25 +829,26 @@ class Battle(
         override?.let { return it }
         val ignore = mc.move.data.ignoreImmunity
         if (ignore == "true" || ignore?.split(',')?.contains(type) == true) return false
-        if (type == "Ground" && !isGrounded(target)) return true
+        if (type == "Ground" && !isGrounded(target, mc)) return true
         if (type == "???") return false
         for (t in target.effectiveTypes()) if (dex.typeChart.effectiveness(type, t) == 0.0) {
             if (target.hasItem("ringtarget") && itemActive(target)) continue
             if (t == "Ghost" && (type == "Normal" || type == "Fighting") && (target.hasVolatile("foresight") || target.hasVolatile("odorsleuth"))) continue
             if (t == "Dark" && type == "Psychic" && target.hasVolatile("miracleeye")) continue
-            if (t == "Flying" && type == "Ground" && isGrounded(target)) continue
+            if (t == "Flying" && type == "Ground" && isGrounded(target, mc)) continue
             return true
         }
         return false
     }
 
-    fun isGrounded(mon: BattleMon): Boolean {
+    /** Whether [mon] touches the ground; [mc] is the attacking move, whose Mold Breaker-style effects ignore Levitate. */
+    fun isGrounded(mon: BattleMon, mc: MoveCtx? = null): Boolean {
         if (field.has("gravity")) return true
         if (mon.hasVolatile("ingrain") || mon.hasVolatile("smackdown")) return true
         if (mon.item == "ironball" && itemActive(mon)) return true
         for (c in targetHandlers(mon)) if (c.holder === mon || c.holder == null) c.effect.onGrounded(c, mon)?.let { return it }
         if (mon.hasType("Flying") && !mon.hasVolatile("roost")) return false
-        if (mon.ability == "levitate" && abilityActive(mon)) return false
+        if (mon.ability == "levitate" && abilityActive(mon, mc)) return false
         if (mon.item == "airballoon" && itemActive(mon)) return false
         if (mon.hasVolatile("magnetrise") || mon.hasVolatile("telekinesis")) return false
         return true
