@@ -165,7 +165,7 @@ class BattleScreen(
             is BattleEvent.SwitchIn -> {
                 val v = views[e.side]
                 val bm = battle.sides[e.side].mons[e.teamIndex]
-                v.teamIndex = e.teamIndex; v.species = e.speciesId; v.name = bm.name; v.level = bm.level
+                v.teamIndex = e.teamIndex; v.species = e.speciesId; v.name = bm.shownName; v.level = bm.illusion?.level ?: bm.level
                 v.maxHp = e.maxHp; v.targetHp = e.hp; v.hp = e.hp.toFloat(); v.status = bm.mon.status?.id
                 v.visible = true; v.slide = if (anims) 0f else 1f; v.faint = 0f; v.dynamax = false; v.tera = null
                 v.gender = when (bm.mon.gender) { pkmn.engine.mon.Gender.MALE -> "♂"; pkmn.engine.mon.Gender.FEMALE -> "♀"; else -> "" }
@@ -210,6 +210,7 @@ class BattleScreen(
                     e.kind == "dynamax" || e.kind == "gigantamax" -> { v.dynamax = true; if (e.kind == "gigantamax") v.species = e.speciesId }
                     e.kind == "undynamax" -> { v.dynamax = false; v.species = battle.sides[e.side].mons[e.teamIndex].species.id }
                     e.kind.startsWith("tera:") -> v.tera = e.kind.removePrefix("tera:")
+                    e.kind == "illusion" -> { val bm = battle.sides[e.side].mons[e.teamIndex]; v.species = e.speciesId; v.name = bm.name; v.level = bm.level }
                     else -> v.species = e.speciesId
                 }
                 flashScreen = if (anims) 0.5f else 0f

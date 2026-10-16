@@ -431,6 +431,25 @@ object Conditions {
                 return false
             }
         })
+        reg(object : Effect("snatch", EffectKind.VOLATILE) {
+            override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 1
+        })
+        // Target of Sky Drop: held in the air (cannot act, semi-invulnerable like Fly) while the carrier is charging.
+        reg(object : Effect("skydropped", EffectKind.VOLATILE) {
+            private fun carried(c: EffectCtx): Boolean {
+                val s = c.state.source ?: return false
+                return !s.fainted && s.side.active === s && s.volatiles["twoturnmove"]?.moveId == "skydrop"
+            }
+            override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean {
+                if (carried(c)) return false
+                c.mon.volatiles.remove("skydropped")
+                return true
+            }
+            override fun onAccuracyOverride(c: EffectCtx, mc: MoveCtx): Boolean? {
+                if (!c.isTarget(mc) || !carried(c) || mc.user === c.state.source) return null
+                return if (mc.move.id in setOf("gust", "twister", "thunder", "hurricane", "skyuppercut", "smackdown", "thousandarrows")) null else false
+            }
+        })
         reg(object : Effect("beakblast", EffectKind.VOLATILE) {
             override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 1
             override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {

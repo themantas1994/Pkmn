@@ -44,8 +44,8 @@
     "tradewith:shelmet": 1,
     "upsidedown": 1
   },
-  "satisfiable": 507,
-  "unsatisfiable": 22,
+  "satisfiable": 513,
+  "unsatisfiable": 16,
   "method": "Each evolution is checked by searching for a game state under which pkmn.engine.mon.Progression.evolutionTarget returns its target. The game's region is fixed to Progression.EvolutionContext().region.",
   "gameRegion": "Tessera",
   "unsatisfiableEvolutions": [
@@ -89,44 +89,6 @@
       "level": 36,
       "conditionCode": "region:Hisui",
       "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
-    },
-    {
-      "from": "dunsparce",
-      "to": "dudunsparce",
-      "method": "LEVEL_MOVE",
-      "move": "hyperdrill",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparcethreesegment first (first matching entry wins; the official branch-selection rule is not modelled)"
-    },
-    {
-      "from": "wurmple",
-      "to": "cascoon",
-      "method": "LEVEL",
-      "level": 7,
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns silcoon first (first matching entry wins; the official branch-selection rule is not modelled)"
-    },
-    {
-      "from": "nincada",
-      "to": "shedinja",
-      "method": "LEVEL",
-      "level": 20,
-      "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns ninjask first (first matching entry wins; the official branch-selection rule is not modelled)"
-    },
-    {
-      "from": "burmy",
-      "to": "wormadamsandy",
-      "method": "LEVEL",
-      "level": 20,
-      "gender": "F",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
-    },
-    {
-      "from": "burmy",
-      "to": "wormadamtrash",
-      "method": "LEVEL",
-      "level": 20,
-      "gender": "F",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
     },
     {
       "from": "mimejr",
@@ -217,14 +179,6 @@
       "condition": "Defeat the Rapid Strike Tower",
       "conditionCode": "tower:rapid",
       "reason": "Progression has no in-game input for condition 'tower:rapid' (otherMet returns false)"
-    },
-    {
-      "from": "tandemaus",
-      "to": "maushold",
-      "method": "LEVEL",
-      "level": 25,
-      "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns mausholdfour first (first matching entry wins; the official branch-selection rule is not modelled)"
     }
   ],
   "satisfiableOnlyWithMapOrDeviceSupport": [
@@ -1431,7 +1385,10 @@
       "to": "dudunsparce",
       "method": "LEVEL_MOVE",
       "move": "hyperdrill",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparcethreesegment first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "individual:uid=1",
+        "knowsMove:hyperdrill"
+      ]
     },
     {
       "from": "dunsparce",
@@ -1740,7 +1697,9 @@
       "to": "cascoon",
       "method": "LEVEL",
       "level": 7,
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns silcoon first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "individual:uid=1"
+      ]
     },
     {
       "from": "silcoon",
@@ -1867,7 +1826,11 @@
       "method": "LEVEL",
       "level": 20,
       "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns ninjask first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "sideEffect:ninjask-evolution",
+        "freePartySlot",
+        "bagItem:pokeball"
+      ]
     },
     {
       "from": "whismur",
@@ -2293,7 +2256,9 @@
       "method": "LEVEL",
       "level": 20,
       "gender": "F",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "environment:cave"
+      ]
     },
     {
       "from": "burmy",
@@ -2301,7 +2266,9 @@
       "method": "LEVEL",
       "level": 20,
       "gender": "F",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "environment:indoor"
+      ]
     },
     {
       "from": "burmy",
@@ -4156,7 +4123,9 @@
       "method": "LEVEL",
       "level": 25,
       "gender": "N",
-      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns mausholdfour first (first matching entry wins; the official branch-selection rule is not modelled)"
+      "requires": [
+        "individual:uid=1"
+      ]
     },
     {
       "from": "tandemaus",

@@ -80,16 +80,34 @@ class Battle(
 
     /** Name for the start of a sentence: "Pikachu", "The opposing Pikachu", "The wild Pikachu". */
     fun nm(mon: BattleMon): String = when (mon.side.controller) {
-        Controller.PLAYER -> mon.name
-        Controller.WILD -> "The wild ${mon.name}"
-        Controller.AI -> "The opposing ${mon.name}"
+        Controller.PLAYER -> mon.shownName
+        Controller.WILD -> "The wild ${mon.shownName}"
+        Controller.AI -> "The opposing ${mon.shownName}"
     }
 
     /** Name in the middle of a sentence. */
     fun nmL(mon: BattleMon): String = when (mon.side.controller) {
-        Controller.PLAYER -> mon.name
-        Controller.WILD -> "the wild ${mon.name}"
-        Controller.AI -> "the opposing ${mon.name}"
+        Controller.PLAYER -> mon.shownName
+        Controller.WILD -> "the wild ${mon.shownName}"
+        Controller.AI -> "the opposing ${mon.shownName}"
+    }
+
+    /** Illusion: disguise [mon] as the last healthy party member that is not itself (Showdown's rule). */
+    private fun applyIllusion(mon: BattleMon) {
+        mon.illusion = null
+        if (mon.ability != "illusion" || !abilityActive(mon)) return
+        val last = mon.side.mons.lastOrNull { !it.fainted }
+        if (last != null && last !== mon) mon.illusion = last
+    }
+
+    /** Species id shown for [mon] (the Illusion disguise if any). */
+    fun shownSpecies(mon: BattleMon): String = mon.illusion?.species?.id ?: mon.species.id
+
+    fun breakIllusion(mon: BattleMon) {
+        if (mon.illusion == null) return
+        mon.illusion = null
+        val text = "${nm(mon)}'s illusion wore off!"
+        events.add(BattleEvent.FormeChange(mon.side.index, teamIndex(mon), mon.species.id, "illusion", text)); log.add(text)
     }
 
     fun teamIndex(mon: BattleMon) = mon.side.mons.indexOf(mon)
@@ -201,8 +219,12 @@ class Battle(
     /** Effective weather, accounting for Cloud Nine / Air Lock. */
     fun weather(): String? = if (weatherSuppressed()) null else field.weather
 
-    /** Weather as it affects [mon] (Utility Umbrella ignores sun and rain). */
+    /** Mega Sol (Mega Meganium): the holder's moves and weather checks behave as in harsh sunlight. */
+    fun hasMegaSol(mon: BattleMon) = mon.ability == "megasol" && abilityActive(mon)
+
+    /** Weather as it affects [mon] (Utility Umbrella ignores sun and rain; Mega Sol always sees sun). */
     fun weatherFor(mon: BattleMon): String? {
+        if (hasMegaSol(mon)) return "sunnyday"
         val w = weather() ?: return null
         if (mon.item == "utilityumbrella" && itemActive(mon) && w in setOf("sunnyday", "raindance", "desolateland", "primordialsea")) return null
         return w
@@ -218,19 +240,21 @@ class Battle(
     fun start() {
         if (started) return
         started = true
-        for (s in sides) {
+        // GSC order: the foe appears ("A wild X appeared!" / "Y sent out X!") before the player's "Go! Z!".
+        for (s in sides.reversed()) {
             val lead = s.mons.firstOrNull { !it.fainted } ?: continue
             for (m in s.mons) m.mon.ensureHp(dex)
             s.active = lead
             lead.isStarted = true
+            applyIllusion(lead)
             val text = when (s.controller) {
-                Controller.PLAYER -> "Go! ${lead.name}!"
-                Controller.WILD -> "A wild ${lead.name} appeared!"
-                Controller.AI -> "${s.name} sent out ${lead.name}!"
+                Controller.PLAYER -> "Go! ${lead.shownName}!"
+                Controller.WILD -> "A wild ${lead.shownName} appeared!"
+                Controller.AI -> "${s.name} sent out ${lead.shownName}!"
             }
-            events.add(BattleEvent.SwitchIn(s.index, teamIndex(lead), lead.species.id, lead.hp, lead.maxHp, text)); log.add(text)
+            events.add(BattleEvent.SwitchIn(s.index, teamIndex(lead), shownSpecies(lead), lead.hp, lead.maxHp, text)); log.add(text)
         }
-        // Wild/trainer intro message ordering: foe first is handled by the UI; run switch-in effects by speed.
+        // Switch-in effects (Intimidate, weather...) run by speed.
         for (m in activeMonsBySpeed()) runSwitchInEffects(m)
         updateFacedFoes()
         checkFaints()
@@ -496,12 +520,13 @@ class Battle(
         incoming.isStarted = true
         incoming.activeTurns = 0
         incoming.activeMoveActions = 0
+        applyIllusion(incoming)
         val text = when {
             isDrag -> "${nm(incoming)} was dragged out!"
-            side.controller == Controller.PLAYER -> "Go! ${incoming.name}!"
-            else -> "${side.name} sent out ${incoming.name}!"
+            side.controller == Controller.PLAYER -> "Go! ${incoming.shownName}!"
+            else -> "${side.name} sent out ${incoming.shownName}!"
         }
-        events.add(BattleEvent.SwitchIn(side.index, teamIndex(incoming), incoming.species.id, incoming.hp, incoming.maxHp, text)); log.add(text)
+        events.add(BattleEvent.SwitchIn(side.index, teamIndex(incoming), shownSpecies(incoming), incoming.hp, incoming.maxHp, text)); log.add(text)
         if (passedBoosts != null) {
             passedBoosts.copyInto(incoming.boosts)
             passedVolatiles?.forEach { (k, v) -> incoming.volatiles[k] = v }
@@ -669,6 +694,16 @@ class Battle(
             move.type = "???"
         }
 
+        // Snatch: a foe waiting with Snatch steals a snatchable self-targeting move and uses it itself.
+        if (move.hasFlag("snatch") && calledBy != "snatch") {
+            val thief = activeMons().firstOrNull { it !== user && it.hasVolatile("snatch") }
+            if (thief != null) {
+                thief.volatiles.remove("snatch")
+                message("${nm(thief)} snatched ${nmL(user)}'s move!")
+                useMove(MoveCtx(thief, thief, ActiveMove(move.data)), "snatch")
+                return true
+            }
+        }
         val hit: Boolean = when {
             isFieldMove(move) -> runFieldMove(mc, script)
             targetsSelf(move) -> runSelfMove(mc, script)
@@ -1106,10 +1141,13 @@ class Battle(
         val level = user.level
         var base = floor(floor(floor(2.0 * level / 5 + 2) * bp * atk / def) / 50).toInt() + 2
         // Weather.
-        if (isSun(target) && !forPreview) { if (move.type == "Fire") base = Mod.pokeRound(base * 1.5); if (move.type == "Water" && move.id != "hydrosteam") base = Mod.pokeRound(base * 0.5) }
-        else if (isSun(target)) { if (move.type == "Fire") base = Mod.pokeRound(base * 1.5); if (move.type == "Water") base = Mod.pokeRound(base * 0.5) }
-        if (move.id == "hydrosteam" && isSun(target)) base = Mod.pokeRound(base * 1.5)
-        if (isRain(target)) { if (move.type == "Water") base = Mod.pokeRound(base * 1.5); if (move.type == "Fire") base = Mod.pokeRound(base * 0.5) }
+        val sun = isSun(target) || hasMegaSol(user)
+        if (sun) when {
+            move.id == "hydrosteam" -> base = Mod.pokeRound(base * 1.5)
+            move.type == "Fire" -> base = Mod.pokeRound(base * 1.5)
+            move.type == "Water" -> base = Mod.pokeRound(base * 0.5)
+        }
+        if (!hasMegaSol(user) && isRain(target)) { if (move.type == "Water") base = Mod.pokeRound(base * 1.5); if (move.type == "Fire") base = Mod.pokeRound(base * 0.5) }
         if (mc.crit) base = floor(base * 1.5).toInt()
         // Random factor.
         val rand = forcedRoll ?: if (forPreview) 92 else 85 + rng.nextInt(16)
@@ -1191,6 +1229,7 @@ class Battle(
         }
         amount = amount.coerceIn(0, target.hp)
         target.hp -= amount
+        if (amount > 0) breakIllusion(target)
         target.hurtThisTurn = true
         target.lastDamage = amount
         target.lastDamagedBy = DamageRecord(mc.user, amount, mc.move.category, turn)

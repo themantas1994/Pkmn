@@ -32,6 +32,7 @@ registerTool("compileMaps", "Compile maps/*.map sources into assets/maps/*.json"
 registerTool("validateContent", "Validate all content and write reports/*.json", "validate")
 registerTool("buildAssetManifest", "Scan assets and write the asset manifest", "manifest")
 registerTool("checkProgression", "Check badge-order reachability, softlocks and orphaned content", "progression")
+registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
 

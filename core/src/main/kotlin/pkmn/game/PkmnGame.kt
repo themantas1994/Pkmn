@@ -31,6 +31,9 @@ import pkmn.game.screens.LoadingScreen
 import pkmn.game.screens.Screen
 import kotlin.concurrent.thread
 
+/** Frames kept for frame-time statistics. */
+const val FRAME_SAMPLES = 600
+
 /**
  * Application root: owns the screen stack, the fixed-resolution framebuffer, input and shared services.
  */
@@ -131,7 +134,11 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
 
     // ------------------------------------------------------------------ loop
 
+    /** CPU time (ns) of the last [FRAME_SAMPLES] frames' update + draw submission, for the perf overlay/automation. */
+    val frameNanos = LongArray(FRAME_SAMPLES)
+
     override fun render() {
+        val frameStart = System.nanoTime()
         val dt = minOf(Gdx.graphics.deltaTime, 0.05f)
         timeMs += (dt * 1000).toLong()
         session?.state?.let { it.playTimeMs += (dt * 1000).toLong() }
@@ -158,6 +165,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         batch.draw(fboRegion, gameRect.x, gameRect.y, gameRect.width, gameRect.height)
         batch.end()
         if (touch.enabled) drawTouchControls()
+        frameNanos[(frameCount % FRAME_SAMPLES).toInt()] = System.nanoTime() - frameStart
         frameCount++
     }
 

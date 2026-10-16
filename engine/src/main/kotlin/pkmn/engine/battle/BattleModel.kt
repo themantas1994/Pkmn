@@ -145,6 +145,10 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
     private var statCache: IntArray = computeStats()
 
     val name: String get() = mon.nickname ?: dex.species(mon.speciesId).name
+    /** Party member this Pokémon is disguised as (Illusion); null when undisguised. */
+    var illusion: BattleMon? = null
+    /** Name shown to the players (the Illusion disguise if any). */
+    val shownName: String get() = illusion?.name ?: name
     val fainted: Boolean get() = mon.hp <= 0
     var hp: Int
         get() = mon.hp

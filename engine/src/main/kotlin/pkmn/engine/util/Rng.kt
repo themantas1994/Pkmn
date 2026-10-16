@@ -43,8 +43,10 @@ class Rng(seed: Long) {
         }
     }
 
+    /** Adapter for Kotlin collection APIs (shuffled, random). Draws from this generator's state. */
     fun asKotlinRandom(): Random = object : Random() {
-        override fun nextBits(bitCount: Int): Int = (nextLong() ushr (64 - bitCount)).toInt()
+        // `this@Rng`: inside the object a bare nextLong() would resolve to Random.nextLong and recurse forever.
+        override fun nextBits(bitCount: Int): Int = if (bitCount == 0) 0 else (this@Rng.nextLong() ushr (64 - bitCount)).toInt()
     }
 
     fun fork(): Rng = Rng(nextLong())
