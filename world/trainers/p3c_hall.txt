@@ -1,0 +1,304 @@
+# Part 3C Champions' Hall rematches: eight Gym Leaders (L70-74), Elite Four (L74-77), Champion Celeste (L78-80),
+# plus the rival's post-game rematch (L72-75). E4/Champion names per docs/CAMPAIGN.md cast.
+
+# ---------------------------------------------------------------- Gym Leaders
+trainer p3c_rm_hazel
+  class leader
+  name "Hazel"
+  portrait leader1
+  ai 3
+  intro "The little sprout grew up! Let's see how tall."
+  defeat "Goodness, you've grown into a mighty oak."
+  after "Every garden needs a storm now and then. Thanks for the rain!"
+  gimmicks mega
+  items fullrestore=2
+  prize 9000
+  mon breloom 70 moves=spore,machpunch,seedbomb,rocktomb item=focussash
+  mon tsareena 70 moves=tropkick,highjumpkick,uturn,knockoff
+  mon whimsicott 70 moves=moonblast,energyball,tailwind,leechseed
+  mon decidueye 70 moves=leafblade,spiritshackle,bravebird,swordsdance
+  mon rillaboom 71 moves=woodhammer,grassyglide,knockoff,uturn
+  mon venusaur 72 moves=gigadrain,sludgebomb,earthquake,synthesis item=venusaurite
+end
+
+trainer p3c_rm_marina
+  class leader
+  name "Marina"
+  portrait leader2
+  ai 3
+  intro "The tide always comes back, Champion. So do I!"
+  defeat "Swept out to sea... and I loved every second."
+  after "Come back when the tide turns. It always does."
+  gimmicks mega
+  items fullrestore=2
+  prize 9000
+  mon pelipper 70 moves=hurricane,hydropump,uturn,roost item=damprock
+  mon barraskewda 70 moves=liquidation,closecombat,crunch,psychicfangs
+  mon toxapex 70 moves=scald,toxic,recover,haze
+  mon kingdra 70 moves=hydropump,dracometeor,icebeam,flipturn
+  mon swampert 71 moves=waterfall,earthquake,icepunch,stealthrock
+  mon gyarados 72 moves=waterfall,dragondance,earthquake,icefang item=gyaradosite
+end
+
+trainer p3c_rm_volta
+  class leader
+  name "Volta"
+  portrait leader3
+  ai 3
+  intro "Encore! The crowd demanded a rematch, superstar!"
+  defeat "Standing ovation! For you, sadly."
+  after "That show sold out. Literally, my wallet's empty."
+  gimmicks mega
+  items fullrestore=2
+  prize 9000
+  mon jolteon 71 moves=thunderbolt,shadowball,voltswitch,hypervoice
+  mon rotomwash 71 moves=hydropump,voltswitch,willowisp,painsplit
+  mon magnezone 71 moves=flashcannon,thunderbolt,voltswitch,bodypress
+  mon toxtricity 71 moves=overdrive,boomburst,sludgebomb,voltswitch
+  mon electivire 71 moves=wildcharge,icepunch,crosschop,earthquake
+  mon ampharos 72 moves=thunderbolt,dragonpulse,focusblast,voltswitch item=ampharosite
+end
+
+trainer p3c_rm_garnet
+  class leader
+  name "Garnet"
+  portrait leader4
+  ai 3
+  intro "Bedrock, eh? Let's see if you've eroded since!"
+  defeat "Not a crack in you. Solid granite."
+  after "Next time I'm bringing a bigger drill."
+  gimmicks mega
+  items fullrestore=2
+  prize 9000
+  mon garganacl 71 moves=saltcure,recover,stealthrock,bodypress
+  mon lycanroc 71 moves=accelerock,stoneedge,closecombat,crunch
+  mon aerodactyl 71 moves=stoneedge,earthquake,crunch,firefang
+  mon rhyperior 71 moves=stoneedge,earthquake,megahorn,icepunch
+  mon gigalith 71 moves=stoneedge,heavyslam,earthquake,explosion
+  mon tyranitar 72 moves=stoneedge,crunch,earthquake,dragondance item=tyranitarite
+end
+
+trainer p3c_rm_elowen
+  class leader
+  name "Elowen"
+  portrait leader5
+  ai 3
+  intro "The mist has missed you, little star."
+  defeat "Such light... the veil could never hold you."
+  after "Shine on. The mist will always remember you."
+  gimmicks zmove
+  items fullrestore=2
+  prize 9000
+  mon azumarill 72 moves=playrough,aquajet,knockoff,bellydrum
+  mon granbull 72 moves=playrough,crunch,earthquake,thunderwave
+  mon hatterene 72 moves=dazzlinggleam,psychic,mysticalfire,trickroom
+  mon grimmsnarl 72 moves=spiritbreak,falsesurrender,suckerpunch,bulkup
+  mon sylveon 72 moves=hypervoice,psyshock,calmmind,wish
+  mon togekiss 73 moves=dazzlinggleam,airslash,aurasphere,roost item=fairiumz
+end
+
+trainer p3c_rm_blaise
+  class leader
+  name "Blaise"
+  portrait leader6
+  ai 3
+  intro "The forge is still hot, Champion. Let's reheat that rivalry!"
+  defeat "Tempered steel! You're forged for this."
+  after "Ashfall's fires never go out. Neither will this rematch."
+  gimmicks mega
+  items fullrestore=2
+  prize 9000
+  mon arcanine 72 moves=flareblitz,extremespeed,closecombat,wildcharge
+  mon volcarona 72 moves=fierydance,bugbuzz,quiverdance,gigadrain
+  mon chandelure 72 moves=shadowball,flamethrower,energyball,calmmind
+  mon houndoom 72 moves=darkpulse,flamethrower,nastyplot,sludgebomb item=leftovers
+  mon skeledirge 72 moves=torchsong,shadowball,slackoff,earthpower
+  mon charizard 73 moves=flamethrower,airslash,solarbeam,focusblast item=charizarditey
+end
+
+trainer p3c_rm_isolde
+  class leader
+  name "Isolde"
+  portrait leader7
+  ai 3
+  intro "The ice remembers every footstep. Yours left cracks. Let's mend them."
+  defeat "A thaw... in the middle of winter."
+  after "Frostmere's snow will wait for your return."
+  gimmicks dynamax
+  items fullrestore=2
+  prize 9000
+  mon froslass 73 moves=icebeam,shadowball,spikes,destinybond
+  mon weavile 73 moves=tripleaxel,knockoff,iceshard,lowkick
+  mon mamoswine 73 moves=iciclecrash,earthquake,iceshard,stealthrock
+  mon ninetalesalola 73 moves=blizzard,moonblast,auroraveil,freezedry
+  mon baxcalibur 73 moves=glaiverush,iciclecrash,earthquake,dragondance
+  mon lapras 74 moves=freezedry,hydropump,thunderbolt,icebeam gmax
+end
+
+trainer p3c_rm_ryuga
+  class leader
+  name "Ryuga"
+  portrait leader8
+  ai 3
+  intro "Dragons sleep long and wake hungry. So do I."
+  defeat "The dragon bows... to you."
+  after "Dragonspire's flame burns for you now, Champion."
+  gimmicks tera
+  items fullrestore=2
+  prize 9000
+  mon kingdra 73 moves=dracometeor,hydropump,icebeam,raindance
+  mon haxorus 73 moves=outrage,earthquake,poisonjab,dragondance
+  mon hydreigon 74 moves=darkpulse,dracometeor,flamethrower,uturn
+  mon garchomp 74 moves=earthquake,outrage,stoneedge,swordsdance
+  mon dragapult 74 moves=dragondarts,phantomforce,uturn,flamethrower
+  mon dragonite 74 moves=extremespeed,dragondance,earthquake,outrage tera=Dragon
+end
+
+# ---------------------------------------------------------------- Elite Four
+trainer p3c_rm_morrow
+  class elite
+  name "Morrow"
+  portrait elite1
+  ai 3
+  intro "Back from the other side, are we? Splendid. So am I."
+  defeat "Ah... the veil parts for you once more."
+  after "The dead are patient. I can wait for another round."
+  gimmicks mega
+  items fullrestore=2
+  prize 12000
+  mon dusknoir 74 moves=shadowsneak,poltergeist,earthquake,icepunch
+  mon mimikyu 74 moves=playrough,shadowclaw,shadowsneak,swordsdance
+  mon aegislash 74 moves=shadowball,flashcannon,kingsshield,shadowsneak
+  mon chandelure 74 moves=shadowball,flamethrower,energyball,trick
+  mon dragapult 75 moves=dragondarts,phantomforce,uturn,willowisp
+  mon gengar 76 moves=shadowball,sludgebomb,focusblast,nastyplot item=gengarite
+end
+
+trainer p3c_rm_ferrum
+  class elite
+  name "Ferrum"
+  portrait elite2
+  ai 3
+  intro "Steel doesn't rust, Champion. It hardens. Let me show you."
+  defeat "Bent... but never broken. Well done."
+  after "I'll reforge every plate of armor for next time."
+  gimmicks dynamax
+  items fullrestore=2
+  prize 12000
+  mon skarmory 75 moves=bravebird,spikes,roost,ironhead
+  mon excadrill 75 moves=earthquake,ironhead,rapidspin,swordsdance
+  mon magnezone 75 moves=flashcannon,thunderbolt,voltswitch,bodypress
+  mon kingambit 75 moves=kowtowcleave,ironhead,suckerpunch,swordsdance
+  mon metagross 76 moves=meteormash,zenheadbutt,earthquake,bulletpunch
+  mon corviknight 76 moves=bravebird,bodypress,roost,bulkup gmax
+end
+
+trainer p3c_rm_sibyl
+  class elite
+  name "Sibyl"
+  portrait elite3
+  ai 3
+  intro "I foresaw this rematch the day you won. I foresaw the outcome too... perhaps."
+  defeat "The future is never fixed. Yours shines brightest."
+  after "Come again. I'll pretend to be surprised."
+  gimmicks zmove
+  items fullrestore=2
+  prize 12000
+  mon espeon 75 moves=psychic,dazzlinggleam,shadowball,calmmind
+  mon slowking 75 moves=psychic,scald,slackoff,thunderwave
+  mon reuniclus 75 moves=psychic,focusblast,shadowball,recover
+  mon bronzong 75 moves=gyroball,psychic,earthquake,trickroom
+  mon hatterene 76 moves=psychic,dazzlinggleam,mysticalfire,calmmind
+  mon alakazam 77 moves=psychic,shadowball,focusblast,nastyplot item=psychiumz
+end
+
+trainer p3c_rm_nox
+  class elite
+  name "Nox"
+  portrait elite4
+  ai 3
+  intro "Team Eclipse dreamed of endless night. I simply live in it. Shall we?"
+  defeat "Dawn breaks... again."
+  after "Night always returns. So will I."
+  gimmicks tera
+  items fullrestore=2
+  prize 12000
+  mon umbreon 75 moves=foulplay,moonlight,toxic,yawn
+  mon weavile 75 moves=knockoff,iciclecrash,iceshard,lowkick
+  mon honchkrow 75 moves=bravebird,suckerpunch,heatwave,nastyplot
+  mon krookodile 75 moves=earthquake,knockoff,stoneedge,bulkup
+  mon hydreigon 76 moves=darkpulse,dracometeor,flamethrower,nastyplot
+  mon tyranitar 77 moves=crunch,stoneedge,earthquake,dragondance tera=Dark
+end
+
+# ---------------------------------------------------------------- Champion
+trainer p3c_rm_celeste
+  class champion
+  name "Celeste"
+  portrait champion
+  ai 3
+  intro "The crown sits well on you. But a crown must be defended. Show me, Champion!"
+  defeat "Radiant. Truly radiant. Tessera chose well."
+  after "Whenever you wish to dance again, I'll be waiting under the light."
+  gimmicks mega zmove tera
+  items fullrestore=3 maxrevive=1
+  prize 25000
+  mon togekiss 78 moves=dazzlinggleam,airslash,aurasphere,nastyplot
+  mon milotic 78 moves=scald,icebeam,recover,dragontail
+  mon lucario 78 moves=aurasphere,flashcannon,vacuumwave,nastyplot item=lifeorb
+  mon volcarona 78 moves=fierydance,bugbuzz,quiverdance,gigadrain tera=Fire
+  mon garchomp 79 moves=earthquake,dragonclaw,stoneedge,swordsdance item=dragoniumz
+  mon gardevoir 80 moves=moonblast,psychic,focusblast,calmmind item=gardevoirite
+end
+
+# ---------------------------------------------------------------- Rival (post-game, Coral Town)
+trainer p3c_rival_typhlosion
+  class rival
+  name "{rival}"
+  ai 3
+  intro "Champion or not, I'm still gunning for you!"
+  defeat "Ha... still the best. One day, {player}. One day."
+  after "Rematch whenever. I'll be here, training like crazy."
+  gimmicks mega
+  items fullrestore=2
+  mon pidgeot 72 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 72 moves=shadowball,sludgebomb,dazzlinggleam,nastyplot
+  mon honchkrow 72 moves=bravebird,suckerpunch,heatwave,nastyplot
+  mon magnezone 72 moves=flashcannon,thunderbolt,voltswitch,bodypress
+  mon dragonite 73 moves=extremespeed,dragondance,earthquake,firepunch
+  mon typhlosion 75 moves=eruption,flamethrower,focusblast,extrasensory
+end
+
+trainer p3c_rival_feraligatr
+  class rival
+  name "{rival}"
+  ai 3
+  intro "Champion or not, I'm still gunning for you!"
+  defeat "Ha... still the best. One day, {player}. One day."
+  after "Rematch whenever. I'll be here, training like crazy."
+  gimmicks mega
+  items fullrestore=2
+  mon pidgeot 72 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 72 moves=shadowball,sludgebomb,dazzlinggleam,nastyplot
+  mon honchkrow 72 moves=bravebird,suckerpunch,heatwave,nastyplot
+  mon magnezone 72 moves=flashcannon,thunderbolt,voltswitch,bodypress
+  mon dragonite 73 moves=extremespeed,dragondance,earthquake,firepunch
+  mon feraligatr 75 moves=waterfall,crunch,icepunch,dragondance
+end
+
+trainer p3c_rival_meganium
+  class rival
+  name "{rival}"
+  ai 3
+  intro "Champion or not, I'm still gunning for you!"
+  defeat "Ha... still the best. One day, {player}. One day."
+  after "Rematch whenever. I'll be here, training like crazy."
+  gimmicks mega
+  items fullrestore=2
+  mon pidgeot 72 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 72 moves=shadowball,sludgebomb,dazzlinggleam,nastyplot
+  mon honchkrow 72 moves=bravebird,suckerpunch,heatwave,nastyplot
+  mon magnezone 72 moves=flashcannon,thunderbolt,voltswitch,bodypress
+  mon dragonite 73 moves=extremespeed,dragondance,earthquake,firepunch
+  mon meganium 75 moves=petalblizzard,earthquake,bodyslam,dragontail
+end

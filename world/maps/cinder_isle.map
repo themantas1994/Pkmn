@@ -1,0 +1,54 @@
+# Cinder Isle — smoking volcanic island west of Coral Town (surf). Entei roams the ash meadow, Moltres perches on the
+# summit, and Groudon sleeps in the Magma Vent (cave at the west foot).
+map cinder_isle
+name "Cinder Isle"
+location "Cinder Isle"
+music route_late
+environment sand
+region 24 22
+encounters p3c_cinder_isle
+connect east coral_town 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~sssssssssssssssss~~~~~~
+~~~~ssMMMMMMMMMMMMMMMss~~~~~
+~~~ssMMMMMssssssMMMMMMss~~~~
+~~~sMMMMMsssrssssMMMMMMs~~~~
+~~~sMMMMMssssssssMMMMMMs~~~~
+~~~sMMMMMMMMs:MMMMMMMMMs~~~~
+~~~sMMMMMMMMs:MMMMMMMMMs~~~~
+~~~sMMMEMMMMs:MMMMMMMMMs~~~~
+~~~s...:....s:.........s~~~~
+~~~s.,,:,,,,,:,,,,,....s~~~~
+~~~s.,,:,,,,,:,,,,,....s~~~~
+~~~s...::::::::::::::::s~~~~
+~~~s.,,,,,,.....,,,,,..s~~~~
+~~~s.,,,,,,.....,,,,,..s~~~~
+~~~ss..........G.......ss~~~
+~~~~ssssssssssssssssssss~~~~
+~~~~~~~~ssss~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+warp 7 8 -> magma_vent 9 14 up
+sign 16 15 text="CINDER ISLE\nKeep away from the vents. Seriously."
+tile 16 15 sign
+npc moltres 12 3 sprite=legendary_shadow face=down script=p3c_moltres hideif=p3c_caught_moltres
+npc entei 20 10 sprite=legendary_shadow face=left script=p3c_entei hideif=p3c_caught_entei
+npc ci_maiden 9 9 sprite=sage face=down script=p3c_cinder_maiden
+trainer p3c_ci_hiker_magnus 5 13 sprite=hiker face=right sight=4
+trainer p3c_ci_ace_pele 14 13 sprite=cooltrainer_f face=down sight=3
+trainer p3c_ci_blackbelt_ignis 21 12 sprite=blackbelt face=left sight=5
+trainer p3c_ci_scientist_ash 13 9 sprite=scientist face=up sight=0
+trainer p3c_ci_ace_ember 11 5 sprite=cooltrainer_m face=right sight=3
+item ci_magmarizer 22 9 magmarizer
+item ci_charcoal 4 15 charcoal
+item ci_firestone 15 4 firestone
+hidden ci_hidden1 15 3 flameplate
+hidden ci_hidden2 9 17 bignugget

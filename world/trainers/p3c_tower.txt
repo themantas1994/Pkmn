@@ -1,0 +1,196 @@
+# Part 3C Battle Tower pool. Rounds 1-3 draw from tier A (L70), rounds 4-6 from tier B (L73), round 7 from tier C
+# (L75 Tower Aces) or, once the streak reaches 14, the Tower Tycoon (L80). Battles are scripted (p3c_tower.pks).
+
+# ---------------------------------------------------------------- Tier A (L70)
+trainer p3c_bt_a1
+  class cooltrainer_m
+  name "Jasper"
+  ai 2
+  intro "Welcome to the Tower! I'm your warm-up."
+  defeat "Warmed up, alright."
+  mon arcanine 70
+  mon starmie 70
+  mon breloom 70
+end
+
+trainer p3c_bt_a2
+  class cooltrainer_f
+  name "Opal"
+  ai 2
+  intro "Let's make this quick and sparkly!"
+  defeat "Sparkle... fizzled."
+  mon sylveon 70
+  mon lanturn 70
+  mon flygon 70
+end
+
+trainer p3c_bt_a3
+  class blackbelt
+  name "Daichi"
+  ai 2
+  intro "Fists of the Tower!"
+  defeat "My fists are tired."
+  mon conkeldurr 70
+  mon hawlucha 70
+  mon lucario 70
+end
+
+trainer p3c_bt_a4
+  class psychic
+  name "Seren"
+  ai 2
+  intro "I already know how this ends. Do you?"
+  defeat "I knew that. Obviously."
+  mon gardevoir 70
+  mon bronzong 70
+  mon xatu 70
+end
+
+trainer p3c_bt_a5
+  class gentleman
+  name "Winston"
+  ai 2
+  intro "A gentleman never refuses a duel."
+  defeat "Splendidly done, old chap."
+  mon persian 70
+  mon snorlax 70
+  mon granbull 70
+end
+
+trainer p3c_bt_a6
+  class beauty
+  name "Amaryllis"
+  ai 2
+  intro "Battle me beautifully."
+  defeat "That was... beautiful, actually."
+  mon milotic 70
+  mon roserade 70
+  mon ninetales 70
+end
+
+# ---------------------------------------------------------------- Tier B (L73)
+trainer p3c_bt_b1
+  class cooltrainer_m
+  name "Ronan"
+  ai 3
+  intro "Round four. The real Tower starts now."
+  defeat "You're the real deal."
+  mon garchomp 73 moves=earthquake,dragonclaw,stoneedge,swordsdance item=lifeorb
+  mon rotomwash 73 moves=hydropump,voltswitch,willowisp,painsplit item=leftovers
+  mon scizor 73 moves=bulletpunch,uturn,knockoff,swordsdance item=choiceband
+end
+
+trainer p3c_bt_b2
+  class cooltrainer_f
+  name "Sabine"
+  ai 3
+  intro "I've reached round seven a hundred times. You won't get past me."
+  defeat "Make that a hundred and one... for you."
+  mon gyarados 73 moves=waterfall,earthquake,icefang,dragondance item=lumberry
+  mon clefable 73 moves=moonblast,flamethrower,softboiled,calmmind item=leftovers
+  mon excadrill 73 moves=earthquake,ironhead,rockslide,swordsdance item=focussash
+end
+
+trainer p3c_bt_b3
+  class ranger
+  name "Thorne"
+  ai 3
+  intro "The wild taught me strategy. Let me teach you."
+  defeat "The wild taught you better."
+  mon venusaur 73 moves=gigadrain,sludgebomb,earthpower,sleeppowder item=blacksludge
+  mon salamence 73 moves=dragonclaw,earthquake,fireblast,dragondance item=lifeorb
+  mon lapras 73 moves=freezedry,surf,thunderbolt,icebeam item=leftovers
+end
+
+trainer p3c_bt_b4
+  class scientist
+  name "Dr. Kepler"
+  ai 3
+  intro "My calculations give you a 12% chance. Let's test that."
+  defeat "Recalculating..."
+  mon porygonz 73 moves=triattack,shadowball,thunderbolt,nastyplot item=choicespecs
+  mon magnezone 73 moves=flashcannon,thunderbolt,voltswitch,bodypress item=assaultvest
+  mon reuniclus 73 moves=psychic,focusblast,shadowball,recover item=lifeorb
+end
+
+trainer p3c_bt_b5
+  class blackbelt
+  name "Ishida"
+  ai 3
+  intro "Discipline. Focus. Victory."
+  defeat "My discipline needs discipline."
+  mon machamp 73 moves=dynamicpunch,knockoff,stoneedge,bulletpunch item=choicescarf
+  mon toxicroak 73 moves=drainpunch,gunkshot,suckerpunch,swordsdance item=lifeorb
+  mon kommoo 73 moves=closecombat,dragonclaw,poisonjab,dragondance item=weaknesspolicy
+end
+
+trainer p3c_bt_b6
+  class psychic
+  name "Mirielle"
+  ai 3
+  intro "Your streak ends in my dreams. Shall we make it real?"
+  defeat "Just a bad dream..."
+  mon espeon 73 moves=psychic,dazzlinggleam,shadowball,calmmind item=lightclay
+  mon gengar 73 moves=shadowball,sludgebomb,focusblast,nastyplot item=focussash
+  mon hatterene 73 moves=psychic,dazzlinggleam,mysticalfire,trickroom item=lifeorb
+end
+
+# ---------------------------------------------------------------- Tier C (L75 Tower Aces)
+trainer p3c_bt_c1
+  class p3c_towerace
+  name "Kaito"
+  portrait cooltrainer_m
+  ai 3
+  intro "Round seven. Every challenger meets me sooner or later."
+  defeat "Seven for seven. Impressive."
+  items fullrestore=1
+  mon metagross 75 moves=meteormash,zenheadbutt,earthquake,bulletpunch item=choiceband
+  mon volcarona 75 moves=fierydance,bugbuzz,quiverdance,gigadrain item=heavydutyboots
+  mon tyranitar 75 moves=stoneedge,crunch,earthquake,dragondance item=lumberry
+end
+
+trainer p3c_bt_c2
+  class p3c_towerace
+  name "Astrid"
+  portrait cooltrainer_f
+  ai 3
+  intro "Seven battles, one ace. That's me."
+  defeat "An ace... trumped."
+  items fullrestore=1
+  mon dragonite 75 moves=extremespeed,dragondance,earthquake,firepunch item=lumberry
+  mon primarina 75 moves=moonblast,sparklingaria,icebeam,calmmind item=leftovers
+  mon kingambit 75 moves=kowtowcleave,ironhead,suckerpunch,swordsdance item=blackglasses
+end
+
+trainer p3c_bt_c3
+  class p3c_towerace
+  name "Rafael"
+  portrait cooltrainer_m
+  ai 3
+  intro "One more win and the Tower honors you. If."
+  defeat "The Tower honors you."
+  items fullrestore=1
+  mon hydreigon 75 moves=darkpulse,dracometeor,flamethrower,uturn item=choicespecs
+  mon ferrothorn 75 moves=gyroball,powerwhip,leechseed,stealthrock item=leftovers
+  mon blissey 75 moves=seismictoss,softboiled,thunderwave,icebeam item=heavydutyboots
+end
+
+# ---------------------------------------------------------------- Tower Tycoon (L80)
+trainer p3c_bt_tycoon
+  class p3c_tycoon
+  name "Aurelio"
+  portrait gentleman
+  ai 3
+  intro "Twenty victories without a fall. Then you've earned an audience with me. I am the Tycoon. Show me the meaning of a streak!"
+  defeat "Magnificent! The Tower has a new legend."
+  after "Come back and climb again. I'll be waiting at the top."
+  gimmicks mega zmove dynamax tera
+  items fullrestore=2
+  prize 30000
+  mon blissey 80 moves=seismictoss,softboiled,calmmind,icebeam item=leftovers
+  mon aegislash 80 moves=shadowball,flashcannon,kingsshield,shadowsneak item=weaknesspolicy
+  mon garchomp 80 moves=earthquake,outrage,stoneedge,swordsdance item=lifeorb
+  mon rotomwash 80 moves=hydropump,voltswitch,willowisp,painsplit item=leftovers
+  mon scizor 80 moves=bulletpunch,uturn,knockoff,swordsdance item=scizorite
+  mon dragapult 80 moves=dragondarts,shadowball,uturn,willowisp tera=Ghost item=choicespecs
+end

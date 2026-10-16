@@ -1,0 +1,55 @@
+# Route 16 — deep blue sea east of Route 15 (surf). Suicune drinks at the spring islet; the Seafloor Cavern (Kyogre)
+# opens in the rocky islet. East: Pillar Isle and the Sky Pillar.
+map coral_route16
+name "Route 16"
+location "Route 16"
+music ocean_surf
+environment water
+region 28 25
+encounters p3c_route16
+connect west coral_route15 0
+connect east pillar_isle 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~ssss~~~~~~~
+~~~~~~~~~~~~~~~~~~ssFFss~~~~~~
+~~~~~~~~~~~~~~~~~~ssFFss~~~~~~
+~~~~~~~~~~~~~~~~~~~ssss~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~r~~~~~~~~~~~~~~~~~~~~~r~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~MMMMMM~~~~~~~~~~~~~~~~
+~~~~~~~MMMMMMMM~~~~~~~~~~~~~~~
+~~~~~~sMMMEMMMMs~~~~~~~~r~~~~~
+~~~~~~ssss.sssss~~~~~~~~~~~~~~
+~~~~~~~ssssssss~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~sssss~~~~~
+~~~~~~~~~~~~~~~~~~~ss,,,ss~~~~
+~~~~~~~~~~~~~~~~~~~ss,,,ss~~~~
+~~~~~~~~~~~~~~~~~~~~sssss~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+warp 10 12 -> seafloor_cavern 9 16 up
+npc suicune 20 4 sprite=legendary_shadow face=down script=p3c_suicune hideif=p3c_caught_suicune
+trainer p3c_r16_swimmer_moana 13 6 sprite=swimmer_f face=right sight=5
+trainer p3c_r16_swimmer_tavi 3 16 sprite=swimmer_m face=right sight=5
+trainer p3c_r16_swimmer_lani 26 15 sprite=swimmer_f face=left sight=5
+trainer p3c_r16_fisher_pono 12 13 sprite=fisherman face=left sight=3
+trainer p3c_r16_ace_kahu 22 21 sprite=cooltrainer_m face=down sight=3
+trainer p3c_r16_swimmer_iolana 15 25 sprite=swimmer_f face=up sight=5
+item r16_damprock 7 13 damprock
+item r16_deepseascale 23 22 deepseascale
+hidden r16_hidden1 21 5 pearlstring
+hidden r16_hidden2 14 14 bignugget

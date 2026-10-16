@@ -1,0 +1,54 @@
+# Route 17 — cold northern current between Coral Town and Tempest Isle (surf). Articuno rests on the iceberg;
+# the Silent Grotto (Mewtwo) is sealed by a ranger until the Champion rematch is won.
+map coral_route17
+name "Route 17"
+location "Route 17"
+music ocean_surf
+environment water
+region 27 20
+encounters p3c_route17
+connect north tempest_isle 0
+connect south coral_town 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~nnnn~~~~~~~
+~~~~~~~~~~~~~~~~~~nnnnnn~~~~~~
+~~~~~~~~~~~~~~~~~~nnnnnn~~~~~~
+~~~~~~~~~~~~~~~~~~~nnnn~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~sss~~~~~~~~~~~~~~~~~~~~~~~
+~~~ss.ss~~~~~~~~~~~~~~~~~~~~~~
+~~~s...s~~~~~~~~~~~~~~~~~~~~~~
+~~~ss.ss~~~~~~~~~~~~~~~~~~~~~~
+~~~~sss~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~MMMMMM~~~~~~~~
+~~~~~~~~~~~~~~~MMMMMMMM~~~~~~~
+~~~~~~~~~~~~~~sMMMEMMMMs~~~~~~
+~~~~~~~~~~~~~~ssss.sssss~~~~~~
+~~~~~~~~~~~~~~~~ssssss~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+warp 18 15 -> silent_grotto_1f 9 16 up
+npc grotto_ranger 18 16 sprite=ranger face=down script=p3c_grotto_ranger hideif=p3c_champion_rematch
+npc articuno 20 3 sprite=legendary_shadow face=down script=p3c_articuno hideif=p3c_caught_articuno
+trainer p3c_r17_swimmer_noe 10 4 sprite=swimmer_m face=right sight=5
+trainer p3c_r17_swimmer_iris 24 9 sprite=swimmer_f face=left sight=5
+trainer p3c_r17_swimmer_finn 8 15 sprite=swimmer_m face=down sight=4
+trainer p3c_r17_swimmer_mele 22 21 sprite=swimmer_f face=up sight=4
+trainer p3c_r17_fisher_ulu 5 9 sprite=fisherman face=down sight=0
+trainer p3c_r17_sailor_bram 16 17 sprite=sailor face=down sight=4
+item r17_icestone 4 9 icestone
+item r17_neverm 21 17 nevermeltice
+hidden r17_hidden1 22 2 pearlstring
+hidden r17_hidden2 6 9 bigpearl

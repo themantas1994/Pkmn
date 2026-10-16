@@ -138,7 +138,8 @@ class PlaytimeEstimator(private val root: File) {
     private fun attachOptional(reach: WorldAnalysis.Reach, legOfPathMap: Map<String, Int>): Map<String, Int> {
         val leg = HashMap(legOfPathMap)
         val undirected = HashMap<String, MutableSet<String>>()
-        for ((a, bs) in reach.mapEdges) for (b in bs) { undirected.getOrPut(a) { HashSet() }.add(b); undirected.getOrPut(b) { HashSet() }.add(a) }
+        // Walking connections only: areas reached solely by a script warp (the post-game ferry) are not side areas of a leg.
+        for ((a, bs) in reach.walkEdges) for (b in bs) { undirected.getOrPut(a) { HashSet() }.add(b); undirected.getOrPut(b) { HashSet() }.add(a) }
         val queue = ArrayDeque(legOfPathMap.entries.sortedBy { it.value }.map { it.key })
         while (queue.isNotEmpty()) {
             val m = queue.removeFirst()

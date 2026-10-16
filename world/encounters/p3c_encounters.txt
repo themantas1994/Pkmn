@@ -1,0 +1,259 @@
+# Part 3C post-game wild encounters (Coral Isles). Levels 55-75 per docs/CAMPAIGN.md. Alolan forms appear here.
+# No legendaries in random tables (they are static encounters in p3c_legends.pks).
+
+encounters p3c_coral_town
+  rate surf 10
+  surf any wingull 50-55 30
+  surf any pelipper 55-58 30
+  surf any mantine 55-58 20
+  surf any corsola 54-57 20
+  oldrod any magikarp 40-50 70
+  oldrod any luvdisc 45-50 30
+  goodrod any luvdisc 50-55 40
+  goodrod any wishiwashi 50-55 30
+  goodrod any bruxish 52-56 30
+  superrod any gyarados 58-62 40
+  superrod any bruxish 56-60 30
+  superrod any lanturn 56-60 30
+end
+
+encounters p3c_route14
+  rate grass 25
+  grass morning pikipek 55-57 10
+  grass morning trumbeak 56-58 20
+  grass morning oricoriopau 56-59 20
+  grass morning steenee 56-58 20
+  grass morning exeggutoralola 58-60 15
+  grass morning comfey 57-59 15
+  grass day toucannon 58-60 15
+  grass day gumshoos 56-59 20
+  grass day tsareena 58-60 15
+  grass day lurantis 57-60 15
+  grass day exeggutoralola 58-60 15
+  grass day passimian 57-59 10
+  grass day oranguru 57-59 10
+  grass night raticatealola 56-59 25
+  grass night persianalola 56-59 20
+  grass night salazzle 57-60 15
+  grass night shiinotic 56-59 20
+  grass night hawlucha 57-60 10
+  grass night mimikyu 57-60 10
+  surf any wingull 52-56 30
+  surf any pelipper 55-58 30
+  surf any pyukumuku 54-57 20
+  surf any mantine 56-59 20
+  goodrod any wishiwashi 52-56 50
+  goodrod any finizen 52-56 50
+  superrod any clawitzer 58-62 40
+  superrod any palafin 58-62 20
+  superrod any wishiwashi 58-62 40
+end
+
+encounters p3c_tower_isle
+  rate surf 10
+  surf any tentacruel 56-60 40
+  surf any pelipper 56-60 30
+  surf any lanturn 57-60 30
+  goodrod any chinchou 52-56 60
+  goodrod any qwilfish 52-56 40
+  superrod any lanturn 58-62 50
+  superrod any sharpedo 58-62 50
+end
+
+encounters p3c_route17
+  rate surf 10
+  surf any spheal 54-57 15
+  surf any sealeo 56-59 25
+  surf any dewgong 57-60 25
+  surf any cloyster 57-60 15
+  surf any lapras 58-61 5
+  surf any walrein 59-62 15
+  oldrod any magikarp 40-50 100
+  goodrod any shellder 52-56 60
+  goodrod any arrokuda 52-56 40
+  superrod any barraskewda 58-62 40
+  superrod any cloyster 58-62 30
+  superrod any kingdra 60-63 10
+  superrod any octillery 58-62 20
+end
+
+encounters p3c_tempest_isle
+  rate grass 25
+  grass morning helioptile 55-57 20
+  grass morning heliolisk 58-60 20
+  grass morning emolga 56-59 20
+  grass morning togedemaru 56-59 20
+  grass morning stunfisk 56-59 20
+  grass day heliolisk 58-60 20
+  grass day zebstrika 58-61 20
+  grass day charjabug 56-58 20
+  grass day vikavolt 59-61 15
+  grass day dedenne 56-59 15
+  grass day electivire 60-62 10
+  grass night luxray 58-61 25
+  grass night swanna 57-60 20
+  grass night drifblim 57-60 20
+  grass night rotom 58-60 10
+  grass night sliggoo 57-60 25
+  surf any pelipper 56-60 60
+  surf any swanna 57-60 40
+  goodrod any chinchou 54-58 100
+  superrod any eelektross 60-63 40
+  superrod any lanturn 58-62 60
+end
+
+encounters p3c_tempest_cave
+  rate cave 12
+  cave any golbat 56-60 20
+  cave any crobat 60-63 10
+  cave any boldore 57-60 20
+  cave any galvantula 58-61 20
+  cave any magnezone 60-62 10
+  cave any goodra 61-63 5
+  cave any noibat 56-58 10
+  cave any noivern 60-63 5
+end
+
+encounters p3c_cinder_isle
+  rate grass 25
+  grass morning torkoal 57-60 25
+  grass morning salandit 55-57 15
+  grass morning turtonator 58-61 15
+  grass morning marowakalola 58-61 20
+  grass morning rapidash 58-61 25
+  grass day torkoal 57-60 20
+  grass day camerupt 58-61 20
+  grass day magcargo 58-61 20
+  grass day centiskorch 58-61 20
+  grass day volcarona 61-63 5
+  grass day larvesta 56-58 15
+  grass night marowakalola 58-61 30
+  grass night houndoom 58-61 30
+  grass night salazzle 58-61 20
+  grass night ceruledge 60-62 10
+  grass night armarouge 60-62 10
+  surf any tentacruel 56-60 60
+  surf any mantine 56-60 40
+  goodrod any remoraid 52-56 100
+  superrod any octillery 58-62 60
+  superrod any relicanth 60-63 40
+end
+
+encounters p3c_magma_vent
+  rate cave 12
+  cave any magcargo 59-62 25
+  cave any carkol 57-60 20
+  cave any coalossal 61-63 10
+  cave any heatmor 59-62 20
+  cave any magmortar 61-63 10
+  cave any garganacl 60-63 10
+  cave any glimmora 62-64 5
+end
+
+encounters p3c_route15
+  rate surf 10
+  surf any tentacruel 56-60 25
+  surf any mantine 57-60 20
+  surf any corsola 56-59 15
+  surf any alomomola 57-60 20
+  surf any jellicent 58-61 10
+  surf any cramorant 57-60 10
+  oldrod any magikarp 40-50 70
+  oldrod any luvdisc 45-50 30
+  goodrod any mareanie 52-56 50
+  goodrod any frillish 52-56 50
+  superrod any toxapex 60-63 30
+  superrod any jellicent 60-63 30
+  superrod any milotic 62-64 5
+  superrod any dragalge 60-63 35
+end
+
+encounters p3c_eclipse_atoll
+  rate surf 10
+  surf any staryu 55-58 30
+  surf any starmie 58-61 30
+  surf any lumineon 56-59 40
+  goodrod any staryu 54-58 60
+  goodrod any corsola 54-58 40
+  superrod any starmie 60-63 40
+  superrod any bruxish 60-63 40
+  superrod any dhelmise 62-64 20
+end
+
+encounters p3c_route16
+  rate surf 10
+  surf any wailmer 55-58 20
+  surf any wailord 59-62 25
+  surf any sharpedo 58-61 20
+  surf any mantine 58-61 20
+  surf any kingdra 61-63 5
+  surf any golisopod 60-62 10
+  oldrod any magikarp 45-50 100
+  goodrod any wimpod 52-56 50
+  goodrod any clauncher 52-56 50
+  superrod any gyarados 60-64 40
+  superrod any sharpedo 60-63 30
+  superrod any kingdra 62-64 10
+  superrod any relicanth 60-63 20
+end
+
+encounters p3c_seafloor_cavern
+  rate cave 12
+  rate surf 10
+  cave any golbat 58-61 30
+  cave any crobat 61-63 10
+  cave any lairon 58-61 25
+  cave any aggron 62-64 5
+  cave any sableye 58-61 15
+  cave any mawile 58-61 15
+  surf any golduck 58-61 40
+  surf any lanturn 58-61 30
+  surf any walrein 60-62 30
+  superrod any relicanth 60-63 50
+  superrod any gyarados 60-64 50
+end
+
+encounters p3c_pillar_isle
+  rate grass 25
+  grass any altaria 59-62 30
+  grass any swablu 55-57 15
+  grass any skarmory 58-61 25
+  grass any hawlucha 58-61 15
+  grass any drampa 60-62 15
+  surf any wailord 59-62 50
+  surf any mantine 58-61 50
+  superrod any gyarados 60-64 100
+end
+
+encounters p3c_sky_pillar
+  rate cave 12
+  cave any claydol 60-63 25
+  cave any banette 59-62 20
+  cave any dusclops 59-62 20
+  cave any altaria 60-63 15
+  cave any sableye 59-62 10
+  cave any shelgon 58-61 5
+  cave any dragonair 58-61 5
+end
+
+encounters p3c_silent_grotto
+  rate cave 12
+  rate surf 10
+  cave any ditto 63-66 20
+  cave any wobbuffet 64-67 15
+  cave any chansey 64-67 5
+  cave any electrode 64-67 10
+  cave any golbat 63-66 10
+  cave any rhydon 65-68 10
+  cave any kadabra 64-67 5
+  cave any gabite 64-67 5
+  cave any metang 64-67 5
+  cave any pupitar 64-67 5
+  cave any zweilous 64-67 5
+  cave any hakamoo 64-67 5
+  surf any golduck 64-68 40
+  surf any seaking 64-68 30
+  surf any slowbro 65-70 30
+  superrod any gyarados 66-70 50
+  superrod any kingdra 66-70 50
+end

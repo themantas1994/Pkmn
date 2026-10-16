@@ -1,0 +1,42 @@
+# Seafloor Cavern — flooded cave under Route 16's rocky islet. Kyogre (L70) floats in the inner lagoon (surf).
+map seafloor_cavern
+name "Seafloor Cavern"
+location "Route 16"
+music cave
+environment cave
+region 28 25
+encounters p3c_seafloor_cavern
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWWWWWW
+WWWWWWffffffWWWWWWW
+WWWWf~~~~~~~~fWWWWW
+WWWf~~~~~~~~~~fWWWW
+WWff~~~~ff~~~~ffWWW
+WWff~~~~ff~~~~ffWWW
+WWWf~~~~~~~~~~fWWWW
+WWWWff~~~~~~ffWWWWW
+WffkfffffffffffkffW
+WffffffffffffffffWW
+WWWfffWWWWWWWfffWWW
+WWfffkWWWWWWWkfffWW
+WffffffffffffffffWW
+WffkffffffffffkffWW
+WWffffffffffffffWWW
+WWWWWWWffffffWWWWWW
+WWWWWWWWWfWWWWWWWWW
+WWWWWWWWWEWWWWWWWWW
+end
+
+warp 9 17 -> coral_route16 10 13 down
+npc kyogre 8 4 sprite=legendary_shadow face=down script=p3c_kyogre hideif=p3c_caught_kyogre
+trainer p3c_sc_swimmer_nami 2 12 sprite=swimmer_m face=right sight=5
+trainer p3c_sc_ace_coral 15 9 sprite=cooltrainer_f face=left sight=5
+item sc_mysticwater 1 9 mysticwater
+item sc_waveincense 16 12 waveincense
+hidden sc_hidden1 9 5 rarecandy
+hidden sc_hidden2 4 14 bigpearl

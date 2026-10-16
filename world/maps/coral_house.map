@@ -1,0 +1,21 @@
+map coral_house
+name "Nalu's House"
+location "Coral Isles"
+music town_coastal
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+________
+_tt___p_
+_hh_____
+________
+___RR___
+end
+
+warp 3 6 -> coral_town 11 16 down
+warp 4 6 -> coral_town 11 16 down
+npc nalu 5 2 sprite=oldwoman face=down script=p3c_nalu
+npc ch_kid 6 4 sprite=kid face=left script=p3c_shell_kid

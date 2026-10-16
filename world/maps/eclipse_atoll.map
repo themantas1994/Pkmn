@@ -1,0 +1,57 @@
+# Eclipse Atoll — ring-shaped atoll south of Route 15. The Altar of the Sun (north, Solgaleo) and the Altar of the
+# Moon (south, Lunala) face each other across the lagoon; the Light Crater islet (surf) hides Necrozma's refuge.
+map eclipse_atoll
+name "Eclipse Atoll"
+location "Eclipse Atoll"
+music ruins
+environment sand
+region 26 26
+encounters p3c_eclipse_atoll
+connect north coral_route15 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~ssssssssssssss~~~~~~~~
+~~~~~~sss............sss~~~~~~
+~~~~~ss................ss~~~~~
+~~~~ss..................ss~~~~
+~~~~s....................s~~~~
+~~~s....~~~~~~~~~~~~~~....s~~~
+~~~s...~~~~~~ssss~~~~~~...s~~~
+~~~s..~~~~~~sMMMMs~~~~~~..s~~~
+~~~s..~~~~~~sMEMMs~~~~~~..s~~~
+~~~s..~~~~~~ss.sss~~~~~~..s~~~
+~~~s...~~~~~~ssss~~~~~~...s~~~
+~~~s....~~~~~~~~~~~~~~....s~~~
+~~~~s....................s~~~~
+~~~~ss..................ss~~~~
+~~~~~ss................ss~~~~~
+~~~~~~sss............sss~~~~~~
+~~~~~~~~ssssssssssssss~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+building p3c_shrine 12 3 -> altar_of_sun 5 9 up
+building p3c_shrine 12 14 -> altar_of_moon 6 9 up
+warp 14 10 -> light_crater 7 12 up
+sign 18 6 text="ALTAR OF THE SUN\n\"When the sun devours the dark, the lion of dawn descends.\""
+tile 18 6 sign
+sign 10 17 text="ALTAR OF THE MOON\n\"When the moon swallows the light, the bat of dusk takes wing.\""
+tile 10 17 sign
+npc atoll_warden 9 6 sprite=sage face=down script=p3c_atoll_warden
+trainer p3c_ea_psychic_luna 5 9 sprite=psychic face=right sight=3
+trainer p3c_ea_psychic_sol 24 9 sprite=psychic face=left sight=3
+trainer p3c_ea_ace_dawn 20 4 sprite=cooltrainer_f face=down sight=3
+trainer p3c_ea_ace_dusk 7 16 sprite=cooltrainer_m face=up sight=3
+item ea_sunstone 4 6 sunstone
+item ea_moonstone 25 14 moonstone
+item ea_starpiece 13 11 starpiece
+hidden ea_hidden1 8 2 cometshard
+hidden ea_hidden2 21 18 duskstone

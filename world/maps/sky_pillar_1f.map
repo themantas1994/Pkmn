@@ -1,0 +1,34 @@
+# Sky Pillar 1F — crumbling tower interior with dragon-tamer trainers. Stairs lead to the summit (Rayquaza).
+map sky_pillar_1f
+name "Sky Pillar"
+location "Pillar Isle"
+music ruins
+environment cave
+indoor
+encounters p3c_sky_pillar
+
+layout
+xxxxxxxxxxxxxxx
+xuuuuuuuuuuuUux
+xuxxxxxuxxxxxux
+xuxuuuuuuuuuxux
+xuxuxxxxxxxuxux
+xuuuxuuuuuxuuux
+xxxuxuGuGuxuxxx
+xuuuxuuuuuxuuux
+xuxuxxxuxxxuxux
+xuxuuuuuuuuuxux
+xuxxxxxuxxxxxux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xxxxxxxRxxxxxxx
+end
+
+warp 7 13 -> pillar_isle 11 11 down
+warp 12 1 -> sky_pillar_top 7 10 up
+trainer p3c_sp_ace_ryu 3 11 sprite=cooltrainer_m face=right sight=4
+trainer p3c_sp_ace_tia 11 3 sprite=cooltrainer_f face=left sight=5
+trainer p3c_sp_sage_oro 7 5 sprite=sage face=down sight=3
+item sp_dragonscale 7 7 dragonscale
+item sp_maxrevive 1 1 maxrevive
+hidden sp_hidden1 13 12 rarecandy

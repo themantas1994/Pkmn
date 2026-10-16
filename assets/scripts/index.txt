@@ -5,7 +5,6 @@ p1_hometown.pks
 p1_lab.pks
 p1_route2.pks
 p1_route4.pks
-p1_stub_ferry.pks
 p1_tidewater.pks
 p2_common.pks
 p2_lumen.pks
@@ -18,3 +17,12 @@ p3a_common.pks
 p3a_frostmere.pks
 p3a_legends.pks
 p3a_route9.pks
+p3b_dragonspire.pks
+p3b_league.pks
+p3b_road.pks
+p3b_summit.pks
+p3c_coral.pks
+p3c_ferry.pks
+p3c_hall.pks
+p3c_legends.pks
+p3c_tower.pks

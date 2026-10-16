@@ -1,0 +1,33 @@
+# Power Spot Den — Dynamax energy pools here (powerspot). Eternatus slumbers at the core (L75, needs Dynamax Band).
+# Den researcher Hollis's assistant runs repeatable Max Raid-style battles against Gigantamax-factor Pokémon.
+map max_den
+name "Power Spot Den"
+location "Route 14"
+music cave
+environment cave
+region 28 21
+tags powerspot
+
+layout
+WWWWWWWWWWWWWWW
+WWWWWfffffWWWWW
+WWWffffffffWWWW
+WWffffffffffWWW
+WWfffkfffkfffWW
+WWffffffffffffW
+WffffffffffffWW
+WffkfffffffffWW
+WWffffffffkffWW
+WWffffffffffWWW
+WWWffffffffWWWW
+WWWWfffffffWWWW
+WWWWWWffffWWWWW
+WWWWWWWEWWWWWWW
+end
+
+warp 7 13 -> coral_route14 29 6 down
+npc eternatus 7 2 sprite=legendary_shadow face=down script=p3c_eternatus hideif=p3c_caught_eternatus
+npc den_assistant 10 9 sprite=ranger face=left script=p3c_raid_host
+item md_dynamaxcandy 4 7 dynamaxcandy
+item md_maxmushrooms 11 5 maxmushrooms
+hidden md_hidden1 4 10 wishingpiece

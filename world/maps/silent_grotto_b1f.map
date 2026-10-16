@@ -1,0 +1,34 @@
+# Silent Grotto B1F — the deepest hollow. Mewtwo (L75) waits beyond the underground pool (surf).
+map silent_grotto_b1f
+name "Silent Grotto B1F"
+location "Route 17"
+music cave
+environment cave
+region 27 20
+encounters p3c_silent_grotto
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWWWWWW
+WWWLffffWWWWWWWWWWW
+WWffffkfffWWWWWWWWW
+WffffffffffffWWWWWW
+WfkfffWWWfffffffWWW
+WffffWWWWWWfffkffWW
+WW~~~~~~~~~~~~~ffWW
+WW~~~~~~~~~~~~~~fWW
+WW~~~~~~~~~~~~~~fWW
+WWff~~~~~~~~~~~ffWW
+WWfffffffffffffffWW
+WWWWfffffffffffWWWW
+WWWWWWffffffWWWWWWW
+WWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 1 -> silent_grotto_1f 15 1 down
+npc mewtwo 8 11 sprite=legendary_shadow face=up script=p3c_mewtwo hideif=p3c_caught_mewtwo
+item sgb_maxrevive 2 10 maxrevive
+hidden sgb_hidden1 15 5 ppmax

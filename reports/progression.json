@@ -1,13 +1,9 @@
 {
-  "ok": false,
-  "errorCount": 1,
-  "warningCount": 1,
-  "errorsByCode": {
-    "badge.missing": 1
-  },
-  "warningsByCode": {
-    "league.missing": 1
-  },
+  "ok": true,
+  "errorCount": 0,
+  "warningCount": 0,
+  "errorsByCode": {},
+  "warningsByCode": {},
   "model": "optimistic static reachability; script gates assumed passable once their flags are set",
   "gyms": [
     {
@@ -51,6 +47,12 @@
       "map": "frostmere_gym",
       "script": "p3a_fm_isolde",
       "firstReachableWithBadges": 4
+    },
+    {
+      "badge": 8,
+      "map": "dragonspire_gym_2f",
+      "script": "p3b_ryuga",
+      "firstReachableWithBadges": 4
     }
   ],
   "stages": [
@@ -58,9 +60,9 @@
       "badges": 0,
       "fieldMoves": [],
       "blockedFieldMoves": [],
-      "maps": 59,
-      "tiles": 11417,
-      "obtainableSpecies": 329
+      "maps": 71,
+      "tiles": 13084,
+      "obtainableSpecies": 366
     },
     {
       "badges": 1,
@@ -68,9 +70,9 @@
         "CUT"
       ],
       "blockedFieldMoves": [],
-      "maps": 59,
-      "tiles": 11458,
-      "obtainableSpecies": 329
+      "maps": 71,
+      "tiles": 13125,
+      "obtainableSpecies": 366
     },
     {
       "badges": 2,
@@ -80,9 +82,9 @@
         "ROCK_SMASH"
       ],
       "blockedFieldMoves": [],
-      "maps": 59,
-      "tiles": 11616,
-      "obtainableSpecies": 329
+      "maps": 71,
+      "tiles": 13283,
+      "obtainableSpecies": 366
     },
     {
       "badges": 3,
@@ -93,9 +95,9 @@
         "STRENGTH"
       ],
       "blockedFieldMoves": [],
-      "maps": 81,
-      "tiles": 15889,
-      "obtainableSpecies": 406
+      "maps": 93,
+      "tiles": 17556,
+      "obtainableSpecies": 437
     },
     {
       "badges": 4,
@@ -107,9 +109,9 @@
         "SURF"
       ],
       "blockedFieldMoves": [],
-      "maps": 90,
-      "tiles": 18996,
-      "obtainableSpecies": 438
+      "maps": 136,
+      "tiles": 31686,
+      "obtainableSpecies": 547
     },
     {
       "badges": 5,
@@ -122,9 +124,9 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 90,
-      "tiles": 18996,
-      "obtainableSpecies": 438
+      "maps": 136,
+      "tiles": 31686,
+      "obtainableSpecies": 547
     },
     {
       "badges": 6,
@@ -137,9 +139,9 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 90,
-      "tiles": 18996,
-      "obtainableSpecies": 438
+      "maps": 136,
+      "tiles": 31686,
+      "obtainableSpecies": 547
     },
     {
       "badges": 7,
@@ -153,9 +155,9 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 90,
-      "tiles": 18996,
-      "obtainableSpecies": 438
+      "maps": 145,
+      "tiles": 33356,
+      "obtainableSpecies": 547
     },
     {
       "badges": 8,
@@ -169,24 +171,11 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 90,
-      "tiles": 18996,
-      "obtainableSpecies": 438
+      "maps": 145,
+      "tiles": 33356,
+      "obtainableSpecies": 547
     }
   ],
-  "errors": [
-    {
-      "code": "badge.missing",
-      "subject": "badge 8",
-      "message": "no script awards badge 8"
-    }
-  ],
-  "warnings": [
-    {
-      "code": "league.missing",
-      "subject": "halloffame",
-      "message": "no script runs `halloffame` yet",
-      "justification": "the League may still be in progress"
-    }
-  ]
+  "errors": [],
+  "warnings": []
 }

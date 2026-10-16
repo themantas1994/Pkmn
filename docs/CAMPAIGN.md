@@ -348,3 +348,51 @@ New map ids not in the geography table: umbral_pass (region 13,4), prism_summit_
 prism_league, league_* rooms. Nox's backstory (ex-Eclipse) is new lore. TMs are handed out only by scripts, because a
 map `item … tm:x` line loses its `:` when the compiler applies toId. Music ids are real tracks from assets/audio/music.
 Generated `assets/` and `reports/` output is not committed.
+
+## Part 3C notes (post-game: Coral Isles)
+**Access:** `ferry_to_coral` (`world/scripts/p3c_ferry.pks`) is called by Part 1's `tidewater_ferry` after `hall_of_fame`;
+it warps to `coral_town` 11 22 (pier). The Coral pier sailor (`p3c_ferry_return`) warps back to `port_tidewater` 27 6
+(north pier, next to the ferry sailor). Coral Town has a fly point, so later visits can use Fly.
+**Stubs to delete:** none left — `world/scripts/p1_stub_ferry.pks` was deleted on this branch (the lead branch still has
+it; keep the deletion). The temporary route9 stub was removed after merging 3A.
+
+**Maps (29):** `coral_town` (town, fly 12 12, region 26,22; + `coral_center`, `coral_mart`, `coral_house` (Nalu),
+`coral_house2` (trader/scholar), `champions_hall`, `champions_hall_league`), `coral_route14` (+ `max_den`),
+`tower_isle` (+ `battle_tower`, `battle_tower_room`), `coral_route17` (+ `silent_grotto_1f`, `silent_grotto_b1f`),
+`tempest_isle` (+ `tempest_cave`, `tempest_cave_depths`), `cinder_isle` (+ `magma_vent`), `coral_route15`,
+`eclipse_atoll` (+ `altar_of_sun`, `altar_of_moon`, `light_crater`), `coral_route16` (+ `seafloor_cavern`),
+`pillar_isle` (+ `sky_pillar_1f`, `sky_pillar_top`). Region cells 24..30 × 19..26.
+**Connections (all offset 0):** coral_town N→coral_route17 N→tempest_isle; coral_town E→coral_route14 E→tower_isle
+(land path y=11,12, sea elsewhere); coral_town W→cinder_isle (sea); coral_town S→coral_route15 S→eclipse_atoll;
+coral_route15 E→coral_route16 E→pillar_isle (sea). Surf is needed for everything except Route 14 / Tower Isle.
+Powerspot maps: `max_den`, `battle_tower_room`, `champions_hall`, `champions_hall_league`. Prefabs in
+`world/prefabs/p3c.txt`: `p3c_hall`, `p3c_tower`, `p3c_shrine`.
+
+**Legendaries** (`p3c_legends.pks`, all `wildbattle … norun`, NPC sprite `legendary_shadow`): Articuno (Route 17 iceberg),
+Zapdos (Tower Isle islet), Moltres (Cinder summit), Raikou (Tempest Isle), Entei (Cinder Isle), Suicune (Route 16 spring)
+L70; Lugia L72 (Tempest depths, gale gate needs `silverwing` from the storm sage after all three birds are faced);
+Kyogre/Groudon L72 (Seafloor Cavern / Magma Vent; first capture gives `blueorb`/`redorb` → Primal Reversion);
+Rayquaza L75 with Dragon Ascent (Sky Pillar, doors open after both titans are faced); Solgaleo/Lunala L72 (altars;
+catching either lets the atoll warden give `ultranecroziumz` and run `unlock ultraburst`); Necrozma L72 in
+`light_crater` (`showif=p3b_necrozma_defeated`, hidden if `caught necrozma`); Mewtwo L75 (Silent Grotto, ranger moves
+after the Champion rematch); Eternatus L75 (`max_den`, needs `gimmick dynamax`). Caught → `p3c_caught_<species>`
+(hidden for good); defeated → `p3c_met_<species>` and it returns on the next map entry. The Prism Pedestal fuses
+Necrozma via `trade necrozma necrozmaduskmane|necrozmadawnwings 75` (and back), since the engine has no fusion items.
+**Battle Tower** (`p3c_tower.pks`, trainers `p3c_tower.txt`): 7 scripted `battle … canlose` rounds in
+`battle_tower_room` with `heal` between (tier A L70 ×3, tier B L73 ×3, Tower Ace L75 or Tycoon Aurelio L80 at streak
+20 and 48). Vars `p3c_tower_streak`, `p3c_tower_won`, `p3c_tower_sets`, `p3c_bp` (1 BP/win, +5 per set, +10 Tycoon).
+BP exchange: rare candy, bottle caps, Ability Capsule/Patch, mints, competitive hold items, four Mega Stones.
+**Champions' Hall** (`p3c_hall.pks`, `p3c_hall.txt`): repeatable rematches with the 8 leaders (L70-74; first win →
+signature TM + Bottle Cap, flags `p3c_beat_<leader>`); all 8 open the Rematch Chamber (`p3c_league_open`): Morrow,
+Ferrum, Sibyl, Nox (L74-77) in any order without healing (per-visit flags `p3c_e4v_*`, cleared on entry/loss), then
+Celeste (L78-80); first Champion win → Master Ball + Gold Bottle Cap and `p3c_champion_rematch` (opens the grotto).
+Rival rematch L72-75 in Coral Town (`p3c_rival_<starter>`, first win → Exp. Candy XL ×3 + Ability Capsule).
+**Side content:** Alolan starter gift L50 (Nalu, `p3c_nalu_gift`), Super Rod (fisher), Exeggutor → Alolan Exeggutor
+trade (`p3c_traded`), Big Pearl ×3 → Ability Patch, six-guardians survey → Master Ball, Max raids (`p3c_raid_wins`, 8
+Gigantamax-factor species L65). Quests in `world/quests/p3c.txt`: `p3c_isles`, `p3c_legends`, `p3c_birds`,
+`p3c_primal`, `p3c_ultra`, `p3c_tower`, `p3c_shells`, `p3c_trade`, `p3c_raids`. Shops: `p3c_coral_mart`, `p3c_coral_tms`.
+**Content:** 84 trainers (`p3c_routes.txt` 52, `p3c_tower.txt` 16, `p3c_hall.txt` 16 incl. rival; classes `p3c_tycoon`, `p3c_towerace` in
+`p3c_classes.txt`), 15 encounter tables (mostly L55-70; rods from L40; Alolan forms on Route 14/Cinder Isle), 77 visible/hidden items.
+**Deviations:** givemon/giveitem results are overwritten by their message box, so scripts check `hasmon`/flags instead.
+E4/Champion rematch names follow the CAMPAIGN cast (3B may rename). `checkProgression` counts the ferry as an edge
+without the `hall_of_fame` gate, so 3C maps appear reachable from 4 badges (Surf) in its report.

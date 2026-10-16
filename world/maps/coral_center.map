@@ -1,0 +1,28 @@
+map coral_center
+name "Pokémon Center"
+location "Coral Isles"
+music pokecenter
+environment indoor
+indoor
+tags pokecenter
+
+layout
+^^^^^^^^^^
+@w@@X@@w@P
+oocoooocoo
+ooccccccoo
+oooooooooo
+ohoooooohp
+oooooooooo
+ooooRRoooo
+end
+
+legend
+o floor_tile
+end
+
+warp 4 7 -> coral_town 7 8 down
+warp 5 7 -> coral_town 7 8 down
+npc nurse 4 2 sprite=nurse face=down script=p3c_nurse
+npc cc_trainer 7 5 sprite=cooltrainer_f face=left text="The Battle Tower doesn't care about your badges. Only your streak.\pBring Pokémon that can handle anything!"
+npc cc_gentleman 2 4 sprite=gentleman face=right script=p3c_bp_info

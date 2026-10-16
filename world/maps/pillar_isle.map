@@ -1,0 +1,49 @@
+# Pillar Isle — a lone crag east of Route 16 crowned by the Sky Pillar. The doors only open once Kyogre and Groudon
+# have both been faced (caught or defeated); Rayquaza waits at the top.
+map pillar_isle
+name "Pillar Isle"
+location "Pillar Isle"
+music route_late
+environment sand
+region 30 25
+encounters p3c_pillar_isle
+connect west coral_route16 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~ssssssss~~~~~~~~
+~~~~~~ssMMMMMMMMss~~~~~~
+~~~~~sMMMMMMMMMMMMs~~~~~
+~~~~~sMMMMMMMMMMMMs~~~~~
+~~~~~sMMM.....MMMMs~~~~~
+~~~~~sMMM.....MMMMs~~~~~
+~~~~~sMMM.....MMMMs~~~~~
+~~~~~s.....:......s~~~~~
+~~~~~s..,,,:,,,...s~~~~~
+~~~~~s..,,,:,,,...s~~~~~
+~~~~~ss....:.....ss~~~~~
+~~~~~~sssss:ssssss~~~~~~
+~~~~~~~~~~sss~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+building p3c_shrine 9 8 -> sky_pillar_1f 7 13 up
+trigger 11 11 1 1 script=p3c_pillar_gate unless=p3c_pillar_open
+sign 13 14 text="SKY PILLAR\n\"Sea and land quarrel; the sky settles all.\""
+tile 13 14 sign
+npc pillar_monk 7 12 sprite=sage face=right script=p3c_pillar_monk
+item pi_dragonfang 16 12 dragonfang
+hidden pi_hidden1 8 4 cometshard

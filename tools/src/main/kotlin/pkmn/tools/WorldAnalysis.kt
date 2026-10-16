@@ -118,7 +118,8 @@ class WorldAnalysis(root: File) {
 
     // ------------------------------------------------------------------ reachability
 
-    class Reach(val nodes: Set<Node>, val edges: Map<Node, List<Node>>, val mapEdges: Map<String, Set<String>>) {
+    /** [walkEdges] are map transitions by walking (warps, connections); [mapEdges] also include script warps. */
+    class Reach(val nodes: Set<Node>, val edges: Map<Node, List<Node>>, val mapEdges: Map<String, Set<String>>, val walkEdges: Map<String, Set<String>>) {
         val maps: Set<String> by lazy { nodes.mapTo(HashSet()) { it.map } }
         fun tilesOn(map: String) = nodes.count { it.map == map }
     }
@@ -201,18 +202,21 @@ class WorldAnalysis(root: File) {
         val seen = HashSet<Node>().apply { add(start) }
         val edges = HashMap<Node, List<Node>>()
         val mapEdges = HashMap<String, MutableSet<String>>()
+        val walkEdges = HashMap<String, MutableSet<String>>()
         val queue = ArrayDeque<Node>().apply { add(start) }
         while (queue.isNotEmpty()) {
             val n = queue.removeFirst()
+            val walk = neighbours(n, moves)
+            for (t in walk) if (t.map != n.map) walkEdges.getOrPut(n.map) { HashSet() }.add(t.map)
             // A script warp (ferry, cutscene) is treated as usable from anywhere on its map.
-            val next = neighbours(n, moves) + scriptWarps[n.map].orEmpty()
+            val next = walk + scriptWarps[n.map].orEmpty()
             edges[n] = next
             for (t in next) {
                 if (t.map != n.map) mapEdges.getOrPut(n.map) { HashSet() }.add(t.map)
                 if (seen.add(t)) queue.add(t)
             }
         }
-        return Reach(seen, edges, mapEdges)
+        return Reach(seen, edges, mapEdges, walkEdges)
     }
 
     /** Whether a script reference can be activated from reachable tiles (adjacent to an NPC/sign, across a counter, or inside a trigger). */

@@ -1,0 +1,54 @@
+# Tempest Isle — storm-wracked island north of Route 17. Raikou prowls the east meadow. The Tempest Cave below the
+# peak leads to Lugia, whose gale only parts for the Silver Wing (given by the storm sage after the three birds).
+map tempest_isle
+name "Tempest Isle"
+location "Tempest Isle"
+music route_late
+environment grass
+weather rain
+region 28 19
+encounters p3c_tempest_isle
+connect south coral_route17 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~sssssssssssssss~~~~~~~~
+~~~~~ssTTTTTTTTTTTTTTTss~~~~~~
+~~~~ssTTMMMMMMMMMMMMMTTss~~~~~
+~~~~sT,,MMMMMMMMMMMMM,,Ts~~~~~
+~~~~sT,,MMMMMEMMMMMMM,,Ts~~~~~
+~~~~sT,,,....:.......,,Ts~~~~~
+~~~~sT,,,....:...G...,,Ts~~~~~
+~~~~sT,,,,...:.......,,,Tss~~~
+~~~~sT,,,,...:......,,,,,Ts~~~
+~~~~sTT,,,..:::::::.,,,,,Ts~~~
+~~~~ssTT.....:......,,,,,Ts~~~
+~~~~~sTTT....:.....TTTTTTTs~~~
+~~~~~ssTTTTT.:.TTTTTsssssss~~~
+~~~~~~sssssss:sssssss~~~~~~~~~
+~~~~~~~~~~~~sss~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+warp 13 5 -> tempest_cave 9 16 up
+sign 12 13 text="TEMPEST ISLE\nThe storm here has not stopped in living memory."
+tile 12 13 sign
+npc storm_sage 18 8 sprite=sage face=up script=p3c_storm_sage
+npc raikou 22 8 sprite=legendary_shadow face=left script=p3c_raikou hideif=p3c_caught_raikou
+trainer p3c_ti_ace_rhea 9 9 sprite=cooltrainer_f face=right sight=4
+trainer p3c_ti_psychic_orin 15 11 sprite=psychic face=left sight=3
+trainer p3c_ti_ranger_tasi 20 6 sprite=ranger face=left sight=4
+trainer p3c_ti_blackbelt_hoku 10 12 sprite=blackbelt face=up sight=3
+item ti_maxelixir 7 4 maxelixir
+item ti_electirizer 24 11 electirizer
+hidden ti_hidden1 26 12 cometshard
+hidden ti_hidden2 8 6 zapplate

@@ -1,6 +1,6 @@
 {
   "model": "content-derived estimate, not a measurement; constants listed under 'constants'",
-  "complete": false,
+  "complete": true,
   "milestones": [
     "start: player_house_2f",
     "gym 1: brindle_gym",
@@ -9,11 +9,13 @@
     "gym 4: quarrytown_gym",
     "gym 5: seraphine_gym",
     "gym 6: ashfall_gym",
-    "gym 7: frostmere_gym"
+    "gym 7: frostmere_gym",
+    "gym 8: dragonspire_gym_2f",
+    "hall of fame: league_champion"
   ],
-  "criticalPathHours": 6.5,
-  "withOptionalContentHours": 8.7,
-  "postGameHours": 0.0,
+  "criticalPathHours": 9.3,
+  "withOptionalContentHours": 12.5,
+  "postGameHours": 4.5,
   "legs": [
     {
       "leg": "start -> gym 1",
@@ -32,7 +34,7 @@
       "fullMinutes": 64,
       "trainersOnPath": 13,
       "expectedWildEncounters": 6,
-      "partyLevelOnArrival": 17,
+      "partyLevelOnArrival": 19,
       "bossAceLevel": 14,
       "grindMinutes": 0,
       "grindBattles": 0,
@@ -53,7 +55,7 @@
       "fullMinutes": 75,
       "trainersOnPath": 17,
       "expectedWildEncounters": 10,
-      "partyLevelOnArrival": 24,
+      "partyLevelOnArrival": 26,
       "bossAceLevel": 21,
       "grindMinutes": 0,
       "grindBattles": 0,
@@ -75,7 +77,7 @@
       "fullMinutes": 83,
       "trainersOnPath": 15,
       "expectedWildEncounters": 13,
-      "partyLevelOnArrival": 31,
+      "partyLevelOnArrival": 32,
       "bossAceLevel": 28,
       "grindMinutes": 0,
       "grindBattles": 0,
@@ -118,7 +120,7 @@
       "fullMinutes": 61,
       "trainersOnPath": 17,
       "expectedWildEncounters": 22,
-      "partyLevelOnArrival": 45,
+      "partyLevelOnArrival": 46,
       "bossAceLevel": 40,
       "grindMinutes": 0,
       "grindBattles": 0,
@@ -138,7 +140,7 @@
       "fullMinutes": 48,
       "trainersOnPath": 11,
       "expectedWildEncounters": 4,
-      "partyLevelOnArrival": 50,
+      "partyLevelOnArrival": 51,
       "bossAceLevel": 46,
       "grindMinutes": 0,
       "grindBattles": 0,
@@ -158,14 +160,64 @@
         "frostmere_gym"
       ],
       "criticalMinutes": 66,
-      "fullMinutes": 87,
+      "fullMinutes": 75,
       "trainersOnPath": 21,
       "expectedWildEncounters": 27,
-      "partyLevelOnArrival": 57,
+      "partyLevelOnArrival": 58,
       "bossAceLevel": 52,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 8
+      "optionalMaps": 6
+    },
+    {
+      "leg": "gym 7 -> gym 8",
+      "badges": 7,
+      "path": [
+        "frostmere_gym",
+        "frostmere_town",
+        "route12",
+        "dragonspire_city",
+        "dragonspire_gym",
+        "dragonspire_gym_2f"
+      ],
+      "criticalMinutes": 47,
+      "fullMinutes": 109,
+      "trainersOnPath": 12,
+      "expectedWildEncounters": 6,
+      "partyLevelOnArrival": 63,
+      "bossAceLevel": 58,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 11
+    },
+    {
+      "leg": "gym 8 -> hall of fame",
+      "badges": 8,
+      "path": [
+        "dragonspire_gym_2f",
+        "dragonspire_gym",
+        "dragonspire_city",
+        "route13",
+        "victory_road_1f",
+        "victory_road_2f",
+        "victory_road_3f",
+        "prism_plateau",
+        "prism_league",
+        "league_morrow",
+        "league_ferrum",
+        "league_sibyl",
+        "league_nox",
+        "league_champion"
+      ],
+      "criticalMinutes": 107,
+      "fullMinutes": 108,
+      "trainersOnPath": 24,
+      "expectedWildEncounters": 34,
+      "partyLevelOnArrival": 74,
+      "bossAceLevel": 66,
+      "grindMinutes": 0,
+      "grindBattles": 0,
+      "optionalMaps": 1
     }
   ],
   "constants": {
