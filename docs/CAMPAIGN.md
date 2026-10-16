@@ -326,7 +326,7 @@ Rival rematch L72-75 in Coral Town (`p3c_rival_<starter>`, first win → Exp. Ca
 trade (`p3c_traded`), Big Pearl ×3 → Ability Patch, six-guardians survey → Master Ball, Max raids (`p3c_raid_wins`, 8
 Gigantamax-factor species L65). Quests in `world/quests/p3c.txt`: `p3c_isles`, `p3c_legends`, `p3c_birds`,
 `p3c_primal`, `p3c_ultra`, `p3c_tower`, `p3c_shells`, `p3c_trade`, `p3c_raids`. Shops: `p3c_coral_mart`, `p3c_coral_tms`.
-**Content:** 84 trainers (52 route trainers, 16 Tower, 16 Hall incl. rival in `p3c_routes.txt`; classes `p3c_tycoon`, `p3c_towerace` in
+**Content:** 84 trainers (`p3c_routes.txt` 52, `p3c_tower.txt` 16, `p3c_hall.txt` 16 incl. rival; classes `p3c_tycoon`, `p3c_towerace` in
 `p3c_classes.txt`), 15 encounter tables (mostly L55-70; rods from L40; Alolan forms on Route 14/Cinder Isle), 77 visible/hidden items.
 **Deviations:** givemon/giveitem results are overwritten by their message box, so scripts check `hasmon`/flags instead.
 E4/Champion rematch names follow the CAMPAIGN cast (3B may rename). `checkProgression` counts the ferry as an edge
