@@ -1,0 +1,639 @@
+# Part 3C post-game route trainers (Coral Isles). Movesets default to the last four level-up moves.
+
+trainer p3c_r14_ace_mara
+  class cooltrainer_f
+  name "Mara"
+  ai 2
+  intro "A Champion on Route 14? Prove it!"
+  defeat "You're the real thing."
+  after "The Tower Tycoon is even scarier than me. Good luck."
+  items hyperpotion=1
+  mon tsareena 61
+  mon primarina 62
+  mon ribombee 61
+end
+
+trainer p3c_r14_ace_drake
+  class cooltrainer_m
+  name "Drake"
+  ai 2
+  intro "The isles are where Champions come to be humbled!"
+  defeat "Humbled... me. Ugh."
+  after "Dragon-types are everywhere out here. Stock up on Ice moves."
+  items hyperpotion=1
+  mon exeggutoralola 61
+  mon kommoo 62
+  mon toucannon 61
+end
+
+trainer p3c_r14_ranger_kai
+  class ranger
+  name "Kai"
+  ai 1
+  intro "This jungle is my beat. Let's see your stuff!"
+  defeat "Okay, okay, you pass."
+  after "Grass hides the rare ones. Night brings out Alolan Rattata and Meowth."
+  mon lurantis 60
+  mon gumshoos 60
+  mon comfey 61
+end
+
+trainer p3c_r14_hiker_tum
+  class hiker
+  name "Tumo"
+  ai 1
+  intro "Whoa! You nearly stepped on my lunch!"
+  defeat "My lunch AND my pride!"
+  after "That glowing den up north hums at night. I don't go near it."
+  mon golemalola 61
+  mon lycanroc 61
+  mon mudsdale 62
+end
+
+trainer p3c_r14_beauty_lei
+  class beauty
+  name "Leilani"
+  ai 1
+  intro "Dance with me, Champion!"
+  defeat "You stepped on my toes. Figuratively."
+  after "Oricorio change style with nectar. This one loves pink flowers!"
+  mon oricoriopau 60
+  mon comfey 60
+  mon tsareena 62
+end
+
+trainer p3c_r14_blackbelt_koa
+  class blackbelt
+  name "Koa"
+  ai 1
+  intro "Hii-yah! Island karate!"
+  defeat "My karate needs more coconuts."
+  after "Crabrawler climb trees to reach berries. Inspiring!"
+  mon passimian 61
+  mon hariyama 61
+  mon crabominable 62
+end
+
+trainer p3c_r14_swimmer_ana
+  class swimmer_f
+  name "Ana"
+  ai 1
+  intro "The water's warm! Battle in it!"
+  defeat "I'm all pruney now."
+  after "The sea between the isles is full of surprises."
+  mon pyukumuku 60
+  mon mantine 61
+  mon bruxish 61
+end
+
+trainer p3c_r17_swimmer_noe
+  class swimmer_m
+  name "Noe"
+  ai 1
+  intro "Brr! Battle me before I freeze!"
+  defeat "Too c-cold to lose properly..."
+  after "An iceberg drifts north of here. Something big rests on it."
+  mon sealeo 61
+  mon dewgong 62
+end
+
+trainer p3c_r17_swimmer_iris
+  class swimmer_f
+  name "Iris"
+  ai 1
+  intro "Cold water keeps my mind sharp!"
+  defeat "Sharp, but not sharp enough."
+  after "Tempest Isle is straight north. Mind the rain."
+  mon cloyster 62
+  mon lapras 62
+end
+
+trainer p3c_r17_swimmer_finn
+  class swimmer_m
+  name "Finn"
+  ai 1
+  intro "I swim laps around Champions!"
+  defeat "You swam laps around ME."
+  after "The crag behind me is sealed. A ranger guards it day and night."
+  mon barraskewda 62
+  mon walrein 62
+  mon kingdra 63
+end
+
+trainer p3c_r17_swimmer_mele
+  class swimmer_f
+  name "Mele"
+  ai 1
+  intro "Surf's up! Battle's on!"
+  defeat "Wiped out!"
+  after "My Eiscue's face is an ice cube. It's adorable."
+  mon frosmoth 61
+  mon eiscue 62
+  mon dewgong 62
+end
+
+trainer p3c_r17_fisher_ulu
+  class fisherman
+  name "Ulu"
+  ai 1
+  intro "Shh! You'll scare the fish! ...Fine, let's battle."
+  defeat "The fish got away AND I lost."
+  after "Super Rods catch Kingdra here, if you're patient."
+  mon octillery 62
+  mon kingdra 62
+  mon gyarados 63
+end
+
+trainer p3c_r17_sailor_bram
+  class sailor
+  name "Bram"
+  ai 1
+  intro "Ahoy! Haul anchor and battle!"
+  defeat "Sunk without a trace!"
+  after "I sail to Tempest Isle on calm days. Never seen a calm day."
+  mon machamp 62
+  mon pelipper 61
+  mon lanturn 62
+end
+
+trainer p3c_ti_ace_rhea
+  class cooltrainer_f
+  name "Rhea"
+  ai 2
+  intro "Lightning strikes twice here. So do I!"
+  defeat "Grounded..."
+  after "The storm sage studies the legendary birds. He's odd, but kind."
+  items hyperpotion=1
+  mon vikavolt 63
+  mon goodra 64
+  mon raichualola 63
+end
+
+trainer p3c_ti_psychic_orin
+  class psychic
+  name "Orin"
+  ai 1
+  intro "I foresaw your arrival. And my victory."
+  defeat "...My foresight needs glasses."
+  after "Lugia sleeps under this island. I can feel its dreams."
+  mon oranguru 63
+  mon bruxish 63
+  mon gardevoir 64
+end
+
+trainer p3c_ti_ranger_tasi
+  class ranger
+  name "Tasi"
+  ai 1
+  intro "Rangers patrol even in this weather!"
+  defeat "Soaked and beaten."
+  after "A beast with a thundercloud mane hunts the east meadow."
+  mon zebstrika 63
+  mon heliolisk 63
+  mon luxray 64
+end
+
+trainer p3c_ti_blackbelt_hoku
+  class blackbelt
+  name "Hoku"
+  ai 1
+  intro "I train under the thunder!"
+  defeat "The thunder applauds you."
+  after "Electric-types gather here. Bring a Ground-type!"
+  mon hawlucha 63
+  mon toxicroak 63
+  mon lucario 64
+end
+
+trainer p3c_tc_hiker_rocco
+  class hiker
+  name "Rocco"
+  ai 1
+  intro "This cave is MY cave! Well, Lugia's. But mine too!"
+  defeat "Fine, share the cave."
+  after "The gale at the bottom ladder... nobody gets through."
+  mon boldore 63
+  mon gigalith 64
+  mon golemalola 64
+end
+
+trainer p3c_tc_ace_selka
+  class cooltrainer_f
+  name "Selka"
+  ai 2
+  intro "The wind down here whispers about you."
+  defeat "It's whispering about my loss now."
+  after "They say a Silver Wing calms the storm. Ask the sage outside."
+  items hyperpotion=1
+  mon noivern 64
+  mon crobat 64
+  mon galvantula 64
+end
+
+trainer p3c_tc_psychic_vey
+  class psychic
+  name "Vey"
+  ai 1
+  intro "The guardian of the sea dreams. Don't wake it... unless you beat me."
+  defeat "Then... go wake it."
+  after "Lugia's dreams taste like salt and thunder."
+  mon slowking 64
+  mon starmie 64
+  mon xatu 65
+end
+
+trainer p3c_ci_hiker_magnus
+  class hiker
+  name "Magnus"
+  ai 1
+  intro "It's hot! My Pokémon are hotter!"
+  defeat "Cooled off completely."
+  after "Groudon sleeps in the vent. Some nights the whole isle shakes."
+  mon camerupt 63
+  mon coalossal 64
+  mon torkoal 63
+end
+
+trainer p3c_ci_ace_pele
+  class cooltrainer_f
+  name "Pele"
+  ai 2
+  intro "Feel the heat, Champion!"
+  defeat "I'm the one who got burned."
+  after "Moltres circles the summit at dawn. Use the pass in the middle."
+  items hyperpotion=1
+  mon salazzle 63
+  mon turtonator 64
+  mon volcarona 65
+end
+
+trainer p3c_ci_blackbelt_ignis
+  class blackbelt
+  name "Ignis"
+  ai 1
+  intro "Fire fists! Fire kicks! FIRE!"
+  defeat "Fizzled out."
+  after "Entei runs through the ash fields like a living wildfire."
+  mon incineroar 64
+  mon infernape 64
+end
+
+trainer p3c_ci_scientist_ash
+  class scientist
+  name "Ashby"
+  ai 1
+  intro "I'm measuring vent temperatures. And your strength!"
+  defeat "Off the charts... the wrong way for me."
+  after "The shrine maiden tends the volcano. She knows the old legends of land and sea."
+  mon magmortar 64
+  mon rotom 63
+  mon magnezone 64
+end
+
+trainer p3c_ci_ace_ember
+  class cooltrainer_m
+  name "Ember"
+  ai 2
+  intro "Only the strong reach the summit!"
+  defeat "You're strong enough."
+  after "Moltres doesn't like visitors. Bring Rock moves."
+  items hyperpotion=1
+  mon arcanine 64
+  mon charizard 65
+  mon houndoom 64
+end
+
+trainer p3c_mv_hiker_basalt
+  class hiker
+  name "Basalt"
+  ai 1
+  intro "Rock solid, lava hot!"
+  defeat "Melted!"
+  after "The heat comes from deeper in. From something alive."
+  mon garganacl 65
+  mon magcargo 64
+  mon rhyperior 65
+end
+
+trainer p3c_mv_scientist_vulca
+  class scientist
+  name "Vulca"
+  ai 2
+  intro "My thermometer just broke. Want to break your streak?"
+  defeat "My streak's the one broken."
+  after "Groudon's Red Orb resonates with its ancient power. The maiden keeps it."
+  items hyperpotion=1
+  mon heatmor 65
+  mon magmortar 65
+  mon glimmora 65
+end
+
+trainer p3c_r15_swimmer_kana
+  class swimmer_f
+  name "Kana"
+  ai 1
+  intro "The reefs are my playground!"
+  defeat "Out-swum!"
+  after "South of here is Eclipse Atoll. The altars there are ancient."
+  mon alomomola 61
+  mon corsola 61
+  mon mantine 62
+end
+
+trainer p3c_r15_swimmer_loa
+  class swimmer_m
+  name "Loa"
+  ai 1
+  intro "Watch out for the jellyfish! ...that's my team."
+  defeat "Stung by defeat."
+  after "Toxapex are a pain. Bring Psychic or Ground moves."
+  mon jellicent 62
+  mon toxapex 62
+end
+
+trainer p3c_r15_swimmer_pua
+  class swimmer_f
+  name "Pua"
+  ai 1
+  intro "Isn't my Milotic gorgeous? Let's battle!"
+  defeat "Gorgeous AND defeated."
+  after "Feebas are rare, but Milotic sometimes bite a Super Rod here."
+  mon milotic 63
+  mon lumineon 61
+end
+
+trainer p3c_r15_fisher_mako
+  class fisherman
+  name "Mako"
+  ai 1
+  intro "My lines are tangled! Battle while I fix them!"
+  defeat "Now my lines AND my nerves are tangled."
+  after "Dragalge hide in the kelp. Super Rod!"
+  mon sharpedo 62
+  mon dragalge 62
+  mon gyarados 63
+end
+
+trainer p3c_r15_ace_nalani
+  class cooltrainer_f
+  name "Nalani"
+  ai 2
+  intro "This reef islet is my training ground!"
+  defeat "You're a tidal wave!"
+  after "The palm in the middle of the islet hides something."
+  items hyperpotion=1
+  mon primarina 63
+  mon araquanid 62
+  mon golisopod 63
+end
+
+trainer p3c_r15_swimmer_keoni
+  class swimmer_m
+  name "Keoni"
+  ai 1
+  intro "Dive in!"
+  defeat "Belly flop..."
+  after "Cramorant swallow whole Arrokuda. Then spit them at you!"
+  mon cramorant 62
+  mon pelipper 62
+  mon wailord 63
+end
+
+trainer p3c_r15_beauty_mahina
+  class beauty
+  name "Mahina"
+  ai 1
+  intro "Beauty is a battle, darling."
+  defeat "Even in defeat, I'm fabulous."
+  after "The Altar of the Moon glows at night. So do I."
+  mon milotic 63
+  mon ninetalesalola 63
+  mon primarina 63
+end
+
+trainer p3c_r15_sailor_hale
+  class sailor
+  name "Hale"
+  ai 1
+  intro "Land ho! Battle ho!"
+  defeat "Shipwrecked."
+  after "Dhelmise lurk in sunken wrecks off the atoll."
+  mon machamp 63
+  mon kingler 62
+  mon dhelmise 63
+end
+
+trainer p3c_ea_psychic_luna
+  class psychic
+  name "Luna"
+  ai 2
+  intro "The moon whispers of a beast with silver wings."
+  defeat "The moon is silent now."
+  after "Lunala answers only to those who reach the moon altar."
+  items hyperpotion=1
+  mon lunatone 64
+  mon musharna 65
+  mon mismagius 65
+end
+
+trainer p3c_ea_psychic_sol
+  class psychic
+  name "Sol"
+  ai 2
+  intro "The sun blazes for the lion of dawn!"
+  defeat "Eclipsed!"
+  after "Solgaleo's altar is the northern shrine. It's warm inside."
+  items hyperpotion=1
+  mon solrock 64
+  mon espeon 65
+  mon bronzong 65
+end
+
+trainer p3c_ea_ace_dawn
+  class cooltrainer_f
+  name "Dawn"
+  ai 2
+  intro "Dawn breaks! So will your streak!"
+  defeat "Dusk falls on me instead."
+  after "The warden can awaken Ultra Burst once a sun or moon legend trusts you."
+  items hyperpotion=1
+  mon togekiss 65
+  mon metagross 66
+  mon espeon 65
+end
+
+trainer p3c_ea_ace_dusk
+  class cooltrainer_m
+  name "Dusk"
+  ai 2
+  intro "Darkness suits me. Let's battle!"
+  defeat "Lights out... for me."
+  after "Team Eclipse wanted an endless night. I just like nighttime."
+  items hyperpotion=1
+  mon umbreon 65
+  mon honchkrow 65
+  mon aegislash 66
+end
+
+trainer p3c_r16_swimmer_moana
+  class swimmer_f
+  name "Moana"
+  ai 1
+  intro "The ocean calls! So do I!"
+  defeat "The ocean wins this round."
+  after "A blue beast walks on water near the spring islet. It's beautiful."
+  mon primarina 64
+  mon lapras 64
+end
+
+trainer p3c_r16_swimmer_tavi
+  class swimmer_m
+  name "Tavi"
+  ai 1
+  intro "Sharks! Everywhere! Battle!"
+  defeat "Bitten!"
+  after "The rocky islet has a cave. The water inside glows blue."
+  mon sharpedo 64
+  mon barraskewda 64
+  mon golisopod 65
+end
+
+trainer p3c_r16_swimmer_lani
+  class swimmer_f
+  name "Lani"
+  ai 1
+  intro "My Wailord is the size of a ferry!"
+  defeat "...and just as slow."
+  after "The Sky Pillar is east. Nobody's opened its doors in a century."
+  mon wailord 65
+  mon toxapex 64
+end
+
+trainer p3c_r16_fisher_pono
+  class fisherman
+  name "Pono"
+  ai 1
+  intro "Reeling in a big one! ...It's you!"
+  defeat "You were the big one."
+  after "Relicanth have lived unchanged for a hundred million years. Respect."
+  mon kingdra 65
+  mon relicanth 64
+  mon gyarados 65
+end
+
+trainer p3c_r16_ace_kahu
+  class cooltrainer_m
+  name "Kahu"
+  ai 2
+  intro "Few reach this islet. Fewer leave undefeated!"
+  defeat "Undefeated... you, not me."
+  after "The Seafloor Cavern holds the Blue Orb's master."
+  items hyperpotion=1
+  mon kingdra 65
+  mon palafin 66
+  mon archaludon 66
+end
+
+trainer p3c_r16_swimmer_iolana
+  class swimmer_f
+  name "Iolana"
+  ai 1
+  intro "Splish splash!"
+  defeat "Splashed!"
+  after "Swim west to get back to Route 15."
+  mon mantine 64
+  mon jellicent 65
+  mon starmie 65
+end
+
+trainer p3c_sc_swimmer_nami
+  class swimmer_m
+  name "Nami"
+  ai 1
+  intro "I swam in here and got lost. Battle while I think!"
+  defeat "Still lost. Also defeated."
+  after "The big lagoon... something huge sleeps under the surface."
+  mon walrein 66
+  mon lanturn 66
+  mon golduck 66
+end
+
+trainer p3c_sc_ace_coral
+  class cooltrainer_f
+  name "Coral"
+  ai 2
+  intro "Kyogre's power fills this place. And mine!"
+  defeat "Washed away!"
+  after "Kyogre with the Blue Orb reverts to its primal state. Terrifying!"
+  items hyperpotion=1
+  mon aggron 66
+  mon milotic 67
+  mon sableye 66
+end
+
+trainer p3c_sp_ace_ryu
+  class cooltrainer_m
+  name "Ryuji"
+  ai 2
+  intro "Dragons guard the pillar. I guard the dragons!"
+  defeat "The dragons accept you."
+  after "Rayquaza descends only when sea and land have both been calmed."
+  items hyperpotion=1
+  mon salamence 67
+  mon haxorus 67
+  mon flygon 67
+end
+
+trainer p3c_sp_ace_tia
+  class cooltrainer_f
+  name "Tia"
+  ai 2
+  intro "One step closer to the sky!"
+  defeat "Grounded."
+  after "The stairs are past the maze. Follow the east wall."
+  items hyperpotion=1
+  mon altaria 67
+  mon dragonite 68
+  mon noivern 67
+end
+
+trainer p3c_sp_sage_oro
+  class sage
+  name "Oro"
+  ai 2
+  intro "The pillar tests all who climb."
+  defeat "You pass the test."
+  after "Rayquaza ends the quarrel of Kyogre and Groudon. So the old scrolls say."
+  items hyperpotion=1
+  mon claydol 67
+  mon banette 67
+  mon dusknoir 68
+end
+
+trainer p3c_sg_ace_vega
+  class cooltrainer_f
+  name "Vega"
+  ai 2
+  intro "Only Champions get in here. Let's see if you deserve it."
+  defeat "You deserve it."
+  after "Something in the depths is watching. It's not a friendly feeling."
+  items hyperpotion=1
+  mon blissey 70
+  mon alakazam 70
+  mon garchomp 71
+  mon gengar 70
+end
+
+trainer p3c_sg_ace_altair
+  class cooltrainer_m
+  name "Altair"
+  ai 2
+  intro "This grotto is the final test of strength!"
+  defeat "The final test... passed."
+  after "The Pokémon below was created, not born. Be careful."
+  items hyperpotion=1
+  mon tyranitar 71
+  mon metagross 71
+  mon hydreigon 70
+  mon kingdra 70
+end

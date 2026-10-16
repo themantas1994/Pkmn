@@ -27,9 +27,9 @@ layout
 end
 
 warp 7 13 -> champions_hall 7 2 down
-npc morrow_rm 2 4 sprite=elite1 face=right script=p3c_rm_morrow
-npc ferrum_rm 12 4 sprite=elite2 face=left script=p3c_rm_ferrum
-npc sibyl_rm 2 7 sprite=elite3 face=right script=p3c_rm_sibyl
-npc nox_rm 12 7 sprite=elite4 face=left script=p3c_rm_nox
-npc celeste_rm 7 2 sprite=champion face=down script=p3c_rm_celeste
+npc morrow_rm 2 4 sprite=elite1 face=right script=p3c_talk_morrow
+npc ferrum_rm 12 4 sprite=elite2 face=left script=p3c_talk_ferrum
+npc sibyl_rm 2 7 sprite=elite3 face=right script=p3c_talk_sibyl
+npc nox_rm 12 7 sprite=elite4 face=left script=p3c_talk_nox
+npc celeste_rm 7 2 sprite=champion face=down script=p3c_talk_celeste
 npc league_aide 9 11 sprite=nurse face=left script=p3c_league_aide

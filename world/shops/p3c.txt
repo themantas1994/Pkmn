@@ -1,0 +1,3 @@
+# Part 3C shops (Coral Town).
+shop p3c_coral_mart ultraball greatball quickball timerball duskball netball diveball luxuryball healball maxpotion fullrestore revive fullheal maxrepel escaperope
+shop p3c_coral_tms tm:icebeam=10000 tm:flamethrower=10000 tm:thunderbolt=10000 tm:surf=10000 tm:earthquake=15000 tm:psychic=10000 tm:shadowball=10000 tm:energyball=10000 tm:sludgebomb=10000 tm:focusblast=12000 tm:dragonpulse=12000 tm:flashcannon=10000 tm:darkpulse=10000 tm:dazzlinggleam=10000 tm:uturn=8000 tm:protect=3000

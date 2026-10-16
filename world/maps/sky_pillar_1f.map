@@ -3,7 +3,7 @@ map sky_pillar_1f
 name "Sky Pillar"
 location "Pillar Isle"
 music ruins
-environment building
+environment cave
 indoor
 encounters p3c_sky_pillar
 

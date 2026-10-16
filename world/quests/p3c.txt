@@ -1,0 +1,52 @@
+# Part 3C post-game quests.
+quest p3c_isles "Champion of the Isles"
+  desc "The Coral Isles welcome Tessera's new Champion. Old rivals and older legends are waiting."
+  step "Explore the Coral Isles and find the Champions' Hall in Coral Town."
+  step "Win rematches against all eight Gym Leaders in the Champions' Hall."
+  step "Defeat the Elite Four and Champion Celeste in the Rematch Chamber."
+  step "Enter the Silent Grotto on Route 17 and face what waits in its depths."
+end
+
+quest p3c_legends "Six Guardians"
+  desc "An old man in Coral Town dreams of seeing the six guardians of the isles."
+  step "Catch Solgaleo, Lunala, Lugia, Kyogre, Groudon and Rayquaza, then visit the old man."
+end
+
+quest p3c_birds "Wings of the Storm"
+  desc "Tempest Isle's storm sage says three legendary birds serve the guardian of the seas."
+  step "Face Articuno (Route 17), Zapdos (Tower Isle) and Moltres (Cinder Isle), then see the storm sage."
+  step "Use the Silver Wing to reach Lugia at the bottom of Tempest Cave."
+end
+
+quest p3c_primal "Sea, Land and Sky"
+  desc "The titans of sea and land sleep in the Coral Isles. Only the sky serpent can calm them."
+  step "Face Kyogre in the Seafloor Cavern (Route 16) and Groudon in the Magma Vent (Cinder Isle)."
+  step "Climb the Sky Pillar on Pillar Isle and face Rayquaza."
+end
+
+quest p3c_ultra "Light of the Eclipse"
+  desc "The warden of Eclipse Atoll guards an ancient secret of sun, moon and the Prism Pokémon."
+  step "Catch Solgaleo or Lunala at the atoll's altars."
+  step "Return to the atoll warden."
+end
+
+quest p3c_tower "Tower Climber"
+  desc "The Battle Tower on Tower Isle tests a team across seven battles in a row."
+  step "Clear all seven rounds of a Battle Tower challenge."
+  step "Reach a 20-win streak and defeat the Tower Tycoon."
+end
+
+quest p3c_shells "Beachcomber"
+  desc "A boy in Coral Town collects treasures from the beach."
+  step "Find three Big Pearls hidden around the isles and bring them to him."
+end
+
+quest p3c_trade "Island Sun"
+  desc "A researcher in Coral Town wants a mainland Exeggutor to compare with his Alolan one."
+  step "Bring an Exeggutor to the researcher in the Islander's House."
+end
+
+quest p3c_raids "Power Spot Survey"
+  desc "The den assistant on Route 14 runs raid battles against Gigantamax Pokémon."
+  step "Clear five raid battles in the Power Spot Den."
+end

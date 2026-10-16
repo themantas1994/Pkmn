@@ -1,0 +1,3 @@
+# Part 3C trainer classes (only those missing from classes.txt).
+class p3c_tycoon "Tower Tycoon" payout=150 music=battle_champion portrait=gentleman
+class p3c_towerace "Tower Ace" payout=90 music=battle_elite_four portrait=cooltrainer_m
