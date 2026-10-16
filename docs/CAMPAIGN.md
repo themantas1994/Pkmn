@@ -396,3 +396,85 @@ Gigantamax-factor species L65). Quests in `world/quests/p3c.txt`: `p3c_isles`, `
 **Deviations:** givemon/giveitem results are overwritten by their message box, so scripts check `hasmon`/flags instead.
 E4/Champion rematch names follow the CAMPAIGN cast (3B may rename). `checkProgression` counts the ferry as an edge
 without the `hall_of_fame` gate, so 3C maps appear reachable from 4 badges (Surf) in its report.
+
+## Expansion E2 notes (legs 4–6: Gym 3 → Gym 6)
+**Scope:** 26 new maps, 124 new trainers (`world/trainers/p4b_leg4/5/6.txt`; classes `p4b_worker`, `p4b_ruinmaniac`,
+`p4b_hexmaniac`, `p4b_picnicker`, `p4b_fairytale`, `p4b_diver(_f)`, `p4b_firebreather`, `p4b_glassblower` in
+`p4b_classes.txt`), 16 encounter tables (`world/encounters/p4b_leg4/5/6.txt`), 9 side quests (`world/quests/p4b.txt`),
+scripts in `world/scripts/p4b_leg4/5/6.pks`, shop `p4b_sweets` (`world/shops/p4b.txt`). No gym leader, rival, admin,
+campaign.json, legend or prefab changes. Every new area is optional and a dead end, so the critical path is unchanged
+except Route 9 (see below). Boulders always sit in a gap between two open rooms (no soft-locks); Rock Smash/Cut
+obstacles only guard shortcuts, items and side rooms.
+
+**Leg 4 (3 badges: Cut, Flash, Rock Smash, Strength).**
+* Route 7 (+2 trainers) gains a north edge opening (`tile` overrides at x=12,13, `connect north p4b_pylon_ridge -2`) to
+  **Pylon Ridge** (`p4b_pylon_ridge`, 6 trainers, Electric table) with the **Lineman's Hut** (`p4b_pylon_hut`: Hugo heals;
+  Nell trades Plusle "Sparky" for a Minun, `p4b_traded_plusle`).
+* Route 8 (+2 trainers): a crack at (2,17) leads to **Strata Gulch** (`p4b_strata_gulch`, 6 trainers, ledged terraces,
+  boulder gap to the west valley, spring pool, hidden Dome Fossil; Dr. Fenna) and on to the **Gulch Caves**
+  (`p4b_gulch_caves`, 5 trainers, boulder to the TM room, Rock Smash to a hidden Claw Fossil).
+* Quarrytown: Shaft No. 3 entrance at (25,0) and old **Bryn**. **Old Shaft** `p4b_old_mine_1f` (4 trainers, boulder storage
+  room) → `p4b_old_mine_b1f` (dark, 4 trainers, two boulder gaps, flooded reservoir with rods; islet item needs Surf
+  later) → `p4b_old_mine_b2f` Fossil Vault (3 trainers): take the Skull **or** Armor Fossil (`p4b_mine_fossil`), and
+  Tam's lamp behind a smash rock.
+* Ruins of Sol (+2 trainers): stairs at (12,17) into the **Sol Catacombs** (`p4b_sol_catacombs`, dark, 4 trainers): three
+  sun dials (`p4b_sol_dial1..3`, trap dial at 27,22 warps back) open the gate (`p4b_sol_open`, `tileif`) to the **Sun
+  Sanctum** (`p4b_sol_sanctum`): Keeper Ilia (scripted `canlose` battle, `p4b_beat_sol_keeper`) → Hisuian Growlithe L30
+  (`p4b_got_sol_gift`). Four lore tablets (`p4b_tablet1..4`) tell the Prism beast / Sun & Moon guardians / Ring of Light /
+  ancient Eclipse story.
+* Fossil Lab: the aide (`fossil_aide`, now script `p4b_fossil_aide`) revives Skull, Armor, Dome, Helix, Claw and Root
+  fossils at L30. Temple of Sol: the acolyte (`temple_acolyte`) is now the tablet scholar (`p4b_temple_scholar`).
+* Quests: `p4b_canary_lamp` (Tam's lamp → TM Stealth Rock + 2 Exp. Candy M), `p4b_sol_tablets` (→ TM Solar Beam + Heat
+  Rock), `p4b_strata_survey` (catch Klawf, Silicobra, Timburr → Expert Belt).
+
+**Leg 5 (4 badges: + Surf).**
+* Mt. Prism 1F (+1 trainer): the lake's east column floods; a landing at (21,5) and cave at (22,5) lead to the **Prism
+  Grotto** (`p4b_prism_grotto`, Surf, 6 trainers incl. 3 divers on the water, hermit, 3 prism shards `p4b_shard1..3`,
+  hidden Helix Fossil, boulder to the crystal chamber) and its ladder to the **Crystal Depths** (`p4b_crystal_depths`,
+  dark, 6 trainers, smash shortcut, boulder-sealed heart chamber). A west tunnel at (1,19) opens onto the **Prism
+  Foothills** (`p4b_prism_foothills`, 7 trainers, ledged terraces, Axew/Bagon rare).
+* Mt. Prism 2F (+1 trainer): ladder at (7,3) to the **Eclipse Dig Site** (`p4b_prism_dig`, dark, 5 grunts + scientist Nyle
+  `p4b_dig_sci_nyle` scripted, `p4b_dig_cleared`; caged Carbink L36 gift `p4b_got_carbink`; surveyor Maeve). 3F +1 grunt.
+* Seraphine Town: north path (x=15,16; `connect north p4b_mistwood -1`) to **Mistwood** (`p4b_mistwood`, fog, 7 trainers,
+  moon pond with shrine islet: at night a Clefairy L36 `wildbattle` once, `p4b_moon_clefairy`; Cut tree shortcuts;
+  **Ranger Cabin** `p4b_mistwood_cabin`: Elm heals, Ivo trades Impidimp "Puck" for a Hatenna `p4b_traded_impidimp`;
+  hidden **Mist Hollow** `p4b_mist_hollow` behind a Cut tree with a static Mr. Mime L37 `p4b_mime_done`) and north to
+  **Mistwood Depths** (`p4b_mistwood_depths`, 8 trainers, Granny Moss, Elowen's teacher: Pixie Plate after badge 5).
+* **Sweets for Milcery:** Pâtissier Mille in the Seraphine Mart (`p4b_patissier`) sells all seven Sweets (shop
+  `p4b_sweets`, 500 each) and explains the hold-a-Sweet-and-spin evolution.
+* Quests: `p4b_prism_choir` (3 shards → TM Power Gem + Lucky Egg), `p4b_stolen_light` (stop Nyle → Carbink, Exp. Candy L,
+  Max Revive), `p4b_lost_poppy` (find Poppy in Mistwood → TM Play Rough).
+
+**Leg 6 (5 badges).**
+* **Route 9 extended** west by 24 columns (40 → 64 wide; existing entities shifted +24 x; still 20 tall, east column open
+  only at y=8,9 → B2 unchanged; west column open only at y=10,11 → Ashfall link unchanged). The new **Cinder Pass**
+  section has 4 trainers, an ash plateau and a hot spring, plus entrances to **Cinder Hollow** (`p4b_cinder_hollow_1f`
+  5 trainers, boulder niche with TM Will-O-Wisp; `_b1f` dark, 5 trainers, hurt hiker, boulder pocket with a hidden Root
+  Fossil; `_b2f` Vent Core, 4 trainers) and the **Steam Grotto** (`p4b_steam_grotto`, 5 trainers, hot pools, attendant
+  heals).
+* Ashfall City: west gate (x=0, y=14,15; `connect west p4b_ashen_trail 0`) to the **Ashen Trail** (`p4b_ashen_trail`, sand
+  weather, 6 trainers incl. Kaen's three Fire Breathers) → **Obsidian Grotto** (`p4b_obsidian_grotto`, Master Kaen,
+  scripted `canlose`) and → **Magma Tunnel** (`p4b_magma_tunnel`, 5 trainers) → **Ashfall Caldera** (`p4b_ashfall_caldera`,
+  7 trainers, crater lake islet with the rainbow-bird shrine, Ho-Oh lore sage). New **Glass Workshop** (`p4b_ashfall_glass`):
+  Vitra and her son, who trades Charcadet "Kindle" for a Magcargo (`p4b_traded_charcadet`).
+* Quests: `p4b_ember_escort` (Burn Heal for the hurt hiker → TM Flare Blitz + Exp. Candy L), `p4b_trial_by_fire` (beat
+  Brand, Blaze, Coal, then Kaen → TM Heat Wave + Larvesta egg), `p4b_glass_furnace` (Heat Rock → Life Orb).
+
+**Flags:** quest/gift flags above; puzzle/obstacle flags `p4b_mine1_*`, `p4b_mine2_boulder1/2`, `p4b_mine3_smash`,
+`p4b_gulch_*`, `p4b_gcave_*`, `p4b_grotto_boulder`, `p4b_cdepth_*`, `p4b_dig_*`, `p4b_depths_*`, `p4b_mist_cut1/2`,
+`p4b_ch1_*`, `p4b_ch2_boulder`, `p4b_tunnel_smash`; others `p4b_aide_revived`, `p4b_found_lamp`, `p4b_tablets_read`,
+`p4b_poppy_found`, `p4b_hiker_rescued`, `p4b_moss_gift`.
+
+**New species families** (wild, gift or trade): Timburr, Klawf, Orthworm, Durant, Alolan Diglett, Honedge, Sinistea,
+Greavard, Gimmighoul, Solosis, Silicobra, Rockruff, Cubone, Yamper, Tadbulb, Wattrel, Minun/Plusle, Minior, Dewpider,
+Clefairy, Jigglypuff, Petilil, Fomantis, Phantump, Foongus, Impidimp, Skiddo, Rufflet, Vullaby, Axew, Bagon, Darumaka,
+Sizzlipede, Litleo, Pansear, Capsakid, Cacnea, Skorupi, Fletchinder, Slowpoke; fossils Cranidos, Shieldon, Kabuto, Omanyte,
+Anorith, Lileep; gifts Hisuian Growlithe, Carbink, Larvesta egg; trade-only Charcadet.
+
+**Estimator** (`./gradlew :tools:estimatePlaytime`, minutes critical / with optional):
+| Leg | Before | After |
+|---|---|---|
+| 4: Gym 3 → Gym 4 | 48 / 60 | 55 / 136 |
+| 5: Gym 4 → Gym 5 | 58 / 61 | 61 / 136 |
+| 6: Gym 5 → Gym 6 | 40 / 48 | 48 / 121 |
+Whole game (with E1/E3 not merged): critical 9.3 h → 9.7 h, with optional 12.5 h → 16.6 h.
