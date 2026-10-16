@@ -32,6 +32,9 @@ class MapCompilerTool(private val root: File) {
 
     data class Prefab(val name: String, val rows: List<List<String>>, val doorX: Int, val doorY: Int, val solidOverride: Boolean = false)
 
+    /** Bag key for a map item: `tm:<move>` keeps its prefix (TMs are stored per move), everything else is an item id. */
+    private fun itemKey(s: String) = if (s.lowercase().startsWith("tm:")) "tm:" + toId(s.substringAfter(':')) else toId(s)
+
     fun run(): Boolean {
         val dex = Dex.loadDefault()
         val tileNames = loadTileNames()
@@ -239,7 +242,7 @@ class MapCompilerTool(private val root: File) {
                     ))
                 }
                 "sign" -> { val p = kv(t); signs.add(SignDef(t[1].toInt(), t[2].toInt(), p["text"], p["script"])) }
-                "item", "hidden" -> items.add(ItemPickup("${id}_${t[1]}", t[2].toInt(), t[3].toInt(), toId(t[4]), t.getOrNull(5)?.toIntOrNull() ?: 1, t[0] == "hidden"))
+                "item", "hidden" -> items.add(ItemPickup("${id}_${t[1]}", t[2].toInt(), t[3].toInt(), itemKey(t[4]), t.getOrNull(5)?.toIntOrNull() ?: 1, t[0] == "hidden"))
                 "trigger" -> {
                     val p = kv(t)
                     triggers.add(TriggerDef(t[1].toInt(), t[2].toInt(), t[3].toInt(), t[4].toInt(), p["script"] ?: throw CompileError("trigger needs script=", n), p["unless"], p["if"]))
@@ -488,7 +491,11 @@ class MapCompilerTool(private val root: File) {
             for (t in m.triggers) if (t.script !in scripts) errors.add("$where: trigger uses unknown script '${t.script}'")
             m.onEnter?.let { if (it !in scripts) errors.add("$where: onenter script '$it' missing") }
             m.encounters?.let { e -> if (encounters.none { it.id == e }) errors.add("$where: unknown encounter table '$e'") }
-            for (it in m.items) if (dex.itemOrNull(it.item) == null && !it.item.startsWith("tm")) errors.add("$where: unknown item '${it.item}'")
+            for (it in m.items) {
+                val tmMove = it.item.removePrefix("tm:").takeIf { _ -> it.item.startsWith("tm:") }
+                if (tmMove != null) { if (dex.moveOrNull(tmMove) == null) errors.add("$where: TM for unknown move '$tmMove'") }
+                else if (dex.itemOrNull(it.item) == null) errors.add("$where: unknown item '${it.item}'")
+            }
             if (m.items.map { it.id }.toSet().size != m.items.size) errors.add("$where: duplicate item ids")
         }
         // Scripts: referenced trainers, maps, shops, items, species.

@@ -73,9 +73,20 @@ class WorldTest {
         assertEquals("KEN", req.offer.otName)
         assertEquals(listOf(0), ctx.tradeCandidates("wooper"))
         assertTrue(ctx.tradeCandidates("pikachu").isEmpty())
+        ctx.receivePokemon(ctx.factory.create("exeggutoralola", 30, ctx.rng))
+        assertTrue(ctx.tradeCandidates("exeggutor").isEmpty())
         assertEquals("gengar", ctx.performTrade(0, "wooper", req.offer))
-        assertEquals("haunter", ctx.state.party.single().speciesId)
+        assertEquals("haunter", ctx.state.party[0].speciesId)
         assertFailsWith<IllegalArgumentException> { ctx.performTrade(0, "wooper", req.offer) }
+    }
+
+    @Test
+    fun `result of givemon survives its message box`() {
+        val ctx = newCtx()
+        val src = "script t\n  givemon pikachu 5\n  if result 1\n    setflag got_it\n  end\nend"
+        val vm = ScriptVM(ctx, ScriptParser.parseFile(src, "t.pks").single(), { null })
+        while (true) { val r = vm.next() ?: break; if (r.blocking) vm.resume() }
+        assertTrue(ctx.state.hasFlag("got_it"))
     }
 
     @Test

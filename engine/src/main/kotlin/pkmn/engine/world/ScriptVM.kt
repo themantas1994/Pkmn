@@ -9,16 +9,18 @@ import pkmn.engine.util.toId
 sealed class ScriptRequest {
     /** Blocking requests wait for the host to call [ScriptVM.resume]. */
     open val blocking: Boolean = true
+    /** Whether the value passed to [ScriptVM.resume] becomes `result` (otherwise the previous result is kept). */
+    open val setsResult: Boolean = false
 
     data class Say(val text: String) : ScriptRequest()
-    data class Ask(val text: String) : ScriptRequest()
-    data class Choice(val prompt: String, val options: List<String>) : ScriptRequest()
+    data class Ask(val text: String) : ScriptRequest() { override val setsResult = true }
+    data class Choice(val prompt: String, val options: List<String>) : ScriptRequest() { override val setsResult = true }
     data class FacePlayer(val npc: String?) : ScriptRequest() { override val blocking = false }
     data class Face(val target: String, val dir: Facing) : ScriptRequest() { override val blocking = false }
     data class Move(val target: String, val path: List<Facing>) : ScriptRequest()
     data class Wait(val ms: Int) : ScriptRequest()
-    data class TrainerBattle(val trainerId: String, val canLose: Boolean) : ScriptRequest()
-    data class WildBattle(val mon: Pokemon, val canRun: Boolean, val music: String?) : ScriptRequest()
+    data class TrainerBattle(val trainerId: String, val canLose: Boolean) : ScriptRequest() { override val setsResult = true }
+    data class WildBattle(val mon: Pokemon, val canRun: Boolean, val music: String?) : ScriptRequest() { override val setsResult = true }
     data class Warp(val map: String, val x: Int, val y: Int, val facing: Facing?) : ScriptRequest()
     data class Music(val id: String?) : ScriptRequest() { override val blocking = false }
     data class Sfx(val id: String) : ScriptRequest() { override val blocking = false }
@@ -40,9 +42,9 @@ sealed class ScriptRequest {
     data class ScreenEffect(val kind: String) : ScriptRequest()
     object Save : ScriptRequest()
     object Fly : ScriptRequest()
-    data class Special(val name: String, val args: List<String>) : ScriptRequest()
+    data class Special(val name: String, val args: List<String>) : ScriptRequest() { override val setsResult = true }
     /** In-game trade: the player offers a party member of species [want] and receives [offer]. Resume with 1 if traded. */
-    data class Trade(val want: String, val offer: Pokemon) : ScriptRequest()
+    data class Trade(val want: String, val offer: Pokemon) : ScriptRequest() { override val setsResult = true }
 }
 
 /**
@@ -62,7 +64,10 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
         private set
     private var steps = 0
 
-    fun resume(value: Int = 0) { result = value; waiting = false }
+    private var pending: ScriptRequest? = null
+
+    /** Continues after a blocking request. Text boxes and animations keep the result of the last givemon/takeitem/ask… */
+    fun resume(value: Int = 0) { if (pending?.setsResult == true) result = value; pending = null; waiting = false }
 
     /** Runs until the next host request; returns null when the script has finished. */
     fun next(): ScriptRequest? {
@@ -78,7 +83,7 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
                     val req = try { exec(ins) } catch (e: ScriptError) { throw e } catch (e: Exception) {
                         throw ScriptError("${ins.name}: ${e.message}", f.script.file, ins.line)
                     }
-                    if (req != null) { if (req.blocking) waiting = true; return req }
+                    if (req != null) { if (req.blocking) { waiting = true; pending = req }; return req }
                 }
             }
         }

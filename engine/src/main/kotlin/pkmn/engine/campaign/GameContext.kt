@@ -3,6 +3,7 @@ package pkmn.engine.campaign
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import pkmn.engine.battle.*
+import pkmn.engine.data.FormKind
 import pkmn.engine.data.ContentJson
 import pkmn.engine.data.ContentSource
 import pkmn.engine.data.Dex
@@ -116,10 +117,13 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return state.addPokemon(mon)
     }
 
-    /** Party indices whose species (any forme) matches [want] — candidates for an in-game trade. */
+    /**
+     * Party indices matching [want] — candidates for an in-game trade. Alternate formes of the species count, but
+     * regional variants and fusions are different Pokémon (asking for Exeggutor does not accept Alolan Exeggutor).
+     */
     fun tradeCandidates(want: String): List<Int> = state.party.indices.filter { i ->
         val sp = state.party[i].species(dex)
-        sp.id == want || sp.baseSpecies == want
+        sp.id == want || (sp.baseSpecies == want && sp.formKind != FormKind.REGIONAL && sp.formKind != FormKind.FUSION)
     }
 
     /**
