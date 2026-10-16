@@ -1,0 +1,24 @@
+map ashfall_center
+name "Ashfall City Pokémon Center"
+location "Ashfall City"
+music pokecenter
+environment indoor
+indoor
+tags pokecenter
+
+layout
+^^^^^^^^^^
+@w@X@@@@w@
+oooooooooo
+cccccccPpp
+oooooooooo
+ohtoooohtp
+oooooooooo
+ooooRRoooo
+end
+
+warp 4 7 -> ashfall_city 6 12 down
+warp 5 7 -> ashfall_city 6 12 down
+npc nurse 4 2 sprite=nurse face=down script=p3a_center_nurse
+npc ac_hiker 1 4 sprite=hiker face=right text="Fire types resist Bug, Steel, Ice, Grass and Fairy. Blaise's Gym is a furnace!"
+npc ac_lass 8 4 sprite=lass face=left text="I heard Quartz, the crystal scholar, works in the cavern south of town."

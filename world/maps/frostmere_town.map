@@ -1,0 +1,57 @@
+map frostmere_town
+name "Frostmere Town"
+location "Frostmere Town"
+music town_snow
+environment snow
+weather snow
+region 3 4
+fly 11 12
+tags town powerspot
+connect south route11 6
+connect east route12 2
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TnnnnnnnnnnnnnnnnnnnnnnnnnnnnT
+TnnnnnnnnnnnnnnnnnnnnnnnnnnnnT
+TnnnnnnnnnnnnnnnnnnnnnnnnnnnnT
+TnnnnnnnnnnnnnnnnnnnnnnnnnnnnT
+T:::::::::::::::::::::::::::::
+T:::::::::::::::::::::::::::::
+Tnnnnnnnnn::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::nnnnnnnnnnnnTTTTnT
+Tnnnnnnnnn::nnnnnnnnnnnnTTTTnT
+Tnnn:::::::::::::nnnnnnnTTTTnT
+Tnnnnnnnnn::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::::::::::::nnnnnnnT
+Tnnnnn:nnn::nnnnnnnnnnnnnnnnnT
+Tnnnnn::::::nnnnnnnnnnnnnnnnnT
+Tnnnnnnnnn::nnniiiiinnnnnnnnnT
+Tnnnnnnnnn::nniiiiiiinnnnTTTTT
+TTTTTnnnnn::nniiiiiiinnnnTTTTT
+TTTTTnnnnn::nnniiiiinnnnnTTTTT
+TTTTTnnnnn::nnnnnnnnnnnnnTTTTT
+TTTTTTTTTT::TTTTTTTTTTTTTTTTTT
+end
+
+building center 4 8 -> frostmere_center 4 7 up
+building mart 13 8 -> frostmere_mart 3 7 up
+building gym 19 13 -> frostmere_gym 7 16 up
+building house_big 3 15 -> hollis_lodge 4 7 up
+building house_blue 15 2 -> frostmere_house 3 5 up
+tile 12 7 sign
+sign 12 7 text="FROSTMERE TOWN\nA quiet hearth beneath the northern lights."
+tile 18 16 sign
+sign 18 16 text="FROSTMERE TOWN POKéMON GYM\nLEADER: ISOLDE\nThe frozen blade of the north!"
+tile 27 7 sign
+sign 27 7 text="East: Route 12 to Dragonspire City"
+npc fm_hollis_aide 8 20 sprite=ranger face=down text="Hollis studies Power Spots. This whole town sits on one! It's why the Gym can host Dynamax battles."
+npc fm_skater 17 23 sprite=kid move=wander text="Wheee! The pond is frozen solid. Isolde's Gym floor is the same, except slipperier!"
+npc fm_oldwoman 26 15 sprite=oldwoman face=left script=p3a_fm_scarf_quest
+npc fm_gentleman 12 13 sprite=gentleman face=down text="Isolde is the most elegant trainer in Tessera. Her Pokémon hail and blizzard like a winter storm."
+trigger 21 17 1 1 script=p3a_fm_gym_sealed unless=p3a_got_dynamaxband

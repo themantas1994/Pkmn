@@ -1,0 +1,368 @@
+# Part 3A: Route 10, Crystal Cavern, Route 11, Frostmere Gym, Route 12, Crystal Cavern depths.
+
+trainer p3a_r10_hiker_flint
+  class hiker
+  name "Flint"
+  intro "Rocks everywhere! Perfect for my Pokémon!"
+  defeat "Crumbled to gravel..."
+  after "Crystal Cavern's crystals are tougher than any rock I've seen."
+  mon rhydon 43
+  mon golem 43
+  mon onix 42
+end
+
+trainer p3a_r10_black_kenji
+  class blackbelt
+  name "Kenji"
+  intro "I train on the volcano slopes. My fists are hotter than lava!"
+  defeat "Ouch... ouch..."
+  after "Hariyama can take a hit like nothing else."
+  mon hariyama 44
+  mon machamp 44
+end
+
+trainer p3a_r10_ranger_tali
+  class ranger
+  name "Tali"
+  intro "I keep the wild Pokémon here safe. Let's see if you treat yours well!"
+  defeat "Your Pokémon trust you. I can tell."
+  after "Mudsdale are calm, but don't step on their tails."
+  mon mudsdale 44
+  mon gogoat 43
+  mon braviary 44
+end
+
+trainer p3a_r10_cool_marcus
+  class cooltrainer_m
+  name "Marcus"
+  intro "Let me guess, you're after the Frostmere badge next? Get through me first!"
+  defeat "Okay, you'll do fine."
+  after "Steel types are great against Ice. Just saying."
+  mon bisharp 45 moves=ironhead,nightslash,knockoff,swordsdance
+  mon golurk 44
+  mon copperajah 45
+end
+
+trainer p3a_r10_lass_ivy
+  class lass
+  name "Ivy"
+  intro "These flowers grow even in volcanic soil! Isn't that lovely?"
+  defeat "My petals scattered..."
+  after "Florges smells like a meadow after rain."
+  mon florges 43
+  mon lilligant 43
+end
+
+trainer p3a_r10_fisher_ned
+  class fisherman
+  name "Ned"
+  intro "The tarn's quiet. Too quiet. Let's battle!"
+  defeat "Snagged!"
+  after "Whiscash know when earthquakes are coming. Spooky."
+  mon whiscash 43
+  mon seaking 43
+  mon quagsire 44
+end
+
+trainer p3a_cc_grunt_a
+  class grunt_m
+  name "Grunt"
+  intro "Hey! This cave's off-limits by order of Team Eclipse!"
+  defeat "Aw, the boss is gonna dim my lights..."
+  after "These crystals hold light. We're taking 'em to Mt. Prism. That's all I'm sayin'."
+  mon golbat 43
+  mon skuntank 44
+end
+
+trainer p3a_cc_grunt_b
+  class grunt_f
+  name "Grunt"
+  intro "Shh! We're mining here. You saw nothing!"
+  defeat "Not my shiny crystals!"
+  after "The boss says the Prism Pokémon will eat all the light. Cozy, right?"
+  mon sableye 43
+  mon mightyena 44
+end
+
+trainer p3a_cc_hiker_opal
+  class hiker
+  name "Opal"
+  intro "I came for the crystals, but I'll take a battle too!"
+  defeat "Shattered!"
+  after "Carbink live deep in here. They sparkle like stars."
+  mon boldore 43
+  mon carbink 44
+  mon probopass 44
+end
+
+trainer p3a_cc_psychic_lux
+  class psychic
+  name "Lux"
+  intro "The crystals amplify my powers... Behold!"
+  defeat "My aura... dimmed."
+  after "Tera crystals respond to feelings. Pokémon feel it too."
+  mon bronzong 44
+  mon beheeyem 44
+end
+
+trainer p3a_cc_grunt_c
+  class grunt_m
+  name "Grunt"
+  intro "You got past the others? Doesn't matter. This crystal's ours!"
+  defeat "Retreat! Retreat!"
+  after "Fine, keep the old lady's rocks! We've got bigger plans on Prism Summit."
+  mon crobat 44
+  mon drapion 45
+end
+
+trainer p3a_cc_grunt_d
+  class grunt_f
+  name "Grunt"
+  intro "Two against one! Wait, it's a single battle. Ugh, fine!"
+  defeat "We should've brought more grunts."
+  after "Umbra's going to make the whole world twilight. You'll see!"
+  mon honchkrow 45
+  mon toxicroak 44
+end
+
+trainer p3a_r11_fisher_hal
+  class fisherman
+  name "Hal"
+  intro "I've been fishing here since sunrise. Battle me while I wait!"
+  defeat "The one that got away..."
+  after "Try fishing near the cottage islet. Big fish there!"
+  mon octillery 44
+  mon lanturn 45
+  mon kingler 44
+end
+
+trainer p3a_r11_swim_nami
+  class swimmer_f
+  name "Nami"
+  intro "The water's freezing! A battle will warm me up!"
+  defeat "Brr! Lost and cold!"
+  after "Frostmere's across the bay. Just keep swimming northwest!"
+  mon pelipper 44
+  mon starmie 45
+end
+
+trainer p3a_r11_swim_kai
+  class swimmer_m
+  name "Kai"
+  intro "Out here, only the strong swimmers survive!"
+  defeat "Sunk!"
+  after "Wailord can swim across the ocean without stopping."
+  mon wailmer 43
+  mon wailord 45
+end
+
+trainer p3a_r11_swim_pearl
+  class swimmer_f
+  name "Pearl"
+  intro "I'm diving for pearls! Want to see my treasures?"
+  defeat "My treasures..."
+  after "The lady in the cottage loves pearls. So does her Lapras!"
+  mon cloyster 44
+  mon gorebyss 45
+end
+
+trainer p3a_r11_swim_reed
+  class swimmer_m
+  name "Reed"
+  intro "Sharks in the water! Well, Sharpedo. Close enough!"
+  defeat "Bitten back!"
+  after "Sharpedo can swim at 75 mph. Don't race one."
+  mon sharpedo 45
+  mon floatzel 44
+end
+
+trainer p3a_r11_sailor_brine
+  class sailor
+  name "Brine"
+  intro "Ahoy! You look like you could use some sea legs!"
+  defeat "Man overboard!"
+  after "Gyarados don't scare me. Much."
+  mon gyarados 46
+  mon machoke 44
+end
+
+trainer p3a_r11_fisher_moss
+  class fisherman
+  name "Moss"
+  intro "Shh, I've got a bite! Oh, it's you. Battle!"
+  defeat "Lost my bait AND the battle."
+  after "Relicanth hasn't changed in a hundred million years. Respect."
+  mon relicanth 45
+  mon barbaracle 45
+end
+
+trainer p3a_r11_swim_coral
+  class swimmer_f
+  name "Coral"
+  intro "Racing to Frostmere! Battle me if you can keep up!"
+  defeat "You win by a fin!"
+  after "Swimming in cold water is great training. Try it!"
+  mon palafin 45
+  mon mantine 45
+end
+
+# ------------------------------------------------------------------ Frostmere Gym
+trainer p3a_g7_skier_frida
+  class p3a_skier
+  name "Frida"
+  intro "Whoosh! Can you keep your footing on Isolde's ice?"
+  defeat "Wipeout!"
+  after "Slide up the left side, then hug the wall. Wait, did I say that out loud?"
+  mon sealeo 46
+  mon vanilluxe 48
+end
+
+trainer p3a_g7_boarder_axel
+  class p3a_boarder
+  name "Axel"
+  intro "Nice stop! Now let's see your tricks!"
+  defeat "Bailed hard."
+  after "Isolde will Dynamax her last Pokémon. Save something strong."
+  mon beartic 47
+  mon piloswine 47
+  mon glalie 48
+end
+
+trainer p3a_g7_skier_noelle
+  class p3a_skier
+  name "Noelle"
+  intro "The ice here is polished every morning. Isn't it gorgeous?"
+  defeat "I slipped..."
+  after "Frosmoth's wings shimmer like the northern lights."
+  mon frosmoth 48
+  mon froslass 48
+end
+
+trainer p3a_g7_boarder_rime
+  class p3a_boarder
+  name "Rime"
+  intro "Last stop before Isolde! Show me your best run!"
+  defeat "Gnarly. You're through."
+  after "Isolde's Lapras can Gigantamax. It's huge!"
+  mon avalugg 48
+  mon cetitan 49
+end
+
+trainer p3a_leader_isolde
+  class leader
+  name "Isolde"
+  portrait leader7
+  ai 3
+  intro "Snow becomes an avalanche. Let me show you, on a Power Spot."
+  defeat "Ah... the ice melts."
+  after "Ryuga waits in Dragonspire."
+  items hyperpotion=2
+  gimmicks dynamax
+  prize 5200
+  mon froslass 49 moves=icebeam,shadowball,willowisp,spikes
+  mon cloyster 50 moves=iciclespear,rockblast,shellsmash,iceshard
+  mon weavile 50 moves=icepunch,knockoff,iceshard,swordsdance
+  mon mamoswine 51 moves=icefang,earthquake,iceshard,stoneedge
+  mon lapras 52 moves=icebeam,surf,thunderbolt,bodyslam gmax
+end
+
+# ------------------------------------------------------------------ Route 12
+trainer p3a_r12_skier_hanna
+  class p3a_skier
+  name "Hanna"
+  intro "Fresh powder! Let's battle before it melts!"
+  defeat "Face-planted in the snow..."
+  after "The frozen slope south of here is a fun slide. Mind the rocks!"
+  mon sneasel 48
+  mon delibird 48
+  mon dewgong 49
+end
+
+trainer p3a_r12_boarder_jett
+  class p3a_boarder
+  name "Jett"
+  intro "Halfpipe? Nah, mountain pass! Battle!"
+  defeat "Totally wiped out."
+  after "I saw a kid stuck on the ice slope earlier. Hope he's okay."
+  mon glalie 49
+  mon walrein 50
+end
+
+trainer p3a_r12_hiker_bjorn
+  class hiker
+  name "Bjorn"
+  intro "I've climbed every peak in Tessera! This one's a breeze!"
+  defeat "Avalanche of defeat!"
+  after "Dragonspire's on the other side of the pass."
+  mon steelix 50
+  mon gigalith 49
+  mon rhyperior 50
+end
+
+trainer p3a_r12_ranger_sky
+  class ranger
+  name "Sky"
+  intro "The mountain winds are perfect for battling!"
+  defeat "Blown away!"
+  after "Braviary nest on these peaks. They're fearless."
+  mon braviary 50
+  mon absol 50
+end
+
+trainer p3a_r12_cool_vera
+  class cooltrainer_f
+  name "Vera"
+  intro "Heading to Dragonspire? Then you'll need to be strong!"
+  defeat "You're ready for Ryuga."
+  after "Dragons hate Ice and Fairy moves. Pack both!"
+  mon glaceon 51 moves=icebeam,shadowball,freezedry,calmmind
+  mon sylveon 51 moves=moonblast,hypervoice,calmmind,shadowball
+  mon mamoswine 50
+end
+
+trainer p3a_r12_black_tor
+  class blackbelt
+  name "Tor"
+  intro "Mountain training builds the strongest legs! Hiyah!"
+  defeat "My legs gave out!"
+  after "Lucario can sense aura from miles away."
+  mon lucario 50
+  mon hitmonlee 50
+  mon hitmonchan 50
+end
+
+trainer p3a_r12_bird_alba
+  class p3a_birdkeeper
+  name "Alba"
+  intro "My birds love the cold, crisp air!"
+  defeat "Feathers everywhere!"
+  after "There's a legend of an icy bird living up near the peaks."
+  mon altaria 50
+  mon staraptor 50
+  mon noctowl 49
+end
+
+# ------------------------------------------------------------------ Shattered Cave (post-game)
+
+# ------------------------------------------------------------------ Crystal Cavern depths (post-game)
+trainer p3a_ccd_cool_prism
+  class cooltrainer_f
+  name "Prisma"
+  intro "These crystals are older than Tessera itself. Let's battle by their light!"
+  defeat "Dazzling!"
+  after "Something small and shell-shaped is sleeping in the center."
+  mon glimmora 66
+  mon klefki 66
+  mon gigalith 67
+end
+
+trainer p3a_ccd_sci_facet
+  class scientist
+  name "Facet"
+  intro "My spectrometer just exploded! Something here gives off Stellar energy!"
+  defeat "More data, please!"
+  after "Quartz will be thrilled when I tell her."
+  mon tinkaton 66
+  mon garganacl 67
+  mon carbink 66
+end

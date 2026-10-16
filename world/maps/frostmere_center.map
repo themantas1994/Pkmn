@@ -1,0 +1,24 @@
+map frostmere_center
+name "Frostmere Town Pokémon Center"
+location "Frostmere Town"
+music pokecenter
+environment indoor
+indoor
+tags pokecenter
+
+layout
+^^^^^^^^^^
+@w@X@@@@w@
+oooooooooo
+cccccccPpp
+oooooooooo
+ohtoooohtp
+oooooooooo
+ooooRRoooo
+end
+
+warp 4 7 -> frostmere_town 6 11 down
+warp 5 7 -> frostmere_town 6 11 down
+npc nurse 4 2 sprite=nurse face=down script=p3a_center_nurse
+npc fc_skier 1 4 sprite=cooltrainer_f face=right text="Fire, Fighting, Rock and Steel melt through Ice types. I learned that the hard way."
+npc fc_hiker 8 4 sprite=hiker face=left text="Route 12 climbs through the peaks to Dragonspire. Bring Repels and warm socks!"

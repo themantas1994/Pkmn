@@ -1,0 +1,22 @@
+map frostmere_mart
+name "Frostmere Town Poké Mart"
+location "Frostmere Town"
+music mart
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@@@w@
+oocooooo
+cccooKKo
+oooooooo
+ooooKKoo
+oooooooo
+ooRRoooo
+end
+
+warp 2 7 -> frostmere_town 14 11 down
+warp 3 7 -> frostmere_town 14 11 down
+npc clerk 1 2 sprite=clerk face=down script=p3a_mart_frostmere
+npc fmart_kid 5 4 sprite=kid face=left text="Mom says Never-Melt Ice makes Ice moves stronger. I want it for my Snorunt!"
