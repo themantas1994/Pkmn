@@ -169,6 +169,31 @@ class WorldTest {
     }
 
     @Test
+    fun `every campaign script runs to completion with an auto-answering host`() {
+        val failures = ArrayList<String>()
+        // Two passes: answer yes / first option / win, then no / last option / lose.
+        for (yes in listOf(true, false)) for ((id, script) in content.scripts) {
+            val ctx = newCtx()
+            ctx.receivePokemon(ctx.factory.create("pikachu", 30, ctx.rng))
+            val vm = ScriptVM(ctx, script, { content.scripts[it] })
+            try {
+                var n = 0
+                while (n++ < 5000) {
+                    val r = vm.next() ?: break
+                    if (r.blocking) vm.resume(when (r) {
+                        is ScriptRequest.Ask -> if (yes) 1 else 0
+                        is ScriptRequest.Choice -> if (yes) 0 else r.options.size - 1
+                        is ScriptRequest.TrainerBattle -> if (yes) 1 else 0
+                        is ScriptRequest.WildBattle -> if (yes) 1 else 3
+                        else -> 0
+                    })
+                }
+            } catch (e: Exception) { failures += "$id (${if (yes) "yes" else "no"} path): ${e.message}" }
+        }
+        assertTrue(failures.isEmpty(), "${failures.size} script(s) failed:\n" + failures.joinToString("\n"))
+    }
+
+    @Test
     fun `every campaign trainer battle can be built and played to the end`() {
         val ctx = newCtx()
         // A strong level-100 team so every battle finishes; the point is that each trainer's data is battle-valid.
