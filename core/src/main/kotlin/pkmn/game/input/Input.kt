@@ -43,14 +43,14 @@ class InputState {
     private fun keyboard(b: Button): Boolean {
         val i = Gdx.input ?: return false
         return when (b) {
-            Button.UP -> i.isKeyPressed(Keys.UP) || i.isKeyPressed(Keys.W)
-            Button.DOWN -> i.isKeyPressed(Keys.DOWN) || i.isKeyPressed(Keys.S)
-            Button.LEFT -> i.isKeyPressed(Keys.LEFT) || i.isKeyPressed(Keys.A)
-            Button.RIGHT -> i.isKeyPressed(Keys.RIGHT) || i.isKeyPressed(Keys.D)
-            Button.A -> i.isKeyPressed(Keys.Z) || i.isKeyPressed(Keys.J) || i.isKeyPressed(Keys.SPACE)
-            Button.B -> i.isKeyPressed(Keys.X) || i.isKeyPressed(Keys.K) || i.isKeyPressed(Keys.BACKSPACE) || i.isKeyPressed(Keys.BACK) || i.isKeyPressed(Keys.ESCAPE)
-            Button.START -> i.isKeyPressed(Keys.ENTER)
-            Button.SELECT -> i.isKeyPressed(Keys.SHIFT_RIGHT) || i.isKeyPressed(Keys.TAB)
+            Button.UP -> i.isKeyPressed(Keys.UP) || i.isKeyPressed(Keys.W) || i.isKeyPressed(Keys.DPAD_UP)
+            Button.DOWN -> i.isKeyPressed(Keys.DOWN) || i.isKeyPressed(Keys.S) || i.isKeyPressed(Keys.DPAD_DOWN)
+            Button.LEFT -> i.isKeyPressed(Keys.LEFT) || i.isKeyPressed(Keys.A) || i.isKeyPressed(Keys.DPAD_LEFT)
+            Button.RIGHT -> i.isKeyPressed(Keys.RIGHT) || i.isKeyPressed(Keys.D) || i.isKeyPressed(Keys.DPAD_RIGHT)
+            Button.A -> i.isKeyPressed(Keys.Z) || i.isKeyPressed(Keys.J) || i.isKeyPressed(Keys.SPACE) || i.isKeyPressed(Keys.BUTTON_A) || i.isKeyPressed(Keys.DPAD_CENTER)
+            Button.B -> i.isKeyPressed(Keys.X) || i.isKeyPressed(Keys.K) || i.isKeyPressed(Keys.BACKSPACE) || i.isKeyPressed(Keys.BACK) || i.isKeyPressed(Keys.ESCAPE) || i.isKeyPressed(Keys.BUTTON_B)
+            Button.START -> i.isKeyPressed(Keys.ENTER) || i.isKeyPressed(Keys.BUTTON_START)
+            Button.SELECT -> i.isKeyPressed(Keys.SHIFT_RIGHT) || i.isKeyPressed(Keys.TAB) || i.isKeyPressed(Keys.BUTTON_SELECT)
         }
     }
 

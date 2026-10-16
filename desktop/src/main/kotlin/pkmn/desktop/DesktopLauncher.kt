@@ -25,7 +25,8 @@ class DesktopPlatform(override val saveDir: File) : Platform {
 /**
  * Desktop launcher. Options:
  *   --saves=<dir>        save directory (default ~/.pkmn-crystalline)
- *   --script=<file>      automation script: lines "wait N", "press BUTTON [frames]", "shot NAME", "quit"
+ *   --script=<file>      automation script, one command per line: wait N, press BUTTON [frames], mash BUTTON N,
+ *                        goto X Y (walk on the current map), log, perf, shot NAME, quit
  *   --shots=<dir>        where screenshots go
  *   --mute               no audio
  *   --scale=N            window scale (default 3)
