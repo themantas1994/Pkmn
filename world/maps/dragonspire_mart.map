@@ -1,0 +1,22 @@
+map dragonspire_mart
+name "Dragonspire City Poké Mart"
+location "Dragonspire City"
+music mart
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@@@w@
+oocooooo
+cccooKKo
+oooooooo
+ooooKKoo
+oooooooo
+ooRRoooo
+end
+
+warp 2 7 -> dragonspire_city 10 10 down
+warp 3 7 -> dragonspire_city 10 10 down
+npc clerk 1 2 sprite=clerk face=down script=p3_mart_dragonspire
+npc dmart_man 5 4 sprite=gentleman face=left text="Dusk Balls work wonders in caves. Victory Road is one big cave, you know."

@@ -13,3 +13,11 @@ roof_l roof_m roof_m roof_m roof_m roof_r
 wall_l wall_window wall_m door wall_window wall_r
 door 3 1
 end
+
+prefab p3_league
+gym_roof_l gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_r
+gym_roof_l gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_r
+gym_wall_l gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_r
+gym_wall_l gym_wall_m gym_wall_m gym_door gym_wall_m gym_wall_m gym_wall_m gym_wall_r
+door 3 3
+end

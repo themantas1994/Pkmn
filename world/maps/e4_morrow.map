@@ -1,0 +1,26 @@
+map e4_morrow
+name "Ghost Room"
+location "Prism Plateau"
+music league_ghost
+environment building
+indoor
+tags powerspot
+
+layout
+@^^^^^^^^^@
+@@@@@Z@@@@@
+@GdddddddG@
+@ddddddddd@
+@ddddddddd@
+@ddddddddd@
+@ddddddddd@
+@ddddddddd@
+@GdddddddG@
+@ddddddddd@
+@ddddddddd@
+@@@@@@@@@@@
+end
+
+warp 5 1 -> e4_ferrum 5 10 up
+tileif p3_e4_1 5 1 stairs_in_up
+npc morrow 5 4 sprite=elite1 face=down script=league_morrow

@@ -1,0 +1,22 @@
+map hollis_lodge
+name "Hollis's Lodge"
+location "Frostmere Town"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@BB@@w@@
+__________
+_tt____tt_
+_hh____hh_
+__________
+p________p
+___RR_____
+end
+
+warp 3 7 -> frostmere_town 6 18 down
+warp 4 7 -> frostmere_town 6 18 down
+npc hollis 4 2 sprite=ranger face=down script=fm_hollis
+npc lodge_scientist 8 5 sprite=scientist face=left text="Power Spots gather Galar particles from deep underground. On those spots, Pokémon can grow gigantic!"

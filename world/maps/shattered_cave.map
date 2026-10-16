@@ -1,0 +1,34 @@
+map shattered_cave
+name "Shattered Cave"
+location "Route 11"
+music dungeon_cave
+environment cave
+encounters p3_shattered_cave
+
+layout
+YYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWfffffWW
+WWfffffffffWWWWfffffWW
+WWfffffffffWWWW~~~ffWW
+WWfffWWWWffWWWW~~~ffWW
+WWfffWWWWffWWWWfffffWW
+WWfffWWWWffWWWWfffffWW
+WWfffWWWWffWWWWfffffWW
+WWffffffffffffffffffWW
+WWfffkffffffkfffffffWW
+WWffffffffffffffffffWW
+WWWWWWWfffffWWWWWWWWWW
+WWWWWWWfffffWWWWWWWWWW
+WWWWWWWfffffWWWWWWWWWW
+WWWWWWWffEffWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 9 15 -> route11 6 25 down
+npc mewtwo 17 2 sprite=legendary_shadow face=down script=leg_mewtwo hideif=p3_mewtwo_done
+trainer sc_cool_dante 3 6 sprite=cooltrainer_m face=down sight=3 trainer=p3_sc_cool_dante
+trainer sc_psychic_mira 10 6 sprite=psychic face=down sight=2 trainer=p3_sc_psychic_mira
+item sc_maxelixir 3 3 maxelixir
+item sc_psychicshard 19 8 psychicterashard 3
+hidden sc_hidden_ppup 16 9 ppup

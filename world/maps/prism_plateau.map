@@ -1,0 +1,37 @@
+map prism_plateau
+name "Prism Plateau"
+location "Prism Plateau"
+music league_plateau
+environment plain
+region 18 7
+fly 11 12
+tags town powerspot
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMM
+MmmmmmmmmmmmmmmmmmmmmmmM
+MmmmmmmmmmmmmmmmmmmmmmmM
+MllllllllllllllllllllllM
+MllllllllllllllllllllllM
+MllllllllllllllllllllllM
+MllllllllllllllllllllllM
+MllllllllllllllllllllllM
+MllllllllllllllllllllllM
+Mllllllllll::llllllllllM
+Mllllllllll::llllllllllM
+Mllllllllll::llllllllllM
+MlFFFFFFlll::lllFFFFFFlM
+MlFFFFFFlll::lllFFFFFFlM
+MlFFFFFFlll::lllFFFFFFlM
+MlFFFFFFlll::lllFFFFFFlM
+MlFFFFFFlll::lllFFFFFFlM
+MlFFFFFFlll::lllFFFFFFlM
+Mllllllllll::llllllllllM
+MMMMMMMMMMMEMMMMMMMMMMMM
+end
+
+building p3_league 8 5 -> league_lobby 6 11 up
+warp 11 19 -> victory_road_3f 25 2 down
+tile 9 10 sign
+sign 9 10 text="POKéMON LEAGUE\nPrism Plateau. Only the strongest stand here."
+npc pp_veteran 15 10 sprite=gentleman face=left text="I made it this far forty years ago... and lost to the first of the Elite Four. Give them everything you've got!"

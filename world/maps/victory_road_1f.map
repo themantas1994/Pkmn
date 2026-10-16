@@ -1,0 +1,47 @@
+map victory_road_1f
+name "Victory Road 1F"
+location "Victory Road"
+music dungeon_victory
+environment cave
+region 15 3
+encounters p3_victory_road
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWffffffffffffffffffffffffffWW
+WWfffffffffffffffffffffffLffWW
+WWffffffffff~~~~~fffffffffffWW
+WWWWWWWWWWWW~~~~~WWWWWWWWWWWWW
+WWWWWWWWWWWWWW%WWWWWWWWWWWWWWW
+WWWWWWWWWWWWWW%WWWWWWWWWWWWWWW
+WWWWWWWWWWWWWW%WWWWWWWWWWWWWWW
+WWfffffW~~~~~~~~~~~~~WffffffWW
+WWfffffW~~~~~~~~~~~~~WffffffWW
+WWfffffW~~~~~~~~~~~~~WffffffWW
+WWfffffW~~~~~~~~~~~~~WffffffWW
+WWfffffW~~~~~~~~~~~~~WffffffWW
+WWfffffW~~~~~~~~~~~~~WffffffWW
+WWWWfWWfffffffffffffffffffffWW
+WWfffffffffffffffffkffffffffWW
+WWffkfffffkfffffffffffffffffWW
+WWfffffffffffffffffffffkffffWW
+WWffffffffffffffffffffffffffWW
+WWWWWWWWWWWWfffffWWWWWWWWWWWWW
+WWWWWWWWWWWWfffffWWWWWWWWWWWWW
+WWWWWWWWWWWWfffffWWWWWWWWWWWWW
+WWWWWWWWWWWWffEffWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+legend
+% waterfall
+end
+warp 14 22 -> victory_gate 4 2 down
+warp 25 2 -> victory_road_2f 3 18 down
+trainer vr1_cool_ronan 4 10 sprite=cooltrainer_m face=down sight=3 trainer=p3_vr1_cool_ronan
+trainer vr1_cool_elise 24 10 sprite=cooltrainer_f face=down sight=3 trainer=p3_vr1_cool_elise
+trainer vr1_black_goro 20 2 sprite=blackbelt face=left sight=4 trainer=p3_vr1_black_goro
+item vr1_maxelixir 26 12 maxelixir
+item vr1_fullrestore 3 2 fullrestore
+hidden vr1_hidden_maxrevive 2 18 maxrevive
+obstacle 4 14 boulder flag=p3_vr1_boulder1

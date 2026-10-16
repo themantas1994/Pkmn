@@ -1,0 +1,37 @@
+map frostmere_gym
+name "Frostmere Gym"
+location "Frostmere Town"
+music gym
+environment snow
+indoor
+tags gym powerspot
+
+layout
+@^^^^^^^^^^^^^^@
+@@@@@@@@@@@@@@@@
+@gggggggggggggg@
+@ZZZZZZZZZZiZZZ@
+@iiiiiiiiiiiiiZ@
+@iiiZiiiiiiiiii@
+@iiiiiiiiiiiiii@
+@iiiiiigggiiiii@
+@Ziiiiiiiiiiiii@
+@iiiiiiiiiiiZii@
+@iiiiiZiiiiiiii@
+@ggiiiiiiiiiigg@
+@iiiiiiiiiZiiii@
+@iiiZiiiiiiZiii@
+@iiiiiiiiiiiiii@
+@GggggggggggggG@
+@gggggggggggggg@
+@@@@@@@RR@@@@@@@
+end
+
+warp 7 17 -> frostmere_town 21 17 down
+warp 8 17 -> frostmere_town 21 17 down
+npc gym_guide 10 16 sprite=gentleman face=left script=fm_gym_guide
+npc isolde 7 2 sprite=leader7 face=down script=fm_isolde
+trainer g7_skier_frida 13 15 sprite=cooltrainer_f face=left sight=3 trainer=p3_g7_skier_frida
+trainer g7_boarder_axel 8 7 sprite=cooltrainer_m face=down sight=3 trainer=p3_g7_boarder_axel
+trainer g7_skier_noelle 14 11 sprite=cooltrainer_f face=left sight=3 trainer=p3_g7_skier_noelle
+trainer g7_boarder_rime 3 2 sprite=cooltrainer_m face=right sight=3 trainer=p3_g7_boarder_rime

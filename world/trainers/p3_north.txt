@@ -1,0 +1,407 @@
+# Part 3: Dragonspire Gym, Route 13, Victory Road, Prism Summit (Team Eclipse), rival, post-game spire/depths.
+
+trainer p3_g8_tamer_draco
+  class p3_dragontamer
+  name "Draco"
+  intro "Only dragon tamers may walk these halls! Prove you belong!"
+  defeat "My dragon... bested."
+  after "The entrance switch swaps the bridges. Think before you step!"
+  mon fraxure 52
+  mon dragalge 54
+end
+
+trainer p3_g8_cool_lyra
+  class cooltrainer_f
+  name "Lyra"
+  intro "You found the left platform. Clever, but can you win?"
+  defeat "Smart AND strong."
+  after "The switch behind me opens a bridge to the north. Then swap back at the entrance."
+  mon flygon 54
+  mon altaria 53
+end
+
+trainer p3_g8_tamer_wyn
+  class p3_dragontamer
+  name "Wyn"
+  intro "The right platform is mine! Dragons, roar!"
+  defeat "Roar... ed out."
+  after "Ryuga's Dragonite can Terastallize into a pure Dragon type!"
+  mon druddigon 54
+  mon noivern 55
+end
+
+trainer p3_g8_cool_drake
+  class cooltrainer_m
+  name "Drake"
+  intro "You reached the dais! One more battle before Ryuga!"
+  defeat "Go. He's waiting."
+  after "Ryuga never smiles. Unless you beat him."
+  mon kingdra 55
+  mon goodra 55
+end
+
+trainer p3_leader_ryuga
+  class leader
+  name "Ryuga"
+  portrait leader8
+  ai 3
+  intro "Dragons answer only to strength!"
+  defeat "...Magnificent."
+  after "Victory Road awaits."
+  items hyperpotion=2 fullrestore=1
+  gimmicks tera dynamax
+  prize 5800
+  mon flygon 54 moves=earthquake,dragonclaw,uturn,firepunch
+  mon kingdra 55 moves=hydropump,dracometeor,icebeam,raindance
+  mon noivern 55 moves=dragonpulse,airslash,flamethrower,boomburst
+  mon haxorus 56 moves=outrage,earthquake,poisonjab,dragondance
+  mon goodra 56 moves=dracometeor,sludgebomb,thunderbolt,fireblast
+  mon dragonite 58 moves=dragonclaw,extremespeed,earthquake,dragondance tera=Dragon
+end
+
+trainer p3_leader_ryuga_rematch
+  class leader
+  name "Ryuga"
+  portrait leader8
+  ai 3
+  intro "My dragons have not forgotten their defeat."
+  defeat "The dragon bows."
+  items fullrestore=3
+  gimmicks mega tera dynamax
+  mon kommoo 75 moves=clangingscales,closecombat,poisonjab,bodypress
+  mon kingdra 75 moves=hydropump,dracometeor,icebeam,raindance
+  mon hydreigon 76 moves=darkpulse,dracometeor,flamethrower,nastyplot
+  mon dragapult 76 moves=dragondarts,phantomforce,uturn,dragondance
+  mon garchomp 77 moves=earthquake,dragonclaw,stoneedge,swordsdance item=garchompite
+  mon dragonite 78 moves=dragonclaw,extremespeed,earthquake,dragondance tera=Dragon
+end
+
+# ------------------------------------------------------------------ Route 13
+trainer p3_r13_cool_sigrid
+  class cooltrainer_f
+  name "Sigrid"
+  intro "Eight badges? Then you're my rival now!"
+  defeat "I need to train more."
+  after "Victory Road is right through the gate east of here."
+  mon tauros 53
+  mon kangaskhan 54
+  mon miltank 53
+end
+
+trainer p3_r13_veteran_gus
+  class p3_veteran
+  name "Gus"
+  intro "I've battled for fifty years. Let me teach you something!"
+  defeat "Ha! You taught ME something."
+  after "Never stop learning, youngster."
+  mon heracross 54
+  mon pinsir 54
+  mon scizor 55
+end
+
+trainer p3_r13_tamer_kiyo
+  class p3_dragontamer
+  name "Kiyo"
+  intro "I wasn't chosen for Ryuga's gym. So I'll prove myself on you!"
+  defeat "Maybe next year..."
+  after "Tropius grows fruit around its neck. Dragons love it."
+  mon tropius 53
+  mon drampa 55
+end
+
+trainer p3_r13_ranger_maya
+  class ranger
+  name "Maya"
+  intro "This route's wildlife is precious. Treat it gently, and battle me!"
+  defeat "You care for your team. Good."
+  after "Some say a lightning beast prowls Route 13 after storms..."
+  mon girafarig 53
+  mon stantler 54
+  mon sawsbuck 54
+end
+
+trainer p3_r13_psychic_ezra
+  class psychic
+  name "Ezra"
+  intro "Prism Summit's light is calling out in pain. I can feel it!"
+  defeat "Your will is stronger than mine."
+  after "Please, help the Prism Pokémon."
+  mon claydol 54
+  mon chimecho 54
+  mon slowking 55
+end
+
+trainer p3_r13_cool_tobias
+  class cooltrainer_m
+  name "Tobias"
+  intro "I'm heading for the League too. Let's see who's ready!"
+  defeat "You are. I'm not. Yet."
+  after "Bring Full Restores to the League. Lots of them."
+  mon bouffalant 54
+  mon arcanine 55
+  mon starmie 55
+end
+
+# ------------------------------------------------------------------ Victory Road
+trainer p3_vr1_cool_ronan
+  class cooltrainer_m
+  name "Ronan"
+  intro "Victory Road separates the dreamers from the champions!"
+  defeat "Guess I'm a dreamer."
+  after "The upper floors are past the waterfall."
+  mon machamp 55
+  mon aggron 55
+  mon crobat 56
+end
+
+trainer p3_vr1_cool_elise
+  class cooltrainer_f
+  name "Elise"
+  intro "I've been waiting here for a worthy opponent!"
+  defeat "Worthy indeed!"
+  after "Waterfall is the only way up. I hope you have it!"
+  mon milotic 56
+  mon lucario 55
+  mon roserade 55
+end
+
+trainer p3_vr1_black_goro
+  class blackbelt
+  name "Goro"
+  intro "You climbed the waterfall! Now climb over me!"
+  defeat "I fall like the water..."
+  after "Conkeldurr carries concrete pillars like walking sticks."
+  mon conkeldurr 56
+  mon hariyama 55
+end
+
+trainer p3_vr2_cool_hana
+  class cooltrainer_f
+  name "Hana"
+  intro "Those Eclipse grunts blocked the ladder! I'm stuck here, so battle me!"
+  defeat "At least I got a battle in."
+  after "Someone has to deal with them up on the summit..."
+  mon gardevoir 56
+  mon ninetales 56
+  mon jolteon 56
+end
+
+trainer p3_vr2_veteran_osk
+  class p3_veteran
+  name "Oskar"
+  intro "The summit's that way. You'll need all your strength. Let me test it!"
+  defeat "Strong enough. Go."
+  after "I'd go myself, but these knees..."
+  mon steelix 56
+  mon excadrill 57
+end
+
+trainer p3_vr2_hiker_crag
+  class hiker
+  name "Crag"
+  intro "Lost? Nope, I live here! Ha ha! Battle!"
+  defeat "Rock bottom!"
+  after "There's a Rare Candy back in this cave. Don't tell anyone."
+  mon golem 56
+  mon gigalith 56
+  mon crustle 55
+end
+
+trainer p3_vr3_cool_nadia
+  class cooltrainer_f
+  name "Nadia"
+  intro "The League is so close I can taste it. Out of my way!"
+  defeat "Ugh, so close!"
+  after "Your rival went ahead a while ago. Looked fired up."
+  mon togekiss 57
+  mon gyarados 57
+  mon magnezone 57
+end
+
+trainer p3_vr3_tamer_long
+  class p3_dragontamer
+  name "Long"
+  intro "Last trainer before the Plateau! My dragons won't let you pass!"
+  defeat "You... you passed."
+  after "Prism Plateau is right ahead. Good luck."
+  mon salamence 57
+  mon hydreigon 58
+end
+
+# ------------------------------------------------------------------ Prism Summit
+trainer p3_sum_grunt_1
+  class grunt_m
+  name "Grunt"
+  intro "The ritual's almost done! Nobody interrupts!"
+  defeat "Boss is gonna be so mad..."
+  after "Once the Prism Pokémon drinks the light, the sun goes dim forever."
+  mon crobat 54
+  mon mukalola 55
+end
+
+trainer p3_sum_grunt_2
+  class grunt_f
+  name "Grunt"
+  intro "You're the kid from the cavern! Not this time!"
+  defeat "Not again!"
+  after "Admins Vesper and Corvin are guarding the stair. Good luck, heh."
+  mon houndoom 54
+  mon toxicroak 55
+end
+
+trainer p3_sum_grunt_3
+  class grunt_m
+  name "Grunt"
+  intro "Halt! The summit belongs to the twilight now!"
+  defeat "My twilight..."
+  after "Umbra lost someone to a drought, they say. That's why..."
+  mon drapion 55
+  mon weavile 55
+end
+
+trainer p3_sum_grunt_4
+  class grunt_f
+  name "Grunt"
+  intro "An endless soft evening... doesn't that sound nice? Why fight it?"
+  defeat "Maybe... light isn't so bad."
+  after "I just wanted the world to be gentler."
+  mon mismagius 55
+  mon skuntank 55
+end
+
+trainer p3_admin_vesper
+  class admin
+  name "Vesper"
+  ai 2
+  intro "Let me show you a nightmare first!"
+  defeat "Such brilliance... it hurts to look at."
+  items hyperpotion=2
+  mon mismagius 56 moves=shadowball,mysticalfire,dazzlinggleam,nastyplot
+  mon malamar 56 moves=psychocut,knockoff,superpower,topsyturvy
+  mon dusknoir 57 moves=shadowpunch,earthquake,icepunch,willowisp
+  mon alakazam 57 moves=psychic,shadowball,focusblast,calmmind
+end
+
+trainer p3_admin_corvin
+  class admin
+  name "Corvin"
+  ai 2
+  intro "This time, there's no tunnel to run into."
+  defeat "Tch... twice now."
+  items hyperpotion=2
+  mon skuntank 56 moves=crunch,poisonjab,suckerpunch,flamethrower
+  mon crobat 56 moves=crosspoison,bravebird,uturn,roost
+  mon drapion 57 moves=crunch,poisonjab,earthquake,swordsdance
+  mon mukalola 57 moves=knockoff,poisonjab,firepunch,shadowsneak
+end
+
+trainer p3_boss_umbra
+  class boss
+  name "Umbra"
+  ai 3
+  intro "You will not stop me!"
+  defeat "Defeated... by a child's light."
+  items fullrestore=2
+  gimmicks mega tera
+  prize 9000
+  mon honchkrow 58 moves=bravebird,suckerpunch,nightslash,superpower
+  mon weavile 58 moves=knockoff,iciclecrash,iceshard,swordsdance
+  mon spiritomb 58 moves=shadowball,darkpulse,willowisp,painsplit
+  mon kingambit 59 moves=kowtowcleave,ironhead,suckerpunch,swordsdance
+  mon hydreigon 59 moves=darkpulse,dracometeor,flamethrower,nastyplot
+  mon absol 60 moves=knockoff,playrough,suckerpunch,swordsdance item=absolite tera=Dark
+end
+
+# ------------------------------------------------------------------ Rival, Victory Road (L59)
+trainer p3_rival_vr_typhlosion
+  class rival
+  name "{rival}"
+  intro "This is the last battle before the League!"
+  defeat "...Yeah. You're stronger. For now."
+  ai 3
+  items fullrestore=2
+  gimmicks mega
+  mon pidgeot 56 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 57 moves=shadowball,sludgebomb,thunderbolt,focusblast
+  mon honchkrow 56 moves=bravebird,suckerpunch,nightslash,superpower
+  mon lucario 57 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon garchomp 57 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon typhlosion 59 moves=eruption,flamethrower,focusblast,earthquake
+end
+
+trainer p3_rival_vr_feraligatr
+  class rival
+  name "{rival}"
+  intro "This is the last battle before the League!"
+  defeat "...Yeah. You're stronger. For now."
+  ai 3
+  items fullrestore=2
+  gimmicks mega
+  mon pidgeot 56 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 57 moves=shadowball,sludgebomb,thunderbolt,focusblast
+  mon honchkrow 56 moves=bravebird,suckerpunch,nightslash,superpower
+  mon lucario 57 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon garchomp 57 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon feraligatr 59 moves=waterfall,crunch,icepunch,dragondance
+end
+
+trainer p3_rival_vr_meganium
+  class rival
+  name "{rival}"
+  intro "This is the last battle before the League!"
+  defeat "...Yeah. You're stronger. For now."
+  ai 3
+  items fullrestore=2
+  gimmicks mega
+  mon pidgeot 56 moves=hurricane,heatwave,uturn,roost item=pidgeotite
+  mon gengar 57 moves=shadowball,sludgebomb,thunderbolt,focusblast
+  mon honchkrow 56 moves=bravebird,suckerpunch,nightslash,superpower
+  mon lucario 57 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon garchomp 57 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon meganium 59 moves=petalblizzard,earthquake,bodyslam,swordsdance
+end
+
+# ------------------------------------------------------------------ Post-game: Sky Spire, Crystal Depths
+trainer p3_ss_tamer_zhao
+  class p3_dragontamer
+  name "Zhao"
+  intro "The sky dragon's roost! Only the worthy climb higher!"
+  defeat "You are worthy."
+  after "Rayquaza descends when the sky is in turmoil."
+  mon salamence 68
+  mon dragonite 68
+  mon flygon 67
+end
+
+trainer p3_ss_cool_aria
+  class cooltrainer_f
+  name "Aria"
+  intro "I climbed all this way to see the sky dragon. You'll have to wait your turn!"
+  defeat "Fine, you go first."
+  after "Its roar shook the whole spire this morning."
+  mon noivern 68
+  mon goodra 68
+  mon altaria 67
+end
+
+trainer p3_ccd_cool_prism
+  class cooltrainer_f
+  name "Prisma"
+  intro "These crystals are older than Tessera itself. Let's battle by their light!"
+  defeat "Dazzling!"
+  after "Something small and shell-shaped is sleeping in the center."
+  mon glimmora 66
+  mon klefki 66
+  mon gigalith 67
+end
+
+trainer p3_ccd_sci_facet
+  class scientist
+  name "Facet"
+  intro "My spectrometer just exploded! Something here gives off Stellar energy!"
+  defeat "More data, please!"
+  after "Quartz will be thrilled when I tell her."
+  mon tinkaton 66
+  mon garganacl 67
+  mon carbink 66
+end

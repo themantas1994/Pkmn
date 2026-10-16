@@ -1,0 +1,26 @@
+map e4_ferrum
+name "Steel Room"
+location "Prism Plateau"
+music league_steel
+environment building
+indoor
+tags powerspot
+
+layout
+@^^^^^^^^^@
+@@@@@Z@@@@@
+@GoooooooG@
+@ooooooooo@
+@ooooooooo@
+@ooooooooo@
+@ooooooooo@
+@ooooooooo@
+@GoooooooG@
+@ooooooooo@
+@ooooooooo@
+@@@@@@@@@@@
+end
+
+warp 5 1 -> e4_sibyl 5 10 up
+tileif p3_e4_2 5 1 stairs_in_up
+npc ferrum 5 4 sprite=elite2 face=down script=league_ferrum

@@ -1,0 +1,26 @@
+map e4_sibyl
+name "Psychic Room"
+location "Prism Plateau"
+music league_psychic
+environment building
+indoor
+tags powerspot
+
+layout
+@^^^^^^^^^@
+@@@@@Z@@@@@
+@GqqqqqqqG@
+@qqqqqqqqq@
+@qqqqqqqqq@
+@qqqqqqqqq@
+@qqqqqqqqq@
+@qqqqqqqqq@
+@GqqqqqqqG@
+@qqqqqqqqq@
+@qqqqqqqqq@
+@@@@@@@@@@@
+end
+
+warp 5 1 -> e4_nox 5 10 up
+tileif p3_e4_3 5 1 stairs_in_up
+npc sibyl 5 4 sprite=elite3 face=down script=league_sibyl

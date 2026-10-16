@@ -1,0 +1,6 @@
+shop p3_ashfall ultraball greatball hyperpotion superpotion fullheal burnheal revive superrepel escaperope
+shop p3_frostmere ultraball hyperpotion maxpotion fullheal iceheal revive maxrepel escaperope nevermeltice
+shop p3_dragonspire ultraball duskball quickball maxpotion fullrestore fullheal revive maxrepel dragonfang
+shop p3_league ultraball maxpotion fullrestore fullheal revive maxrevive maxrepel maxether
+shop p3_coral ultraball diveball netball luxuryball maxpotion fullrestore fullheal maxrevive maxrepel
+shop p3_bp_exchange rarecandy=4000 ppup=4000 bottlecap=12000 abilitycapsule=8000 lifeorb=12000 choicescarf=12000 choiceband=12000 choicespecs=12000 focussash=8000 assaultvest=12000 leftovers=12000 weaknesspolicy=10000 expertbelt=8000

@@ -1,0 +1,20 @@
+map route11_cottage
+name "Sea Cottage"
+location "Route 11"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@B@w@
+________
+__tt____
+__hh____
+___RR___
+end
+
+warp 3 5 -> route11 15 16 down
+warp 4 5 -> route11 15 16 down
+npc lapras_lady 5 3 sprite=oldwoman face=left script=r11_lapras_lady
+npc cottage_fisher 1 4 sprite=fisherman face=right script=r11_cottage_fisher

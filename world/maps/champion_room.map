@@ -1,0 +1,26 @@
+map champion_room
+name "Champion's Room"
+location "Prism Plateau"
+music league_champion
+environment building
+indoor
+tags powerspot
+
+layout
+@^^^^^^^^^@
+@@@@@Z@@@@@
+@GlllllllG@
+@lllllllll@
+@lllllllll@
+@lllllllll@
+@lllllllll@
+@lllllllll@
+@GlllllllG@
+@lllllllll@
+@lllllllll@
+@@@@@@@@@@@
+end
+
+warp 5 1 -> hall_of_fame_room 5 10 up
+tileif p3_champ_beaten 5 1 stairs_in_up
+npc celeste 5 4 sprite=champion face=down script=league_celeste

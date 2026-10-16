@@ -1,0 +1,22 @@
+map dragon_elder_house
+name "Dragon Elder's House"
+location "Dragonspire City"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@BB@@w@@
+__________
+_tt____tt_
+_hh____hh_
+__________
+p________p
+___RR_____
+end
+
+warp 3 7 -> dragonspire_city 6 18 down
+warp 4 7 -> dragonspire_city 6 18 down
+npc elder 4 2 sprite=sage face=down script=ds_elder
+npc elder_aide 8 5 sprite=blackbelt face=left script=ds_elder_aide

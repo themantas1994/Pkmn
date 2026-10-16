@@ -1,0 +1,24 @@
+map eternal_den
+name "Eternal Den"
+location "Route 12"
+music dungeon_cave
+environment cave
+tags powerspot
+
+layout
+YYYYYYYYYYYYY
+WWWWWWWWWWWWW
+WWkfffffffkWW
+WWfffffffffWW
+WWfffffffffWW
+WWfffffffffWW
+WWfffffffffWW
+WWfffffffffWW
+WWkfffffffkWW
+WWWWWWLWWWWWW
+WWWWWWWWWWWWW
+end
+
+warp 6 9 -> route12 18 10 down
+npc eternatus 6 3 sprite=legendary_shadow face=down script=leg_eternatus hideif=p3_eternatus_done
+npc den_hollis 9 6 sprite=ranger face=left script=den_hollis

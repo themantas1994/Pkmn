@@ -1,0 +1,63 @@
+map route12
+name "Route 12"
+location "Route 12"
+music route_snow
+environment snow
+weather snow
+region 6 2
+encounters p3_route12
+connect west frostmere_town -2
+connect east dragonspire_city 6
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TnnnnnnnnnnnnnMMMmmmmMMMnnnnnnnnnnnnnnnT
+TnnnnnnnnnnnnnMMMmmmmMMMnnnnnnnnnnnnnnnT
+::::::::::::::MMMmmmmMMM,,,,nnnnnnnnnnnT
+::::::::::::::MMMMMMMMMM,,,,nnnnnnnnnnnT
+Tnnnnnnnnnnn::MMMMMMMMMM,,,,n::::::::::T
+Tn,,,,,,,,nn::MMMMMMMMMM,,,,n::::::::::T
+Tn,,,,,,,,nn::MMMMMMMMMM,,,,n::nnnnn::nT
+Tn,,,,,,,,nn::MMMMMMMMMM,,,,n::nnnnn::nT
+Tnnnnnnnnnnn:rMMMMEMMMMM,,,,n::rnnnn::nT
+TMMMMMMMMMMM::nnnnnnnnnn,,,,n::nnnnn::nT
+TMMMMMMMMMMM::nnnnnnnnnnnnnnn::nnnnn::nT
+TMMMMMMMMMMM::nnnnnnnnnnnnnMM::MMMMM::MT
+Tvnvvvvvvvvn::nnnnnnnnnnnnnMM::MMMMM::MT
+Tniiiiiiiiin::nnnnnnnnnnnnnMM::MMMMM::MT
+TiiGiiiiGiin:::::::::::::::::::nnnnn::nT
+Tiiiiiiiiiin:::::::::::::::::::nnnnn::nT
+TiiiiiGiiiinnnn,,,,,,,,,,nnnnnnnnnnn::nT
+TiGiiiiiiiinnnn,,,,,,,,,,nnnnnnnnnnn::::
+TiiiiiiiiGinnnn,,,,,,,,,,nnnnn,,,,,n::::
+TiiiGiiiiiinnnn,,,,,,,,,,nnnnn,,,,,nnnnT
+Tiniiiiiiiinnnnnnnnnnnnnnnrnnn,,,,,nnnnT
+TTTTTTTTTTTnnnnnnnnnnnnnnnnnnnnnnnnnnnnT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+legend
+G rock
+end
+warp 18 9 -> eternal_den 6 9 up
+tileif hall_of_fame 18 9 cave_entrance
+tile 18 9 mountain_wall
+tile 3 5 sign
+sign 3 5 text="ROUTE 12\nWest: Frostmere Town\nEast: Dragonspire City"
+tile 38 17 sign
+sign 38 17 text="Dragonspire City just ahead!"
+npc r12_pip 1 14 sprite=kid face=up script=r12_pip hideif=p3_pip_home
+npc r12_articuno 36 2 sprite=legendary_shadow face=down script=leg_articuno showif=hall_of_fame hideif=p3_articuno_done
+trainer r12_skier_hanna 6 4 sprite=cooltrainer_f face=down sight=3 trainer=p3_r12_skier_hanna
+trainer r12_boarder_jett 13 9 sprite=cooltrainer_m face=left sight=3 trainer=p3_r12_boarder_jett
+trainer r12_hiker_bjorn 20 15 sprite=hiker face=up sight=3 trainer=p3_r12_hiker_bjorn
+trainer r12_ranger_sky 29 8 sprite=ranger face=right sight=3 trainer=p3_r12_ranger_sky
+trainer r12_cool_vera 33 6 sprite=cooltrainer_f face=down sight=4 trainer=p3_r12_cool_vera
+trainer r12_black_tor 37 11 sprite=blackbelt face=left sight=3 trainer=p3_r12_black_tor
+trainer r12_bird_alba 25 18 sprite=youngster face=up sight=3 trainer=p3_r12_bird_alba
+item r12_icestone 2 21 icestone
+item r12_maxpotion 26 4 maxpotion
+item r12_nevermeltice 33 21 nevermeltice
+item r12_iceshard 12 21 iceterashard 2
+hidden r12_hidden_maxrevive 38 8 maxrevive
+hidden r12_hidden_rarecandy 24 9 rarecandy

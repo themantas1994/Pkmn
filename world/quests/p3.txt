@@ -1,0 +1,12 @@
+quest p3_story "Light Over Tessera" main
+  desc "Team Eclipse is closing in on Mt. Prism. Earn the last badges and stop them."
+  step "Travel west along Route 9 to Ashfall City."
+  step "Defeat Blaise at the Ashfall Gym."
+  step "Find Quartz in Crystal Cavern."
+  step "Cross the sea to Frostmere Town."
+  step "Defeat Isolde at the Frostmere Gym."
+  step "Climb Route 12 to Dragonspire City."
+  step "Defeat Ryuga at the Dragonspire Gym."
+  step "Stop Team Eclipse at Prism Summit."
+  step "Conquer Victory Road and the Pokémon League."
+end

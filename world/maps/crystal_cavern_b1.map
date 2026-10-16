@@ -1,0 +1,51 @@
+map crystal_cavern_b1
+name "Crystal Cavern B1"
+location "Crystal Cavern"
+music dungeon_cave
+environment cave
+region 11 7
+encounters p3_crystal_cavern
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWffffffWWWWWWWWWWWWWWWWWWWWWW
+WWffLfffWWWWWWWWWWWWWWWWWWWWWW
+WWffffffWWWWWWWWWWfffffffffWWW
+WWffffffWWWWWWWWWWfffffffffWWW
+WWffffffWWWWWWWWWWffkkfffffWWW
+WWWWWfffWWWWWWWWWWffkffffffWWW
+WWWWWfffWWWWWWWWWWfffffffffWWW
+WWWWWfffWWWWWWWWWWfffffffffWWW
+WWWWWfffWWWWWWWWWWfffffffffWWW
+WWWWWffffffffffffffffffffffWWW
+WWWWWffffffffffffffffffffffWWW
+EffffffffffffffffffffffffffWWW
+EffffffffffffffffffffffffffWWW
+WWWWWWWWWWWWWWWWWWWWWWfffWWWWW
+WWWWWWWWWWWWWWWWWWWWWWfffWWWWW
+WWWWWWWWWWWWWWWWWWWWWWfffWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWLWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 4 3 -> crystal_cavern_1f 14 4 down
+warp 0 13 -> route11 22 3 left
+warp 0 14 -> route11 22 3 left
+warp 23 18 -> crystal_cavern_depths 9 2 down
+tile 22 15 puzzle_wall
+tile 23 15 puzzle_wall
+tile 24 15 puzzle_wall
+tileif hall_of_fame 22 15 cave_floor
+tileif hall_of_fame 23 15 cave_floor
+tileif hall_of_fame 24 15 cave_floor
+npc quartz 22 7 sprite=scientist face=down script=cc_quartz
+npc quartz_aide 25 10 sprite=scientist face=left script=cc_quartz_aide
+npc camp_nurse 19 12 sprite=nurse face=right script=cc_camp_rest
+trainer cc_grunt_c 4 13 sprite=grunt_m face=right sight=3 trainer=p3_cc_grunt_c hideif=p3_got_teraorb
+trainer cc_grunt_d 3 14 sprite=grunt_f face=right sight=3 trainer=p3_cc_grunt_d hideif=p3_got_teraorb
+tile 21 14 sign
+sign 21 14 text="Sealed crystal. It gleams with Stellar light... (Opens for the Champion.)"
+item ccb_steelterashard 26 5 steelterashard 2
+item ccb_fairyterashard 6 2 fairyterashard 2
+hidden ccb_hidden_maxrevive 7 9 maxrevive

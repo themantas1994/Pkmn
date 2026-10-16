@@ -1,0 +1,23 @@
+map victory_gate
+name "Victory Road Gate"
+location "Victory Road"
+music gate
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@@U@@@w@
+oooooooooo
+oooooooooo
+oooooooooo
+pooooooopo
+oooooooooo
+ooooRRoooo
+end
+
+warp 4 7 -> route13 30 9 down
+warp 5 7 -> route13 30 9 down
+warp 4 1 -> victory_road_1f 14 22 up
+npc vg_guard 6 2 sprite=policeman face=down script=vg_guard
+trigger 0 4 10 1 script=vg_badge_check unless=p3_vr_pass

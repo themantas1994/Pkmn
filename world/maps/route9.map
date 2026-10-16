@@ -49,3 +49,4 @@ hidden r9_hidden_ether 25 2 ether
 obstacle 2 3 cut flag=p3_r9_cut1
 tile 33 7 sign
 tile 3 12 sign
+trigger 39 8 1 2 script=r9_enter unless=p3_story_started

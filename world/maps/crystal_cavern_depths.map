@@ -1,0 +1,37 @@
+map crystal_cavern_depths
+name "Crystal Cavern Depths"
+location "Crystal Cavern"
+music dungeon_cave
+environment cave
+region 11 7
+encounters p3_crystal_depths
+
+layout
+YYYYYYYYYYYYYYYYYYYY
+WWWWWWWffLfffWWWWWWW
+WWWWWWWffffffWWWWWWW
+WWWWWWWffffffWWWWWWW
+WWWWWWWffffffWWWWWWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWfffWWWkkkkWWWfffWW
+WWfffWWWkkkkWWWfffWW
+WWfffWWWkkkkWWWfffWW
+WWfffWWWkkkkWWWfffWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWW
+end
+
+warp 9 1 -> crystal_cavern_b1 23 17 up
+npc terapagos 10 13 sprite=legendary_shadow face=up script=leg_terapagos hideif=p3_terapagos_done
+trainer ccd_cool_prism 3 9 sprite=cooltrainer_f face=down sight=3 trainer=p3_ccd_cool_prism
+trainer ccd_sci_facet 16 9 sprite=scientist face=down sight=3 trainer=p3_ccd_sci_facet
+item ccd_stellarshard 2 14 dragonterashard 3
+item ccd_ghostshard 17 14 ghostterashard 3
+item ccd_ppmax 17 5 ppmax
+hidden ccd_hidden_bottlecap 4 6 bottlecap

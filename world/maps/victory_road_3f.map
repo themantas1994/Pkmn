@@ -1,0 +1,40 @@
+map victory_road_3f
+name "Victory Road 3F"
+location "Victory Road"
+music dungeon_victory
+environment cave
+region 15 3
+encounters p3_victory_road
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWffffffWWWWWWWWWWWWWWWWfEWW
+WWfLffffWWWWWWWWWWWWWWWWffWW
+WWffffffWWWWWWWWWWWWffffffWW
+WWffffffWWWWWWWWWWWWffffffWW
+WWffffffWWWWWWWWWWWWffffffWW
+WWWWWfffWWWWWWWWWWWWfffWWWWW
+WWWWWfffWWWWWWWWWWWWfkfWWWWW
+WWWWWfffWWWWWWWWWWWWfffWWWWW
+WWWWWfffWWWWWWWWWWWWfffWWWWW
+WWWWWffffffffffffffffffWWWWW
+WWWWWfffffffkffffffffffWWWWW
+WWWWWffffffffffffffffffWWWWW
+WWWWWWWWWWffffWWWWWWWWWWWWWW
+WWWWWWWWWWffffWWWWWWWWWWWWWW
+WWWWWWWWWWffffWWWWWWWWWWWWWW
+WWWWWWWWWWffffWWWWWWWWWWWWWW
+WWWWWWWWWWffffWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 2 -> victory_road_2f 24 17 left
+warp 25 1 -> prism_plateau 11 18 up
+npc vr3_rival 23 4 sprite=rival face=down script=vr3_rival_talk hideif=p3_rival_vr
+trigger 20 5 3 1 script=vr3_rival_battle unless=p3_rival_vr
+trainer vr3_cool_nadia 6 7 sprite=cooltrainer_f face=down sight=3 trainer=p3_vr3_cool_nadia
+trainer vr3_tamer_long 16 11 sprite=blackbelt face=left sight=4 trainer=p3_vr3_tamer_long
+item vr3_maxrevive 11 16 maxrevive
+item vr3_fullrestore 2 5 fullrestore
+hidden vr3_hidden_bottlecap 13 17 bottlecap

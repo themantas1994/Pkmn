@@ -1,0 +1,193 @@
+# Part 3 wild encounters (Route 10 onward). Levels follow docs/CAMPAIGN.md.
+
+encounters p3_route10
+  rate grass 25
+  grass morning rhyhorn 39-42 20
+  grass morning mudbray 39-41 20
+  grass morning skiddo 39-41 20
+  grass morning hippopotas 39-41 15
+  grass morning rufflet 39-41 15
+  grass morning cufant 40-42 10
+  grass day rhyhorn 39-42 20
+  grass day mudbray 39-41 15
+  grass day pawniard 40-42 15
+  grass day golett 39-41 15
+  grass day hippopotas 39-41 15
+  grass day vullaby 39-41 10
+  grass day ponyta 39-41 10
+  grass night golett 39-41 25
+  grass night pawniard 40-42 20
+  grass night sandile 39-41 20
+  grass night houndour 39-41 20
+  grass night murkrow 39-41 15
+  rocksmash any dwebble 38-41 60
+  rocksmash any shuckle 38-41 40
+  surf any quagsire 38-42 60
+  surf any golduck 38-42 40
+  oldrod any magikarp 25-35 100
+  goodrod any barboach 35-40 60
+  goodrod any tympole 35-40 40
+  superrod any whiscash 40-44 50
+  superrod any palpitoad 40-44 50
+end
+
+encounters p3_crystal_cavern
+  rate cave 12
+  cave any roggenrola 40-43 15
+  cave any boldore 42-45 10
+  cave any carbink 41-44 15
+  cave any glimmet 40-43 15
+  cave any nacli 40-43 10
+  cave any tinkatink 40-43 10
+  cave any bronzor 40-43 8
+  cave any woobat 40-43 7
+  cave any golbat 42-45 5
+  cave any mawile 41-44 5
+  surf any chinchou 40-44 70
+  surf any lanturn 42-45 30
+  goodrod any chinchou 38-42 100
+  superrod any lanturn 42-46 100
+end
+
+encounters p3_crystal_depths
+  rate cave 12
+  cave any glimmora 62-66 20
+  cave any carbink 62-66 20
+  cave any garganacl 63-66 15
+  cave any tinkaton 63-66 15
+  cave any bronzong 62-65 10
+  cave any crobat 62-65 10
+  cave any klefki 62-65 10
+end
+
+encounters p3_route11
+  rate surf 10
+  surf any tentacool 40-43 30
+  surf any tentacruel 43-46 20
+  surf any wingull 40-43 15
+  surf any pelipper 43-46 10
+  surf any mantyke 40-43 10
+  surf any mantine 43-46 5
+  surf any finizen 40-43 5
+  surf any wailmer 40-43 5
+  oldrod any magikarp 30-40 70
+  oldrod any remoraid 35-40 30
+  goodrod any shellder 38-43 25
+  goodrod any horsea 38-43 25
+  goodrod any finneon 38-43 25
+  goodrod any qwilfish 38-43 15
+  goodrod any wiglett 38-43 10
+  superrod any octillery 43-47 20
+  superrod any seadra 43-47 20
+  superrod any lumineon 43-47 20
+  superrod any gyarados 44-48 15
+  superrod any sharpedo 43-47 10
+  superrod any clauncher 42-46 10
+  superrod any relicanth 44-47 5
+  grass morning wingull 40-43 40
+  grass day crabrawler 40-43 30
+  grass day corphish 40-43 30
+  grass night slowpoke 40-43 40
+  grass night shellos 40-43 30
+end
+
+encounters p3_route12
+  rate grass 25
+  grass morning snover 44-47 25
+  grass morning swinub 44-47 20
+  grass morning snom 44-46 20
+  grass morning cubchoo 44-47 15
+  grass morning bergmite 44-47 10
+  grass morning delibird 45-48 10
+  grass day snover 44-47 20
+  grass day vanillite 44-47 20
+  grass day cetoddle 44-47 15
+  grass day spheal 44-47 15
+  grass day rufflet 45-48 10
+  grass day absol 46-49 10
+  grass day eiscue 45-48 5
+  grass day frigibax 44-46 5
+  grass night sneasel 44-47 25
+  grass night snorunt 44-47 25
+  grass night cryogonal 46-49 15
+  grass night piloswine 46-49 15
+  grass night snom 44-46 15
+  grass night frigibax 44-46 5
+end
+
+encounters p3_route13
+  rate grass 25
+  grass morning tauros 50-54 20
+  grass morning miltank 50-54 20
+  grass morning girafarig 50-53 15
+  grass morning tropius 50-54 15
+  grass morning deerling 50-53 15
+  grass morning heracross 51-54 15
+  grass day tauros 50-54 15
+  grass day kangaskhan 51-54 15
+  grass day sawsbuck 51-54 15
+  grass day bouffalant 51-54 15
+  grass day pinsir 51-54 15
+  grass day cyclizar 51-54 15
+  grass day gogoat 51-54 10
+  grass night stantler 50-54 30
+  grass night noctowl 50-54 25
+  grass night girafarig 50-53 20
+  grass night noibat 50-53 25
+  surf any golduck 50-54 60
+  surf any azumarill 50-54 40
+  oldrod any magikarp 40-50 100
+  goodrod any dratini 45-50 40
+  goodrod any poliwhirl 45-50 60
+  superrod any dragonair 50-55 30
+  superrod any politoed 50-55 40
+  superrod any tatsugiri 50-55 30
+end
+
+encounters p3_victory_road
+  rate cave 12
+  cave any golbat 52-55 15
+  cave any graveler 52-55 10
+  cave any machoke 52-55 10
+  cave any lairon 52-55 10
+  cave any ursaring 52-56 10
+  cave any gurdurr 52-55 10
+  cave any marowak 52-55 8
+  cave any onix 52-55 7
+  cave any durant 52-55 7
+  cave any excadrill 54-56 5
+  cave any gabite 52-55 4
+  cave any deino 50-53 2
+  cave any jangmoo 50-53 2
+  surf any golduck 52-56 60
+  surf any seaking 52-56 40
+  goodrod any goldeen 48-52 100
+  superrod any seaking 52-56 60
+  superrod any gyarados 52-56 40
+end
+
+encounters p3_shattered_cave
+  rate cave 12
+  cave any ditto 64-68 15
+  cave any chansey 64-68 10
+  cave any wobbuffet 64-68 15
+  cave any electrode 64-68 15
+  cave any kadabra 64-68 15
+  cave any machamp 65-69 10
+  cave any rhydon 65-69 10
+  cave any crobat 65-69 10
+  surf any golduck 64-68 50
+  surf any lapras 64-68 10
+  surf any slowbro 64-68 40
+end
+
+encounters p3_sky_spire
+  rate grass 25
+  grass any altaria 64-68 25
+  grass any dragonair 64-68 20
+  grass any noivern 65-69 15
+  grass any shelgon 64-68 15
+  grass any sliggoo 64-68 10
+  grass any hakamoo 64-68 10
+  grass any drampa 65-69 5
+end
