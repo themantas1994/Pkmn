@@ -18,7 +18,7 @@ It is an original adventure in the region of **Tessera**:
 
 **Battle engine** modelled on Showdown's event architecture:
 - Accurate damage formula, abilities, items, field effects and AI.
-- Battle effects are covered for all but 2 moves and 2 abilities (see [STATUS.md](STATUS.md)).
+- Every move, ability and held item is classified as implemented, data-driven or no effect needed (see [reports/COVERAGE.md](reports/COVERAGE.md)).
 - Deterministic, seeded battles, fuzz-tested over thousands of AI-vs-AI battles.
 
 **Campaign:**

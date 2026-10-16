@@ -160,6 +160,44 @@ class WorldTest {
     }
 
     @Test
+    fun `scripted legendary encounters build a pokemon with perfect ivs`() {
+        val ctx = newCtx()
+        val s = ScriptParser.parseFile("script t\n  wildbattle lugia 70 norun\nend", "t.pks").single()
+        val req = ScriptVM(ctx, s, { null }).next() as ScriptRequest.WildBattle
+        assertTrue(pkmn.engine.data.Stat.entries.count { req.mon.ivs[it] == 31 } >= 3)
+        assertFalse(req.canRun)
+    }
+
+    @Test
+    fun `every campaign trainer battle can be built and played to the end`() {
+        val ctx = newCtx()
+        // A strong level-100 team so every battle finishes; the point is that each trainer's data is battle-valid.
+        val party = listOf("mewtwo", "arceus", "rayquaza", "kyogre", "groudon", "giratina").map {
+            ctx.factory.create(it, 100, ctx.rng, perfectIvs = 6)
+        }
+        ctx.state.party.clear(); ctx.state.party.addAll(party)
+        val ai = pkmn.engine.battle.BattleAI()
+        var turns = 0
+        for ((id, _) in content.trainers) {
+            for (m in ctx.state.party) m.healFully(TestSupport.dex)
+            val b = ctx.createTrainerBattle(id, null, seed = id.hashCode().toLong())
+            b.start()
+            var guard = 0
+            while (b.outcome == pkmn.engine.battle.BattleOutcome.ONGOING && guard++ < 300) {
+                when (b.request(b.player)) {
+                    is pkmn.engine.battle.Request.SwitchIn -> b.choose(b.player, pkmn.engine.battle.Choice.Switch(ai.chooseReplacement(b, b.player)))
+                    is pkmn.engine.battle.Request.Move -> b.choose(b.player, ai.chooseAction(b, b.player))
+                    pkmn.engine.battle.Request.Wait -> {}
+                }
+                b.advance(ai)
+            }
+            assertNotEquals(pkmn.engine.battle.BattleOutcome.ONGOING, b.outcome, "battle against $id did not finish")
+            turns += b.turn
+        }
+        assertTrue(content.trainers.size > 100 && turns > 0)
+    }
+
+    @Test
     fun `tampered save payload is detected by checksum`() {
         val dir = Files.createTempDirectory("save2").toFile()
         val ctx = newCtx()
