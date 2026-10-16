@@ -1,0 +1,419 @@
+# Expansion E2, leg 4 (Gym 3 -> Gym 4): Route 7/8 additions, Old Shaft, Sol Catacombs, Strata Gulch. Levels 27-33.
+
+# --- Route 7 ---
+trainer p4b_r7_lass_tilly
+  class lass
+  name "Tilly"
+  intro "The pylons make my hair stand on end! Yours too? Let's battle!"
+  defeat "Zapped flat..."
+  after "Pachirisu stores static in its cheeks. Don't pet it in a thunderstorm."
+  mon pachirisu 27 moves=spark,quickattack,sweetkiss,nuzzle
+  mon flaaffy 28
+end
+
+trainer p4b_r7_ranger_dex
+  class ranger
+  name "Dex"
+  intro "Rangers keep these foothills safe. Let me check you're not a troublemaker!"
+  defeat "You're trouble, all right. For me."
+  after "There's an old mine above Quarrytown. Folks say lamps still flicker down there."
+  mon sandslash 28
+  mon gligar 28
+  mon lycanroc 29 moves=rockthrow,bite,howl,quickattack
+end
+
+# --- Route 8 ---
+trainer p4b_r8_hiker_ulric
+  class hiker
+  name "Ulric"
+  intro "This canyon's got cracks you could walk right into! Ha! Battle first!"
+  defeat "Crumbled like shale!"
+  after "That crack in the west wall? It opens into a whole hidden gulch. Fossil hunters camp in there."
+  mon boldore 29
+  mon dugtrio 29
+  mon rhyhorn 30
+end
+
+trainer p4b_r8_ace_juno
+  class cooltrainer_f
+  name "Juno"
+  intro "Three types, zero weaknesses I can't cover. Ready?"
+  defeat "Okay. One weakness: you."
+  after "Garnet's Rock types can't stand Grass or Water. I built my whole team around that."
+  mon golbat 29
+  mon grovyle 30 moves=leafblade,quickattack,agility,pursuit
+  mon prinplup 30 moves=bubblebeam,metalclaw,peck,swagger
+end
+
+# --- Old Shaft 1F ---
+trainer p4b_mine1_worker_dale
+  class p4b_worker
+  name "Dale"
+  intro "Guild says this shaft's closed. I say a closed shaft is a quiet place to train!"
+  defeat "Should've listened to the Guild."
+  after "The No. 3 crew dug deep before the collapse. Their old ladders still hold. Mostly."
+  mon machoke 28
+  mon carkol 29
+end
+
+trainer p4b_mine1_lass_tamsin
+  class p4b_picnicker
+  name "Tamsin"
+  intro "My friends dared me to come in here! You're not a ghost, are you?"
+  defeat "Okay, ghosts don't battle that well."
+  after "My friends ran off when we heard a pickaxe tapping below. Nobody's down there... right?"
+  mon bonsly 27
+  mon dwebble 27
+  mon nosepass 28
+end
+
+trainer p4b_mine1_maniac_ostin
+  class p4b_ruinmaniac
+  name "Ostin"
+  intro "Shh! I'm listening to the rock. It says you want to battle."
+  defeat "The rock lied to me!"
+  after "Strength moves boulders, Rock Smash breaks the cracked ones. A miner's two best friends."
+  mon cubone 28
+  mon sandile 28
+  mon onix 29
+end
+
+trainer p4b_mine1_worker_gil
+  class p4b_worker
+  name "Gil"
+  intro "Gurdurr and I carry beams all day. You're lighter than a beam!"
+  defeat "I should've lifted with my legs."
+  after "We're shoring up the old tunnels for the Guild. Slow work. Wild Timburr keep stealing our planks."
+  mon gurdurr 29 moves=lowsweep,rockthrow,bulkup,wakeupslap
+  mon machoke 28
+end
+
+# --- Old Shaft B1F ---
+trainer p4b_mine2_worker_hal
+  class p4b_worker
+  name "Hal"
+  intro "It's pitch black down here. Good thing my Klawf can see in the dark. Can yours?"
+  defeat "Pinched right back."
+  after "Use Flash down here, or you'll bump into every boulder twice."
+  mon klawf 29
+  mon gurdurr 30
+end
+
+trainer p4b_mine2_maniac_pell
+  class p4b_ruinmaniac
+  name "Pell"
+  intro "The lower galleries flooded when the shaft collapsed. Isn't that romantic?"
+  defeat "Swamped..."
+  after "Push the boulders through the gaps. That's how the crew blocked off the vault, and how you get in."
+  mon nosepass 29
+  mon boldore 30
+  mon sandslash 29
+end
+
+trainer p4b_mine2_lass_corra
+  class lass
+  name "Corra"
+  intro "Did you see the glowing mushrooms? Mine glow brighter!"
+  defeat "Lights out..."
+  after "Shiinotic glow in the dark. They make the scariest tunnels feel cozy."
+  mon parasect 29
+  mon shiinotic 30
+end
+
+trainer p4b_mine2_fisher_nils
+  class fisherman
+  name "Nils"
+  intro "Fishing in a mine! The Whiscash down here have never seen a lure!"
+  defeat "Snapped my line!"
+  after "Can't reach the little island without Surf. Something shiny's out there, though."
+  mon barboach 29
+  mon whiscash 31
+end
+
+# --- Old Shaft B2F ---
+trainer p4b_mine3_maniac_rudd
+  class p4b_ruinmaniac
+  name "Rudd"
+  intro "The vault is MINE! I've been digging here for a year! ...Fine, battle me for it."
+  defeat "A year of digging, buried in a minute."
+  after "Take one fossil, leave the other. That's the old miners' rule. Greed caused the collapse, they say."
+  mon omanyte 30
+  mon kabuto 30
+  mon archen 31
+end
+
+trainer p4b_mine3_hiker_bram
+  class hiker
+  name "Bram"
+  intro "Deepest gallery in Quarrytown! Feel that? That's the mountain breathing!"
+  defeat "That's me running out of breath."
+  after "Onix down here soak up so much iron they turn to steel. Took me years to find this one."
+  mon graveler 31
+  mon steelix 32 moves=irontail,rocktomb,bind,dragonbreath
+end
+
+trainer p4b_mine3_ace_opal
+  class cooltrainer_f
+  name "Opal"
+  intro "I came for the steel ore, not for company. But I'll take the battle."
+  defeat "Rusted..."
+  after "Durant live in colonies down here. Where there's one, there are fifty."
+  mon durant 31
+  mon klang 31
+  mon excadrill 32 moves=metalclaw,drillrun,rockslide,honeclaws
+end
+
+# --- Sol Catacombs ---
+trainer p4b_cat_hex_mora
+  class p4b_hexmaniac
+  name "Mora"
+  intro "Hehehe... the dead of Sol don't like visitors. Neither do I."
+  defeat "Hehe... you have a strong aura..."
+  after "Three sun dials sleep in these crypts. Wake them in the light, not the dark."
+  mon sinistea 30
+  mon misdreavus 30
+  mon dusclops 31
+end
+
+trainer p4b_cat_maniac_tobin
+  class p4b_ruinmaniac
+  name "Tobin"
+  intro "These tablets are older than Quarrytown! Don't touch! ...Battle me instead!"
+  defeat "Ancient history, that's me."
+  after "One of the dials in this wing is a fake. The builders loved a prank."
+  mon claydol 31
+  mon sigilyph 31
+end
+
+trainer p4b_cat_psychic_sela
+  class psychic
+  name "Sela"
+  intro "I hear chimes in these crypts. They're calling for a battle!"
+  defeat "The chimes went quiet..."
+  after "Chingling love echoing halls. Ring a bell down here and it rings back forever."
+  mon kirlia 30
+  mon chimecho 31
+end
+
+trainer p4b_cat_sage_amon
+  class sage
+  name "Amon"
+  intro "You opened the sun gate. Then you must face the sanctum's swords."
+  defeat "The blade bows to you."
+  after "The Keeper waits beyond the stairs. She has guarded the altar since she was a girl."
+  mon honedge 31
+  mon bronzong 31
+  mon doublade 32
+end
+
+trainer p4b_sol_keeper_ilia
+  class sage
+  name "Ilia"
+  ai 2
+  intro "The sun's guardians chose their trainers here long ago. Show me your light, and one may choose you."
+  defeat "Bright as noon. The altar is yours."
+  after "Raise the guardian well. Its ancestors kept the temple fires burning."
+  items superpotion=1
+  mon solrock 32 moves=psychic,rockslide,sunnyday,cosmicpower
+  mon sunflora 32 moves=solarbeam,gigadrain,sunnyday,leechseed
+  mon arcaninehisui 33 moves=flamewheel,rockslide,bite,extremespeed
+end
+
+# --- Strata Gulch ---
+trainer p4b_gulch_maniac_harlan
+  class p4b_ruinmaniac
+  name "Harlan"
+  intro "Every layer of this gulch is a different age! You're interrupting the Pleistocene!"
+  defeat "I'm the one who's history."
+  after "Cubone wear the skulls of the past. Spooky? A little. Respectful? Very."
+  mon cubone 29
+  mon marowak 30
+end
+
+trainer p4b_gulch_hiker_wynn
+  class hiker
+  name "Wynn"
+  intro "I climbed up here for the view. I'll battle for the exercise!"
+  defeat "Downhill from here..."
+  after "The ledges only go one way. Climb up the east path if you want to see the terrace again."
+  mon boldore 29
+  mon silicobra 29
+  mon onix 30
+end
+
+trainer p4b_gulch_ace_rhea
+  class cooltrainer_f
+  name "Rhea"
+  intro "You found the terrace? Then you can find your way past me."
+  defeat "Fair and square."
+  after "My Lycanroc evolved here at noon. Rockruff love the sunny cliffs."
+  mon lycanroc 31 moves=accelerock,rockslide,crunch,howl
+  mon vibrava 30
+  mon sandslash 30
+end
+
+trainer p4b_gulch_lass_pia
+  class p4b_picnicker
+  name "Pia"
+  intro "Perfect day for a picnic! And a battle, while the sandwiches cool."
+  defeat "I lost my appetite. Kidding! Sandwich?"
+  after "Greedent stuffed a whole picnic in its cheeks once. I let it have the pickles."
+  mon teddiursa 28
+  mon greedent 29
+end
+
+trainer p4b_gulch_blackbelt_oren
+  class blackbelt
+  name "Oren"
+  intro "Throh throws, Sawk strikes. Together they are unstoppable!"
+  defeat "Stopped..."
+  after "I train behind the boulder where nobody bothers me. Well, almost nobody."
+  mon throh 30 moves=seismictoss,stormthrow,bulkup,revenge
+  mon sawk 30 moves=karatechop,lowsweep,bulkup,quickguard
+end
+
+trainer p4b_gulch_worker_moss
+  class p4b_worker
+  name "Moss"
+  intro "Dig crew rules: no battles near the sieves. ...We're three steps away. Fair game!"
+  defeat "Sifted out..."
+  after "Dr. Fenna can read a rock face like a book. Ask her about anything you dig up."
+  mon diglettalola 29
+  mon dugtrioalola 30
+end
+
+# --- Pylon Ridge ---
+trainer p4b_ridge_worker_rook
+  class p4b_worker
+  name "Rook"
+  intro "Lineman on duty! Don't touch the pylons. Touch my Pokémon instead! In battle!"
+  defeat "Short-circuited..."
+  after "Team Eclipse spliced into our lines up here before the Voltara blackout. We're still finding their clamps."
+  mon magneton 29
+  mon toxtricity 30
+end
+
+trainer p4b_ridge_youngster_kip
+  class youngster
+  name "Kip"
+  intro "My dogs run on electricity! Literally! Wanna see?"
+  defeat "Good boys... you tried..."
+  after "Yamper chase the sparks off the power lines. They're never tired."
+  mon yamper 27
+  mon boltund 29
+end
+
+trainer p4b_ridge_scientist_vale
+  class scientist
+  name "Vale"
+  intro "Porygon was built from code. I'm upgrading it with battle data. Yours!"
+  defeat "Data corrupted."
+  after "Porygon2 learns from every battle. I have to check it hasn't learned to unplug me."
+  mon klang 29
+  mon porygon2 30 moves=triattack,psybeam,conversion2,agility
+end
+
+trainer p4b_ridge_bird_cyra
+  class p3a_birdkeeper
+  name "Cyra"
+  intro "My birds surf the static over the ridge! Catch the wind if you can!"
+  defeat "Grounded, and zapped!"
+  after "Wattrel nest on the pylons. They store electricity in their throat pouches."
+  mon noctowl 28
+  mon swellow 29
+  mon kilowattrel 29
+end
+
+trainer p4b_ridge_ace_marco
+  class cooltrainer_m
+  name "Marco"
+  intro "I trained under Volta. Lightning doesn't strike twice. It strikes three times!"
+  defeat "Grounded by a Spark Badge holder..."
+  after "Volta told me to climb the ridge and think about losing. Now I've got more to think about."
+  mon electabuzz 30
+  mon raichu 30
+  mon heliolisk 30
+end
+
+trainer p4b_ridge_lass_dina
+  class lass
+  name "Dina"
+  intro "Plusle cheers, Minun cheers! Who's cheering for you?"
+  defeat "Boo! ...No, wait, that was a good battle. Yay!"
+  after "My sister Nell lives in the lineman's hut. She's been dying to trade for a Minun."
+  mon plusle 28
+  mon minun 28
+end
+
+# --- Gulch Caves ---
+trainer p4b_gcave_worker_bert
+  class p4b_worker
+  name "Bert"
+  intro "The Guild started these tunnels and stopped halfway. I'm finishing them. After this battle."
+  defeat "Back to digging..."
+  after "There's a fossil pocket behind a cracked rock up north. I'd smash it, but I'm on break."
+  mon boldore 29
+  mon gurdurr 30
+end
+
+trainer p4b_gcave_maniac_quinn
+  class p4b_ruinmaniac
+  name "Quinn"
+  intro "I revived these two from the gulch's lowest layer! Behold, the ancient seas!"
+  defeat "Extinct, all over again."
+  after "Claw Fossils turn up in these tunnels. Root Fossils too, though I hear those come from hotter rock."
+  mon anorith 30
+  mon lileep 30
+end
+
+trainer p4b_gcave_ace_soren
+  class cooltrainer_m
+  name "Soren"
+  intro "Ground types rule the underground. Prove me wrong!"
+  defeat "Proven wrong. Thoroughly."
+  after "There's a boulder plugging the east tunnel. Strength will shift it."
+  mon sandslash 30
+  mon hippopotas 30
+  mon palpitoad 30
+end
+
+trainer p4b_gcave_lass_wynne
+  class p4b_picnicker
+  name "Wynne"
+  intro "I got lost looking for the picnic spot. Then I found Pokémon! Then I found you!"
+  defeat "Still lost. Now also defeated."
+  after "Tinkatuff carries a hammer bigger than its head. It made it out of scrap from these tunnels."
+  mon cufant 29
+  mon tinkatuff 30
+end
+
+trainer p4b_gcave_scientist_rowe
+  class scientist
+  name "Rowe"
+  intro "My magnetometer is going wild! Is it you? Is it a Nosepass? Battle and we'll find out!"
+  defeat "It was a Nosepass. And also you."
+  after "Nosepass always point north. Handy if you get lost in a cave without a map."
+  mon nosepass 30
+  mon magneton 31
+end
+
+# --- Ruins of Sol (outer plaza) ---
+trainer p4b_sol_hex_ione
+  class p4b_hexmaniac
+  name "Ione"
+  intro "The catacombs are calling... Can you hear them? No? Then hear THIS!"
+  defeat "The calling stopped..."
+  after "The stairs down are in the southern ruins. Bring Flash. The dead of Sol hate visitors with torches. Kidding. Bring Flash."
+  mon golett 31
+  mon sableye 31
+end
+
+trainer p4b_sol_picnicker_lia
+  class p4b_picnicker
+  name "Lia"
+  intro "Sunbathing with my Pokémon! The ruins catch the best light!"
+  defeat "Clouded over..."
+  after "Helioptile soak up sunlight and turn it into electricity. I'm trying to charge my phone with one."
+  mon helioptile 30
+  mon heliolisk 31
+end

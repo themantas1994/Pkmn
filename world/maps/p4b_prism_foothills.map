@@ -1,0 +1,52 @@
+# Prism Foothills — terraced western slopes of Mt. Prism, reached through a side tunnel on 1F (Expansion E2).
+map p4b_prism_foothills
+name "Prism Foothills"
+location "Mt. Prism"
+music route_mid
+environment grass
+region 21 9
+encounters p4b_prism_foothills
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMM.............r............MMMMMMMMMM
+MMMM....,,,,,,,,....,,,,,,,...MMMMMMMMMM
+MMMM..r.,,,,,,,,....,,,,,,,...MMMMMMMMMM
+MMMM....,,,,,,,,....,,,,,,,.r.MMMMMMMMMM
+MMMM................,,,,,,,...MMMMMMMMMM
+MMMM..........................MMMMMMMMMM
+MMMM..vvvvvvvvvvvvvvvMMMMMMMMMMMMMMMMMMM
+MMMM..................,,,,,,......S....M
+MMMM......,,,,,,,,,...,,,,,,.....r.....M
+MMMM...r..,,,,,,,,,...,,,,,,...........E
+MMMM......,,,,,,,,,.r.,,,,,,...........M
+MMMM...................................M
+MMMM....vvvvvvvvvvvvvvvvvvvvvvMMMMMMMMMM
+MMMM..........................MMMMMMMMMM
+MMMM.....~~~~~~...,,,,,,,,,...MMMMMMMMMM
+MMMM.....~~~~~~...,,,,,,,,,.r.MMMMMMMMMM
+MMMM.r...~~~~~~...,,,,,,,,,...MMMMMMMMMM
+MMMM..........................MMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+end
+
+warp 39 13 -> mt_prism_1f 2 19 right
+sign 34 11 text="PRISM FOOTHILLS\nOn clear nights the summit glows in seven colors. Lately it glows in six."
+trainer p4b_fh_hiker_gorm 32 14 sprite=hiker face=left sight=4
+trainer p4b_fh_bird_ayla 24 12 sprite=youngster face=down sight=3
+trainer p4b_fh_blackbelt_ryo 12 14 sprite=blackbelt face=right sight=4
+trainer p4b_fh_ace_mirela 11 6 sprite=cooltrainer_f face=right sight=4
+trainer p4b_fh_psychic_odo 23 6 sprite=psychic face=left sight=3
+trainer p4b_fh_picnicker_nan 20 19 sprite=lass face=left sight=3
+trainer p4b_fh_hiker_bo 6 18 sprite=hiker face=up sight=3
+item p4b_fh_tm 4 4 tm:bulkup
+item p4b_fh_fullheal 29 4 fullheal
+item p4b_fh_ultra 26 21 ultraball 3
+hidden p4b_fh_nugget 4 21 bignugget
+hidden p4b_fh_berry 29 15 sitrusberry

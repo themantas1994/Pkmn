@@ -1,0 +1,62 @@
+# Strata Gulch — a fossil-rich side canyon behind a crack in Route 8's west wall (Expansion E2).
+map p4b_strata_gulch
+name "Strata Gulch"
+location "Route 8"
+music route_mid
+environment grass
+region 24 13
+encounters p4b_strata_gulch
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMM............................MMMM
+MMMM..,,,,,,,,................r.MMMM
+MMMM..,,,r,,,,........,,,,,,....MMMM
+MMMM..,,,,,,,,........,,,,,,....MMMM
+MMMM..................,,,,,,....MMMM
+MMMM............................MMMM
+MMMMMMMMMMMMvvvvvvvvvvvMMMMMMM.MMMMM
+MMMMMMMMMMMM...........MMMMMMM.MMMMM
+MM.........M......r.........MM.MMMMM
+MM.........M.............r..MM.MMMMM
+MM....r....M..,,,,,,...............M
+MM.........M..,,,,,,.........S.....M
+MM.r.......M..,,,,,,...............M
+MM............,,,,,,...............E
+MM.........M........,,,,,,.........M
+MM.........M........,,,,,,.........M
+MM.,,,,,,,.M.~~~~...,,,,,,.......r.M
+MM.,,,,,,,.M.~~~~...,,,,,,.........M
+MM.,,,,,,,.M.~~~~...........MMMMMMMM
+MM.,,,,,,,.M................MMMMMMMM
+MM.,,,,,,,.MMMssssssssssssMMMMMMMMMM
+MM.,,,,,,,.MMMsssssssssrssMMMMMMMMMM
+MM.,,,,,,,.MMMssrsssssssssMMMMMMMMMM
+MM.,,,,,,,.MMMssssssssssssMMMMMMMMMM
+MM.........MMMssssssssssrsMMMMMMMMMM
+MM......r..MMMssssssssssssMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+end
+
+warp 35 15 -> route8 1 17 left
+tile 20 28 cave_entrance
+warp 20 28 -> p4b_gulch_caves 14 20 up
+sign 29 13 text="STRATA GULCH\nQuarry Guild dig site. Mind the ledges and the loose stone."
+obstacle 11 15 boulder flag=p4b_gulch_boulder
+obstacle 30 9 smash flag=p4b_gulch_smash
+trainer p4b_gulch_maniac_harlan 18 14 sprite=hiker face=down sight=4
+trainer p4b_gulch_hiker_wynn 26 5 sprite=hiker face=left sight=4
+trainer p4b_gulch_ace_rhea 10 5 sprite=cooltrainer_f face=right sight=4
+trainer p4b_gulch_lass_pia 22 17 sprite=lass face=up sight=3
+trainer p4b_gulch_blackbelt_oren 6 20 sprite=blackbelt face=right sight=4
+trainer p4b_gulch_worker_moss 20 24 sprite=hiker face=right sight=3
+npc p4b_fenna 18 25 sprite=scientist face=down script=p4b_fenna
+npc p4b_gulch_digger 24 25 sprite=youngster face=left text="We sift the sand for fossil chips. Dr. Fenna says the gulch walls are a history book, one layer per million years."
+item p4b_gulch_tm 5 2 tm:rocktomb
+item p4b_gulch_revive 33 13 revive
+item p4b_gulch_soft 2 27 softsand
+hidden p4b_gulch_dome 3 26 domefossil
+hidden p4b_gulch_star 27 2 starpiece
+hidden p4b_gulch_nugget 34 19 nugget

@@ -1,0 +1,49 @@
+# Steam Grotto — volcanic hot pools under Route 9's Cinder Pass spring (Expansion E2). Bathers swim the pools.
+map p4b_steam_grotto
+name "Steam Grotto"
+location "Route 9"
+music cave
+environment cave
+region 15 6
+encounters p4b_steam_grotto
+
+legend
+a cave_water
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWEWWWWWWWWWWWWWW
+WWkffffffffffffffffffffffffkWW
+WWffffffffffffffffffffffffffWW
+WWfffffffffffffffaaaaaaaaaffWW
+WWffaaaaaaaafffffaaaaaaaaaffWW
+WWffaaaaaaaafffffaaaaaaaaaffWW
+WWffaaaaaaaafffffaaaaaaaaaffWW
+WWffaaaaaaaafffffaaaaaaaaaffWW
+WWffaaaaaaaaffkfffffffffffffWW
+WWffaaaaaaaaffffffffffffffffWW
+WWffffffffffffffffffffffffffWW
+WWffffffffffffffffffffffffkfWW
+WWffffaaaaaaaaaaaaaaaaaaffffWW
+WWffffaaaaaaaaaaaaaaaaaaffffWW
+WWffffaaaaaaafffaaaaaaaaffffWW
+WWffffaaaaaaaaaaaaaaaaaaffffWW
+WWffffaaaaaaaaaaaaaaaaaaffffWW
+WWfkffffffffffffffffffffffffWW
+WWfffffffffffffffffffffffffkWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 15 1 -> route9 14 17 down
+npc p4b_steam_attendant 13 3 sprite=beauty face=down script=p4b_steam_attendant
+trainer p4b_steam_swim_kai 8 7 sprite=swimmer_m face=right sight=3
+trainer p4b_steam_swim_mina 21 6 sprite=swimmer_f face=left sight=3
+trainer p4b_steam_swim_oto 18 15 sprite=swimmer_m face=up sight=3
+trainer p4b_steam_gent_horace 25 10 sprite=gentleman face=left sight=3
+trainer p4b_steam_beauty_coralie 4 12 sprite=beauty face=right sight=3
+item p4b_steam_cookie 27 18 lavacookie
+item p4b_steam_water 14 15 freshwater
+hidden p4b_steam_pearl 2 19 bigpearl
+hidden p4b_steam_wave 26 3 mysticwater

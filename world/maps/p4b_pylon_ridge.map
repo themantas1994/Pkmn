@@ -1,0 +1,60 @@
+# Pylon Ridge — power-line hills north of Route 7 (Expansion E2). Dead end; the lineman's hut sits on the summit.
+map p4b_pylon_ridge
+name "Pylon Ridge"
+location "Route 7"
+music route_mid
+environment grass
+region 23 15
+encounters p4b_pylon_ridge
+connect south route7 2
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTT......................TTTT
+TTTT...........,,,,,,,r..rTTTT
+TTTT...........,,,,,,,,...TTTT
+TTTT...........,,,,,,,,...TTTT
+TTTT...........,,,,,,,,...TTTT
+TTTT....................|.TTTT
+TTTT....................|.TTTT
+TTTT.r....................TTTT
+TTTTTTTTTTTT::TTTTTTTTTTTTTTTT
+TTTTTTTTTTTT::TTTTTTTTTTTTTTTT
+TTTr.......................TTT
+TTT..,,,,,,.......|........TTT
+TTT..,,,,|,.......|....T...TTT
+TTT..,,,,|,............T...TTT
+TTT..,,,,,,...,,,,,,,..T...TTT
+TTT...........,,,,,,,..T...TTT
+TTT...........,,,,,,,..T...TTT
+TTT....................T...TTT
+TTTvvvvvvvvvvvvvvvvvvvvT...TTT
+TTT........................TTT
+TTT..............,,,,,,,,..TTT
+TTT..,,,,,,,,....,,,,,,,,..TTT
+TTT..,,,,,,|,....,,,,,,,,r.TTT
+TTT..,,,,,,|,....,,,,,,,,..TTT
+TTT..,,,,,,,,..............TTT
+TTT..,,,,,,,,.......|......TTT
+TTT.................|......TTT
+TTT.r......................TTT
+TTT..........S.............TTT
+TTTTTTTTTTTTTT::TTTTTTTTTTTTTT
+TTTTTTTTTTTTTT::TTTTTTTTTTTTTT
+TTTTTTTTTTTTTT::TTTTTTTTTTTTTT
+end
+
+building house_blue 6 3 -> p4b_pylon_hut 3 5 up
+sign 13 30 text="PYLON RIDGE\nVoltara Power & Light service trail. Watch for static!"
+trainer p4b_ridge_worker_rook 8 26 sprite=hiker face=right sight=4
+trainer p4b_ridge_youngster_kip 20 24 sprite=youngster face=left sight=3
+trainer p4b_ridge_scientist_vale 6 15 sprite=scientist face=right sight=4
+trainer p4b_ridge_bird_cyra 16 17 sprite=cooltrainer_f face=up sight=3
+trainer p4b_ridge_ace_marco 20 6 sprite=cooltrainer_m face=left sight=4
+trainer p4b_ridge_lass_dina 13 4 sprite=lass face=down sight=3
+item p4b_ridge_magnet 25 13 magnet
+item p4b_ridge_tm 4 3 tm:charge
+item p4b_ridge_cell 3 30 cellbattery
+hidden p4b_ridge_thunder 25 9 thunderstone
+hidden p4b_ridge_elixir 4 13 elixir

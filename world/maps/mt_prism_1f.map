@@ -53,3 +53,14 @@ item mp1_mawilite 20 15 mawilite
 item mp1_escape 2 22 escaperope
 hidden mp1_hidden1 2 15 ultraball
 hidden mp1_hidden2 21 2 starpiece
+# Expansion E2: the lake's east edge floods; a landing at 21,5 leads into the Prism Grotto (Surf).
+tile 21 3 cave_water
+tile 21 4 cave_water
+tile 21 6 cave_water
+tile 21 7 cave_water
+tile 22 5 cave_entrance
+warp 22 5 -> p4b_prism_grotto 1 14 right
+trainer p4b_mp1_ace_kestrel 18 11 sprite=cooltrainer_m face=left sight=3
+# Expansion E2: side tunnel out to the Prism Foothills.
+tile 1 19 cave_entrance
+warp 1 19 -> p4b_prism_foothills 38 13 left

@@ -1,0 +1,32 @@
+# Sun Sanctum — the sealed altar of the people of Sol.
+map p4b_sol_sanctum
+name "Sun Sanctum"
+location "Ruins of Sol"
+music ruins
+environment indoor
+indoor
+
+legend
+A stairs_up
+end
+
+layout
+xxxxxxxxxxxxxxx
+xxxxxSxxxxxxxxx
+xuuuuuuGuuuuuux
+xuuGuuuuuuuGuux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xuuGuuuuuuuGuux
+xuuuuuuuuuuuuux
+xuuuuuuAuuuuuux
+xxxxxxxxxxxxxxx
+end
+
+warp 7 10 -> p4b_sol_catacombs 14 3 down
+sign 5 1 script=p4b_sol_tablet4
+npc p4b_sol_keeper 7 5 sprite=sage face=down script=p4b_sol_keeper
+npc p4b_sol_altar 7 3 sprite=pokeball_overworld script=p4b_sol_altar hideif=p4b_got_sol_gift
+hidden p4b_sanctum_heal 12 9 fullrestore

@@ -1,0 +1,51 @@
+# Old Shaft 1F — Quarrytown's abandoned No. 3 mine (Expansion E2). Boulder gap to the old storage room.
+map p4b_old_mine_1f
+name "Old Shaft 1F"
+location "Quarrytown"
+music cave
+environment cave
+region 27 10
+encounters p4b_old_mine
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWfffffffffWWWWWffffffffffLfWW
+WWfffffffffWWWWWffffffkfffffWW
+WWffkffffffWWWWWffffffffffffWW
+WWffffffkffWWWWWffffffffffffWW
+WWfffffffffWWWWWWWWffWWWWWWWWW
+WWWWWWffWWWWWWWWWWWffWWWWWWWWW
+WWWWWffffffffffffffffffWWWWWWW
+WWWWWfffffffkffffffffffWWWWWWW
+WWWWWfffffffffffffkffffWffffWW
+WWWWWffffffffffffffffffWffffWW
+WWWWWWWWWWWWWWffWWWWWWWWffffWW
+WWffffffWWWWWWffWWWWWWWWWWfWWW
+WWffffffWWWWWWffWWWWWWWfffffWW
+WWffffffWWWWWWffWWWWWWWfffffWW
+WWfkffffWfSffffffffffWWfffffWW
+WWffffffWffffffffffffWWffkffWW
+WWffffffWffffffffffffWWfffffWW
+WWffffffffffffffffffffffffffWW
+WWffffffWfffffffffffffffffffWW
+WWffffffWffkfffffffffWWfffffWW
+WWWWWWWWWffffffffffffWWWWWWWWW
+WWWWWWWWWWWWWWEWWWWWWWWWWWWWWW
+end
+
+warp 14 23 -> quarrytown 25 1 down
+warp 26 2 -> p4b_old_mine_b1f 28 2 down
+sign 10 16 text="SHAFT No. 3\nClosed by order of the Quarry Guild after the collapse. Enter at your own risk."
+obstacle 8 19 boulder flag=p4b_mine1_boulder
+obstacle 26 13 smash flag=p4b_mine1_smash
+trainer p4b_mine1_worker_dale 17 18 sprite=hiker face=left sight=3
+trainer p4b_mine1_lass_tamsin 10 9 sprite=lass face=right sight=4
+trainer p4b_mine1_maniac_ostin 22 4 sprite=hiker face=left sight=4
+trainer p4b_mine1_worker_gil 24 17 sprite=blackbelt face=down sight=3
+npc p4b_mine1_explorer 4 3 sprite=youngster face=down script=p4b_mine_explorer
+item p4b_mine1_rope 9 3 escaperope
+item p4b_mine1_tm 3 14 tm:bulldoze
+item p4b_mine1_candy 25 10 rarecandy
+hidden p4b_mine1_pearl 2 21 pearl
+hidden p4b_mine1_dust 22 11 stardust

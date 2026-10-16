@@ -1,0 +1,28 @@
+# Obsidian Grotto — Master Kaen's hidden training cave at the end of the Ashen Trail.
+map p4b_obsidian_grotto
+name "Obsidian Grotto"
+location "Ashfall City"
+music cave
+environment cave
+
+layout
+YYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWW
+WWffffffffffffWW
+WWfkddddddddkfWW
+WWffddddddddffWW
+WWffddddddddffWW
+WWffffffffffffWW
+WWffffffffffffWW
+WWffffffffffffWW
+WWffffffffffffWW
+WWfkffffffffkfWW
+WWffffffffffffWW
+WWffffffffffffWW
+WWWWWWWWEWWWWWWW
+end
+
+warp 8 13 -> p4b_ashen_trail 8 4 down
+npc p4b_kaen 8 4 sprite=blackbelt face=down script=p4b_kaen
+item p4b_obsidian_orb 12 6 flameorb
+hidden p4b_obsidian_star 2 12 starpiece

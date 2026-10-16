@@ -60,9 +60,9 @@
       "badges": 0,
       "fieldMoves": [],
       "blockedFieldMoves": [],
-      "maps": 71,
-      "tiles": 13084,
-      "obtainableSpecies": 366
+      "maps": 80,
+      "tiles": 15539,
+      "obtainableSpecies": 436
     },
     {
       "badges": 1,
@@ -70,9 +70,9 @@
         "CUT"
       ],
       "blockedFieldMoves": [],
-      "maps": 71,
-      "tiles": 13125,
-      "obtainableSpecies": 366
+      "maps": 80,
+      "tiles": 15580,
+      "obtainableSpecies": 436
     },
     {
       "badges": 2,
@@ -82,9 +82,9 @@
         "ROCK_SMASH"
       ],
       "blockedFieldMoves": [],
-      "maps": 71,
-      "tiles": 13283,
-      "obtainableSpecies": 366
+      "maps": 80,
+      "tiles": 15932,
+      "obtainableSpecies": 436
     },
     {
       "badges": 3,
@@ -95,9 +95,9 @@
         "STRENGTH"
       ],
       "blockedFieldMoves": [],
-      "maps": 93,
-      "tiles": 17556,
-      "obtainableSpecies": 437
+      "maps": 117,
+      "tiles": 25747,
+      "obtainableSpecies": 540
     },
     {
       "badges": 4,
@@ -109,9 +109,9 @@
         "SURF"
       ],
       "blockedFieldMoves": [],
-      "maps": 150,
-      "tiles": 35217,
-      "obtainableSpecies": 560
+      "maps": 176,
+      "tiles": 44996,
+      "obtainableSpecies": 648
     },
     {
       "badges": 5,
@@ -124,9 +124,9 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 150,
-      "tiles": 35217,
-      "obtainableSpecies": 560
+      "maps": 176,
+      "tiles": 44996,
+      "obtainableSpecies": 648
     },
     {
       "badges": 6,
@@ -139,9 +139,9 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 150,
-      "tiles": 35217,
-      "obtainableSpecies": 560
+      "maps": 176,
+      "tiles": 44996,
+      "obtainableSpecies": 648
     },
     {
       "badges": 7,
@@ -155,9 +155,9 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 164,
-      "tiles": 38546,
-      "obtainableSpecies": 563
+      "maps": 190,
+      "tiles": 48325,
+      "obtainableSpecies": 650
     },
     {
       "badges": 8,
@@ -171,9 +171,9 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 164,
-      "tiles": 38546,
-      "obtainableSpecies": 563
+      "maps": 190,
+      "tiles": 48325,
+      "obtainableSpecies": 650
     }
   ],
   "errors": [],

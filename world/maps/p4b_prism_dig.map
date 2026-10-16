@@ -1,0 +1,53 @@
+# Eclipse Dig Site — Team Eclipse's secret excavation under Mt. Prism 2F (dark, Expansion E2).
+map p4b_prism_dig
+name "Eclipse Dig Site"
+location "Mt. Prism"
+music villain_hideout
+environment cave
+dark
+region 23 8
+encounters p2_mt_prism_upper
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWfLffffffWWWWWWffffffffffffffWW
+WWffffffkfWWWWWWffkkffffkkffffWW
+WWffffffffffffffffffffffffffffWW
+WWffffffffffffffffffffffffffffWW
+WWffffffffWWWWWWffffffffffffffWW
+WWffffffffWWWWWWffffffffffffkfWW
+WWWWffWWWWWWWWWWffffffffffffffWW
+WWWWffWWWWWWWWWWWWWWWWfWWWWWWWWW
+WWWWffWWWWWWWWffffffffffffffffWW
+WWWWffWWWWWWWWffffffffffffffffWW
+WWWWffWWWWWWWWfffffffkffffffffWW
+WWWWffWWWWWWWWffffffffffffffffWW
+WWWWffWWWWWWWWfffkfffffffkffffWW
+WWWWffWWWWWWWWffffffffffffffffWW
+WWffffffffffWWffffffffffffffffWW
+WWffffffffffWWWWWWWWWWWWWWfWWWWW
+WWffffffffffffffffffffffffffffWW
+WWWWWWWWWWWWffffffffffffffffffWW
+WWWWWWWWWWWWffffffffffffffffffWW
+WWWWWWWWWWWWffffffffkfffffffffWW
+WWWWWWWWWWWWffkfffffffffffffffWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 2 -> mt_prism_2f 7 3 down
+obstacle 22 9 boulder flag=p4b_dig_boulder
+obstacle 26 17 smash flag=p4b_dig_smash
+npc p4b_maeve 6 4 sprite=ranger face=down script=p4b_maeve
+npc p4b_dig_sci 24 20 sprite=scientist face=left script=p4b_dig_scientist hideif=p4b_dig_cleared
+npc p4b_dig_carbink 28 20 sprite=legendary_shadow face=left script=p4b_dig_carbink hideif=p4b_got_carbink
+trainer p4b_dig_grunt_a 20 5 sprite=grunt_m face=left sight=4
+trainer p4b_dig_grunt_b 27 6 sprite=grunt_f face=down sight=3
+trainer p4b_dig_grunt_c 18 12 sprite=grunt_m face=right sight=4
+trainer p4b_dig_grunt_d 8 17 sprite=grunt_f face=left sight=4
+trainer p4b_dig_grunt_e 15 20 sprite=grunt_m face=right sight=3
+item p4b_dig_potion 28 3 hyperpotion
+item p4b_dig_tm 28 15 tm:poisonjab
+item p4b_dig_heal 2 7 fullheal
+hidden p4b_dig_nugget 15 11 nugget
+hidden p4b_dig_candy 29 22 rarecandy

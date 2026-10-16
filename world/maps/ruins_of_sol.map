@@ -43,3 +43,8 @@ item sol_sunstone 23 4 sunstone
 item sol_fullrestore 13 20 fullrestore
 hidden sol_moon 2 2 moonstone
 hidden sol_pearl 23 19 bigpearl
+# Expansion E2: stairs down into the Sol Catacombs.
+tile 12 17 stairs_down
+warp 12 17 -> p4b_sol_catacombs 14 21 up
+trainer p4b_sol_hex_ione 3 12 sprite=psychic face=right sight=4
+trainer p4b_sol_picnicker_lia 20 17 sprite=lass face=left sight=3

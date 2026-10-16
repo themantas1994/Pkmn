@@ -1,0 +1,64 @@
+# Sol Catacombs — crypts under the Ruins of Sol (dark). Three sun dials open the way to the Sun Sanctum; one is a trap.
+map p4b_sol_catacombs
+name "Sol Catacombs"
+location "Ruins of Sol"
+music ruins
+environment cave
+dark
+region 28 11
+encounters p4b_sol_catacombs
+
+legend
+A stairs_up
+Q stairs_down
+end
+
+layout
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxuuuuuuQuuuuuuuxxxxxxxx
+xxxxxxxxuuGuuuuuuuuGuuxxxxxxxx
+xxxxxxxxuuuuuuuuuuuuuuxxxxxxxx
+xxxxxxxxuuuuuuuuuuuuuuxxxxxxxx
+xxxxxxxxuuuuuuuuuuuuuuxxxxxxxx
+xxxxxxxxuuuuuuuuuuuuuuxxxxxxxx
+xxxxxxxxxxxxxxuuxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxuuxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxZZxxxxxxxxxxxxxx
+xxxxSxxxxxxxxxuuxxxxxxxxxxxxxx
+xxzuuuuuxxxxxxuuxxxxxuuuuuuzxx
+xxuuuuuuxxxxxxuuxxxxxuuuuuuuxx
+xxuuuuuuxxxxSxuuxxxxxuuuuuuuxx
+xxxxxxuuxxxuuuuuuuuxxuuuuuuuxx
+xxuuuuuuxxxuuuuuuuuxxuuxxxxxxx
+xxuuuuuuxxxuGuuuuGuxxuuuuuuuxx
+xxuuuuuuuuuuuuuuuuuuuuuuuuuuxx
+xxuuxxxxuuuuuuuuuuuuuxxxxxuuxx
+xxuuuuuuxxxuGuuuuGuxxuuuuuuuxx
+xxuuuuuuxxxuuuuuuuuxxuuuuuuuxx
+xxuuuuuuxxxuuuAuuuuxxuuuuuuzxx
+xxuuuuuuuuuxxxxxxxxxxxxxxxxxxx
+xxuuuuuuuuzxxxxxxxxxxxxxxxxxxx
+xxxxxxSxxxxxxxxxxxxxxxxxxxxxxx
+end
+
+warp 14 22 -> ruins_of_sol 12 18 down
+warp 14 2 -> p4b_sol_sanctum 7 9 up
+tileif p4b_sol_open 14 10 ruins_floor
+tileif p4b_sol_open 15 10 ruins_floor
+trigger 2 12 1 1 script=p4b_sol_dial_west unless=p4b_sol_dial1
+trigger 27 12 1 1 script=p4b_sol_dial_east unless=p4b_sol_dial2
+trigger 10 24 1 1 script=p4b_sol_dial_crypt unless=p4b_sol_dial3
+trigger 27 22 1 1 script=p4b_sol_trap
+sign 4 11 script=p4b_sol_tablet1
+sign 6 25 script=p4b_sol_tablet2
+sign 12 14 script=p4b_sol_tablet3
+trainer p4b_cat_hex_mora 5 17 sprite=psychic face=down sight=3
+trainer p4b_cat_maniac_tobin 24 14 sprite=hiker face=left sight=3
+trainer p4b_cat_psychic_sela 6 23 sprite=psychic face=right sight=3
+trainer p4b_cat_sage_amon 10 5 sprite=sage face=right sight=4
+item p4b_cat_spelltag 7 13 spelltag
+item p4b_cat_repel 22 21 maxrepel
+item p4b_cat_dusk 20 6 duskstone
+hidden p4b_cat_cloth 3 24 reapercloth
+hidden p4b_cat_dust 18 22 stardust

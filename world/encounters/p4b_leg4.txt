@@ -1,0 +1,140 @@
+# Expansion E2, leg 4: Old Shaft, Sol Catacombs, Strata Gulch (wild levels 26-31).
+
+encounters p4b_old_mine
+  rate cave 12
+  cave morning timburr 26-29 25
+  cave morning klawf 27-29 15
+  cave morning nosepass 26-29 15
+  cave morning rolycoly 26-28 15
+  cave morning diglettalola 26-29 15
+  cave morning onix 27-29 10
+  cave morning durant 27-29 5
+  cave day timburr 26-29 20
+  cave day durant 27-29 20
+  cave day klawf 27-29 15
+  cave day rolycoly 26-28 15
+  cave day nosepass 26-29 15
+  cave day diglettalola 26-29 10
+  cave day carkol 27-29 5
+  cave night woobat 26-28 25
+  cave night timburr 26-29 15
+  cave night noibat 26-28 15
+  cave night klawf 27-29 15
+  cave night durant 27-29 15
+  cave night diglettalola 26-29 10
+  cave night sableye 27-29 5
+  surf any barboach 27-31 50
+  surf any whiscash 29-32 30
+  surf any quagsire 28-32 20
+  oldrod any magikarp 15-20 100
+  goodrod any barboach 24-28 70
+  goodrod any goldeen 24-28 30
+  superrod any whiscash 30-34 60
+  superrod any gyarados 30-34 40
+  rocksmash any nosepass 26-29 50
+  rocksmash any klawf 26-29 30
+  rocksmash any dwebble 26-29 20
+end
+
+encounters p4b_old_mine_deep
+  rate cave 12
+  cave morning gurdurr 28-31 20
+  cave morning orthworm 28-31 15
+  cave morning klawf 28-31 15
+  cave morning durant 28-31 15
+  cave morning carkol 28-31 15
+  cave morning nosepass 28-31 15
+  cave morning larvitar 27-29 5
+  cave day gurdurr 28-31 20
+  cave day orthworm 28-31 20
+  cave day durant 28-31 15
+  cave day carkol 28-31 15
+  cave day dugtrioalola 28-31 15
+  cave day klawf 28-31 13
+  cave day larvitar 27-29 2
+  cave night orthworm 28-31 20
+  cave night woobat 28-31 20
+  cave night durant 28-31 20
+  cave night dugtrioalola 28-31 15
+  cave night sableye 28-31 15
+  cave night klang 29-31 10
+  rocksmash any nosepass 28-31 60
+  rocksmash any carkol 28-31 40
+end
+
+encounters p4b_sol_catacombs
+  rate cave 12
+  cave morning honedge 28-31 20
+  cave morning chingling 28-30 20
+  cave morning solosis 28-30 15
+  cave morning sinistea 28-31 15
+  cave morning greavard 28-31 15
+  cave morning bronzor 28-30 10
+  cave morning gimmighoul 29-31 5
+  cave day honedge 28-31 20
+  cave day chingling 28-30 20
+  cave day solosis 28-30 15
+  cave day bronzor 28-30 15
+  cave day greavard 28-31 15
+  cave day sinistea 28-31 10
+  cave day gimmighoul 29-31 5
+  cave night misdreavus 28-31 25
+  cave night sinistea 28-31 20
+  cave night greavard 28-31 20
+  cave night honedge 28-31 15
+  cave night yamask 28-30 15
+  cave night gimmighoul 29-31 5
+end
+
+encounters p4b_strata_gulch
+  rate grass 25
+  grass morning silicobra 26-29 20
+  grass morning rockruff 26-28 20
+  grass morning cubone 26-29 20
+  grass morning nacli 26-28 15
+  grass morning sandile 26-29 15
+  grass morning skarmory 28-30 10
+  grass day silicobra 26-29 20
+  grass day rockruff 26-28 20
+  grass day klawf 27-29 15
+  grass day cubone 26-29 15
+  grass day trapinch 26-28 15
+  grass day gligar 27-29 15
+  grass night cubone 26-29 25
+  grass night noibat 26-28 20
+  grass night gligar 27-29 20
+  grass night sableye 27-29 15
+  grass night rockruff 26-28 10
+  grass night marowak 28-30 10
+  surf any wooper 26-30 60
+  surf any quagsire 28-31 40
+  oldrod any magikarp 15-20 100
+  goodrod any barboach 24-28 60
+  goodrod any poliwag 24-28 40
+  superrod any whiscash 30-33 50
+  superrod any poliwhirl 30-33 50
+  rocksmash any dwebble 26-29 50
+  rocksmash any roggenrola 26-29 50
+end
+
+encounters p4b_pylon_ridge
+  rate grass 25
+  grass morning yamper 26-28 25
+  grass morning mareep 26-28 20
+  grass morning wattrel 26-28 20
+  grass morning minun 26-28 15
+  grass morning tadbulb 26-28 10
+  grass morning electrike 26-28 10
+  grass day yamper 26-28 20
+  grass day wattrel 26-28 20
+  grass day minun 26-28 20
+  grass day pawmi 26-28 15
+  grass day tadbulb 26-28 15
+  grass day flaaffy 27-29 10
+  grass night tadbulb 26-28 25
+  grass night hoothoot 26-28 20
+  grass night joltik 26-28 20
+  grass night minun 26-28 15
+  grass night electrike 26-28 10
+  grass night wattrel 26-28 10
+end

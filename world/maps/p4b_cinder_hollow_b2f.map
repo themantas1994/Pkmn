@@ -1,0 +1,41 @@
+# Cinder Hollow B2F — the Vent Core, where the volcano's heat rises through four vents.
+map p4b_cinder_hollow_b2f
+name "Cinder Hollow B2F"
+location "Route 9"
+music cave
+environment cave
+region 14 5
+encounters p4b_cinder_hollow_deep
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+WWffffkffWWWWWWWWWffffffWW
+WWfdddfffWWWWWWWWWffffffWW
+WWfdddfffffWWWWWWWffffffWW
+WWfffffffffWWWWWWWffffffWW
+WWfffffffffWWWWWWWffffffWW
+WWffffffffffffffffffffkfWW
+WWWWWWWWWfddffffffffffffWW
+WWWWWWWWWfddfffffWWWWWWWWW
+WWWWWWWWWfffLffffWWWWWWWWW
+WWWWWWWfffffffddfWWWWWWWWW
+WWffffffWfffffffffWWWWWWWW
+WWffffffWWWWWWWWffffffffWW
+WWffffffWWWWWWWWWfffffffWW
+WWffffffWWWWWWWWWffdddffWW
+WWffkfffWWWWWWWWWffdddffWW
+WWffffffWWWWWWWWWffffffkWW
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 12 10 -> p4b_cinder_hollow_b1f 12 10 down
+trainer p4b_ch3_breather_kiln 4 5 sprite=hiker face=right sight=3
+trainer p4b_ch3_ace_selene 20 4 sprite=cooltrainer_f face=down sight=3
+trainer p4b_ch3_hex_ember 5 14 sprite=psychic face=up sight=3
+trainer p4b_ch3_kindler_ash2 20 14 sprite=hiker face=left sight=4
+item p4b_ch3_plate 23 2 flameplate
+item p4b_ch3_tm 2 17 tm:lavaplume
+hidden p4b_ch3_candy 23 13 rarecandy
+hidden p4b_ch3_shard 2 2 fireterashard

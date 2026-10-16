@@ -8,6 +8,7 @@ fly 16 16
 tags town
 connect east route9 4
 connect south route10 0
+connect west p4b_ashen_trail 0
 
 layout
 MMMMMMMMMMMMMmmmmmmmmMMMMMMMMMMM
@@ -60,3 +61,9 @@ npc ash_girl 14 23 sprite=lass face=left text="The hot spring is lovely! Everyon
 npc ash_kid 25 16 sprite=kid face=left text="Blaise's Gym has lava floors! The stones only cool when you step on the right switch."
 npc ash_scientist 17 22 sprite=scientist face=down script=p3a_ash_quartz_hint
 trigger 30 14 1 2 script=p3a_ash_rival_battle unless=p3a_rival_ashfall
+# Expansion E2: west gate to the Ashen Trail and the glass workshop.
+tile 0 14 path
+tile 0 15 path
+building house 9 16 -> p4b_ashfall_glass 3 5 up
+npc p4b_ash_ranger 2 13 sprite=ranger face=right text="West of here is the Ashen Trail. Master Kaen trains Fire Breathers out there. Bring Burn Heals!"
+hidden p4b_ash_hidden 24 25 hpup

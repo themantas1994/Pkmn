@@ -1,0 +1,43 @@
+# Magma Tunnel — a lava tube from the Ashen Trail ridge up to Mt. Ashfall's caldera (Expansion E2).
+map p4b_magma_tunnel
+name "Magma Tunnel"
+location "Ashfall City"
+music cave
+environment cave
+region 10 3
+encounters p4b_cinder_hollow_deep
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWEWWWWWWW
+WWWWWWWWWWWWWWWWWWffffffffWW
+WWWWWWWWWWWWWWWWWWffffffffWW
+WWffffffffddddfkffffffffffWW
+WWffffkffffffffffffffdddffWW
+WWffffffWWWWWWWWWWfffdddffWW
+WWfddfffWWWWWWWWWWfffdddffWW
+WWfddfffWWWWWWWWWWffffffffWW
+WWfddfffWWWWWWWWWWffffffkfWW
+WWfddfffWWWWWWWWWWffffffffWW
+WWffffffWWWWWWWWWWWWWfWWWWWW
+WWfkffffWWWWWWWWWWWWWfWWWWWW
+WWffffffWWffffffffffffWWWWWW
+WWWWffffffffffffffffffWWWWWW
+WWWWfffffffdddfffffWWWWWWWWW
+WWWWWWWWWWfdddfffffWWWWWWWWW
+WWWWWWWWWWfffffffkfWWWWWWWWW
+WWWWWWWWWWfffffffffWWWWWWWWW
+WWWWWWWWWWWWWWEWWWWWWWWWWWWW
+end
+
+warp 14 19 -> p4b_ashen_trail 32 3 down
+warp 20 1 -> p4b_ashfall_caldera 18 28 up
+obstacle 21 11 smash flag=p4b_tunnel_smash
+trainer p4b_tun_breather_sol 12 16 sprite=hiker face=right sight=3
+trainer p4b_tun_hex_morwen 4 9 sprite=psychic face=down sight=4
+trainer p4b_tun_ace_hector 12 5 sprite=cooltrainer_m face=right sight=4
+trainer p4b_tun_hiker_ferro 23 4 sprite=hiker face=down sight=3
+trainer p4b_tun_scientist_inga 19 9 sprite=scientist face=left sight=3
+item p4b_tun_elixir 2 4 elixir
+item p4b_tun_magmarizer 25 2 magmarizer
+hidden p4b_tun_ember 18 18 fireterashard
