@@ -7,6 +7,7 @@ environment plain
 region 20 17
 fly 17 16
 tags town
+encounters p2_town_ponds
 connect west route6 6
 connect east route7 -6
 

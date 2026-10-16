@@ -233,3 +233,15 @@ encounters p2_seraphine
   goodrod any goldeen 28-32 60
   goodrod any lumineon 28-32 40
 end
+
+encounters p2_town_ponds
+  rate surf 10
+  surf any psyduck 20-25 50
+  surf any marill 20-25 50
+  oldrod any magikarp 10-15 70
+  oldrod any goldeen 12-16 30
+  goodrod any goldeen 18-24 60
+  goodrod any poliwag 18-24 40
+  superrod any poliwhirl 28-32 60
+  superrod any gyarados 30-33 40
+end

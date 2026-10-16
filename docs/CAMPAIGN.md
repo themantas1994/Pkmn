@@ -150,3 +150,43 @@ to learn the required field move is obtainable before its first mandatory use (d
 ## Writing style
 GSC tone: short, warm, slightly humorous lines; ≤ 3 text boxes per NPC; signs give directions; no profanity.
 All NPCs have a purpose (hint, lore, item, trade, battle). Avoid long unskippable cutscenes.
+
+## Part 2 notes (Route 5 → Seraphine Town)
+**Maps (39):** route5, lumen_village (+lumen_center, lumen_mart, lumen_elder, lumen_researcher, lumen_house), lumen_ruins,
+lumen_ruins_chamber, route6, voltara_city (+voltara_center, voltara_dept_1f/2f, voltara_house, voltara_house2, voltara_lab,
+voltara_gym, voltara_powerplant), route7, route8, quarrytown (+quarrytown_center, quarrytown_mart, quarrytown_house,
+quarrytown_house2, quarrytown_fossil_lab, quarrytown_gym), ruins_of_sol, ruins_of_sol_temple, mt_prism_1f/2f/3f,
+seraphine_town (+seraphine_center, seraphine_mart, seraphine_house, seraphine_house2, seraphine_gym).
+Stubs `zz_stub_port_tidewater.map` / `zz_stub_route9.map` exist only for isolated compiles — **delete on merge**.
+Connections: route5 S→lumen_village (offset -2); lumen_village E→route6 (-5); route6 E→voltara_city (-6);
+voltara_city E→route7 (-6); route7 E→route8 (-30); route8 N→quarrytown (-3); quarrytown E→ruins_of_sol (0);
+quarrytown cave (3,3) → mt_prism_1f → 2f → 3f → seraphine_town cave (29,12). B1/B2 exactly as contracted.
+
+**Story flags:** `p2_route5_open` (badge-2 gate passed), `p2_voltara_visited`, `p2_rival_at_plant`, `p2_plant_rival_in`,
+`p2_power_restored` (Voltara Gym opens), `p2_badge3`, `p2_got_keystone` (Route 7 opens; also `unlock_mega`), `p2_got_mira_gift`,
+`p2_badge4`, `p2_got_zring` (Mt. Prism opens; also `unlock_zmove`), `p2_beat_corvin`, `p2_rival_prism_done`, `p2_badge5`.
+Puzzle flags: `p2_lumen_sw_a/b`, `p2_lumen_door`, `p2_vg_1..3`, `p2_qg_a/b/c` (b toggles), `p2_sg_a/b/c`.
+Side-quest flags: `p2_saw_mural`, `p2_kanto_gift`, `p2_kanto_bulbasaur|charmander|squirtle`, `p2_kanto_stone`,
+`p2_found_toolbox`, `p2_found_pickaxe`, `p2_fossil_given`, `p2_quarry_traded`, `p2_togepi_egg`, `p2_weaver_tm`,
+`p2_got_goodrod`, `p2_dept_gift`. Quests (world/quests/p2.txt): `p2_story` (main), `p2_kanto_legacy`, `p2_ruins_research`,
+`p2_live_wire`, `p2_fossil_dig`, `p2_sun_and_moon`, `p2_mist_song`.
+
+**Gating:** Route 5 trigger pushes back without 2 badges. Voltara Gym door guarded until the power plant is cleared;
+Route 7 exit guarded until Dr. Mira gives the Key Stone (after Gym 3). Mt. Prism entrance guarded until Warden Talo's
+Z-Ring (after Gym 4). Mt. Prism main path needs Strength (boulder gaps, pushable; both sides are open rooms so pushes
+cannot soft-lock); Rock Smash rocks and the 1F lake (Surf) only guard optional items. All Part 2 water is optional.
+Strength users obtainable before Mt. Prism: Machop/Geodude/Rhyhorn (Route 7), Drilbur/Mudbray (Route 8). Surf users:
+Psyduck/Marill/Buizel/Wooper (Route 6), Tentacool (Route 5).
+
+**Gifts:** Good Rod (Route 5), Kanto starter L18 choice (Elder Ione, after the mural) + its Mega Stone once Mega is
+unlocked, Flaaffy L25 + Ampharosite (Dr. Mira), fossil revival (Jaw/Sail from the foreman quest, Old Amber on Mt. Prism
+1F lake islet → Tyrunt/Amaura/Aerodactyl L30), Togepi egg (Seraphine), Onix trade for Drilbur (Quarrytown).
+Mega Stones: ampharosite, venusaurite/charizarditex/blastoisinite, manectite, aerodactylite, mawilite, sablenite,
+gardevoirite, altarianite. Z-Crystals: normaliumz+rockiumz (Talo), fairiumz (Elowen), electriumz, psychiumz, buginiumz,
+steeliumz, firiumz. TMs: voltswitch (Volta), rockslide (Garnet), dazzlinggleam (Elowen), calmmind (Lumen weaver).
+Tutors: `movetutor voltara_tutor`, `movetutor seraphine_tutor`; move relearner in Quarrytown.
+
+**Deviations / engine expectations:** the in-game trade uses `trade drilbur onix` (want, give) — the host must implement
+the `trade` special. Shops in `world/shops/p2.txt` (`p2_voltara_evo` sells `linkingcord`). Rival battles use `canlose`.
+Mt. Prism 3F exit leads straight into Seraphine Town (no extra route map). Seraphine Town has a Mist Grove grass patch
+and `weather fog`. Generated `assets/` output is not committed by Part 2 (run `compileMaps` after merge).

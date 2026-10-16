@@ -97,7 +97,9 @@ script p2_plant_worker
   if flag p2_power_restored
     say "WORKER: The generators are purring again. Take that Electrium Z if you haven't. It's useless to me."
   else
-    say "WORKER: They locked me in the storeroom! The control room is up north. Please hurry!"
+    say "WORKER: They locked me in the storeroom! Here, let me patch up your Pokémon first."
+    heal
+    say "WORKER: The control room is just west of here. Please hurry!"
   end
 end
 
