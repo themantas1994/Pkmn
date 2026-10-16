@@ -1,0 +1,33 @@
+# Mossgrove Glade (Expansion E1): quiet clearing behind the Mossgrove gate. Moss Rock lore, the florist's lost
+# Squirt Bottle, rare grass encounters and a hollow stump leading down into Root Hollow.
+map p4a_mossgrove_glade
+name "Mossgrove Glade"
+location "Whisperwood"
+music forest
+environment grass
+region 5 11
+encounters p4a_mossgrove_glade
+
+layout
+TTTTTTTTTTTTTTTTTT
+TTTTTTTMEMTTTTTTTT
+TTTTFF.....FFTTTTT
+TTTF...,,,,...FTTT
+TTF...,,,,,,...FTT
+TTF..,,,,,,,,..FTT
+TT.....,,,,....FTT
+R.......rF.....FTT
+TT.......FF....FTT
+TTF...,,,,,,...FTT
+TTF...,,,,,,..FTTT
+TTTF..........FTTT
+TTTTFFF...FFFTTTTT
+TTTTTTTTTTTTTTTTTT
+end
+
+warp 0 7 -> p4a_mossgrove 28 12 left
+warp 8 1 -> p4a_root_hollow 12 2 down
+sign 8 7 script=p4a_gl_mossrock
+item p4a_gl_squirtbottle 13 3 squirtbottle
+item p4a_gl_revive 14 9 revive
+hidden p4a_gl_honey 4 11 honey

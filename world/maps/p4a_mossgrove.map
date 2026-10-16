@@ -1,0 +1,63 @@
+# Mossgrove Thicket (Expansion E1): optional forest east of Whisperwood. Light ledge puzzle: two mossy stones
+# (NE and SW) can only be reached from the far side of one-way ledges; lighting both parts the bushes to the Glade.
+map p4a_mossgrove
+name "Mossgrove Thicket"
+location "Whisperwood"
+music forest
+environment grass
+region 5 11
+encounters p4a_mossgrove
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TT.....TTTTTTTTTTTTTTTT..,,zTT
+R......,,,,,,......>...,,,,.TT
+TT.....,,,,,,..TTTTTTTT,,,,.TT
+TT..TTTTTTTTT..TTTTTTTTTTTTvTT
+TT..TTTTTTTTT..TT,,,,,,TTTT.TT
+TT..T,,,,,,....TT,,,,,,..TT.TT
+TT..T,,,,,,....TT..TT....TT.TT
+TT..TTTT..TTTTTTT..TT.......TT
+TT.......,,,,.........,,,...TT
+TTTTTT..TTTTTTTTTTTTT..TTTTTTT
+TT,,,,..TTTTTTTTTTTT...,,,,.TT
+TT,,,,..TT,,,,,,,,TT....,,bb.R
+TT....TTTT,,,,,,,,TT....,,,TTT
+TT....TT..........TT.......TTT
+TTTT..TT..TTTTT...........TTTT
+TT,,..TT..TTTTT..,,,,,,..TTTTT
+TT,,..TTvv.TTTT..,,,,,,..TTTTT
+TT....TT...TTTT..,,,,,,..TTTTT
+TTTvTTTT...TTTTTTTTTTTT..TTTTT
+TT,,,,T...............,..TTTTT
+TT,,,,>......,,,,,,,......TTTT
+TT,z,,T......,,,,,,,......TTTT
+TT....T.......F.........F.TTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+warp 0 2 -> whisperwood 26 5 left
+warp 29 12 -> p4a_mossgrove_glade 1 7 right
+tile 6 1 sign
+sign 6 1 script=p4a_mg_sign
+tile 27 13 sign
+sign 27 13 script=p4a_mg_gate_sign
+trigger 27 1 1 1 script=p4a_mg_stone_a unless=p4a_mg_stone_a
+trigger 3 22 1 1 script=p4a_mg_stone_b unless=p4a_mg_stone_b
+tileif p4a_mg_gate 26 12 grass
+tileif p4a_mg_gate 27 12 grass
+
+trainer p4a_mg_lass_ivy 11 6 sprite=lass face=left sight=5
+trainer p4a_mg_ranger_cole 24 2 sprite=ranger face=left sight=3
+trainer p4a_mg_bug_arlo 20 11 sprite=bugcatcher face=down sight=3
+trainer p4a_mg_kid_wren 12 14 sprite=kid face=up sight=2
+trainer p4a_mg_youngster_bo 15 21 sprite=youngster face=left sight=5
+trainer p4a_mg_bug_tomas 4 12 sprite=bugcatcher face=down sight=4
+
+item p4a_mg_superpotion 25 1 superpotion
+item p4a_mg_sunstone 5 23 sunstone
+item p4a_mg_greatball 22 5 greatball
+item p4a_mg_ether 10 18 ether
+hidden p4a_mg_mushroom 17 13 tinymushroom
+hidden p4a_mg_bigmushroom 2 16 bigmushroom
+hidden p4a_mg_berry 24 23 pechaberry

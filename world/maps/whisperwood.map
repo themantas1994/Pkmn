@@ -16,7 +16,7 @@ TTTTTTTTTTTTT.TTTTTTTTTTTTTT
 TTTTTTTTTTTTT.TTTTTTTTTTTTTT
 TTTTTTTTTTTTT.TTTTTTTTTTTTTT
 TT.....TTTTT...TTTTT,,,,,,TT
-TT.uuu.TTTTT...TTTTT,,TT,,TT
+TT.uuu.TTTTT...TTTTT,,TT,,.R
 TT.uGu.TTTTTT.TTTTTT,,TT,,TT
 TT.uuu.TTTTTT.TTTTTT,,,,,,TT
 TT...u..........TTTTTT,,TTTT
@@ -45,6 +45,8 @@ end
 
 warp 13 0 -> route2 5 9 down
 warp 14 29 -> route2 5 28 down
+# Expansion E1: east path into Mossgrove Thicket.
+warp 27 5 -> p4a_mossgrove 1 2 right
 sign 2 8 text="WHISPERWOOD SHRINE\nPlease keep the forest quiet."
 tile 2 8 sign
 npc shrine_sage 3 5 sprite=sage face=down script=p1_ww_sage
@@ -62,3 +64,6 @@ item ww_superpotion 24 18 superpotion
 hidden ww_mushroom1 2 21 tinymushroom
 hidden ww_mushroom2 24 22 tinymushroom
 hidden ww_bigmushroom 2 4 bigmushroom
+trainer p4a_ww_bug_remy 25 23 sprite=bugcatcher face=left sight=2
+trainer p4a_ww_lass_hana 10 24 sprite=lass face=up sight=3
+trainer p4a_ww_youngster_jay 25 7 sprite=youngster face=left sight=4

@@ -1,0 +1,22 @@
+# Brindle Flower Shop (Expansion E1): the florist who lost her Squirt Bottle (The Odd Tree quest).
+map p4a_brindle_florist
+name "Flower Shop"
+location "Brindle City"
+music city_early
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@pp@w@
+p______p
+_tt___p_
+_hh_____
+p_______
+___RR___
+end
+
+warp 3 6 -> brindle_city 23 5 down
+warp 4 6 -> brindle_city 23 5 down
+npc p4a_florist 5 4 sprite=beauty face=left script=p4a_florist
+npc p4a_florist_kid 2 5 sprite=kid face=up script=p4a_florist_kid

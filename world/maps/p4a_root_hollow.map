@@ -1,0 +1,47 @@
+# Root Hollow (Expansion E1): cavern of tree roots under Mossgrove Glade. Switch puzzle: the west stone opens the
+# root wall to the east wing; the east wing's stone opens the wall to the old hollow altar.
+map p4a_root_hollow
+name "Root Hollow"
+location "Whisperwood"
+music cave
+environment cave
+region 5 11
+encounters p4a_root_hollow
+
+layout
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWLWWWWWWWWWWWWW
+WfffzWWffffffffffkfWWffffW
+WffffWWffffkffffffffZffffW
+WffffffffffffffkffffWffkfW
+WkfffWWWWWfffffffffWWffffW
+WWWWWWWWWWffffkfffWWWffffW
+WffffffWWWfffffffWWWWffzfW
+WffkfffWWWfffffffWWWWffffW
+WffffffffffffffffWWWWWZWWW
+WfffkffffffkfffffWWWWfffWW
+WffffffWWWWWfffffWWWWfffWW
+WkfffffffWWWfffkffffWWWWWW
+WfffWWfffffffffffffffkffWW
+WffffffffkffffWWffffffffWW
+WWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 12 1 -> p4a_mossgrove_glade 8 2 down
+tileif p4a_rh_wall1 20 3 cave_floor
+tileif p4a_rh_wall2 22 9 cave_floor
+trigger 4 2 1 1 script=p4a_rh_switch1 unless=p4a_rh_wall1
+trigger 23 7 1 1 script=p4a_rh_switch2 unless=p4a_rh_wall2
+tile 3 2 sign
+sign 3 2 script=p4a_rh_carving
+
+trainer p4a_rh_hiker_doyle 8 3 sprite=hiker face=right sight=3
+trainer p4a_rh_psychic_lena 16 9 sprite=psychic face=left sight=5
+trainer p4a_rh_bug_ike 21 5 sprite=bugcatcher face=down sight=3
+trainer p4a_rh_hiker_mort 10 13 sprite=hiker face=right sight=4
+
+item p4a_rh_altar 22 11 tm:seedbomb
+item p4a_rh_rope 1 13 escaperope
+item p4a_rh_xattack 18 2 xattack
+hidden p4a_rh_mushroom 24 2 bigmushroom
+hidden p4a_rh_stardust 2 14 stardust

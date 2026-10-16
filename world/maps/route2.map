@@ -74,3 +74,6 @@ item r2_ball 18 3 pokeball
 item r2_repel 18 37 repel
 hidden r2_berry 1 24 oranberry
 hidden r2_cheri 18 12 cheriberry
+# Expansion E1: more trainers.
+trainer p4a_r2_lass_nora 17 22 sprite=lass face=left sight=4
+trainer p4a_r2_bug_kip 18 8 sprite=bugcatcher face=left sight=3

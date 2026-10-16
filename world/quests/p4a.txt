@@ -1,0 +1,18 @@
+# Expansion E1 side quests (legs 1-3).
+
+# ---- Leg 1
+quest p4a_odd_tree "The Odd Tree"
+  desc "A Brindle City florist lost her Squirt Bottle in Mossgrove Thicket."
+  step "Find the Squirt Bottle in Mossgrove Thicket and bring it to the Brindle flower shop."
+  step "Water the odd tree on the Brookside Trail, east of Hollowbrook."
+end
+
+quest p4a_fishing_log "The Fishing Log"
+  desc "Angler Ross on the Brookside Trail wants to see a beginner's fishing log."
+  step "Catch a Magikarp, a Poliwag and a Goldeen, then visit Angler Ross."
+end
+
+quest p4a_feathered_trade "Birds of a Feather"
+  desc "A trader in Fernwick's Pokémon Center will swap his Rookidee for a Pidgey."
+  step "Bring a Pidgey to the trader in Fernwick Town's Pokémon Center."
+end

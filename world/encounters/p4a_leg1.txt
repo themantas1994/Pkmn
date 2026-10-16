@@ -1,0 +1,92 @@
+# Expansion E1, leg 1 wild encounters. Brookside 3-6, Mossgrove 6-10, Root Hollow 9-11. Species chosen from the
+# region's unused pool by habitat (riverside, deep forest, root cave) to widen the early-game roster.
+
+encounters p4a_brook_trail
+  rate grass 25
+  grass morning taillow 3-5 30
+  grass morning zigzagoon 3-5 30
+  grass morning surskit 3-5 20
+  grass morning skitty 3-5 20
+  grass day zigzagoon 3-5 30
+  grass day taillow 3-5 25
+  grass day lotad 3-5 20
+  grass day skitty 3-5 15
+  grass day lechonk 3-5 10
+  grass night poochyena 3-5 35
+  grass night zigzagoon 3-5 25
+  grass night hoothoot 3-5 25
+  grass night surskit 3-5 15
+  oldrod any magikarp 3-6 50
+  oldrod any poliwag 3-6 30
+  oldrod any lotad 3-6 20
+  goodrod any poliwag 10-14 35
+  goodrod any goldeen 10-14 30
+  goodrod any chewtle 10-14 20
+  goodrod any barboach 10-14 15
+end
+
+encounters p4a_brook_grotto
+  rate cave 10
+  cave any zubat 5-7 30
+  cave any whismur 5-7 30
+  cave any woobat 5-7 15
+  cave any azurill 5-7 15
+  cave any ralts 6-8 10
+  surf any lotad 15-20 50
+  surf any marill 15-20 40
+  surf any azumarill 18-20 10
+  oldrod any magikarp 5-8 70
+  oldrod any lotad 5-8 30
+end
+
+encounters p4a_mossgrove
+  rate grass 28
+  grass morning combee 6-8 20
+  grass morning cherubi 6-8 20
+  grass morning burmy 6-8 20
+  grass morning deerling 7-9 15
+  grass morning tarountula 6-8 15
+  grass morning petilil 7-9 10
+  grass day blipbug 6-8 20
+  grass day gossifleur 6-8 20
+  grass day fomantis 7-9 20
+  grass day nymble 6-8 15
+  grass day deerling 7-9 15
+  grass day burmy 6-8 10
+  grass night foongus 7-9 25
+  grass night tarountula 6-8 20
+  grass night volbeat 7-9 15
+  grass night illumise 7-9 15
+  grass night phantump 7-9 15
+  grass night spinarak 6-8 10
+end
+
+encounters p4a_mossgrove_glade
+  rate grass 20
+  grass morning cherubi 8-10 25
+  grass morning petilil 8-10 25
+  grass morning combee 8-10 20
+  grass morning smoliv 8-10 20
+  grass morning applin 8-10 10
+  grass day smoliv 8-10 25
+  grass day deerling 8-10 25
+  grass day petilil 8-10 20
+  grass day fomantis 8-10 20
+  grass day applin 8-10 10
+  grass night phantump 8-10 30
+  grass night foongus 8-10 30
+  grass night illumise 8-10 15
+  grass night volbeat 8-10 15
+  grass night applin 8-10 10
+end
+
+encounters p4a_root_hollow
+  rate cave 12
+  cave any zubat 9-11 25
+  cave any paras 9-11 20
+  cave any foongus 9-11 15
+  cave any diglett 9-11 15
+  cave any whismur 9-11 10
+  cave any roggenrola 9-11 10
+  cave any phantump 10-11 5
+end

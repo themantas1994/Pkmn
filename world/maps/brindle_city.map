@@ -41,6 +41,8 @@ building center 3 8 -> brindle_center 4 7 up
 building mart 20 8 -> brindle_mart 2 7 up
 building house_blue 3 15 -> brindle_house 3 6 up
 building house_big 21 15 -> brindle_bikeshop 4 7 up
+# Expansion E1: flower shop (The Odd Tree quest).
+building house 21 2 -> p4a_brindle_florist 3 6 up
 sign 11 5 text="BRINDLE CITY POKéMON GYM\nLeader: Hazel\nThe blossoming botanist!"
 sign 15 21 text="BRINDLE CITY\nGreen streets, growing dreams."
 sign 27 10 text="ROUTE 3 - east\nCobblecrest Cave and Port Tidewater beyond."
@@ -57,3 +59,5 @@ npc bc_gardener 7 5 sprite=oldman face=left script=p1_bc_gardener
 npc bc_cyclist 22 13 sprite=cooltrainer_f move=wander text="A Bicycle is twice as fast as running!\pThe bike shop owner down south is giving them away. Lucky us!"
 npc bc_kid 9 20 sprite=kid face=up text="I want an Eevee! The lady in the blue-roof house raises them.\pEevee evolves in so many ways. Fire, Water, Thunder... with stones!"
 npc bc_gym_fan 16 7 sprite=youngster face=left script=p1_bc_gym_fan
+sign 24 5 script=p4a_bc_florist_sign
+tile 24 5 sign

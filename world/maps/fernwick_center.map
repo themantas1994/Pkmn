@@ -25,3 +25,5 @@ warp 4 7 -> fernwick_town 4 6 down
 warp 5 7 -> fernwick_town 4 6 down
 npc nurse 4 2 sprite=nurse face=down script=p1_nurse
 npc c_trainer 7 5 sprite=cooltrainer_m face=left text="Use the PC in the corner to store Pokémon you catch.\pYou can only carry six at once!"
+# Expansion E1: in-game trade (Pidgey -> Rookidee).
+npc p4a_fern_trader 1 4 sprite=pokefan face=right script=p4a_fern_trader
