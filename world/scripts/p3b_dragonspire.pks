@@ -292,7 +292,7 @@ script p3b_ryuga
       say "RYUGA: Magnificent. You and your Pokémon fly as one. Take the Dusk Badge!"
       badge 8
       setflag p3b_badge8
-      say "RYUGA: With it, every Pokémon will obey you, and your journey to the League is open."
+      say "RYUGA: With eight Badges, the road to the Pokémon League lies open before you."
       tm dragonpulse
       giveitem dragoniumz
       say "RYUGA: Dragon Pulse, and a Dragonium Z for your Z-Ring.\pNow listen. My scouts report Team Eclipse marching up Umbral Pass toward Prism Summit, hauling some great lens. I have told the south gate to let you pass."
