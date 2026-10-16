@@ -318,7 +318,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
     /** Party members that should evolve after battle (index -> target species). */
     fun pendingEvolutions(candidates: Collection<Int>, map: MapData?): List<Pair<Int, String>> {
         val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = clock().hour in 17..18, raining = map?.weather == "rain",
-            party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins)
+            party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain")
         return candidates.mapNotNull { i ->
             val m = state.party.getOrNull(i) ?: return@mapNotNull null
             if (m.isFainted) return@mapNotNull null

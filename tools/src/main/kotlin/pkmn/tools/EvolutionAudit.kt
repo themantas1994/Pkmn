@@ -32,6 +32,8 @@ class EvolutionAudit(private val dex: Dex) {
 
     fun audit(sp: SpeciesData, evo: EvolutionData): Result {
         if (dex.speciesOrNull(evo.target) == null) return Result(sp.id, evo, false, emptyList(), "target species '${evo.target}' does not exist")
+        // Shedinja is not chosen by evolutionTarget: GameContext.evolve leaves it behind when Nincada becomes Ninjask.
+        if (sp.id == "nincada" && evo.target == "shedinja") return Result(sp.id, evo, true, listOf("sideEffect:ninjask-evolution", "freePartySlot", "bagItem:pokeball"), null)
         val codes = evo.conditionCode?.split('&').orEmpty()
         val counters = HashMap<String, Int>()
         val locationTags = LinkedHashSet<String>()
@@ -60,19 +62,22 @@ class EvolutionAudit(private val dex: Dex) {
         // Stat spreads for Tyrogue-style Atk/Def comparisons: neutral, Atk-favoured, Def-favoured.
         val spreads = listOf(Nature.HARDY to null, Nature.LONELY to Stat.ATK, Nature.BOLD to Stat.DEF)
         val chosenInstead = sortedSetOf<String>()
+        // Individuals differ by uid (Wurmple's branch, 1-in-100 forms); environments decide Burmy's cloak.
+        for (uid in listOf(0L, 1L)) for (env in listOf("plain", "cave", "indoor"))
         for (night in listOf(false, true)) for (dusk in listOf(false, true)) for (rain in listOf(false, true))
             for (useItem in listOf(null) + listOfNotNull(evo.item)) for (cord in listOf(false, true))
                 for (upside in listOf(false, true)) for ((nature, evStat) in spreads) {
                     val mon = Pokemon(speciesId = sp.id, level = 100, nature = nature, friendship = 255, gender = gender,
-                        heldItem = heldItem, moves = moves.map { MoveSlot(it, 10) }.toMutableList(), counters = HashMap(counters))
+                        heldItem = heldItem, moves = moves.map { MoveSlot(it, 10) }.toMutableList(), counters = HashMap(counters), uid = uid)
                     evStat?.let { mon.evs[it] = 252 }
                     val party = listOf(mon) + partySpecies.map { Pokemon(it, 50) }
                     val ctx = Progression.EvolutionContext(isNight = night, isDusk = dusk, raining = rain, party = party,
-                        usedItem = useItem, linkingCord = cord, locationTags = locationTags, coins = 9999, deviceUpsideDown = upside)
+                        usedItem = useItem, linkingCord = cord, locationTags = locationTags, coins = 9999, deviceUpsideDown = upside, environment = env)
                     val chosen = progression.evolutionTarget(mon, ctx)
                     if (chosen != null && chosen != evo.target) chosenInstead += chosen
                     if (chosen == evo.target) {
                         val req = buildList {
+                            if (uid != 0L) add("individual:uid=$uid"); if (env != "plain") add("environment:$env")
                             if (night) add("night"); if (dusk) add("dusk"); if (rain) add("rain")
                             useItem?.let { add("useItem:$it") }; heldItem?.let { add("holdItem:$it") }
                             if (cord) add("linkingCord"); if (upside) add("deviceUpsideDown")

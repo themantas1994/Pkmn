@@ -183,4 +183,53 @@ class BattleEdgeCaseTest {
         val mc = MoveCtx(b.player.active!!, b.player.active!!, ActiveMove(dex.move("thunderbolt")))
         assertEquals(0.0, b.typeEffectiveness(mc))
     }
+
+    @Test
+    fun `mega sol makes the holder's moves act as in harsh sunlight`() {
+        val b = battle(listOf(mon("meganium", moves = listOf("weatherball", "solarbeam"))), listOf(mon("snorlax", level = 100, moves = listOf("splash"))))
+        val user = b.player.active!!; val target = b.opponent.active!!
+        val plain = dmg(b, user, target, "ember")
+        user.ability = "megasol"
+        assertEquals("sunnyday", b.weatherFor(user))
+        assertTrue(dmg(b, user, target, "ember") > plain)
+        assertNull(b.weatherFor(target))
+    }
+
+    @Test
+    fun `snatch steals a self-targeting status move`() {
+        val b = battle(listOf(mon("absol", moves = listOf("snatch"))), listOf(mon("machamp", moves = listOf("bulkup"))))
+        turn(b, Choice.UseMove(0), Choice.UseMove(0))
+        assertTrue(b.log.any { it.contains("snatched") }, b.log.joinToString("\n"))
+        assertEquals(1, b.player.active!!.boosts[0])
+        assertEquals(0, b.opponent.active!!.boosts[0])
+    }
+
+    @Test
+    fun `sky drop lifts the target, blocks its move, then hits and releases it`() {
+        val b = battle(listOf(mon("aerodactyl", level = 60, moves = listOf("skydrop"))), listOf(mon("machamp", level = 40, moves = listOf("crosschop"))))
+        val champ = b.opponent.active!!; val aero = b.player.active!!
+        turn(b, Choice.UseMove(0), Choice.UseMove(0))
+        assertTrue(champ.hasVolatile("skydropped"))
+        assertEquals(aero.maxHp, aero.hp, "the lifted target cannot attack")
+        val hp = champ.hp
+        turn(b, Choice.UseMove(0), Choice.UseMove(0))
+        assertTrue(champ.hp < hp)
+        assertFalse(champ.hasVolatile("skydropped"))
+        // Too heavy: Snorlax (460 kg) cannot be lifted.
+        val heavy = battle(listOf(mon("aerodactyl", moves = listOf("skydrop"))), listOf(mon("snorlax", moves = listOf("splash"))))
+        turn(heavy, Choice.UseMove(0), Choice.UseMove(0))
+        assertFalse(heavy.opponent.active!!.hasVolatile("skydropped"))
+        assertFalse(heavy.player.active!!.hasVolatile("twoturnmove"))
+    }
+
+    @Test
+    fun `illusion disguises the holder until a damaging hit lands`() {
+        val b = battle(listOf(mon("machamp", moves = listOf("knockoff"))), listOf(mon("zoroark", ability = "illusion", moves = listOf("splash")), mon("blissey")))
+        val zoro = b.opponent.active!!
+        assertEquals("Blissey", zoro.shownName)
+        assertEquals("blissey", (b.events.filterIsInstance<BattleEvent.SwitchIn>().last { it.side == 1 }).speciesId)
+        turn(b, Choice.UseMove(0), Choice.UseMove(0))
+        assertNull(zoro.illusion)
+        assertTrue(b.log.any { it.contains("illusion wore off") })
+    }
 }
