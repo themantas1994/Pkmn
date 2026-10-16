@@ -1,0 +1,11 @@
+{
+  "cellW": 24,
+  "cellH": 8,
+  "order": [
+    "BRN",
+    "PAR",
+    "PSN",
+    "SLP",
+    "FRZ"
+  ]
+}

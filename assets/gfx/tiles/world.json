@@ -1,0 +1,690 @@
+{
+  "tileSize": 16,
+  "columns": 16,
+  "tiles": {
+    "void": {
+      "index": 0,
+      "palette": "dark"
+    },
+    "grass": {
+      "index": 1,
+      "palette": "outdoor"
+    },
+    "grass_alt": {
+      "index": 2,
+      "palette": "outdoor"
+    },
+    "tall_grass": {
+      "index": 3,
+      "palette": "outdoor"
+    },
+    "flowers": {
+      "index": 4,
+      "palette": "flowers",
+      "frames": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "frameMs": 250
+    },
+    "path": {
+      "index": 8,
+      "palette": "path"
+    },
+    "path_edge_n": {
+      "index": 9,
+      "palette": "path"
+    },
+    "path_edge_s": {
+      "index": 10,
+      "palette": "path"
+    },
+    "path_edge_e": {
+      "index": 11,
+      "palette": "path"
+    },
+    "path_edge_w": {
+      "index": 12,
+      "palette": "path"
+    },
+    "path_corner_ne": {
+      "index": 13,
+      "palette": "path"
+    },
+    "path_corner_nw": {
+      "index": 14,
+      "palette": "path"
+    },
+    "path_corner_se": {
+      "index": 15,
+      "palette": "path"
+    },
+    "path_corner_sw": {
+      "index": 16,
+      "palette": "path"
+    },
+    "sand": {
+      "index": 17,
+      "palette": "sand"
+    },
+    "town_floor": {
+      "index": 18,
+      "palette": "town"
+    },
+    "tree": {
+      "index": 19,
+      "palette": "outdoor"
+    },
+    "tree_top": {
+      "index": 20,
+      "palette": "outdoor"
+    },
+    "tree_bottom": {
+      "index": 21,
+      "palette": "outdoor"
+    },
+    "bush": {
+      "index": 22,
+      "palette": "outdoor"
+    },
+    "cut_tree": {
+      "index": 23,
+      "palette": "outdoor"
+    },
+    "rock": {
+      "index": 24,
+      "palette": "rocky"
+    },
+    "boulder": {
+      "index": 25,
+      "palette": "rocky"
+    },
+    "ledge_s": {
+      "index": 26,
+      "palette": "outdoor"
+    },
+    "ledge_e": {
+      "index": 27,
+      "palette": "outdoor"
+    },
+    "ledge_w": {
+      "index": 28,
+      "palette": "outdoor"
+    },
+    "fence_h": {
+      "index": 29,
+      "palette": "fence"
+    },
+    "fence_v": {
+      "index": 30,
+      "palette": "fence"
+    },
+    "sign": {
+      "index": 31,
+      "palette": "fence"
+    },
+    "water": {
+      "index": 32,
+      "palette": "water",
+      "frames": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "frameMs": 250
+    },
+    "water_n": {
+      "index": 36,
+      "palette": "water",
+      "frames": [
+        36,
+        37,
+        38,
+        39
+      ],
+      "frameMs": 250
+    },
+    "water_s": {
+      "index": 40,
+      "palette": "water",
+      "frames": [
+        40,
+        41,
+        42,
+        43
+      ],
+      "frameMs": 250
+    },
+    "water_e": {
+      "index": 44,
+      "palette": "water",
+      "frames": [
+        44,
+        45,
+        46,
+        47
+      ],
+      "frameMs": 250
+    },
+    "water_w": {
+      "index": 48,
+      "palette": "water",
+      "frames": [
+        48,
+        49,
+        50,
+        51
+      ],
+      "frameMs": 250
+    },
+    "water_ne": {
+      "index": 52,
+      "palette": "water",
+      "frames": [
+        52,
+        53,
+        54,
+        55
+      ],
+      "frameMs": 250
+    },
+    "water_nw": {
+      "index": 56,
+      "palette": "water",
+      "frames": [
+        56,
+        57,
+        58,
+        59
+      ],
+      "frameMs": 250
+    },
+    "water_se": {
+      "index": 60,
+      "palette": "water",
+      "frames": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "frameMs": 250
+    },
+    "water_sw": {
+      "index": 64,
+      "palette": "water",
+      "frames": [
+        64,
+        65,
+        66,
+        67
+      ],
+      "frameMs": 250
+    },
+    "water_ine": {
+      "index": 68,
+      "palette": "water",
+      "frames": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "frameMs": 250
+    },
+    "water_inw": {
+      "index": 72,
+      "palette": "water",
+      "frames": [
+        72,
+        73,
+        74,
+        75
+      ],
+      "frameMs": 250
+    },
+    "water_ise": {
+      "index": 76,
+      "palette": "water",
+      "frames": [
+        76,
+        77,
+        78,
+        79
+      ],
+      "frameMs": 250
+    },
+    "water_isw": {
+      "index": 80,
+      "palette": "water",
+      "frames": [
+        80,
+        81,
+        82,
+        83
+      ],
+      "frameMs": 250
+    },
+    "waterfall": {
+      "index": 84,
+      "palette": "waterfall",
+      "frames": [
+        84,
+        85,
+        86,
+        87
+      ],
+      "frameMs": 250
+    },
+    "bridge_h": {
+      "index": 88,
+      "palette": "bridge"
+    },
+    "bridge_v": {
+      "index": 89,
+      "palette": "bridge"
+    },
+    "stairs_up": {
+      "index": 90,
+      "palette": "mountain"
+    },
+    "stairs_down": {
+      "index": 91,
+      "palette": "mountain"
+    },
+    "cave_entrance": {
+      "index": 92,
+      "palette": "mountain"
+    },
+    "mountain_wall": {
+      "index": 93,
+      "palette": "mountain"
+    },
+    "mountain_top": {
+      "index": 94,
+      "palette": "mountain"
+    },
+    "snow": {
+      "index": 95,
+      "palette": "snow"
+    },
+    "ice": {
+      "index": 96,
+      "palette": "ice"
+    },
+    "roof_l": {
+      "index": 97,
+      "palette": "roof_red"
+    },
+    "roof_m": {
+      "index": 98,
+      "palette": "roof_red"
+    },
+    "roof_r": {
+      "index": 99,
+      "palette": "roof_red"
+    },
+    "roof_l_top": {
+      "index": 100,
+      "palette": "roof_red"
+    },
+    "roof_m_top": {
+      "index": 101,
+      "palette": "roof_red"
+    },
+    "roof_r_top": {
+      "index": 102,
+      "palette": "roof_red"
+    },
+    "roof2_l": {
+      "index": 103,
+      "palette": "roof_blue"
+    },
+    "roof2_m": {
+      "index": 104,
+      "palette": "roof_blue"
+    },
+    "roof2_r": {
+      "index": 105,
+      "palette": "roof_blue"
+    },
+    "roof2_l_top": {
+      "index": 106,
+      "palette": "roof_blue"
+    },
+    "roof2_m_top": {
+      "index": 107,
+      "palette": "roof_blue"
+    },
+    "roof2_r_top": {
+      "index": 108,
+      "palette": "roof_blue"
+    },
+    "center_roof_l": {
+      "index": 109,
+      "palette": "roof_center"
+    },
+    "center_roof_m": {
+      "index": 110,
+      "palette": "roof_center"
+    },
+    "center_roof_r": {
+      "index": 111,
+      "palette": "roof_center"
+    },
+    "center_roof_l_top": {
+      "index": 112,
+      "palette": "roof_center"
+    },
+    "center_roof_m_top": {
+      "index": 113,
+      "palette": "roof_center"
+    },
+    "center_roof_r_top": {
+      "index": 114,
+      "palette": "roof_center"
+    },
+    "mart_roof_l": {
+      "index": 115,
+      "palette": "roof_blue"
+    },
+    "mart_roof_m": {
+      "index": 116,
+      "palette": "roof_blue"
+    },
+    "mart_roof_r": {
+      "index": 117,
+      "palette": "roof_blue"
+    },
+    "mart_roof_l_top": {
+      "index": 118,
+      "palette": "roof_blue"
+    },
+    "mart_roof_m_top": {
+      "index": 119,
+      "palette": "roof_blue"
+    },
+    "mart_roof_r_top": {
+      "index": 120,
+      "palette": "roof_blue"
+    },
+    "gym_roof_l": {
+      "index": 121,
+      "palette": "roof_gym"
+    },
+    "gym_roof_m": {
+      "index": 122,
+      "palette": "roof_gym"
+    },
+    "gym_roof_r": {
+      "index": 123,
+      "palette": "roof_gym"
+    },
+    "gym_roof_l_top": {
+      "index": 124,
+      "palette": "roof_gym"
+    },
+    "gym_roof_m_top": {
+      "index": 125,
+      "palette": "roof_gym"
+    },
+    "gym_roof_r_top": {
+      "index": 126,
+      "palette": "roof_gym"
+    },
+    "wall_l": {
+      "index": 127,
+      "palette": "wall"
+    },
+    "wall_m": {
+      "index": 128,
+      "palette": "wall"
+    },
+    "wall_r": {
+      "index": 129,
+      "palette": "wall"
+    },
+    "wall_window": {
+      "index": 130,
+      "palette": "wall_window"
+    },
+    "door": {
+      "index": 131,
+      "palette": "door"
+    },
+    "center_sign": {
+      "index": 132,
+      "palette": "sign_center"
+    },
+    "center_wall_l": {
+      "index": 133,
+      "palette": "wall"
+    },
+    "center_wall_m": {
+      "index": 134,
+      "palette": "wall"
+    },
+    "center_wall_r": {
+      "index": 135,
+      "palette": "wall"
+    },
+    "center_door": {
+      "index": 136,
+      "palette": "glass_door"
+    },
+    "mart_sign": {
+      "index": 137,
+      "palette": "sign_mart"
+    },
+    "mart_wall_l": {
+      "index": 138,
+      "palette": "wall"
+    },
+    "mart_wall_m": {
+      "index": 139,
+      "palette": "wall"
+    },
+    "mart_wall_r": {
+      "index": 140,
+      "palette": "wall"
+    },
+    "mart_door": {
+      "index": 141,
+      "palette": "glass_door"
+    },
+    "gym_sign": {
+      "index": 142,
+      "palette": "sign_gym"
+    },
+    "gym_wall_l": {
+      "index": 143,
+      "palette": "gym_wall"
+    },
+    "gym_wall_m": {
+      "index": 144,
+      "palette": "gym_wall"
+    },
+    "gym_wall_r": {
+      "index": 145,
+      "palette": "gym_wall"
+    },
+    "gym_window": {
+      "index": 146,
+      "palette": "gym_wall"
+    },
+    "gym_door": {
+      "index": 147,
+      "palette": "glass_door"
+    },
+    "floor_wood": {
+      "index": 148,
+      "palette": "floor_wood"
+    },
+    "floor_tile": {
+      "index": 149,
+      "palette": "floor_tile"
+    },
+    "floor_carpet": {
+      "index": 150,
+      "palette": "carpet"
+    },
+    "wall_in": {
+      "index": 151,
+      "palette": "wall_in"
+    },
+    "wall_in_top": {
+      "index": 152,
+      "palette": "wall_in"
+    },
+    "window_in": {
+      "index": 153,
+      "palette": "window_in"
+    },
+    "counter": {
+      "index": 154,
+      "palette": "furniture"
+    },
+    "pc": {
+      "index": 155,
+      "palette": "tech"
+    },
+    "bookshelf": {
+      "index": 156,
+      "palette": "furniture"
+    },
+    "table": {
+      "index": 157,
+      "palette": "furniture"
+    },
+    "chair": {
+      "index": 158,
+      "palette": "furniture"
+    },
+    "bed_top": {
+      "index": 159,
+      "palette": "bed"
+    },
+    "bed_bottom": {
+      "index": 160,
+      "palette": "bed"
+    },
+    "plant": {
+      "index": 161,
+      "palette": "plant"
+    },
+    "tv": {
+      "index": 162,
+      "palette": "tv"
+    },
+    "rug_l": {
+      "index": 163,
+      "palette": "rug"
+    },
+    "rug_r": {
+      "index": 164,
+      "palette": "rug"
+    },
+    "rug_mat": {
+      "index": 165,
+      "palette": "rug"
+    },
+    "stairs_in_up": {
+      "index": 166,
+      "palette": "floor_wood"
+    },
+    "stairs_in_down": {
+      "index": 167,
+      "palette": "floor_wood"
+    },
+    "healing_machine": {
+      "index": 168,
+      "palette": "heal"
+    },
+    "mart_shelf": {
+      "index": 169,
+      "palette": "mart_shelf"
+    },
+    "cave_floor": {
+      "index": 170,
+      "palette": "cave"
+    },
+    "cave_wall": {
+      "index": 171,
+      "palette": "cave"
+    },
+    "cave_wall_top": {
+      "index": 172,
+      "palette": "cave"
+    },
+    "cave_rock": {
+      "index": 173,
+      "palette": "cave"
+    },
+    "cave_ladder": {
+      "index": 174,
+      "palette": "cave"
+    },
+    "cave_water": {
+      "index": 175,
+      "palette": "cave_water",
+      "frames": [
+        175,
+        176,
+        177,
+        178
+      ],
+      "frameMs": 250
+    },
+    "gym_floor": {
+      "index": 179,
+      "palette": "gym"
+    },
+    "gym_statue": {
+      "index": 180,
+      "palette": "gym"
+    },
+    "puzzle_switch": {
+      "index": 181,
+      "palette": "puzzle"
+    },
+    "puzzle_wall": {
+      "index": 182,
+      "palette": "puzzle"
+    },
+    "spinner_up": {
+      "index": 183,
+      "palette": "puzzle"
+    },
+    "spinner_down": {
+      "index": 184,
+      "palette": "puzzle"
+    },
+    "spinner_left": {
+      "index": 185,
+      "palette": "puzzle"
+    },
+    "spinner_right": {
+      "index": 186,
+      "palette": "puzzle"
+    },
+    "ruins_floor": {
+      "index": 187,
+      "palette": "ruins"
+    },
+    "ruins_wall": {
+      "index": 188,
+      "palette": "ruins"
+    },
+    "league_floor": {
+      "index": 189,
+      "palette": "league"
+    },
+    "dark_floor": {
+      "index": 190,
+      "palette": "dark"
+    }
+  }
+}

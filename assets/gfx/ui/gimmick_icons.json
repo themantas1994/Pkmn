@@ -1,0 +1,10 @@
+{
+  "cellW": 16,
+  "cellH": 16,
+  "order": [
+    "mega",
+    "zmove",
+    "dynamax",
+    "tera"
+  ]
+}

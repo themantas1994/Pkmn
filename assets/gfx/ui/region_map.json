@@ -1,0 +1,434 @@
+{
+  "cellSize": 8,
+  "cols": 32,
+  "rows": 28,
+  "towns": [
+    {
+      "id": "lumen",
+      "name": "Lumen Town",
+      "kind": "town",
+      "cell": [
+        12,
+        23
+      ],
+      "pixel": [
+        100,
+        188
+      ]
+    },
+    {
+      "id": "quartzford",
+      "name": "Quartzford",
+      "kind": "town",
+      "cell": [
+        12,
+        19
+      ],
+      "pixel": [
+        100,
+        156
+      ]
+    },
+    {
+      "id": "mica",
+      "name": "Mica City",
+      "kind": "city",
+      "cell": [
+        5,
+        19
+      ],
+      "pixel": [
+        44,
+        156
+      ]
+    },
+    {
+      "id": "feldspar",
+      "name": "Feldspar Town",
+      "kind": "town",
+      "cell": [
+        12,
+        16
+      ],
+      "pixel": [
+        100,
+        132
+      ]
+    },
+    {
+      "id": "prism",
+      "name": "Prism City",
+      "kind": "city",
+      "cell": [
+        12,
+        11
+      ],
+      "pixel": [
+        100,
+        92
+      ]
+    },
+    {
+      "id": "basalt",
+      "name": "Basalt Town",
+      "kind": "town",
+      "cell": [
+        4,
+        11
+      ],
+      "pixel": [
+        36,
+        92
+      ]
+    },
+    {
+      "id": "garnet",
+      "name": "Garnet Port",
+      "kind": "city",
+      "cell": [
+        5,
+        15
+      ],
+      "pixel": [
+        44,
+        124
+      ]
+    },
+    {
+      "id": "opaline",
+      "name": "Opaline City",
+      "kind": "city",
+      "cell": [
+        26,
+        14
+      ],
+      "pixel": [
+        212,
+        116
+      ]
+    },
+    {
+      "id": "jasper",
+      "name": "Jasper City",
+      "kind": "city",
+      "cell": [
+        25,
+        9
+      ],
+      "pixel": [
+        204,
+        76
+      ]
+    },
+    {
+      "id": "selenite",
+      "name": "Selenite Village",
+      "kind": "town",
+      "cell": [
+        19,
+        9
+      ],
+      "pixel": [
+        156,
+        76
+      ]
+    },
+    {
+      "id": "cobalt",
+      "name": "Cobalt City",
+      "kind": "city",
+      "cell": [
+        16,
+        6
+      ],
+      "pixel": [
+        132,
+        52
+      ]
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian Town",
+      "kind": "town",
+      "cell": [
+        12,
+        6
+      ],
+      "pixel": [
+        100,
+        52
+      ]
+    },
+    {
+      "id": "beryl",
+      "name": "Beryl Isle",
+      "kind": "town",
+      "cell": [
+        26,
+        24
+      ],
+      "pixel": [
+        212,
+        196
+      ]
+    },
+    {
+      "id": "zenith",
+      "name": "Zenith Plateau",
+      "kind": "league",
+      "cell": [
+        16,
+        2
+      ],
+      "pixel": [
+        132,
+        20
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "id": "route_1",
+      "path": [
+        [
+          12,
+          23
+        ],
+        [
+          12,
+          19
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_2",
+      "path": [
+        [
+          12,
+          19
+        ],
+        [
+          5,
+          19
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_3",
+      "path": [
+        [
+          12,
+          19
+        ],
+        [
+          12,
+          16
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_4",
+      "path": [
+        [
+          5,
+          19
+        ],
+        [
+          5,
+          16
+        ],
+        [
+          5,
+          15
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_5",
+      "path": [
+        [
+          5,
+          15
+        ],
+        [
+          4,
+          15
+        ],
+        [
+          4,
+          11
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_6",
+      "path": [
+        [
+          12,
+          16
+        ],
+        [
+          12,
+          11
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_7",
+      "path": [
+        [
+          4,
+          11
+        ],
+        [
+          12,
+          11
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_8",
+      "path": [
+        [
+          12,
+          16
+        ],
+        [
+          25,
+          16
+        ],
+        [
+          26,
+          16
+        ],
+        [
+          26,
+          14
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_9",
+      "path": [
+        [
+          26,
+          14
+        ],
+        [
+          26,
+          9
+        ],
+        [
+          25,
+          9
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_10",
+      "path": [
+        [
+          25,
+          9
+        ],
+        [
+          19,
+          9
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_11",
+      "path": [
+        [
+          19,
+          9
+        ],
+        [
+          19,
+          6
+        ],
+        [
+          16,
+          6
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_12",
+      "path": [
+        [
+          12,
+          11
+        ],
+        [
+          12,
+          6
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_13",
+      "path": [
+        [
+          12,
+          6
+        ],
+        [
+          16,
+          6
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "victory_road",
+      "path": [
+        [
+          16,
+          6
+        ],
+        [
+          16,
+          2
+        ]
+      ],
+      "sea": false
+    },
+    {
+      "id": "route_14",
+      "path": [
+        [
+          12,
+          23
+        ],
+        [
+          12,
+          24
+        ],
+        [
+          26,
+          24
+        ]
+      ],
+      "sea": true
+    }
+  ],
+  "legend": {
+    "town": "red square",
+    "city": "orange square",
+    "league": "purple square"
+  }
+}

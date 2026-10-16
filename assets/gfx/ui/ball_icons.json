@@ -1,0 +1,10 @@
+{
+  "cellW": 8,
+  "cellH": 8,
+  "order": [
+    "full",
+    "empty",
+    "fainted",
+    "status"
+  ]
+}
