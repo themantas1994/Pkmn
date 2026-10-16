@@ -318,14 +318,20 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return msgs
     }
 
-    /** Party members that should evolve after battle (index -> target species). */
-    fun pendingEvolutions(candidates: Collection<Int>, map: MapData?): List<Pair<Int, String>> {
+    /**
+     * Party members that should evolve (index -> target species): after battle, or with [spun] after the player spins
+     * on the spot, in which case only spin evolutions (Milcery) are considered.
+     */
+    fun pendingEvolutions(candidates: Collection<Int>, map: MapData?, spun: Boolean = false): List<Pair<Int, String>> {
         val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = clock().hour in 17..18, raining = map?.weather == "rain",
-            party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain")
+            party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain",
+            spun = spun)
         return candidates.mapNotNull { i ->
             val m = state.party.getOrNull(i) ?: return@mapNotNull null
             if (m.isFainted) return@mapNotNull null
-            progression.evolutionTarget(m, ctx)?.let { i to it }
+            val target = progression.evolutionTarget(m, ctx) ?: return@mapNotNull null
+            if (spun && m.species(dex).evolutions.none { it.target == target && it.conditionCode?.split('&')?.contains("spin") == true }) return@mapNotNull null
+            i to target
         }
     }
 

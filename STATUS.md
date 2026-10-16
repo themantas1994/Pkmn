@@ -73,10 +73,10 @@ These runs found and fixed several real bugs:
 
 From `./gradlew :tools:validateContent`; details in [reports/COVERAGE.md](reports/COVERAGE.md).
 
-**Validation:** 0 errors, 16 warnings. All warnings are evolutions that cannot happen in this game:
+**Validation:** 0 errors, 15 warnings. All warnings are evolutions that cannot happen in this game:
 - **12 region-locked forms:** Alolan, Galarian and Hisuian evolutions, by design, since the game is set in Tessera.
 - **Event-only:** Vivillon Fancy Pattern.
-- **No in-game input:** Alcremie (spinning) and Kubfu's two tower evolutions.
+- **No in-game input:** Kubfu's two tower evolutions (Kubfu is not obtainable in this campaign).
 
 **Moves (951):**
 - 517 data-driven.
@@ -142,7 +142,7 @@ That is below the ~30 h target. Three expansion passes, one per third of the gam
 - **Pokémon sprites are placeholders.** Official sprites are only available through the local import path. Trainer, overworld and UI art is original and complete.
 - **Singles only:** no double battles.
 - **Playtime is below target.** See the Playtime section.
-- **Missing evolution methods:** Alcremie, Kubfu/Urshifu and Vivillon Fancy cannot evolve in-game, and regional-variant evolutions are disabled by design.
+- **Missing evolution methods:** Kubfu/Urshifu (not obtainable) and Vivillon Fancy (event-only) cannot evolve in-game, and regional-variant evolutions are disabled by design. Milcery evolves by spinning on the spot while it holds a Sweet.
 - **Necrozma fusion is simplified.** The engine has no N-Solarizer/N-Lunarizer fusion. The post-game "Prism Pedestal" swaps a Necrozma for a fresh level-75 Dusk Mane or Dawn Wings, so the player's own Necrozma (level, EVs) is replaced.
 - **Static checks are optimistic.** The progression checker assumes story gates open once their flags are set. It proves nothing is unreachable, but it does not prove every scripted gate opens.
 - **Automated play coverage is limited.** It covers the opening hour of the game and every menu. Later areas are covered by the script and battle tests and by the progression checker, not by full playthroughs.
