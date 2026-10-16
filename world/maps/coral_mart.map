@@ -23,5 +23,5 @@ end
 warp 2 7 -> coral_town 12 8 down
 warp 3 7 -> coral_town 12 8 down
 npc clerk 1 2 sprite=clerk face=down script=p3c_coral_clerk
-npc clerk2 1 4 sprite=clerk face=right script=p3c_coral_clerk2
+npc clerk2 8 2 sprite=clerk face=down script=p3c_coral_clerk2
 npc cm_shopper 7 6 sprite=pokefan face=up text="Dusk Balls at night, Net Balls on the water, Timer Balls when a legend just won't stay put!"
