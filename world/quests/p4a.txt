@@ -33,3 +33,14 @@ quest p4a_inky_trade "Deckhand Wanted"
   desc "A sailor in Port Tidewater wants a Machop and offers his Clobbopus, Inky."
   step "Bring a Machop to the sailor in Port Tidewater."
 end
+
+# ---- Leg 3
+quest p4a_machine_part "Power to the Ridge"
+  desc "Engineer Watts of Ridge Station dropped a Machine Part in Glimmer Cave."
+  step "Find the Machine Part in dark Glimmer Cave, north of Route 6, and return it to Ridge Station."
+end
+
+quest p4a_zappy_trade "Run, Zappy, Run"
+  desc "A trainer in Voltara's Pokémon Center wants an Electrike for her Blitzle, Zappy."
+  step "Bring an Electrike to the trader in Voltara City's Pokémon Center."
+end

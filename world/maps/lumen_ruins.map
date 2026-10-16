@@ -50,3 +50,7 @@ item fullheal 2 2 fullheal
 item escaperope 13 1 escaperope
 hidden stardust 3 13 stardust
 hidden moonstone 18 17 moonstone
+# Expansion E1: a hidden stair to the Lumen Catacombs appears once the sealed door opens.
+tile 18 16 ruins_wall
+tileif p2_lumen_door 18 16 stairs_down
+warp 18 16 -> p4a_lumen_catacombs 12 13 up

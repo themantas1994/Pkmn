@@ -53,3 +53,13 @@ item waterstone 19 18 waterstone
 item repel 37 20 superrepel
 hidden nugget 34 2 nugget
 hidden rarecandy 2 21 rarecandy
+# Expansion E1: Glimmer Cave entrance, more trainers, Dot the rematch kid.
+tile 5 0 mountain_wall
+tile 6 0 cave_entrance
+tile 7 0 mountain_wall
+warp 6 0 -> p4a_glimmer_cave_1f 14 20 up
+tile 8 1 sign
+sign 8 1 script=p4a_r6_cave_sign
+trainer p4a_r6_hiker_gord 21 4 sprite=hiker face=right sight=4
+trainer p4a_r6_cooltrainer_lena 28 16 sprite=cooltrainer_f face=right sight=4
+npc p4a_dot 37 13 sprite=lass face=left script=p4a_dot

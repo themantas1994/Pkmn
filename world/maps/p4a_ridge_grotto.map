@@ -1,0 +1,28 @@
+# Sparkstone Grotto (Expansion E1): hidden grotto behind a cracked rock on Solar Ridge. Charged crystals.
+map p4a_ridge_grotto
+name "Sparkstone Grotto"
+location "Solar Ridge"
+music cave
+environment cave
+region 20 14
+encounters p4a_ridge_grotto
+
+layout
+WWWWWWWWWWWWWW
+WffkffWWffffkW
+WffffffffffffW
+WkffWWffffWffW
+WffffWWfkfffWW
+WWffffffffffWW
+WffkffffWWffWW
+WfffffffWWfffW
+WWWWWWWfWWWWWW
+WWWWWWWEWWWWWW
+end
+
+warp 7 9 -> p4a_solar_ridge 17 2 down
+tile 9 0 sign
+sign 9 0 script=p4a_rg_crystal
+item p4a_rg_seed 12 7 electricseed
+item p4a_rg_full 1 1 fullrestore
+hidden p4a_rg_comet 12 2 cometshard

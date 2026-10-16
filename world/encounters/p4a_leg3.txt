@@ -1,0 +1,85 @@
+# Expansion E1, leg 3 wild encounters. Glimmer Cave 19-24 (dark crystal cave), Lumen Catacombs 18-22,
+# Solar Ridge 19-23 (Electric plateau), Sparkstone Grotto 21-24.
+
+encounters p4a_glimmer_cave
+  rate cave 14
+  cave any zubat 19-22 25
+  cave any carbink 20-22 15
+  cave any roggenrola 19-22 15
+  cave any chingling 19-21 15
+  cave any tynamo 19-21 10
+  cave any klink 20-22 10
+  cave any sableye 21-23 5
+  cave any minior 21-23 5
+  rocksmash any roggenrola 19-22 50
+  rocksmash any carbink 20-22 30
+  rocksmash any nosepass 20-22 20
+end
+
+encounters p4a_glimmer_cave_b1f
+  rate cave 15
+  cave any golbat 21-24 20
+  cave any carbink 21-23 15
+  cave any boldore 21-24 15
+  cave any klink 21-23 15
+  cave any tynamo 21-23 10
+  cave any chingling 21-23 10
+  cave any sableye 22-24 10
+  cave any beldum 22-24 5
+  surf any chinchou 22-26 50
+  surf any barboach 22-26 30
+  surf any lanturn 25-27 20
+  oldrod any magikarp 15-20 60
+  oldrod any chinchou 15-20 40
+  goodrod any chinchou 20-24 60
+  goodrod any barboach 20-24 40
+end
+
+encounters p4a_lumen_catacombs
+  rate cave 12
+  cave any unown 18-21 35
+  cave any gothita 18-21 15
+  cave any munna 18-21 15
+  cave any sinistea 18-21 10
+  cave any solosis 18-21 10
+  cave any espurr 18-21 10
+  cave any abra 18-20 5
+end
+
+encounters p4a_solar_ridge
+  rate grass 25
+  grass morning mareep 19-22 25
+  grass morning plusle 19-22 20
+  grass morning minun 19-22 20
+  grass morning yamper 19-22 20
+  grass morning pawmi 19-21 15
+  grass day mareep 19-22 20
+  grass day blitzle 19-22 20
+  grass day helioptile 19-22 20
+  grass day pawmi 19-21 15
+  grass day plusle 19-22 10
+  grass day minun 19-22 10
+  grass day tadbulb 19-22 5
+  grass night tadbulb 19-22 25
+  grass night yamper 19-22 20
+  grass night murkrow 19-22 20
+  grass night wattrel 19-22 20
+  grass night mareep 19-22 15
+  surf any chinchou 22-26 40
+  surf any goldeen 22-26 35
+  surf any lanturn 25-27 25
+  oldrod any magikarp 15-20 60
+  oldrod any tympole 15-20 40
+  goodrod any chinchou 20-24 40
+  goodrod any goldeen 20-24 30
+  goodrod any tympole 20-24 30
+end
+
+encounters p4a_ridge_grotto
+  rate cave 10
+  cave any roggenrola 21-24 30
+  cave any nosepass 21-24 25
+  cave any togedemaru 21-24 20
+  cave any carbink 22-24 15
+  cave any minior 22-24 10
+end

@@ -1,0 +1,27 @@
+# Ridge Station (Expansion E1): Voltara's solar relay station. Engineer Watts lost a Machine Part in Glimmer Cave.
+map p4a_ridge_station
+name "Ridge Station"
+location "Solar Ridge"
+music town_city
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^
+@w@@PPPP@@w@
+oooooooooooo
+oKKoooooooKK
+oooooooooooo
+oooocccooooo
+oooooooooooo
+ooooRRoooooo
+end
+
+legend
+o floor_tile
+end
+
+warp 4 7 -> p4a_solar_ridge 28 5 down
+warp 5 7 -> p4a_solar_ridge 28 5 down
+npc p4a_engineer 5 4 sprite=scientist face=down script=p4a_engineer
+npc p4a_station_worker 9 2 sprite=hiker face=left script=p4a_station_worker

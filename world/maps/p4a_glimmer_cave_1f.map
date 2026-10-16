@@ -1,0 +1,56 @@
+# Glimmer Cave 1F (Expansion E1): optional dark crystal cave north of Route 6. Flash lights it up; Rock Smash
+# opens side pockets. A Voltara engineer's lost Machine Part is somewhere on B1F.
+map p4a_glimmer_cave_1f
+name "Glimmer Cave"
+location "Glimmer Cave"
+music cave
+environment cave
+dark
+region 19 16
+encounters p4a_glimmer_cave
+
+layout
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WffffkffWWWWffffffWWWfffffLffW
+WfffffffWWWWffkfffWWWffffffffW
+WffkffffffffffffffWWWffkffWWWW
+WfffffWWWWWWfffffffffffffWWWWW
+WWWWWWWWWWWWWfffkffWWWfffWWWWW
+WffffffWWkkWWffffffWWWfffffffW
+WffffffWWffffffkfffffffffkfffW
+WfkfffffffffWWWWWfffffWWWWfffW
+WffffWWWfffffWWWWfffffWWffffWW
+WWWfWWWWWfffffWWfffkfffffffWWW
+WfffffWWWWffffffffffWWWWffffWW
+WfffkfWWWWWWfffffffWWWWWfkffWW
+WfffffWWWWWWWffkffffffffffffWW
+WWWWWWWWWWWWWfffffWWWWfffffWWW
+WfffffffffffWWffffWWfffffffffW
+WffkffffkfffWWfffffffffWWWfWWW
+WffffWWWWfffffffffffffffWWffWW
+WWWWWWWWWWWWfffffffWWWWWWWWWWW
+WWWWWWWWWWWWWffffffWWWWWWWWWWW
+WWWWWWWWWWWWWWfWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWEWWWWWWWWWWWWWWW
+end
+
+warp 14 21 -> route6 6 1 down
+warp 26 1 -> p4a_glimmer_cave_b1f 2 2 down
+obstacle 3 10 smash flag=p4a_gc_smash1
+obstacle 8 3 smash flag=p4a_gc_smash2
+obstacle 26 16 smash flag=p4a_gc_smash3
+tile 15 18 sign
+sign 15 18 script=p4a_gc_sign
+
+trainer p4a_gc_hiker_basil 15 15 sprite=hiker face=up sight=3
+trainer p4a_gc_psychic_vera 20 7 sprite=psychic face=left sight=4
+trainer p4a_gc_scientist_ohm 13 3 sprite=scientist face=down sight=3
+trainer p4a_gc_hiker_flint 24 11 sprite=hiker face=down sight=3
+trainer p4a_gc_blackbelt_ryo 2 15 sprite=blackbelt face=right sight=4
+
+item p4a_gc_rope 1 1 escaperope
+item p4a_gc_moon 2 12 moonstone
+item p4a_gc_hyper 28 6 hyperpotion
+item p4a_gc_thunder 26 17 thunderstone
+hidden p4a_gc_shard 15 2 starpiece
+hidden p4a_gc_ether 9 7 ether

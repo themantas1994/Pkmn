@@ -1,0 +1,54 @@
+# Solar Ridge (Expansion E1): optional plateau north of Voltara City. Solar panel fields, a reservoir for
+# fishing, the Ridge Station (Machine Part quest) and a crystal grotto behind a cracked rock (Rock Smash).
+map p4a_solar_ridge
+name "Solar Ridge"
+location "Solar Ridge"
+music route_mid
+environment grass
+region 20 14
+encounters p4a_solar_ridge
+connect south voltara_city 0
+
+layout
+TTTTTTTTTTTTMMMMMMMMMMMMTTTTTTTTTTTT
+TT,,,,......MMMMMEMMMMMM.....,,,,TTT
+TT,,,,..................rr...,,,,TTT
+TT.....======..======.........,,,TTT
+TT..........................,,,,,.TT
+TT.....======..======..........,,.TT
+TT,,,,..........................rrTT
+TT,,,,...======..======...........TT
+TT...............::...............TT
+TTTTTT.......~~~~::......,,,,,,..TTT
+TT...........~~~~::.....,,,,,,...TTT
+TT,,,,.......~~~~::.....,,,,,,...TTT
+TT,,,,........~~~::.............TTTT
+TT,,,,...........::.............TTTT
+TTTTT......,,,,,.::..,,,,,......TTTT
+TT.........,,,,,.::..,,,,,....rr.TTT
+TT..TT.....,,,,,.::..,,,,,.......TTT
+TT..TT...........::..............TTT
+TT...............::...........F..TTT
+TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
+end
+
+building house_big 25 2 -> p4a_ridge_station 5 7 up
+warp 17 1 -> p4a_ridge_grotto 7 8 up
+obstacle 17 2 smash flag=p4a_sr_smash
+tile 19 18 sign
+sign 19 18 script=p4a_sr_sign
+
+trainer p4a_sr_scientist_volt 8 4 sprite=scientist face=right sight=5
+trainer p4a_sr_cooltrainer_dex 30 6 sprite=cooltrainer_m face=left sight=5
+trainer p4a_sr_hiker_crag 6 2 sprite=hiker face=left sight=3
+trainer p4a_sr_lass_juno 7 12 sprite=lass face=left sight=4
+trainer p4a_sr_youngster_pete 26 15 sprite=youngster face=left sight=4
+trainer p4a_sr_beauty_selene 23 10 sprite=beauty face=right sight=5
+trainer p4a_sr_fisher_watt 16 13 sprite=fisherman face=up sight=1
+
+item p4a_sr_cell 33 5 cellbattery
+item p4a_sr_ultra 2 13 ultraball
+item p4a_sr_tm 32 18 tm:shockwave
+hidden p4a_sr_nugget 3 17 nugget
+hidden p4a_sr_thunder 32 16 thunderstone
