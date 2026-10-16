@@ -1,0 +1,20 @@
+map p4b_ashfall_glass
+name "Glass Workshop"
+location "Ashfall City"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@wKK@Bw@
+________
+_cc__tt_
+_____hh_
+p__RR__p
+end
+
+warp 3 5 -> ashfall_city 11 19 down
+warp 4 5 -> ashfall_city 11 19 down
+npc p4b_vitra 2 2 sprite=beauty face=down script=p4b_vitra
+npc p4b_glass_kid 6 2 sprite=kid face=left script=p4b_glass_kid

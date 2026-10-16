@@ -36,3 +36,19 @@ quest p4b_lost_poppy "Lost in the Mist"
   step "Find Poppy in Mistwood."
   step "Let Mrs. Rowan in Seraphine Town know that Poppy is safe."
 end
+
+# --- Leg 6: Route 9, Ashfall City ---
+quest p4b_ember_escort "Burned and Stranded"
+  desc "A hiker was burned by a Slugma deep in Cinder Hollow and can't climb out."
+  step "Bring the hiker in Cinder Hollow B1F a Burn Heal."
+end
+
+quest p4b_trial_by_fire "Trial by Fire"
+  desc "Master Kaen, Blaise's old teacher, battles only trainers who beat his three students."
+  step "Defeat Brand, Blaze and Coal on the Ashen Trail, then Master Kaen in the Obsidian Grotto."
+end
+
+quest p4b_glass_furnace "The Glassblower's Furnace"
+  desc "Vitra the glassblower in Ashfall City needs a Heat Rock to even out her furnace."
+  step "Bring a Heat Rock to Vitra's glass workshop in Ashfall City."
+end

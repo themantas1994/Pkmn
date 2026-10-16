@@ -1,0 +1,50 @@
+# Cinder Hollow B1F — dark magma tunnels. A hurt hiker waits in the south chamber; the centre pocket needs Strength.
+map p4b_cinder_hollow_b1f
+name "Cinder Hollow B1F"
+location "Route 9"
+music cave
+environment cave
+dark
+region 14 5
+encounters p4b_cinder_hollow_deep
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWfffffffffW
+WWWWWWWWWWWWWWWWWWWWWWffffffLffW
+WWWWffdddfffkffffffffffffffffffW
+WWWWfffffffffffffffffffffkfffffW
+WWffffffWWWWWWWWWWWWWWfffffffffW
+WWffffffWWWWWWWWWWWWWWfffffffffW
+WWffffffWWWWfffffffkWWWWWWWWWWWW
+WWffkfffWWWWffddddffWWWWWWWWWWWW
+WWffffffWWWWffddddffWWWWWWWWWWWW
+WWffffffWWWWfkffffffWWWWWWWWWWWW
+WWfdddffWWWWffffffffWWWWWWWWWWWW
+WWfdddffWWWWWWWfWWWWWWWWWWWWWWWW
+WWfdddffWWWWWWWfWWWWWWWWWWWWWWWW
+WWffffffffffffffffffffffffffWWWW
+WWffffffffffffffffffddddffkfWWWW
+WWffffkfffdddddfffffddddffffWWWW
+WWffffffffdddddfffffddddffffWWWW
+WWffffffffffffffffkfffffffffWWWW
+WWWWWWWWffffffffffffffffffffWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 28 3 -> p4b_cinder_hollow_1f 26 9 down
+obstacle 15 14 boulder flag=p4b_ch2_boulder
+npc p4b_hurt_hiker 24 18 sprite=hiker face=left script=p4b_hurt_hiker hideif=p4b_hiker_rescued
+trainer p4b_ch2_breather_fumo 25 4 sprite=hiker face=left sight=3
+trainer p4b_ch2_ace_ember 14 5 sprite=cooltrainer_m face=right sight=4
+trainer p4b_ch2_hex_cinda 4 14 sprite=psychic face=up sight=3
+trainer p4b_ch2_hiker_rocco 11 18 sprite=hiker face=right sight=4
+trainer p4b_ch2_scientist_magna 20 17 sprite=scientist face=down sight=3
+item p4b_ch2_tm 18 10 tm:flamecharge
+item p4b_ch2_revive 2 19 maxrevive
+item p4b_ch2_heal 30 7 fullheal
+hidden p4b_ch2_root 12 8 rootfossil
+hidden p4b_ch2_nugget 27 20 nugget

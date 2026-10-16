@@ -1,0 +1,221 @@
+# Expansion E2, leg 6 (Gym 5 -> Gym 6): Route 9 Cinder Pass, Cinder Hollow, Ashen Trail, Obsidian Grotto. Levels 39-45.
+
+# --- Route 9: Cinder Pass ---
+trainer p4b_r9_kindler_pyra
+  class p3a_kindler
+  name "Pyra"
+  intro "The pass is warm enough to toast bread on! Want to see what else it toasts?"
+  defeat "I'm the toast..."
+  after "There's a cave up on the ridge. Hot air pours out of it day and night."
+  mon magmar 39
+  mon camerupt 40
+end
+
+trainer p4b_r9_ace_dorian
+  class cooltrainer_m
+  name "Dorian"
+  intro "Blaise is three hours west and I'm still not ready. Help me get ready!"
+  defeat "Okay, now I'm REALLY not ready."
+  after "Water and Ground for Blaise. Skarmory just for looking cool."
+  mon arcanine 41
+  mon quagsire 40
+  mon skarmory 40
+end
+
+trainer p4b_r9_hiker_tuck
+  class hiker
+  name "Tuck"
+  intro "Ash in my boots, ash in my beard! Ash in my battle style!"
+  defeat "Blown away like ash."
+  after "The old lady by the spring has soaked there every day for fifty years. Ask her about it."
+  mon torkoal 40
+  mon rhydon 40
+end
+
+trainer p4b_r9_beauty_saffi
+  class beauty
+  name "Saffi"
+  intro "The spring steam is wonderful for scales and fur. Look how my Milotic shines!"
+  defeat "Still shining. Just a little less."
+  after "Feebas evolve when their beauty peaks. Mine needed a Prism Scale and a lot of compliments."
+  mon lopunny 40
+  mon milotic 41
+end
+
+# --- Cinder Hollow 1F ---
+trainer p4b_ch1_kindler_ignis
+  class p3a_kindler
+  name "Ignis"
+  intro "The vents breathe fire! So do my Pokémon! Hah!"
+  defeat "Extinguished!"
+  after "Slugma crawl right out of the vents. Their bodies are literally lava."
+  mon slugma 39
+  mon magcargo 41
+end
+
+trainer p4b_ch1_hiker_basil
+  class hiker
+  name "Gravel"
+  intro "This chamber is warmer than my sauna back home! Battle until we sweat!"
+  defeat "Sweated out."
+  after "There's a little niche south of here behind a boulder. Strength will open it."
+  mon golem 40
+  mon coalossal 41
+end
+
+trainer p4b_ch1_breather_vulk
+  class p4b_firebreather
+  name "Vulk"
+  intro "Fire Breathers train in the hollow before the Ashen Trail! FWOOOSH!"
+  defeat "Out of breath..."
+  after "Master Kaen trains out west of Ashfall. If you beat his three students, he'll battle you himself."
+  mon magmar 40
+  mon darmanitan 41
+end
+
+trainer p4b_ch1_ace_nadia
+  class cooltrainer_f
+  name "Nadia"
+  intro "Heat, darkness and a worthy opponent. Perfect training conditions!"
+  defeat "Worthy indeed."
+  after "Cracked rocks hide the east tunnel. Rock Smash through, and mind the ladder."
+  mon houndoom 41
+  mon gyarados 41
+end
+
+trainer p4b_ch1_scientist_caro
+  class scientist
+  name "Caro"
+  intro "I measure vent temperatures! Today's reading: way too hot for visitors!"
+  defeat "Data says... I lost."
+  after "Heatmor eat Durant, and Durant gang up on Heatmor. The hollow is a battlefield."
+  mon heatmor 41
+  mon durant 40
+end
+
+# --- Cinder Hollow B1F ---
+trainer p4b_ch2_breather_fumo
+  class p4b_firebreather
+  name "Fumo"
+  intro "In the dark, a Fire Breather is a living torch! See me shine!"
+  defeat "Snuffed out..."
+  after "A hiker went down here yesterday and never came back up. I'd look in the south chamber."
+  mon torkoal 41
+  mon camerupt 41
+end
+
+trainer p4b_ch2_ace_ember
+  class cooltrainer_m
+  name "Pyke"
+  intro "Centiskorch coils at nine hundred degrees. Shall we see how hot you can take it?"
+  defeat "Burned out."
+  after "Flash helps down here, but the magma glow is almost enough on its own."
+  mon scrafty 41
+  mon centiskorch 42
+end
+
+trainer p4b_ch2_hex_cinda
+  class p4b_hexmaniac
+  name "Cinda"
+  intro "Ghosts gather where fire burns... hehehe. They love the warmth. Like me."
+  defeat "My flames went cold..."
+  after "Lampent drain the spirits of the lost. Don't get lost down here."
+  mon lampent 41
+  mon mismagius 41
+end
+
+trainer p4b_ch2_hiker_rocco
+  class hiker
+  name "Cobb"
+  intro "Deep rock, hot rock, good rock! Let's rumble!"
+  defeat "Rumbled flat."
+  after "The pocket in the middle of this floor is sealed by a boulder. Root fossils grow in hot rock like that."
+  mon golem 41
+  mon coalossal 42
+end
+
+trainer p4b_ch2_scientist_magna
+  class scientist
+  name "Magna"
+  intro "Magmar regulate their temperature like volcanoes. Fascinating! And dangerous! Battle!"
+  defeat "Overheated."
+  after "Those Eclipse people tried to tap the vents for energy last month. Blaise ran them off."
+  mon magmar 41
+  mon magneton 41
+end
+
+# --- Ashen Trail ---
+trainer p4b_trail_breather_ash
+  class p4b_firebreather
+  name "Brand"
+  intro "First of Master Kaen's three students! You'll have to go through my fire!"
+  defeat "Through it you went."
+  after "Two more students down the trail. Then the master himself, in the Obsidian Grotto."
+  mon simisear 41
+  mon pyroar 42
+end
+
+trainer p4b_trail_breather_blaze
+  class p4b_firebreather
+  name "Blaze"
+  intro "Second student! I don't hold back on the basalt bridge!"
+  defeat "Burned out on the bridge."
+  after "Kaen trained Blaise of Ashfall once. She was his best. Now she runs the Gym."
+  mon flareon 42
+  mon darmanitan 42
+end
+
+trainer p4b_trail_breather_coal
+  class p4b_firebreather
+  name "Coal"
+  intro "Third student, and the hottest! The ridge is mine!"
+  defeat "Cooled to coal..."
+  after "Go on. The master's grotto is in the crater, north-west of here."
+  mon torkoal 42
+  mon coalossal 43
+end
+
+trainer p4b_trail_ace_veda
+  class cooltrainer_f
+  name "Veda"
+  intro "Sand, ash and heat. Only the toughest Pokémon thrive out here. Mine thrive."
+  defeat "Buried in the sand."
+  after "Sandaconda store sand in their coils. Mine sneezes it out when it's nervous."
+  mon hippowdon 42
+  mon sandaconda 43
+  mon krookodile 43
+end
+
+trainer p4b_trail_hiker_slag
+  class hiker
+  name "Slag"
+  intro "The crater's my favorite hiking spot! Steamy, rocky, perfect!"
+  defeat "Steamrolled."
+  after "The hot spring in the crater has Pokémon in it. Surf if you dare. It's toasty."
+  mon camerupt 42
+  mon golem 42
+  mon rhydon 42
+end
+
+trainer p4b_trail_beauty_rosa
+  class beauty
+  name "Rosa"
+  intro "Even the badlands bloom if you know where to look. Let me show you!"
+  defeat "Petals scattered..."
+  after "Cacnea bloom once a year, out here in the ash. It's beautiful, if you like prickles."
+  mon ninetales 42
+  mon lilligant 42
+end
+
+trainer p4b_kaen_master
+  class blackbelt
+  name "Kaen"
+  ai 2
+  intro "Three students fell before you. Now feel the fire they were taught!"
+  defeat "Ha! Your fire burns hotter than mine, and that is the highest praise I know."
+  after "Blaise was my student once. Tell her old Kaen says hello, and that she still drops her guard on the left."
+  items hyperpotion=2
+  mon scovillain 43
+  mon emboar 44
+  mon blaziken 45
+end

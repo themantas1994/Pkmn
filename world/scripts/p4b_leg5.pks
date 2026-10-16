@@ -207,3 +207,11 @@ script p4b_granny_moss
     say "GRANNY MOSS: Well, now. A visitor who found the shrine through the fog.\pI taught a little girl named Elowen here, long ago. Now she leads the Gym in town.\pShe hides her strength in the mist, as I taught her. Show her yours, and come back to tell me about it."
   end
 end
+
+# --- Seraphine Mart: Sweets for Milcery -------------------------------------------------
+script p4b_patissier
+  faceplayer
+  say "PÂTISSIER MILLE: Bonjour! I bake Sweets for the Milcery of the Mist Grove.\pHere's a secret: let a Milcery hold a Sweet, then spin around on the spot with it, four quick turns! It becomes an Alcremie!\pEach Sweet gives a different decoration. Care to buy one?"
+  shop p4b_sweets
+  say "PÂTISSIER MILLE: Spin clockwise, spin counter-clockwise, spin by day or by night... Every Alcremie is a little different!"
+end
