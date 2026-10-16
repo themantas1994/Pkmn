@@ -1,0 +1,21 @@
+map fernwick_house
+name "Fernwick House"
+location "Fernwick Town"
+music town_small
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@B@@w@
+____1___
+_tt_2__p
+_hh_____
+________
+___RR___
+end
+
+warp 3 6 -> fernwick_town 16 13 down
+warp 4 6 -> fernwick_town 16 13 down
+npc doll_girl 6 3 sprite=lass face=left script=p1_fern_doll_girl
+npc doll_mom 1 5 sprite=beauty face=right script=p1_fern_doll_mom

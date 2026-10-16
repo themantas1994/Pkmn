@@ -1,0 +1,18 @@
+# PLACEHOLDER (Part 1 worktree only) so boundary B1 compiles. Part 2 owns route5.
+# Take Part 2's version of this file on merge.
+map route5
+name "Route 5"
+location "Route 5"
+music route_mid
+environment grass
+region 17 15
+connect north port_tidewater -5
+
+layout
+TTTTTTTTT::TTTTTTTTT
+TTTTTTTT....TTTTTTTT
+TTTTTTTT....TTTTTTTT
+TTTTTTTTTTTTTTTTTTTT
+end
+
+npc r5_stub_guard 9 2 sprite=policeman face=up text="Route 5 is closed for construction. Please turn back!"

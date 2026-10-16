@@ -1,12 +1,169 @@
+# Part 1 wild encounters. Levels: Route 1 2-4, Route 2/Whisperwood 4-8, Routes 3-4 8-12, Cobblecrest 10-14.
+
+encounters hometown
+  oldrod any magikarp 3-6 80
+  oldrod any poliwag 3-6 20
+end
+
 encounters route1
   rate grass 25
   grass morning pidgey 2-4 35
-  grass morning sentret 2-3 35
-  grass morning caterpie 2-3 30
+  grass morning sentret 2-3 30
+  grass morning caterpie 2-3 25
+  grass morning wurmple 2-3 10
   grass day pidgey 2-4 30
-  grass day sentret 2-3 40
-  grass day bidoof 2-4 30
+  grass day sentret 2-3 30
+  grass day bidoof 2-4 25
+  grass day lillipup 2-4 15
   grass night hoothoot 2-4 45
   grass night rattata 2-3 40
   grass night spinarak 2-3 15
+  oldrod any magikarp 3-6 70
+  oldrod any poliwag 3-6 30
+end
+
+encounters fernwick_town
+  oldrod any magikarp 4-7 60
+  oldrod any goldeen 4-7 30
+  oldrod any tympole 4-7 10
+end
+
+encounters route2
+  rate grass 25
+  grass morning ledyba 4-6 25
+  grass morning pidove 4-6 25
+  grass morning fletchling 4-6 20
+  grass morning nidoranf 4-6 15
+  grass morning skwovet 4-6 15
+  grass day nidoranm 4-6 20
+  grass day nidoranf 4-6 20
+  grass day patrat 4-6 20
+  grass day bunnelby 4-6 20
+  grass day pidove 4-6 15
+  grass day pichu 4-5 5
+  grass night oddish 4-6 30
+  grass night hoothoot 4-6 25
+  grass night kricketot 4-6 25
+  grass night nickit 4-6 20
+  oldrod any magikarp 4-8 60
+  oldrod any goldeen 4-8 40
+end
+
+encounters whisperwood
+  rate grass 30
+  grass morning caterpie 4-6 20
+  grass morning metapod 5-7 10
+  grass morning weedle 4-6 20
+  grass morning kakuna 5-7 10
+  grass morning budew 5-7 15
+  grass morning cutiefly 5-7 15
+  grass morning pikachu 5-7 5
+  grass morning seedot 5-7 5
+  grass day scatterbug 5-7 20
+  grass day sewaddle 5-7 20
+  grass day paras 5-7 15
+  grass day shroomish 5-7 15
+  grass day pineco 5-7 10
+  grass day caterpie 4-6 10
+  grass day pikachu 5-7 5
+  grass day seedot 5-7 5
+  grass night venonat 5-8 25
+  grass night paras 5-7 20
+  grass night morelull 5-8 20
+  grass night oddish 5-7 15
+  grass night spinarak 5-7 10
+  grass night hoothoot 5-7 10
+end
+
+encounters route3
+  rate grass 25
+  grass morning hoppip 8-10 20
+  grass morning sunkern 8-10 15
+  grass morning flabebe 8-10 20
+  grass morning doduo 8-11 15
+  grass morning buneary 8-10 15
+  grass morning wooloo 8-10 15
+  grass day spearow 8-11 20
+  grass day doduo 8-11 15
+  grass day ekans 8-10 15
+  grass day sandshrew 8-10 15
+  grass day shinx 8-10 15
+  grass day yungoos 8-10 15
+  grass day growlithe 9-11 5
+  grass night meowth 8-10 25
+  grass night murkrow 8-11 20
+  grass night electrike 8-10 20
+  grass night mankey 8-10 20
+  grass night ekans 8-10 15
+end
+
+encounters route4
+  rate grass 25
+  grass morning wingull 9-11 25
+  grass morning phanpy 9-12 20
+  grass morning machop 9-12 20
+  grass morning nincada 9-11 20
+  grass morning spearow 9-11 15
+  grass day wingull 9-11 20
+  grass day makuhita 9-12 20
+  grass day phanpy 9-12 20
+  grass day machop 9-12 20
+  grass day nosepass 10-12 10
+  grass day skiddo 9-12 10
+  grass night wooper 9-12 30
+  grass night makuhita 9-12 20
+  grass night meowth 9-11 20
+  grass night drowzee 9-12 20
+  grass night nincada 9-11 10
+  surf any tentacool 12-18 60
+  surf any wingull 12-18 30
+  surf any slowpoke 14-18 10
+  oldrod any magikarp 8-12 60
+  oldrod any tentacool 8-12 40
+  goodrod any krabby 12-16 35
+  goodrod any shellder 12-16 25
+  goodrod any slowpoke 12-16 20
+  goodrod any finneon 12-16 20
+end
+
+encounters cobblecrest_1f
+  rate cave 12
+  cave any zubat 10-13 30
+  cave any geodude 10-13 25
+  cave any roggenrola 10-13 20
+  cave any woobat 10-13 15
+  cave any diglett 11-13 7
+  cave any onix 12-14 3
+  rocksmash any geodude 10-14 60
+  rocksmash any dwebble 10-14 30
+  rocksmash any shuckle 12-14 10
+end
+
+encounters cobblecrest_b1f
+  rate cave 14
+  cave any zubat 11-14 20
+  cave any geodude 11-14 15
+  cave any aron 11-14 15
+  cave any rolycoly 11-14 15
+  cave any noibat 11-14 10
+  cave any drilbur 11-14 10
+  cave any dunsparce 12-14 8
+  cave any sableye 12-14 5
+  cave any onix 12-14 2
+  rocksmash any geodude 12-14 50
+  rocksmash any roggenrola 12-14 30
+  rocksmash any shuckle 12-14 20
+end
+
+encounters port_tidewater
+  surf any tentacool 15-20 50
+  surf any wingull 15-20 35
+  surf any pelipper 18-22 15
+  oldrod any magikarp 10-14 70
+  oldrod any tentacool 10-14 30
+  goodrod any horsea 14-18 25
+  goodrod any krabby 14-18 25
+  goodrod any staryu 14-18 20
+  goodrod any remoraid 14-18 20
+  goodrod any finizen 14-18 10
 end

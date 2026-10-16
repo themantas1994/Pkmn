@@ -1,0 +1,28 @@
+map brindle_center
+name "Pokémon Center"
+location "Brindle City"
+music pokecenter
+environment indoor
+indoor
+tags pokecenter
+
+layout
+^^^^^^^^^^
+@w@@X@@w@P
+oocoooocoo
+ooccccccoo
+oooooooooo
+ohoooooohp
+oooooooooo
+ooooRRoooo
+end
+
+legend
+o floor_tile
+end
+
+warp 4 7 -> brindle_city 5 11 down
+warp 5 7 -> brindle_city 5 11 down
+npc nurse 4 2 sprite=nurse face=down script=p1_nurse
+npc c_trainer 7 5 sprite=hiker face=left text="Hazel's Grass Pokémon hate fire and flying moves.\pBugs and Poison types hold up well against them, too!"
+npc researcher 1 6 sprite=scientist face=right script=p1_mushroom_researcher

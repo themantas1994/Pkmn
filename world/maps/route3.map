@@ -1,0 +1,49 @@
+map route3
+name "Route 3"
+location "Route 3"
+music route_mid
+environment grass
+region 11 10
+encounters route3
+connect west brindle_city -2
+connect east route4 6
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T...,,,,,,....TTT......,,,,,,.....TTTTTT
+T...,,,,,,....TTT......,,,,,,......,,,,T
+T.............TTT..................,,,,T
+T....rr............................,,,,T
+T...................................,,,T
+Tvvvvvvvv..vvvvvvvvvv..vvvvvvvvvv......T
+T......................................T
+TTT......TTTTTT....TTTTTTTT....TTTTTTTTT
+:::::::::::::::::::::::::::::::........T
+:::::::::::::::::::::::::::::::........T
+TTT......TTTT....TTTTTTTTTTTT::........T
+T............,,,,,,,,........:::::::::::
+T............,,,,,,,,........:::::::::::
+T.....,,,,,,........TT..........,,,,,,,T
+Tvvvvvvvvvvvv..vvvvvvvvvv..vvvvvvvvvvvvT
+T..............,,,,,,,,,,..............T
+T,,,,,.........,,,,,,,,,,....~~~~~~....T
+TF,,,,.......................~~~~~~...FT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+sign 4 7 text="ROUTE 3\nBrindle City - west\nRoute 4 - east"
+tile 4 7 sign
+trainer route3_dale 3 5 sprite=youngster face=right sight=5
+trainer route3_june 24 2 sprite=lass face=down sight=3
+trainer route3_hank 36 5 sprite=pokefan face=left sight=5
+trainer route3_boulder 16 11 sprite=hiker face=up sight=2
+trainer route3_kenji 6 16 sprite=blackbelt face=right sight=5
+trainer route3_tess 20 16 sprite=lass face=left sight=4
+trainer route3_gil 28 17 sprite=fisherman face=left sight=2
+npc r3_birdwatcher 31 3 sprite=gentleman face=left text="Doduo run faster than they fly. Spearow fly meaner than they run!\pAt night, Murkrow come out to steal shiny things."
+item r3_greatball 38 2 greatball
+item r3_superpotion 1 18 superpotion
+item r3_paralyze 11 1 paralyzeheal
+hidden r3_rawst 2 12 rawstberry
+hidden r3_ether 37 7 ether
+hidden r3_water 35 18 freshwater

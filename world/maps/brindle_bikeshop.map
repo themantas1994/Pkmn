@@ -1,0 +1,22 @@
+map brindle_bikeshop
+name "Spokes Bike Shop"
+location "Brindle City"
+music city_early
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@@KKK@w@
+___c______
+cccc______
+______KK__
+_p____KK_p
+__________
+____RR____
+end
+
+warp 4 7 -> brindle_city 24 18 down
+warp 5 7 -> brindle_city 24 18 down
+npc bike_owner 1 2 sprite=gentleman face=down script=p1_bike_owner
+npc bike_mechanic 8 3 sprite=hiker face=left text="I tune every bike by hand. Smooth as a Swablu's wing!\pPress the bike button to hop on, and again to hop off."

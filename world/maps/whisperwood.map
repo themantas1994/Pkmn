@@ -1,0 +1,64 @@
+map whisperwood
+name "Whisperwood"
+location "Whisperwood"
+music forest
+environment grass
+region 4 12
+encounters whisperwood
+
+legend
+R rug_mat
+end
+
+layout
+TTTTTTTTTTTTTRTTTTTTTTTTTTTT
+TTTTTTTTTTTTT.TTTTTTTTTTTTTT
+TTTTTTTTTTTTT.TTTTTTTTTTTTTT
+TTTTTTTTTTTTT.TTTTTTTTTTTTTT
+TT.....TTTTT...TTTTT,,,,,,TT
+TT.uuu.TTTTT...TTTTT,,TT,,TT
+TT.uGu.TTTTTT.TTTTTT,,TT,,TT
+TT.uuu.TTTTTT.TTTTTT,,,,,,TT
+TT...u..........TTTTTT,,TTTT
+TTTTTTTTT,,,,TT.TTTTTT,,TTTT
+TTTTTTTTT,,,,TT.TTTTTT,,TTTT
+TT,,,,.......TT.........TTTT
+TT,,,,.TTTTTTTT.TTTTTTT.TTTT
+TT,,,,.TTTTTTTT.TTTTTTT.TTTT
+TT.....TTTTTTTT...,,,,,..TTT
+TTTT.TTTTTTTTTT,,,,,,,,,,TTT
+TTTT.TTTTTTTTTT,,,,TT,,,,TTT
+TTTT.TTTTTTTTTT,,,,TT,,,,TTT
+TTTT......TTTTT....TT....TTT
+TTTTTTTTT.TTTTTTTT.TTTTTTTTT
+TTTTTTTTT.TTTTTTTT.TTTTTTTTT
+TT.......,,,,TTTTT.TTTTTTTTT
+TT.TTTTT.,,,,TTTTT.....,,,TT
+TT.TTTTT.,,,,TTTTTTTTT.,,,TT
+TT...TTT.....,,,,,,....,,,TT
+TTT.TTTTTTTTT,,,,,,TTTTTTTTT
+TTT.TTTTTTTTT..,,,.TTTTTTTTT
+TTT...TTTTTTTT.TTTTTTTTTTTTT
+TTTTTTTTTTTTTT.TTTTTTTTTTTTT
+TTTTTTTTTTTTTTRTTTTTTTTTTTTT
+end
+
+warp 13 0 -> route2 5 9 down
+warp 14 29 -> route2 5 28 down
+sign 2 8 text="WHISPERWOOD SHRINE\nPlease keep the forest quiet."
+tile 2 8 sign
+npc shrine_sage 3 5 sprite=sage face=down script=p1_ww_sage
+npc ww_grunt_boss 13 2 sprite=grunt_m face=down script=p1_ww_grunt_boss hideif=p1_ww_grunts_fled
+trigger 13 3 1 1 script=p1_ww_grunt_boss unless=p1_ww_grunts_fled
+trainer ww_grunt1 14 5 sprite=grunt_f face=left sight=2 trainer=p1_ww_grunt1 hideif=p1_ww_grunts_fled
+trainer ww_doug 11 22 sprite=bugcatcher face=down sight=2
+trainer ww_ezra 3 12 sprite=bugcatcher face=right sight=3
+trainer ww_fern 16 14 sprite=lass face=down sight=3
+trainer ww_tad 24 16 sprite=kid face=left sight=3
+item ww_doll 5 27 pokedoll
+item ww_antidote 25 4 antidote
+item ww_ball 18 26 pokeball
+item ww_superpotion 24 18 superpotion
+hidden ww_mushroom1 2 21 tinymushroom
+hidden ww_mushroom2 24 22 tinymushroom
+hidden ww_bigmushroom 2 4 bigmushroom

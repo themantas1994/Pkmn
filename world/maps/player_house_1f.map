@@ -19,4 +19,4 @@ end
 warp 6 2 -> player_house_2f 6 2 down
 warp 3 7 -> hometown 4 7 down
 warp 4 7 -> hometown 4 7 down
-npc mom 7 4 sprite=mom face=left script=house_mom
+npc mom 5 4 sprite=mom face=left script=house_mom

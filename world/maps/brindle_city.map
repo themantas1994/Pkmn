@@ -1,0 +1,59 @@
+map brindle_city
+name "Brindle City"
+location "Brindle City"
+music city_early
+environment plain
+region 8 10
+fly 14 7
+tags town
+connect south route2 4
+connect east route3 2
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TF..Fb......................FT
+T.FF.b.......................T
+T.F.Fb.......................T
+T..F.b.......................T
+Tbb.bb.......................T
+T............::..............T
+T............::..............T
+T............::..............T
+T............::..............T
+T............::..............T
+T....:::::::::::::::::::::::::
+T....:::::::::::::::::::::::::
+T............::..............T
+T............::..............T
+T............::..............T
+T............::..............T
+T............::..............T
+T....:.......::.........:....T
+T....::::::::::::::::::::....T
+T............::..............T
+T..FF........::..........FF..T
+TF...........::..............T
+TTTTTTTTTTTTT::TTTTTTTTTTTTTTT
+end
+
+building gym 12 2 -> brindle_gym 6 17 up
+building center 3 8 -> brindle_center 4 7 up
+building mart 20 8 -> brindle_mart 2 7 up
+building house_blue 3 15 -> brindle_house 3 6 up
+building house_big 21 15 -> brindle_bikeshop 4 7 up
+sign 11 5 text="BRINDLE CITY POKéMON GYM\nLeader: Hazel\nThe blossoming botanist!"
+sign 15 21 text="BRINDLE CITY\nGreen streets, growing dreams."
+sign 27 10 text="ROUTE 3 - east\nCobblecrest Cave and Port Tidewater beyond."
+sign 20 18 text="SPOKES BIKE SHOP\nRide into the future!"
+tile 11 5 sign
+tile 15 21 sign
+tile 27 10 sign
+tile 20 18 sign
+obstacle 3 5 cut flag=p1_cut_brindle
+item bc_leafstone 2 1 leafstone
+hidden bc_garden 4 4 miracleseed
+hidden bc_corner 28 22 superpotion
+npc bc_gardener 7 5 sprite=oldman face=left script=p1_bc_gardener
+npc bc_cyclist 22 13 sprite=cooltrainer_f move=wander text="A Bicycle is twice as fast as running!\pThe bike shop owner down south is giving them away. Lucky us!"
+npc bc_kid 9 20 sprite=kid face=up text="I want an Eevee! The lady in the blue-roof house raises them.\pEevee evolves in so many ways. Fire, Water, Thunder... with stones!"
+npc bc_gym_fan 16 7 sprite=youngster face=left script=p1_bc_gym_fan

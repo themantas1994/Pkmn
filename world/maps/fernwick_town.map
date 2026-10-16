@@ -1,0 +1,44 @@
+map fernwick_town
+name "Fernwick Town"
+location "Fernwick Town"
+music town_small
+environment plain
+region 6 16
+fly 9 8
+encounters fernwick_town
+tags town
+connect north route2 0
+connect south route1 0
+
+layout
+TTTTTTTTT::TTTTTTTTT
+TF.......::.......FT
+T........::........T
+T........::........T
+T........::........T
+T........::........T
+T...:....::...:....T
+T...::::::::::::...T
+T........::........T
+T.......S::........T
+T........::........T
+T.~~~~...::........T
+T.~~~~...::........T
+T.~~~~...::.....:..T
+T.~~~~...::::::::..T
+T........::........T
+TFF......::......FFT
+TTTTTTTTT::TTTTTTTTT
+end
+
+building center 2 3 -> fernwick_center 4 7 up
+building mart 13 3 -> fernwick_mart 2 7 up
+building house 14 10 -> fernwick_house 3 6 up
+sign 8 9 text="FERNWICK TOWN\nA quiet stop beneath the ferns."
+npc aide 11 16 sprite=scientist face=left script=p1_fern_aide
+npc fern_granny 6 9 sprite=oldwoman face=right script=p1_fern_granny
+npc pond_kid 6 15 sprite=fisherman face=up text="Lots of trainers fish in this pond.\pIf only I had a Rod... the Hollowbrook fisherman has a spare, I hear."
+npc fern_youngster 15 8 sprite=youngster move=wander text="Route 2 is north. The road splits at Whisperwood.\pYou have to go through the forest to reach Brindle City!"
+hidden fw_ether 18 1 ether
+hidden fw_berry 1 16 pechaberry
+trigger 9 16 2 1 script=p1_fern_aide_call unless=p1_got_expshare if=got_pokedex

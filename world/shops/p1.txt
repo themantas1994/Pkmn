@@ -1,0 +1,7 @@
+# Part 1 shops (prices default to item data unless overridden)
+shop fernwick_mart pokeball potion antidote paralyzeheal awakening repel escaperope
+shop brindle_mart pokeball potion superpotion antidote paralyzeheal awakening burnheal iceheal repel escaperope
+shop brindle_mart_badge pokeball greatball potion superpotion antidote paralyzeheal awakening burnheal iceheal fullheal repel escaperope
+shop tidewater_mart pokeball greatball potion superpotion antidote paralyzeheal awakening burnheal iceheal fullheal revive repel superrepel escaperope xattack xdefense xspeed
+shop tidewater_stones firestone=3000 waterstone=3000 thunderstone=3000 leafstone=3000 moonstone=3000 everstone=1500
+shop tidewater_netstall netball=1000 diveball=1000 nestball=1000 tm:watergun=2000 tm:bubblebeam=4000

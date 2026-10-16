@@ -1,0 +1,26 @@
+map brindle_mart
+name "Poké Mart"
+location "Brindle City"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@@KKK@w@
+ooocoooooo
+cccooKKKoo
+oooooooooo
+oooooKKKoo
+oooooooooo
+ooRRoooooo
+end
+
+legend
+o floor_tile
+end
+
+warp 2 7 -> brindle_city 21 11 down
+warp 3 7 -> brindle_city 21 11 down
+npc clerk 1 2 sprite=clerk face=down script=p1_brindle_clerk
+npc m_shopper 6 6 sprite=gentleman face=up text="Super Potions! Back in my day we chewed on Oran Berries and liked it."

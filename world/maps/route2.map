@@ -1,0 +1,76 @@
+map route2
+name "Route 2"
+location "Route 2"
+music route_early
+environment grass
+region 6 13
+encounters route2
+connect north brindle_city -4
+connect south fernwick_town 0
+
+layout
+TTTTTTTTT::TTTTTTTTT
+TTTTTTTT.::.TTTTTTTT
+TTTTTTTT.::.TTTTTTTT
+T,,,,TT..::..TT,,,,T
+T,,,,....::....,,,,T
+T........::........T
+T........::...,,,,.T
+T........::...,,,,.T
+T........::...,,,,.T
+T....:...::........T
+T....::::::...TT...T
+T........::...TT...T
+T.,,,,...::.......FT
+T.,,,,...::........T
+TTTT.....::.....TTTT
+T..T.....::.....T..T
+T..T,,,..::..,,,T..T
+T........::........T
+TTTTTTTTT:TTTTTTTTTT
+TTTTTTTTT:TTTTTTTTTT
+T........:.........T
+T.~~~~~..:..,,,,,..T
+T.~~~~~..:..,,,,,..T
+T.~~~~~..::.,,,,,..T
+T........::........T
+T........::...TT...T
+T........::...TT...T
+T........::........T
+T....:...::..,,,,..T
+T....:::::::.,,,,..T
+T........::..,,,,..T
+Tvvvvvv..::..vvvvvvT
+T........::........T
+T.,,,,...::...,,,,.T
+T.,,,,...::...,,,,.T
+T........::........T
+T..TT....::....TT..T
+T..TT....::....TT..T
+TF.......::.......FT
+TTTTTTTTT::TTTTTTTTT
+end
+
+building house 3 6 -> whisperwood 13 1 up
+building house 3 25 -> whisperwood 14 28 up
+sign 7 9 text="WHISPERWOOD GATE\nExit to Route 2 north."
+sign 7 28 text="WHISPERWOOD\nThe forest path to Brindle City."
+sign 11 17 text="ROUTE 2\nBrindle City - north"
+tile 7 9 sign
+tile 7 28 sign
+tile 11 17 sign
+obstacle 9 18 cut flag=p1_cut_route2
+npc r2_cut_hint 10 20 sprite=hiker face=up text="That skinny tree blocks the shortcut north.\pWith the Sprout Badge, a Pokémon that knows Cut could clear it!"
+npc rival 9 1 sprite=rival face=down script=p1_route2_rival hideif=p1_rival_route2
+trigger 8 2 4 1 script=p1_route2_rival unless=p1_rival_route2
+trainer route2_wade 4 32 sprite=bugcatcher face=right sight=4
+trainer route2_ana 16 24 sprite=lass face=left sight=5
+trainer route2_ben 12 35 sprite=youngster face=up sight=3
+trainer route2_ollie 4 13 sprite=kid face=right sight=4
+trainer route2_cora 15 5 sprite=lass face=left sight=4
+trainer route2_rick 6 17 sprite=bugcatcher face=left sight=4
+item r2_potion 1 15 potion
+item r2_ball 18 3 pokeball
+item r2_repel 18 37 repel
+hidden r2_berry 1 24 oranberry
+hidden r2_cheri 18 12 cheriberry

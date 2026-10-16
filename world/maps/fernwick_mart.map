@@ -1,0 +1,26 @@
+map fernwick_mart
+name "Poké Mart"
+location "Fernwick Town"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@w@@KKK@w@
+ooocoooooo
+cccooKKKoo
+oooooooooo
+oooooKKKoo
+oooooooooo
+ooRRoooooo
+end
+
+legend
+o floor_tile
+end
+
+warp 2 7 -> fernwick_town 14 6 down
+warp 3 7 -> fernwick_town 14 6 down
+npc clerk 1 2 sprite=clerk face=down script=p1_fernwick_clerk
+npc m_shopper 6 6 sprite=lass face=up text="Potions heal 20 HP. Always carry a few!\pAntidotes are a must in Whisperwood. Bug Pokémon love Poison Sting."

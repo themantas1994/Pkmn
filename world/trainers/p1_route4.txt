@@ -1,0 +1,121 @@
+# Part 1: Route 4 and Cobblecrest Cave (trainers L13-17).
+
+trainer route4_ivy
+  class lass
+  name "Ivy"
+  intro "The breeze from the sea is lovely! So is a good battle!"
+  defeat "Blown away!"
+  after "Wingull glide in from the coast every morning."
+  mon wingull 13
+  mon skitty 14
+end
+
+trainer route4_moe
+  class hiker
+  name "Moe"
+  intro "I climbed this whole ridge! Didn't find a way over, though."
+  defeat "Rock bottom..."
+  after "No way over the mountain. You'll have to go under it, through Cobblecrest."
+  mon geodude 14
+  mon phanpy 14
+end
+
+trainer route4_rex
+  class blackbelt
+  name "Rex"
+  intro "My training partners are waiting! Show me your fighting spirit!"
+  defeat "Hoo-ah! What power!"
+  after "Makuhita grow stronger every time they get knocked down. Like me!"
+  mon makuhita 14
+  mon machop 15
+end
+
+trainer route4_skye
+  class cooltrainer_f
+  name "Skye"
+  intro "An up-and-coming trainer? I'll test you myself."
+  defeat "You've got real potential."
+  after "Marina's Gym in Port Tidewater floods with water. Bring Grass or Electric moves."
+  mon electrike 15
+  mon nuzleaf 15
+  mon staravia 16
+end
+
+trainer route4_finn
+  class fisherman
+  name "Finn"
+  intro "Shh! The sea is full of surprises. Like this battle!"
+  defeat "Reeled in..."
+  after "With a Good Rod, you can catch Krabby and Shellder right here."
+  mon tentacool 14
+  mon krabby 15
+end
+
+trainer route4_coco
+  class pokefan
+  name "Coco"
+  intro "Look at my darlings! Aren't they precious?"
+  defeat "Precious AND brave!"
+  after "Wooper only waddle out at night. They're so silly!"
+  mon wooper 15
+  mon spinda 15
+end
+
+trainer cc_hiker_gus
+  class hiker
+  name "Gus"
+  intro "Watch your step in here! And watch my Pokémon!"
+  defeat "I slipped!"
+  after "Cracked rocks hide items and Pokémon. Rock Smash will crack them with the Tide Badge."
+  mon roggenrola 14
+  mon geodude 15
+end
+
+trainer cc_camper_lou
+  class youngster
+  name "Lou"
+  intro "I'm camping in the cave! It's spooky AND fun!"
+  defeat "Lights out for me..."
+  after "Zubat everywhere! A Repel keeps weak wild Pokémon away."
+  mon zubat 14
+  mon woobat 15
+end
+
+trainer cc_hiker_bert
+  class hiker
+  name "Bert"
+  intro "The way to Port Tidewater is just east. But first, me!"
+  defeat "You rock!"
+  after "The ladder leads to a lower floor. A friend of mine went down there and never came back up..."
+  mon onix 16
+end
+
+trainer ccb_hiker_ned
+  class hiker
+  name "Ned"
+  intro "Deep down here, only the tough survive!"
+  defeat "I'm crushed!"
+  after "The lower floor is darker but full of treasure."
+  mon aron 15
+  mon drilbur 16
+end
+
+trainer ccb_psychic_ida
+  class psychic
+  name "Ida"
+  intro "I sensed you coming... and I sense a battle!"
+  defeat "I didn't foresee THAT."
+  after "I sense something precious hidden in the middle of this floor. Search well!"
+  mon drowzee 16
+  mon natu 16
+end
+
+trainer ccb_blackbelt_sho
+  class blackbelt
+  name "Sho"
+  intro "I train in total darkness! My reflexes are unmatched!"
+  defeat "I didn't see that coming. Literally."
+  after "Sableye eat gems in caves like this. They give me the creeps."
+  mon mienfoo 16
+  mon timburr 17
+end

@@ -3,39 +3,59 @@ name "Route 1"
 location "Route 1"
 music route_early
 environment grass
-region 6 16
+region 6 19
 encounters route1
+connect north fernwick_town 0
 connect south hometown 0
 
 layout
-TTTTTTTTTTTTTTTTTTTT
 TTTTTTTTT::TTTTTTTTT
-T........::........T
-T..,,,,..::..,,,,..T
-T..,,,,..::..,,,,..T
+TTTTTTTTT::TTTTTTTTT
+T........::S....F,,T
+T..,,,,..::....,,,,T
+T..,,,,..::....,,,,T
 T........::........T
 Tvvvvvvv.::.vvvvvvvT
 T........::........T
-T.,,,,...::...,,,,.T
-T.,,,,...::...,,,,.T
+T.,,,,...::...TTTTTT
+T.,,,,...::...T,,,.T
+T........::...T,,,.T
+TTTT.....::.......FT
+T........::...T....T
+T..TT....::...TTTTTT
+T..TT....::.......,T
+T,,,,....::......,,T
+T,,,,....::.....,,,T
 T........::........T
-T..TT....::....TT..T
-T..TT....::....TT..T
+TTTTTTvvv::vvvTTTTTT
 T........::........T
-T,,,,....::....,,,,T
-T,,,,....::....,,,,T
+T..~~~~..::..,,,,..T
+T..~~~~..::..,,,,..T
+T..~~~~..::..,,,,..T
 T........::........T
+TTTTT....::....TTTTT
+T........::........T
+T.,,,,,..::..TT....T
+T.,,,,,..::..TT.,,.T
+T........::.....,,.T
 Tvvvvvvv.::.vvvvvvvT
 T........::........T
 T..,,,...::...,,,..T
 T..,,,...::...,,,..T
-T........::........T
+T........::S.......T
+TF.......::.......FT
 TTTTTTTTT::TTTTTTTTT
 end
 
-sign 11 21 text="ROUTE 1\nHollowbrook Town - north"
+sign 11 2 text="ROUTE 1\nFernwick Town - north"
+sign 11 33 text="ROUTE 1\nHollowbrook Town - south"
 trainer route1_joey 4 7 sprite=youngster face=right sight=4
-trainer route1_mia 15 13 sprite=lass face=left sight=3
-item r1_potion 17 2 potion
+trainer route1_mia 15 17 sprite=lass face=left sight=4
+trainer route1_tim 3 25 sprite=kid face=right sight=4
+npc r1_hint 12 19 sprite=youngster face=left text="See those ledges? You can hop down them, but not back up.\pHandy for getting home fast!"
+obstacle 14 11 cut flag=p1_cut_route1
+item r1_potion 1 19 potion
+item r1_greatball 17 9 greatball
+item r1_ball 17 27 pokeball
 hidden r1_berry 2 10 oranberry
-npc r1_guide 10 2 sprite=oldman face=down text="The road ahead is still being built. Come back later!"
+hidden r1_antidote 18 34 antidote

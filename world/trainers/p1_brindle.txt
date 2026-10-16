@@ -1,0 +1,45 @@
+# Part 1: Brindle City Gym (Gym 1, Grass). Level cap 14.
+
+trainer gym1_lily
+  class lass
+  name "Lily"
+  intro "Welcome to the hedge maze! Can you find your way through my Pokémon?"
+  defeat "Wilted..."
+  after "Some hedges only open when you step on a switch. Look for the odd tiles on the floor!"
+  mon hoppip 10
+  mon sunkern 11
+end
+
+trainer gym1_rosa
+  class beauty
+  name "Rosa"
+  intro "Every flower in this gym is cared for by Hazel herself."
+  defeat "Such strength... how lovely."
+  after "Hazel's Skiddo knows Leech Seed. Switching out clears it!"
+  mon oddish 11
+  mon bellsprout 11
+end
+
+trainer gym1_basil
+  class youngster
+  name "Basil"
+  intro "Camping in a gym? Sure! I'll guard this path!"
+  defeat "Pitched my tent in the wrong spot..."
+  after "The second switch is in the corner of this maze. Hazel waits past the last hedge."
+  mon seedot 11
+  mon lotad 12
+end
+
+trainer p1_leader_hazel
+  class leader
+  name "Hazel"
+  portrait leader1
+  ai 2
+  intro "Welcome to my garden, {player}! I'm Hazel, and my Pokémon grow strongest in sunlight and patience.\pLet's see if you can weed them out!"
+  defeat "Oh my! You pruned my team right back.\pYou've earned the Sprout Badge!"
+  after "Grass Pokémon teach us to keep growing, even through cracks in stone. Keep growing, {player}!"
+  items superpotion=1
+  mon cottonee 12 moves=absorb,fairywind,stunspore,megadrain
+  mon smoliv 12 moves=tackle,absorb,growth,razorleaf
+  mon skiddo 14 moves=razorleaf,leechseed,tackle,growth item=oranberry
+end

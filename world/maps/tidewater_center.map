@@ -1,0 +1,27 @@
+map tidewater_center
+name "Pokémon Center"
+location "Port Tidewater"
+music pokecenter
+environment indoor
+indoor
+tags pokecenter
+
+layout
+^^^^^^^^^^
+@w@@X@@w@P
+oocoooocoo
+ooccccccoo
+oooooooooo
+ohoooooohp
+oooooooooo
+ooooRRoooo
+end
+
+legend
+o floor_tile
+end
+
+warp 4 7 -> port_tidewater 13 5 down
+warp 5 7 -> port_tidewater 13 5 down
+npc nurse 4 2 sprite=nurse face=down script=p1_nurse
+npc c_trainer 7 5 sprite=sailor face=left text="Marina's Water Pokémon are tough.\pElectric or Grass moves will turn the tide!"

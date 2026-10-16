@@ -1,0 +1,56 @@
+map route4
+name "Route 4"
+location "Route 4"
+music route_mid
+environment grass
+region 13 11
+encounters route4
+connect west route3 -6
+connect east port_tidewater 6
+
+layout
+TTTTTTTTTTTTTTTTTMMMMMMTTTTTTTTTTTTTTTTT
+T,,,,,,..........MMMMMM....,,,,,,......T
+T,,,,,,...TT.....MMMMMM....,,,,,,......T
+T................MMMMMM................T
+T....,,,,,.......MMMMMM...TT...........T
+T....,,,,,.......MMMMMM...TT.....,,,,,,T
+::::::::::::.....MMMMMM..........,,,,,,T
+::::::::::::.....MMMMMM..........,,,,,,T
+T..........::....MMMMMM................T
+T..........::....MMMMMM................T
+T,,,,......::....MMMMMM.....rr.........T
+T,,,,......::::::EMMMMM................T
+T,,,,............MMMMMM................T
+Tvvvvvvvvvv......MMMMMM,,,,,,..........T
+T................MMMMMM,,,,,,..........T
+T...~~~~~........MMMMME................T
+T...~~~~~........MMMMMM:::::::::::::::::
+T...~~~~~........MMMMMM:::::::::::::::::
+T................MMMMMM......,,,,,.....T
+TF...............MMMMMM...~~~~~~~~~~~~~T
+T................MMMMMM..~~~~~~~~~~~~~~T
+T,,,,,...........MMMMMM..~~~~~~~~~~~~~~T
+T,,,,,...........MMMMMM...~~~~~~~~~~~~~T
+TTTTTTTTTTTTTTTTTMMMMMMTTTTTTTTTTTTTTTTT
+end
+
+warp 17 11 -> cobblecrest_1f 1 10 right
+warp 22 15 -> cobblecrest_1f 28 14 left
+sign 13 10 text="COBBLECREST CAVE\nThe only road to Port Tidewater runs underground."
+sign 25 15 text="ROUTE 4\nPort Tidewater - east"
+tile 13 10 sign
+tile 25 15 sign
+npc r4_hiker 15 12 sprite=hiker face=up script=p1_r4_hiker
+trainer route4_ivy 6 9 sprite=lass face=down sight=3
+trainer route4_moe 14 3 sprite=hiker face=left sight=5
+trainer route4_rex 2 14 sprite=blackbelt face=right sight=6
+trainer route4_skye 30 3 sprite=cooltrainer_f face=down sight=4
+trainer route4_finn 24 18 sprite=fisherman face=right sight=4
+trainer route4_coco 34 10 sprite=pokefan face=left sight=4
+item r4_xdefense 38 1 xdefense
+item r4_greatball 1 22 greatball
+item r4_revive 38 12 revive
+hidden r4_berry 36 5 sitrusberry
+hidden r4_nugget 23 22 nugget
+hidden r4_pond 9 16 pearl
