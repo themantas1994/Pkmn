@@ -7,7 +7,7 @@ environment grass
 region 23 16
 encounters p2_route7
 connect west voltara_city 6
-# connect east route8 -30  (TEMP: enabled once route8 exists)
+connect east route8 -30
 
 layout
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT

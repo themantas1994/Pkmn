@@ -96,3 +96,56 @@ encounters p2_route7
   rocksmash any dwebble 23-26 35
   rocksmash any nosepass 24-26 15
 end
+
+encounters p2_route8
+  rate grass 25
+  grass morning mudbray 25-28 25
+  grass morning drilbur 25-27 25
+  grass morning taurospaldeacombat 26-28 15
+  grass morning bonsly 25-27 20
+  grass morning nacli 25-27 13
+  grass morning kangaskhan 27-28 2
+  grass day drilbur 25-27 25
+  grass day mudbray 25-28 20
+  grass day trapinch 25-27 20
+  grass day sandile 25-27 20
+  grass day rolycoly 25-27 13
+  grass day larvitar 25-27 2
+  grass night golbat 26-28 25
+  grass night sandile 25-27 25
+  grass night noibat 25-27 20
+  grass night sableye 26-28 15
+  grass night larvitar 25-27 5
+  grass night onix 26-28 10
+  surf any buizel 26-30 35
+  surf any floatzel 28-30 15
+  surf any seaking 28-30 20
+  surf any basculin 26-30 30
+  oldrod any magikarp 15-20 70
+  oldrod any goldeen 15-20 30
+  goodrod any basculin 24-28 50
+  goodrod any goldeen 24-28 50
+  superrod any feebas 25-30 10
+  superrod any seaking 30-34 45
+  superrod any gyarados 30-34 45
+  rocksmash any roggenrola 25-28 50
+  rocksmash any geodude 25-28 50
+end
+
+encounters p2_ruins_of_sol
+  rate grass 25
+  grass morning solrock 27-30 30
+  grass morning ponytagalar 27-29 20
+  grass morning helioptile 26-29 25
+  grass morning bronzor 27-29 25
+  grass day solrock 27-30 30
+  grass day sigilyph 27-30 20
+  grass day bronzor 27-29 30
+  grass day absol 28-30 5
+  grass day helioptile 26-29 15
+  grass night lunatone 27-30 35
+  grass night yamask 27-29 30
+  grass night sigilyph 27-30 20
+  grass night absol 28-30 5
+  grass night murkrow 27-29 10
+end

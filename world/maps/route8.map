@@ -1,0 +1,73 @@
+# Route 8 — canyon road north to Quarrytown, with a fast river (Surf after badge 4).
+map route8
+name "Route 8"
+location "Route 8"
+music route_mid
+environment grass
+region 25 13
+encounters p2_route8
+connect west route7 30
+connect north quarrytown -3
+
+layout
+MMMMMMMMMMM::MMMMMMMMMMM
+MMMMMMM....::...s~~~~ssM
+MM....Mrrr.::S..s~~~~ssM
+MM.........::,,,s~~~~ssM
+MM....rrrr.::,,,s~~~~ssM
+MM....Mrrr.::,,,s~~~~ssM
+MMMMMMM....::,,,s~~~~ssM
+M..........::,,,s~~~~ssM
+M.,,,,,,,,.::,,,s~~~~ssM
+M.,,,,,,,,.::,,,s~~~~ssM
+M.,,,,,,,,.::...s~~~~MMM
+M.,,,,,,,,.::...s~~~~MMM
+M.,,,,,,,,.::...s~~~~MMM
+M.,,,,,,,,.::...s~~~~MMM
+M.,,,,,,,,.::...s~~~~MMM
+M..........::...s~~~~ssM
+M.MMMMMMMM.::...s~~~~ssM
+M.MMMMMMMM.::...s~~~~ssM
+M.MMMMMMMM.::,,,s~~s~ssM
+M.MMMMMMMM.::,,,s~~s~ssM
+M.vvvvvvvv.::,,,s~~~~ssM
+M..........::,,,s~~~~ssM
+M..........::,,,s~~~~ssM
+M..........::,,,s~~~~ssM
+M.,,,,,,,,.::,,,s~~~~MMM
+M.,,,,,,,,.::,,,s~~~~MMM
+M.,,,,,,,,.::,,,s~~~~MMM
+M.,,,,,,,,.::...s~~~~MMM
+M.,,,,,,,,.::FFFs~~~~ssM
+M.,,,,,,,,.::FFFs~~~~ssM
+M.,,,,,,,,.::FFFs~~~~ssM
+M.,,,,,,,,S::FFFs~~~~ssM
+M.vvvvvvvv.::...s~~~~ssM
+M..........::...s~~~~ssM
+:::::::::::::...s~~~~ssM
+:::::::::::::...s~~~~ssM
+M...............s~~~~ssM
+M...............s~~~~ssM
+MMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMM
+end
+
+sign 10 31 text="ROUTE 8\nRoute 7 - Quarrytown"
+sign 13 2 text="QUARRYTOWN ahead\nHome of the Stone Badge."
+trainer p2_r8_hiker_rocco 10 27 sprite=hiker face=left sight=3
+trainer p2_r8_blackbelt_tora 13 15 sprite=blackbelt face=left sight=1
+trainer p2_r8_cooltrainer_sol 10 9 sprite=cooltrainer_m face=left sight=4
+trainer p2_r8_lass_gem 14 22 sprite=lass face=left sight=1
+trainer p2_r8_fisher_moss 16 30 sprite=fisherman face=right sight=1
+trainer p2_r8_ranger_ivy 13 6 sprite=ranger face=left sight=1
+trainer p2_r8_youngster_flint 3 21 sprite=youngster face=down sight=2
+npc r8_pickaxe 3 3 sprite=itemball script=p2_r8_pickaxe hideif=p2_found_pickaxe
+npc r8_miner 15 34 sprite=hiker face=left text="Rock Smash the cracked rocks up north. Somebody's always losing stuff in these canyons."
+obstacle 6 3 smash flag=p2_r8_smash1
+item ultraball 2 36 ultraball 2
+item revive 22 6 revive
+item aerodactylite 22 33 aerodactylite
+item maxrepel 9 8 maxrepel
+hidden hyperpotion 19 18 hyperpotion
+hidden rockiumz_spare 5 5 hardstone
+hidden ironball 2 13 nugget

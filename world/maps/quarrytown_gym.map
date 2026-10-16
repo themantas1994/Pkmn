@@ -1,0 +1,47 @@
+# Quarrytown Gym — Garnet (Rock). Track switches shunt mine carts out of the ridge gaps.
+map quarrytown_gym
+name "Quarrytown Gym"
+location "Quarrytown"
+music gym
+environment building
+indoor
+tags gym
+
+layout
+@@@@@@@@@@@@@@@
+@ggggGgggGgggg@
+@ggggggggggggg@
+@ggggggggggggg@
+@ggggggggggggg@
+@kkkZkkkkkkkkk@
+@ggggggkgggggg@
+@zgggggkgggggg@
+@ggggggkgggggg@
+@kkZkkkkkkkgkk@
+@ggggggggggggg@
+@gggggggggggzg@
+@ggggggggggggg@
+@kkkkkkZkkkkkk@
+@ggggggggggggg@
+@gzggggggggggg@
+@ggggGgggGgggg@
+@@@@@@@R@@@@@@@
+end
+
+warp 7 17 -> quarrytown 22 18 down
+tileif p2_qg_a 7 13 gym_floor
+tileif p2_qg_a 8 13 puzzle_wall
+tileif p2_qg_b 3 9 gym_floor
+tileif p2_qg_b 11 9 puzzle_wall
+tileif p2_qg_c 4 5 gym_floor
+tileif p2_qg_c 5 5 puzzle_wall
+trigger 2 15 1 1 script=p2_qgym_sw_a unless=p2_qg_a
+trigger 12 11 1 1 script=p2_qgym_sw_b
+trigger 1 7 1 1 script=p2_qgym_sw_c unless=p2_qg_c
+npc qg_guide 8 15 sprite=gentleman face=down script=p2_qgym_guide
+trainer p2_qg_hiker_slate 10 15 sprite=hiker face=left sight=3
+trainer p2_qg_blackbelt_shale 6 11 sprite=blackbelt face=down sight=2
+trainer p2_qg_cooltrainer_ruby 11 7 sprite=cooltrainer_f face=down sight=1
+trainer p2_qg_hiker_basalt 3 3 sprite=hiker face=right sight=3
+npc garnet 7 2 sprite=leader4 face=down script=p2_garnet
+item qg_revive 12 6 revive
