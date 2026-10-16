@@ -1,0 +1,35 @@
+# League Rematch Chamber — Elite Four (L74-77) and Champion Celeste (L78-80). Tagged powerspot: every gimmick works.
+# Leaving the chamber resets the gauntlet (onenter clears the per-visit flags).
+map champions_hall_league
+name "Rematch Chamber"
+location "Coral Isles"
+music league_hall
+environment building
+indoor
+onenter p3c_league_enter
+tags powerspot gym
+
+layout
+@@@@@@@@@@@@@@@
+@ddddddddddddd@
+@dddddGdGddddd@
+@ddddddldddddd@
+@dllldddddllld@
+@dllldddddllld@
+@ddddddldddddd@
+@dllldddddllld@
+@dllldddddllld@
+@ddddddldddddd@
+@ddddddldddddd@
+@ddddddldddddd@
+@ddddddldddddd@
+@@@@@@@D@@@@@@@
+end
+
+warp 7 13 -> champions_hall 7 2 down
+npc morrow_rm 2 4 sprite=elite1 face=right script=p3c_rm_morrow
+npc ferrum_rm 12 4 sprite=elite2 face=left script=p3c_rm_ferrum
+npc sibyl_rm 2 7 sprite=elite3 face=right script=p3c_rm_sibyl
+npc nox_rm 12 7 sprite=elite4 face=left script=p3c_rm_nox
+npc celeste_rm 7 2 sprite=champion face=down script=p3c_rm_celeste
+npc league_aide 9 11 sprite=nurse face=left script=p3c_league_aide

@@ -1,0 +1,30 @@
+# Tempest Cave depths — Lugia (L70) rests on the islet in the underground lagoon (surf).
+map tempest_cave_depths
+name "Tempest Depths"
+location "Tempest Isle"
+music cave
+environment cave
+region 28 19
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWW
+WWWWffffffWWWWW
+WWff~~~~~~ffWWW
+Wff~~~~~~~~ffWW
+Wff~~~fff~~~ffW
+Wff~~~fff~~~ffW
+Wff~~~~~~~~~ffW
+WWff~~~~~~~ffWW
+WWWfff~~~fffWWW
+WWWWffffffWWWWW
+WWWWWWWLWWWWWWW
+end
+
+warp 7 10 -> tempest_cave 14 1 down
+npc lugia 7 4 sprite=legendary_shadow face=down script=p3c_lugia hideif=p3c_caught_lugia
+item tcd_sacredash 7 5 sacredash
+hidden tcd_hidden1 2 4 cometshard

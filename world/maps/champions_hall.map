@@ -1,0 +1,45 @@
+# Champions' Hall — the eight Gym Leaders wait here for post-game rematches (L70-74).
+# The stairs at the top lead to the League rematch chamber, opened once all eight rematches are won.
+map champions_hall
+name "Champions' Hall"
+location "Coral Isles"
+music league_hall
+environment building
+indoor
+tags gym
+
+layout
+@@@@@@@U@@@@@@@
+@lllllllllllll@
+@Glllllllllllg@
+@lllllllllllll@
+@Glllllllllllg@
+@lllllllllllll@
+@Glllllllllllg@
+@lllllllllllll@
+@Glllllllllllg@
+@lllllllllllll@
+@lllllllllllll@
+@plllllllllllp@
+@lllllllllllll@
+@lllllllllllll@
+@@@@@@@R@@@@@@@
+end
+
+legend
+g gym_statue
+end
+
+warp 7 14 -> coral_town 19 8 down
+warp 7 0 -> champions_hall_league 7 12 up
+trigger 7 1 1 1 script=p3c_hall_gate unless=p3c_league_open
+npc hazel_rm 2 2 sprite=leader1 face=right script=p3c_rm_hazel
+npc marina_rm 2 4 sprite=leader2 face=right script=p3c_rm_marina
+npc volta_rm 2 6 sprite=leader3 face=right script=p3c_rm_volta
+npc garnet_rm 2 8 sprite=leader4 face=right script=p3c_rm_garnet
+npc elowen_rm 12 2 sprite=leader5 face=left script=p3c_rm_elowen
+npc blaise_rm 12 4 sprite=leader6 face=left script=p3c_rm_blaise
+npc isolde_rm 12 6 sprite=leader7 face=left script=p3c_rm_isolde
+npc ryuga_rm 12 8 sprite=leader8 face=left script=p3c_rm_ryuga
+npc hall_steward 5 12 sprite=gentleman face=right script=p3c_hall_steward
+npc hall_board 9 12 sprite=sign script=p3c_hall_board

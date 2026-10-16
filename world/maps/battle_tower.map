@@ -1,0 +1,29 @@
+# Battle Tower lobby — the left desk starts a 7-battle challenge (script p3c_tower_desk), the right desk exchanges BP.
+map battle_tower
+name "Battle Tower"
+location "Tower Isle"
+music league_hall
+environment building
+indoor
+
+layout
+^^^^^^^^^^^
+@w@@@@@@@w@
+ooooooooooo
+occccpcccco
+ooooooooooo
+ooooooooooo
+pooooooooop
+ooooooooooo
+ooooooooooo
+ooooRRRoooo
+end
+
+warp 4 9 -> tower_isle 11 9 down
+warp 5 9 -> tower_isle 11 9 down
+warp 6 9 -> tower_isle 11 9 down
+npc tower_desk 3 2 sprite=clerk face=down script=p3c_tower_desk
+npc bp_exchange 7 2 sprite=clerk face=down script=p3c_bp_exchange
+npc bt_record 1 5 sprite=sign script=p3c_tower_record
+npc bt_ace 9 7 sprite=cooltrainer_m face=left text="Tip: the first three rounds are a warm-up. Rounds four to six bring real aces.\pRound seven? Pray."
+npc bt_lady 2 7 sprite=beauty face=right text="Your Pokémon are healed between rounds, but you can't swap to the PC. Pick your six wisely!"

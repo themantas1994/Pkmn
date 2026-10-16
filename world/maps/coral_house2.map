@@ -1,0 +1,21 @@
+map coral_house2
+name "Islander's House"
+location "Coral Isles"
+music town_coastal
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+________
+_tt___p_
+_hh_____
+________
+___RR___
+end
+
+warp 3 6 -> coral_town 17 16 down
+warp 4 6 -> coral_town 17 16 down
+npc ch2_trader 5 2 sprite=pokefan face=down script=p3c_trader
+npc ch2_scholar 1 4 sprite=scientist face=up script=p3c_scholar

@@ -1,0 +1,41 @@
+# Tempest Cave — winding cave under Tempest Isle. A howling gale blocks the ladder down until the Silver Wing calms it.
+map tempest_cave
+name "Tempest Cave"
+location "Tempest Isle"
+music cave
+environment cave
+region 28 19
+encounters p3c_tempest_cave
+
+layout
+WWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWLWWWW
+WffffffWWWWWWWfWWWW
+WffkfffffffffffffWW
+WWfffffffffffkfffWW
+WWWWffWWWWWWWfffWWW
+WWWWffWWWWWWWfffWWW
+WffffffffWWWWfffWWW
+WffkffffffffffffffW
+WfffffffffffffkfffW
+WWWWWWfffWWWWWWWWWW
+WWWWWWfffWWWWWWWWWW
+WffffffffffffffffWW
+WfkfffffffffffkffWW
+WffffffffffffffffWW
+WWWWWWWffffffWWWWWW
+WWWWWWWWWfWWWWWWWWW
+WWWWWWWWWEWWWWWWWWW
+end
+
+warp 9 17 -> tempest_isle 13 6 down
+warp 14 1 -> tempest_cave_depths 7 10 up
+trigger 14 2 1 1 script=p3c_gale unless=p3c_gale_calmed
+trainer p3c_tc_hiker_rocco 4 8 sprite=hiker face=right sight=4
+trainer p3c_tc_ace_selka 12 3 sprite=cooltrainer_f face=left sight=5
+trainer p3c_tc_psychic_vey 15 12 sprite=psychic face=left sight=4
+item tc_fullrestore 1 2 fullrestore
+item tc_dragonscale 16 9 dragonscale
+item tc_choicespecs 2 14 choicespecs
+hidden tc_hidden1 6 11 rarecandy
+hidden tc_hidden2 1 7 ppmax

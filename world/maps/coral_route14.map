@@ -1,0 +1,58 @@
+# Route 14 — tropical island trail east of Coral Town to Tower Isle. The Power Spot den (Eternatus) glows in the
+# northern outcrop. Edges: W coral_town (path y=11,12), E tower_isle (path y=11,12); sea elsewhere.
+map coral_route14
+name "Route 14"
+location "Route 14"
+music route_late
+environment grass
+region 28 22
+encounters p3c_route14
+connect west coral_town 0
+connect east tower_isle 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~ssssssssssssss~~~~~sssssssss~~~~~~
+~~~~~ssTTTTTTTTTTTTss~~~ssTTTTTTTss~~~~~
+~~~~~sT,,,,,,,,,,,,Ts~~~sTMMMMMMMTs~~~~~
+~~~~~sT,,,,,,,,,,,,TsssssTMMMEMMMTs~~~~~
+~~~~~sT,,,,TT,,,,,,T........:....s~~~~~~
+~~~~~sT,,,,TT,,,,,,,........:....s~~~~~~
+~~~~~sT...........,,,.......:....s~~~~~~
+~~~~~sTT..........,,,.......:..TTTs~~~~~
+TTTTTTTTTTTT..TTTTTTTTTTTTTT:TTTTTTTTTTT
+::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::
+TTTTTTTTT..TTTTTTTTTTTT..TTTTTTTTTTTTTTT
+~~~~sssT...,,,,,,,,,T....,,,,,,,,Tsss~~~
+~~~ssFFT...,,,,,,,,,T....,,,,,,,,TFFss~~
+~~~sssTT...,,,,,,,,,TT...,,,,,,,,TTsss~~
+~~~~ssssT.............:........Tssss~~~~
+~~~~~~ssssssssssssssssssssssssssss~~~~~~
+~~~~~~~~sssssss~~~~~~~~~sssssss~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+warp 29 5 -> max_den 7 12 up
+sign 27 9 text="POWER SPOT DEN\nDanger! Dynamax energy readings off the charts."
+tile 27 9 sign
+sign 3 11 text="ROUTE 14\nCoral Town - Tower Isle"
+tile 3 11 sign
+trainer p3c_r14_ace_mara 9 11 sprite=cooltrainer_f face=down sight=4
+trainer p3c_r14_ace_drake 20 12 sprite=cooltrainer_m face=up sight=4
+trainer p3c_r14_ranger_kai 14 5 sprite=ranger face=down sight=4
+trainer p3c_r14_hiker_tum 22 7 sprite=hiker face=left sight=3
+trainer p3c_r14_beauty_lei 15 15 sprite=beauty face=left sight=3
+trainer p3c_r14_blackbelt_koa 28 15 sprite=blackbelt face=left sight=4
+trainer p3c_r14_swimmer_ana 20 21 sprite=swimmer_f face=left sight=4
+npc r14_researcher 30 7 sprite=scientist face=left script=p3c_den_researcher
+item r14_ultraball 8 4 ultraball 3
+item r14_bottlecap 35 16 bottlecap
+item r14_expcandy 5 15 expcandyl 2
+hidden r14_hidden1 13 2 starpiece
+hidden r14_hidden2 27 19 bigpearl
+hidden r14_hidden3 9 6 leafstone

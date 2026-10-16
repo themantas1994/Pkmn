@@ -1,0 +1,22 @@
+# Battle Tower arena — the challenge script warps the player here, runs the battles, then returns to the lobby.
+map battle_tower_room
+name "Battle Room"
+location "Tower Isle"
+music league_hall
+environment building
+indoor
+tags powerspot
+
+layout
+@@@@@@@@@
+@lllllll@
+@lGlllGl@
+@lllllll@
+@lllllll@
+@lGlllGl@
+@lllllll@
+@@@@R@@@@
+end
+
+warp 4 7 -> battle_tower 5 5 down
+npc bt_referee 1 3 sprite=gentleman face=right text="Battle on! The Tower is watching."

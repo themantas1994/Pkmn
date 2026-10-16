@@ -1,0 +1,69 @@
+# Coral Town — post-game harbour town of the Coral Isles (Part 3C). Reached by ferry from Port Tidewater.
+# Edges: N sea -> coral_route17, E path (y=11,12) -> coral_route14, S sea -> coral_route15, W sea -> cinder_isle.
+map coral_town
+name "Coral Town"
+location "Coral Isles"
+music town_coastal
+environment sand
+region 26 22
+fly 12 12
+tags town
+encounters p3c_coral_town
+connect north coral_route17 0
+connect east coral_route14 0
+connect south coral_route15 0
+connect west cinder_isle 0
+
+layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~ssssssssssssssssssssss~~~~
+~~~sssTTTTTTTTTTTTTTTTTTsss~~~
+~~ssT....................Tss~~
+~~sT......................Ts~~
+~~sT......................Ts~~
+~~sT......................Ts~~
+~~sT...:::::::::::::::::..Ts~~
+~~sT...:..............:...Tss~
+~~sT...:..............:...TTTT
+~~sT::::::::::::::::::::::::::
+~~sT::::::::::::::::::::::::::
+~~sT...:..............:...TTTT
+~~sT...:..............:...Tss~
+~~sT...:..............:...Ts~~
+~~sT...:..............:...Ts~~
+~~sT...:..FFF...FFF...:...Ts~~
+~~sT...:::::::::::::::::..Ts~~
+~~ssT......:.............Tss~~
+~~~ssTTTTTT:TTTTTTTTTTTTss~~~~
+~~~~sssssss:sssssssssssss~~~~~
+~~~~~~~~~HHHHH~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+end
+
+building center 5 5 -> coral_center 4 7 up
+building mart 11 5 -> coral_mart 2 7 up
+building p3c_hall 16 5 -> champions_hall 7 13 up
+building house 9 13 -> coral_house 3 6 up
+building house_blue 15 13 -> coral_house2 3 6 up
+sign 13 10 text="CORAL TOWN\nWhere the sea sings to the sky."
+tile 13 10 sign
+sign 24 8 text="CHAMPIONS' HALL\nThe Leaders, the Elite Four and the Champion await a rematch."
+tile 24 8 sign
+sign 27 13 text="ROUTE 14 - east\nBattle Tower on Tower Isle."
+tile 27 13 sign
+sign 14 21 text="CORAL PIER\nFerry service to Port Tidewater."
+tile 14 21 sign
+npc coral_sailor 13 22 sprite=sailor face=left script=p3c_ferry_return
+npc ct_rival 24 16 sprite=rival face=left script=p3c_rival_coral
+npc ct_fisher 6 21 sprite=fisherman face=down script=p3c_coral_fisher
+npc ct_oldman 20 10 sprite=oldman face=down script=p3c_coral_legends
+npc ct_lass 14 16 sprite=lass move=wander text="Islanders say every isle has a guardian. The sun, the moon, the storm, the sea and the land!"
+npc ct_swimmer 2 9 sprite=swimmer_f face=right text="North of town the current runs cold, all the way to Tempest Isle.\pSouth, past the reefs, there's an atoll shaped like an eclipse!"
+npc ct_ranger 27 11 sprite=ranger face=left text="East is Route 14 and Tower Isle. West, across the water, smokes Cinder Isle.\pIf you see a giant purple glow on Route 14... that's the Power Spot den. Don't poke it without a Dynamax Band!"
+npc ct_kid 8 10 sprite=kid move=wander text="My big sister lost to the Battle Tower's Tycoon twenty times. TWENTY!"
+item ct_maxrevive 26 4 maxrevive
+item ct_ppmax 3 19 ppmax
+hidden ct_hidden1 4 3 starpiece
+hidden ct_hidden2 24 21 bigpearl
+hidden ct_hidden3 12 17 rarecandy
