@@ -64,7 +64,7 @@ sign 3 4 text="ROUTE 1"                 # or script=<id>
 item potion1 8 9 potion 1               # visible item ball (id is local to the map)
 hidden ether1 12 3 ether                # hidden item (found by interacting)
 trigger 9 0 2 1 script=leave_town unless=got_starter if=other_flag   # step-on trigger area x y w h
-obstacle 5 5 cut flag=cut_route1_1      # cut | smash | boulder (removable obstacles)
+obstacle 5 5 cut flag=cut_route1_1      # cut | smash | boulder: object drawn over the ground tile; place it on walkable ground
 ```
 Edge connections must be reciprocal (north of A = south of B with the negated offset).
 Movement rules come from tile names (see `TileRules` in `engine/.../world/WorldModel.kt`): trees, walls,

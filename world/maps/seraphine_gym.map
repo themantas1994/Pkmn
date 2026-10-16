@@ -1,0 +1,46 @@
+# Seraphine Gym — Elowen (Fairy). Mist walls part when the right switches are pressed.
+map seraphine_gym
+name "Seraphine Gym"
+location "Seraphine Town"
+music gym
+environment building
+indoor
+tags gym
+
+layout
+@@@@@@@@@@@@@@@
+@ggggGgggGgggg@
+@ggggggggggggg@
+@ggggggggggggg@
+@ggggggggggggg@
+@ZZZZZZZZZZZZZ@
+@ggggggggggggg@
+@gzgZggzggZggg@
+@gggZgggggZggg@
+@ZZZZZZZZZZZZZ@
+@ggggggggggggg@
+@gzgggggggggzg@
+@ggggggggggggg@
+@ZZZZZZZZZZZZZ@
+@ggggggggggggg@
+@gggggggggggzg@
+@ggggGgggGgggg@
+@@@@@@@R@@@@@@@
+end
+
+warp 7 17 -> seraphine_town 7 22 down
+tileif p2_sg_a 2 13 gym_floor
+tileif p2_sg_b 12 9 gym_floor
+tileif p2_sg_c 7 5 gym_floor
+trigger 12 15 1 1 script=p2_sgym_sw_a unless=p2_sg_a
+trigger 12 11 1 1 script=p2_sgym_sw_b unless=p2_sg_b
+trigger 2 11 1 1 script=p2_sgym_trap
+trigger 2 7 1 1 script=p2_sgym_trap
+trigger 7 7 1 1 script=p2_sgym_sw_c unless=p2_sg_c
+npc sg_guide 8 15 sprite=gentleman face=down script=p2_sgym_guide
+trainer p2_sg_beauty_aria 4 15 sprite=beauty face=right sight=3
+trainer p2_sg_lass_pixie 5 11 sprite=lass face=right sight=1
+trainer p2_sg_psychic_nyx 9 11 sprite=psychic face=left sight=1
+trainer p2_sg_cooltrainer_fae 7 8 sprite=cooltrainer_f face=down sight=0
+trainer p2_sg_gentleman_puff 11 3 sprite=gentleman face=left sight=3
+npc elowen 7 2 sprite=leader5 face=down script=p2_elowen

@@ -1,0 +1,40 @@
+map cobblecrest_b1f
+name "Cobblecrest Cave B1F"
+location "Cobblecrest Cave"
+music cave
+environment cave
+region 14 11
+encounters cobblecrest_b1f
+
+layout
+WWWWWWWWWWWWWWWWWWWWWWWW
+WffffffWfffffffffffffffW
+WfLffffWfffffffffffffffW
+WffffffWffffkkfffffffffW
+WffffffffffffffffffffffW
+WWWWfffWWWWWfffffffffffW
+WffffffWWWWWfffffffffffW
+WffffffWWWWWffffWWWffffW
+WffffffffffffffffffffffW
+WfffkfffffffWWWffffffffW
+WfffffffffffWWWffffffffW
+WWWWWWWWffffWWWffffffffW
+WffffffWffffWWWffffffffW
+WffffffffffffffffffffffW
+WffffffWfffffffffffffffW
+WffffffWffffWWWWfffffffW
+WffffffWfffffffffffffffW
+WWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 2 2 -> cobblecrest_1f 24 16 down
+obstacle 7 13 smash flag=p1_smash_cc3
+npc lost_hiker 20 15 sprite=hiker face=left script=p1_cc_lost_hiker
+trainer ccb_hiker_ned 15 6 sprite=hiker face=left sight=3
+trainer ccb_psychic_ida 9 10 sprite=psychic face=left sight=4
+trainer ccb_blackbelt_sho 21 10 sprite=blackbelt face=left sight=5
+item ccb_moonstone 2 14 moonstone
+item ccb_ether 22 1 ether
+item ccb_superpotion 22 16 superpotion
+hidden ccb_candy 14 13 rarecandy
+hidden ccb_stardust 4 6 stardust

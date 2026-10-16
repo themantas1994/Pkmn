@@ -76,6 +76,12 @@ class GameState(
     var hallOfFame: MutableList<List<String>> = mutableListOf(),
     /** Last-visited Pokémon Center for the "blackout" return. */
     var lastCenterMap: String = "",
+    /** Where `-> @back` warps return to (set when entering a map through a warp). */
+    var backMap: String = "",
+    var backX: Int = 0,
+    var backY: Int = 0,
+    /** Key item registered to SELECT (e.g. bicycle). */
+    var registeredItem: String? = null,
 ) {
     fun hasFlag(f: String) = f in flags
     fun setFlag(f: String) { flags.add(f) }

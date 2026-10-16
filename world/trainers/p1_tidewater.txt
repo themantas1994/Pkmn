@@ -1,0 +1,132 @@
+# Part 1: Port Tidewater - docks heist, rival (L19), Gym 2 (Water, cap 21).
+
+trainer tw_sailor_ray
+  class sailor
+  name "Ray"
+  intro "Ahoy! Nobody passes my pier without a battle!"
+  defeat "Sunk without a trace!"
+  after "The big ferry sails to the Coral Isles. Only Champions get a ticket, though."
+  mon tentacool 17
+  mon machop 17
+end
+
+trainer p1_wh_grunt_a
+  class grunt_f
+  name "Grunt"
+  intro "The harbor's light shard is ours! Scram, kid!"
+  defeat "No way! Not again!"
+  after "Our admins will hear about you. You'll regret this!"
+  mon zubat 16
+  mon purrloin 17
+end
+
+trainer p1_wh_grunt_b
+  class grunt_m
+  name "Grunt"
+  intro "You're the brat from Whisperwood! Payback time!"
+  defeat "Payback... postponed..."
+  after "Darkness is coming. Team Eclipse will make sure of it."
+  mon koffing 17
+  mon poochyena 17
+end
+
+trainer p1_wh_grunt_boss
+  class grunt_m
+  name "Grunt Leader"
+  ai 2
+  intro "Hmph. So you're the meddler everyone's whining about.\pLet's see how long you last against me!"
+  defeat "I... I lost? To a kid?!"
+  after "Enjoy your little victory. The long night is coming."
+  items potion=1
+  mon zubat 17
+  mon koffing 18
+  mon mightyena 19 moves=thief,thunderfang,howl,sandattack
+end
+
+trainer rival_port_cyndaquil
+  class rival
+  name "{rival}"
+  ai 2
+  intro "{player}! Took you long enough to get through that cave!\pI've been training nonstop. Let me show you!"
+  defeat "Ugh! I was so sure this time..."
+  mon pidgeotto 17
+  mon gastly 16
+  mon quilava 19
+end
+
+trainer rival_port_totodile
+  class rival
+  name "{rival}"
+  ai 2
+  intro "{player}! Took you long enough to get through that cave!\pI've been training nonstop. Let me show you!"
+  defeat "Ugh! I was so sure this time..."
+  mon pidgeotto 17
+  mon gastly 16
+  mon croconaw 19
+end
+
+trainer rival_port_chikorita
+  class rival
+  name "{rival}"
+  ai 2
+  intro "{player}! Took you long enough to get through that cave!\pI've been training nonstop. Let me show you!"
+  defeat "Ugh! I was so sure this time..."
+  mon pidgeotto 17
+  mon gastly 16
+  mon bayleef 19
+end
+
+trainer gym2_nell
+  class swimmer_f
+  name "Nell"
+  intro "Splash! The water's fine. The battle will be finer!"
+  defeat "Wiped out!"
+  after "See the odd tile in the corner? Step on it and the floor shifts!"
+  mon goldeen 17
+  mon shellos 18
+end
+
+trainer gym2_otis
+  class swimmer_m
+  name "Otis"
+  intro "I swim laps in this gym every day. Ready for a dunking?"
+  defeat "I need a towel..."
+  after "Marina's switches raise bridges over the pools. One per pool!"
+  mon tentacool 18
+  mon chewtle 18
+end
+
+trainer gym2_pearl
+  class swimmer_f
+  name "Pearl"
+  intro "Floating platforms are tricky. So am I!"
+  defeat "Tricked myself..."
+  after "The second switch is on the far right of this level."
+  mon psyduck 18
+  mon arrokuda 19
+end
+
+trainer gym2_quinn
+  class sailor
+  name "Quinn"
+  intro "Marina's the captain of this gym! Get past me first, landlubber!"
+  defeat "Abandon ship!"
+  after "Marina's Frogadier is lightning fast. Electric and Grass moves hit it hard!"
+  mon wingull 18
+  mon krabby 19
+end
+
+trainer p1_leader_marina
+  class leader
+  name "Marina"
+  portrait leader2
+  ai 2
+  intro "So you're the one who saved my harbor. Thank you, truly.\pBut on this battlefield, gratitude won't hold back the tide! I'm Marina. Prepare to be swept away!"
+  defeat "What a wave you rode, {player}! The Tide Badge is yours."
+  after "The sea teaches patience and power. You have both. Go show Tessera what you're made of!"
+  items superpotion=2
+  mon wingull 19 moves=watergun,wingattack,quickattack,supersonic
+  mon marill 19 moves=bubblebeam,charm,watergun,tailwhip
+  mon buizel 20 moves=watergun,quickattack,bite,soak
+  mon frogadier 21 moves=waterpulse,quickattack,lick,smokescreen item=sitrusberry
+end

@@ -1,0 +1,19 @@
+map lumen_researcher
+name "Ruins Researcher's House"
+location "Lumen Village"
+music town_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@B@w@
+________
+__tt____
+__hh___p
+___RR___
+end
+
+warp 3 5 -> lumen_village 6 14 down
+warp 4 5 -> lumen_village 6 14 down
+npc researcher 5 3 sprite=scientist face=left script=p2_lumen_researcher

@@ -1,0 +1,47 @@
+map cobblecrest_1f
+name "Cobblecrest Cave"
+location "Cobblecrest Cave"
+music cave
+environment cave
+region 14 11
+encounters cobblecrest_1f
+
+layout
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WffffffffWWWWffffffffffWfffffW
+WffffffffWWWWffffkkffffWfffffW
+WfffkffffWWWWffffffffffWfffffW
+WffffffffffffffffffffffWfffffW
+WWWffffffWWWWWWffffffffWfffffW
+WWWffffffWWWWWWffffffffWWfWWWW
+WffffffffffffWWffffffffffffffW
+WffffffffffffWWffffffffffffffW
+WWfffkfffffffWWffffffkfffffffW
+EffffffffffffWWffffffffffffffW
+WffffffffffffWWffffffWWWWWWWWW
+WfffffWWWffffffffffffWWWWWWWWW
+WfffffWWWffffffffffffffffffffW
+WfffffWWWffffffffffffffffffffE
+WfffffWWWffffffffWWWWffffffffW
+WffffffffffffffffWWWWfffLffffW
+WffffffffffffffffWWWWffffffffW
+WWWWWWfffWWWWWWWWWWWWffffffffW
+WffffWfffWWWWWWWWWWWWffffffffW
+WffffffffWWWWWWWWWWWWffffffffW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 0 10 -> route4 16 11 left
+warp 29 14 -> route4 23 15 right
+warp 24 16 -> cobblecrest_b1f 2 2 down
+obstacle 25 6 smash flag=p1_smash_cc1
+obstacle 5 20 smash flag=p1_smash_cc2
+trainer cc_hiker_gus 7 7 sprite=hiker face=down sight=4
+trainer cc_camper_lou 20 9 sprite=youngster face=left sight=4
+trainer cc_hiker_bert 25 17 sprite=hiker face=up sight=3
+item cc_everstone 26 2 everstone
+item cc_hardstone 2 19 hardstone
+item cc_potion 1 1 superpotion
+item cc_rope 27 20 escaperope
+hidden cc_ether 20 1 ether
+hidden cc_berry 1 17 leppaberry

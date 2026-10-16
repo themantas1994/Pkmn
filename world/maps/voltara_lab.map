@@ -1,0 +1,26 @@
+# Dr. Mira's Mega Evolution lab.
+map voltara_lab
+name "Mira Mega Lab"
+location "Voltara City"
+music intro_professor
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@BBw@@wPP@
+__________
+______ttt_
+__________
+_p______p_
+__________
+_B______B_
+__________
+____RR____
+end
+
+warp 4 9 -> voltara_city 30 13 down
+warp 5 9 -> voltara_city 30 13 down
+npc mira 4 2 sprite=scientist face=down script=p2_mira
+npc mira_aide 1 6 sprite=scientist face=right script=p2_mira_aide
+npc mira_ball 7 3 sprite=pokeball_overworld script=p2_mira_ball hideif=p2_got_mira_gift

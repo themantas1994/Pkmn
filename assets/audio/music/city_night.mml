@@ -1,0 +1,29 @@
+; City at night - smoky shuffle in C minor. Original composition, CC0-1.0.
+#title Neon After Dark
+#tempo 88
+#time 4/4
+#key C minor
+#inst 1 duty=1 env=10,-4 rel=-2 vib=24,18,4.5
+#inst 2 duty=2 env=6,-2
+#inst 3 wave=3 env=14,0
+#def cp o4 r4 e8. g16 r4 e8. g16
+#def cm o4 r4 d+8. g16 r4 d+8. g16
+#def cp2 o4 r4 e8. g16
+#def cm2 o4 r4 d+8. g16
+#def cd2 o4 r4 d+8. f+16
+#def wm o2 c4 d+4 g4 d+4
+#def wM o2 c4 e4 g4 e4
+#def w2 o2 c4 g4
+#def wd2 o2 c4 f+4
+#def sw K8. H16 R8. H16 H8. K16 R8. H16
+#def ma o5 g4 e-8. c16 d8. e-16 g4 | o5 c4. o4 a-8 o5 c4 e-4 | o5 f8. a-16 g8. f16 e-8. f16 c4 | o4 b2 o5 d4 r4 | o5 g4 e-8. c16 d8. e-16 g4 | o5 b-4. a-8 g4 e-4 | o5 a-4 f4 d4 o4 b4 | o5 c2. r4 |
+#def mb o5 e-8. c16 e-8. f16 a-4 g4 | o5 f4. d8 b-4 r4 | o5 g8. f16 e-8. d16 e-4 b-4 | o5 c2 r4 g4 | o5 a-4. g8 f4 e-4 | o5 f4 a-4 o6 c4 o5 a-4 | o5 a-4 f4 d4 g4 | o4 b4 o5 d4 f4 a-4 |
+#def ha k0{cm} | k-4{cp} | k5{cm} | k-5{cp} | k0{cm} | k3{cp} | k5{cm2} k-5{cp2} | k0{cm} | k0
+#def hb k-4{cp} | k-2{cp} | k3{cp} | k0{cm} | k-4{cp} | k5{cm} | k2{cd2} k-5{cp2} | k-5{cp} | k0
+#def ba k0{wm} | k8{wM} | k5{wm} | k7{wM} | k0{wm} | k3{wM} | k5{w2} k7{w2} | k0{wm} | k0
+#def bb k8{wM} | k10{wM} | k3{wM} | k0{wm} | k8{wM} | k5{wm} | k2{wd2} k7{w2} | k7{wM} | k0
+
+A @1 $ {ma} {mb}
+B @2 $ {ha} {hb}
+C @3 $ {ba} {bb}
+D v9 $ [{sw}]16

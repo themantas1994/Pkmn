@@ -1,0 +1,4414 @@
+{
+  "edges": 529,
+  "byMethod": {
+    "LEVEL": 374,
+    "LEVEL_EXTRA": 3,
+    "LEVEL_FRIENDSHIP": 19,
+    "LEVEL_HOLD": 4,
+    "LEVEL_MOVE": 15,
+    "OTHER": 16,
+    "TRADE": 30,
+    "USE_ITEM": 68
+  },
+  "byConditionCode": {
+    "(none)": 469,
+    "atk<def": 1,
+    "atk=def": 1,
+    "atk>def": 1,
+    "coins:999": 1,
+    "crits:3": 1,
+    "day": 9,
+    "defeat:bisharp:3": 1,
+    "dusk": 1,
+    "fullmoon": 1,
+    "hplost:49": 1,
+    "location:magnetic": 1,
+    "movetype:Fairy+friendship": 1,
+    "moveuses:barbbarrage:20": 1,
+    "moveuses:psyshieldbash:20": 1,
+    "moveuses:ragefist:20": 1,
+    "night": 10,
+    "night&region:Alola": 1,
+    "party:remoraid": 1,
+    "partytype:Dark": 1,
+    "rain": 2,
+    "recoil:294": 2,
+    "region:Alola": 2,
+    "region:Galar": 2,
+    "region:Hisui": 7,
+    "spin": 1,
+    "steps:1000": 3,
+    "tower:rapid": 1,
+    "tower:single": 1,
+    "tradewith:karrablast": 1,
+    "tradewith:shelmet": 1,
+    "upsidedown": 1
+  },
+  "satisfiable": 507,
+  "unsatisfiable": 22,
+  "method": "Each evolution is checked by searching for a game state under which pkmn.engine.mon.Progression.evolutionTarget returns its target. The game's region is fixed to Progression.EvolutionContext().region.",
+  "gameRegion": "Tessera",
+  "unsatisfiableEvolutions": [
+    {
+      "from": "pikachu",
+      "to": "raichualola",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "conditionCode": "region:Alola",
+      "reason": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "exeggcute",
+      "to": "exeggutoralola",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "conditionCode": "region:Alola",
+      "reason": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "cubone",
+      "to": "marowakalola",
+      "method": "LEVEL",
+      "level": 28,
+      "condition": "at night",
+      "conditionCode": "night&region:Alola",
+      "reason": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "koffing",
+      "to": "weezinggalar",
+      "method": "LEVEL",
+      "level": 35,
+      "conditionCode": "region:Galar",
+      "reason": "regional evolution limited to Galar; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "quilava",
+      "to": "typhlosionhisui",
+      "method": "LEVEL",
+      "level": 36,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "dunsparce",
+      "to": "dudunsparce",
+      "method": "LEVEL_MOVE",
+      "move": "hyperdrill",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparcethreesegment first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "wurmple",
+      "to": "cascoon",
+      "method": "LEVEL",
+      "level": 7,
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns silcoon first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "nincada",
+      "to": "shedinja",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "N",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns ninjask first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "burmy",
+      "to": "wormadamsandy",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "F",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "burmy",
+      "to": "wormadamtrash",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "F",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "mimejr",
+      "to": "mrmimegalar",
+      "method": "LEVEL_MOVE",
+      "move": "mimic",
+      "conditionCode": "region:Galar",
+      "reason": "regional evolution limited to Galar; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "dewott",
+      "to": "samurotthisui",
+      "method": "LEVEL",
+      "level": 36,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "petilil",
+      "to": "lilliganthisui",
+      "method": "USE_ITEM",
+      "item": "sunstone",
+      "conditionCode": "region:Hisui",
+      "gender": "F",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "rufflet",
+      "to": "braviaryhisui",
+      "method": "LEVEL",
+      "level": 54,
+      "conditionCode": "region:Hisui",
+      "gender": "M",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "spewpa",
+      "to": "vivillonfancy",
+      "method": "LEVEL",
+      "level": 12,
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns vivillon first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "goomy",
+      "to": "sliggoohisui",
+      "method": "LEVEL",
+      "level": 40,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "bergmite",
+      "to": "avalugghisui",
+      "method": "LEVEL",
+      "level": 37,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "dartrix",
+      "to": "decidueyehisui",
+      "method": "LEVEL",
+      "level": 36,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "milcery",
+      "to": "alcremie",
+      "method": "OTHER",
+      "condition": "spin while holding a Sweet",
+      "conditionCode": "spin",
+      "gender": "F",
+      "reason": "Progression has no in-game input for condition 'spin' (otherMet returns false)"
+    },
+    {
+      "from": "kubfu",
+      "to": "urshifu",
+      "method": "OTHER",
+      "condition": "Defeat the Single Strike Tower",
+      "conditionCode": "tower:single",
+      "reason": "Progression has no in-game input for condition 'tower:single' (otherMet returns false)"
+    },
+    {
+      "from": "kubfu",
+      "to": "urshifurapidstrike",
+      "method": "OTHER",
+      "condition": "Defeat the Rapid Strike Tower",
+      "conditionCode": "tower:rapid",
+      "reason": "Progression has no in-game input for condition 'tower:rapid' (otherMet returns false)"
+    },
+    {
+      "from": "tandemaus",
+      "to": "maushold",
+      "method": "LEVEL",
+      "level": 25,
+      "gender": "N",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns mausholdfour first (first matching entry wins; the official branch-selection rule is not modelled)"
+    }
+  ],
+  "satisfiableOnlyWithMapOrDeviceSupport": [
+    {
+      "from": "ursaring",
+      "to": "ursaluna",
+      "method": "OTHER",
+      "condition": "Peat Block when there's a full moon",
+      "conditionCode": "fullmoon",
+      "requires": [
+        "night",
+        "locationTag:fullmoon"
+      ]
+    },
+    {
+      "from": "nosepass",
+      "to": "probopass",
+      "method": "LEVEL_EXTRA",
+      "condition": "near a special magnetic field",
+      "conditionCode": "location:magnetic",
+      "requires": [
+        "locationTag:magnetic"
+      ]
+    },
+    {
+      "from": "yamaskgalar",
+      "to": "runerigus",
+      "method": "OTHER",
+      "condition": "Have 49+ HP lost and walk under stone sculpture in Dusty Bowl",
+      "conditionCode": "hplost:49",
+      "requires": [
+        "locationTag:dustybowl",
+        "counter:hplost>=49"
+      ]
+    },
+    {
+      "from": "inkay",
+      "to": "malamar",
+      "method": "LEVEL",
+      "level": 30,
+      "condition": "with the console turned upside-down",
+      "conditionCode": "upsidedown",
+      "requires": [
+        "deviceUpsideDown"
+      ]
+    }
+  ],
+  "all": [
+    {
+      "from": "bulbasaur",
+      "to": "ivysaur",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "ivysaur",
+      "to": "venusaur",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "charmander",
+      "to": "charmeleon",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "charmeleon",
+      "to": "charizard",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "squirtle",
+      "to": "wartortle",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "wartortle",
+      "to": "blastoise",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "caterpie",
+      "to": "metapod",
+      "method": "LEVEL",
+      "level": 7,
+      "requires": []
+    },
+    {
+      "from": "metapod",
+      "to": "butterfree",
+      "method": "LEVEL",
+      "level": 10,
+      "requires": []
+    },
+    {
+      "from": "weedle",
+      "to": "kakuna",
+      "method": "LEVEL",
+      "level": 7,
+      "requires": []
+    },
+    {
+      "from": "kakuna",
+      "to": "beedrill",
+      "method": "LEVEL",
+      "level": 10,
+      "requires": []
+    },
+    {
+      "from": "pidgey",
+      "to": "pidgeotto",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "pidgeotto",
+      "to": "pidgeot",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "rattata",
+      "to": "raticate",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "rattataalola",
+      "to": "raticatealola",
+      "method": "LEVEL",
+      "level": 20,
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "spearow",
+      "to": "fearow",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "ekans",
+      "to": "arbok",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "pikachu",
+      "to": "raichu",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "requires": [
+        "useItem:thunderstone"
+      ]
+    },
+    {
+      "from": "pikachu",
+      "to": "raichualola",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "conditionCode": "region:Alola",
+      "reason": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "sandshrew",
+      "to": "sandslash",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "sandshrewalola",
+      "to": "sandslashalola",
+      "method": "USE_ITEM",
+      "item": "icestone",
+      "requires": [
+        "useItem:icestone"
+      ]
+    },
+    {
+      "from": "nidoranf",
+      "to": "nidorina",
+      "method": "LEVEL",
+      "level": 16,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "nidorina",
+      "to": "nidoqueen",
+      "method": "USE_ITEM",
+      "item": "moonstone",
+      "gender": "F",
+      "requires": [
+        "useItem:moonstone"
+      ]
+    },
+    {
+      "from": "nidoranm",
+      "to": "nidorino",
+      "method": "LEVEL",
+      "level": 16,
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "nidorino",
+      "to": "nidoking",
+      "method": "USE_ITEM",
+      "item": "moonstone",
+      "gender": "M",
+      "requires": [
+        "useItem:moonstone"
+      ]
+    },
+    {
+      "from": "clefairy",
+      "to": "clefable",
+      "method": "USE_ITEM",
+      "item": "moonstone",
+      "requires": [
+        "useItem:moonstone"
+      ]
+    },
+    {
+      "from": "vulpix",
+      "to": "ninetales",
+      "method": "USE_ITEM",
+      "item": "firestone",
+      "requires": [
+        "useItem:firestone"
+      ]
+    },
+    {
+      "from": "vulpixalola",
+      "to": "ninetalesalola",
+      "method": "USE_ITEM",
+      "item": "icestone",
+      "requires": [
+        "useItem:icestone"
+      ]
+    },
+    {
+      "from": "jigglypuff",
+      "to": "wigglytuff",
+      "method": "USE_ITEM",
+      "item": "moonstone",
+      "requires": [
+        "useItem:moonstone"
+      ]
+    },
+    {
+      "from": "zubat",
+      "to": "golbat",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "golbat",
+      "to": "crobat",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "oddish",
+      "to": "gloom",
+      "method": "LEVEL",
+      "level": 21,
+      "requires": []
+    },
+    {
+      "from": "gloom",
+      "to": "vileplume",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "requires": [
+        "useItem:leafstone"
+      ]
+    },
+    {
+      "from": "gloom",
+      "to": "bellossom",
+      "method": "USE_ITEM",
+      "item": "sunstone",
+      "requires": [
+        "useItem:sunstone"
+      ]
+    },
+    {
+      "from": "paras",
+      "to": "parasect",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "venonat",
+      "to": "venomoth",
+      "method": "LEVEL",
+      "level": 31,
+      "requires": []
+    },
+    {
+      "from": "diglett",
+      "to": "dugtrio",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "diglettalola",
+      "to": "dugtrioalola",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "meowth",
+      "to": "persian",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "meowthalola",
+      "to": "persianalola",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "meowthgalar",
+      "to": "perrserker",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "psyduck",
+      "to": "golduck",
+      "method": "LEVEL",
+      "level": 33,
+      "requires": []
+    },
+    {
+      "from": "mankey",
+      "to": "primeape",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "primeape",
+      "to": "annihilape",
+      "method": "OTHER",
+      "condition": "Use Rage Fist 20 times and level-up",
+      "conditionCode": "moveuses:ragefist:20",
+      "requires": [
+        "counter:use:ragefist>=20"
+      ]
+    },
+    {
+      "from": "growlithe",
+      "to": "arcanine",
+      "method": "USE_ITEM",
+      "item": "firestone",
+      "requires": [
+        "useItem:firestone"
+      ]
+    },
+    {
+      "from": "growlithehisui",
+      "to": "arcaninehisui",
+      "method": "USE_ITEM",
+      "item": "firestone",
+      "requires": [
+        "useItem:firestone"
+      ]
+    },
+    {
+      "from": "poliwag",
+      "to": "poliwhirl",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "poliwhirl",
+      "to": "poliwrath",
+      "method": "USE_ITEM",
+      "item": "waterstone",
+      "requires": [
+        "useItem:waterstone"
+      ]
+    },
+    {
+      "from": "poliwhirl",
+      "to": "politoed",
+      "method": "TRADE",
+      "item": "kingsrock",
+      "requires": [
+        "holdItem:kingsrock",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "abra",
+      "to": "kadabra",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "kadabra",
+      "to": "alakazam",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "machop",
+      "to": "machoke",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "machoke",
+      "to": "machamp",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "bellsprout",
+      "to": "weepinbell",
+      "method": "LEVEL",
+      "level": 21,
+      "requires": []
+    },
+    {
+      "from": "weepinbell",
+      "to": "victreebel",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "requires": [
+        "useItem:leafstone"
+      ]
+    },
+    {
+      "from": "tentacool",
+      "to": "tentacruel",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "geodude",
+      "to": "graveler",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "geodudealola",
+      "to": "graveleralola",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "graveler",
+      "to": "golem",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "graveleralola",
+      "to": "golemalola",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "ponyta",
+      "to": "rapidash",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "ponytagalar",
+      "to": "rapidashgalar",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "slowpoke",
+      "to": "slowbro",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "slowpoke",
+      "to": "slowking",
+      "method": "TRADE",
+      "item": "kingsrock",
+      "requires": [
+        "holdItem:kingsrock",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "slowpokegalar",
+      "to": "slowbrogalar",
+      "method": "USE_ITEM",
+      "item": "galaricacuff",
+      "requires": [
+        "useItem:galaricacuff"
+      ]
+    },
+    {
+      "from": "slowpokegalar",
+      "to": "slowkinggalar",
+      "method": "USE_ITEM",
+      "item": "galaricawreath",
+      "requires": [
+        "useItem:galaricawreath"
+      ]
+    },
+    {
+      "from": "magnemite",
+      "to": "magneton",
+      "method": "LEVEL",
+      "level": 30,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "magneton",
+      "to": "magnezone",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "gender": "N",
+      "requires": [
+        "useItem:thunderstone"
+      ]
+    },
+    {
+      "from": "farfetchdgalar",
+      "to": "sirfetchd",
+      "method": "OTHER",
+      "condition": "Land 3 critical hits in 1 battle",
+      "conditionCode": "crits:3",
+      "requires": [
+        "counter:crits>=3"
+      ]
+    },
+    {
+      "from": "doduo",
+      "to": "dodrio",
+      "method": "LEVEL",
+      "level": 31,
+      "requires": []
+    },
+    {
+      "from": "seel",
+      "to": "dewgong",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "grimer",
+      "to": "muk",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "grimeralola",
+      "to": "mukalola",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "shellder",
+      "to": "cloyster",
+      "method": "USE_ITEM",
+      "item": "waterstone",
+      "requires": [
+        "useItem:waterstone"
+      ]
+    },
+    {
+      "from": "gastly",
+      "to": "haunter",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "haunter",
+      "to": "gengar",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "onix",
+      "to": "steelix",
+      "method": "TRADE",
+      "item": "metalcoat",
+      "requires": [
+        "holdItem:metalcoat",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "drowzee",
+      "to": "hypno",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "krabby",
+      "to": "kingler",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "voltorb",
+      "to": "electrode",
+      "method": "LEVEL",
+      "level": 30,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "voltorbhisui",
+      "to": "electrodehisui",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "gender": "N",
+      "requires": [
+        "useItem:leafstone"
+      ]
+    },
+    {
+      "from": "exeggcute",
+      "to": "exeggutor",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "requires": [
+        "useItem:leafstone"
+      ]
+    },
+    {
+      "from": "exeggcute",
+      "to": "exeggutoralola",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "conditionCode": "region:Alola",
+      "reason": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "cubone",
+      "to": "marowak",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "cubone",
+      "to": "marowakalola",
+      "method": "LEVEL",
+      "level": 28,
+      "condition": "at night",
+      "conditionCode": "night&region:Alola",
+      "reason": "regional evolution limited to Alola; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "lickitung",
+      "to": "lickilicky",
+      "method": "LEVEL_MOVE",
+      "move": "rollout",
+      "requires": [
+        "knowsMove:rollout"
+      ]
+    },
+    {
+      "from": "koffing",
+      "to": "weezing",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "koffing",
+      "to": "weezinggalar",
+      "method": "LEVEL",
+      "level": 35,
+      "conditionCode": "region:Galar",
+      "reason": "regional evolution limited to Galar; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "rhyhorn",
+      "to": "rhydon",
+      "method": "LEVEL",
+      "level": 42,
+      "requires": []
+    },
+    {
+      "from": "rhydon",
+      "to": "rhyperior",
+      "method": "TRADE",
+      "item": "protector",
+      "requires": [
+        "holdItem:protector",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "chansey",
+      "to": "blissey",
+      "method": "LEVEL_FRIENDSHIP",
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "tangela",
+      "to": "tangrowth",
+      "method": "LEVEL_MOVE",
+      "move": "ancientpower",
+      "requires": [
+        "knowsMove:ancientpower"
+      ]
+    },
+    {
+      "from": "horsea",
+      "to": "seadra",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "seadra",
+      "to": "kingdra",
+      "method": "TRADE",
+      "item": "dragonscale",
+      "requires": [
+        "holdItem:dragonscale",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "goldeen",
+      "to": "seaking",
+      "method": "LEVEL",
+      "level": 33,
+      "requires": []
+    },
+    {
+      "from": "staryu",
+      "to": "starmie",
+      "method": "USE_ITEM",
+      "item": "waterstone",
+      "gender": "N",
+      "requires": [
+        "useItem:waterstone"
+      ]
+    },
+    {
+      "from": "mrmimegalar",
+      "to": "mrrime",
+      "method": "LEVEL",
+      "level": 42,
+      "requires": []
+    },
+    {
+      "from": "scyther",
+      "to": "scizor",
+      "method": "TRADE",
+      "item": "metalcoat",
+      "requires": [
+        "holdItem:metalcoat",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "scyther",
+      "to": "kleavor",
+      "method": "USE_ITEM",
+      "item": "blackaugurite",
+      "requires": [
+        "useItem:blackaugurite"
+      ]
+    },
+    {
+      "from": "electabuzz",
+      "to": "electivire",
+      "method": "TRADE",
+      "item": "electirizer",
+      "requires": [
+        "holdItem:electirizer",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "magmar",
+      "to": "magmortar",
+      "method": "TRADE",
+      "item": "magmarizer",
+      "requires": [
+        "holdItem:magmarizer",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "magikarp",
+      "to": "gyarados",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "eevee",
+      "to": "vaporeon",
+      "method": "USE_ITEM",
+      "item": "waterstone",
+      "requires": [
+        "useItem:waterstone"
+      ]
+    },
+    {
+      "from": "eevee",
+      "to": "jolteon",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "requires": [
+        "useItem:thunderstone"
+      ]
+    },
+    {
+      "from": "eevee",
+      "to": "flareon",
+      "method": "USE_ITEM",
+      "item": "firestone",
+      "requires": [
+        "useItem:firestone"
+      ]
+    },
+    {
+      "from": "eevee",
+      "to": "espeon",
+      "method": "LEVEL_FRIENDSHIP",
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": []
+    },
+    {
+      "from": "eevee",
+      "to": "umbreon",
+      "method": "LEVEL_FRIENDSHIP",
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "eevee",
+      "to": "leafeon",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "requires": [
+        "useItem:leafstone"
+      ]
+    },
+    {
+      "from": "eevee",
+      "to": "glaceon",
+      "method": "USE_ITEM",
+      "item": "icestone",
+      "requires": [
+        "useItem:icestone"
+      ]
+    },
+    {
+      "from": "eevee",
+      "to": "sylveon",
+      "method": "LEVEL_EXTRA",
+      "condition": "with a Fairy-type move and two levels of Affection",
+      "conditionCode": "movetype:Fairy+friendship",
+      "requires": [
+        "knowsMove:sweetkiss"
+      ]
+    },
+    {
+      "from": "porygon",
+      "to": "porygon2",
+      "method": "TRADE",
+      "item": "upgrade",
+      "gender": "N",
+      "requires": [
+        "holdItem:upgrade",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "omanyte",
+      "to": "omastar",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "kabuto",
+      "to": "kabutops",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "dratini",
+      "to": "dragonair",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "dragonair",
+      "to": "dragonite",
+      "method": "LEVEL",
+      "level": 55,
+      "requires": []
+    },
+    {
+      "from": "chikorita",
+      "to": "bayleef",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "bayleef",
+      "to": "meganium",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "cyndaquil",
+      "to": "quilava",
+      "method": "LEVEL",
+      "level": 14,
+      "requires": []
+    },
+    {
+      "from": "quilava",
+      "to": "typhlosion",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "quilava",
+      "to": "typhlosionhisui",
+      "method": "LEVEL",
+      "level": 36,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "totodile",
+      "to": "croconaw",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "croconaw",
+      "to": "feraligatr",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "sentret",
+      "to": "furret",
+      "method": "LEVEL",
+      "level": 15,
+      "requires": []
+    },
+    {
+      "from": "hoothoot",
+      "to": "noctowl",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "ledyba",
+      "to": "ledian",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "spinarak",
+      "to": "ariados",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "chinchou",
+      "to": "lanturn",
+      "method": "LEVEL",
+      "level": 27,
+      "requires": []
+    },
+    {
+      "from": "pichu",
+      "to": "pikachu",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "cleffa",
+      "to": "clefairy",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "igglybuff",
+      "to": "jigglypuff",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "togepi",
+      "to": "togetic",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "togetic",
+      "to": "togekiss",
+      "method": "USE_ITEM",
+      "item": "shinystone",
+      "requires": [
+        "useItem:shinystone"
+      ]
+    },
+    {
+      "from": "natu",
+      "to": "xatu",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "mareep",
+      "to": "flaaffy",
+      "method": "LEVEL",
+      "level": 15,
+      "requires": []
+    },
+    {
+      "from": "flaaffy",
+      "to": "ampharos",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "marill",
+      "to": "azumarill",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "hoppip",
+      "to": "skiploom",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "skiploom",
+      "to": "jumpluff",
+      "method": "LEVEL",
+      "level": 27,
+      "requires": []
+    },
+    {
+      "from": "aipom",
+      "to": "ambipom",
+      "method": "LEVEL_MOVE",
+      "move": "doublehit",
+      "requires": [
+        "knowsMove:doublehit"
+      ]
+    },
+    {
+      "from": "sunkern",
+      "to": "sunflora",
+      "method": "USE_ITEM",
+      "item": "sunstone",
+      "requires": [
+        "useItem:sunstone"
+      ]
+    },
+    {
+      "from": "yanma",
+      "to": "yanmega",
+      "method": "LEVEL_MOVE",
+      "move": "ancientpower",
+      "requires": [
+        "knowsMove:ancientpower"
+      ]
+    },
+    {
+      "from": "wooper",
+      "to": "quagsire",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "wooperpaldea",
+      "to": "clodsire",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "murkrow",
+      "to": "honchkrow",
+      "method": "USE_ITEM",
+      "item": "duskstone",
+      "requires": [
+        "useItem:duskstone"
+      ]
+    },
+    {
+      "from": "misdreavus",
+      "to": "mismagius",
+      "method": "USE_ITEM",
+      "item": "duskstone",
+      "requires": [
+        "useItem:duskstone"
+      ]
+    },
+    {
+      "from": "girafarig",
+      "to": "farigiraf",
+      "method": "LEVEL_MOVE",
+      "move": "twinbeam",
+      "requires": [
+        "knowsMove:twinbeam"
+      ]
+    },
+    {
+      "from": "pineco",
+      "to": "forretress",
+      "method": "LEVEL",
+      "level": 31,
+      "requires": []
+    },
+    {
+      "from": "dunsparce",
+      "to": "dudunsparce",
+      "method": "LEVEL_MOVE",
+      "move": "hyperdrill",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns dudunsparcethreesegment first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "dunsparce",
+      "to": "dudunsparcethreesegment",
+      "method": "LEVEL_MOVE",
+      "move": "hyperdrill",
+      "requires": [
+        "knowsMove:hyperdrill"
+      ]
+    },
+    {
+      "from": "gligar",
+      "to": "gliscor",
+      "method": "LEVEL_HOLD",
+      "item": "razorfang",
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night",
+        "holdItem:razorfang"
+      ]
+    },
+    {
+      "from": "snubbull",
+      "to": "granbull",
+      "method": "LEVEL",
+      "level": 23,
+      "requires": []
+    },
+    {
+      "from": "qwilfishhisui",
+      "to": "overqwil",
+      "method": "OTHER",
+      "condition": "Use Strong style Barb Barrage 20 times",
+      "conditionCode": "moveuses:barbbarrage:20",
+      "requires": [
+        "counter:use:barbbarrage>=20"
+      ]
+    },
+    {
+      "from": "sneasel",
+      "to": "weavile",
+      "method": "LEVEL_HOLD",
+      "item": "razorclaw",
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night",
+        "holdItem:razorclaw"
+      ]
+    },
+    {
+      "from": "sneaselhisui",
+      "to": "sneasler",
+      "method": "LEVEL_HOLD",
+      "item": "razorclaw",
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": [
+        "holdItem:razorclaw"
+      ]
+    },
+    {
+      "from": "teddiursa",
+      "to": "ursaring",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "ursaring",
+      "to": "ursaluna",
+      "method": "OTHER",
+      "condition": "Peat Block when there's a full moon",
+      "conditionCode": "fullmoon",
+      "requires": [
+        "night",
+        "locationTag:fullmoon"
+      ]
+    },
+    {
+      "from": "slugma",
+      "to": "magcargo",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "swinub",
+      "to": "piloswine",
+      "method": "LEVEL",
+      "level": 33,
+      "requires": []
+    },
+    {
+      "from": "piloswine",
+      "to": "mamoswine",
+      "method": "LEVEL_MOVE",
+      "move": "ancientpower",
+      "requires": [
+        "knowsMove:ancientpower"
+      ]
+    },
+    {
+      "from": "corsolagalar",
+      "to": "cursola",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "remoraid",
+      "to": "octillery",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "houndour",
+      "to": "houndoom",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "phanpy",
+      "to": "donphan",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "porygon2",
+      "to": "porygonz",
+      "method": "TRADE",
+      "item": "dubiousdisc",
+      "gender": "N",
+      "requires": [
+        "holdItem:dubiousdisc",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "stantler",
+      "to": "wyrdeer",
+      "method": "OTHER",
+      "condition": "Use Agile style Psyshield Bash 20 times",
+      "conditionCode": "moveuses:psyshieldbash:20",
+      "requires": [
+        "counter:use:psyshieldbash>=20"
+      ]
+    },
+    {
+      "from": "tyrogue",
+      "to": "hitmonlee",
+      "method": "LEVEL",
+      "level": 20,
+      "condition": "with an Atk stat > its Def stat",
+      "conditionCode": "atk>def",
+      "gender": "M",
+      "requires": [
+        "statSpread:atk"
+      ]
+    },
+    {
+      "from": "tyrogue",
+      "to": "hitmonchan",
+      "method": "LEVEL",
+      "level": 20,
+      "condition": "with an Atk stat < its Def stat",
+      "conditionCode": "atk<def",
+      "gender": "M",
+      "requires": [
+        "statSpread:def"
+      ]
+    },
+    {
+      "from": "tyrogue",
+      "to": "hitmontop",
+      "method": "LEVEL",
+      "level": 20,
+      "condition": "with an Atk stat equal to its Def stat",
+      "conditionCode": "atk=def",
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "smoochum",
+      "to": "jynx",
+      "method": "LEVEL",
+      "level": 30,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "elekid",
+      "to": "electabuzz",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "magby",
+      "to": "magmar",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "larvitar",
+      "to": "pupitar",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "pupitar",
+      "to": "tyranitar",
+      "method": "LEVEL",
+      "level": 55,
+      "requires": []
+    },
+    {
+      "from": "treecko",
+      "to": "grovyle",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "grovyle",
+      "to": "sceptile",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "torchic",
+      "to": "combusken",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "combusken",
+      "to": "blaziken",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "mudkip",
+      "to": "marshtomp",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "marshtomp",
+      "to": "swampert",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "poochyena",
+      "to": "mightyena",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "zigzagoon",
+      "to": "linoone",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "zigzagoongalar",
+      "to": "linoonegalar",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "linoonegalar",
+      "to": "obstagoon",
+      "method": "LEVEL",
+      "level": 35,
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "wurmple",
+      "to": "silcoon",
+      "method": "LEVEL",
+      "level": 7,
+      "requires": []
+    },
+    {
+      "from": "wurmple",
+      "to": "cascoon",
+      "method": "LEVEL",
+      "level": 7,
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns silcoon first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "silcoon",
+      "to": "beautifly",
+      "method": "LEVEL",
+      "level": 10,
+      "requires": []
+    },
+    {
+      "from": "cascoon",
+      "to": "dustox",
+      "method": "LEVEL",
+      "level": 10,
+      "requires": []
+    },
+    {
+      "from": "lotad",
+      "to": "lombre",
+      "method": "LEVEL",
+      "level": 14,
+      "requires": []
+    },
+    {
+      "from": "lombre",
+      "to": "ludicolo",
+      "method": "USE_ITEM",
+      "item": "waterstone",
+      "requires": [
+        "useItem:waterstone"
+      ]
+    },
+    {
+      "from": "seedot",
+      "to": "nuzleaf",
+      "method": "LEVEL",
+      "level": 14,
+      "requires": []
+    },
+    {
+      "from": "nuzleaf",
+      "to": "shiftry",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "requires": [
+        "useItem:leafstone"
+      ]
+    },
+    {
+      "from": "taillow",
+      "to": "swellow",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "wingull",
+      "to": "pelipper",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "ralts",
+      "to": "kirlia",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "kirlia",
+      "to": "gardevoir",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "kirlia",
+      "to": "gallade",
+      "method": "USE_ITEM",
+      "item": "dawnstone",
+      "gender": "M",
+      "requires": [
+        "useItem:dawnstone"
+      ]
+    },
+    {
+      "from": "surskit",
+      "to": "masquerain",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "shroomish",
+      "to": "breloom",
+      "method": "LEVEL",
+      "level": 23,
+      "requires": []
+    },
+    {
+      "from": "slakoth",
+      "to": "vigoroth",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "vigoroth",
+      "to": "slaking",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "nincada",
+      "to": "ninjask",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "nincada",
+      "to": "shedinja",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "N",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns ninjask first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "whismur",
+      "to": "loudred",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "loudred",
+      "to": "exploud",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "makuhita",
+      "to": "hariyama",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "azurill",
+      "to": "marill",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "nosepass",
+      "to": "probopass",
+      "method": "LEVEL_EXTRA",
+      "condition": "near a special magnetic field",
+      "conditionCode": "location:magnetic",
+      "requires": [
+        "locationTag:magnetic"
+      ]
+    },
+    {
+      "from": "skitty",
+      "to": "delcatty",
+      "method": "USE_ITEM",
+      "item": "moonstone",
+      "requires": [
+        "useItem:moonstone"
+      ]
+    },
+    {
+      "from": "aron",
+      "to": "lairon",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "lairon",
+      "to": "aggron",
+      "method": "LEVEL",
+      "level": 42,
+      "requires": []
+    },
+    {
+      "from": "meditite",
+      "to": "medicham",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "electrike",
+      "to": "manectric",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "roselia",
+      "to": "roserade",
+      "method": "USE_ITEM",
+      "item": "shinystone",
+      "requires": [
+        "useItem:shinystone"
+      ]
+    },
+    {
+      "from": "gulpin",
+      "to": "swalot",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "carvanha",
+      "to": "sharpedo",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "wailmer",
+      "to": "wailord",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "numel",
+      "to": "camerupt",
+      "method": "LEVEL",
+      "level": 33,
+      "requires": []
+    },
+    {
+      "from": "spoink",
+      "to": "grumpig",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "trapinch",
+      "to": "vibrava",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "vibrava",
+      "to": "flygon",
+      "method": "LEVEL",
+      "level": 45,
+      "requires": []
+    },
+    {
+      "from": "cacnea",
+      "to": "cacturne",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "swablu",
+      "to": "altaria",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "barboach",
+      "to": "whiscash",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "corphish",
+      "to": "crawdaunt",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "baltoy",
+      "to": "claydol",
+      "method": "LEVEL",
+      "level": 36,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "lileep",
+      "to": "cradily",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "anorith",
+      "to": "armaldo",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "feebas",
+      "to": "milotic",
+      "method": "TRADE",
+      "item": "prismscale",
+      "requires": [
+        "holdItem:prismscale",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "shuppet",
+      "to": "banette",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "duskull",
+      "to": "dusclops",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "dusclops",
+      "to": "dusknoir",
+      "method": "TRADE",
+      "item": "reapercloth",
+      "requires": [
+        "holdItem:reapercloth",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "wynaut",
+      "to": "wobbuffet",
+      "method": "LEVEL",
+      "level": 15,
+      "requires": []
+    },
+    {
+      "from": "snorunt",
+      "to": "glalie",
+      "method": "LEVEL",
+      "level": 42,
+      "requires": []
+    },
+    {
+      "from": "snorunt",
+      "to": "froslass",
+      "method": "USE_ITEM",
+      "item": "dawnstone",
+      "gender": "F",
+      "requires": [
+        "useItem:dawnstone"
+      ]
+    },
+    {
+      "from": "spheal",
+      "to": "sealeo",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "sealeo",
+      "to": "walrein",
+      "method": "LEVEL",
+      "level": 44,
+      "requires": []
+    },
+    {
+      "from": "clamperl",
+      "to": "huntail",
+      "method": "TRADE",
+      "item": "deepseatooth",
+      "requires": [
+        "holdItem:deepseatooth",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "clamperl",
+      "to": "gorebyss",
+      "method": "TRADE",
+      "item": "deepseascale",
+      "requires": [
+        "holdItem:deepseascale",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "bagon",
+      "to": "shelgon",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "shelgon",
+      "to": "salamence",
+      "method": "LEVEL",
+      "level": 50,
+      "requires": []
+    },
+    {
+      "from": "beldum",
+      "to": "metang",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "metang",
+      "to": "metagross",
+      "method": "LEVEL",
+      "level": 45,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "turtwig",
+      "to": "grotle",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "grotle",
+      "to": "torterra",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "chimchar",
+      "to": "monferno",
+      "method": "LEVEL",
+      "level": 14,
+      "requires": []
+    },
+    {
+      "from": "monferno",
+      "to": "infernape",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "piplup",
+      "to": "prinplup",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "prinplup",
+      "to": "empoleon",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "starly",
+      "to": "staravia",
+      "method": "LEVEL",
+      "level": 14,
+      "requires": []
+    },
+    {
+      "from": "staravia",
+      "to": "staraptor",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "bidoof",
+      "to": "bibarel",
+      "method": "LEVEL",
+      "level": 15,
+      "requires": []
+    },
+    {
+      "from": "kricketot",
+      "to": "kricketune",
+      "method": "LEVEL",
+      "level": 10,
+      "requires": []
+    },
+    {
+      "from": "shinx",
+      "to": "luxio",
+      "method": "LEVEL",
+      "level": 15,
+      "requires": []
+    },
+    {
+      "from": "luxio",
+      "to": "luxray",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "budew",
+      "to": "roselia",
+      "method": "LEVEL_FRIENDSHIP",
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": []
+    },
+    {
+      "from": "cranidos",
+      "to": "rampardos",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "shieldon",
+      "to": "bastiodon",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "burmy",
+      "to": "wormadam",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "burmy",
+      "to": "wormadamsandy",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "F",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "burmy",
+      "to": "wormadamtrash",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "F",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns wormadam first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "burmy",
+      "to": "mothim",
+      "method": "LEVEL",
+      "level": 20,
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "combee",
+      "to": "vespiquen",
+      "method": "LEVEL",
+      "level": 21,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "buizel",
+      "to": "floatzel",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "cherubi",
+      "to": "cherrim",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "shellos",
+      "to": "gastrodon",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "drifloon",
+      "to": "drifblim",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "buneary",
+      "to": "lopunny",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "glameow",
+      "to": "purugly",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "chingling",
+      "to": "chimecho",
+      "method": "LEVEL_FRIENDSHIP",
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "stunky",
+      "to": "skuntank",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "bronzor",
+      "to": "bronzong",
+      "method": "LEVEL",
+      "level": 33,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "bonsly",
+      "to": "sudowoodo",
+      "method": "LEVEL_MOVE",
+      "move": "mimic",
+      "requires": [
+        "knowsMove:mimic"
+      ]
+    },
+    {
+      "from": "mimejr",
+      "to": "mrmime",
+      "method": "LEVEL_MOVE",
+      "move": "mimic",
+      "requires": [
+        "knowsMove:mimic"
+      ]
+    },
+    {
+      "from": "mimejr",
+      "to": "mrmimegalar",
+      "method": "LEVEL_MOVE",
+      "move": "mimic",
+      "conditionCode": "region:Galar",
+      "reason": "regional evolution limited to Galar; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "happiny",
+      "to": "chansey",
+      "method": "LEVEL_HOLD",
+      "item": "ovalstone",
+      "condition": "during the day",
+      "conditionCode": "day",
+      "gender": "F",
+      "requires": [
+        "holdItem:ovalstone"
+      ]
+    },
+    {
+      "from": "gible",
+      "to": "gabite",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "gabite",
+      "to": "garchomp",
+      "method": "LEVEL",
+      "level": 48,
+      "requires": []
+    },
+    {
+      "from": "munchlax",
+      "to": "snorlax",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "riolu",
+      "to": "lucario",
+      "method": "LEVEL_FRIENDSHIP",
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": []
+    },
+    {
+      "from": "hippopotas",
+      "to": "hippowdon",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "skorupi",
+      "to": "drapion",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "croagunk",
+      "to": "toxicroak",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "finneon",
+      "to": "lumineon",
+      "method": "LEVEL",
+      "level": 31,
+      "requires": []
+    },
+    {
+      "from": "mantyke",
+      "to": "mantine",
+      "method": "LEVEL_EXTRA",
+      "condition": "with a Remoraid in party",
+      "conditionCode": "party:remoraid",
+      "requires": [
+        "partyMember:remoraid"
+      ]
+    },
+    {
+      "from": "snover",
+      "to": "abomasnow",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "snivy",
+      "to": "servine",
+      "method": "LEVEL",
+      "level": 17,
+      "requires": []
+    },
+    {
+      "from": "servine",
+      "to": "serperior",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "tepig",
+      "to": "pignite",
+      "method": "LEVEL",
+      "level": 17,
+      "requires": []
+    },
+    {
+      "from": "pignite",
+      "to": "emboar",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "oshawott",
+      "to": "dewott",
+      "method": "LEVEL",
+      "level": 17,
+      "requires": []
+    },
+    {
+      "from": "dewott",
+      "to": "samurott",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "dewott",
+      "to": "samurotthisui",
+      "method": "LEVEL",
+      "level": 36,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "patrat",
+      "to": "watchog",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "lillipup",
+      "to": "herdier",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "herdier",
+      "to": "stoutland",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "purrloin",
+      "to": "liepard",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "pansage",
+      "to": "simisage",
+      "method": "USE_ITEM",
+      "item": "leafstone",
+      "requires": [
+        "useItem:leafstone"
+      ]
+    },
+    {
+      "from": "pansear",
+      "to": "simisear",
+      "method": "USE_ITEM",
+      "item": "firestone",
+      "requires": [
+        "useItem:firestone"
+      ]
+    },
+    {
+      "from": "panpour",
+      "to": "simipour",
+      "method": "USE_ITEM",
+      "item": "waterstone",
+      "requires": [
+        "useItem:waterstone"
+      ]
+    },
+    {
+      "from": "munna",
+      "to": "musharna",
+      "method": "USE_ITEM",
+      "item": "moonstone",
+      "requires": [
+        "useItem:moonstone"
+      ]
+    },
+    {
+      "from": "pidove",
+      "to": "tranquill",
+      "method": "LEVEL",
+      "level": 21,
+      "requires": []
+    },
+    {
+      "from": "tranquill",
+      "to": "unfezant",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "blitzle",
+      "to": "zebstrika",
+      "method": "LEVEL",
+      "level": 27,
+      "requires": []
+    },
+    {
+      "from": "roggenrola",
+      "to": "boldore",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "boldore",
+      "to": "gigalith",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "woobat",
+      "to": "swoobat",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "drilbur",
+      "to": "excadrill",
+      "method": "LEVEL",
+      "level": 31,
+      "requires": []
+    },
+    {
+      "from": "timburr",
+      "to": "gurdurr",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "gurdurr",
+      "to": "conkeldurr",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "tympole",
+      "to": "palpitoad",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "palpitoad",
+      "to": "seismitoad",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "sewaddle",
+      "to": "swadloon",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "swadloon",
+      "to": "leavanny",
+      "method": "LEVEL_FRIENDSHIP",
+      "requires": []
+    },
+    {
+      "from": "venipede",
+      "to": "whirlipede",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "whirlipede",
+      "to": "scolipede",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "cottonee",
+      "to": "whimsicott",
+      "method": "USE_ITEM",
+      "item": "sunstone",
+      "requires": [
+        "useItem:sunstone"
+      ]
+    },
+    {
+      "from": "petilil",
+      "to": "lilligant",
+      "method": "USE_ITEM",
+      "item": "sunstone",
+      "gender": "F",
+      "requires": [
+        "useItem:sunstone"
+      ]
+    },
+    {
+      "from": "petilil",
+      "to": "lilliganthisui",
+      "method": "USE_ITEM",
+      "item": "sunstone",
+      "conditionCode": "region:Hisui",
+      "gender": "F",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "basculinwhitestriped",
+      "to": "basculegion",
+      "method": "OTHER",
+      "condition": "Receive 294+ recoil without fainting",
+      "conditionCode": "recoil:294",
+      "gender": "M",
+      "requires": [
+        "counter:recoil>=294"
+      ]
+    },
+    {
+      "from": "basculinwhitestriped",
+      "to": "basculegionf",
+      "method": "OTHER",
+      "condition": "Receive 294+ recoil without fainting",
+      "conditionCode": "recoil:294",
+      "gender": "F",
+      "requires": [
+        "counter:recoil>=294"
+      ]
+    },
+    {
+      "from": "sandile",
+      "to": "krokorok",
+      "method": "LEVEL",
+      "level": 29,
+      "requires": []
+    },
+    {
+      "from": "krokorok",
+      "to": "krookodile",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "darumaka",
+      "to": "darmanitan",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "darumakagalar",
+      "to": "darmanitangalar",
+      "method": "USE_ITEM",
+      "item": "icestone",
+      "requires": [
+        "useItem:icestone"
+      ]
+    },
+    {
+      "from": "dwebble",
+      "to": "crustle",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "scraggy",
+      "to": "scrafty",
+      "method": "LEVEL",
+      "level": 39,
+      "requires": []
+    },
+    {
+      "from": "yamask",
+      "to": "cofagrigus",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "yamaskgalar",
+      "to": "runerigus",
+      "method": "OTHER",
+      "condition": "Have 49+ HP lost and walk under stone sculpture in Dusty Bowl",
+      "conditionCode": "hplost:49",
+      "requires": [
+        "locationTag:dustybowl",
+        "counter:hplost>=49"
+      ]
+    },
+    {
+      "from": "tirtouga",
+      "to": "carracosta",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "archen",
+      "to": "archeops",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "trubbish",
+      "to": "garbodor",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "zorua",
+      "to": "zoroark",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "zoruahisui",
+      "to": "zoroarkhisui",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "minccino",
+      "to": "cinccino",
+      "method": "USE_ITEM",
+      "item": "shinystone",
+      "requires": [
+        "useItem:shinystone"
+      ]
+    },
+    {
+      "from": "gothita",
+      "to": "gothorita",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "gothorita",
+      "to": "gothitelle",
+      "method": "LEVEL",
+      "level": 41,
+      "requires": []
+    },
+    {
+      "from": "solosis",
+      "to": "duosion",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "duosion",
+      "to": "reuniclus",
+      "method": "LEVEL",
+      "level": 41,
+      "requires": []
+    },
+    {
+      "from": "ducklett",
+      "to": "swanna",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "vanillite",
+      "to": "vanillish",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "vanillish",
+      "to": "vanilluxe",
+      "method": "LEVEL",
+      "level": 47,
+      "requires": []
+    },
+    {
+      "from": "deerling",
+      "to": "sawsbuck",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "karrablast",
+      "to": "escavalier",
+      "method": "TRADE",
+      "condition": "with a Shelmet",
+      "conditionCode": "tradewith:shelmet",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "foongus",
+      "to": "amoonguss",
+      "method": "LEVEL",
+      "level": 39,
+      "requires": []
+    },
+    {
+      "from": "frillish",
+      "to": "jellicent",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "joltik",
+      "to": "galvantula",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "ferroseed",
+      "to": "ferrothorn",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "klink",
+      "to": "klang",
+      "method": "LEVEL",
+      "level": 38,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "klang",
+      "to": "klinklang",
+      "method": "LEVEL",
+      "level": 49,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "tynamo",
+      "to": "eelektrik",
+      "method": "LEVEL",
+      "level": 39,
+      "requires": []
+    },
+    {
+      "from": "eelektrik",
+      "to": "eelektross",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "requires": [
+        "useItem:thunderstone"
+      ]
+    },
+    {
+      "from": "elgyem",
+      "to": "beheeyem",
+      "method": "LEVEL",
+      "level": 42,
+      "requires": []
+    },
+    {
+      "from": "litwick",
+      "to": "lampent",
+      "method": "LEVEL",
+      "level": 41,
+      "requires": []
+    },
+    {
+      "from": "lampent",
+      "to": "chandelure",
+      "method": "USE_ITEM",
+      "item": "duskstone",
+      "requires": [
+        "useItem:duskstone"
+      ]
+    },
+    {
+      "from": "axew",
+      "to": "fraxure",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "fraxure",
+      "to": "haxorus",
+      "method": "LEVEL",
+      "level": 48,
+      "requires": []
+    },
+    {
+      "from": "cubchoo",
+      "to": "beartic",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "shelmet",
+      "to": "accelgor",
+      "method": "TRADE",
+      "condition": "with a Karrablast",
+      "conditionCode": "tradewith:karrablast",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "mienfoo",
+      "to": "mienshao",
+      "method": "LEVEL",
+      "level": 50,
+      "requires": []
+    },
+    {
+      "from": "golett",
+      "to": "golurk",
+      "method": "LEVEL",
+      "level": 43,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "pawniard",
+      "to": "bisharp",
+      "method": "LEVEL",
+      "level": 52,
+      "requires": []
+    },
+    {
+      "from": "bisharp",
+      "to": "kingambit",
+      "method": "OTHER",
+      "condition": "Defeat 3 Bisharp leading Pawniard and level-up",
+      "conditionCode": "defeat:bisharp:3",
+      "requires": [
+        "counter:defeat:bisharp>=3"
+      ]
+    },
+    {
+      "from": "rufflet",
+      "to": "braviary",
+      "method": "LEVEL",
+      "level": 54,
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "rufflet",
+      "to": "braviaryhisui",
+      "method": "LEVEL",
+      "level": 54,
+      "conditionCode": "region:Hisui",
+      "gender": "M",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "vullaby",
+      "to": "mandibuzz",
+      "method": "LEVEL",
+      "level": 54,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "deino",
+      "to": "zweilous",
+      "method": "LEVEL",
+      "level": 50,
+      "requires": []
+    },
+    {
+      "from": "zweilous",
+      "to": "hydreigon",
+      "method": "LEVEL",
+      "level": 64,
+      "requires": []
+    },
+    {
+      "from": "larvesta",
+      "to": "volcarona",
+      "method": "LEVEL",
+      "level": 59,
+      "requires": []
+    },
+    {
+      "from": "chespin",
+      "to": "quilladin",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "quilladin",
+      "to": "chesnaught",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "fennekin",
+      "to": "braixen",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "braixen",
+      "to": "delphox",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "froakie",
+      "to": "frogadier",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "frogadier",
+      "to": "greninja",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "bunnelby",
+      "to": "diggersby",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "fletchling",
+      "to": "fletchinder",
+      "method": "LEVEL",
+      "level": 17,
+      "requires": []
+    },
+    {
+      "from": "fletchinder",
+      "to": "talonflame",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "scatterbug",
+      "to": "spewpa",
+      "method": "LEVEL",
+      "level": 9,
+      "requires": []
+    },
+    {
+      "from": "spewpa",
+      "to": "vivillon",
+      "method": "LEVEL",
+      "level": 12,
+      "requires": []
+    },
+    {
+      "from": "spewpa",
+      "to": "vivillonfancy",
+      "method": "LEVEL",
+      "level": 12,
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns vivillon first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "litleo",
+      "to": "pyroar",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "flabebe",
+      "to": "floette",
+      "method": "LEVEL",
+      "level": 19,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "floette",
+      "to": "florges",
+      "method": "USE_ITEM",
+      "item": "shinystone",
+      "gender": "F",
+      "requires": [
+        "useItem:shinystone"
+      ]
+    },
+    {
+      "from": "skiddo",
+      "to": "gogoat",
+      "method": "LEVEL",
+      "level": 32,
+      "requires": []
+    },
+    {
+      "from": "pancham",
+      "to": "pangoro",
+      "method": "LEVEL",
+      "level": 32,
+      "condition": "with a Dark-type in the party",
+      "conditionCode": "partytype:Dark",
+      "requires": [
+        "partyMember:umbreon"
+      ]
+    },
+    {
+      "from": "espurr",
+      "to": "meowstic",
+      "method": "LEVEL",
+      "level": 25,
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "espurr",
+      "to": "meowsticf",
+      "method": "LEVEL",
+      "level": 25,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "honedge",
+      "to": "doublade",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "doublade",
+      "to": "aegislash",
+      "method": "USE_ITEM",
+      "item": "duskstone",
+      "requires": [
+        "useItem:duskstone"
+      ]
+    },
+    {
+      "from": "spritzee",
+      "to": "aromatisse",
+      "method": "TRADE",
+      "item": "sachet",
+      "requires": [
+        "holdItem:sachet",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "swirlix",
+      "to": "slurpuff",
+      "method": "TRADE",
+      "item": "whippeddream",
+      "requires": [
+        "holdItem:whippeddream",
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "inkay",
+      "to": "malamar",
+      "method": "LEVEL",
+      "level": 30,
+      "condition": "with the console turned upside-down",
+      "conditionCode": "upsidedown",
+      "requires": [
+        "deviceUpsideDown"
+      ]
+    },
+    {
+      "from": "binacle",
+      "to": "barbaracle",
+      "method": "LEVEL",
+      "level": 39,
+      "requires": []
+    },
+    {
+      "from": "skrelp",
+      "to": "dragalge",
+      "method": "LEVEL",
+      "level": 48,
+      "requires": []
+    },
+    {
+      "from": "clauncher",
+      "to": "clawitzer",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "helioptile",
+      "to": "heliolisk",
+      "method": "USE_ITEM",
+      "item": "sunstone",
+      "requires": [
+        "useItem:sunstone"
+      ]
+    },
+    {
+      "from": "tyrunt",
+      "to": "tyrantrum",
+      "method": "LEVEL",
+      "level": 39,
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": []
+    },
+    {
+      "from": "amaura",
+      "to": "aurorus",
+      "method": "LEVEL",
+      "level": 39,
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "goomy",
+      "to": "sliggoo",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "goomy",
+      "to": "sliggoohisui",
+      "method": "LEVEL",
+      "level": 40,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "sliggoo",
+      "to": "goodra",
+      "method": "LEVEL",
+      "level": 50,
+      "condition": "during rain",
+      "conditionCode": "rain",
+      "requires": [
+        "rain"
+      ]
+    },
+    {
+      "from": "sliggoohisui",
+      "to": "goodrahisui",
+      "method": "LEVEL",
+      "level": 50,
+      "condition": "during rain",
+      "conditionCode": "rain",
+      "requires": [
+        "rain"
+      ]
+    },
+    {
+      "from": "phantump",
+      "to": "trevenant",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "pumpkaboo",
+      "to": "gourgeist",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "pumpkaboolarge",
+      "to": "gourgeistlarge",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "pumpkaboosmall",
+      "to": "gourgeistsmall",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "pumpkaboosuper",
+      "to": "gourgeistsuper",
+      "method": "TRADE",
+      "requires": [
+        "linkingCord"
+      ]
+    },
+    {
+      "from": "bergmite",
+      "to": "avalugg",
+      "method": "LEVEL",
+      "level": 37,
+      "requires": []
+    },
+    {
+      "from": "bergmite",
+      "to": "avalugghisui",
+      "method": "LEVEL",
+      "level": 37,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "noibat",
+      "to": "noivern",
+      "method": "LEVEL",
+      "level": 48,
+      "requires": []
+    },
+    {
+      "from": "rowlet",
+      "to": "dartrix",
+      "method": "LEVEL",
+      "level": 17,
+      "requires": []
+    },
+    {
+      "from": "dartrix",
+      "to": "decidueye",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "dartrix",
+      "to": "decidueyehisui",
+      "method": "LEVEL",
+      "level": 36,
+      "conditionCode": "region:Hisui",
+      "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
+    },
+    {
+      "from": "litten",
+      "to": "torracat",
+      "method": "LEVEL",
+      "level": 17,
+      "requires": []
+    },
+    {
+      "from": "torracat",
+      "to": "incineroar",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "popplio",
+      "to": "brionne",
+      "method": "LEVEL",
+      "level": 17,
+      "requires": []
+    },
+    {
+      "from": "brionne",
+      "to": "primarina",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "pikipek",
+      "to": "trumbeak",
+      "method": "LEVEL",
+      "level": 14,
+      "requires": []
+    },
+    {
+      "from": "trumbeak",
+      "to": "toucannon",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "yungoos",
+      "to": "gumshoos",
+      "method": "LEVEL",
+      "level": 20,
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": []
+    },
+    {
+      "from": "grubbin",
+      "to": "charjabug",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "charjabug",
+      "to": "vikavolt",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "requires": [
+        "useItem:thunderstone"
+      ]
+    },
+    {
+      "from": "crabrawler",
+      "to": "crabominable",
+      "method": "USE_ITEM",
+      "item": "icestone",
+      "requires": [
+        "useItem:icestone"
+      ]
+    },
+    {
+      "from": "cutiefly",
+      "to": "ribombee",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "rockruff",
+      "to": "lycanroc",
+      "method": "LEVEL",
+      "level": 25,
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": []
+    },
+    {
+      "from": "rockruff",
+      "to": "lycanrocmidnight",
+      "method": "LEVEL",
+      "level": 25,
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "rockruffdusk",
+      "to": "lycanrocdusk",
+      "method": "LEVEL",
+      "level": 25,
+      "condition": "from a special Rockruff during the evening",
+      "conditionCode": "dusk",
+      "requires": [
+        "dusk"
+      ]
+    },
+    {
+      "from": "mareanie",
+      "to": "toxapex",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "mudbray",
+      "to": "mudsdale",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "dewpider",
+      "to": "araquanid",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "fomantis",
+      "to": "lurantis",
+      "method": "LEVEL",
+      "level": 34,
+      "condition": "during the day",
+      "conditionCode": "day",
+      "requires": []
+    },
+    {
+      "from": "morelull",
+      "to": "shiinotic",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "salandit",
+      "to": "salazzle",
+      "method": "LEVEL",
+      "level": 33,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "stufful",
+      "to": "bewear",
+      "method": "LEVEL",
+      "level": 27,
+      "requires": []
+    },
+    {
+      "from": "bounsweet",
+      "to": "steenee",
+      "method": "LEVEL",
+      "level": 18,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "steenee",
+      "to": "tsareena",
+      "method": "LEVEL_MOVE",
+      "move": "stomp",
+      "gender": "F",
+      "requires": [
+        "knowsMove:stomp"
+      ]
+    },
+    {
+      "from": "wimpod",
+      "to": "golisopod",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "sandygast",
+      "to": "palossand",
+      "method": "LEVEL",
+      "level": 42,
+      "requires": []
+    },
+    {
+      "from": "typenull",
+      "to": "silvally",
+      "method": "LEVEL_FRIENDSHIP",
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "jangmoo",
+      "to": "hakamoo",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "hakamoo",
+      "to": "kommoo",
+      "method": "LEVEL",
+      "level": 45,
+      "requires": []
+    },
+    {
+      "from": "cosmog",
+      "to": "cosmoem",
+      "method": "LEVEL",
+      "level": 43,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "cosmoem",
+      "to": "solgaleo",
+      "method": "LEVEL",
+      "level": 53,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "cosmoem",
+      "to": "lunala",
+      "method": "LEVEL",
+      "level": 53,
+      "gender": "N",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "poipole",
+      "to": "naganadel",
+      "method": "LEVEL_MOVE",
+      "move": "dragonpulse",
+      "gender": "N",
+      "requires": [
+        "knowsMove:dragonpulse"
+      ]
+    },
+    {
+      "from": "grookey",
+      "to": "thwackey",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "thwackey",
+      "to": "rillaboom",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "scorbunny",
+      "to": "raboot",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "raboot",
+      "to": "cinderace",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "sobble",
+      "to": "drizzile",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "drizzile",
+      "to": "inteleon",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "skwovet",
+      "to": "greedent",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "rookidee",
+      "to": "corvisquire",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "corvisquire",
+      "to": "corviknight",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "blipbug",
+      "to": "dottler",
+      "method": "LEVEL",
+      "level": 10,
+      "requires": []
+    },
+    {
+      "from": "dottler",
+      "to": "orbeetle",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "nickit",
+      "to": "thievul",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "gossifleur",
+      "to": "eldegoss",
+      "method": "LEVEL",
+      "level": 20,
+      "requires": []
+    },
+    {
+      "from": "wooloo",
+      "to": "dubwool",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "chewtle",
+      "to": "drednaw",
+      "method": "LEVEL",
+      "level": 22,
+      "requires": []
+    },
+    {
+      "from": "yamper",
+      "to": "boltund",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "rolycoly",
+      "to": "carkol",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "carkol",
+      "to": "coalossal",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "applin",
+      "to": "flapple",
+      "method": "USE_ITEM",
+      "item": "tartapple",
+      "requires": [
+        "useItem:tartapple"
+      ]
+    },
+    {
+      "from": "applin",
+      "to": "appletun",
+      "method": "USE_ITEM",
+      "item": "sweetapple",
+      "requires": [
+        "useItem:sweetapple"
+      ]
+    },
+    {
+      "from": "applin",
+      "to": "dipplin",
+      "method": "USE_ITEM",
+      "item": "syrupyapple",
+      "requires": [
+        "useItem:syrupyapple"
+      ]
+    },
+    {
+      "from": "silicobra",
+      "to": "sandaconda",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "arrokuda",
+      "to": "barraskewda",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "toxel",
+      "to": "toxtricity",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "toxel",
+      "to": "toxtricitylowkey",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": [
+        "statSpread:atk"
+      ]
+    },
+    {
+      "from": "sizzlipede",
+      "to": "centiskorch",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "clobbopus",
+      "to": "grapploct",
+      "method": "LEVEL_MOVE",
+      "move": "taunt",
+      "requires": [
+        "knowsMove:taunt"
+      ]
+    },
+    {
+      "from": "sinistea",
+      "to": "polteageist",
+      "method": "USE_ITEM",
+      "item": "crackedpot",
+      "gender": "N",
+      "requires": [
+        "useItem:crackedpot"
+      ]
+    },
+    {
+      "from": "sinisteaantique",
+      "to": "polteageistantique",
+      "method": "USE_ITEM",
+      "item": "chippedpot",
+      "gender": "N",
+      "requires": [
+        "useItem:chippedpot"
+      ]
+    },
+    {
+      "from": "hatenna",
+      "to": "hattrem",
+      "method": "LEVEL",
+      "level": 32,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "hattrem",
+      "to": "hatterene",
+      "method": "LEVEL",
+      "level": 42,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "impidimp",
+      "to": "morgrem",
+      "method": "LEVEL",
+      "level": 32,
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "morgrem",
+      "to": "grimmsnarl",
+      "method": "LEVEL",
+      "level": 42,
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "milcery",
+      "to": "alcremie",
+      "method": "OTHER",
+      "condition": "spin while holding a Sweet",
+      "conditionCode": "spin",
+      "gender": "F",
+      "reason": "Progression has no in-game input for condition 'spin' (otherMet returns false)"
+    },
+    {
+      "from": "snom",
+      "to": "frosmoth",
+      "method": "LEVEL_FRIENDSHIP",
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "cufant",
+      "to": "copperajah",
+      "method": "LEVEL",
+      "level": 34,
+      "requires": []
+    },
+    {
+      "from": "duraludon",
+      "to": "archaludon",
+      "method": "USE_ITEM",
+      "item": "metalalloy",
+      "requires": [
+        "useItem:metalalloy"
+      ]
+    },
+    {
+      "from": "dreepy",
+      "to": "drakloak",
+      "method": "LEVEL",
+      "level": 50,
+      "requires": []
+    },
+    {
+      "from": "drakloak",
+      "to": "dragapult",
+      "method": "LEVEL",
+      "level": 60,
+      "requires": []
+    },
+    {
+      "from": "kubfu",
+      "to": "urshifu",
+      "method": "OTHER",
+      "condition": "Defeat the Single Strike Tower",
+      "conditionCode": "tower:single",
+      "reason": "Progression has no in-game input for condition 'tower:single' (otherMet returns false)"
+    },
+    {
+      "from": "kubfu",
+      "to": "urshifurapidstrike",
+      "method": "OTHER",
+      "condition": "Defeat the Rapid Strike Tower",
+      "conditionCode": "tower:rapid",
+      "reason": "Progression has no in-game input for condition 'tower:rapid' (otherMet returns false)"
+    },
+    {
+      "from": "sprigatito",
+      "to": "floragato",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "floragato",
+      "to": "meowscarada",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "fuecoco",
+      "to": "crocalor",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "crocalor",
+      "to": "skeledirge",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "quaxly",
+      "to": "quaxwell",
+      "method": "LEVEL",
+      "level": 16,
+      "requires": []
+    },
+    {
+      "from": "quaxwell",
+      "to": "quaquaval",
+      "method": "LEVEL",
+      "level": 36,
+      "requires": []
+    },
+    {
+      "from": "lechonk",
+      "to": "oinkologne",
+      "method": "LEVEL",
+      "level": 18,
+      "gender": "M",
+      "requires": []
+    },
+    {
+      "from": "lechonk",
+      "to": "oinkolognef",
+      "method": "LEVEL",
+      "level": 18,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "tarountula",
+      "to": "spidops",
+      "method": "LEVEL",
+      "level": 15,
+      "requires": []
+    },
+    {
+      "from": "nymble",
+      "to": "lokix",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "pawmi",
+      "to": "pawmo",
+      "method": "LEVEL",
+      "level": 18,
+      "requires": []
+    },
+    {
+      "from": "pawmo",
+      "to": "pawmot",
+      "method": "OTHER",
+      "condition": "walk 1000 steps in Let's Go",
+      "conditionCode": "steps:1000",
+      "requires": [
+        "counter:steps>=1000"
+      ]
+    },
+    {
+      "from": "tandemaus",
+      "to": "maushold",
+      "method": "LEVEL",
+      "level": 25,
+      "gender": "N",
+      "reason": "shadowed: whenever its requirements are met, Progression.evolutionTarget returns mausholdfour first (first matching entry wins; the official branch-selection rule is not modelled)"
+    },
+    {
+      "from": "tandemaus",
+      "to": "mausholdfour",
+      "method": "LEVEL",
+      "level": 25,
+      "gender": "N",
+      "requires": []
+    },
+    {
+      "from": "fidough",
+      "to": "dachsbun",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "smoliv",
+      "to": "dolliv",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "dolliv",
+      "to": "arboliva",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "nacli",
+      "to": "naclstack",
+      "method": "LEVEL",
+      "level": 24,
+      "requires": []
+    },
+    {
+      "from": "naclstack",
+      "to": "garganacl",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "charcadet",
+      "to": "armarouge",
+      "method": "USE_ITEM",
+      "item": "auspiciousarmor",
+      "requires": [
+        "useItem:auspiciousarmor"
+      ]
+    },
+    {
+      "from": "charcadet",
+      "to": "ceruledge",
+      "method": "USE_ITEM",
+      "item": "maliciousarmor",
+      "requires": [
+        "useItem:maliciousarmor"
+      ]
+    },
+    {
+      "from": "tadbulb",
+      "to": "bellibolt",
+      "method": "USE_ITEM",
+      "item": "thunderstone",
+      "requires": [
+        "useItem:thunderstone"
+      ]
+    },
+    {
+      "from": "wattrel",
+      "to": "kilowattrel",
+      "method": "LEVEL",
+      "level": 25,
+      "requires": []
+    },
+    {
+      "from": "maschiff",
+      "to": "mabosstiff",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "shroodle",
+      "to": "grafaiai",
+      "method": "LEVEL",
+      "level": 28,
+      "requires": []
+    },
+    {
+      "from": "bramblin",
+      "to": "brambleghast",
+      "method": "OTHER",
+      "condition": "Walk 1000 steps in Let's Go",
+      "conditionCode": "steps:1000",
+      "requires": [
+        "counter:steps>=1000"
+      ]
+    },
+    {
+      "from": "toedscool",
+      "to": "toedscruel",
+      "method": "LEVEL",
+      "level": 30,
+      "requires": []
+    },
+    {
+      "from": "capsakid",
+      "to": "scovillain",
+      "method": "USE_ITEM",
+      "item": "firestone",
+      "requires": [
+        "useItem:firestone"
+      ]
+    },
+    {
+      "from": "rellor",
+      "to": "rabsca",
+      "method": "OTHER",
+      "condition": "walk 1000 steps in Let's Go",
+      "conditionCode": "steps:1000",
+      "requires": [
+        "counter:steps>=1000"
+      ]
+    },
+    {
+      "from": "flittle",
+      "to": "espathra",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "tinkatink",
+      "to": "tinkatuff",
+      "method": "LEVEL",
+      "level": 24,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "tinkatuff",
+      "to": "tinkaton",
+      "method": "LEVEL",
+      "level": 38,
+      "gender": "F",
+      "requires": []
+    },
+    {
+      "from": "wiglett",
+      "to": "wugtrio",
+      "method": "LEVEL",
+      "level": 26,
+      "requires": []
+    },
+    {
+      "from": "finizen",
+      "to": "palafin",
+      "method": "LEVEL",
+      "level": 38,
+      "requires": []
+    },
+    {
+      "from": "varoom",
+      "to": "revavroom",
+      "method": "LEVEL",
+      "level": 40,
+      "requires": []
+    },
+    {
+      "from": "glimmet",
+      "to": "glimmora",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "greavard",
+      "to": "houndstone",
+      "method": "LEVEL",
+      "level": 30,
+      "condition": "at night",
+      "conditionCode": "night",
+      "requires": [
+        "night"
+      ]
+    },
+    {
+      "from": "cetoddle",
+      "to": "cetitan",
+      "method": "USE_ITEM",
+      "item": "icestone",
+      "requires": [
+        "useItem:icestone"
+      ]
+    },
+    {
+      "from": "frigibax",
+      "to": "arctibax",
+      "method": "LEVEL",
+      "level": 35,
+      "requires": []
+    },
+    {
+      "from": "arctibax",
+      "to": "baxcalibur",
+      "method": "LEVEL",
+      "level": 54,
+      "requires": []
+    },
+    {
+      "from": "gimmighoul",
+      "to": "gholdengo",
+      "method": "OTHER",
+      "condition": "Level up with 999 Coins in the bag",
+      "conditionCode": "coins:999",
+      "gender": "N",
+      "requires": [
+        "coins"
+      ]
+    },
+    {
+      "from": "dipplin",
+      "to": "hydrapple",
+      "method": "LEVEL_MOVE",
+      "move": "dragoncheer",
+      "requires": [
+        "knowsMove:dragoncheer"
+      ]
+    },
+    {
+      "from": "poltchageist",
+      "to": "sinistcha",
+      "method": "USE_ITEM",
+      "item": "unremarkableteacup",
+      "gender": "N",
+      "requires": [
+        "useItem:unremarkableteacup"
+      ]
+    },
+    {
+      "from": "poltchageistartisan",
+      "to": "sinistchamasterpiece",
+      "method": "USE_ITEM",
+      "item": "masterpieceteacup",
+      "gender": "N",
+      "requires": [
+        "useItem:masterpieceteacup"
+      ]
+    }
+  ]
+}

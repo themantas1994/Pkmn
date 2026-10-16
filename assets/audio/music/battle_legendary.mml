@@ -1,0 +1,27 @@
+; Legendary encounter - epic and wide, B minor. Original composition, CC0-1.0.
+#title Echo of the Ancients
+#tempo 150
+#time 4/4
+#key B minor
+#inst 1 duty=2 env=13,-7 rel=-3 vib=12,22,5
+#inst 2 duty=0 env=5,0 rel=-1
+#inst 3 wave=7 env=14,0
+#def T o4 l16 [e g]8 l8
+#def t o4 l16 [d+ g]8 l8
+#def T2 o4 l16 [e g]4 l8
+#def t2 o4 l16 [d+ g]4 l8
+#def gb o2 c8. c16 c8 c8 c8. c16 c8 c8
+#def gb2 o2 c8. c16 c8 c8
+#def ep K8 H8 H8 K8 S8 H8 H8 H8
+#def fl K8 H8 T8 T8 M8 M8 U8 C8
+#def ma o5 b2 f+4 d4 | o5 g2. a8 b8 | o6 c+2 o5 a4 e4 | o5 f+2. a+4 | o5 b2 o6 d4 c+4 | o6 d2 o5 b4 g4 | o5 e4 g4 f+4 a+4 | o5 b1 |
+#def mb o5 d4 g4 b4 o6 d4 | o6 c+2. o5 b8 a8 | o5 a2 f+4 d4 | o5 f+2 b2 | o5 g4 b4 o6 d4 g4 | o6 e4 c+4 o5 a4 e4 | o5 g2 b4 e4 | o5 f+4 a+4 o6 c+4 e4 |
+#def ha k-1{t} | k-5{T} | k-3{T} | k-6{T} | k-1{t} | k-5{T} | k4{t2} k-6{T2} | k-1{t} | k0
+#def hb k-5{T} | k-3{T} | k2{T} | k-1{t} | k-5{T} | k-3{T} | k4{t} | k-6{T} | k0
+#def ba k11{gb} | k7{gb} | k9{gb} | k6{gb} | k11{gb} | k7{gb} | k4{gb2} k6{gb2} | k11{gb} | k0
+#def bc k7{gb} | k9{gb} | k2{gb} | k11{gb} | k7{gb} | k9{gb} | k4{gb} | k6{gb} | k0
+
+A @1 o4 b1 | o4 f+2 a+2 | $ {ma} {mb} {ma}
+B @2 o3 f+1 | o4 c+2 e2 | $ {ha} {hb} {ha}
+C @3 o2 b1 | o2 f+1 | $ {ba} {bc} {ba}
+D v12 N2 r2 | [T8 M8]2 [U16]8 | $ [[{ep}]7 {fl}]3

@@ -1,0 +1,22 @@
+map voltara_center
+name "Pokémon Center"
+location "Voltara City"
+music pokecenter
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^^
+@w@@@X@@@w@
+ooooooooooP
+ooocccccooo
+ooooooooooo
+ptoooooooto
+phooooooohp
+ooooRRooooo
+end
+
+warp 4 7 -> voltara_city 7 14 down
+warp 5 7 -> voltara_city 7 14 down
+npc nurse 5 2 sprite=nurse face=down script=p2_nurse
+npc vc_tech 8 5 sprite=scientist face=left script=p2_voltara_center_tech

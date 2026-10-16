@@ -1,0 +1,26 @@
+; First routes - bright and upbeat. Original composition, CC0-1.0.
+#title First Steps Out
+#tempo 144
+#time 4/4
+#key C major
+#inst 1 duty=2 env=12,-4 rel=-2 vib=20,12,6
+#inst 2 duty=0 env=7,-2
+#inst 3 wave=6 env=12,0
+#def M o4 c8 g8 e8 g8 c8 g8 e8 g8
+#def m o4 c8 g8 d+8 g8 c8 g8 d+8 g8
+#def M2 o4 c8 g8 e8 g8
+#def ob o2 [c8 > c8 <]4
+#def ob2 o2 [c8 > c8 <]2
+#def bt K8 H8 S8 H8 K8 H8 S8 H8
+#def fl K8 H8 S8 H8 K8 S16 S16 S8 S8
+#def ma o5 g4 e8 g8 r8 g8 a8 g8 | o5 f4 d8 f8 r8 f8 g8 f8 | o5 e4 c8 e8 a4 g8 e8 | o5 f2 a4 f4 | o5 g4 e8 g8 r8 g8 a8 g8 | o5 b4 g8 b8 r8 b8 o6 c8 d8 | o6 c4 o5 a4 b4 g4 | o6 c2 r4 o5 g8 g8 |
+#def mb o5 a4. g8 f4 c4 | o5 b4. a8 g4 d4 | o5 e8 g8 b8 g8 e4 o4 b4 | o5 c4 e4 a2 | o5 a4. g8 f4 a4 | o5 g4. a8 b4 d4 | o5 f4 a4 d4 f4 | o5 g2 g8 a8 b8 o6 d8 |
+#def ha k0{M} | k-5{M} | k-3{m} | k5{M} | k0{M} | k-5{M} | k5{M2} k-5{M2} | k0{M} | k0
+#def hb k5{M} | k-5{M} | k4{m} | k-3{m} | k5{M} | k-5{M} | k2{m} | k-5{M} | k0
+#def ba k0{ob} | k7{ob} | k9{ob} | k5{ob} | k0{ob} | k7{ob} | k5{ob2} k7{ob2} | k0{ob} | k0
+#def bb k5{ob} | k7{ob} | k4{ob} | k9{ob} | k5{ob} | k7{ob} | k2{ob} | k7{ob} | k0
+
+A @1 $ {ma} {mb} {ma}
+B @2 $ {ha} {hb} {ha}
+C @3 $ {ba} {bb} {ba}
+D v11 $ [[{bt}]7 {fl}]3

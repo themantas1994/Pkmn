@@ -1,0 +1,31 @@
+# Temple of Sol — Warden Talo awards the Z-Ring after Gym 4.
+map ruins_of_sol_temple
+name "Temple of Sol"
+location "Ruins of Sol"
+music dungeon_ruins
+environment indoor
+indoor
+
+layout
+xxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxx
+xuuuuuuuuuuuuux
+xuuGuuuuuuuGuux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xuuGuuuuuuuGuux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xuuGuuuuuuuGuux
+xuuuuuuuuuuuuux
+xuuuuuuuuuuuuux
+xxxxxxxRxxxxxxx
+end
+
+warp 7 13 -> ruins_of_sol 12 3 down
+npc talo 7 3 sprite=sage face=down script=p2_talo
+npc temple_acolyte 10 9 sprite=psychic face=left text="The Warden can sense the sun in a person's heart. Mine's partly cloudy."
+sign 6 1 text="An engraving of a great beast swallowing the sun, held back by a ring of light."
+sign 8 1 text="\"Light given form, power given shape. Let the bond between trainer and Pokémon burn bright.\""
+hidden temple_heal 13 12 fullheal

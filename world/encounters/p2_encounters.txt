@@ -1,0 +1,247 @@
+# Part 2 wild encounters (Route 5 -> Mt. Prism / Seraphine). Levels follow docs/CAMPAIGN.md.
+
+encounters p2_route5
+  rate grass 25
+  grass morning skiploom 16-19 25
+  grass morning ledian 17-19 20
+  grass morning herdier 17-19 25
+  grass morning flabebe 16-18 30
+  grass day herdier 17-19 25
+  grass day ponyta 16-19 20
+  grass day skiddo 16-18 25
+  grass day nincada 16-18 15
+  grass day flabebe 16-18 15
+  grass night noctowl 17-19 30
+  grass night venonat 16-18 25
+  grass night kricketune 17-19 25
+  grass night stunky 16-18 20
+  surf any tentacool 18-22 45
+  surf any wingull 18-22 40
+  surf any pelipper 22-24 15
+  oldrod any magikarp 10-15 70
+  oldrod any finneon 12-16 30
+  goodrod any finneon 16-20 35
+  goodrod any remoraid 16-20 35
+  goodrod any shellder 16-20 30
+  superrod any staryu 25-30 50
+  superrod any lumineon 25-30 50
+end
+
+encounters p2_lumen_ruins
+  rate cave 12
+  cave morning unown 16-20 45
+  cave morning natu 17-19 20
+  cave morning baltoy 17-20 20
+  cave morning sigilyph 19-21 5
+  cave morning bronzor 17-20 10
+  cave day unown 16-20 45
+  cave day baltoy 17-20 20
+  cave day bronzor 17-20 20
+  cave day sigilyph 19-21 5
+  cave day elgyem 18-20 10
+  cave night unown 16-20 40
+  cave night golett 18-20 20
+  cave night litwick 17-19 20
+  cave night elgyem 18-20 15
+  cave night sigilyph 19-21 5
+end
+
+encounters p2_route6
+  rate grass 25
+  grass morning electrike 17-20 30
+  grass morning flaaffy 18-21 20
+  grass morning psyduck 17-20 20
+  grass morning wooper 17-20 25
+  grass morning pikachu 18-20 5
+  grass day electrike 17-20 25
+  grass day luxio 18-21 20
+  grass day croagunk 18-20 20
+  grass day wooperpaldea 17-20 30
+  grass day pikachu 18-20 5
+  grass night tympole 17-20 30
+  grass night croagunk 18-20 20
+  grass night wooperpaldea 17-20 25
+  grass night murkrow 18-21 25
+  surf any psyduck 20-24 35
+  surf any marill 20-24 30
+  surf any buizel 20-24 25
+  surf any lombre 22-24 10
+  oldrod any magikarp 10-15 70
+  oldrod any poliwag 12-16 30
+  goodrod any goldeen 18-22 35
+  goodrod any barboach 18-22 35
+  goodrod any poliwag 18-22 30
+  superrod any whiscash 30-33 50
+  superrod any poliwhirl 28-32 50
+end
+
+encounters p2_route7
+  rate grass 25
+  grass morning machop 23-26 30
+  grass morning girafarig 24-26 15
+  grass morning helioptile 23-25 25
+  grass morning magnemite 23-26 20
+  grass morning voltorbhisui 24-26 10
+  grass day machop 23-26 25
+  grass day pawmo 24-26 15
+  grass day rhyhorn 24-26 20
+  grass day hippopotas 23-26 20
+  grass day magnemite 23-26 20
+  grass night voltorb 23-26 25
+  grass night joltik 23-25 25
+  grass night gligar 24-26 20
+  grass night golbat 24-27 20
+  grass night sandshrew 23-26 10
+  rocksmash any geodude 23-26 50
+  rocksmash any dwebble 23-26 35
+  rocksmash any nosepass 24-26 15
+end
+
+encounters p2_route8
+  rate grass 25
+  grass morning mudbray 25-28 25
+  grass morning drilbur 25-27 25
+  grass morning taurospaldeacombat 26-28 15
+  grass morning bonsly 25-27 20
+  grass morning nacli 25-27 13
+  grass morning kangaskhan 27-28 2
+  grass day drilbur 25-27 25
+  grass day mudbray 25-28 20
+  grass day trapinch 25-27 20
+  grass day sandile 25-27 20
+  grass day rolycoly 25-27 13
+  grass day larvitar 25-27 2
+  grass night golbat 26-28 25
+  grass night sandile 25-27 25
+  grass night noibat 25-27 20
+  grass night sableye 26-28 15
+  grass night larvitar 25-27 5
+  grass night onix 26-28 10
+  surf any buizel 26-30 35
+  surf any floatzel 28-30 15
+  surf any seaking 28-30 20
+  surf any basculin 26-30 30
+  oldrod any magikarp 15-20 70
+  oldrod any goldeen 15-20 30
+  goodrod any basculin 24-28 50
+  goodrod any goldeen 24-28 50
+  superrod any feebas 25-30 10
+  superrod any seaking 30-34 45
+  superrod any gyarados 30-34 45
+  rocksmash any roggenrola 25-28 50
+  rocksmash any geodude 25-28 50
+end
+
+encounters p2_ruins_of_sol
+  rate grass 25
+  grass morning solrock 27-30 30
+  grass morning ponytagalar 27-29 20
+  grass morning helioptile 26-29 25
+  grass morning bronzor 27-29 25
+  grass day solrock 27-30 30
+  grass day sigilyph 27-30 20
+  grass day bronzor 27-29 30
+  grass day absol 28-30 5
+  grass day helioptile 26-29 15
+  grass night lunatone 27-30 35
+  grass night yamask 27-29 30
+  grass night sigilyph 27-30 20
+  grass night absol 28-30 5
+  grass night murkrow 27-29 10
+end
+
+encounters p2_mt_prism_lower
+  rate cave 12
+  cave morning golbat 28-31 20
+  cave morning graveler 28-31 20
+  cave morning boldore 28-31 20
+  cave morning meditite 28-30 15
+  cave morning cufant 28-30 15
+  cave morning carbink 30-32 5
+  cave morning onix 29-31 5
+  cave day golbat 28-31 15
+  cave day graveler 28-31 20
+  cave day roggenrola 28-30 20
+  cave day aron 28-30 20
+  cave day mawile 29-31 15
+  cave day carbink 30-32 5
+  cave day onix 29-31 5
+  cave night golbat 28-31 25
+  cave night woobat 28-30 25
+  cave night noibat 28-30 20
+  cave night sableye 29-31 15
+  cave night graveler 28-31 15
+  surf any golduck 30-34 35
+  surf any seaking 30-34 30
+  surf any whiscash 30-34 35
+  oldrod any magikarp 15-20 100
+  goodrod any barboach 26-30 50
+  goodrod any goldeen 26-30 50
+  superrod any whiscash 32-36 50
+  superrod any gyarados 32-36 50
+  rocksmash any graveler 28-32 50
+  rocksmash any boldore 28-32 50
+end
+
+encounters p2_mt_prism_upper
+  rate cave 12
+  cave morning golbat 31-34 20
+  cave morning graveleralola 31-34 20
+  cave morning boldore 31-34 15
+  cave morning lairon 31-34 20
+  cave morning carbink 32-34 10
+  cave morning glimmet 31-33 13
+  cave morning gible 31-33 2
+  cave day golbat 31-34 15
+  cave day graveleralola 31-34 20
+  cave day lairon 31-34 20
+  cave day mawile 31-34 15
+  cave day glimmet 31-33 15
+  cave day carbink 32-34 13
+  cave day gible 31-33 2
+  cave night golbat 31-34 25
+  cave night sableye 31-34 25
+  cave night woobat 31-33 20
+  cave night noibat 31-33 18
+  cave night carbink 32-34 10
+  cave night deino 31-33 2
+end
+
+encounters p2_seraphine
+  rate grass 25
+  grass morning snubbull 32-35 25
+  grass morning spritzee 32-35 20
+  grass morning fidough 32-34 20
+  grass morning swablu 32-35 20
+  grass morning cottonee 32-34 15
+  grass day swirlix 32-35 20
+  grass day milcery 32-34 15
+  grass day kirlia 32-35 15
+  grass day ponytagalar 33-35 15
+  grass day hatenna 32-34 20
+  grass day swablu 32-35 15
+  grass night morgrem 32-35 25
+  grass night hattrem 32-35 20
+  grass night spritzee 32-35 20
+  grass night snubbull 32-35 20
+  grass night kirlia 32-35 13
+  grass night togepi 30-32 2
+  surf any marill 30-34 50
+  surf any azumarill 32-35 30
+  surf any lombre 30-34 20
+  oldrod any magikarp 15-20 100
+  goodrod any goldeen 28-32 60
+  goodrod any lumineon 28-32 40
+end
+
+encounters p2_town_ponds
+  rate surf 10
+  surf any psyduck 20-25 50
+  surf any marill 20-25 50
+  oldrod any magikarp 10-15 70
+  oldrod any goldeen 12-16 30
+  goodrod any goldeen 18-24 60
+  goodrod any poliwag 18-24 40
+  superrod any poliwhirl 28-32 60
+  superrod any gyarados 30-33 40
+end

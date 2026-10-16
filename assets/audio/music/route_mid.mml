@@ -1,0 +1,25 @@
+; Middle routes - a galloping shuffle. Original composition, CC0-1.0.
+#title Over the Next Hill
+#tempo 136
+#time 4/4
+#key Eb major
+#inst 1 duty=2 env=11,-4 rel=-2 vib=18,14,5.5
+#inst 2 duty=1 env=7,-2
+#inst 3 wave=7 env=13,0
+#def G o4 c8. g16 e8. g16 c8. g16 e8. g16
+#def g o4 c8. g16 d+8. g16 c8. g16 d+8. g16
+#def G2 o4 c8. g16 e8. g16
+#def gb o2 c8. c16 > c8. < c16 g8. g16 > c8. < c16
+#def gb2 o2 c8. c16 > c8. < c16
+#def dr K8. H16 S8. H16 K8. K16 S8. H16
+#def ma o5 b-8. g16 b-8. o6 e-16 o5 b-4 g4 | o5 a-8. g16 e-8. c16 g2 | o5 a-8. b-16 o6 c8. o5 a-16 e-4 c4 | o5 d8. f16 b-8. f16 d2 | o5 b-8. g16 b-8. o6 e-16 o5 b-4 o6 e-4 | o6 d4 o5 b-8. g16 d4 g4 | o5 c4 e-4 d4 f4 | o5 e-2. r4 |
+#def mb o5 e-4. c8 a-4 e-4 | o5 f4. d8 b-4 f4 | o5 g8. f16 g8. a16 b-4 g4 | o5 c2 e-4 g4 | o5 a-8. g16 f8. e-16 c4 f4 | o5 d4 f4 b-4 a-4 | o5 c4 e-8. c16 a-4 g4 | o5 f2 d4 f4 |
+#def ha k3{G} | k0{g} | k-4{G} | k-2{G} | k3{G} | k-5{g} | k-4{G2} k-2{G2} | k3{G} | k0
+#def hb k-4{G} | k-2{G} | k-5{g} | k0{g} | k5{g} | k-2{G} | k-4{G} | k-2{G} | k0
+#def ba k3{gb} | k0{gb} | k8{gb} | k10{gb} | k3{gb} | k7{gb} | k8{gb2} k10{gb2} | k3{gb} | k0
+#def bb k8{gb} | k10{gb} | k7{gb} | k0{gb} | k5{gb} | k10{gb} | k8{gb} | k10{gb} | k0
+
+A @1 $ {ma} {mb} {ma}
+B @2 $ {ha} {hb} {ha}
+C @3 $ {ba} {bb} {ba}
+D v10 $ [[{dr}]7 K8. H16 S8. S16 S8 S16 S16 C4]3

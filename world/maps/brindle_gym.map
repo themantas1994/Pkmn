@@ -1,0 +1,44 @@
+map brindle_gym
+name "Brindle City Gym"
+location "Brindle City"
+music gym
+environment building
+indoor
+tags gym
+
+legend
+b bush
+end
+
+layout
+^^^^^^^^^^^^^^
+@w@@@@@@@@@@w@
+bGggggggggggGb
+bggggggggggggb
+bggggggggggggb
+bbbbbbbbbbbbbb
+bgggggbggggzgb
+bgbbbgbgbbbbgb
+bgbgggbgggbggb
+bgbgbbbbbgbgbb
+bggggggggggggb
+bbbbbbbbbbbbbb
+bzgggbgggggggb
+bbbbgbgbbbbbgb
+bggggbggggbggb
+bgbbbbGggGbgbb
+bggggggggggggb
+bbbbbbRRbbbbbb
+end
+
+warp 6 17 -> brindle_city 14 6 down
+warp 7 17 -> brindle_city 14 6 down
+tileif p1_gym1_sw1 7 11 gym_floor
+tileif p1_gym1_sw2 7 5 gym_floor
+trigger 1 12 1 1 script=p1_gym1_sw1 unless=p1_gym1_sw1
+trigger 11 6 1 1 script=p1_gym1_sw2 unless=p1_gym1_sw2
+npc hazel 7 2 sprite=leader1 face=down script=p1_hazel
+npc gym1_guide 8 16 sprite=gentleman face=left script=p1_gym1_guide
+trainer gym1_lily 9 12 sprite=lass face=left sight=3
+trainer gym1_rosa 3 8 sprite=beauty face=right sight=2
+trainer gym1_basil 12 10 sprite=youngster face=left sight=4

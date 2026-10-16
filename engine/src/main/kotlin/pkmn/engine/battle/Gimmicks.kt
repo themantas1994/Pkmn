@@ -212,10 +212,13 @@ object Gimmicks {
         b.events.add(BattleEvent.FormeChange(mon.side.index, b.teamIndex(mon), mon.species.id, "tera:$type", "${b.nm(mon)} has Terastallized into the $type type!"))
         b.log.add("Terastallized $type")
         val base = toId(mon.species.baseSpecies)
+        val before = mon.species.id
         if (base == "terapagos" && type == "Stellar") b.formeChange(mon, "terapagosstellar", "battle", null)
         if (base == "ogerpon") {
             val teraForme = b.dex.speciesOrNull(mon.species.id + "tera")
             if (teraForme != null) b.formeChange(mon, teraForme.id, "battle", null)
         }
+        // A Tera forme's Ability (Embody Aspect, Teraform Zero) activates immediately.
+        if (mon.species.id != before && b.abilityActive(mon)) Effects.ability(mon.ability)?.let { it.onStart(EffectCtx(b, it, mon, null, mon.abilityState), null) }
     }
 }

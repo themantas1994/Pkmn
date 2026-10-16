@@ -1,0 +1,22 @@
+; Surfing - rolling 6/8 swells in F major. Original composition, CC0-1.0.
+#title Riding the Swell
+#tempo 120
+#time 6/8
+#key F major
+#inst 1 duty=2 env=11,-6 rel=-2 vib=16,14,5
+#inst 2 duty=1 env=6,-2
+#inst 3 wave=3 env=14,0
+#def W o4 c8 g8 > c8 e8 c8 < g8
+#def w o4 c8 g8 > c8 d+8 c8 < g8
+#def wb o2 c4. g4.
+#def ma o5 c4. a8 g8 f8 | o5 f4 d8 a4. | o5 d8 f8 b-8 a4 g8 | o5 g4. e4. | o5 c4. f8 a8 o6 c8 | o6 c4 o5 b-8 a4. | o5 b-8 a8 g8 f4 d8 | o5 e4. g4 r8 |
+#def mb o5 b-4. a8 g8 d8 | o5 e4 g8 o6 c4. | o6 c4. o5 a8 g8 e8 | o5 f4. d4. | o5 d8 f8 b-8 o6 d4 c8 | o5 b-4. g4 e8 | o5 f8 g8 a8 b-4 d8 | o5 e4. c4. |
+#def ha k5{W} | k2{w} | k-2{W} | k0{W} | k5{W} | k-3{w} | k-2{W} | k0{W} | k0
+#def hb k-5{w} | k0{W} | k-3{w} | k2{w} | k-2{W} | k0{W} | k-2{W} | k0{W} | k0
+#def ba k5{wb} | k2{wb} | k10{wb} | k0{wb} | k5{wb} | k9{wb} | k10{wb} | k0{wb} | k0
+#def bb k7{wb} | k0{wb} | k9{wb} | k2{wb} | k10{wb} | k0{wb} | k10{wb} | k0{wb} | k0
+
+A @1 $ {ma} {mb} {ma}
+B @2 $ {ha} {hb} {ha}
+C @3 $ {ba} {bb} {ba}
+D v7 $ [O8 H8 H8 X8 H8 H8 | K8 H8 H8 X8 H8 H8 |]12

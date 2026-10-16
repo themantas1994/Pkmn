@@ -1,0 +1,122 @@
+{
+  "speciesEntries": 1379,
+  "baseSpecies": 1025,
+  "expectedBaseSpecies": 1025,
+  "formsByKind": {
+    "ALTERNATE": 118,
+    "BATTLE_ONLY": 26,
+    "FUSION": 6,
+    "GIGANTAMAX": 34,
+    "MEGA": 97,
+    "PRIMAL": 2,
+    "REGIONAL": 58,
+    "TOTEM": 12,
+    "ULTRA_BURST": 1
+  },
+  "battleOnlyEntries": 161,
+  "nonstandardByTag": {
+    "Future": 49,
+    "LGPE": 2,
+    "Past": 452
+  },
+  "learnsets": {
+    "entries": 1151,
+    "speciesWithOwnLevelUp": 1135,
+    "nonBattleOnlySpecies": 1218,
+    "nonBattleOnlyResolved": 1218,
+    "baseSpeciesResolved": 1025,
+    "levelUpGeneration": {
+      "gen4": 1,
+      "gen6": 1,
+      "gen7": 63,
+      "gen8": 258,
+      "gen9": 812
+    }
+  },
+  "catchRates": {
+    "baseSpeciesWithPokeApiCaptureRate": 1025,
+    "baseSpeciesUsingDefault": 0,
+    "min": 3,
+    "max": 255,
+    "distribution": {
+      "003": 76,
+      "004-045": 385,
+      "046-120": 287,
+      "121-200": 164,
+      "201-255": 113
+    }
+  },
+  "evolutions": {
+    "edges": 529,
+    "speciesThatEvolve": 482,
+    "speciesWithPrevo": 529,
+    "baseSpeciesFullyEvolvedOrSingleStage": 575
+  },
+  "legendary": 71,
+  "mythical": 23,
+  "baseSpeciesByGeneration": {
+    "gen1": 151,
+    "gen2": 100,
+    "gen3": 135,
+    "gen4": 107,
+    "gen5": 156,
+    "gen6": 72,
+    "gen7": 88,
+    "gen8": 96,
+    "gen9": 120
+  },
+  "allEntriesByGeneration": {
+    "gen1": 238,
+    "gen2": 116,
+    "gen3": 167,
+    "gen4": 147,
+    "gen5": 189,
+    "gen6": 104,
+    "gen7": 136,
+    "gen8": 135,
+    "gen9": 147
+  },
+  "sprites": {
+    "layout": "{assets,assets-local}/sprites/pokemon/<kind>/<speciesId>.png",
+    "front": {
+      "bundledFiles": 0,
+      "localFiles": 0,
+      "baseSpeciesWithSprite": 0,
+      "baseSpeciesMissing": 1025,
+      "formsWithSprite": 0,
+      "unknownIds": 0
+    },
+    "back": {
+      "bundledFiles": 0,
+      "localFiles": 0,
+      "baseSpeciesWithSprite": 0,
+      "baseSpeciesMissing": 1025,
+      "formsWithSprite": 0,
+      "unknownIds": 0
+    },
+    "front-shiny": {
+      "bundledFiles": 0,
+      "localFiles": 0,
+      "baseSpeciesWithSprite": 0,
+      "baseSpeciesMissing": 1025,
+      "formsWithSprite": 0,
+      "unknownIds": 0
+    },
+    "back-shiny": {
+      "bundledFiles": 0,
+      "localFiles": 0,
+      "baseSpeciesWithSprite": 0,
+      "baseSpeciesMissing": 1025,
+      "formsWithSprite": 0,
+      "unknownIds": 0
+    },
+    "icon": {
+      "bundledFiles": 0,
+      "localFiles": 0,
+      "baseSpeciesWithSprite": 0,
+      "baseSpeciesMissing": 1025,
+      "formsWithSprite": 0,
+      "unknownIds": 0
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "width": 64,
+  "height": 8,
+  "fill": {
+    "x": 15,
+    "y": 3,
+    "w": 48,
+    "h": 2
+  },
+  "fillColours": {
+    "high": "#38C048",
+    "mid": "#F0C020",
+    "low": "#E83820"
+  },
+  "thresholds": {
+    "mid": 0.5,
+    "low": 0.2
+  },
+  "notes": "Draw the bar, then fill fill.w*hp/maxHp pixels from fill.x."
+}

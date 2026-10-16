@@ -1,0 +1,247 @@
+# Part 2 trainers: Mt. Prism (31-37), Admin Corvin, rival L37, Seraphine Gym (cap 40).
+
+trainer p2_mp1_hiker_brock
+  class hiker
+  name "Brick"
+  intro "Hoo-ha! This mountain is my second home!"
+  defeat "Evicted!"
+  after "Push boulders with Strength. Just don't push them into a corner you need!"
+  mon graveler 31
+  mon lairon 32
+end
+
+trainer p2_mp1_blackbelt_jun
+  class blackbelt
+  name "Jun"
+  intro "I meditate in caves. You've interrupted my inner peace!"
+  defeat "Peace... restored... somehow."
+  after "Meditite train here too. We are rivals."
+  mon medicham 32 moves=highjumpkick,zenheadbutt,bulkup,bulletpunch
+  mon machoke 32
+end
+
+trainer p2_mp1_psychic_vera
+  class psychic
+  name "Vera"
+  intro "The crystals amplify my power! Prepare yourself!"
+  defeat "The crystals betrayed me."
+  after "Something is draining the crystals' light. I can feel it."
+  mon xatu 32
+  mon claydol 33
+end
+
+trainer p2_mp1_grunt_a
+  class grunt_m
+  name "Grunt"
+  intro "You followed us from Voltara?! Persistent pest!"
+  defeat "Pest control failed."
+  after "Admin Corvin is up on the third floor. He'll squash you."
+  mon golbat 32
+  mon grimeralola 32
+end
+
+trainer p2_mp2_cooltrainer_rin
+  class cooltrainer_f
+  name "Rin"
+  intro "Mt. Prism separates the weak from the strong. Which are you?"
+  defeat "Strong. Definitely strong."
+  after "Elowen's Gym is on the north side. Bring Poison or Steel moves."
+  mon gabite 33
+  mon lairon 33
+  mon boldore 33
+end
+
+trainer p2_mp2_hiker_peb
+  class hiker
+  name "Peb"
+  intro "Every crystal here has a story. Mine's about beating you!"
+  defeat "That story had a twist ending."
+  after "Carbink hide among the crystals. Hard to spot, harder to catch."
+  mon boldore 33
+  mon onix 34
+end
+
+trainer p2_mp2_grunt_b
+  class grunt_f
+  name "Grunt"
+  intro "These light crystals belong to Team Eclipse now!"
+  defeat "Ow, my pride."
+  after "The crystals hold ancient light. Lord Umbra wants it ALL."
+  mon sableye 33
+  mon mightyena 33
+end
+
+trainer p2_mp2_grunt_c
+  class grunt_m
+  name "Grunt"
+  intro "No trespassing! ...says the guy trespassing in a sacred mountain."
+  defeat "Okay, fair point."
+  after "Corvin's waiting upstairs. Good luck. Not really."
+  mon skuntank 34
+  mon golbat 33
+end
+
+trainer p2_mp2_scientist_quill
+  class scientist
+  name "Quill"
+  intro "I'm studying the crystals' refraction. You're refracting my focus!"
+  defeat "Diffracted!"
+  after "These crystals split light into seven colors. Just like the legends say."
+  mon magneton 33
+  mon bronzong 34
+end
+
+trainer p2_mp3_grunt_d
+  class grunt_m
+  name "Grunt"
+  intro "Halt! The siphon camp is off-limits!"
+  defeat "Siphoned of all my strength..."
+  after "We've already packed most of the crystals. You're too late!"
+  mon drapion 34
+  mon golbat 34
+end
+
+trainer p2_mp3_grunt_e
+  class grunt_f
+  name "Grunt"
+  intro "Admin Corvin's orders: nobody passes!"
+  defeat "Corvin's going to be so mad."
+  after "Go ahead. He's in a terrible mood."
+  mon honchkrow 35
+end
+
+trainer p2_mp3_grunt_f
+  class grunt_m
+  name "Grunt"
+  intro "I'm guarding the crystal crates. Very important job!"
+  defeat "Guess I'm guarding nothing now."
+  after "Seraphine Town is out that exit. Pretty place. Too foggy for my taste."
+  mon mukalola 35
+end
+
+trainer p2_admin_corvin
+  class admin
+  name "Corvin"
+  ai 3
+  intro "Let the darkness swallow you."
+  defeat "Hmph. This changes nothing."
+  after "Enjoy the light while it lasts."
+  items hyperpotion=2
+  mon golbat 34 moves=poisonfang,bite,confuseray,airslash
+  mon grimeralola 35 moves=poisonjab,crunch,knockoff,shadowsneak
+  mon skuntank 35 moves=poisonjab,suckerpunch,flamethrower,screech
+  mon drapion 36 moves=crosspoison,crunch,knockoff,bugbite item=sitrusberry
+end
+
+trainer p2_rival_prism_typhlosion
+  class rival
+  name "{rival}"
+  ai 2
+  intro "No holding back this time!"
+  defeat "How do you keep doing this?!"
+  after "I'll get you next time. Definitely."
+  items superpotion=2
+  mon pidgeot 35
+  mon gengar 35 moves=shadowball,sludgebomb,hypnosis,dazzlinggleam
+  mon honchkrow 35
+  mon magneton 34
+  mon typhlosion 37 moves=flamethrower,swift,lavaplume,extrasensory
+end
+
+trainer p2_rival_prism_feraligatr
+  class rival
+  name "{rival}"
+  ai 2
+  intro "No holding back this time!"
+  defeat "How do you keep doing this?!"
+  after "I'll get you next time. Definitely."
+  items superpotion=2
+  mon pidgeot 35
+  mon gengar 35 moves=shadowball,sludgebomb,hypnosis,dazzlinggleam
+  mon honchkrow 35
+  mon magneton 34
+  mon feraligatr 37 moves=waterfall,crunch,icefang,slash
+end
+
+trainer p2_rival_prism_meganium
+  class rival
+  name "{rival}"
+  ai 2
+  intro "No holding back this time!"
+  defeat "How do you keep doing this?!"
+  after "I'll get you next time. Definitely."
+  items superpotion=2
+  mon pidgeot 35
+  mon gengar 35 moves=shadowball,sludgebomb,hypnosis,dazzlinggleam
+  mon honchkrow 35
+  mon magneton 34
+  mon meganium 37 moves=petalblizzard,bodyslam,reflect,lightscreen
+end
+
+# --- Seraphine Gym ---
+trainer p2_sg_beauty_aria
+  class beauty
+  name "Aria"
+  intro "Lost in the mist already? How adorable!"
+  defeat "You found your way after all."
+  after "Not every glowing tile is your friend."
+  mon spritzee 35
+  mon floette 36
+end
+
+trainer p2_sg_lass_pixie
+  class lass
+  name "Pixie"
+  intro "My Pokémon are cute AND scary! Mostly cute!"
+  defeat "Mostly defeated..."
+  after "Elowen's Togekiss can use a super-powerful Z-Move. Be careful!"
+  mon snubbull 35
+  mon swirlix 35
+end
+
+trainer p2_sg_psychic_nyx
+  class psychic
+  name "Nyx"
+  intro "The mist shows me your future. It's... misty."
+  defeat "Should've seen that coming."
+  after "Kirlia can sense emotions. Mine says you're happy. Smug, even."
+  mon kirlia 36
+  mon hattrem 36
+end
+
+trainer p2_sg_cooltrainer_fae
+  class cooltrainer_f
+  name "Fae"
+  intro "You found the hidden switch? Then find a way past me!"
+  defeat "A clear path, at last."
+  after "Elowen is just ahead. She's gentle, until she isn't."
+  mon whimsicott 37
+  mon mawile 37
+end
+
+trainer p2_sg_gentleman_puff
+  class gentleman
+  name "Puff"
+  intro "A gentleman never refuses a duel. Nor a cup of tea."
+  defeat "Splendid. Simply splendid."
+  after "Lady Elowen is the finest trainer I know. Show her your best."
+  mon granbull 37
+  mon dachsbun 37
+end
+
+trainer p2_leader_elowen
+  class leader
+  name "Elowen"
+  portrait leader5
+  ai 3
+  intro "Let the mist reveal your heart."
+  defeat "How lovely... your light pierced the veil."
+  after "Shine on, little star."
+  gimmicks zmove
+  items fullrestore=1 hyperpotion=1
+  prize 4000
+  mon azumarill 37 moves=playrough,aquatail,rollout,bellydrum
+  mon granbull 38 moves=playrough,crunch,firefang,thunderwave
+  mon slurpuff 38 moves=dazzlinggleam,drainingkiss,cottonguard,flamethrower
+  mon togekiss 40 moves=dazzlinggleam,airslash,aurasphere,roost item=fairiumz
+end

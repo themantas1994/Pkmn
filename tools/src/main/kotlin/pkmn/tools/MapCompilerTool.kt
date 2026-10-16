@@ -265,7 +265,9 @@ class MapCompilerTool(private val root: File) {
             grid[y][x] = tile
         }
         for ((x, y, tile) in tileOverrides) grid[y][x] = tile
-        for (o in obstacles) grid[o.y][o.x] = when (o.kind) { "cut" -> "cut_tree"; "smash", "rocksmash" -> "rock_smash"; "boulder", "strength" -> "boulder"; else -> o.kind }
+        // Obstacles are runtime objects drawn over the ground tile, so clearing them reveals the ground underneath.
+        val normalized = obstacles.map { o -> o.copy(kind = when (o.kind) { "cut", "cut_tree" -> "cut_tree"; "smash", "rocksmash", "rock_smash" -> "rock_smash"; "boulder", "strength" -> "boulder"; else -> o.kind }) }
+        obstacles.clear(); obstacles.addAll(normalized)
         val palette = ArrayList<String>()
         val pIndex = HashMap<String, Int>()
         val ground = ArrayList<Int>(width * height)
@@ -459,7 +461,8 @@ class MapCompilerTool(private val root: File) {
         val mapsById = maps.associateBy { it.id }
         val trainerIds = trainers.map { it.id }.toSet()
         val charDir = File(root, "assets/gfx/chars")
-        val sprites = charDir.listFiles()?.map { it.nameWithoutExtension }?.toSet()
+        val spriteFiles = listOf(charDir, File(root, "assets/gfx/objects")).flatMap { d -> d.listFiles()?.toList() ?: emptyList() }
+        val sprites: Set<String>? = spriteFiles.map { it.nameWithoutExtension }.toSet().ifEmpty { null }
         fun walkable(m: MapData, x: Int, y: Int) = m.inBounds(x, y) && !TileRules.isSolid(TileRules.behavior(m.tileAt(x, y))) || TileRules.behavior(m.tileAt(x, y)) == TileBehavior.WARP
         for (m in maps) {
             val where = "map ${m.id}"

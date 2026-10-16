@@ -1,0 +1,32 @@
+quest p1_light_shards "Shards of Light" main
+  desc "Team Eclipse is stealing light shards from Tessera's shrines. Find out why."
+  step "Investigate the shrine in Whisperwood."
+  step "Earn the Sprout Badge in Brindle City."
+  step "Pass through Cobblecrest Cave to Port Tidewater."
+  step "Stop Team Eclipse at the Port Tidewater docks."
+  step "Earn the Tide Badge from Marina."
+end
+
+quest p1_lost_doll "The Lost Poké Doll"
+  desc "A girl in Fernwick Town lost her Poké Doll in Whisperwood."
+  step "Find the Poké Doll in Whisperwood."
+  step "Return it to the girl in Fernwick Town."
+end
+
+quest p1_mushroom_survey "Mushroom Survey"
+  desc "A researcher in Brindle City wants data on mushroom Pokémon from Whisperwood."
+  step "Catch a Shroomish, a Paras and a Morelull."
+  step "Report back to the researcher in Brindle City."
+end
+
+quest p1_pen_pal "Pen Pal Pokémon"
+  desc "A sailor's kid in Port Tidewater wants to swap Pokémon stories."
+  step "Show the kid a Wooper from Route 4."
+  step "Receive the kid's Pokémon in exchange."
+end
+
+quest p1_cave_hiker "Lost in Cobblecrest"
+  desc "A hiker's partner is lost somewhere in Cobblecrest Cave."
+  step "Find the lost hiker in the cave's lower floor."
+  step "Tell the hiker on Route 4 the good news."
+end

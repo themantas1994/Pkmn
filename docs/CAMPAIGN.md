@@ -112,6 +112,23 @@ Region map grid: 32 × 28 cells of 8 px on the 256 × 224 region map (`region x 
   `script=tidewater_ferry` and Part 1 writes that script as: if `flag hall_of_fame` then `call ferry_to_coral`
   else a "ferry not running" line. Part 3 defines script `ferry_to_coral`.
 * Fly: every town/city map sets `fly x y` and `tags town`; the game records visits automatically.
+* **Part 3 split** (3A / 3B / 3C, parallel authors). 3A: route9 → ashfall_city (Gym 6, Ember Tower) →
+  crystal_cavern (Tera Orb) → route10/route11 (Surf, Lapras gift) → frostmere_town (Gym 7, Dynamax Band) → route12.
+  3A also owns the post-game encounters inside its own maps (Ho-Oh on ember_tower_roof, Terapagos in crystal_cavern
+  depths), gated on `flag hall_of_fame`. 3B: dragonspire_city (Gym 8) → prism_summit (Eclipse climax, Necrozma) →
+  route13 → victory_road_* → prism_plateau + E4/Champion rooms, Hall of Fame + credits (sets `hall_of_fame`).
+  3C: post-game (`ferry_to_coral` script, coral_isles…, battle_tower, legendary dens except Ho-Oh/Terapagos,
+  Necrozma reappearance if defeated, leader/E4 rematches hosted on 3C maps). Prefixes: `p3a_`, `p3b_`, `p3c_` for
+  flags and files (`world/trainers/p3a_*.txt`, `world/scripts/p3b_*.pks`, `world/prefabs/p3c.txt`, …).
+* **B3 route12 ↔ dragonspire_city** (seamless, 3A ↔ 3B): `route12` is **16 tiles tall**, has
+  `connect east dragonspire_city -4`, and its east column is open exactly at y = 6,7. `dragonspire_city` has
+  `connect west route12 4` and its west column is open exactly at y = 10,11. Gym 8 requires 7 badges; route12's
+  east end has no gate (3B gates inside Dragonspire).
+* **B4 prism_summit access** (3B only): from dragonspire_city via a 3B-owned route/cave; prism_plateau is reached
+  from route13 → victory_road. Dragonspire has a Pokémon Center whose map id is `dragonspire_center` (respawn point).
+* **B5 post-game** (3B → 3C): the Champion victory script sets `hall_of_fame` and warps to `player_house_2f` 3 4
+  after credits. 3C content is reached only via `ferry_to_coral` (called by Part 1's tidewater ferry sailor) and
+  must not edit 3A/3B maps; rematches with gym leaders/E4 happen on 3C maps (e.g. a "Champions' Hall" on Coral Isles).
 
 ## File ownership (parallel authors must not edit each other's files)
 | Owner | Files |
@@ -150,3 +167,77 @@ to learn the required field move is obtainable before its first mandatory use (d
 ## Writing style
 GSC tone: short, warm, slightly humorous lines; ≤ 3 text boxes per NPC; signs give directions; no profanity.
 All NPCs have a purpose (hint, lore, item, trade, battle). Avoid long unskippable cutscenes.
+
+## Part 1 notes
+**Maps (29):** hometown, player_house_1f/2f, rival_house, lab, route1, fernwick_town (+ fernwick_center/mart/house),
+route2, whisperwood, brindle_city (+ brindle_center/mart/gym/house/bikeshop), route3, route4, cobblecrest_1f,
+cobblecrest_b1f, port_tidewater (+ tidewater_center/mart/gym/house/warehouse). Route 2 is split by a tree line: the
+south half's gate leads into Whisperwood, whose north exit leads to the north half (rival L11) and Brindle. Route 4 is
+split by a ridge; Cobblecrest 1F is the critical path between its halves. Connections: brindle_city `south route2 4`,
+`east route3 2`; route3 `east route4 6`; route4 `east port_tidewater 6`.
+
+**Merge placeholders (delete/replace on merge):** `world/maps/route5.map` is a stub honouring B1 (take Part 2's file);
+`world/scripts/p1_stub_ferry.pks` defines a stub `ferry_to_coral` (delete when Part 3 lands — duplicate id error).
+B1 is implemented exactly (port_tidewater bottom row open only at x=14,15, `connect south route5 5`). Ferry sailor
+`ferry_sailor` on the north pier uses script `tidewater_ferry` per contract. Generated `assets/` were not committed.
+
+**Flags others may test:** `p1_got_expshare`, `p1_got_oldrod`, `p1_got_goodrod`, `p1_got_bicycle`, `p1_got_eevee`,
+`p1_ww_grunts_fled` (Whisperwood Eclipse event), `p1_rival_route2`, `p1_rival_port`, `p1_heist_foiled` (docks heist;
+also opens Gym 2), `p1_marina_left`, `p1_beat_hazel`, `p1_beat_marina`, `p1_got_rocksmash`, `p1_found_hiker`,
+gym switches `p1_gym1_sw1/2`, `p1_gym2_sw1/2`, obstacles `p1_cut_route1`, `p1_cut_route2`, `p1_cut_brindle`,
+`p1_smash_cc1..3`. Quests (world/quests/p1.txt): `p1_light_shards` (main, done at badge 2), `p1_lost_doll`,
+`p1_mushroom_survey`, `p1_pen_pal`, `p1_cave_hiker`.
+
+**Field moves:** Cut is optional in Part 1 (route1 item nook, route2 shortcut, Brindle garden). Rock Smash TM is a gift
+on Route 4; smash rocks gate only optional Cobblecrest pockets. Early
+learners: Rattata, Bidoof (Route 1) and Bunnelby (Route 2) learn both Cut and Rock Smash; Geodude/Machop (Route 4/cave) learn Rock
+Smash. TM Flash is given by the Whisperwood sage.
+
+**Rewards:** Hazel → badge 1 + `tm bulletseed`; Marina → badge 2 + `tm waterpulse`. Gifts: Exp. Share (Fernwick aide),
+Old Rod (Hollowbrook fisherman), Bicycle (Brindle bike shop), Eevee L10 (Brindle), Good Rod (Tidewater sailor's house),
+Shellos L15 (pen pal, for showing a Wooper). Stone seller: `tidewater_stones` (Fire/Water/Thunder/Leaf/Moon/Everstone).
+
+**Deviations:** no real trade — the "trade" NPC (pen pal) gives a Shellos when a Wooper is in the party, since the
+`trade` host semantics are unspecified. campaign.json badge leaders/cities are still "TBD" (lead-owned): Gym 1 Hazel /
+Brindle City, Gym 2 Marina / Port Tidewater. Gym puzzles rely on runtime `tileif` + step triggers on `puzzle_switch`
+tiles (one-way switches). Ladders in Cobblecrest land on the ladder tile (GSC style).
+
+## Part 2 notes (Route 5 → Seraphine Town)
+**Maps (39):** route5, lumen_village (+lumen_center, lumen_mart, lumen_elder, lumen_researcher, lumen_house), lumen_ruins,
+lumen_ruins_chamber, route6, voltara_city (+voltara_center, voltara_dept_1f/2f, voltara_house, voltara_house2, voltara_lab,
+voltara_gym, voltara_powerplant), route7, route8, quarrytown (+quarrytown_center, quarrytown_mart, quarrytown_house,
+quarrytown_house2, quarrytown_fossil_lab, quarrytown_gym), ruins_of_sol, ruins_of_sol_temple, mt_prism_1f/2f/3f,
+seraphine_town (+seraphine_center, seraphine_mart, seraphine_house, seraphine_house2, seraphine_gym).
+Stubs `zz_stub_port_tidewater.map` / `zz_stub_route9.map` exist only for isolated compiles — **delete on merge**.
+Connections: route5 S→lumen_village (offset -2); lumen_village E→route6 (-5); route6 E→voltara_city (-6);
+voltara_city E→route7 (-6); route7 E→route8 (-30); route8 N→quarrytown (-3); quarrytown E→ruins_of_sol (0);
+quarrytown cave (3,3) → mt_prism_1f → 2f → 3f → seraphine_town cave (29,12). B1/B2 exactly as contracted.
+
+**Story flags:** `p2_route5_open` (badge-2 gate passed), `p2_voltara_visited`, `p2_rival_at_plant`, `p2_plant_rival_in`,
+`p2_power_restored` (Voltara Gym opens), `p2_badge3`, `p2_got_keystone` (Route 7 opens; also `unlock_mega`), `p2_got_mira_gift`,
+`p2_badge4`, `p2_got_zring` (Mt. Prism opens; also `unlock_zmove`), `p2_beat_corvin`, `p2_rival_prism_done`, `p2_badge5`.
+Puzzle flags: `p2_lumen_sw_a/b`, `p2_lumen_door`, `p2_vg_1..3`, `p2_qg_a/b/c` (b toggles), `p2_sg_a/b/c`.
+Side-quest flags: `p2_saw_mural`, `p2_kanto_gift`, `p2_kanto_bulbasaur|charmander|squirtle`, `p2_kanto_stone`,
+`p2_found_toolbox`, `p2_found_pickaxe`, `p2_fossil_given`, `p2_quarry_traded`, `p2_togepi_egg`, `p2_weaver_tm`,
+`p2_got_goodrod`, `p2_dept_gift`. Quests (world/quests/p2.txt): `p2_story` (main), `p2_kanto_legacy`, `p2_ruins_research`,
+`p2_live_wire`, `p2_fossil_dig`, `p2_sun_and_moon`, `p2_mist_song`.
+
+**Gating:** Route 5 trigger pushes back without 2 badges. Voltara Gym door guarded until the power plant is cleared;
+Route 7 exit guarded until Dr. Mira gives the Key Stone (after Gym 3). Mt. Prism entrance guarded until Warden Talo's
+Z-Ring (after Gym 4). Mt. Prism main path needs Strength (boulder gaps, pushable; both sides are open rooms so pushes
+cannot soft-lock); Rock Smash rocks and the 1F lake (Surf) only guard optional items. All Part 2 water is optional.
+Strength users obtainable before Mt. Prism: Machop/Geodude/Rhyhorn (Route 7), Drilbur/Mudbray (Route 8). Surf users:
+Psyduck/Marill/Buizel/Wooper (Route 6), Tentacool (Route 5).
+
+**Gifts:** Good Rod (Route 5), Kanto starter L18 choice (Elder Ione, after the mural) + its Mega Stone once Mega is
+unlocked, Flaaffy L25 + Ampharosite (Dr. Mira), fossil revival (Jaw/Sail from the foreman quest, Old Amber on Mt. Prism
+1F lake islet → Tyrunt/Amaura/Aerodactyl L30), Togepi egg (Seraphine), Onix trade for Drilbur (Quarrytown).
+Mega Stones: ampharosite, venusaurite/charizarditex/blastoisinite, manectite, aerodactylite, mawilite, sablenite,
+gardevoirite, altarianite. Z-Crystals: normaliumz+rockiumz (Talo), fairiumz (Elowen), electriumz, psychiumz, buginiumz,
+steeliumz, firiumz. TMs: voltswitch (Volta), rockslide (Garnet), dazzlinggleam (Elowen), calmmind (Lumen weaver).
+Tutors: `movetutor voltara_tutor`, `movetutor seraphine_tutor`; move relearner in Quarrytown.
+
+**Deviations / engine expectations:** the in-game trade uses `trade drilbur onix` (want, give) — the host must implement
+the `trade` special. Shops in `world/shops/p2.txt` (`p2_voltara_evo` sells `linkingcord`). Rival battles use `canlose`.
+Mt. Prism 3F exit leads straight into Seraphine Town (no extra route map). Seraphine Town has a Mist Grove grass patch
+and `weather fog`. Generated `assets/` output is not committed by Part 2 (run `compileMaps` after merge).

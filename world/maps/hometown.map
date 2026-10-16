@@ -3,14 +3,15 @@ name "Hollowbrook Town"
 location "Hollowbrook Town"
 music hometown
 environment plain
-region 6 20
+region 6 22
 fly 10 8
+encounters hometown
 tags town
 connect north route1 0
 
 layout
 TTTTTTTTT::TTTTTTTTT
-T........::........T
+T........::.......FT
 T.FF.....::.....FF.T
 T........::........T
 T........::........T
@@ -19,22 +20,28 @@ T........::........T
 T...::::::::::::::.T
 T........::........T
 T.S......::........T
-T........::........T
+T........::....p...T
 T........::........T
 T........::........T
 T........::S.......T
 T..FF.........~~~~.T
 T.............~~~~.T
-T.............~~~~.T
+TF............~~~~.T
 TTTTTTTTTTTTTTTTTTTT
+end
+
+legend
+p flowers
 end
 
 building house 2 4 -> player_house_1f 3 7 up
 building house_blue 13 4 -> rival_house 3 5 up
 building lab 7 10 -> lab 4 9 up
-tile 9 9 path
 sign 2 9 text="HOLLOWBROOK TOWN\nWhere the brook begins."
 sign 11 13 text="LINDEN POKéMON LAB"
-npc townkid 6 8 sprite=kid move=wander text="The lab is run by Professor Linden. He studies how Pokémon and people live together!"
-npc fisher 13 15 sprite=fisherman face=right text="I come here every morning. The pond is calm, but nothing bites!"
+npc townkid 6 8 sprite=kid move=wander text="Prof. Linden studies how Pokémon and people live together!\pHe says even the brook has Pokémon in it."
+npc fisher 13 15 sprite=fisherman face=right script=p1_hometown_fisher
+npc runner 16 11 sprite=lass face=left script=p1_hometown_runner
+hidden ht_potion 1 16 potion
+hidden ht_berry 18 1 oranberry
 trigger 9 1 2 1 script=hometown_need_starter unless=got_starter

@@ -1,0 +1,27 @@
+; Title screen - heroic opening theme. Original composition, CC0-1.0.
+#title Crystalline
+#tempo 132
+#time 4/4
+#key D major
+#inst 1 duty=2 env=12,-6 rel=-2 vib=16,14,5.5
+#inst 2 duty=1 env=8,-3
+#inst 3 wave=6 env=14,0
+; accompaniment cells, transposed with k (arps: k-6..5 around o4, bass: k0..11 from o2)
+#def maj o4 c8 g8 e8 g8 c8 g8 e8 g8
+#def min o4 c8 g8 d+8 g8 c8 g8 d+8 g8
+#def bas o2 [c8 > c8 <]4
+#def beat K8 H8 S8 H8 K8 K8 S8 H8
+#def fill K8 H8 S8 H8 S16 S16 S16 S16 S8 S8
+; melody: A section (D G Em A D G A D)
+#def ma o5 f+4. e8 d4 o4 a4 | o5 g4. f+8 e4 o4 b4 | o5 e8 f+8 g8 a8 b4 g4 | o5 a4. g8 f+4 e4 | o5 f+4. e8 d4 a4 | o5 b4. a8 g4 b4 | o5 a4 o6 c+4 o5 b8 a8 g8 e8 | o5 d2. r4 |
+; B section (Bm G D A Bm G Em A)
+#def mb o5 f+2 b4 a4 | o5 g2 d4 e4 | o5 f+4. g8 a4 f+4 | o5 e2. r4 | o5 f+2 b4 o6 c+4 | o6 d2 o5 b4 g4 | o5 e4 f+8 g8 a4 b4 | o5 a2 r8 o5 c+8 d8 e8 |
+#def ha k2{maj} | k-5{maj} | k4{min} | k-3{maj} | k2{maj} | k-5{maj} | k-3{maj} | k2{maj} | k0
+#def hb k-1{min} | k-5{maj} | k2{maj} | k-3{maj} | k-1{min} | k-5{maj} | k4{min} | k-3{maj} | k0
+#def ba k2{bas} | k7{bas} | k4{bas} | k9{bas} | k2{bas} | k7{bas} | k9{bas} | k2{bas} | k0
+#def bb k11{bas} | k7{bas} | k2{bas} | k9{bas} | k11{bas} | k7{bas} | k4{bas} | k9{bas} | k0
+
+A @1 r1 | r1 | $ {ma} {mb} {ma}
+B @2 o4 l16 [d f+ a > d <]4 | [c+ e a > c+ <]4 | l8 $ {ha} {hb} {ha}
+C @3 o2 d1 | a1 | $ {ba} {bb} {ba}
+D C4 K4 K4 K4 | S8 S8 S8 S8 S16 S16 S16 S16 C4 | $ [[{beat}]7 {fill}]3

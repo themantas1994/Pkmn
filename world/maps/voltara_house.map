@@ -1,0 +1,19 @@
+map voltara_house
+name "Tutor's House"
+location "Voltara City"
+music town_city
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@@B@w@
+________
+__tt____
+__hh___p
+___RR___
+end
+
+warp 3 5 -> voltara_city 24 7 down
+warp 4 5 -> voltara_city 24 7 down
+npc tutor 5 3 sprite=gentleman face=left script=p2_voltara_tutor

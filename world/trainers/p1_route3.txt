@@ -1,0 +1,74 @@
+# Part 1: Route 3 (trainers L11-15).
+
+trainer route3_dale
+  class youngster
+  name "Dale"
+  intro "I just beat Hazel! Well, almost. Battle me instead!"
+  defeat "Almost doesn't count, huh?"
+  after "Ledges are one-way streets. Plan your route before you hop!"
+  mon zigzagoon 11
+  mon spearow 12
+end
+
+trainer route3_june
+  class lass
+  name "June"
+  intro "Flowers and battles are my two favorite things!"
+  defeat "My bouquet is ruined!"
+  after "Flabébé carry a flower their whole life. Isn't that sweet?"
+  mon flabebe 12
+  mon hoppip 12
+  mon bounsweet 12
+end
+
+trainer route3_hank
+  class pokefan
+  name "Hank"
+  intro "My Pokémon are my pride and joy! Let me show them off!"
+  defeat "Even in defeat, they're adorable."
+  after "Have you seen a Growlithe around here? I spotted one once in broad daylight!"
+  mon buneary 13
+  mon herdier 13
+end
+
+trainer route3_boulder
+  class hiker
+  name "Clint"
+  intro "Hah! The road east goes through Cobblecrest Cave. Think you're ready?"
+  defeat "You're as tough as granite!"
+  after "Cobblecrest is full of cracked rocks. A Pokémon with Rock Smash could break them with the Tide Badge."
+  mon geodude 13
+  mon mudbray 14
+end
+
+trainer route3_kenji
+  class blackbelt
+  name "Kenji"
+  intro "Hi-yah! My fists are as fast as my Pokémon!"
+  defeat "I must train harder!"
+  after "Fighting types hit Normal and Rock types hard. Keep that in mind in the cave!"
+  mon machop 13
+  mon timburr 13
+  mon mankey 13
+end
+
+trainer route3_tess
+  class lass
+  name "Tess"
+  intro "Ooh, you look strong! Battle me, please?"
+  defeat "Wow, you ARE strong!"
+  after "Shinx's eyes glow in the dark. I want one so badly!"
+  mon shinx 13
+  mon litleo 14
+end
+
+trainer route3_gil
+  class fisherman
+  name "Gil"
+  intro "Hey! You scared off my bite! Now you owe me a battle!"
+  defeat "The one that got away... again."
+  after "The Good Rod is sold... no, given away in Port Tidewater, I hear. Ask around the docks!"
+  mon magikarp 12
+  mon goldeen 14
+  mon barboach 14
+end

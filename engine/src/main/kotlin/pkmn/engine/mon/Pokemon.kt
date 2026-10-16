@@ -177,6 +177,10 @@ class PokemonFactory(private val dex: Dex) {
 
 /** Experience, level-up move learning and evolution checks. */
 class Progression(private val dex: Dex) {
+    private companion object {
+        val LOW_KEY = setOf("LONELY", "BOLD", "RELAXED", "TIMID", "SERIOUS", "MODEST", "MILD", "QUIET", "BASHFUL", "CALM", "GENTLE", "CAREFUL")
+    }
+
     data class LevelUpResult(val newLevel: Int, val newMoves: List<String>, val statsBefore: Map<Stat, Int>, val statsAfter: Map<Stat, Int>)
 
     /** Gen 5+/7+ scaled experience formula. [participants] splits nothing (modern Exp. Share gives everyone full exp). */
@@ -251,11 +255,12 @@ class Progression(private val dex: Dex) {
     fun evolutionTarget(mon: Pokemon, ctx: EvolutionContext): String? {
         val sp = mon.species(dex)
         if (mon.heldItem == "everstone" && ctx.usedItem == null && !ctx.linkingCord) return null
+        val ok = ArrayList<EvolutionData>()
         for (evo in sp.evolutions) {
-            val target = dex.speciesOrNull(evo.target) ?: continue
+            if (dex.speciesOrNull(evo.target) == null) continue
             if (evo.gender != null && (evo.gender == "M") != (mon.gender == Gender.MALE)) continue
             if (!conditionMet(mon, evo, ctx)) continue
-            val ok = when (evo.method) {
+            val met = when (evo.method) {
                 EvolutionMethod.LEVEL -> ctx.usedItem == null && !ctx.linkingCord && mon.level >= (evo.level ?: 1)
                 EvolutionMethod.LEVEL_FRIENDSHIP -> ctx.usedItem == null && !ctx.linkingCord && mon.friendship >= 160
                 EvolutionMethod.LEVEL_MOVE -> ctx.usedItem == null && !ctx.linkingCord && mon.moves.any { it.id == evo.move }
@@ -266,10 +271,39 @@ class Progression(private val dex: Dex) {
                 EvolutionMethod.TRADE -> ctx.linkingCord && (evo.item == null || mon.heldItem == evo.item)
                 EvolutionMethod.OTHER -> ctx.usedItem == null && !ctx.linkingCord && otherMet(mon, evo, ctx)
             }
-            if (ok) return target.id
+            if (met) ok.add(evo)
         }
-        return null
+        if (ok.isEmpty()) return null
+        if (ok.size == 1) return ok[0].target
+        return pickBranch(mon, ok, ctx)
     }
+
+    /**
+     * Chooses between several satisfied evolutions. More specific requirements win (Sylveon's Fairy move over
+     * Espeon/Umbreon's friendship); the official games' hidden rules decide personality-based branches.
+     */
+    private fun pickBranch(mon: Pokemon, ok: List<EvolutionData>, ctx: EvolutionContext): String {
+        fun has(id: String) = ok.firstOrNull { it.target == id }?.target
+        return when (mon.species(dex).id) {
+            // Wurmple: decided by personality value in the official games; we use the individual's uid.
+            "wurmple" -> (if (mon.uid % 2 == 0L) has("silcoon") else has("cascoon")) ?: ok[0].target
+            // Cosmoem: Solgaleo by day, Lunala at night (stand-in for the Sun/Moon version split).
+            "cosmoem" -> (if (ctx.isNight) has("lunala") else has("solgaleo")) ?: ok[0].target
+            // Toxel: Low Key form for the natures listed in the official games.
+            "toxel" -> (if (mon.nature.name in LOW_KEY) has("toxtricitylowkey") else has("toxtricity")) ?: ok[0].target
+            // 1-in-100 rare forms (Dudunsparce Three-Segment, Maushold Family of Four).
+            "dunsparce" -> (if (mon.uid % 100 == 0L) has("dudunsparcethreesegment") else has("dudunsparce")) ?: ok[0].target
+            "tandemaus" -> (if (mon.uid % 100 == 0L) has("mausholdfour") else has("maushold")) ?: ok[0].target
+            else -> ok.maxByOrNull { specificity(it) }!!.target
+        }
+    }
+
+    private fun specificity(e: EvolutionData): Int = when (e.method) {
+        EvolutionMethod.LEVEL_MOVE, EvolutionMethod.LEVEL_HOLD, EvolutionMethod.USE_ITEM, EvolutionMethod.TRADE -> 4
+        EvolutionMethod.LEVEL_EXTRA, EvolutionMethod.OTHER -> 3
+        EvolutionMethod.LEVEL_FRIENDSHIP -> 2
+        EvolutionMethod.LEVEL -> 1
+    } * 10 + (e.conditionCode?.split('&')?.size ?: 0)
 
     private fun conditionMet(mon: Pokemon, evo: EvolutionData, ctx: EvolutionContext): Boolean {
         val code = evo.conditionCode ?: return true

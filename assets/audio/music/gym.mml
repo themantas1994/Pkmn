@@ -1,0 +1,26 @@
+; Gym - a determined march in A minor. Original composition, CC0-1.0.
+#title Proving Grounds
+#tempo 128
+#time 4/4
+#key A minor
+#inst 1 duty=2 env=12,-4 rel=-2 vib=20,12,6
+#inst 2 duty=1 env=7,-2
+#inst 3 wave=6 env=12,0
+#def E o4 [e8 g8]4
+#def e o4 [d+8 g8]4
+#def E2 o4 [e8 g8]2
+#def e2 o4 [d+8 g8]2
+#def mb o2 c8 c8 > c8 < c8 g8 g8 > c8 < c8
+#def mb2 o2 c8 c8 > c8 < c8
+#def mr K8. S16 S8 S8 K8. S16 S8 S16 S16
+#def ma o5 a4. e8 a8. b16 o6 c8. o5 a16 | o6 c4. o5 a8 f4 a4 | o5 b4. g8 d4 g4 | o5 g+2 e4 r4 | o5 a4. e8 a8. b16 o6 c8. d16 | o6 f4. e8 c4 o5 a4 | o5 f4 d4 e4 g+4 | o5 a2. r4 |
+#def mc o5 f4. a8 o6 c4 o5 a4 | o5 g4. b8 o6 d4 o5 b4 | o6 c8. o5 b16 o6 c8. d16 e4 c4 | o5 a2 e4 a4 | o5 f8. e16 f8. g16 a4 f4 | o5 g8. f16 g8. a16 b4 g4 | o5 a4 o6 c4 o5 a4 f4 | o5 e4 g+4 b4 g+4 |
+#def ha k-3{e} | k5{E} | k-5{E} | k4{E} | k-3{e} | k5{E} | k2{e2} k4{E2} | k-3{e} | k0
+#def hb k5{E} | k-5{E} | k0{E} | k-3{e} | k2{e} | k-5{E} | k5{E} | k4{E} | k0
+#def ba k9{mb} | k5{mb} | k7{mb} | k4{mb} | k9{mb} | k5{mb} | k2{mb2} k4{mb2} | k9{mb} | k0
+#def bb k5{mb} | k7{mb} | k0{mb} | k9{mb} | k2{mb} | k7{mb} | k5{mb} | k4{mb} | k0
+
+A @1 $ {ma} {mc} {ma}
+B @2 $ {ha} {hb} {ha}
+C @3 $ {ba} {bb} {ba}
+D v10 $ [[{mr}]7 K8 S16 S16 S8 S16 S16 S16 S16 S16 S16 C4]3

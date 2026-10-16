@@ -1,0 +1,23 @@
+map voltara_dept_2f
+name "Voltara Dept. Store 2F"
+location "Voltara City"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^^^
+@w@@@@@@@w@D
+oooooooooooo
+cc..KK.KK...
+oooooooooooo
+....KK.KK...
+oooooooooooo
+oooooooooooo
+end
+
+warp 11 1 -> voltara_dept_1f 11 2 down
+npc evoclerk 0 2 sprite=clerk face=down script=p2_shop_voltara_2f
+npc tmclerk 10 4 sprite=clerk face=left script=p2_shop_voltara_tm
+npc d2_girl 5 6 sprite=cooltrainer_f face=up text="Trade evolutions without trading! The Linking Cord is pricey but worth it."
+npc d2_boy 2 6 sprite=youngster face=right script=p2_dept_gift

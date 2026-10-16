@@ -1,0 +1,11 @@
+; Healing jingle (one-shot). Original composition, CC0-1.0.
+#title Rested and Ready
+#tempo 132
+#key C major
+#inst 1 duty=2 env=11,-4 rel=-3 vib=12,10,6
+#inst 2 duty=1 env=7,-4 rel=-3
+#inst 3 wave=3 env=12,-1
+A @1 o5 e8 g8 o6 c8 e8 d8 o5 b8 g8 b8 | o6 c2. r4 |
+B @2 o5 c8 e8 g8 o6 c8 o5 b8 g8 d8 g8 | o5 e2. r4 |
+C @3 o3 c4 e4 g4 o2 g4 | o3 c2. r4 |
+D v8 R4 R4 R4 R4 | O2. r4 |

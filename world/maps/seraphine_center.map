@@ -1,0 +1,22 @@
+map seraphine_center
+name "Pokémon Center"
+location "Seraphine Town"
+music pokecenter
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^^
+@w@@@X@@@w@
+ooooooooooP
+ooocccccooo
+ooooooooooo
+ptoooooooto
+phooooooohp
+ooooRRooooo
+end
+
+warp 4 7 -> seraphine_town 12 18 down
+warp 5 7 -> seraphine_town 12 18 down
+npc nurse 5 2 sprite=nurse face=down script=p2_nurse
+npc sc_pilgrim 8 5 sprite=beauty face=left text="Elowen's gym is wrapped in mist. Trust your feet, not your eyes!"

@@ -1,0 +1,22 @@
+map lumen_mart
+name "Poké Mart"
+location "Lumen Village"
+music pokemart
+environment indoor
+indoor
+
+layout
+^^^^^^^^^
+@w@@@@@w@
+ooooooooo
+ccooKKoKK
+ooooooooo
+ooooKKoKK
+ooooooooo
+oRRoooooo
+end
+
+warp 1 7 -> lumen_village 20 4 down
+warp 2 7 -> lumen_village 20 4 down
+npc clerk 0 2 sprite=clerk face=down script=p2_shop_lumen
+npc lm_shopper 6 4 sprite=lass face=left text="Repels are a must in the ruins. The Unown just stare at you!"

@@ -1,0 +1,11 @@
+; Item obtained jingle (one-shot). Original composition, CC0-1.0.
+#title Found Something!
+#tempo 150
+#key G major
+#inst 1 duty=2 env=12,-3 rel=-2
+#inst 2 duty=1 env=8,-3 rel=-2
+#inst 3 wave=6 env=11,-1
+A @1 o5 d8 r16 d16 g8 b8 o6 d4 o5 b8 o6 d8 | o6 g2. r4 |
+B @2 o4 b8 r16 b16 o5 d8 g8 b4 g8 b8 | o5 b2. r4 |
+C @3 o2 g4 g4 o3 d4 o2 g4 | o2 g2. r4 |
+D v10 K8 r16 K16 S8 K8 S4 K8 S8 | C2. r4 |

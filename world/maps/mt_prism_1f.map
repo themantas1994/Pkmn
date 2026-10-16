@@ -1,0 +1,55 @@
+# Mt. Prism 1F — south caverns. Strength boulders block the gaps (badge 3); the lake needs Surf (badge 4).
+map mt_prism_1f
+name "Mt. Prism 1F"
+location "Mt. Prism"
+music dungeon_cave
+environment cave
+region 23 9
+encounters p2_mt_prism_lower
+legend
+a cave_water
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWW
+WWffLfffffffffffffffffWW
+WWffffffffffffaaaaaaafWW
+WWffffffffkfffaaaaaaafWW
+WWffffffffffffaaafaaafWW
+WWfffkffffffffaaaaaaafWW
+WWffffffffffffaaaaaaafWW
+WWffffffffffffffffffffWW
+WWWWWWWWWfWWWWWWWWWWWWWW
+WWfffffffffffWffffffffWW
+WWfffffffffffWffffffffWW
+WWffffffkffffWffkfffffWW
+WWfffffffffffWffffffffWW
+WWfffffffffkfWfffffkffWW
+WWfffffffffffWffffffffWW
+WWWWWWfWWWWWWWWWWfWWWWWW
+WWffffffffffffffffffffWW
+WWfffffffffffffffffkffWW
+WWffkfffffffffffffffffWW
+WWfffffffffffffkffffffWW
+WWffffffffffffffffffffWW
+WWffffffffffffffffffffWW
+WWWWWWWWWWEWWWWWWWWWWWWW
+end
+
+warp 10 23 -> quarrytown 3 4 down
+warp 4 2 -> mt_prism_2f 3 19 up
+obstacle 6 16 boulder flag=p2_mp1_boulder1
+obstacle 17 16 smash flag=p2_mp1_smash1
+obstacle 9 9 boulder flag=p2_mp1_boulder2
+trainer p2_mp1_hiker_brock 13 19 sprite=hiker face=left sight=4
+trainer p2_mp1_blackbelt_jun 3 12 sprite=blackbelt face=right sight=4
+trainer p2_mp1_psychic_vera 12 6 sprite=psychic face=down sight=3
+trainer p2_mp1_grunt_a 7 3 sprite=grunt_m face=right sight=4
+npc mp1_tourist 20 21 sprite=pokefan face=left text="I came to see the seven-colored glow. All I've seen is rocks. And more rocks."
+item mp1_oldamber 17 5 oldamber
+item mp1_fullheal 21 10 fullheal
+item mp1_mawilite 20 15 mawilite
+item mp1_escape 2 22 escaperope
+hidden mp1_hidden1 2 15 ultraball
+hidden mp1_hidden2 21 2 starpiece

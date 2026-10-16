@@ -4,7 +4,6 @@ import pkmn.engine.TestSupport.dex
 import pkmn.engine.TestSupport.factory
 import pkmn.engine.data.FormKind
 import pkmn.engine.data.ItemCategory
-import pkmn.engine.mon.MoveSlot
 import pkmn.engine.mon.Pokemon
 import pkmn.engine.util.Rng
 import kotlin.test.Test
@@ -69,6 +68,4 @@ class BattleFuzzTest {
         }
         println("Fuzz: $battles battles, $turnsTotal turns")
     }
-
-    @Suppress("unused") private fun slot(id: String) = MoveSlot(id, 10)
 }

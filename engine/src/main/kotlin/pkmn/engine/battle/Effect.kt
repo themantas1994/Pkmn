@@ -109,6 +109,8 @@ abstract class Effect(val id: String, val kind: EffectKind) {
     /** Contrary / Simple. */
     open fun onChangeBoost(c: EffectCtx, target: BattleMon, boosts: MutableMap<String, Int>) {}
     open fun onAfterBoost(c: EffectCtx, target: BattleMon, boosts: Map<String, Int>, source: BattleMon?) {}
+    /** [target], an opponent of the holder, had its stats changed (Mirror Herb, Opportunist). */
+    open fun onFoeAfterBoost(c: EffectCtx, target: BattleMon, boosts: Map<String, Int>, source: BattleMon?, sourceEffect: String?) {}
     /** Modify HP loss before it happens. Return the new amount (0 prevents it). [sourceEffect] is the move id or effect id. */
     open fun onDamage(c: EffectCtx, target: BattleMon, amount: Int, source: BattleMon?, sourceEffect: String, isMove: Boolean): Int = amount
     /** Return the amount actually healed (0 prevents healing, e.g. Heal Block). */
@@ -191,6 +193,12 @@ open class MoveScript(id: String) : Effect(id, EffectKind.MOVE) {
     /** Moves that need a charge turn (Solar Beam etc.). Return true to skip the charge (e.g. in sun). */
     open fun skipCharge(b: Battle, user: BattleMon): Boolean = false
     open val chargeMessage: String? = null
+    /** A secondary effect without data fields passed its chance roll (Tri Attack, Dire Claw...). */
+    open fun onSecondary(b: Battle, mc: MoveCtx) {}
+    /** Called on the charge turn of a two-turn move (Meteor Beam's Sp. Atk boost, Skull Bash's Defense boost...). */
+    open fun onChargeTurn(b: Battle, mc: MoveCtx) {}
+    /** Called at the start of the turn for every Pokémon that chose this move (Focus Punch, Beak Blast, Shell Trap). */
+    open fun onBeforeTurn(b: Battle, user: BattleMon) {}
     /** Number of hits override (e.g. Population Bomb, Triple Axel handled via data). */
     open fun hitCount(b: Battle, mc: MoveCtx): Int? = null
 }

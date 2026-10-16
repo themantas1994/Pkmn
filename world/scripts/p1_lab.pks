@@ -1,0 +1,117 @@
+# Professor Linden's lab: choosing a starter and the first rival battle.
+
+script lab_professor
+  faceplayer
+  if not flag got_starter
+    say "PROF. LINDEN: Ah, {player}! Right on time.\pI study how Pokémon and people live together across the Tessera region."
+    say "PROF. LINDEN: I'd like you to help me complete the Pokédex.\pPlease choose one of the three Pokémon on the table."
+    quest main_story start
+  elif not flag got_pokedex
+    say "PROF. LINDEN: Take good care of it! And take this, too."
+    pokedex
+    setflag got_pokedex
+    say "{player} received the Pokédex!"
+    giveitem pokeball 5
+    say "PROF. LINDEN: Throw a Poké Ball at a weakened wild Pokémon to catch it.\pHead north along Route 1 when you're ready!"
+    quest main_story next
+  else
+    say "PROF. LINDEN: How is the Pokédex coming along? Every Pokémon you meet is recorded automatically."
+  end
+end
+
+script lab_aide
+  faceplayer
+  if flag got_pokedex
+    say "AIDE: My colleague is waiting in Fernwick Town with something useful for you.\pHe's the one in the lab coat. You can't miss him!"
+  else
+    say "AIDE: The Professor's Pokémon are very rare. Treat yours well!"
+  end
+end
+
+script lab_rival
+  faceplayer
+  if not flag got_starter
+    say "{rival}: Took you long enough, {player}! The Professor said I could pick after you.\pHurry up and choose!"
+  else
+    say "{rival}: Mine is way cooler than yours."
+  end
+end
+
+script lab_ball_grass
+  if flag got_starter
+    say "That's the Professor's last Pokémon."
+  else
+    cry chikorita
+    ask "PROF. LINDEN: Chikorita, the Leaf Pokémon. Will you take it?"
+    if result yes
+      givemon chikorita 5
+      setflag got_starter
+      setflag starter_grass
+      setflag took_ball_grass
+      hide ball_grass
+      say "{rival}: Then I'll take this one!"
+      setflag took_ball_fire
+      hide ball_fire
+    end
+  end
+end
+
+script lab_ball_fire
+  if flag got_starter
+    say "That's the Professor's last Pokémon."
+  else
+    cry cyndaquil
+    ask "PROF. LINDEN: Cyndaquil, the Fire Mouse Pokémon. Will you take it?"
+    if result yes
+      givemon cyndaquil 5
+      setflag got_starter
+      setflag starter_fire
+      setflag took_ball_fire
+      hide ball_fire
+      say "{rival}: Then I'll take this one!"
+      setflag took_ball_water
+      hide ball_water
+    end
+  end
+end
+
+script lab_ball_water
+  if flag got_starter
+    say "That's the Professor's last Pokémon."
+  else
+    cry totodile
+    ask "PROF. LINDEN: Totodile, the Big Jaw Pokémon. Will you take it?"
+    if result yes
+      givemon totodile 5
+      setflag got_starter
+      setflag starter_water
+      setflag took_ball_water
+      hide ball_water
+      say "{rival}: Then I'll take this one!"
+      setflag took_ball_grass
+      hide ball_grass
+    end
+  end
+end
+
+script lab_rival_challenge
+  face rival down
+  say "{rival}: Hold it, {player}! Let's see whose Pokémon is stronger!"
+  if flag starter_grass
+    battle rival_lab_cyndaquil canlose
+  elif flag starter_fire
+    battle rival_lab_totodile canlose
+  else
+    battle rival_lab_chikorita canlose
+  end
+  if result win
+    say "{rival}: Hmph. I'll train harder and beat you next time!"
+  else
+    say "{rival}: Ha! Told you mine was cooler!"
+  end
+  heal
+  setflag rival_battled
+  move rival down2
+  hide rival
+  setflag rival_left_lab
+end

@@ -1,0 +1,22 @@
+map quarrytown_fossil_lab
+name "Fossil Lab"
+location "Quarrytown"
+music intro_professor
+environment indoor
+indoor
+
+layout
+^^^^^^^^^^
+@BBw@@wPP@
+oooooooooo
+cccc__cccc
+oooooooooo
+poooooooop
+oooooooooo
+____RR____
+end
+
+warp 4 7 -> quarrytown 11 6 down
+warp 5 7 -> quarrytown 11 6 down
+npc reviver 2 2 sprite=scientist face=down script=p2_fossil_reviver
+npc fossil_aide 7 5 sprite=scientist face=left text="We can revive Jaw, Sail, Dome, Helix fossils... and Old Amber! Well, the boss can. I just sweep."

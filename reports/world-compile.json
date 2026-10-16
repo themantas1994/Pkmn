@@ -1,10 +1,10 @@
 {
-    "maps": 6,
-    "trainers": 5,
-    "encounterTables": 1,
-    "scripts": 10,
-    "errors": [],
-    "warnings": [
-        "assets/gfx/tiles/world.json not found: tile names are not validated"
-    ]
+    "maps": 67,
+    "trainers": 132,
+    "encounterTables": 20,
+    "scripts": 123,
+    "errors": [
+        "map seraphine_town: connection to unknown map 'route9'"
+    ],
+    "warnings": []
 }

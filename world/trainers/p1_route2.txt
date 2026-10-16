@@ -1,0 +1,149 @@
+# Part 1: Route 2, Whisperwood and the Route 2 rival battle (L11).
+
+trainer route2_wade
+  class bugcatcher
+  name "Wade"
+  intro "My bugs are hungry for a battle!"
+  defeat "My bugs got squished..."
+  after "Caterpie evolve really fast. Metapod just sits there, though."
+  mon caterpie 6
+  mon weedle 6
+  mon ledyba 7
+end
+
+trainer route2_ana
+  class lass
+  name "Ana"
+  intro "Ooh, a new face! Show me your Pokémon!"
+  defeat "So cute AND so strong!"
+  after "The Whisperwood gate is just west of here. Watch out for the bug maniacs inside."
+  mon pidove 7
+  mon skwovet 8
+end
+
+trainer route2_ben
+  class youngster
+  name "Ben"
+  intro "I've been waiting all day for someone to battle!"
+  defeat "Worth the wait..."
+  after "Nidoran come in two kinds. The boys have bigger horns!"
+  mon nidoranm 8
+end
+
+trainer route2_ollie
+  class kid
+  name "Ollie"
+  intro "You made it through the forest? Then battle me!"
+  defeat "Wow! You really are tough!"
+  after "Brindle City is just north. The Gym Leader there loves plants."
+  mon bunnelby 8
+  mon patrat 8
+end
+
+trainer route2_cora
+  class lass
+  name "Cora"
+  intro "I'm training for the Brindle Gym. Help me practice!"
+  defeat "Okay, maybe I need more practice."
+  after "Hazel's Pokémon can put you to sleep! Carry an Awakening."
+  mon oddish 8
+  mon fletchling 9
+end
+
+trainer route2_rick
+  class bugcatcher
+  name "Rick"
+  intro "Shh! You'll scare away the bugs! ...Fine, let's battle."
+  defeat "Bugged out!"
+  after "Kricketot only come out at night. They sing like crazy!"
+  mon kricketot 8
+  mon scatterbug 8
+end
+
+trainer ww_doug
+  class bugcatcher
+  name "Doug"
+  intro "Whisperwood is MY forest! Well, mine and the bugs'."
+  defeat "Okay, it's a shared forest."
+  after "Some trees in here hide berries. Check everywhere!"
+  mon weedle 7
+  mon kakuna 8
+  mon caterpie 7
+end
+
+trainer ww_ezra
+  class bugcatcher
+  name "Ezra"
+  intro "I caught a Pikachu here once! ...Okay, I saw one. Battle!"
+  defeat "Zapped..."
+  after "Pikachu are super rare here. Morning and daytime are your best bet."
+  mon sewaddle 8
+  mon cutiefly 9
+end
+
+trainer ww_fern
+  class lass
+  name "Fern"
+  intro "I came for a picnic, but a battle sounds fun too!"
+  defeat "My sandwiches are safe, at least."
+  after "People in black ran through here earlier. They were so rude!"
+  mon budew 9
+  mon seedot 9
+end
+
+trainer ww_tad
+  class kid
+  name "Tad"
+  intro "Mushroom Pokémon are the coolest! I'll prove it!"
+  defeat "Spored out..."
+  after "A researcher in Brindle City studies mushroom Pokémon. Go say hi!"
+  mon paras 9
+  mon shroomish 10
+end
+
+trainer p1_ww_grunt1
+  class grunt_f
+  name "Grunt"
+  intro "Lost, kid? This forest is closed for Team Eclipse business."
+  defeat "Ugh! You're a pest!"
+  after "The shard is already in our hands. You're too late!"
+  mon zubat 9
+  mon poochyena 10
+end
+
+trainer p1_ww_grunt2
+  class grunt_m
+  name "Grunt"
+  intro "Nobody sees Team Eclipse's work and walks away!"
+  defeat "What?! A rookie beat me?"
+  after "Team Eclipse will bring the long night. Remember that!"
+  mon purrloin 10
+  mon koffing 11
+end
+
+trainer rival_r2_cyndaquil
+  class rival
+  name "{rival}"
+  intro "There you are, {player}! I've been training. Let's go!"
+  defeat "Not again! How do you keep winning?"
+  mon pidgey 9
+  mon cyndaquil 11
+end
+
+trainer rival_r2_totodile
+  class rival
+  name "{rival}"
+  intro "There you are, {player}! I've been training. Let's go!"
+  defeat "Not again! How do you keep winning?"
+  mon pidgey 9
+  mon totodile 11
+end
+
+trainer rival_r2_chikorita
+  class rival
+  name "{rival}"
+  intro "There you are, {player}! I've been training. Let's go!"
+  defeat "Not again! How do you keep winning?"
+  mon pidgey 9
+  mon chikorita 11
+end

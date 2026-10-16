@@ -1,0 +1,25 @@
+; Professor's introduction - warm and friendly, lightly swung. Original composition, CC0-1.0.
+#title A Warm Welcome
+#tempo 100
+#time 4/4
+#key F major
+#inst 1 duty=2 env=11,-5 rel=-2 vib=20,12,5
+#inst 2 duty=1 env=7,-3
+#inst 3 wave=7 env=12,0
+#def M o4 c8 g8 e8 g8 c8 g8 e8 g8
+#def m o4 c8 g8 d+8 g8 c8 g8 d+8 g8
+#def M2 o4 c8 g8 e8 g8
+#def wb o2 c4 g4 > c4 < g4
+#def wb2 o2 c4 g4
+#def beat K8 H16 H16 R8 H8 K8 H8 R8 H8
+#def ma o5 c8. o4 a16 o5 c8. f16 a4 g8 f8 | o5 e4 d4 a4. f8 | o5 d8. c16 d8. f16 b-4 a8 g8 | o5 g2 e4 c4 | o5 c8. o4 a16 o5 c8. f16 a4 o6 c4 | o5 a4 g8 e8 c4 e4 | o5 d4 f4 e4 g4 | o5 f2. r4 |
+#def mb o5 f4. d8 b-4 f4 | o5 e4. c8 g4 e4 | o5 a8. g16 a8. b-16 o6 c4 o5 a4 | o5 f2 d4 r4 | o5 d8. o4 b-16 o5 d8. g16 b-4 a8 g8 | o5 e4 g4 o6 c4 o5 b-4 | o5 a4 c4 d4 f4 | o5 e4 g4 b-4 g4 |
+#def ha k5{M} | k2{m} | k-2{M} | k0{M} | k5{M} | k-3{m} | k-2{M2} k0{M2} | k5{M} | k0
+#def hb k-2{M} | k0{M} | k-3{m} | k2{m} | k-5{m} | k0{M} | k5{M2} k-2{M2} | k0{M} | k0
+#def ba k5{wb} | k2{wb} | k10{wb} | k0{wb} | k5{wb} | k9{wb} | k10{wb2} k0{wb2} | k5{wb} | k0
+#def bb k10{wb} | k0{wb} | k9{wb} | k2{wb} | k7{wb} | k0{wb} | k5{wb2} k10{wb2} | k0{wb} | k0
+
+A @1 $ {ma} {mb}
+B @2 $ {ha} {hb}
+C @3 $ {ba} {bb}
+D v11 $ [{beat}]16
