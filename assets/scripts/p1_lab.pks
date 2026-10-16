@@ -21,7 +21,11 @@ end
 
 script lab_aide
   faceplayer
-  say "AIDE: The Professor's Pokémon are very rare. Treat yours well!"
+  if flag got_pokedex
+    say "AIDE: My colleague is waiting in Fernwick Town with something useful for you.\pHe's the one in the lab coat. You can't miss him!"
+  else
+    say "AIDE: The Professor's Pokémon are very rare. Treat yours well!"
+  end
 end
 
 script lab_rival

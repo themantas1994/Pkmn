@@ -1,10 +1,8 @@
 {
-    "maps": 67,
-    "trainers": 132,
-    "encounterTables": 20,
-    "scripts": 123,
-    "errors": [
-        "map seraphine_town: connection to unknown map 'route9'"
-    ],
+    "maps": 90,
+    "trainers": 183,
+    "encounterTables": 26,
+    "scripts": 158,
+    "errors": [],
     "warnings": []
 }

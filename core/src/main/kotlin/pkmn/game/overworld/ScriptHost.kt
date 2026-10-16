@@ -141,10 +141,23 @@ class ScriptHost(
         })
     }
 
+    /** Lets the player pick a party member whose Tera Type becomes [type]; result 1 if changed. */
+    private fun setTeraType(type: String) {
+        game.push(PartyScreen(game, ctx, PartyScreen.Mode.CHOOSE, null, false, null, "Change whose TERA TYPE?") { t ->
+            val mon = t?.let { ctx.state.party[it] } ?: run { resume(0); return@PartyScreen }
+            val fixed = mon.species(ctx.dex).requiredTeraType
+            if (fixed != null) { game.say("${mon.displayName(ctx.dex)}'s TERA TYPE can't be changed.") { resume(0) }; return@PartyScreen }
+            mon.teraType = type
+            game.audio.playSfx("heal")
+            game.say("${mon.displayName(ctx.dex)}'s TERA TYPE became ${type.uppercase()}!") { resume(1) }
+        })
+    }
+
     private fun special(name: String, args: List<String>) {
         when (name) {
             "bike" -> { ow.toggleBike(); resume() }
             "flash" -> { ow.useFlash(); resume() }
+            "set_tera_type" -> setTeraType(args.firstOrNull()?.replaceFirstChar { it.uppercase() } ?: "Normal")
             else -> { game.platform.log("Unknown special '$name'"); resume() }
         }
     }
