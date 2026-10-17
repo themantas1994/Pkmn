@@ -11,7 +11,32 @@ import kotlin.math.min
  * data-driven pipeline in [Battle] (damage, secondary effects, boosts, status, volatiles, side conditions...).
  */
 object MoveScripts {
-    private fun reg(m: MoveScript) = Effects.registerMove(m)
+    /**
+     * Several helpers may describe the same move (e.g. `bp("knockoff")` and `afterHitTarget("knockoff")`); registering a
+     * second script used to replace the first one and silently dropped its behaviour, so scripts registered here for the
+     * same id are merged. (MoveScriptsExtra runs later and still replaces whole scripts on purpose.)
+     */
+    private val registeredHere = HashSet<String>()
+
+    private fun reg(m: MoveScript) {
+        val old = if (!registeredHere.add(m.id)) Effects.move(m.id) else null
+        Effects.registerMove(if (old == null) m else MergedScript(old, m))
+    }
+
+    private class MergedScript(val a: MoveScript, val b: MoveScript) : MoveScript(a.id) {
+        override fun onTry(b0: Battle, mc: MoveCtx) = a.onTry(b0, mc) && b.onTry(b0, mc)
+        override fun basePower(b0: Battle, mc: MoveCtx, bp: Int) = b.basePower(b0, mc, a.basePower(b0, mc, bp))
+        override fun fixedDamage(b0: Battle, mc: MoveCtx) = a.fixedDamage(b0, mc) ?: b.fixedDamage(b0, mc)
+        override fun onHit(b0: Battle, mc: MoveCtx) { a.onHit(b0, mc); b.onHit(b0, mc) }
+        override fun onUseStatus(b0: Battle, mc: MoveCtx) = a.onUseStatus(b0, mc) ?: b.onUseStatus(b0, mc)
+        override fun onAfterUse(b0: Battle, mc: MoveCtx, hitAny: Boolean) { a.onAfterUse(b0, mc, hitAny); b.onAfterUse(b0, mc, hitAny) }
+        override fun skipCharge(b0: Battle, user: BattleMon) = a.skipCharge(b0, user) || b.skipCharge(b0, user)
+        override val chargeMessage: String? get() = a.chargeMessage ?: b.chargeMessage
+        override fun onSecondary(b0: Battle, mc: MoveCtx) { a.onSecondary(b0, mc); b.onSecondary(b0, mc) }
+        override fun onChargeTurn(b0: Battle, mc: MoveCtx) { a.onChargeTurn(b0, mc); b.onChargeTurn(b0, mc) }
+        override fun onBeforeTurn(b0: Battle, user: BattleMon) { a.onBeforeTurn(b0, user); b.onBeforeTurn(b0, user) }
+        override fun hitCount(b0: Battle, mc: MoveCtx) = a.hitCount(b0, mc) ?: b.hitCount(b0, mc)
+    }
 
     private fun bp(id: String, f: (Battle, MoveCtx, Int) -> Int) = reg(object : MoveScript(id) {
         override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = f(b, mc, bp)
