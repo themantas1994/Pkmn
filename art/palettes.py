@@ -83,6 +83,15 @@ TILE = {
     "ruins": pal("E8E0B0", "C0B078", "807048", "302818"),
     "league": pal("E8D8F8", "B090D8", "6848A0", "201040"),
     "dark": pal("606078", "404058", "282838", "101018"),
+    # entrance tiles (warp doors that must look like where they lead)
+    # forest path gap: tan path, light green, green, deep green
+    "forest_gap": pal("E0C890", "98D068", "409048", "183020"),
+    # tower door: pale stone, stone, door wood, outline
+    "tower": pal("D8D8E8", "A0A0B8", "885830", "202030"),
+    # gate house passage: cream, path tan, wall shade, dark
+    "gate": pal("F8F0C0", "E0C890", "A89880", "302820"),
+    # grand building double door: white, stone, brass/wood, outline
+    "building": pal("F8F8F8", "D0D0E0", "B88050", "202030"),
 }
 
 # --------------------------------------------------------------------------

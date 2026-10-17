@@ -247,7 +247,7 @@ class WorldTest {
     @Test
     fun `wild encounters respect tables and time of day`() {
         val ctx = newCtx()
-        ctx.clock = { java.time.LocalTime.of(23, 0) }
+        ctx.clock = pkmn.engine.campaign.GameClock.fixed(java.time.LocalDateTime.of(2026, 10, 14, 23, 0))
         val route = content.map("route1")
         val species = (0 until 300).mapNotNull { ctx.rollEncounter(route, "grass", forceEncounter = true)?.speciesId }.toSet()
         assertTrue(species.all { it in setOf("hoothoot", "rattata", "spinarak") }, species.toString())

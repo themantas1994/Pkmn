@@ -13,7 +13,6 @@ import pkmn.engine.save.QuestState
 import pkmn.engine.util.Rng
 import pkmn.engine.util.toId
 import pkmn.engine.world.*
-import java.time.LocalTime
 
 @Serializable
 data class BadgeDef(val number: Int, val name: String, val leader: String, val city: String, val type: String, val levelCap: Int)
@@ -44,6 +43,8 @@ class WorldContent(private val source: ContentSource) {
     val shops: Map<String, ShopDef> = list("world/shops.json", ShopDef.serializer()).associateBy { it.id }
     val quests: Map<String, QuestDef> = list("world/quests.json", QuestDef.serializer()).associateBy { it.id }
     val index: WorldIndex = ContentJson.decodeFromString(WorldIndex.serializer(), read("world/index.json"))
+    /** Recurring world events (assets/events/events.json). Invalid entries are dropped and listed in [WorldEvents.errors]. */
+    val events: WorldEvents by lazy { WorldEvents.parse(source.read("events/events.json"), null, { id -> source.read("maps/$id.json") != null }) }
     val scripts: Map<String, CompiledScript> by lazy {
         val files = source.read("scripts/index.txt")?.lines()?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
         files.flatMap { f -> ScriptParser.parseFile(read("scripts/$f"), f) }.associateBy { it.id }
@@ -68,8 +69,8 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
     val factory = PokemonFactory(dex)
     val progression = Progression(dex)
     val rng = Rng(state.rngState)
-    /** Overrides the clock (tests, accessibility "always day" option). */
-    var clock: () -> LocalTime = { LocalTime.now() }
+    /** The device's local wall clock; tests and automation inject a fixed one. */
+    var clock: GameClock = GameClock.system()
 
     // ------------------------------------------------------------------ text
 
@@ -96,14 +97,25 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
 
     // ------------------------------------------------------------------ time
 
-    /** "morning" (4-10), "day" (10-18), "night" (18-4), following the GSC real-time clock. */
-    fun timeOfDay(): String {
-        if (!state.options.realTimeClock) return "day"
-        val h = clock().hour
-        return when (h) { in 4..9 -> "morning"; in 10..17 -> "day"; else -> "night" }
-    }
+    /** Current local time from [clock]. */
+    fun now(): java.time.ZonedDateTime = clock.now()
 
-    fun isNight() = timeOfDay() == "night"
+    /**
+     * Gold/Silver/Crystal periods from the device clock: morning 04:00–09:59, day 10:00–17:59, night 18:00–03:59.
+     * The "ALWAYS DAY" accessibility option pins it to day.
+     */
+    fun period(): TimePeriod = if (!state.options.realTimeClock) TimePeriod.DAY else TimePeriod.of(now().toLocalTime())
+
+    /** "morning", "day" or "night" (the ids used by encounter tables and the `time` script condition). */
+    fun timeOfDay(): String = period().id
+
+    fun isNight() = period() == TimePeriod.NIGHT
+
+    /** Lighting phase for the overworld tint (adds a dusk hour; follows the same option). */
+    fun lightPhase(): LightPhase = if (!state.options.realTimeClock) LightPhase.DAY else LightPhase.of(now().toLocalTime())
+
+    /** Scheduled world events active on [mapId] right now (re-evaluated on every call; nothing is cached). */
+    fun activeEvents(mapId: String): List<WorldEventDef> = content.events.activeOn(mapId, state, now())
 
     /** Copies the RNG position into the state so a reload continues the same random sequence. */
     fun syncRng() { state.rngState = rng.state }
@@ -185,12 +197,12 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      */
     fun rollEncounter(map: MapData, method: String, forceEncounter: Boolean = false): Pokemon? {
         val table = map.encounters?.let { content.encounters[it] } ?: return null
-        val byTime = table.methods[method] ?: return null
+        if (table.methods[method] == null) return null
         if (!forceEncounter) {
             val rate = table.rates[method] ?: defaultRate(method)
             if (rng.nextInt(256) >= rate) return null
         }
-        val slots = byTime[timeOfDay()] ?: byTime["any"] ?: byTime.values.firstOrNull() ?: return null
+        val slots = encounterSlots(table, method, timeOfDay())
         if (slots.isEmpty()) return null
         val total = slots.sumOf { it.weight }
         var r = rng.nextInt(total)
@@ -199,6 +211,21 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         val mon = factory.create(slot.species, level, rng, shinyOdds = if (state.itemCount("shinycharm") > 0) 1365 else 4096, hiddenAbilityChance = 0.05)
         markSeen(mon.speciesId)
         return mon
+    }
+
+    /**
+     * Slots for [method] at time [period]: the period's own slots plus any "any" slots. If that leaves nothing usable
+     * (no slots or no positive weight), falls back to "any", then "day", then the first non-empty period, so a
+     * partially authored table never stops encounters. Slots with non-positive weight or unknown species are ignored;
+     * the remaining weights are relative (normalised by their sum).
+     */
+    fun encounterSlots(table: EncounterTable, method: String, period: String): List<EncounterSlot> {
+        val byTime = table.methods[method] ?: return emptyList()
+        fun valid(l: List<EncounterSlot>?) = l.orEmpty().filter { it.weight > 0 && it.minLevel in 1..100 && it.maxLevel >= it.minLevel && dex.speciesOrNull(it.species) != null }
+        val primary = valid(byTime[period]) + if (period != "any") valid(byTime["any"]) else emptyList()
+        if (primary.isNotEmpty()) return primary
+        return listOf("any", "day", "morning", "night").map { valid(byTime[it]) }.firstOrNull { it.isNotEmpty() }
+            ?: byTime.values.map { valid(it) }.firstOrNull { it.isNotEmpty() } ?: emptyList()
     }
 
     /** Repel blocks wild Pokémon weaker than the lead. */
@@ -323,7 +350,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      * on the spot, in which case only spin evolutions (Milcery) are considered.
      */
     fun pendingEvolutions(candidates: Collection<Int>, map: MapData?, spun: Boolean = false): List<Pair<Int, String>> {
-        val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = clock().hour in 17..18, raining = map?.weather == "rain",
+        val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = now().hour in 17..18, raining = map?.weather == "rain",
             party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain",
             spun = spun)
         return candidates.mapNotNull { i ->

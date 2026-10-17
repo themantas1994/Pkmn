@@ -1,0 +1,35 @@
+# Trainer battle intro and UI against a six-Pokemon party; Shift prompt, party selection, next foe.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+option battleStyle shift
+option animSpeed 0
+option battleAnimations true
+party mewtwo:100:psystrike rayquaza:100:dragonascent pikachu:50:thunderbolt
+trainer p3b_champion_celeste_tera
+wait 80
+shot battle_intro_trainer
+waitstate menu=ACTION 3000
+shot battle_ui_six
+press A
+wait 10
+press A
+waittop TextBox 3000
+wait 30
+shot battle_shift_lead
+press A
+waittop YesNo 600
+wait 10
+shot battle_shift_prompt
+press A
+waittop PartyScreen 600
+wait 20
+shot battle_party_select
+press DOWN
+wait 20
+press A
+wait 30
+press A
+waitstate menu=ACTION 3000
+shot battle_next_foe
+quit

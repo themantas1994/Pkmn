@@ -14,7 +14,8 @@ Tile names come from `assets/gfx/tiles/world.json`. The special tile `water@auto
 
 ## `world/prefabs.txt`
 Available prefabs: `house`, `house_blue`, `house_big`, `lab`, `center` (Pokémon Center, door at 2,2),
-`mart` (door at 1,2), `gym` (door at 2,3).
+`mart` (door at 1,2), `gym` (door at 2,3), `grove` (a thicket of trees with a `forest_entrance` gap, door at 2,2: the way into a forest).
+Part-specific prefabs live in `world/prefabs/*.txt`. A building's door tile must match what is behind it, see "Entrances" below.
 
 Multi-tile stamps (buildings). Rows list tile names; `_` keeps the underlying tile. `door x y` marks the
 door offset used by `building ... -> target`.
@@ -35,6 +36,7 @@ music route_early
 environment grass               # battle background: plain grass cave water sand snow indoor building
 weather none                    # none rain snow sand fog
 indoor                          # flag: interior (no weather, no fly)
+class forest                    # optional destination class used to pick entrance tiles (see "Entrances"); default: inferred
 dark                            # flag: needs Flash for full visibility
 region 12 20                    # region map cell (8 px cells on the 256×224 region map)
 fly 9 12                        # fly landing tile (towns/cities only)
@@ -61,15 +63,35 @@ npc girl 6 8 sprite=lass face=down move=wander text="Hi!"   # move: static | loo
 npc mom 3 4 sprite=mom script=home_mom hideif=some_flag showif=other_flag
 trainer route1_joey 4 10 sprite=youngster face=right sight=4   # trainer id = npc id unless trainer=<id>
 sign 3 4 text="ROUTE 1"                 # or script=<id>
-item potion1 8 9 potion 1               # visible item ball (id is local to the map)
-hidden ether1 12 3 ether                # hidden item (found by interacting)
+item potion1 8 9 potion 1               # visible item ball (id is local to the map; the pickup flag is item:<map>_<id>, globally unique)
+hidden ether1 12 3 ether                # hidden item (found by interacting; never on water, PC, TV, bookshelf, sign, NPC or obstacle tiles)
 trigger 9 0 2 1 script=leave_town unless=got_starter if=other_flag   # step-on trigger area x y w h
 obstacle 5 5 cut flag=cut_route1_1      # cut | smash | boulder: object drawn over the ground tile; place it on walkable ground
 ```
+## Entrances
+
+A warp tile must look like the place it leads to: a house door must not open into a forest, a cave mouth must not open
+into a shop. The engine classifies tiles and maps in `engine/.../world/Entrances.kt` and the compiler rejects a warp whose
+tile does not match its destination (and a warp on a tile that is not a warp tile; a warp on a wall that a `tileif` turns
+into a warp tile is a valid *gated* warp).
+
+Entrance tiles (all walkable warp tiles): `door` (house), `building_door` (hall, league), `center_door`, `mart_door`, `gym_door`,
+`cave_entrance`, `forest_entrance` (a path gap between trees), `ruins_entrance`, `mine_entrance` (timber frame), `tower_door`,
+`gate_door` (gatehouse passage), `stairs_*`, `cave_ladder`, `rug_mat` (inside: the way out). Legend characters: `N` forest_entrance,
+`A` ruins_entrance, `J` mine_entrance, `O` tower_door, `C` gate_door, `Q` building_door (a map's own `legend` may reuse them).
+
+A map's class is the explicit `class <name>` line (`house building center mart gym lab cave forest ruins mine tower gate other`,
+serialized as `MapData.zoneClass`) or, without it, inferred from environment, tags, music and name (cave maps: cave, or mine / ruins /
+tower by name; indoor maps: center, mart, gym, lab, tower, gate or house; building environment: building; `forest` music or a
+wood/glade/grove name: forest; any other outdoor map is open air). Use `class` where the inference is wrong (a league hall that
+carries the `pokecenter` tag, a tower roof that is outdoors).
+Docs: `docs/WORLD_VALIDATION.md`. Audit: `./gradlew :tools:auditEntrances` writes `reports/entrances.{json,md}`.
+
 Edge connections must be reciprocal (north of A = south of B with the negated offset).
 Movement rules come from tile names (see `TileRules` in `engine/.../world/WorldModel.kt`): trees, walls,
 roofs, counters etc. are solid; `tall_grass` triggers encounters; `water*` needs Surf; `ledge_s/e/w`
-can be jumped in that direction; `door`, `stairs*`, `rug*`, `cave_entrance`, `cave_ladder` are warp tiles.
+can be jumped in that direction; `door`, `*_door`, `*_entrance`, `stairs*`, `rug*`, `cave_ladder` are warp tiles.
+`./gradlew :tools:auditItems` checks that every item can be picked up (see `docs/WORLD_VALIDATION.md`).
 
 ## Trainers `world/trainers/<file>.txt`
 ```

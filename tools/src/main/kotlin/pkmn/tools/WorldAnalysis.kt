@@ -12,6 +12,16 @@ import pkmn.engine.world.TileRules
 import pkmn.engine.world.Warp
 import java.io.File
 
+/** What [StrictReach] needs from a world: maps, start, script references and script activation. */
+interface ReachWorld {
+    val maps: Map<String, MapData>
+    val start: WorldAnalysis.Node
+    val scriptRefs: List<WorldAnalysis.ScriptRef>
+    fun commands(scriptId: String): List<Instr.Cmd>
+    fun activatable(r: WorldAnalysis.ScriptRef, reach: WorldAnalysis.Reach): Boolean
+    fun connectionTarget(m: MapData, nx: Int, ny: Int, dx: Int, dy: Int): WorldAnalysis.Node?
+}
+
 /**
  * Static model of the compiled world used by the progression checker and the playtime estimator.
  *
@@ -20,17 +30,18 @@ import java.io.File
  * Field moves, ledges, water, warps, seamless connections and script warps are modelled exactly. So "unreachable"
  * findings are real; "reachable" means reachable once the story flags along the way are set.
  */
-class WorldAnalysis(root: File) {
+class WorldAnalysis(root: File) : ReachWorld {
     val content = WorldContent(DirectoryContentSource(File(root, "assets")))
     val dex: Dex = Dex.load(DirectoryContentSource(File(root, "assets")))
-    val maps: Map<String, MapData> = content.index.maps.associateWith { content.map(it) }
+    override val maps: Map<String, MapData> = content.index.maps.associateWith { content.map(it) }
+    override val start: Node get() = Node(content.index.startMap, content.index.startX, content.index.startY)
 
     data class Node(val map: String, val x: Int, val y: Int)
 
     /** Where a script is referenced from. [x]/[y] is the NPC/sign tile or the trigger's top-left (-1 for on-enter). */
     data class ScriptRef(val map: String, val script: String, val kind: String, val x: Int, val y: Int, val w: Int = 1, val h: Int = 1)
 
-    val scriptRefs: List<ScriptRef> = maps.values.flatMap { m ->
+    override val scriptRefs: List<ScriptRef> = maps.values.flatMap { m ->
         buildList {
             m.npcs.forEach { n -> n.script?.let { add(ScriptRef(m.id, it, "npc", n.x, n.y)) } }
             m.signs.forEach { s -> s.script?.let { add(ScriptRef(m.id, it, "sign", s.x, s.y)) } }
@@ -42,7 +53,7 @@ class WorldAnalysis(root: File) {
     private val cmdCache = HashMap<String, List<Instr.Cmd>>()
 
     /** Every command a script can execute, following `call`s. */
-    fun commands(scriptId: String): List<Instr.Cmd> = cmdCache.getOrPut(scriptId) {
+    override fun commands(scriptId: String): List<Instr.Cmd> = cmdCache.getOrPut(scriptId) {
         val out = ArrayList<Instr.Cmd>()
         val seen = HashSet<String>()
         fun walk(id: String) {
@@ -137,7 +148,7 @@ class WorldAnalysis(root: File) {
         if (w.toMap == Warp.BACK) maps.values.flatMap { q -> q.warps.filter { it.toMap == from.id }.map { Node(q.id, it.x, it.y) } }
         else if (w.toMap in maps) listOf(Node(w.toMap, w.toX, w.toY)) else emptyList()
 
-    private fun connectionTarget(m: MapData, nx: Int, ny: Int, dx: Int, dy: Int): Node? {
+    override fun connectionTarget(m: MapData, nx: Int, ny: Int, dx: Int, dy: Int): Node? {
         val dir = when { dy < 0 -> "north"; dy > 0 -> "south"; dx < 0 -> "west"; else -> "east" }
         val c = m.connections.firstOrNull { it.direction == dir } ?: return null
         val t = maps[c.map] ?: return null
@@ -220,7 +231,7 @@ class WorldAnalysis(root: File) {
     }
 
     /** Whether a script reference can be activated from reachable tiles (adjacent to an NPC/sign, across a counter, or inside a trigger). */
-    fun activatable(r: ScriptRef, reach: Reach): Boolean = when (r.kind) {
+    override fun activatable(r: ScriptRef, reach: Reach): Boolean = when (r.kind) {
         "enter" -> r.map in reach.maps
         "trigger" -> (r.x until r.x + r.w).any { x -> (r.y until r.y + r.h).any { y -> Node(r.map, x, y) in reach.nodes } }
         else -> listOf(0 to 1, 0 to -1, -1 to 0, 1 to 0).any { (dx, dy) ->

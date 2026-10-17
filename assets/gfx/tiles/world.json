@@ -685,6 +685,30 @@
     "dark_floor": {
       "index": 190,
       "palette": "dark"
+    },
+    "forest_entrance": {
+      "index": 191,
+      "palette": "forest_gap"
+    },
+    "ruins_entrance": {
+      "index": 192,
+      "palette": "ruins"
+    },
+    "mine_entrance": {
+      "index": 193,
+      "palette": "cave"
+    },
+    "tower_door": {
+      "index": 194,
+      "palette": "tower"
+    },
+    "gate_door": {
+      "index": 195,
+      "palette": "gate"
+    },
+    "building_door": {
+      "index": 196,
+      "palette": "building"
     }
   }
 }

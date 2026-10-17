@@ -51,8 +51,8 @@ TF.......::.......FT
 TTTTTTTTT::TTTTTTTTT
 end
 
-building house 3 6 -> whisperwood 13 1 up
-building house 3 25 -> whisperwood 14 28 up
+building grove 3 6 -> whisperwood 13 1 up
+building grove 3 25 -> whisperwood 14 28 up
 sign 7 9 text="WHISPERWOOD GATE\nExit to Route 2 north."
 sign 7 28 text="WHISPERWOOD\nThe forest path to Brindle City."
 sign 11 17 text="ROUTE 2\nBrindle City - north"

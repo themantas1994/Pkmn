@@ -5,6 +5,7 @@ name "Champions' Hall"
 location "Coral Isles"
 music league_hall
 environment building
+class building
 indoor
 tags gym powerspot
 

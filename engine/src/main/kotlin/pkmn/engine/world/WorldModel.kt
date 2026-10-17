@@ -123,6 +123,11 @@ data class MapData(
     val onEnter: String? = null,
     /** Free-form tags (e.g. "pokecenter", "gym", "fullmoon", "magnetic", "dustybowl"). */
     val tags: List<String> = emptyList(),
+    /**
+     * Explicit destination class used to pick entrance tiles ([Entrances.destinationKind]): the name of an [EntranceKind]
+     * in lower case (`forest`, `ruins`, ...). Null = inferred from environment, tags, music and name.
+     */
+    val zoneClass: String? = null,
 ) {
     fun inBounds(x: Int, y: Int) = x in 0 until width && y in 0 until height
     fun tileAt(x: Int, y: Int): String = if (inBounds(x, y)) tilePalette[ground[y * width + x]] else ""
@@ -207,7 +212,7 @@ data class WorldIndex(
 object TileRules {
     private val solidPrefixes = listOf(
         "tree", "rock", "wall", "roof", "center_", "mart_", "gym_wall", "gym_roof", "gym_statue", "mountain", "fence", "bush", "table", "chair_back",
-        "bed", "plant", "statue", "cave_wall", "cave_rock", "puzzle_wall", "ruins_wall", "window", "mart_shelf", "boulder", "cut_tree",
+        "bed", "plant", "statue", "cave_wall", "cave_rock", "puzzle_wall", "ruins_wall", "window", "gym_window", "mart_shelf", "boulder", "cut_tree",
         "house_", "lab_", "machine", "tv", "pc", "bookshelf", "counter", "healing_machine", "sign", "pillar", "lamp", "cliff",
     )
 
@@ -219,7 +224,7 @@ object TileRules {
         name == "ledge_s" -> TileBehavior.LEDGE_S
         name == "ledge_e" -> TileBehavior.LEDGE_E
         name == "ledge_w" -> TileBehavior.LEDGE_W
-        name == "door" || name.endsWith("_door") || name == "cave_entrance" || name.startsWith("stairs") || name.startsWith("rug") ||
+        name == "door" || name.endsWith("_door") || name == "cave_entrance" || name.endsWith("_entrance") || name.startsWith("stairs") || name.startsWith("rug") ||
             name == "cave_ladder" || name.startsWith("warp") -> TileBehavior.WARP
         name == "counter" || name.startsWith("counter") -> TileBehavior.COUNTER
         name == "ice" -> TileBehavior.ICE

@@ -1,0 +1,22 @@
+# The Thursday-night Mistwood event: absent on Wednesday night, present and interactive on Thursday night.
+wait 240
+option textSpeed 3
+party mewtwo:60:psystrike
+clock 2026-10-14T21:00
+warp p4b_mistwood 17 20 up
+wait 60
+shot event_wednesday_night
+clock 2026-10-15T21:00
+wait 70
+shot event_thursday_night
+press A
+wait 20
+shot event_intro
+press A
+wait 20
+press A
+wait 20
+press A
+waitstate menu=ACTION 3000
+shot event_battle
+quit

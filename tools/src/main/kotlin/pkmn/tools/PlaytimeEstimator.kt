@@ -57,6 +57,8 @@ class PlaytimeEstimator(private val root: File) {
         }
 
         var party = PartySim()
+        // A player who also does the optional content earns its EXP too, so needs less (or no) grinding.
+        var partyFull = PartySim()
         val legs = ArrayList<JsonObject>()
         var criticalTotal = 0.0
         var fullTotal = 0.0
@@ -66,6 +68,7 @@ class PlaytimeEstimator(private val root: File) {
         val legOfPathMap = HashMap<String, Int>()
         paths.forEachIndexed { leg, p -> p?.forEach { legOfPathMap.putIfAbsent(it, leg + 1) } }
         val optionalLeg = attachOptional(stages.last().reach, legOfPathMap)
+        val legData = ArrayList<LegData>()
         for (i in 1 until milestones.size) {
             val (fromLabel, from) = milestones[i - 1]
             val (toLabel, to) = milestones[i]
@@ -82,12 +85,17 @@ class PlaytimeEstimator(private val root: File) {
             val optionalCosts = optional.map { mapCost(it, critical = false, revisit = false) }
 
             // Experience from the leg; grind if the party arrives under-levelled for the leader (or the Champion).
-            for (c in costs) for (t in c.trainerIds) party.defeatTrainer(t)
+            for (c in costs) for (t in c.trainerIds) { party.defeatTrainer(t); partyFull.defeatTrainer(t) }
+            for (c in optionalCosts) for (t in c.trainerIds) partyFull.defeatTrainer(t)
             party.defeatWild(costs.sumOf { it.wildBattles } * K.WILD_FIGHT_SHARE, stage.reach.maps)
+            partyFull.defeatWild((costs + optionalCosts).sumOf { it.wildBattles } * K.WILD_FIGHT_SHARE, stage.reach.maps)
             val bossLevel = bossAceLevel(to, toLabel)
+            legData.add(LegData("$fromLabel -> $toLabel", costs.flatMap { it.trainerIds }, optionalCosts.flatMap { it.trainerIds },
+                costs.sumOf { it.wildBattles } * K.WILD_FIGHT_SHARE, stage.reach.maps, bossLevel, i))
             val grind = party.grindTo(bossLevel - K.LEVEL_MARGIN, stage.reach.maps)
+            val grindFull = partyFull.grindTo(bossLevel - K.LEVEL_MARGIN, stage.reach.maps)
             val legCritical = costs.sumOf { it.total } + grind.seconds
-            val legFull = legCritical + optionalCosts.sumOf { it.total }
+            val legFull = costs.sumOf { it.total } + optionalCosts.sumOf { it.total } + grindFull.seconds
             criticalTotal += legCritical
             fullTotal += legFull
             legs.add(buildJsonObject {
@@ -99,9 +107,11 @@ class PlaytimeEstimator(private val root: File) {
                 put("expectedWildEncounters", costs.sumOf { it.wildBattles }.roundToInt())
                 put("partyLevelOnArrival", party.level); put("bossAceLevel", bossLevel)
                 put("grindMinutes", (grind.seconds / 60).roundToInt()); put("grindBattles", grind.battles)
+                put("partyLevelWithOptional", partyFull.level); put("grindMinutesWithOptional", (grindFull.seconds / 60).roundToInt())
                 put("optionalMaps", optional.size)
             })
             party = party.grown(i)
+            partyFull = partyFull.grown(i)
         }
         criticalTotal *= 1 + K.OVERHEAD
         fullTotal *= 1 + K.OVERHEAD
@@ -117,6 +127,7 @@ class PlaytimeEstimator(private val root: File) {
             put("withOptionalContentHours", (fullTotal / 360).roundToInt() / 10.0)
             put("postGameHours", (postGame / 360).roundToInt() / 10.0)
             put("legs", JsonArray(legs))
+            put("levelSensitivity", sensitivity(legData))
             put("constants", buildJsonObject {
                 K::class.java.declaredFields.filter { java.lang.reflect.Modifier.isStatic(it.modifiers) && it.name != "INSTANCE" }
                     .forEach { f -> f.isAccessible = true; put(f.name, JsonPrimitive(f.get(null) as Number)) }
@@ -124,9 +135,10 @@ class PlaytimeEstimator(private val root: File) {
         }
         writeJson(File(root, "reports/playtime.json"), json)
         println("Playtime estimate (${if (reachedLeague) "start to Hall of Fame" else "partial: up to ${milestones.lastOrNull()?.first}"}):")
-        for (l in legs) println("  %-26s %4d min critical, %4d min with optional (party L%d vs ace L%d, grind %d min)".format(
+        for (l in legs) println("  %-26s %4d min critical, %4d min with optional (party L%d / L%d with optional vs ace L%d, grind %d / %d min)".format(
             l["leg"]!!.jsonPrimitive.content, l["criticalMinutes"]!!.jsonPrimitive.int, l["fullMinutes"]!!.jsonPrimitive.int,
-            l["partyLevelOnArrival"]!!.jsonPrimitive.int, l["bossAceLevel"]!!.jsonPrimitive.int, l["grindMinutes"]!!.jsonPrimitive.int))
+            l["partyLevelOnArrival"]!!.jsonPrimitive.int, l["partyLevelWithOptional"]!!.jsonPrimitive.int, l["bossAceLevel"]!!.jsonPrimitive.int,
+            l["grindMinutes"]!!.jsonPrimitive.int, l["grindMinutesWithOptional"]!!.jsonPrimitive.int))
         println("  critical path %.1f h, with optional content %.1f h, post-game %.1f h".format(criticalTotal / 3600, fullTotal / 3600, postGame / 3600))
         return true
     }
@@ -210,22 +222,64 @@ class PlaytimeEstimator(private val root: File) {
         return steps * (landShare * landRate * (if (cave || "grass" in table.methods) 1.0 else 0.0) + water / total * surfRate)
     }
 
+    // ------------------------------------------------------------------ difficulty sensitivity
+
+    data class LegData(val label: String, val pathTrainers: List<String>, val optionalTrainers: List<String>, val wildFought: Double,
+                       val maps: Set<String>, val bossAce: Int, val badgesAfter: Int)
+
+    /**
+     * Party level on arrival at each boss under different experience rules, to find which mechanic drives over-levelling.
+     * No grinding is simulated here: these are the levels a player reaches just by playing the content.
+     */
+    private fun sensitivity(legs: List<LegData>): JsonArray {
+        data class Variant(val id: String, val desc: String, val shareAll: Boolean, val trainerBonus: Double, val optional: Boolean)
+        val variants = listOf(
+            Variant("share_on_path", "Exp. Share on, trainer x1.5, critical path only", true, 1.5, false),
+            Variant("share_on_full", "Exp. Share on, trainer x1.5, critical path + optional trainers", true, 1.5, true),
+            Variant("no_bonus_full", "Exp. Share on, no trainer bonus, path + optional", true, 1.0, true),
+            Variant("share_off_full", "Exp. Share off (default; participants only), trainer x1.5, path + optional", false, 1.5, true),
+            Variant("share_off_path", "Exp. Share off (default), trainer x1.5, critical path only", false, 1.5, false),
+        )
+        val out = buildJsonArray {
+            for (v in variants) {
+                var p = PartySim(shareAll = v.shareAll, trainerBonus = v.trainerBonus)
+                val rows = buildJsonArray {
+                    for (l in legs) {
+                        for (t in l.pathTrainers) p.defeatTrainer(t)
+                        if (v.optional) for (t in l.optionalTrainers) p.defeatTrainer(t)
+                        p.defeatWild(l.wildFought, l.maps)
+                        add(buildJsonObject { put("leg", l.label); put("partyLevel", p.level); put("bossAce", l.bossAce); put("gap", p.level - l.bossAce) })
+                        p = p.grown(l.badgesAfter)
+                    }
+                }
+                add(buildJsonObject { put("id", v.id); put("description", v.desc); put("legs", rows) })
+                println("  levels %-15s %s".format(v.id, rows.joinToString(" ") { r -> r.jsonObject["gap"]!!.jsonPrimitive.int.let { if (it >= 0) "+$it" else "$it" } }))
+            }
+        }
+        return out
+    }
+
     // ------------------------------------------------------------------ party experience model
 
     data class Grind(val seconds: Double, val battles: Int)
 
-    /** Average party level under the modern Exp. Share (lead earns full, the others half). */
-    private inner class PartySim(var exp: Double = GrowthRate.MEDIUM_SLOW.expForLevel(5).toDouble(), val size: Int = 2) {
+    /** Average party level under the default Exp. Share setting (see [shareFactor]). */
+    private inner class PartySim(var exp: Double = GrowthRate.MEDIUM_SLOW.expForLevel(5).toDouble(), val size: Int = 2,
+                                 val shareAll: Boolean = pkmn.engine.save.Options().expShare, val trainerBonus: Double = 1.5) {
         val level: Int get() = (1..100).last { GrowthRate.MEDIUM_SLOW.expForLevel(it) <= exp }
-        private val shareFactor get() = (1 + (size - 1) * 0.5) / size
+        /**
+         * Average share of a battle's EXP each party member gets. Exp. Share on: the battler full, the rest half.
+         * Off: the battler alone; a player who rotates the lead spreads one battle's EXP across the party.
+         */
+        private val shareFactor get() = if (shareAll) (1 + (size - 1) * 0.5) / size else 1.0 / size
 
-        fun grown(badges: Int) = PartySim(exp, (2 + (badges + 1) / 2).coerceAtMost(6))
+        fun grown(badges: Int) = PartySim(exp, (2 + (badges + 1) / 2).coerceAtMost(6), shareAll, trainerBonus)
 
         private fun yieldOf(species: String, foeLevel: Int, trainer: Boolean): Double {
             val base = w.dex.speciesOrNull(species)?.baseExp?.toDouble() ?: 64.0
             val l = foeLevel.toDouble(); val lp = level.toDouble()
             val e = base * l / 5 * ((2 * l + 10) / (l + lp + 10)).pow(2.5) + 1
-            return e * (if (trainer) 1.5 else 1.0) * shareFactor
+            return e * (if (trainer) trainerBonus else 1.0) * shareFactor
         }
 
         fun defeatTrainer(id: String) {

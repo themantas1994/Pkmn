@@ -60,3 +60,8 @@ Full instructions, including Android signing and installation, are in [docs/BUIL
 | [docs/ASSET_IMPORT.md](docs/ASSET_IMPORT.md) | Using your own official sprites in a personal build |
 | [docs/ART_STYLE.md](docs/ART_STYLE.md) / [docs/AUDIO.md](docs/AUDIO.md) | Art and audio guidelines |
 | [reports/COVERAGE.md](reports/COVERAGE.md) | Generated content and mechanics coverage |
+| [docs/FIDELITY.md](docs/FIDELITY.md) | Gameplay fidelity matrix against the official games (sourced), deliberate differences |
+| [docs/EVENTS.md](docs/EVENTS.md) | Device clock, day/night, time-dependent encounters, weekly events and their test results |
+| [docs/WORLD_VALIDATION.md](docs/WORLD_VALIDATION.md) | Entrance and item reachability audits ([reports/entrances.md](reports/entrances.md), [reports/items.md](reports/items.md)) |
+| [docs/PLAYTIME.md](docs/PLAYTIME.md) | Playtime model, difficulty findings and the Exp. Share default |
+| [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md) | Reproducible visual-regression scenes in the real game |

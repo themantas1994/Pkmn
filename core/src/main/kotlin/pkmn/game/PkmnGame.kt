@@ -68,6 +68,8 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         private set
     /** Debug: player name for skipping the title and intro (desktop --quickstart). */
     var quickstart: String? = null
+    /** Automation: advance exactly this many seconds per frame so screenshot runs are reproducible (null = real time). */
+    var fixedStep: Float? = null
     /** Optional per-frame hook (automation). */
     var frameHook: ((PkmnGame) -> Unit)? = null
 
@@ -139,7 +141,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
 
     override fun render() {
         val frameStart = System.nanoTime()
-        val dt = minOf(Gdx.graphics.deltaTime, 0.05f)
+        val dt = fixedStep ?: minOf(Gdx.graphics.deltaTime, 0.05f)
         timeMs += (dt * 1000).toLong()
         session?.state?.let { it.playTimeMs += (dt * 1000).toLong() }
         flushPending()
@@ -233,7 +235,16 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         saveOptions()
     }
 
-    override fun resume() { audio.resume() }
+    override fun resume() {
+        audio.resume()
+        // The device clock or time zone may have changed while suspended: re-evaluate time of day and events now.
+        refreshWorldTime()
+    }
+
+    /** Re-reads the wall clock for the overworld (lighting, scheduled events). Safe to call at any time. */
+    fun refreshWorldTime() {
+        stack.filterIsInstance<pkmn.game.overworld.OverworldScreen>().forEach { it.refreshWorldTime(force = true) }
+    }
 
     override fun dispose() {
         audio.dispose()
@@ -248,14 +259,15 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     private val optionsFile get() = java.io.File(platform.saveDir, "options.json")
 
     fun loadOptions(): Options = try {
-        if (optionsFile.exists()) kotlinx.serialization.json.Json { ignoreUnknownKeys = true }.decodeFromString(Options.serializer(), optionsFile.readText()) else Options()
+        if (optionsFile.exists()) Options.decodeLegacyAware(kotlinx.serialization.json.Json { ignoreUnknownKeys = true }, optionsFile.readText()) else Options()
     } catch (e: Exception) { Options() }
 
     fun saveOptions() {
         try {
             platform.saveDir.mkdirs()
             val tmp = java.io.File(platform.saveDir, "options.json.tmp")
-            tmp.writeText(kotlinx.serialization.json.Json.encodeToString(Options.serializer(), options))
+            // Every field is written so a later change of a default never reinterprets this file (see Options.decodeLegacyAware).
+            tmp.writeText(kotlinx.serialization.json.Json { encodeDefaults = true }.encodeToString(Options.serializer(), options))
             if (!tmp.renameTo(optionsFile)) { tmp.copyTo(optionsFile, true); tmp.delete() }
         } catch (e: Exception) { platform.log("Could not save options: $e") }
     }

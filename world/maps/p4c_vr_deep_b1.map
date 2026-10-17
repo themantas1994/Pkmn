@@ -45,7 +45,7 @@ trainer p4c_vd1_tamer_kenrick 7 12 sprite=blackbelt face=right sight=3
 trainer p4c_vd1_psychic_seren 16 16 sprite=psychic face=down sight=3
 trainer p4c_vd1_black_jiro 20 18 sprite=blackbelt face=left sight=3
 item vd1_rockyhelmet 26 2 rockyhelmet
-item vd1_stoneedge 3 20 tm:stoneedge
+item vd1_stoneedge 2 20 tm:stoneedge
 item vd1_fullrestore 2 12 fullrestore
 hidden vd1_hidden_ppmax 27 5 ppmax
 hidden vd1_hidden_cap 9 3 bottlecap

@@ -20,14 +20,34 @@ data class Options(
     var largeText: Boolean = false,
     /** Hold B to run / auto-run toggle. */
     var autoRun: Boolean = false,
-    var expShare: Boolean = true,
+    /**
+     * Party-wide Exp. Share. Off by default (Gold/Silver/Crystal pacing): with it on, the optional content leaves the
+     * party 8-23 levels above the bosses (see docs/PLAYTIME.md). Options files written before this default changed,
+     * which never stored the old default, keep it on through [Options.decodeLegacyAware].
+     */
+    var expShare: Boolean = false,
     /** Difficulty: 0 casual (AI lvl-1, no set mode), 1 normal, 2 challenge (smarter AI, level caps). */
     var difficulty: Int = 1,
     /** Use the device clock for day/night (true) or keep permanent daytime (false). */
     var realTimeClock: Boolean = true,
     var reduceMotion: Boolean = false,
+    /** Battle animation speed: 0 normal, 1 fast, 2 fastest. Nonessential animations are skipped when [battleAnimations] is off. */
+    var animSpeed: Int = 0,
     var showTouchControls: Boolean = true,
-)
+) {
+    companion object {
+        /**
+         * Reads an options file. Fields missing from older files take the default they had when the file was written,
+         * so changing a default never silently changes an existing player's game.
+         */
+        fun decodeLegacyAware(json: kotlinx.serialization.json.Json, text: String): Options {
+            val o = json.decodeFromString(serializer(), text)
+            val keys = (json.parseToJsonElement(text) as? kotlinx.serialization.json.JsonObject)?.keys ?: emptySet()
+            if ("expShare" !in keys) o.expShare = true
+            return o
+        }
+    }
+}
 
 @Serializable
 data class QuestState(val id: String, var step: Int = 0, var completed: Boolean = false)

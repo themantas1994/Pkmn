@@ -23,7 +23,7 @@ jobs:
       - name: Generated content is committed
         run: git diff --exit-code -- assets/
       - name: Tests
-        run: ./gradlew :engine:test :tools:test
+        run: ./gradlew :engine:test :core:test :tools:test
       - name: Android APK and bundle
         run: ./gradlew :android:assembleDebug :android:bundleRelease
       - uses: actions/upload-artifact@v4

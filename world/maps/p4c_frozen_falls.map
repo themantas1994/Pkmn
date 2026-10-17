@@ -39,7 +39,7 @@ WWWWWWWWWWWWfffWWWWWWWWWWWWW
 WWWWWWWWWWWWWEWWWWWWWWWWWWWW
 end
 
-warp 13 21 -> route12 30 2 down
+warp 13 21 -> route12 30 1 down
 trainer p4c_ff_skier_maren 14 13 sprite=cooltrainer_f face=down sight=3
 trainer p4c_ff_swim_tarn 16 11 sprite=swimmer_m face=left sight=4
 trainer p4c_ff_hiker_ulla 3 9 sprite=hiker face=right sight=3

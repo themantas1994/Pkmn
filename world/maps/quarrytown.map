@@ -56,7 +56,7 @@ hidden quarry_star 26 5 starpiece
 hidden quarry_nug 2 21 nugget
 item quarry_ether 28 21 ether
 # Expansion E2: Shaft No. 3 (Old Shaft) in the north-east pit, and old Bryn who worked it.
-tile 25 0 cave_entrance
+tile 25 0 mine_entrance
 warp 25 0 -> p4b_old_mine_1f 14 22 up
 tile 23 1 sign
 sign 23 1 text="SHAFT No. 3 - CLOSED\nTalk to old Bryn before you go poking around."
