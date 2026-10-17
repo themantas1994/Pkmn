@@ -544,7 +544,8 @@ class DataImporter(private val root: File) {
                     val rest = s.dropWhile { it.isDigit() }
                     when (rest.firstOrNull()) {
                         'L' -> levelByGen.getOrPut(gen) { ArrayList() }.add(LevelMove(rest.drop(1).toIntOrNull() ?: 1, move))
-                        'M', 'T' -> machine.add(move)
+                        // 'R': a move the form requires and learns on changing form (Rotom's appliance moves...).
+                        'M', 'T', 'R' -> machine.add(move)
                         'E' -> egg.add(move)
                     }
                 }

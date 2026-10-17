@@ -127,7 +127,7 @@ trainer p2_admin_corvin
   defeat "Hmph. This changes nothing."
   after "Enjoy the light while it lasts."
   items hyperpotion=2
-  mon golbat 34 moves=poisonfang,bite,confuseray,airslash
+  mon golbat 34 moves=poisonfang,bite,supersonic,airslash
   mon grimeralola 35 moves=poisonjab,crunch,knockoff,shadowsneak
   mon skuntank 35 moves=poisonjab,suckerpunch,flamethrower,screech
   mon drapion 36 moves=crosspoison,crunch,knockoff,bugbite item=sitrusberry

@@ -28,7 +28,7 @@ trainer p2_r7_cooltrainer_mae
   defeat "So that's a Spark Badge holder."
   after "Garnet in Quarrytown uses Rock-types. Water, Grass and Fighting are your friends."
   mon girafarig 27 moves=psybeam,stomp,agility,crunch
-  mon manectric 28 moves=spark,bite,howl,quickattack
+  mon manectric 28 moves=thunderfang,bite,howl,quickattack
 end
 
 trainer p2_r7_ranger_finn
@@ -197,7 +197,7 @@ trainer p2_leader_garnet
   prize 3400
   mon sudowoodo 31 moves=rockslide,suckerpunch,woodhammer,block
   mon naclstack 32 moves=rockslide,saltcure,irondefense,headbutt
-  mon rhydon 33 moves=rockslide,bulldoze,horndrill,hammerarm
+  mon rhydon 33 moves=rockslide,bulldoze,stomp,hammerarm
   mon aerodactyl 34 moves=rockslide,crunch,wingattack,ancientpower item=aerodactylite
 end
 

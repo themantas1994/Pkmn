@@ -227,7 +227,7 @@ trainer p4c_dr_hermit_sorin
   mon kingdra 55 moves=dragonpulse,surf,icebeam,focusenergy
   mon flygon 55 moves=earthquake,dragonclaw,uturn,firepunch
   mon goodra 56 moves=dracometeor,sludgebomb,fireblast,thunderbolt
-  mon noivern 56 moves=boomburst,dragonpulse,airslash,flamethrower
+  mon noivern 56 moves=hurricane,dragonpulse,airslash,flamethrower
   mon dragonite 57 moves=dracometeor,extremespeed,earthquake,firepunch
 end
 
