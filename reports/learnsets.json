@@ -1,30 +1,20 @@
 {
   "summary": {
     "species": 1379,
-    "errors": 49,
-    "warnings": 115,
-    "infos": 2,
-    "errorsByCode": {
-      "shop-tm-prefix-lost": 32,
-      "world-level-too-high": 17
-    },
+    "errors": 0,
+    "warnings": 88,
+    "infos": 18,
+    "errorsByCode": {},
     "warningsByCode": {
-      "importer-ignores-r-sources": 1,
       "inherited-form-types-differ": 49,
       "move-without-learner": 1,
-      "own-data-discarded": 16,
       "signature-egg-only": 5,
       "tm-nonstandard-move": 1,
-      "world-egg-only": 32,
-      "world-form-signature-not-imported": 4,
-      "world-older-gen-level-up-only": 6
+      "world-egg-only": 32
     },
-    "conflicts": 59,
+    "conflicts": 32,
     "conflictsByIssue": {
-      "egg-only": 32,
-      "form-signature-not-imported": 4,
-      "level-too-high": 17,
-      "older-gen-level-up-only": 6
+      "egg-only": 32
     }
   },
   "dataset": {
@@ -41,6 +31,12 @@
         "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/",
         "license": "BSD-3-Clause (PokeAPI). Pokémon names and game data are property of Nintendo/Creatures/GAME FREAK.",
         "retrieved": "2026-10-13"
+      },
+      {
+        "name": "PokeAPI CSV data: Pokédex text (English rows of pokemon_species_flavor_text.csv and pokemon_species_names.csv; upstream sha256 c341e602ab623084fef4c44ca4a174938e617802cfcf2deec830d824f688dc69 and 820cde17074cdb1c2b0595c997fb8f998e773bd5da3bb525dec85703c86c5fd9)",
+        "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/",
+        "license": "BSD-3-Clause (PokeAPI). Pokédex text is property of Nintendo/Creatures/GAME FREAK.",
+        "retrieved": "2026-10-17"
       }
     ],
     "files": {
@@ -217,1708 +213,1708 @@
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "venusaur",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "venusaurmega",
         "formKind": "MEGA",
         "inheritsFrom": "venusaur",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "charizardgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "charizard",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "charizardmegax",
         "formKind": "MEGA",
         "inheritsFrom": "charizard",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "charizardmegay",
         "formKind": "MEGA",
         "inheritsFrom": "charizard",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "blastoisegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "blastoise",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "blastoisemega",
         "formKind": "MEGA",
         "inheritsFrom": "blastoise",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "butterfreegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "butterfree",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "beedrillmega",
         "formKind": "MEGA",
         "inheritsFrom": "beedrill",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "pidgeotmega",
         "formKind": "MEGA",
         "inheritsFrom": "pidgeot",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "pikachubelle",
         "formKind": "ALTERNATE",
         "inheritsFrom": "pikachucosplay",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "pikachugmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "pikachu",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "pikachulibre",
         "formKind": "ALTERNATE",
         "inheritsFrom": "pikachucosplay",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "pikachuphd",
         "formKind": "ALTERNATE",
         "inheritsFrom": "pikachucosplay",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "pikachupopstar",
         "formKind": "ALTERNATE",
         "inheritsFrom": "pikachucosplay",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "pikachurockstar",
         "formKind": "ALTERNATE",
         "inheritsFrom": "pikachucosplay",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "raichumegax",
         "formKind": "MEGA",
         "inheritsFrom": "raichu",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "raichumegay",
         "formKind": "MEGA",
         "inheritsFrom": "raichu",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "clefablemega",
         "formKind": "MEGA",
         "inheritsFrom": "clefable",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "meowthgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "meowth",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "alakazammega",
         "formKind": "MEGA",
         "inheritsFrom": "alakazam",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "machampgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "machamp",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "victreebelmega",
         "formKind": "MEGA",
         "inheritsFrom": "victreebel",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "slowbromega",
         "formKind": "MEGA",
         "inheritsFrom": "slowbro",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gengargmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "gengar",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gengarmega",
         "formKind": "MEGA",
         "inheritsFrom": "gengar",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "kinglergmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "kingler",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "kangaskhanmega",
         "formKind": "MEGA",
         "inheritsFrom": "kangaskhan",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "starmiemega",
         "formKind": "MEGA",
         "inheritsFrom": "starmie",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "pinsirmega",
         "formKind": "MEGA",
         "inheritsFrom": "pinsir",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gyaradosmega",
         "formKind": "MEGA",
         "inheritsFrom": "gyarados",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "laprasgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "lapras",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "eeveegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "eevee",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "aerodactylmega",
         "formKind": "MEGA",
         "inheritsFrom": "aerodactyl",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "snorlaxgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "snorlax",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "dragonitemega",
         "formKind": "MEGA",
         "inheritsFrom": "dragonite",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "mewtwomegax",
         "formKind": "MEGA",
         "inheritsFrom": "mewtwo",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "mewtwomegay",
         "formKind": "MEGA",
         "inheritsFrom": "mewtwo",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "meganiummega",
         "formKind": "MEGA",
         "inheritsFrom": "meganium",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "feraligatrmega",
         "formKind": "MEGA",
         "inheritsFrom": "feraligatr",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ampharosmega",
         "formKind": "MEGA",
         "inheritsFrom": "ampharos",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "steelixmega",
         "formKind": "MEGA",
         "inheritsFrom": "steelix",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "scizormega",
         "formKind": "MEGA",
         "inheritsFrom": "scizor",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "heracrossmega",
         "formKind": "MEGA",
         "inheritsFrom": "heracross",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "skarmorymega",
         "formKind": "MEGA",
         "inheritsFrom": "skarmory",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "houndoommega",
         "formKind": "MEGA",
         "inheritsFrom": "houndoom",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "tyranitarmega",
         "formKind": "MEGA",
         "inheritsFrom": "tyranitar",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "sceptilemega",
         "formKind": "MEGA",
         "inheritsFrom": "sceptile",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "blazikenmega",
         "formKind": "MEGA",
         "inheritsFrom": "blaziken",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "swampertmega",
         "formKind": "MEGA",
         "inheritsFrom": "swampert",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gardevoirmega",
         "formKind": "MEGA",
         "inheritsFrom": "gardevoir",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "sableyemega",
         "formKind": "MEGA",
         "inheritsFrom": "sableye",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "mawilemega",
         "formKind": "MEGA",
         "inheritsFrom": "mawile",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "aggronmega",
         "formKind": "MEGA",
         "inheritsFrom": "aggron",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "medichammega",
         "formKind": "MEGA",
         "inheritsFrom": "medicham",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "manectricmega",
         "formKind": "MEGA",
         "inheritsFrom": "manectric",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "sharpedomega",
         "formKind": "MEGA",
         "inheritsFrom": "sharpedo",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "cameruptmega",
         "formKind": "MEGA",
         "inheritsFrom": "camerupt",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "altariamega",
         "formKind": "MEGA",
         "inheritsFrom": "altaria",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "castformrainy",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "castform",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "castformsnowy",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "castform",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "castformsunny",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "castform",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "banettemega",
         "formKind": "MEGA",
         "inheritsFrom": "banette",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "chimechomega",
         "formKind": "MEGA",
         "inheritsFrom": "chimecho",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "absolmega",
         "formKind": "MEGA",
         "inheritsFrom": "absol",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "absolmegaz",
         "formKind": "MEGA",
         "inheritsFrom": "absol",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "glaliemega",
         "formKind": "MEGA",
         "inheritsFrom": "glalie",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "salamencemega",
         "formKind": "MEGA",
         "inheritsFrom": "salamence",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "metagrossmega",
         "formKind": "MEGA",
         "inheritsFrom": "metagross",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "latiasmega",
         "formKind": "MEGA",
         "inheritsFrom": "latias",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "latiosmega",
         "formKind": "MEGA",
         "inheritsFrom": "latios",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "kyogreprimal",
         "formKind": "PRIMAL",
         "inheritsFrom": "kyogre",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "groudonprimal",
         "formKind": "PRIMAL",
         "inheritsFrom": "groudon",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "rayquazamega",
         "formKind": "MEGA",
         "inheritsFrom": "rayquaza",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "deoxysattack",
         "formKind": "ALTERNATE",
         "inheritsFrom": "deoxys",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "deoxysdefense",
         "formKind": "ALTERNATE",
         "inheritsFrom": "deoxys",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "deoxysspeed",
         "formKind": "ALTERNATE",
         "inheritsFrom": "deoxys",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "staraptormega",
         "formKind": "MEGA",
         "inheritsFrom": "staraptor",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "cherrimsunshine",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "cherrim",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "lopunnymega",
         "formKind": "MEGA",
         "inheritsFrom": "lopunny",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "garchompmega",
         "formKind": "MEGA",
         "inheritsFrom": "garchomp",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "garchompmegaz",
         "formKind": "MEGA",
         "inheritsFrom": "garchomp",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "lucariomega",
         "formKind": "MEGA",
         "inheritsFrom": "lucario",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "lucariomegaz",
         "formKind": "MEGA",
         "inheritsFrom": "lucario",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "abomasnowmega",
         "formKind": "MEGA",
         "inheritsFrom": "abomasnow",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gallademega",
         "formKind": "MEGA",
         "inheritsFrom": "gallade",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "froslassmega",
         "formKind": "MEGA",
         "inheritsFrom": "froslass",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "rotomfan",
         "formKind": "ALTERNATE",
         "inheritsFrom": "rotom",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "rotomfrost",
         "formKind": "ALTERNATE",
         "inheritsFrom": "rotom",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "rotomheat",
         "formKind": "ALTERNATE",
         "inheritsFrom": "rotom",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "rotommow",
         "formKind": "ALTERNATE",
         "inheritsFrom": "rotom",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "rotomwash",
         "formKind": "ALTERNATE",
         "inheritsFrom": "rotom",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "dialgaorigin",
         "formKind": "ALTERNATE",
         "inheritsFrom": "dialga",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "palkiaorigin",
         "formKind": "ALTERNATE",
         "inheritsFrom": "palkia",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "heatranmega",
         "formKind": "MEGA",
         "inheritsFrom": "heatran",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "giratinaorigin",
         "formKind": "ALTERNATE",
         "inheritsFrom": "giratina",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "darkraimega",
         "formKind": "MEGA",
         "inheritsFrom": "darkrai",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "shayminsky",
         "formKind": "ALTERNATE",
         "inheritsFrom": "shaymin",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusbug",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusdark",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusdragon",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceuselectric",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusfairy",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusfighting",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusfire",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusflying",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusghost",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusgrass",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusground",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusice",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceuspoison",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceuspsychic",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceusrock",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceussteel",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "arceuswater",
         "formKind": "ALTERNATE",
         "inheritsFrom": "arceus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "emboarmega",
         "formKind": "MEGA",
         "inheritsFrom": "emboar",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "excadrillmega",
         "formKind": "MEGA",
         "inheritsFrom": "excadrill",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "audinomega",
         "formKind": "MEGA",
         "inheritsFrom": "audino",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "scolipedemega",
         "formKind": "MEGA",
         "inheritsFrom": "scolipede",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "basculinbluestriped",
         "formKind": "ALTERNATE",
         "inheritsFrom": "basculin",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "darmanitangalarzen",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "darmanitan",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "darmanitanzen",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "darmanitan",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "scraftymega",
         "formKind": "MEGA",
         "inheritsFrom": "scrafty",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "garbodorgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "garbodor",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "eelektrossmega",
         "formKind": "MEGA",
         "inheritsFrom": "eelektross",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "chandeluremega",
         "formKind": "MEGA",
         "inheritsFrom": "chandelure",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "golurkmega",
         "formKind": "MEGA",
         "inheritsFrom": "golurk",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "tornadustherian",
         "formKind": "ALTERNATE",
         "inheritsFrom": "tornadus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "thundurustherian",
         "formKind": "ALTERNATE",
         "inheritsFrom": "thundurus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "landorustherian",
         "formKind": "ALTERNATE",
         "inheritsFrom": "landorus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "keldeoresolute",
         "formKind": "ALTERNATE",
         "inheritsFrom": "keldeo",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "meloettapirouette",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "meloetta",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "genesectburn",
         "formKind": "ALTERNATE",
         "inheritsFrom": "genesect",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "genesectchill",
         "formKind": "ALTERNATE",
         "inheritsFrom": "genesect",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "genesectdouse",
         "formKind": "ALTERNATE",
         "inheritsFrom": "genesect",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "genesectshock",
         "formKind": "ALTERNATE",
         "inheritsFrom": "genesect",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "chesnaughtmega",
         "formKind": "MEGA",
         "inheritsFrom": "chesnaught",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "delphoxmega",
         "formKind": "MEGA",
         "inheritsFrom": "delphox",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "greninjaash",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "greninja",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "greninjamega",
         "formKind": "MEGA",
         "inheritsFrom": "greninja",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "pyroarmega",
         "formKind": "MEGA",
         "inheritsFrom": "pyroar",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "floettemega",
         "formKind": "MEGA",
         "inheritsFrom": "floette",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "meowsticfmega",
         "formKind": "MEGA",
         "inheritsFrom": "meowstic",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "meowsticmmega",
         "formKind": "MEGA",
         "inheritsFrom": "meowstic",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "aegislashblade",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "aegislash",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "malamarmega",
         "formKind": "MEGA",
         "inheritsFrom": "malamar",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "barbaraclemega",
         "formKind": "MEGA",
         "inheritsFrom": "barbaracle",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "dragalgemega",
         "formKind": "MEGA",
         "inheritsFrom": "dragalge",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "hawluchamega",
         "formKind": "MEGA",
         "inheritsFrom": "hawlucha",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "pumpkaboolarge",
         "formKind": "ALTERNATE",
         "inheritsFrom": "pumpkaboo",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "pumpkaboosmall",
         "formKind": "ALTERNATE",
         "inheritsFrom": "pumpkaboo",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gourgeistlarge",
         "formKind": "ALTERNATE",
         "inheritsFrom": "gourgeist",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gourgeistsmall",
         "formKind": "ALTERNATE",
         "inheritsFrom": "gourgeist",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "zygarde10",
         "formKind": "ALTERNATE",
         "inheritsFrom": "zygarde",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "zygardecomplete",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "zygarde",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "zygardemega",
         "formKind": "MEGA",
         "inheritsFrom": "zygarde",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "dianciemega",
         "formKind": "MEGA",
         "inheritsFrom": "diancie",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "hoopaunbound",
         "formKind": "ALTERNATE",
         "inheritsFrom": "hoopa",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "crabominablemega",
         "formKind": "MEGA",
         "inheritsFrom": "crabominable",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "oricoriopau",
         "formKind": "ALTERNATE",
         "inheritsFrom": "oricorio",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "oricoriopompom",
         "formKind": "ALTERNATE",
         "inheritsFrom": "oricorio",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "oricoriosensu",
         "formKind": "ALTERNATE",
         "inheritsFrom": "oricorio",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "wishiwashischool",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "wishiwashi",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "golisopodmega",
         "formKind": "MEGA",
         "inheritsFrom": "golisopod",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallybug",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallydark",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallydragon",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyelectric",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyfairy",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyfighting",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyfire",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyflying",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyghost",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallygrass",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyground",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyice",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallypoison",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallypsychic",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallyrock",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallysteel",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "silvallywater",
         "formKind": "ALTERNATE",
         "inheritsFrom": "silvally",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "miniormeteor",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "minior",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "mimikyubusted",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "mimikyu",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "mimikyubustedtotem",
         "formKind": "TOTEM",
         "inheritsFrom": "mimikyu",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "drampamega",
         "formKind": "MEGA",
         "inheritsFrom": "drampa",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "necrozmadawnwings",
         "formKind": "FUSION",
         "inheritsFrom": "necrozma",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "necrozmaduskmane",
         "formKind": "FUSION",
         "inheritsFrom": "necrozma",
         "via": "changesFrom",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "necrozmaultra",
         "formKind": "ULTRA_BURST",
         "inheritsFrom": "necrozma",
         "via": "baseSpecies",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "magearnamega",
         "formKind": "MEGA",
         "inheritsFrom": "magearna",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "magearnaoriginalmega",
         "formKind": "MEGA",
         "inheritsFrom": "magearna",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "zeraoramega",
         "formKind": "MEGA",
         "inheritsFrom": "zeraora",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "melmetalgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "melmetal",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "rillaboomgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "rillaboom",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "cinderacegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "cinderace",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "inteleongmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "inteleon",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "corviknightgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "corviknight",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "orbeetlegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "orbeetle",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "drednawgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "drednaw",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "coalossalgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "coalossal",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "flapplegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "flapple",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "appletungmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "appletun",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "sandacondagmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "sandaconda",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "cramorantgorging",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "cramorant",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "cramorantgulping",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "cramorant",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "toxtricitygmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "toxtricity",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "toxtricitylowkeygmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "toxtricitylowkey",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "centiskorchgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "centiskorch",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "hatterenegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "hatterene",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "grimmsnarlgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "grimmsnarl",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "alcremiegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "alcremie",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "falinksmega",
         "formKind": "MEGA",
         "inheritsFrom": "falinks",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "eiscuenoice",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "eiscue",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "morpekohangry",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "morpeko",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "copperajahgmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "copperajah",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "duraludongmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "duraludon",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "zaciancrowned",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "zacian",
         "via": "baseSpecies",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "zamazentacrowned",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "zamazenta",
         "via": "baseSpecies",
-        "ownEntryDiscarded": true
+        "ownEntryMerged": true
       },
       {
         "species": "eternatuseternamax",
         "formKind": "ALTERNATE",
         "inheritsFrom": "eternatus",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "urshifugmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "urshifu",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "urshifurapidstrikegmax",
         "formKind": "GIGANTAMAX",
         "inheritsFrom": "urshifurapidstrike",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "enamorustherian",
         "formKind": "ALTERNATE",
         "inheritsFrom": "enamorus",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "mausholdfour",
         "formKind": "ALTERNATE",
         "inheritsFrom": "maushold",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "squawkabillyblue",
         "formKind": "ALTERNATE",
         "inheritsFrom": "squawkabilly",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "squawkabillywhite",
         "formKind": "ALTERNATE",
         "inheritsFrom": "squawkabilly",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "squawkabillyyellow",
         "formKind": "ALTERNATE",
         "inheritsFrom": "squawkabilly",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "scovillainmega",
         "formKind": "MEGA",
         "inheritsFrom": "scovillain",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "palafinhero",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "palafin",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "glimmoramega",
         "formKind": "MEGA",
         "inheritsFrom": "glimmora",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "tatsugiricurlymega",
         "formKind": "MEGA",
         "inheritsFrom": "tatsugiri",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "tatsugiridroopy",
         "formKind": "ALTERNATE",
         "inheritsFrom": "tatsugiri",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "tatsugiridroopymega",
         "formKind": "MEGA",
         "inheritsFrom": "tatsugiri",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "tatsugiristretchymega",
         "formKind": "MEGA",
         "inheritsFrom": "tatsugiri",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "dudunsparcethreesegment",
         "formKind": "ALTERNATE",
         "inheritsFrom": "dudunsparce",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "baxcaliburmega",
         "formKind": "MEGA",
         "inheritsFrom": "baxcalibur",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "gimmighoulroaming",
         "formKind": "ALTERNATE",
         "inheritsFrom": "gimmighoul",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ogerponcornerstone",
         "formKind": "ALTERNATE",
         "inheritsFrom": "ogerpon",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ogerponcornerstonetera",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "ogerpon",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ogerponhearthflame",
         "formKind": "ALTERNATE",
         "inheritsFrom": "ogerpon",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ogerponhearthflametera",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "ogerpon",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ogerpontealtera",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "ogerpon",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ogerponwellspring",
         "formKind": "ALTERNATE",
         "inheritsFrom": "ogerpon",
         "via": "changesFrom",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "ogerponwellspringtera",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "ogerpon",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "terapagosstellar",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "terapagos",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       },
       {
         "species": "terapagosterastal",
         "formKind": "BATTLE_ONLY",
         "inheritsFrom": "terapagos",
         "via": "baseSpecies",
-        "ownEntryDiscarded": false
+        "ownEntryMerged": false
       }
     ]
   },
@@ -1980,33 +1976,11 @@
     "rawMovesMissingFromMoveData": {},
     "ignoredSourceCodes": {
       "D": 702,
-      "R": 64,
       "S": 5355,
       "V": 15150
     },
-    "speciesMovePairsWithOnlyIgnoredSources": 1690,
-    "formSignaturePairsDropped": [
-      "necrozmadawnwings:moongeistbeam",
-      "necrozmaduskmane:sunsteelstrike",
-      "necrozmaultra:moongeistbeam",
-      "necrozmaultra:sunsteelstrike",
-      "pikachubelle:iciclecrash",
-      "pikachulibre:flyingpress",
-      "pikachuphd:electricterrain",
-      "pikachupopstar:drainingkiss",
-      "pikachurockstar:meteormash",
-      "rotomfan:airslash",
-      "rotomfrost:blizzard",
-      "rotomheat:overheat",
-      "rotommow:leafstorm",
-      "rotomwash:hydropump",
-      "shedinja:batonpass",
-      "shedinja:screech",
-      "shedinja:slash",
-      "shedinja:swordsdance",
-      "zaciancrowned:behemothblade",
-      "zamazentacrowned:behemothbash"
-    ],
+    "speciesMovePairsWithOnlyIgnoredSources": 1670,
+    "formSignaturePairsDropped": [],
     "discrepancyCount": 0,
     "discrepancies": []
   },
@@ -2120,13 +2094,14 @@
       ]
     },
     "note": "machine = TM/TR/tutor from ANY generation (importer behaviour). 'older only' = no Gen IX M/T source and not in the selected level-up list.",
-    "machinePairs": 71626,
+    "machinePairs": 71647,
     "withGen9TmTrOrTutor": 36592,
     "alsoInSelectedLevelUpList": 3162,
-    "olderGenerationsOnly": 31872,
-    "olderGenerationsOnlyForGen9Species": 15655,
-    "olderGenerationsOnlyForSpeciesNotInGen9": 16217,
+    "olderGenerationsOnly": 31893,
+    "olderGenerationsOnlyForGen9Species": 15656,
+    "olderGenerationsOnlyForSpeciesNotInGen9": 16237,
     "olderOnlyByLatestGeneration": {
+      "0": 21,
       "3": 1216,
       "4": 2242,
       "5": 46,
@@ -2135,12 +2110,13 @@
       "8": 12794
     },
     "olderOnlyBySourceKind": {
+      "?": 21,
       "M": 21680,
       "M+T": 4185,
       "T": 6007
     },
-    "distinctMovesOlderOnly": 330,
-    "speciesWithOlderOnlyMachineMoves": 972,
+    "distinctMovesOlderOnly": 338,
+    "speciesWithOlderOnlyMachineMoves": 987,
     "topSpeciesByOlderOnlyMoves": [
       {
         "species": "mew",
@@ -3776,18 +3752,6 @@
         "isNonstandard": "Past"
       },
       {
-        "source": "world/trainers/p4b_leg4.txt:44",
-        "species": "grovyle",
-        "move": "pursuit",
-        "isNonstandard": "Past"
-      },
-      {
-        "source": "world/trainers/p4b_leg4.txt:87",
-        "species": "gurdurr",
-        "move": "wakeupslap",
-        "isNonstandard": "Past"
-      },
-      {
         "source": "world/trainers/p4b_leg4.txt:271",
         "species": "throh",
         "move": "stormthrow",
@@ -3800,12 +3764,6 @@
         "isNonstandard": "Past"
       },
       {
-        "source": "world/trainers/p4b_leg4.txt:272",
-        "species": "sawk",
-        "move": "karatechop",
-        "isNonstandard": "Past"
-      },
-      {
         "source": "world/scripts/p1_route2.pks:50 (p1_ww_sage)",
         "species": "-",
         "move": "tm:flash",
@@ -3814,8 +3772,8 @@
     ]
   },
   "signatureMoves": {
-    "learnableMoves": 823,
-    "signatureMoveCount": 200,
+    "learnableMoves": 825,
+    "signatureMoveCount": 199,
     "signatureMovesEggOnly": 5,
     "signatureMoves": [
       {
@@ -3924,6 +3882,24 @@
           "levelUp"
         ],
         "learners": "toucannon",
+        "isNonstandard": null
+      },
+      {
+        "move": "behemothbash",
+        "family": "zamazenta",
+        "via": [
+          "machine"
+        ],
+        "learners": "zamazentacrowned",
+        "isNonstandard": null
+      },
+      {
+        "move": "behemothblade",
+        "family": "zacian",
+        "via": [
+          "machine"
+        ],
+        "learners": "zaciancrowned",
         "isNonstandard": null
       },
       {
@@ -4407,15 +4383,6 @@
         "isNonstandard": null
       },
       {
-        "move": "flyingpress",
-        "family": "hawlucha",
-        "via": [
-          "levelUp"
-        ],
-        "learners": "hawlucha hawluchamega",
-        "isNonstandard": null
-      },
-      {
         "move": "forestscurse",
         "family": "phantump",
         "via": [
@@ -4845,15 +4812,6 @@
           "levelUp"
         ],
         "learners": "latias latiasmega",
-        "isNonstandard": null
-      },
-      {
-        "move": "moongeistbeam",
-        "family": "cosmog",
-        "via": [
-          "levelUp"
-        ],
-        "learners": "lunala",
         "isNonstandard": null
       },
       {
@@ -5382,15 +5340,6 @@
         "isNonstandard": null
       },
       {
-        "move": "sunsteelstrike",
-        "family": "cosmog",
-        "via": [
-          "levelUp"
-        ],
-        "learners": "solgaleo",
-        "isNonstandard": null
-      },
-      {
         "move": "surgingstrikes",
         "family": "kubfu",
         "via": [
@@ -5646,14 +5595,10 @@
       }
     ],
     "unlearnableMoves": {
-      "total": 128,
+      "total": 126,
       "event-or-lgpe-source-only": {
         "count": 6,
         "moves": "celebrate eggbomb happyhour holdback holdhands spikecannon"
-      },
-      "form-signature-r-source-not-imported": {
-        "count": 2,
-        "moves": "behemothbash behemothblade"
       },
       "max-move": {
         "count": 52,
@@ -5695,131 +5640,15 @@
     },
     "legalityRoutes": {
       "EGG": 32,
-      "FORM_SIGNATURE": 4,
-      "LEVEL_TOO_HIGH": 17,
-      "LEVEL_UP": 740,
-      "MACHINE": 603,
-      "OLDER_LEVEL_UP": 6,
+      "LEVEL_UP": 763,
+      "MACHINE": 607,
       "PREVO_LEVEL_UP": 22
     },
-    "illegalAssignmentCount": 59,
+    "illegalAssignmentCount": 32,
     "illegalAssignmentsByIssue": {
-      "egg-only": 32,
-      "form-signature-not-imported": 4,
-      "level-too-high": 17,
-      "older-gen-level-up-only": 6
+      "egg-only": 32
     },
     "illegalAssignments": [
-      {
-        "source": "world/trainers/p2_early.txt:10",
-        "kind": "trainer",
-        "owner": "p2_r5_lass_tessa",
-        "species": "flabebe",
-        "level": 18,
-        "move": "wish",
-        "issue": "level-too-high",
-        "detail": "learned at level 20, above level 18"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:20",
-        "kind": "trainer",
-        "owner": "p2_r5_youngster_ned",
-        "species": "herdier",
-        "level": 20,
-        "move": "takedown",
-        "issue": "level-too-high",
-        "detail": "learned at level 28, above level 20"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:21",
-        "kind": "trainer",
-        "owner": "p2_r5_youngster_ned",
-        "species": "ponyta",
-        "level": 19,
-        "move": "stomp",
-        "issue": "level-too-high",
-        "detail": "learned at level 30, above level 19"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:32",
-        "kind": "trainer",
-        "owner": "p2_r5_fisher_wade",
-        "species": "remoraid",
-        "level": 20,
-        "move": "lockon",
-        "issue": "level-too-high",
-        "detail": "learned at level 24, above level 20"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:74",
-        "kind": "trainer",
-        "owner": "p2_lr_psychic_iris",
-        "species": "elgyem",
-        "level": 21,
-        "move": "headbutt",
-        "issue": "level-too-high",
-        "detail": "learned at level 30, above level 21"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:94",
-        "kind": "trainer",
-        "owner": "p2_lr_scientist_kurt",
-        "species": "porygon",
-        "level": 21,
-        "move": "recover",
-        "issue": "level-too-high",
-        "detail": "learned at level 35, above level 21"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:104",
-        "kind": "trainer",
-        "owner": "p2_lr_hiker_dale",
-        "species": "rhyhorn",
-        "level": 21,
-        "move": "stomp",
-        "issue": "level-too-high",
-        "detail": "learned at level 25, above level 21"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:114",
-        "kind": "trainer",
-        "owner": "p2_r6_youngster_cal",
-        "species": "electrike",
-        "level": 21,
-        "move": "spark",
-        "issue": "older-gen-level-up-only",
-        "detail": "level-up only in older generations (7L13,6L13,5L20,4L20,3L20) and not in the selected Gen 8 list"
-      },
-      {
-        "source": "world/trainers/p2_early.txt:146",
-        "kind": "trainer",
-        "owner": "p2_r6_cooltrainer_jin",
-        "species": "ponyta",
-        "level": 22,
-        "move": "stomp",
-        "issue": "level-too-high",
-        "detail": "learned at level 30, above level 22"
-      },
-      {
-        "source": "world/trainers/p2_mid.txt:31",
-        "kind": "trainer",
-        "owner": "p2_r7_cooltrainer_mae",
-        "species": "manectric",
-        "level": 28,
-        "move": "spark",
-        "issue": "older-gen-level-up-only",
-        "detail": "level-up only in older generations (7L13,6L13,5L20,4L20,3L20) and not in the selected Gen 8 list"
-      },
-      {
-        "source": "world/trainers/p2_mid.txt:200",
-        "kind": "trainer",
-        "owner": "p2_leader_garnet",
-        "species": "rhydon",
-        "level": 33,
-        "move": "horndrill",
-        "issue": "level-too-high",
-        "detail": "learned at level 60, above level 33"
-      },
       {
         "source": "world/trainers/p2_prism.txt:19",
         "kind": "trainer",
@@ -5829,16 +5658,6 @@
         "move": "bulletpunch",
         "issue": "egg-only",
         "detail": "egg move (breeding not implemented)"
-      },
-      {
-        "source": "world/trainers/p2_prism.txt:130",
-        "kind": "trainer",
-        "owner": "p2_admin_corvin",
-        "species": "golbat",
-        "level": 34,
-        "move": "confuseray",
-        "issue": "level-too-high",
-        "detail": "learned at level 45, above level 34"
       },
       {
         "source": "world/trainers/p2_prism.txt:131",
@@ -5869,46 +5688,6 @@
         "move": "bellydrum",
         "issue": "egg-only",
         "detail": "egg move (breeding not implemented)"
-      },
-      {
-        "source": "world/trainers/p2_voltara.txt:69",
-        "kind": "trainer",
-        "owner": "p2_pp_captain",
-        "species": "golbat",
-        "level": 24,
-        "move": "wingattack",
-        "issue": "older-gen-level-up-only",
-        "detail": "level-up only in older generations (7L13,6L13,5L15,4L17,3L21) and not in the selected Gen 8 list"
-      },
-      {
-        "source": "world/trainers/p2_voltara.txt:69",
-        "kind": "trainer",
-        "owner": "p2_pp_captain",
-        "species": "golbat",
-        "level": 24,
-        "move": "bite",
-        "issue": "level-too-high",
-        "detail": "learned at level 30, above level 24"
-      },
-      {
-        "source": "world/trainers/p2_voltara.txt:69",
-        "kind": "trainer",
-        "owner": "p2_pp_captain",
-        "species": "golbat",
-        "level": 24,
-        "move": "confuseray",
-        "issue": "level-too-high",
-        "detail": "learned at level 45, above level 24"
-      },
-      {
-        "source": "world/trainers/p3a_ashfall.txt:20",
-        "kind": "trainer",
-        "owner": "p3a_r9_lass_wren",
-        "species": "altaria",
-        "level": 39,
-        "move": "moonblast",
-        "issue": "level-too-high",
-        "detail": "learned at level 40, above level 39"
       },
       {
         "source": "world/trainers/p3b_dragonspire.txt:70",
@@ -5989,16 +5768,6 @@
         "move": "suckerpunch",
         "issue": "egg-only",
         "detail": "egg move (breeding not implemented)"
-      },
-      {
-        "source": "world/trainers/p3c_hall.txt:55",
-        "kind": "trainer",
-        "owner": "p3c_rm_volta",
-        "species": "rotomwash",
-        "level": 71,
-        "move": "hydropump",
-        "issue": "form-signature-not-imported",
-        "detail": "Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
       },
       {
         "source": "world/trainers/p3c_hall.txt:58",
@@ -6131,16 +5900,6 @@
         "detail": "egg move (breeding not implemented)"
       },
       {
-        "source": "world/trainers/p3c_tower.txt:79",
-        "kind": "trainer",
-        "owner": "p3c_bt_b1",
-        "species": "rotomwash",
-        "level": 73,
-        "move": "hydropump",
-        "issue": "form-signature-not-imported",
-        "detail": "Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
-      },
-      {
         "source": "world/trainers/p3c_tower.txt:102",
         "kind": "trainer",
         "owner": "p3c_bt_b3",
@@ -6181,66 +5940,6 @@
         "detail": "egg move (breeding not implemented)"
       },
       {
-        "source": "world/trainers/p3c_tower.txt:193",
-        "kind": "trainer",
-        "owner": "p3c_bt_tycoon",
-        "species": "rotomwash",
-        "level": 80,
-        "move": "hydropump",
-        "issue": "form-signature-not-imported",
-        "detail": "Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
-      },
-      {
-        "source": "world/trainers/p4b_leg4.txt:10",
-        "kind": "trainer",
-        "owner": "p4b_r7_lass_tilly",
-        "species": "pachirisu",
-        "level": 27,
-        "move": "sweetkiss",
-        "issue": "level-too-high",
-        "detail": "learned at level 29, above level 27"
-      },
-      {
-        "source": "world/trainers/p4b_leg4.txt:44",
-        "kind": "trainer",
-        "owner": "p4b_r8_ace_juno",
-        "species": "grovyle",
-        "level": 30,
-        "move": "pursuit",
-        "issue": "older-gen-level-up-only",
-        "detail": "level-up only in older generations (7L18,6L17,5L17,4L17,3L17) and not in the selected Gen 9 list"
-      },
-      {
-        "source": "world/trainers/p4b_leg4.txt:87",
-        "kind": "trainer",
-        "owner": "p4b_mine1_worker_gil",
-        "species": "gurdurr",
-        "level": 29,
-        "move": "wakeupslap",
-        "issue": "older-gen-level-up-only",
-        "detail": "level-up only in older generations (7L20,6L20,5L20) and not in the selected Gen 9 list"
-      },
-      {
-        "source": "world/trainers/p4b_leg4.txt:271",
-        "kind": "trainer",
-        "owner": "p4b_gulch_blackbelt_oren",
-        "species": "throh",
-        "level": 30,
-        "move": "seismictoss",
-        "issue": "level-too-high",
-        "detail": "learned at level 40, above level 30"
-      },
-      {
-        "source": "world/trainers/p4b_leg4.txt:272",
-        "kind": "trainer",
-        "owner": "p4b_gulch_blackbelt_oren",
-        "species": "sawk",
-        "level": 30,
-        "move": "karatechop",
-        "issue": "older-gen-level-up-only",
-        "detail": "level-up only in older generations (7L17,6L25,5L25) and not in the selected Gen 8 list"
-      },
-      {
         "source": "world/trainers/p4c_leg7.txt:254",
         "kind": "trainer",
         "owner": "p4c_rh2_cool_astrid",
@@ -6251,26 +5950,6 @@
         "detail": "egg move (breeding not implemented)"
       },
       {
-        "source": "world/trainers/p4c_leg8.txt:230",
-        "kind": "trainer",
-        "owner": "p4c_dr_hermit_sorin",
-        "species": "noivern",
-        "level": 56,
-        "move": "boomburst",
-        "issue": "level-too-high",
-        "detail": "learned at level 62, above level 56"
-      },
-      {
-        "source": "world/trainers/p4c_leg8.txt:344",
-        "kind": "trainer",
-        "owner": "p4c_ws_chief_halloran",
-        "species": "rotomwash",
-        "level": 56,
-        "move": "hydropump",
-        "issue": "form-signature-not-imported",
-        "detail": "Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
-      },
-      {
         "source": "world/trainers/p4c_leg9.txt:279",
         "kind": "trainer",
         "owner": "p4c_rem_captain_sable",
@@ -6279,16 +5958,6 @@
         "move": "suckerpunch",
         "issue": "egg-only",
         "detail": "egg move (breeding not implemented)"
-      },
-      {
-        "source": "world/scripts/p2_voltara.pks:218 (p2_mira_ball)",
-        "kind": "givemon",
-        "owner": "p2_mira_ball",
-        "species": "flaaffy",
-        "level": 25,
-        "move": "cottonguard",
-        "issue": "level-too-high",
-        "detail": "learned at level 36, above level 25"
       },
       {
         "source": "world/scripts/p3b_dragonspire.pks:167 (p3b_draca)",
@@ -6311,8 +5980,8 @@
       "script": 38,
       "shop": 32
     },
-    "machineLegalMoves": 368,
-    "machineLegalMovesWithoutAnyTm": 296,
+    "machineLegalMoves": 376,
+    "machineLegalMovesWithoutAnyTm": 304,
     "tmsNoObtainableLearner": [],
     "tmsWithAtMostThreeObtainableLearners": [],
     "engineCanLearnMachineCrossCheck": {
@@ -6362,9 +6031,9 @@
             "source": "world/scripts/p3c_hall.pks:199 (p3c_talk_isolde)"
           }
         ],
-        "learnersAll": 353,
+        "learnersAll": 354,
         "learnersObtainable": 202,
-        "learnersViaTmOrTutorList": 353,
+        "learnersViaTmOrTutorList": 354,
         "learnersGen9": 241,
         "isNonstandard": null
       },
@@ -6586,9 +6255,9 @@
             "source": "assets/maps/p4b_mistwood.json:p4b_mistwood_p4b_mist_tm"
           }
         ],
-        "learnersAll": 131,
+        "learnersAll": 132,
         "learnersObtainable": 72,
-        "learnersViaTmOrTutorList": 129,
+        "learnersViaTmOrTutorList": 130,
         "learnersGen9": 106,
         "isNonstandard": null
       },
@@ -6808,9 +6477,9 @@
             "source": "world/scripts/p3c_hall.pks:74 (p3c_talk_marina)"
           }
         ],
-        "learnersAll": 248,
+        "learnersAll": 249,
         "learnersObtainable": 133,
-        "learnersViaTmOrTutorList": 242,
+        "learnersViaTmOrTutorList": 243,
         "learnersGen9": 189,
         "isNonstandard": null
       },
@@ -6882,9 +6551,9 @@
             "source": "world/scripts/p3c_hall.pks:49 (p3c_talk_hazel)"
           }
         ],
-        "learnersAll": 130,
+        "learnersAll": 131,
         "learnersObtainable": 63,
-        "learnersViaTmOrTutorList": 129,
+        "learnersViaTmOrTutorList": 130,
         "learnersGen9": 120,
         "isNonstandard": null
       },
@@ -6994,9 +6663,9 @@
             "source": "world/scripts/p3a_ashfall.pks:78 (p3a_ash_blaise)"
           }
         ],
-        "learnersAll": 146,
+        "learnersAll": 147,
         "learnersObtainable": 69,
-        "learnersViaTmOrTutorList": 146,
+        "learnersViaTmOrTutorList": 147,
         "learnersGen9": 124,
         "isNonstandard": null
       },
@@ -7486,7 +7155,7 @@
       {
         "tutor": "seraphine_tutor",
         "move": "drainingkiss",
-        "learnersAll": 131,
+        "learnersAll": 132,
         "learnersObtainable": 72,
         "learnersGen9": 106
       },
@@ -7641,108 +7310,12 @@
   },
   "conflicts": [
     {
-      "species": "flabebe",
-      "move": "wish",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_r5_lass_tessa L18 moves=fairywind,razorleaf,wish,vinewhip",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 20, above level 18)",
-      "source": "world/trainers/p2_early.txt:10"
-    },
-    {
-      "species": "herdier",
-      "move": "takedown",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_r5_youngster_ned L20 moves=bite,takedown,workup,retaliate",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 28, above level 20)",
-      "source": "world/trainers/p2_early.txt:20"
-    },
-    {
-      "species": "ponyta",
-      "move": "stomp",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_r5_youngster_ned L19 moves=flamecharge,stomp,ember,tailwhip",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 30, above level 19)",
-      "source": "world/trainers/p2_early.txt:21"
-    },
-    {
-      "species": "remoraid",
-      "move": "lockon",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_r5_fisher_wade L20 moves=watergun,psybeam,aurorabeam,lockon",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 24, above level 20)",
-      "source": "world/trainers/p2_early.txt:32"
-    },
-    {
-      "species": "elgyem",
-      "move": "headbutt",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_lr_psychic_iris L21 moves=psybeam,confusion,headbutt,growl",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 30, above level 21)",
-      "source": "world/trainers/p2_early.txt:74"
-    },
-    {
-      "species": "porygon",
-      "move": "recover",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_lr_scientist_kurt L21 moves=psybeam,agility,signalbeam,recover",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 35, above level 21)",
-      "source": "world/trainers/p2_early.txt:94"
-    },
-    {
-      "species": "rhyhorn",
-      "move": "stomp",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_lr_hiker_dale L21 moves=stomp,bulldoze,rockblast,scaryface",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 25, above level 21)",
-      "source": "world/trainers/p2_early.txt:104"
-    },
-    {
-      "species": "electrike",
-      "move": "spark",
-      "issue": "older-gen-level-up-only",
-      "selectedValue": "trainer p2_r6_youngster_cal L21 moves=spark,howl,bite,quickattack",
-      "justification": "legal in an older game but the policy keeps only the most recent generation's level-up list; add the move to the species' level-up data deliberately or change the move (level-up only in older generations (7L13,6L13,5L20,4L20,3L20) and not in the selected Gen 8 list)",
-      "source": "world/trainers/p2_early.txt:114"
-    },
-    {
-      "species": "ponyta",
-      "move": "stomp",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_r6_cooltrainer_jin L22 moves=flamecharge,stomp,firespin,agility",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 30, above level 22)",
-      "source": "world/trainers/p2_early.txt:146"
-    },
-    {
-      "species": "manectric",
-      "move": "spark",
-      "issue": "older-gen-level-up-only",
-      "selectedValue": "trainer p2_r7_cooltrainer_mae L28 moves=spark,bite,howl,quickattack",
-      "justification": "legal in an older game but the policy keeps only the most recent generation's level-up list; add the move to the species' level-up data deliberately or change the move (level-up only in older generations (7L13,6L13,5L20,4L20,3L20) and not in the selected Gen 8 list)",
-      "source": "world/trainers/p2_mid.txt:31"
-    },
-    {
-      "species": "rhydon",
-      "move": "horndrill",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_leader_garnet L33 moves=rockslide,bulldoze,horndrill,hammerarm",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 60, above level 33)",
-      "source": "world/trainers/p2_mid.txt:200"
-    },
-    {
       "species": "medicham",
       "move": "bulletpunch",
       "issue": "egg-only",
       "selectedValue": "trainer p2_mp1_blackbelt_jun L32 moves=highjumpkick,zenheadbutt,bulkup,bulletpunch",
       "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
       "source": "world/trainers/p2_prism.txt:19"
-    },
-    {
-      "species": "golbat",
-      "move": "confuseray",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_admin_corvin L34 moves=poisonfang,bite,confuseray,airslash",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 45, above level 34)",
-      "source": "world/trainers/p2_prism.txt:130"
     },
     {
       "species": "grimeralola",
@@ -7767,38 +7340,6 @@
       "selectedValue": "trainer p2_leader_elowen L37 moves=playrough,aquatail,rollout,bellydrum",
       "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
       "source": "world/trainers/p2_prism.txt:243"
-    },
-    {
-      "species": "golbat",
-      "move": "wingattack",
-      "issue": "older-gen-level-up-only",
-      "selectedValue": "trainer p2_pp_captain L24 moves=wingattack,bite,confuseray,poisonfang",
-      "justification": "legal in an older game but the policy keeps only the most recent generation's level-up list; add the move to the species' level-up data deliberately or change the move (level-up only in older generations (7L13,6L13,5L15,4L17,3L21) and not in the selected Gen 8 list)",
-      "source": "world/trainers/p2_voltara.txt:69"
-    },
-    {
-      "species": "golbat",
-      "move": "bite",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_pp_captain L24 moves=wingattack,bite,confuseray,poisonfang",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 30, above level 24)",
-      "source": "world/trainers/p2_voltara.txt:69"
-    },
-    {
-      "species": "golbat",
-      "move": "confuseray",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p2_pp_captain L24 moves=wingattack,bite,confuseray,poisonfang",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 45, above level 24)",
-      "source": "world/trainers/p2_voltara.txt:69"
-    },
-    {
-      "species": "altaria",
-      "move": "moonblast",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p3a_r9_lass_wren L39 moves=dragonpulse,moonblast,cottonguard,roost",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 40, above level 39)",
-      "source": "world/trainers/p3a_ashfall.txt:20"
     },
     {
       "species": "druddigon",
@@ -7863,14 +7404,6 @@
       "selectedValue": "trainer p3b_boss_umbra L59 moves=kowtowcleave,ironhead,suckerpunch,swordsdance",
       "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
       "source": "world/trainers/p3b_summit.txt:257"
-    },
-    {
-      "species": "rotomwash",
-      "move": "hydropump",
-      "issue": "form-signature-not-imported",
-      "selectedValue": "trainer p3c_rm_volta L71 moves=hydropump,voltswitch,willowisp,painsplit",
-      "justification": "the form's own signature move is marked 'R' in Showdown and dropped by DataImporter.importLearnsets; import it for that form or change the move (Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R)",
-      "source": "world/trainers/p3c_hall.txt:55"
     },
     {
       "species": "electivire",
@@ -7977,14 +7510,6 @@
       "source": "world/trainers/p3c_hall.txt:269"
     },
     {
-      "species": "rotomwash",
-      "move": "hydropump",
-      "issue": "form-signature-not-imported",
-      "selectedValue": "trainer p3c_bt_b1 L73 moves=hydropump,voltswitch,willowisp,painsplit",
-      "justification": "the form's own signature move is marked 'R' in Showdown and dropped by DataImporter.importLearnsets; import it for that form or change the move (Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R)",
-      "source": "world/trainers/p3c_tower.txt:79"
-    },
-    {
       "species": "lapras",
       "move": "freezedry",
       "issue": "egg-only",
@@ -8017,54 +7542,6 @@
       "source": "world/trainers/p3c_tower.txt:174"
     },
     {
-      "species": "rotomwash",
-      "move": "hydropump",
-      "issue": "form-signature-not-imported",
-      "selectedValue": "trainer p3c_bt_tycoon L80 moves=hydropump,voltswitch,willowisp,painsplit",
-      "justification": "the form's own signature move is marked 'R' in Showdown and dropped by DataImporter.importLearnsets; import it for that form or change the move (Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R)",
-      "source": "world/trainers/p3c_tower.txt:193"
-    },
-    {
-      "species": "pachirisu",
-      "move": "sweetkiss",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p4b_r7_lass_tilly L27 moves=spark,quickattack,sweetkiss,nuzzle",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 29, above level 27)",
-      "source": "world/trainers/p4b_leg4.txt:10"
-    },
-    {
-      "species": "grovyle",
-      "move": "pursuit",
-      "issue": "older-gen-level-up-only",
-      "selectedValue": "trainer p4b_r8_ace_juno L30 moves=leafblade,quickattack,agility,pursuit",
-      "justification": "legal in an older game but the policy keeps only the most recent generation's level-up list; add the move to the species' level-up data deliberately or change the move (level-up only in older generations (7L18,6L17,5L17,4L17,3L17) and not in the selected Gen 9 list)",
-      "source": "world/trainers/p4b_leg4.txt:44"
-    },
-    {
-      "species": "gurdurr",
-      "move": "wakeupslap",
-      "issue": "older-gen-level-up-only",
-      "selectedValue": "trainer p4b_mine1_worker_gil L29 moves=lowsweep,rockthrow,bulkup,wakeupslap",
-      "justification": "legal in an older game but the policy keeps only the most recent generation's level-up list; add the move to the species' level-up data deliberately or change the move (level-up only in older generations (7L20,6L20,5L20) and not in the selected Gen 9 list)",
-      "source": "world/trainers/p4b_leg4.txt:87"
-    },
-    {
-      "species": "throh",
-      "move": "seismictoss",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p4b_gulch_blackbelt_oren L30 moves=seismictoss,stormthrow,bulkup,revenge",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 40, above level 30)",
-      "source": "world/trainers/p4b_leg4.txt:271"
-    },
-    {
-      "species": "sawk",
-      "move": "karatechop",
-      "issue": "older-gen-level-up-only",
-      "selectedValue": "trainer p4b_gulch_blackbelt_oren L30 moves=karatechop,lowsweep,bulkup,quickguard",
-      "justification": "legal in an older game but the policy keeps only the most recent generation's level-up list; add the move to the species' level-up data deliberately or change the move (level-up only in older generations (7L17,6L25,5L25) and not in the selected Gen 8 list)",
-      "source": "world/trainers/p4b_leg4.txt:272"
-    },
-    {
       "species": "lapras",
       "move": "freezedry",
       "issue": "egg-only",
@@ -8073,36 +7550,12 @@
       "source": "world/trainers/p4c_leg7.txt:254"
     },
     {
-      "species": "noivern",
-      "move": "boomburst",
-      "issue": "level-too-high",
-      "selectedValue": "trainer p4c_dr_hermit_sorin L56 moves=boomburst,dragonpulse,airslash,flamethrower",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 62, above level 56)",
-      "source": "world/trainers/p4c_leg8.txt:230"
-    },
-    {
-      "species": "rotomwash",
-      "move": "hydropump",
-      "issue": "form-signature-not-imported",
-      "selectedValue": "trainer p4c_ws_chief_halloran L56 moves=hydropump,voltswitch,willowisp,painsplit",
-      "justification": "the form's own signature move is marked 'R' in Showdown and dropped by DataImporter.importLearnsets; import it for that form or change the move (Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R)",
-      "source": "world/trainers/p4c_leg8.txt:344"
-    },
-    {
       "species": "bisharp",
       "move": "suckerpunch",
       "issue": "egg-only",
       "selectedValue": "trainer p4c_rem_captain_sable L59 moves=knockoff,ironhead,suckerpunch,swordsdance",
       "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
       "source": "world/trainers/p4c_leg9.txt:279"
-    },
-    {
-      "species": "flaaffy",
-      "move": "cottonguard",
-      "issue": "level-too-high",
-      "selectedValue": "givemon p2_mira_ball L25 moves=thundershock,cottonguard,powergem,thunderwave",
-      "justification": "the species learns it by level-up only at a higher level and has no TM/tutor/egg route; raise the level or change the move (learned at level 36, above level 25)",
-      "source": "world/scripts/p2_voltara.pks:218 (p2_mira_ball)"
     },
     {
       "species": "dragonair",
@@ -8114,306 +7567,6 @@
     }
   ],
   "findings": [
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p2_voltara_tm",
-      "message": "shop 'p2_voltara_tm' lists 'tmthunderbolt' instead of 'tm:thunderbolt': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p2_voltara_tm",
-      "message": "shop 'p2_voltara_tm' lists 'tmthunderwave' instead of 'tm:thunderwave': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p2_voltara_tm",
-      "message": "shop 'p2_voltara_tm' lists 'tmvoltswitch' instead of 'tm:voltswitch': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p2_voltara_tm",
-      "message": "shop 'p2_voltara_tm' lists 'tmreflect' instead of 'tm:reflect': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p2_voltara_tm",
-      "message": "shop 'p2_voltara_tm' lists 'tmlightscreen' instead of 'tm:lightscreen': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p2_voltara_tm",
-      "message": "shop 'p2_voltara_tm' lists 'tmprotect' instead of 'tm:protect': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p2_voltara_tm",
-      "message": "shop 'p2_voltara_tm' lists 'tmsubstitute' instead of 'tm:substitute': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3b_dragonspire_tm",
-      "message": "shop 'p3b_dragonspire_tm' lists 'tmdragonclaw' instead of 'tm:dragonclaw': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3b_dragonspire_tm",
-      "message": "shop 'p3b_dragonspire_tm' lists 'tmdragonpulse' instead of 'tm:dragonpulse': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3b_dragonspire_tm",
-      "message": "shop 'p3b_dragonspire_tm' lists 'tmicebeam' instead of 'tm:icebeam': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3b_dragonspire_tm",
-      "message": "shop 'p3b_dragonspire_tm' lists 'tmdazzlinggleam' instead of 'tm:dazzlinggleam': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3b_dragonspire_tm",
-      "message": "shop 'p3b_dragonspire_tm' lists 'tmearthquake' instead of 'tm:earthquake': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3b_dragonspire_tm",
-      "message": "shop 'p3b_dragonspire_tm' lists 'tmdragontail' instead of 'tm:dragontail': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3b_dragonspire_tm",
-      "message": "shop 'p3b_dragonspire_tm' lists 'tmroost' instead of 'tm:roost': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmicebeam' instead of 'tm:icebeam': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmflamethrower' instead of 'tm:flamethrower': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmthunderbolt' instead of 'tm:thunderbolt': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmsurf' instead of 'tm:surf': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmearthquake' instead of 'tm:earthquake': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmpsychic' instead of 'tm:psychic': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmshadowball' instead of 'tm:shadowball': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmenergyball' instead of 'tm:energyball': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmsludgebomb' instead of 'tm:sludgebomb': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmfocusblast' instead of 'tm:focusblast': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmdragonpulse' instead of 'tm:dragonpulse': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmflashcannon' instead of 'tm:flashcannon': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmdarkpulse' instead of 'tm:darkpulse': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmdazzlinggleam' instead of 'tm:dazzlinggleam': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmuturn' instead of 'tm:uturn': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:p3c_coral_tms",
-      "message": "shop 'p3c_coral_tms' lists 'tmprotect' instead of 'tm:protect': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:tidewater_netstall",
-      "message": "shop 'tidewater_netstall' lists 'tmwatergun' instead of 'tm:watergun': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "shop-tm-prefix-lost",
-      "subject": "assets/world/shops.json:tidewater_netstall",
-      "message": "shop 'tidewater_netstall' lists 'tmbubblebeam' instead of 'tm:bubblebeam': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/scripts/p2_voltara.pks:218 (p2_mira_ball)",
-      "message": "p2_mira_ball: flaaffy L25 knows cottonguard: learned at level 36, above level 25"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:10",
-      "message": "p2_r5_lass_tessa: flabebe L18 knows wish: learned at level 20, above level 18"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:104",
-      "message": "p2_lr_hiker_dale: rhyhorn L21 knows stomp: learned at level 25, above level 21"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:146",
-      "message": "p2_r6_cooltrainer_jin: ponyta L22 knows stomp: learned at level 30, above level 22"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:20",
-      "message": "p2_r5_youngster_ned: herdier L20 knows takedown: learned at level 28, above level 20"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:21",
-      "message": "p2_r5_youngster_ned: ponyta L19 knows stomp: learned at level 30, above level 19"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:32",
-      "message": "p2_r5_fisher_wade: remoraid L20 knows lockon: learned at level 24, above level 20"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:74",
-      "message": "p2_lr_psychic_iris: elgyem L21 knows headbutt: learned at level 30, above level 21"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_early.txt:94",
-      "message": "p2_lr_scientist_kurt: porygon L21 knows recover: learned at level 35, above level 21"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_mid.txt:200",
-      "message": "p2_leader_garnet: rhydon L33 knows horndrill: learned at level 60, above level 33"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_prism.txt:130",
-      "message": "p2_admin_corvin: golbat L34 knows confuseray: learned at level 45, above level 34"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_voltara.txt:69",
-      "message": "p2_pp_captain: golbat L24 knows bite: learned at level 30, above level 24"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p2_voltara.txt:69",
-      "message": "p2_pp_captain: golbat L24 knows confuseray: learned at level 45, above level 24"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p3a_ashfall.txt:20",
-      "message": "p3a_r9_lass_wren: altaria L39 knows moonblast: learned at level 40, above level 39"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p4b_leg4.txt:10",
-      "message": "p4b_r7_lass_tilly: pachirisu L27 knows sweetkiss: learned at level 29, above level 27"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p4b_leg4.txt:271",
-      "message": "p4b_gulch_blackbelt_oren: throh L30 knows seismictoss: learned at level 40, above level 30"
-    },
-    {
-      "severity": "error",
-      "code": "world-level-too-high",
-      "subject": "world/trainers/p4c_leg8.txt:230",
-      "message": "p4c_dr_hermit_sorin: noivern L56 knows boomburst: learned at level 62, above level 56"
-    },
-    {
-      "severity": "warning",
-      "code": "importer-ignores-r-sources",
-      "subject": "20",
-      "message": "DataImporter.importLearnsets drops Showdown 'R' (move required by the form) sources, so these form signature moves are unlearnable for the form: necrozmadawnwings:moongeistbeam necrozmaduskmane:sunsteelstrike necrozmaultra:moongeistbeam necrozmaultra:sunsteelstrike pikachubelle:iciclecrash pikachulibre:flyingpress pikachuphd:electricterrain pikachupopstar:drainingkiss pikachurockstar:meteormash rotomfan:airslash rotomfrost:blizzard rotomheat:overheat rotommow:leafstorm rotomwash:hydropump shedinja:batonpass shedinja:screech shedinja:slash shedinja:swordsdance zaciancrowned:behemothblade zamazentacrowned:behemothbash"
-    },
     {
       "severity": "warning",
       "code": "inherited-form-types-differ",
@@ -8716,102 +7869,6 @@
     },
     {
       "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "necrozmadawnwings",
-      "message": "necrozmadawnwings has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses necrozma"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "necrozmaduskmane",
-      "message": "necrozmaduskmane has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses necrozma"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "necrozmaultra",
-      "message": "necrozmaultra has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses necrozma"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "pikachubelle",
-      "message": "pikachubelle has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses pikachucosplay"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "pikachulibre",
-      "message": "pikachulibre has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses pikachucosplay"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "pikachuphd",
-      "message": "pikachuphd has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses pikachucosplay"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "pikachupopstar",
-      "message": "pikachupopstar has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses pikachucosplay"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "pikachurockstar",
-      "message": "pikachurockstar has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses pikachucosplay"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "rotomfan",
-      "message": "rotomfan has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses rotom"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "rotomfrost",
-      "message": "rotomfrost has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses rotom"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "rotomheat",
-      "message": "rotomheat has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses rotom"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "rotommow",
-      "message": "rotommow has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses rotom"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "rotomwash",
-      "message": "rotomwash has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses rotom"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "zaciancrowned",
-      "message": "zaciancrowned has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses zacian"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "zamazentacrowned",
-      "message": "zamazentacrowned has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses zamazenta"
-    },
-    {
-      "severity": "warning",
-      "code": "own-data-discarded",
-      "subject": "zygarde10",
-      "message": "zygarde10 has its own learnset entry (machine=0, egg=0) but an empty level-up list, so Dex.learnset ignores it and uses zygarde"
-    },
-    {
-      "severity": "warning",
       "code": "signature-egg-only",
       "subject": "constrict",
       "message": "constrict is learnable only as an egg move by the frillish family (breeding is not implemented, so the move is unobtainable)"
@@ -9039,64 +8096,100 @@
       "message": "p4c_rem_captain_sable: bisharp L59 knows suckerpunch: egg move (breeding not implemented)"
     },
     {
-      "severity": "warning",
-      "code": "world-form-signature-not-imported",
-      "subject": "world/trainers/p3c_hall.txt:55",
-      "message": "p3c_rm_volta: rotomwash L71 knows hydropump: Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "necrozmadawnwings",
+      "message": "necrozmadawnwings has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses necrozma's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-form-signature-not-imported",
-      "subject": "world/trainers/p3c_tower.txt:193",
-      "message": "p3c_bt_tycoon: rotomwash L80 knows hydropump: Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "necrozmaduskmane",
+      "message": "necrozmaduskmane has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses necrozma's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-form-signature-not-imported",
-      "subject": "world/trainers/p3c_tower.txt:79",
-      "message": "p3c_bt_b1: rotomwash L73 knows hydropump: Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "necrozmaultra",
+      "message": "necrozmaultra has its own learnset entry (machine=2, egg=0) but no level-up list: Dex.learnset uses necrozma's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-form-signature-not-imported",
-      "subject": "world/trainers/p4c_leg8.txt:344",
-      "message": "p4c_ws_chief_halloran: rotomwash L56 knows hydropump: Showdown 'R' source (move required by the form); the importer does not import R sources: 9R,8R,7R,6R,5R,4R"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "pikachubelle",
+      "message": "pikachubelle has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses pikachucosplay's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-older-gen-level-up-only",
-      "subject": "world/trainers/p2_early.txt:114",
-      "message": "p2_r6_youngster_cal: electrike L21 knows spark: level-up only in older generations (7L13,6L13,5L20,4L20,3L20) and not in the selected Gen 8 list"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "pikachulibre",
+      "message": "pikachulibre has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses pikachucosplay's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-older-gen-level-up-only",
-      "subject": "world/trainers/p2_mid.txt:31",
-      "message": "p2_r7_cooltrainer_mae: manectric L28 knows spark: level-up only in older generations (7L13,6L13,5L20,4L20,3L20) and not in the selected Gen 8 list"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "pikachuphd",
+      "message": "pikachuphd has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses pikachucosplay's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-older-gen-level-up-only",
-      "subject": "world/trainers/p2_voltara.txt:69",
-      "message": "p2_pp_captain: golbat L24 knows wingattack: level-up only in older generations (7L13,6L13,5L15,4L17,3L21) and not in the selected Gen 8 list"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "pikachupopstar",
+      "message": "pikachupopstar has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses pikachucosplay's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-older-gen-level-up-only",
-      "subject": "world/trainers/p4b_leg4.txt:272",
-      "message": "p4b_gulch_blackbelt_oren: sawk L30 knows karatechop: level-up only in older generations (7L17,6L25,5L25) and not in the selected Gen 8 list"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "pikachurockstar",
+      "message": "pikachurockstar has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses pikachucosplay's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-older-gen-level-up-only",
-      "subject": "world/trainers/p4b_leg4.txt:44",
-      "message": "p4b_r8_ace_juno: grovyle L30 knows pursuit: level-up only in older generations (7L18,6L17,5L17,4L17,3L17) and not in the selected Gen 9 list"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "rotomfan",
+      "message": "rotomfan has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses rotom's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
-      "severity": "warning",
-      "code": "world-older-gen-level-up-only",
-      "subject": "world/trainers/p4b_leg4.txt:87",
-      "message": "p4b_mine1_worker_gil: gurdurr L29 knows wakeupslap: level-up only in older generations (7L20,6L20,5L20) and not in the selected Gen 9 list"
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "rotomfrost",
+      "message": "rotomfrost has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses rotom's level-up list and merges the form's own TM/tutor and egg moves"
+    },
+    {
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "rotomheat",
+      "message": "rotomheat has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses rotom's level-up list and merges the form's own TM/tutor and egg moves"
+    },
+    {
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "rotommow",
+      "message": "rotommow has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses rotom's level-up list and merges the form's own TM/tutor and egg moves"
+    },
+    {
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "rotomwash",
+      "message": "rotomwash has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses rotom's level-up list and merges the form's own TM/tutor and egg moves"
+    },
+    {
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "zaciancrowned",
+      "message": "zaciancrowned has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses zacian's level-up list and merges the form's own TM/tutor and egg moves"
+    },
+    {
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "zamazentacrowned",
+      "message": "zamazentacrowned has its own learnset entry (machine=1, egg=0) but no level-up list: Dex.learnset uses zamazenta's level-up list and merges the form's own TM/tutor and egg moves"
+    },
+    {
+      "severity": "info",
+      "code": "own-data-merged",
+      "subject": "zygarde10",
+      "message": "zygarde10 has its own learnset entry (machine=0, egg=0) but no level-up list: Dex.learnset uses zygarde's level-up list and merges the form's own TM/tutor and egg moves"
     },
     {
       "severity": "info",

@@ -14,8 +14,8 @@ sources, retrieval date and hashes (they are copied into every audit report).
 | TM / TR / tutor | A move is machine-legal if the species **or a pre-evolution** can learn it by TM, TR, HM or tutor in **any** generation (`Progression.canLearnMachine`, also used by TM items and move tutors). Pairs that are legal only in older generations are counted separately in the report so the decision stays visible. |
 | Egg moves | Recorded (`LearnsetData.egg`), but breeding is not implemented: out of scope. A world assignment that relies on one is a conflict. |
 | Event-only (`S`), LGPE / Virtual Console (`V`), Dream World (`D`) | Not learnable in-game. |
-| Form-required (`R`) | Showdown marks a form's own signature move (Rotom-Wash's Hydro Pump, Zacian-Crowned's Behemoth Blade, Necrozma fusions, Pikachu cosplay moves) with `R`. The importer **does not import these**, so they are unlearnable and are reported as `form-signature-not-imported`. |
-| Forms | A form uses its own learnset when it has one **with a level-up list**; otherwise `Dex.learnset` falls back to `changesFrom`, then to the base species. Own machine/egg data of a form with an empty level-up list is discarded (reported as `own-data-discarded`). Forms that inherit are listed in the report. |
+| Form-required (`R`) | Showdown marks a form's own signature move (Rotom-Wash's Hydro Pump, Zacian-Crowned's Behemoth Blade, Necrozma fusions, Pikachu cosplay moves) with `R`. They are imported as machine-legal for that form (the form learns them when it changes form). |
+| Forms | A form uses its own learnset when it has one **with a level-up list**; otherwise `Dex.learnset` falls back to `changesFrom`, then to the base species. A form whose own entry has no level-up list keeps its own machine/egg moves, merged with the inherited ones (reported as `own-data-merged`). Forms that inherit are listed in the report. |
 | Non-standard moves | Moves Showdown flags `Past`, `Unobtainable`, `LGPE`, `CAP`, `Custom`, `Gmax` or `Future` stay in the game; every species/move pair and every world assignment that depends on one is reported. |
 
 World assignments (trainer teams, `givemon`/`wildbattle`/`trade`/`giveegg`, scheduled events) are legal when the move is in the
@@ -47,14 +47,18 @@ in `reports/learnsets.json`. Issue codes: `illegal-move`, `level-too-high`, `old
 `event-only`, `form-signature-not-imported`, `tm-unlearnable`, `tutor-unlearnable`, `required-move-unlearnable`,
 `importer-discrepancy:<field>`, `unknown-move`.
 
-## Known gaps (state of the first audit)
+## Resolved by the first audit
 
-See `reports/learnsets.md` for the current numbers. Highlights worth a decision:
+The first audit found these, and all are fixed:
+* **Shop TMs weren't TMs.** `MapCompilerTool.compileShops` ran `toId()` over `tm:watergun`, giving `tmwatergun`, which the bag doesn't treat as a TM, so all 32 shop TMs were unusable. The compiler now keeps the prefix, and saves holding the broken keys are converted.
+* **`R` sources were dropped** by the importer. Rotom appliance forms, Pikachu cosplay forms, Necrozma fusions, Zacian/Zamazenta-Crowned and Shedinja lost their signature moves. These are now imported (machine-legal).
+* **`Dex.learnset` discarded a form's own machine/egg list** when the form had no level-up list (16 forms, including the Rotom forms). It now merges it.
+* **Trainer moves.** 17 level-too-high and 6 older-generation-only trainer/gift moves were replaced with legal moves of the same role.
 
-* **Shop TMs are not TMs.** `MapCompilerTool.compileShops` runs `toId()` over every shop item, so `tm:watergun` becomes `tmwatergun`; the game only treats bag keys starting with `tm:` as TMs (`FieldItems.useOn`, `ShopScreen.price`, `BagScreen`). All 32 shop TM entries are affected (`shop-tm-prefix-lost`). Fix in the compiler: keep the `tm:` prefix.
-* **`R` sources are dropped** by the importer: Rotom appliance forms, Pikachu cosplay forms, Necrozma fusions, Zacian/Zamazenta-Crowned and Shedinja lose their signature moves. Four Rotom-Wash trainer moves depend on this.
-* **Level-too-high and older-generation-only trainer moves** (17 and 6): content to retune (raise the level, or change the move) or to bless by adding the move to the level-up data.
-* **Egg-only trainer moves** (32): legal in the games but unobtainable here because breeding is out of scope.
-* **Older-generation machine moves**: about 31.9k of the 71.6k machine-legal species/move pairs have no Gen IX TM/TR/tutor source; they are legal only under the "any generation" rule above.
-* **Older-generation level-up moves**: about 1.3k species/move pairs are learnable by level-up only in older generations and are dropped by the "latest generation only" rule.
-* Forms that inherit a learnset although their types differ from the base (Rotom forms, Arceus/Silvally types, Oricorio, Hoopa-Unbound, Necrozma fusions, ...) rely on the base species' movepool.
+## Remaining, by decision
+
+See `reports/learnsets.md` for current numbers (0 errors).
+* **Egg-only trainer moves** (32): legal in the main series, where trainers' Pokémon can be bred, but players can't obtain them here because breeding is out of scope. Kept as documented conflicts.
+* **Older-generation machine moves**: about 31.9k of the 71.6k machine-legal species/move pairs have no Gen IX TM/TR/tutor source. They are legal only under the deliberate "any generation" rule above.
+* **Older-generation level-up moves**: about 1.3k species/move pairs are learnable by level-up only in older generations. The "latest generation only" rule drops them.
+* **Forms with different types** that inherit a learnset (Arceus/Silvally types, Oricorio, Hoopa-Unbound, ...) rely on the base species' movepool, as in the official data.

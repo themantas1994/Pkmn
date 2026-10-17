@@ -115,7 +115,7 @@ class LearnsetAuditTest {
     }
 
     @Test
-    fun `older generation level-up is a conflict and form signature R sources are reported`() {
+    fun `older generation level-up is a conflict and form-required R sources are imported as machine moves`() {
         val raw = mapOf(
             "big" to mapOf("splash" to listOf("9S0", "7L12"), "surf" to listOf("9R")),
         )
@@ -126,8 +126,9 @@ class LearnsetAuditTest {
         assertEquals("older-gen-level-up-only", r.conflicts.single { it.move == "splash" }.issue)
         // big's pre-evolution small can learn surf by machine, so it is legal.
         assertTrue(r.conflicts.none { it.move == "surf" })
-        val forms = run(input(baseDex(), raw = mapOf("big" to mapOf("splash" to listOf("9R"))), mons = listOf(WorldMon("trainer", "t", "big", 50, listOf("splash"), "x:2"))))
-        assertEquals("form-signature-not-imported", forms.conflicts.single { it.move == "splash" }.issue)
+        // 'R' (required by the form) is imported as machine-legal, like DataImporter does.
+        val re = LearnsetAuditCore(input(baseDex(), raw = raw)).recompute(mapOf("splash" to listOf("9R")), moves.map { it.id }.toSet())
+        assertEquals(listOf("splash"), re.machine)
     }
 
     @Test

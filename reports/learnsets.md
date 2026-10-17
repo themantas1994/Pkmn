@@ -7,6 +7,7 @@ Pokémon Showdown and PokeAPI are community-maintained datasets, not official ga
 
 - **Pokémon Showdown data**: https://play.pokemonshowdown.com/data/ and https://raw.githubusercontent.com/smogon/pokemon-showdown/master/data/text/ (retrieved 2026-10-13; MIT)
 - **PokeAPI CSV data**: https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/ (retrieved 2026-10-13; BSD-3-Clause)
+- **PokeAPI CSV data: Pokédex text (English rows of pokemon_species_flavor_text.csv and pokemon_species_names.csv; upstream sha256 c341e602ab623084fef4c44ca4a174938e617802cfcf2deec830d824f688dc69 and 820cde17074cdb1c2b0595c997fb8f998e773bd5da3bb525dec85703c86c5fd9)**: https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/ (retrieved 2026-10-17; BSD-3-Clause)
 
 | file | sha256 (data-src/SHA256SUMS) | verified |
 |---|---|---|
@@ -17,65 +18,29 @@ Pokémon Showdown and PokeAPI are community-maintained datasets, not official ga
 
 ## Summary
 
-- Species and forms: **1379**; findings: **49 errors**, 115 warnings, 2 infos; conflicts: 59.
+- Species and forms: **1379**; findings: **0 errors**, 88 warnings, 18 infos; conflicts: 32.
 - Learnsets: own 1135, inherited from base 140, inherited via changesFrom 104, own entry with empty level-up 0, missing 0.
 - Importer vs raw Showdown: 1151 entries recomputed, **0 discrepancies** (82 raw entries are not roster species and are not imported).
-- World: 1917 Pokémon (1424 explicit moves) checked, **59 illegal/conflicting assignments** {"egg-only":32,"form-signature-not-imported":4,"level-too-high":17,"older-gen-level-up-only":6}.
+- World: 1917 Pokémon (1424 explicit moves) checked, **32 illegal/conflicting assignments** {"egg-only":32}.
 - TMs in the world: 96 placements, 77 distinct moves; 0 with no obtainable learner.
-- Machine-legal pairs: 71626; with Gen IX TM/TR/tutor 36592; legal only in older generations **31872** (15655 for Gen IX species, 16217 for species outside Gen IX).
+- Machine-legal pairs: 71647; with Gen IX TM/TR/tutor 36592; legal only in older generations **31893** (15656 for Gen IX species, 16237 for species outside Gen IX).
 
 ## Findings by code
 
 | severity | code | count |
 |---|---|---|
-| error | `shop-tm-prefix-lost` | 32 |
-| error | `world-level-too-high` | 17 |
 | warning | `inherited-form-types-differ` | 49 |
 | warning | `world-egg-only` | 32 |
-| warning | `own-data-discarded` | 16 |
-| warning | `world-older-gen-level-up-only` | 6 |
 | warning | `signature-egg-only` | 5 |
-| warning | `world-form-signature-not-imported` | 4 |
-| warning | `importer-ignores-r-sources` | 1 |
 | warning | `move-without-learner` | 1 |
 | warning | `tm-nonstandard-move` | 1 |
+| info | `own-data-merged` | 16 |
 | info | `partial-form-learnset` | 1 |
 | info | `past-species-gen9-level-up` | 1 |
 
 ## Top issues
 
-### `shop-tm-prefix-lost` (32)
-
-- `assets/world/shops.json:p2_voltara_tm`: shop 'p2_voltara_tm' lists 'tmthunderbolt' instead of 'tm:thunderbolt': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p2_voltara_tm`: shop 'p2_voltara_tm' lists 'tmthunderwave' instead of 'tm:thunderwave': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p2_voltara_tm`: shop 'p2_voltara_tm' lists 'tmvoltswitch' instead of 'tm:voltswitch': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p2_voltara_tm`: shop 'p2_voltara_tm' lists 'tmreflect' instead of 'tm:reflect': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p2_voltara_tm`: shop 'p2_voltara_tm' lists 'tmlightscreen' instead of 'tm:lightscreen': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p2_voltara_tm`: shop 'p2_voltara_tm' lists 'tmprotect' instead of 'tm:protect': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p2_voltara_tm`: shop 'p2_voltara_tm' lists 'tmsubstitute' instead of 'tm:substitute': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p3b_dragonspire_tm`: shop 'p3b_dragonspire_tm' lists 'tmdragonclaw' instead of 'tm:dragonclaw': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p3b_dragonspire_tm`: shop 'p3b_dragonspire_tm' lists 'tmdragonpulse' instead of 'tm:dragonpulse': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p3b_dragonspire_tm`: shop 'p3b_dragonspire_tm' lists 'tmicebeam' instead of 'tm:icebeam': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p3b_dragonspire_tm`: shop 'p3b_dragonspire_tm' lists 'tmdazzlinggleam' instead of 'tm:dazzlinggleam': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- `assets/world/shops.json:p3b_dragonspire_tm`: shop 'p3b_dragonspire_tm' lists 'tmearthquake' instead of 'tm:earthquake': MapCompilerTool.compileShops runs toId() over the item, dropping the ':'; the game only treats bag keys starting with 'tm:' as TMs (FieldItems.useOn, ShopScreen.price, BagScreen)
-- … 20 more in `reports/learnsets.json`
-
-### `world-level-too-high` (17)
-
-- `world/scripts/p2_voltara.pks:218 (p2_mira_ball)`: p2_mira_ball: flaaffy L25 knows cottonguard: learned at level 36, above level 25
-- `world/trainers/p2_early.txt:10`: p2_r5_lass_tessa: flabebe L18 knows wish: learned at level 20, above level 18
-- `world/trainers/p2_early.txt:104`: p2_lr_hiker_dale: rhyhorn L21 knows stomp: learned at level 25, above level 21
-- `world/trainers/p2_early.txt:146`: p2_r6_cooltrainer_jin: ponyta L22 knows stomp: learned at level 30, above level 22
-- `world/trainers/p2_early.txt:20`: p2_r5_youngster_ned: herdier L20 knows takedown: learned at level 28, above level 20
-- `world/trainers/p2_early.txt:21`: p2_r5_youngster_ned: ponyta L19 knows stomp: learned at level 30, above level 19
-- `world/trainers/p2_early.txt:32`: p2_r5_fisher_wade: remoraid L20 knows lockon: learned at level 24, above level 20
-- `world/trainers/p2_early.txt:74`: p2_lr_psychic_iris: elgyem L21 knows headbutt: learned at level 30, above level 21
-- `world/trainers/p2_early.txt:94`: p2_lr_scientist_kurt: porygon L21 knows recover: learned at level 35, above level 21
-- `world/trainers/p2_mid.txt:200`: p2_leader_garnet: rhydon L33 knows horndrill: learned at level 60, above level 33
-- `world/trainers/p2_prism.txt:130`: p2_admin_corvin: golbat L34 knows confuseray: learned at level 45, above level 34
-- `world/trainers/p2_voltara.txt:69`: p2_pp_captain: golbat L24 knows bite: learned at level 30, above level 24
-- … 5 more in `reports/learnsets.json`
-
+No errors.
 ## Learnset coverage by form kind
 
 | form kind | total | own | inherited | missing |
@@ -101,50 +66,34 @@ Selected level-up generation per learnset: {"0":16,"4":1,"6":1,"7":63,"8":258,"9
 
 | | pairs |
 |---|---|
-| machine-legal pairs (any generation) | 71626 |
+| machine-legal pairs (any generation) | 71647 |
 | with a Gen IX TM/TR/tutor source | 36592 |
 | also in the selected level-up list | 3162 |
-| **older generations only** | 31872 |
-| of which species that are in Gen IX | 15655 |
-| of which species outside Gen IX | 16217 |
+| **older generations only** | 31893 |
+| of which species that are in Gen IX | 15656 |
+| of which species outside Gen IX | 16237 |
 
-Older-only pairs by latest generation: {"3":1216,"4":2242,"5":46,"6":2680,"7":12894,"8":12794}; by source kind (M=TM/HM, T=tutor): {"M":21680,"M+T":4185,"T":6007}.
+Older-only pairs by latest generation: {"0":21,"3":1216,"4":2242,"5":46,"6":2680,"7":12894,"8":12794}; by source kind (M=TM/HM, T=tutor): {"?":21,"M":21680,"M+T":4185,"T":6007}.
 
 ## Moves flagged non-standard by Showdown
 
 Moves by status: {"Future":1,"Gmax":33,"LGPE":13,"Past":207,"Unobtainable":12}; species/move pairs by status: {"LGPE":{"levelUp":0,"machine":13,"egg":0,"total":13},"Past":{"levelUp":253,"machine":6496,"egg":638,"total":7387},"Unobtainable":{"levelUp":5,"machine":278,"egg":2,"total":285}}. Full per-move species lists are in `reports/learnsets.json` (`nonstandardDependencies.moves`).
-World assignments (trainer/gift moves, TMs, tutor entries) that use such moves: 13.
+World assignments (trainer/gift moves, TMs, tutor entries) that use such moves: 10.
 
 ## Signature moves
 
-200 moves are learnable by exactly one evolutionary family; 5 of them only as egg moves. Moves nobody learns: 128 (z-moves, max moves, event-only and nonstandard moves are broken out in the JSON).
+199 moves are learnable by exactly one evolutionary family; 5 of them only as egg moves. Moves nobody learns: 126 (z-moves, max moves, event-only and nonstandard moves are broken out in the JSON).
 
 ## World legality
 
-Pokémon checked by kind: {"event":1,"giveegg":3,"givemon":28,"trade":14,"trainer":1840,"wildbattle":31}. Legality routes: {"EGG":32,"FORM_SIGNATURE":4,"LEVEL_TOO_HIGH":17,"LEVEL_UP":740,"MACHINE":603,"OLDER_LEVEL_UP":6,"PREVO_LEVEL_UP":22}.
+Pokémon checked by kind: {"event":1,"giveegg":3,"givemon":28,"trade":14,"trainer":1840,"wildbattle":31}. Legality routes: {"EGG":32,"LEVEL_UP":763,"MACHINE":607,"PREVO_LEVEL_UP":22}.
 
 | issue | species | move | level | source |
 |---|---|---|---|---|
-| level-too-high | flabebe | wish | 18 | `world/trainers/p2_early.txt:10` |
-| level-too-high | herdier | takedown | 20 | `world/trainers/p2_early.txt:20` |
-| level-too-high | ponyta | stomp | 19 | `world/trainers/p2_early.txt:21` |
-| level-too-high | remoraid | lockon | 20 | `world/trainers/p2_early.txt:32` |
-| level-too-high | elgyem | headbutt | 21 | `world/trainers/p2_early.txt:74` |
-| level-too-high | porygon | recover | 21 | `world/trainers/p2_early.txt:94` |
-| level-too-high | rhyhorn | stomp | 21 | `world/trainers/p2_early.txt:104` |
-| older-gen-level-up-only | electrike | spark | 21 | `world/trainers/p2_early.txt:114` |
-| level-too-high | ponyta | stomp | 22 | `world/trainers/p2_early.txt:146` |
-| older-gen-level-up-only | manectric | spark | 28 | `world/trainers/p2_mid.txt:31` |
-| level-too-high | rhydon | horndrill | 33 | `world/trainers/p2_mid.txt:200` |
 | egg-only | medicham | bulletpunch | 32 | `world/trainers/p2_prism.txt:19` |
-| level-too-high | golbat | confuseray | 34 | `world/trainers/p2_prism.txt:130` |
 | egg-only | grimeralola | shadowsneak | 35 | `world/trainers/p2_prism.txt:131` |
 | egg-only | typhlosion | extrasensory | 37 | `world/trainers/p2_prism.txt:148` |
 | egg-only | azumarill | bellydrum | 37 | `world/trainers/p2_prism.txt:243` |
-| older-gen-level-up-only | golbat | wingattack | 24 | `world/trainers/p2_voltara.txt:69` |
-| level-too-high | golbat | bite | 24 | `world/trainers/p2_voltara.txt:69` |
-| level-too-high | golbat | confuseray | 24 | `world/trainers/p2_voltara.txt:69` |
-| level-too-high | altaria | moonblast | 39 | `world/trainers/p3a_ashfall.txt:20` |
 | egg-only | druddigon | suckerpunch | 54 | `world/trainers/p3b_dragonspire.txt:70` |
 | egg-only | druddigon | glare | 54 | `world/trainers/p3b_dragonspire.txt:70` |
 | egg-only | corviknight | roost | 61 | `world/trainers/p3b_league.txt:38` |
@@ -153,7 +102,6 @@ Pokémon checked by kind: {"event":1,"giveegg":3,"givemon":28,"trade":14,"traine
 | egg-only | mukalola | shadowsneak | 57 | `world/trainers/p3b_summit.txt:238` |
 | egg-only | obstagoon | knockoff | 59 | `world/trainers/p3b_summit.txt:256` |
 | egg-only | kingambit | suckerpunch | 59 | `world/trainers/p3b_summit.txt:257` |
-| form-signature-not-imported | rotomwash | hydropump | 71 | `world/trainers/p3c_hall.txt:55` |
 | egg-only | electivire | crosschop | 71 | `world/trainers/p3c_hall.txt:58` |
 | egg-only | azumarill | aquajet | 72 | `world/trainers/p3c_hall.txt:92` |
 | egg-only | azumarill | bellydrum | 72 | `world/trainers/p3c_hall.txt:92` |
@@ -165,12 +113,20 @@ Pokémon checked by kind: {"event":1,"giveegg":3,"givemon":28,"trade":14,"traine
 | egg-only | kingambit | suckerpunch | 75 | `world/trainers/p3c_hall.txt:191` |
 | egg-only | corviknight | roost | 76 | `world/trainers/p3c_hall.txt:193` |
 | egg-only | umbreon | yawn | 75 | `world/trainers/p3c_hall.txt:226` |
-| … | | | | 19 more in `reports/learnsets.json` |
+| egg-only | weavile | iciclecrash | 75 | `world/trainers/p3c_hall.txt:227` |
+| egg-only | typhlosion | extrasensory | 75 | `world/trainers/p3c_hall.txt:269` |
+| egg-only | lapras | freezedry | 73 | `world/trainers/p3c_tower.txt:102` |
+| egg-only | machamp | bulletpunch | 73 | `world/trainers/p3c_tower.txt:122` |
+| egg-only | kingambit | suckerpunch | 75 | `world/trainers/p3c_tower.txt:162` |
+| egg-only | ferrothorn | leechseed | 75 | `world/trainers/p3c_tower.txt:174` |
+| egg-only | lapras | freezedry | 48 | `world/trainers/p4c_leg7.txt:254` |
+| egg-only | bisharp | suckerpunch | 59 | `world/trainers/p4c_leg9.txt:279` |
+| egg-only | dragonair | extremespeed | 50 | `world/scripts/p3b_dragonspire.pks:167 (p3b_draca)` |
 
 ## TM availability
 
 Obtainable species: 756. TMs without an obtainable learner: none. With at most three: none.
-Machine-legal moves with no TM in the world: 296 of 368. Audit vs `Progression.canLearnMachine`: 0 mismatches over 124110 pairs.
+Machine-legal moves with no TM in the world: 304 of 376. Audit vs `Progression.canLearnMachine`: 0 mismatches over 124110 pairs.
 
 ## Tutors
 
@@ -178,4 +134,4 @@ Machine-legal moves with no TM in the world: 296 of 368. Audit vs `Progression.c
 
 ## Conflicts
 
-59 entries {"egg-only":32,"form-signature-not-imported":4,"level-too-high":17,"older-gen-level-up-only":6}; each has {species, move, issue, selectedValue, justification, source} in `reports/learnsets.json` (`conflicts`).
+32 entries {"egg-only":32}; each has {species, move, issue, selectedValue, justification, source} in `reports/learnsets.json` (`conflicts`).

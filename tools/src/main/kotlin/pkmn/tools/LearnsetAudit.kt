@@ -125,7 +125,6 @@ class LearnsetAuditCore(private val inp: AuditInput) {
         olderLevelUp(ch, move)?.let { return Verdict(Route.OLDER_LEVEL_UP, it) }
         if (ch.any { setsOf(it.id)?.egg?.contains(move) == true }) return Verdict(Route.EGG, "egg move (breeding not implemented)")
         val src = rawSources(sp, move)
-        if (src.any { Regex("^\\d+R").containsMatchIn(it) }) return Verdict(Route.FORM_SIGNATURE, "Showdown 'R' source (move required by the form); the importer does not import R sources: " + src.joinToString(","))
         if (src.any { Regex("^\\d+[SVD]").containsMatchIn(it) }) return Verdict(Route.EVENT, "event/LGPE/VC/Dream World source only: " + src.joinToString(","))
         return Verdict(Route.NONE, "not in the species' (or a pre-evolution's) level-up, TM/tutor or egg lists")
     }
@@ -231,18 +230,21 @@ class LearnsetAuditCore(private val inp: AuditInput) {
                     error("empty-level-up", sp.id, "${sp.id} resolves to ${eff.species}'s learnset, which has an empty level-up list (default moves fall back to Tackle)")
                 }
                 else -> {
-                    val viaChanges = sp.changesFrom?.let { toId(it) } == eff.species
+                    // Where the level-up list comes from (Dex.learnset merges a form's own TM/egg moves into it).
+                    val changesId = sp.changesFrom?.let { toId(it) }?.takeIf { dex.learnsets[it] != null }
+                    val srcId = changesId ?: toId(sp.baseSpecies)
+                    val viaChanges = changesId != null
                     if (viaChanges) changes++ else base++
                     counts[1]++
                     inherited += buildJsonObject {
-                        put("species", sp.id); put("formKind", kind); put("inheritsFrom", eff.species)
+                        put("species", sp.id); put("formKind", kind); put("inheritsFrom", srcId)
                         put("via", if (viaChanges) "changesFrom" else "baseSpecies")
-                        put("ownEntryDiscarded", own0 != null)
+                        put("ownEntryMerged", own0 != null)
                     }
                     if (own0 != null) {
-                        warn("own-data-discarded", sp.id, "${sp.id} has its own learnset entry (machine=${own0.machine.size}, egg=${own0.egg.size}) but an empty level-up list, so Dex.learnset ignores it and uses ${eff.species}")
+                        info("own-data-merged", sp.id, "${sp.id} has its own learnset entry (machine=${own0.machine.size}, egg=${own0.egg.size}) but no level-up list: Dex.learnset uses $srcId's level-up list and merges the form's own TM/tutor and egg moves")
                     }
-                    val b = dex.speciesOrNull(eff.species)
+                    val b = dex.speciesOrNull(srcId)
                     val cosmeticLike = sp.formKind in setOf(FormKind.MEGA, FormKind.PRIMAL, FormKind.GIGANTAMAX, FormKind.BATTLE_ONLY, FormKind.ULTRA_BURST, FormKind.TOTEM)
                     if (b != null && !cosmeticLike && b.types.toSet() != sp.types.toSet()) {
                         inheritedTypeDiffers += sp.id
@@ -318,7 +320,7 @@ class LearnsetAuditCore(private val inp: AuditInput) {
                 val gen = m.groupValues[1].toInt()
                 when (m.groupValues[2]) {
                     "L" -> levelByGen.getOrPut(gen) { LinkedHashSet() }.add((m.groupValues[3].toIntOrNull() ?: 1) to move)
-                    "M", "T" -> machine += move
+                    "M", "T", "R" -> machine += move // 'R': required by the form (Rotom appliances...), imported as machine-legal
                     "E" -> egg += move
                 }
             }
@@ -357,15 +359,15 @@ class LearnsetAuditCore(private val inp: AuditInput) {
         val droppedMoves = java.util.TreeMap<String, Int>()
         for ((id, src) in inp.raw) if (id in speciesIds) for (m in src.keys) if (m !in moveIds) droppedMoves.merge(m, 1, Int::plus)
         val speciesWithoutRaw = allSpecies.filter { it.id !in inp.raw }.map { it.id }
-        // Source codes the importer ignores: S (event), V (LGPE/VC), D (Dream World), R (required by the form).
+        // Source codes the importer ignores: S (event), V (LGPE/VC), D (Dream World). R (required by the form) is imported as machine-legal.
         val ignored = java.util.TreeMap<String, Int>()
         val rPairs = ArrayList<String>()
         var onlyIgnored = 0
         for ((id, src) in inp.raw.entries.sortedBy { it.key }) if (id in speciesIds) for ((m, ss) in src) {
             if (m !in moveIds) continue
             val codes = ss.map { it.dropWhile { c -> c.isDigit() }.take(1) }
-            for (c in codes) if (c !in setOf("L", "M", "T", "E")) ignored.merge(c, 1, Int::plus)
-            if (codes.none { it in setOf("L", "M", "T", "E") }) { onlyIgnored++; if ("R" in codes) rPairs += "$id:$m" }
+            for (c in codes) if (c !in setOf("L", "M", "T", "E", "R")) ignored.merge(c, 1, Int::plus)
+            if (codes.none { it in setOf("L", "M", "T", "E", "R") }) onlyIgnored++
         }
         if (rPairs.isNotEmpty()) warn("importer-ignores-r-sources", rPairs.size.toString(),
             "DataImporter.importLearnsets drops Showdown 'R' (move required by the form) sources, so these form signature moves are unlearnable for the form: ${rPairs.joinToString(" ")}")
