@@ -1,0 +1,513 @@
+# Expansion E1, leg 2 (Gym 1 -> Gym 2): Sunberry Orchard, Tidewater Cape, the lighthouse, Cobblecrest B2F, extra
+# Route 3/4 trainers and Teo, the rematch hiker. Levels: Routes 3-4 12-16, orchard 13-16, cape and lighthouse
+# 15-18, Cobblecrest B2F 16-18 (Marina's ace is L21).
+
+# ---------------------------------------------------------------- Routes 3 and 4
+trainer p4a_r3_lass_wendy
+  class lass
+  name "Wendy"
+  intro "I'm on my way to the orchard! But first, a battle!"
+  defeat "My picnic basket is empty AND I lost?"
+  after "There's a skinny tree north of here. Behind it is the Sunberry Orchard. With Cut you can get in!"
+  mon bounsweet 13
+  mon skitty 13
+end
+
+trainer p4a_r3_youngster_lex
+  class youngster
+  name "Lex"
+  intro "Doduo and I run laps on Route 3 every day! Keep up!"
+  defeat "Out of breath..."
+  after "Doduo's two heads never agree on which way to run. That's why we're so slow."
+  mon doduo 13
+  mon yungoos 12
+end
+
+trainer p4a_r4_pokefan_greta
+  class pokefan
+  name "Greta"
+  intro "Aren't my babies adorable? Battle us and see!"
+  defeat "Oh, my poor darlings!"
+  after "Phanpy love a mud bath. They come back so happy and so filthy."
+  mon phanpy 15
+  mon spinda 15
+end
+
+trainer p4a_r4_blackbelt_koji
+  class blackbelt
+  name "Koji"
+  intro "Hyah! I train by punching the ridge! Want to see?"
+  defeat "My knuckles hurt more than my pride."
+  after "Machop and Makuhita both learn Rock Smash. The Tide Badge lets you use it outside battle!"
+  mon makuhita 15
+  mon machop 15
+  mon mankey 14
+end
+
+# Teo: phone-style rematch hiker (script p4a_teo).
+trainer p4a_teo_1
+  class hiker
+  name "Teo"
+  intro "Rocks don't move, but they hit hard! Let me show you!"
+  defeat "Crumbled like gravel!"
+  mon geodude 15
+  mon roggenrola 15
+end
+
+trainer p4a_teo_2
+  class hiker
+  name "Teo"
+  intro "I've been climbing every mountain in Tessera! My team is solid now!"
+  defeat "Still not solid enough!"
+  mon graveler 28
+  mon boldore 28
+  mon onix 29
+end
+
+trainer p4a_teo_3
+  class hiker
+  name "Teo"
+  intro "Remember Teo? My Onix found a Metal Coat in a cave! Look at it now!"
+  defeat "Even steel can bend..."
+  mon graveler 41
+  mon boldore 41
+  mon steelix 42
+  mon sudowoodo 41
+end
+
+trainer p4a_teo_4
+  class hiker
+  name "Teo"
+  intro "Seven badges! Then let's see who's the real mountain here!"
+  defeat "You ARE the mountain. I'm just a pebble."
+  mon golem 54
+  mon gigalith 54
+  mon steelix 55
+  mon sudowoodo 54
+end
+
+# ---------------------------------------------------------------- Sunberry Orchard
+trainer p4a_or_lass_cherry
+  class lass
+  name "Cherry"
+  intro "I'm picking berries for a pie! Battle me while they ripen!"
+  defeat "My pie is ruined..."
+  after "Bounsweet smell so sweet that wild Pokémon try to nibble them."
+  mon bounsweet 14
+  mon cherubi 14
+end
+
+trainer p4a_or_bug_ned
+  class bugcatcher
+  name "Ned"
+  intro "The bugs in this orchard are huge! They eat SO many berries!"
+  defeat "Back into the net!"
+  after "The keeper doesn't mind the bugs. He says they help the flowers turn into berries."
+  mon combee 13
+  mon ledian 15
+  mon spewpa 14
+end
+
+trainer p4a_or_pokefan_milo
+  class pokefan
+  name "Milo"
+  intro "Applin live inside apples! Isn't that the cutest thing?"
+  defeat "My Applin rolled away..."
+  after "I've heard an Applin hiding in the Mossgrove Glade, west of Brindle. That's where I found mine."
+  mon applin 15
+  mon tandemaus 14
+end
+
+trainer p4a_or_youngster_rob
+  class youngster
+  name "Rob"
+  intro "I'm guarding the berries from Skwovet! You're not a Skwovet, are you?"
+  defeat "You're worse than a Skwovet!"
+  after "Skwovet stuff their cheeks with berries. Greedent are even greedier."
+  mon skwovet 14
+  mon greedent 16
+end
+
+trainer p4a_or_beauty_celia
+  class beauty
+  name "Celia"
+  intro "The orchard air is good for the skin. And for battling!"
+  defeat "Oh dear, I'm all flushed."
+  after "The keeper's wife makes the best berry tea. She'll heal your Pokémon if you ask."
+  mon flabebe 15
+  mon petilil 15
+end
+
+trainer p4a_or_fisher_lou
+  class fisherman
+  name "Lou"
+  intro "Fish bite better when berries fall in the pond! Battle while I wait?"
+  defeat "The one that got away... was me."
+  after "Barboach and Chewtle live in this pond. You'll need a Good Rod for them."
+  mon chewtle 15
+  mon barboach 15
+end
+
+# ---------------------------------------------------------------- Tidewater Cape
+trainer p4a_cp_pokefan_wren
+  class pokefan
+  name "Wren"
+  intro "I come up here to watch the sea birds. And to battle!"
+  defeat "Flew right past me!"
+  after "Wattrel ride the sea wind under the cliffs. They zap anything that gets close."
+  mon wattrel 16
+  mon squawkabilly 16
+end
+
+trainer p4a_cp_sailor_gale
+  class sailor
+  name "Gale"
+  intro "Arr! This beach is where I learned to swim! Battle me, landlubber!"
+  defeat "Sunk on my own beach!"
+  after "There's a sea cave up the beach, tucked behind the rocks. The tide hides it in the morning."
+  mon binacle 16
+  mon krabby 16
+  mon wingull 15
+end
+
+trainer p4a_cp_swimmer_nami
+  class swimmer_f
+  name "Nami"
+  intro "I just came out of the water. Let's battle before I dry off!"
+  defeat "Splash! Down I go."
+  after "Skrelp drift in the kelp near the cape. They look like seaweed until they squirt you."
+  mon skrelp 16
+  mon tentacool 17
+end
+
+trainer p4a_cp_fisher_bo
+  class fisherman
+  name "Bo"
+  intro "The cape's the best fishing spot in Tessera. Fight me for it!"
+  defeat "Fine, fine. Fish here anytime."
+  after "With a Good Rod, Clamperl bite off this beach. Some even hold pearls!"
+  mon clamperl 16
+  mon remoraid 16
+  mon finneon 17
+end
+
+trainer p4a_cp_youngster_nico
+  class youngster
+  name "Nico"
+  intro "I'm going to climb the lighthouse! But first, I'll beat you!"
+  defeat "Maybe I'll just look at it from here."
+  after "The lighthouse lamp didn't shine last night. The keeper seems worried."
+  mon taillow 16
+  mon yamper 16
+end
+
+trainer p4a_cp_beauty_odette
+  class beauty
+  name "Odette"
+  intro "The sea breeze up here is lovely. Shall we battle?"
+  defeat "Windswept and beaten."
+  after "On clear days you can see the Coral Isles from the lighthouse gallery. Or so they say."
+  mon ducklett 16
+  mon skitty 17
+end
+
+# ---------------------------------------------------------------- Tidewater Lighthouse
+trainer p4a_lh_sailor_brock
+  class sailor
+  name "Brock"
+  intro "No one gets up the lighthouse without beating an old salt like me!"
+  defeat "Har! You've got sea legs."
+  after "The keeper's upstairs, fretting about his key. Go see him."
+  mon machop 17
+  mon pelipper 17
+end
+
+trainer p4a_lh_gentleman_ward
+  class gentleman
+  name "Ward"
+  intro "I visit every lighthouse in Tessera. This one is my favorite. Shall we?"
+  defeat "Splendid. Simply splendid."
+  after "A lighthouse without a lamp is just a very tall house."
+  mon chinchou 17
+  mon furret 18
+end
+
+trainer p4a_lh_lass_mira
+  class lass
+  name "Mira"
+  intro "My grandpa is the keeper! Battle me and I'll introduce you!"
+  defeat "Grandpa would be proud of you, not me."
+  after "A Wingull snatched Grandpa's key and flew off toward the beach. Wingull love shiny things!"
+  mon wingull 17
+  mon pachirisu 17
+end
+
+# ---------------------------------------------------------------- Cobblecrest B2F
+trainer p4a_cc2_hiker_rocco
+  class hiker
+  name "Rocco"
+  intro "Down this deep, the rocks sing! Can you hear them?"
+  defeat "That's not singing. That's my ears ringing."
+  after "Miners dug these tunnels long ago. The old vault in the south is still sealed, they say."
+  mon rockruff 16
+  mon aron 17
+end
+
+trainer p4a_cc2_blackbelt_jun
+  class blackbelt
+  name "Jun"
+  intro "I meditate by the underground lake. You disturbed my peace! Battle!"
+  defeat "Peace... restored... through defeat."
+  after "There's a glowing stone in the far corner. I didn't dare step on it."
+  mon timburr 17
+  mon mienfoo 17
+  mon tyrogue 16
+end
+
+trainer p4a_cc2_psychic_ora
+  class psychic
+  name "Ora"
+  intro "The stones down here remember the miners. I can hear them whisper."
+  defeat "The whispers say you're strong."
+  after "Two stones, two doors. The miners were very fond of pairs."
+  mon espurr 17
+  mon chingling 17
+end
+
+trainer p4a_cc2_hiker_dunn
+  class hiker
+  name "Dunn"
+  intro "These rocks are hot to the touch! Something's alive in them!"
+  defeat "Burned out!"
+  after "Sizzlipede curl up in the warm cracks. Rolycoly roll around and make sparks."
+  mon sizzlipede 17
+  mon rolycoly 17
+  mon nosepass 18
+end
+
+# ---------------------------------------------------------------- Riptide Dojo (Port Tidewater)
+trainer p4a_dj_blackbelt_haru
+  class blackbelt
+  name "Haru"
+  intro "Students of the Riptide fight like the tide: relentless! Hyah!"
+  defeat "Washed away..."
+  after "Master Kaito learned to fight on the decks of fishing boats. Balance is everything!"
+  mon machop 16
+  mon makuhita 16
+end
+
+trainer p4a_dj_sailor_fitz
+  class sailor
+  name "Fitz"
+  intro "I joined the dojo to toughen up for storm season! Let's go!"
+  defeat "Man overboard!"
+  after "A real sailor can tie forty knots and throw a punch at the same time."
+  mon mankey 16
+  mon wingull 16
+end
+
+trainer p4a_dj_blackbelt_sora
+  class blackbelt
+  name "Sora"
+  intro "My fists are faster than a Buizel! Can you keep up?"
+  defeat "Too slow. Me, I mean."
+  after "Clobbopus from the bay hit like little hammers. The Master trains with them."
+  mon mienfoo 17
+  mon timburr 17
+end
+
+trainer p4a_dj_sailor_nash
+  class sailor
+  name "Nash"
+  intro "Before you face the Master, you face the Riptide's last wave: me!"
+  defeat "The wave broke!"
+  after "Go on, the Master's been watching you. He's grinning. That's either good or very bad."
+  mon machop 17
+  mon tentacool 17
+  mon crabrawler 17
+end
+
+trainer p4a_dj_master_kaito
+  class blackbelt
+  name "Master Kaito"
+  intro "The sea teaches patience, then strikes without warning. So do I!"
+  defeat "Ha! You ride the waves well."
+  mon machoke 18
+  mon hariyama 18
+  mon clobbopus 19
+end
+
+# ---------------------------------------------------------------- Cobblecrest extras
+trainer p4a_cc_hiker_lyle
+  class hiker
+  name "Lyle"
+  intro "I map every tunnel in Cobblecrest! This one's mine!"
+  defeat "I'll add you to the map. As a hazard."
+  after "There's a ladder on B1F that goes even deeper now. Miners must have dug it out again."
+  mon geodude 15
+  mon dwebble 15
+end
+
+trainer p4a_ccb_psychic_noor
+  class psychic
+  name "Noor"
+  intro "I came down here to escape the noise of the port. Now you're here."
+  defeat "So much for peace and quiet."
+  after "The deeper you go in Cobblecrest, the quieter it gets. Except for the Noibat."
+  mon noibat 16
+  mon drowzee 16
+end
+
+# ---------------------------------------------------------------- S.S. Driftwood (wreck on Tidewater Cape)
+trainer p4a_wr_sailor_quill
+  class sailor
+  name "Quill"
+  intro "I served on this ship before she ran aground! Nobody loots her on my watch!"
+  defeat "Abandon ship!"
+  after "She was carrying crates of glowing stones from the islands when the storm hit."
+  mon wingull 16
+  mon machop 17
+end
+
+trainer p4a_wr_gentleman_hale
+  class gentleman
+  name "Hale"
+  intro "I came looking for my lost luggage. Fifteen years late, admittedly."
+  defeat "My luggage is still lost, and now so is the battle."
+  after "First class used to be up here. Now it's mostly barnacles."
+  mon furret 17
+  mon meowth 17
+end
+
+trainer p4a_wr_sailor_morgan
+  class sailor
+  name "Morgan"
+  intro "Har! A stowaway! Prepare to battle!"
+  defeat "Shiver me timbers."
+  after "The captain's log is still on the wall. Spooky reading."
+  mon krabby 17
+  mon tentacool 16
+end
+
+trainer p4a_wr_psychic_esme
+  class psychic
+  name "Esme"
+  intro "The spirits of this ship are restless... Can you feel them?"
+  defeat "The spirits are... amused."
+  after "Shuppet feed on grudges. This ship has plenty. The captain never forgave that storm."
+  mon shuppet 17
+  mon duskull 17
+  mon misdreavus 18
+end
+
+trainer p4a_wr_sailor_crane
+  class sailor
+  name "Crane"
+  intro "Something moved in the dark down here! Was it you? BATTLE!"
+  defeat "Okay, it wasn't you."
+  after "I keep hearing giggling from behind the crates. Must be the wind. Must be."
+  mon pelipper 17
+  mon crabrawler 17
+end
+
+trainer p4a_wr_fisher_pike
+  class fisherman
+  name "Pike"
+  intro "The hold flooded, so I fish in it! Smart, eh?"
+  defeat "Not so smart."
+  after "Caught a Shellder in here once. Must have washed in with the tide."
+  mon shellder 17
+  mon finneon 17
+end
+
+# ---------------------------------------------------------------- Extras
+trainer p4a_r3_bug_clint
+  class bugcatcher
+  name "Clint"
+  intro "Nincada dig under Route 3! I dug up mine with my own hands!"
+  defeat "I'll go dig a hole and hide in it."
+  after "If you train Nincada, sometimes you get a bonus Pokémon when it evolves. Spooky!"
+  mon nincada 13
+  mon kricketune 13
+end
+
+trainer p4a_cp_lass_ivette
+  class lass
+  name "Ivette"
+  intro "I'm flying a kite! Well, Wingull is. Want to battle while it's up there?"
+  defeat "My kite string snapped!"
+  after "The sea wind up here can lift a Swablu clear over the lighthouse."
+  mon wingull 16
+  mon swablu 16
+end
+
+trainer p4a_or_kid_pip
+  class kid
+  name "Pipkin"
+  intro "Grandpa says I can't eat berries until I win a battle!"
+  defeat "Nooo, my berries!"
+  after "Grandpa runs the orchard. Grandma makes tea that fixes everything!"
+  mon bounsweet 14
+  mon tandemaus 14
+end
+
+trainer p4a_cg_swimmer_lars
+  class swimmer_m
+  name "Lars"
+  intro "I swam in through an underwater tunnel! Don't tell my mom!"
+  defeat "I'll swim home and think about this."
+  after "Wingull nest up on the ledges in here. They steal anything shiny."
+  mon tentacool 16
+  mon shellder 16
+end
+
+trainer p4a_cg_hiker_reef
+  class hiker
+  name "Reef"
+  intro "Sea caves are the best caves! Salt, rocks and Krabby!"
+  defeat "Pinched by defeat!"
+  after "The tide fills half this cave at night. Explore it while you can!"
+  mon dwebble 16
+  mon binacle 17
+end
+
+trainer p4a_cc2_youngster_dax
+  class youngster
+  name "Dax"
+  intro "I climbed down the new ladder! I'm the first one here! ...Right?"
+  defeat "Okay, maybe not the first."
+  after "The old miner by the lake knows everything about this place."
+  mon aron 16
+  mon rockruff 16
+end
+
+trainer p4a_lh_youngster_tom
+  class youngster
+  name "Tom"
+  intro "I'm counting the stairs in the lighthouse! Battle me so I don't lose count!"
+  defeat "Now I've lost count. And the battle."
+  after "One hundred and twelve steps. Or so. Probably."
+  mon yamper 16
+  mon taillow 16
+end
+
+trainer p4a_r4_cooltrainer_maya
+  class cooltrainer_f
+  name "Maya"
+  intro "I came over the ridge just to battle at Port Tidewater. You'll be my warm-up!"
+  defeat "Some warm-up. I'm exhausted."
+  after "Marina's Water types are fast. Grass and Electric moves are your best friends there."
+  mon electrike 16
+  mon wingull 16
+  mon nuzleaf 17
+end
+
+trainer p4a_or_gentleman_basil
+  class gentleman
+  name "Basil"
+  intro "I buy the orchard's finest fruit every season. Shall we have a refined battle?"
+  defeat "Most unrefined of me to lose."
+  after "Leftovers from this orchard? A trainer's secret weapon, they say. Ask the keeper."
+  mon furret 15
+  mon applin 15
+end

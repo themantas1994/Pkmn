@@ -1,0 +1,57 @@
+# Tidewater Cape (Expansion E1): optional headland north of Port Tidewater. Cliff-top meadow, the Tidewater
+# Lighthouse (lamp-room key quest), a beach below the cliffs with fishing and a sea cave (hidden grotto).
+map p4a_tidewater_cape
+name "Tidewater Cape"
+location "Tidewater Cape"
+music route_mid
+environment grass
+region 16 9
+encounters p4a_tidewater_cape
+connect south port_tidewater 4
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTMMMMMM~~~~~~
+TT,,,,....TTTT........MMMMss~~~~~~
+TT,,,,................MEMsss~~~~~~
+TT,,,,................Mssssss~~~~~
+TT.....FF.............Mrsssss~~~~~
+TT..........,,,,,.....Msssrss~~~~~
+TT.,,,,.....,,,,,.....>ssssss~~~~~
+TT.,,,,...............Msssss~~~~~~
+TT....................Mssss~~~~~~~
+TTTT..FF..,,,,,.......Msssss~~~~~~
+TT.......,,,,,,.......Mrsssss~~~~~
+TT.......,,,,,,.......Msssss~~~~~~
+TT....................ssssss~~~~~~
+TT..,,,,...........sssssss~~~~~~~~
+TT..,,,,....F.....sssssss~~~~~~~~~
+TT..........,,,,..sssss~~~~~~~~~~~
+TTTTTT.....,,,,,..ssss~~~~~~~~~~~~
+TTTTTT......sss..sss~~~~~~~~~~~~~~
+TTTTTTTT.......ssss~~~~~~~~~~~~~~~
+TTTTTTTT..::......~~~~~~~~~~~~~~~~
+TTTTTTTTT.::.TTTTT~~~~~~~~~~~~~~~~
+TTTTTTTTTT::TTTTTTTTTTTTTTTT~~~~~~
+end
+
+stamp p4a_lighthouse 17 1 -> p4a_lighthouse_1f 5 8 up
+warp 23 2 -> p4a_cape_grotto 8 10 up
+tile 12 19 sign
+sign 12 19 script=p4a_cp_sign
+
+trainer p4a_cp_pokefan_wren 6 2 sprite=pokefan face=left sight=4
+trainer p4a_cp_sailor_gale 24 8 sprite=sailor face=up sight=4
+trainer p4a_cp_swimmer_nami 25 13 sprite=swimmer_f face=left sight=5
+trainer p4a_cp_fisher_bo 19 17 sprite=fisherman face=right sight=1
+trainer p4a_cp_youngster_nico 15 10 sprite=youngster face=left sight=5
+trainer p4a_cp_beauty_odette 4 14 sprite=beauty face=right sight=3
+npc p4a_cp_kid 20 12 sprite=kid face=left script=p4a_cp_kid
+
+item p4a_cp_netball 2 12 netball 2
+item p4a_cp_ether 13 18 ether
+item p4a_cp_bigpearl 27 3 bigpearl
+hidden p4a_cp_pearl 27 9 pearl
+hidden p4a_cp_heart 3 4 heartscale
+# The S.S. Driftwood wreck on the south beach.
+stamp p4a_wreck 19 13 -> p4a_wreck_deck 7 8 up
+trainer p4a_cp_lass_ivette 10 13 sprite=lass face=left sight=3

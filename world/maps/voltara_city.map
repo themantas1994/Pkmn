@@ -10,10 +10,11 @@ tags town
 encounters p2_town_ponds
 connect west route6 6
 connect east route7 -6
+connect north p4a_solar_ridge 0
 
 layout
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTT
 T................::........FFFFFFF.T
 T................::........FFFFFFF.T
 T................::........FFFFFFF.T
@@ -68,3 +69,6 @@ trigger 27 24 5 2 script=p2_voltara_plant_rival unless=p2_rival_at_plant
 hidden elixir 2 2 ether
 hidden thunderstone 34 26 thunderstone
 item cellbattery 33 3 cellbattery
+# Expansion E1: north road to Solar Ridge.
+tile 19 2 sign
+sign 19 2 script=p4a_vc_ridge_sign

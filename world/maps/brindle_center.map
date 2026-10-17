@@ -26,3 +26,5 @@ warp 5 7 -> brindle_city 5 11 down
 npc nurse 4 2 sprite=nurse face=down script=p1_nurse
 npc c_trainer 7 5 sprite=hiker face=left text="Hazel's Grass Pokémon hate fire and flying moves.\pBugs and Poison types hold up well against them, too!"
 npc researcher 1 6 sprite=scientist face=right script=p1_mushroom_researcher
+# Expansion E1: Prof. Linden's aide (catch-count rewards).
+npc p4a_dex_aide_1 2 4 sprite=scientist face=right script=p4a_dex_aide_1

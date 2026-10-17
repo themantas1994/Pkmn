@@ -1,0 +1,463 @@
+# Expansion E1, leg 3 (Gym 2 -> Gym 3): Glimmer Cave, Lumen Catacombs, Solar Ridge, extra Route 5/6 trainers and
+# Dot, the rematch trainer on Route 6. Levels: Routes 5-6 19-22, catacombs 20-23, Glimmer Cave and Solar Ridge
+# 21-25 (Volta's ace is L28).
+
+# ---------------------------------------------------------------- Routes 5 and 6
+trainer p4a_r5_picnic_ada
+  class lass
+  name "Ada"
+  intro "A picnic by the sea! Care to battle for the last sandwich?"
+  defeat "Fine, the sandwich is yours."
+  after "Lumen Village is just south. The ruins there are older than anyone remembers."
+  mon lechonk 19
+  mon flabebe 19
+  mon skiploom 20
+end
+
+trainer p4a_r5_kid_milo
+  class kid
+  name "Milo"
+  intro "I'm gonna catch a Ponyta and ride it home! But first, you!"
+  defeat "Ponyta wouldn't let me ride it anyway..."
+  after "Herdier can smell trainers from way down the road. That's how I found you!"
+  mon herdier 20
+  mon nincada 19
+end
+
+trainer p4a_r6_hiker_gord
+  class hiker
+  name "Gord"
+  intro "There's a cave up north that sparkles in the dark! I'm its guardian. Self-appointed."
+  defeat "Guardian... dismissed."
+  after "Glimmer Cave is pitch black without Flash. The sage in Whisperwood handed out that TM, I hear."
+  mon nosepass 21
+  mon boldore 22
+end
+
+trainer p4a_r6_cooltrainer_lena
+  class cooltrainer_f
+  name "Lena"
+  intro "I'm warming up for Volta's gym. You'll do nicely!"
+  defeat "I need a Ground type. Badly."
+  after "Volta's Electric types hit hard, but Ground-type Pokémon don't feel a thing."
+  mon luxio 22
+  mon croagunk 21
+  mon flaaffy 22
+end
+
+# Dot: phone-style rematch trainer (script p4a_dot).
+trainer p4a_dot_1
+  class lass
+  name "Dot"
+  intro "My Pokémon are the zappiest on Route 6! Let's battle!"
+  defeat "Bzzzt... fizzle."
+  mon pikachu 20
+  mon emolga 20
+end
+
+trainer p4a_dot_2
+  class lass
+  name "Dot"
+  intro "I've been charging up since our last battle! Ready?"
+  defeat "Shorted out again!"
+  mon raichu 34
+  mon emolga 34
+  mon dedenne 33
+end
+
+trainer p4a_dot_3
+  class lass
+  name "Dot"
+  intro "Six badges? Then I'm turning the voltage all the way up!"
+  defeat "Overloaded!"
+  mon raichu 47
+  mon emolga 47
+  mon dedenne 46
+  mon togedemaru 46
+end
+
+trainer p4a_dot_4
+  class lass
+  name "Dot"
+  intro "Eight badges! This is the brightest battle of my life!"
+  defeat "What a spark you have!"
+  mon raichu 58
+  mon emolga 58
+  mon dedenne 57
+  mon togedemaru 57
+  mon ampharos 58
+end
+
+# ---------------------------------------------------------------- Glimmer Cave
+trainer p4a_gc_hiker_basil
+  class hiker
+  name "Basil"
+  intro "Who goes there? Oh, a trainer! Thought you were a Zubat."
+  defeat "Shoulda stayed a Zubat..."
+  after "The crystals in here store sunlight and glow for days. Nobody knows why."
+  mon graveler 22
+  mon carbink 22
+end
+
+trainer p4a_gc_psychic_vera
+  class psychic
+  name "Vera"
+  intro "The crystals sing in the dark. I came to listen. You came to battle."
+  defeat "The song has changed."
+  after "Team Eclipse were snooping around Lumen. They'd love crystals that hold light."
+  mon chingling 22
+  mon kirlia 23
+end
+
+trainer p4a_gc_scientist_ohm
+  class scientist
+  name "Ohm"
+  intro "I'm measuring the cave's charge! Your Pokémon will make great test subjects!"
+  defeat "My readings are off the charts!"
+  after "The engineer up at Solar Ridge lost a part down here. He's been moping for days."
+  mon magnemite 22
+  mon voltorb 22
+  mon tynamo 22
+end
+
+trainer p4a_gc_hiker_flint
+  class hiker
+  name "Flint"
+  intro "I crack rocks for a living! Watch this!"
+  defeat "Cracked... me."
+  after "Some rocks in here are cracked. A Pokémon with Rock Smash can break right through."
+  mon roggenrola 22
+  mon onix 23
+end
+
+trainer p4a_gc_blackbelt_ryo
+  class blackbelt
+  name "Ryo"
+  intro "I train in total darkness to sharpen my senses! Hyah!"
+  defeat "My senses... failed me."
+  after "Without Flash, every step here is a guess. With it, everything glitters."
+  mon machoke 23
+  mon pancham 22
+end
+
+trainer p4a_gc2_hiker_quinn
+  class hiker
+  name "Quinn"
+  intro "Deeper means shinier! And tougher!"
+  defeat "Tougher than me, anyway."
+  after "There's a crystal pool in the middle of this floor. Something glitters on the islet."
+  mon boldore 23
+  mon klawf 23
+end
+
+trainer p4a_gc2_scientist_amp
+  class scientist
+  name "Amp"
+  intro "These crystals could power Voltara for a year! If they didn't explode."
+  defeat "Kaboom. Figuratively."
+  after "Team Eclipse siphoned the power plant, but crystals like these? Even worse in the wrong hands."
+  mon klink 23
+  mon magnemite 23
+  mon elekid 23
+end
+
+trainer p4a_gc2_psychic_luna
+  class psychic
+  name "Luna"
+  intro "I sense a strong will. And a strong Pokémon. Show me."
+  defeat "My vision was correct."
+  after "The deepest crystal vein is just behind me. I've been guarding it from Sableye."
+  mon sableye 24
+  mon solosis 23
+  mon kirlia 24
+end
+
+# ---------------------------------------------------------------- Lumen Catacombs
+trainer p4a_lc_psychic_sol
+  class psychic
+  name "Sol"
+  intro "The old people of Lumen worshipped the sun's path. Can you follow it?"
+  defeat "You walk in the light."
+  after "Dawn rises in the east. Noon stands high. Dusk falls west. Night lies below."
+  mon gothita 21
+  mon munna 21
+end
+
+trainer p4a_lc_sage_rin
+  class sage
+  name "Rin"
+  intro "These halls are sacred. Prove your heart is honest!"
+  defeat "Your heart is strong."
+  after "If the stones go dark, you've walked the day out of order. Start again from dawn."
+  mon baltoy 21
+  mon sinistea 22
+end
+
+trainer p4a_lc_scientist_tao
+  class scientist
+  name "Tao"
+  intro "Unown everywhere! They spell words, you know. Let me show you my data!"
+  defeat "Data corrupted!"
+  after "The carvings down here match the murals above. And the ones in a cave near Whisperwood!"
+  mon unown 21
+  mon bronzor 22
+  mon elgyem 21
+end
+
+# ---------------------------------------------------------------- Solar Ridge
+trainer p4a_sr_scientist_volt
+  class scientist
+  name "Volt"
+  intro "These panels feed Voltara when the plant is down. Don't touch them! Battle me instead."
+  defeat "Overcharged and outclassed."
+  after "Solar power doesn't care about Team Eclipse. The sun always comes back."
+  mon voltorb 22
+  mon helioptile 22
+  mon tadbulb 23
+end
+
+trainer p4a_sr_cooltrainer_dex
+  class cooltrainer_m
+  name "Dex"
+  intro "The view from the ridge is great. The battles are better!"
+  defeat "Great view. Bad result."
+  after "From up here you can see Mt. Prism glitter at sunset."
+  mon luxio 24
+  mon ponyta 23
+  mon staravia 24
+end
+
+trainer p4a_sr_hiker_crag
+  class hiker
+  name "Crag"
+  intro "Up here the wind never stops! Neither do I!"
+  defeat "Stopped."
+  after "There's a cracked rock in the cliff face north of the panels. Something sparkles behind it."
+  mon nosepass 23
+  mon rhyhorn 23
+end
+
+trainer p4a_sr_lass_juno
+  class lass
+  name "Juno"
+  intro "I'm picking flowers for my Plusle and Minun! Battle?"
+  defeat "They're cheering for you now. Traitors."
+  after "Plusle and Minun cheer each other on. They live all over the ridge."
+  mon plusle 22
+  mon minun 22
+end
+
+trainer p4a_sr_youngster_pete
+  class youngster
+  name "Pete"
+  intro "My Yamper loves running in the wind! Let's go!"
+  defeat "Yamper's tired out. Me too."
+  after "Yamper make electricity when they run. They power the whole station on a good day. Not really."
+  mon yamper 23
+  mon pawmo 23
+end
+
+trainer p4a_sr_beauty_selene
+  class beauty
+  name "Selene"
+  intro "The sunset up here is breathtaking. So is my team!"
+  defeat "How embarrassing."
+  after "Mareep wool builds up static. Brush one and your hair stands on end!"
+  mon mareep 23
+  mon skiploom 23
+end
+
+trainer p4a_sr_fisher_watt
+  class fisherman
+  name "Watt"
+  intro "The reservoir's full of fish! And Chinchou, somehow."
+  defeat "Line snapped!"
+  after "Chinchou glow at the bottom of the reservoir at night. Spooky but pretty."
+  mon chinchou 23
+  mon goldeen 22
+  mon tympole 22
+end
+
+# ---------------------------------------------------------------- Seabreeze Cove (east of Route 5)
+trainer p4a_sb_swimmer_dylan
+  class swimmer_m
+  name "Dylan"
+  intro "I swim here every morning! The water's perfect. So is my team!"
+  defeat "Glub glub..."
+  after "Once you can Surf, swim out past the cove. The current carries you along the coast."
+  mon buizel 20
+  mon wingull 20
+end
+
+trainer p4a_sb_swimmer_coral
+  class swimmer_f
+  name "Coral"
+  intro "Sun, sand and a battle! What a day!"
+  defeat "Time for a nap in the sun."
+  after "Sandygast are made of sand. Kids build sandcastles and sometimes they just... walk away."
+  mon sandygast 21
+  mon marill 20
+end
+
+trainer p4a_sb_fisher_merle
+  class fisherman
+  name "Merle"
+  intro "The tide pools are full of surprises! So am I!"
+  defeat "Should've stuck to fishing."
+  after "Corphish snap at anything in the tide pools. Good Rod's the way to go."
+  mon corphish 21
+  mon shellder 21
+end
+
+trainer p4a_sb_sailor_barney
+  class sailor
+  name "Barney"
+  intro "I'm on shore leave and I'm itching for a fight! Har!"
+  defeat "Back to the ship with me."
+  after "The Coral Isles? Only the ferry goes there. Champions only, they say."
+  mon crabrawler 21
+  mon machop 20
+  mon pelipper 21
+end
+
+trainer p4a_sb_beauty_shelly
+  class beauty
+  name "Shelly"
+  intro "I collect pretty shells. And pretty victories!"
+  defeat "My collection is incomplete!"
+  after "The gentleman in the hut buys Big Pearls. He pays in something much shinier."
+  mon clamperl 21
+  mon finneon 21
+end
+
+trainer p4a_sb_kid_robin
+  class kid
+  name "Robin"
+  intro "I found a Dwebble in my sandcastle! Wanna see it fight?"
+  defeat "My sandcastle collapsed..."
+  after "Dwebble carry rocks as houses. Mine keeps trying to move into my bucket."
+  mon dwebble 20
+  mon krabby 20
+end
+
+# ---------------------------------------------------------------- Voltmire Marsh (south of Route 6)
+trainer p4a_vm_fisher_cobb
+  class fisherman
+  name "Cobb"
+  intro "The marsh pools hum when the power lines buzz. The fish love it!"
+  defeat "Zapped my confidence."
+  after "Chinchou somehow found their way into these pools. Must be the electricity."
+  mon barboach 21
+  mon chinchou 21
+end
+
+trainer p4a_vm_bug_gnat
+  class bugcatcher
+  name "Gnat"
+  intro "Marsh bugs are the toughest bugs! Muddy and mean!"
+  defeat "Stuck in the mud..."
+  after "Surskit skate here in spring. In summer they grow into Masquerain and fly off."
+  mon masquerain 22
+  mon venonat 21
+end
+
+trainer p4a_vm_pokefan_ola
+  class pokefan
+  name "Ola"
+  intro "Look at my muddy babies! Aren't they precious?"
+  defeat "Oh no, they need a bath now."
+  after "Wooper here are brown instead of blue! Paldean Wooper, they call them. Poison type, too!"
+  mon wooperpaldea 21
+  mon stunky 21
+end
+
+trainer p4a_vm_scientist_eel
+  class scientist
+  name "Eel"
+  intro "I study how the power lines affect marsh Pokémon! Let me collect some data from you!"
+  defeat "Inconclusive... I mean, you win."
+  after "Tynamo float in the shallows at night, glowing like little lanterns."
+  mon tynamo 22
+  mon stunfisk 22
+end
+
+trainer p4a_vm_youngster_wade
+  class youngster
+  name "Wade"
+  intro "My boots are full of mud but my heart is full of fire! Battle!"
+  defeat "My boots are full of defeat."
+  after "Croagunk puff up their cheeks and croak at sunset. It's like a concert, but worse."
+  mon croagunk 22
+  mon tympole 21
+end
+
+# ---------------------------------------------------------------- Extras
+trainer p4a_r5_pokefan_hugo
+  class pokefan
+  name "Hugo"
+  intro "My Ponyta's mane is the shiniest on Route 5! Battle and see!"
+  defeat "Its mane is still shiny. My pride, less so."
+  after "Ponyta only let you ride them if they trust you. Mine still doesn't."
+  mon ponyta 20
+  mon skiddo 20
+end
+
+trainer p4a_lc_sage_umi
+  class sage
+  name "Umi"
+  intro "I keep watch over the east wing. Only the worthy pass!"
+  defeat "Worthy indeed."
+  after "Each stone holds one part of the day. Light them as the sun travels."
+  mon bronzor 22
+  mon chingling 21
+end
+
+trainer p4a_gc2_blackbelt_taro
+  class blackbelt
+  name "Taro"
+  intro "I punch crystals to train! They punch back sometimes!"
+  defeat "Ow, my knuckles!"
+  after "The cracked rock behind me hides something the engineer would want."
+  mon machoke 23
+  mon throh 23
+end
+
+trainer p4a_gc_psychic_orin
+  class psychic
+  name "Orin"
+  intro "I came to meditate among the crystals. Your light disturbs me!"
+  defeat "Perhaps light is not so bad."
+  after "The ladder behind me leads down to the deepest crystals."
+  mon kirlia 23
+  mon chingling 22
+end
+
+trainer p4a_sr_kid_sunny
+  class kid
+  name "Sunny"
+  intro "I'm helping Grandpa clean the solar panels! Battle break!"
+  defeat "Break's over, I guess."
+  after "Plusle and Minun love the panels. They nap on them when it's sunny."
+  mon pawmi 22
+  mon minun 22
+end
+
+trainer p4a_sb_fisher_wally
+  class fisherman
+  name "Wally"
+  intro "The cove's tide pools are packed today! Fight me for the best spot!"
+  defeat "Fine, take the spot."
+  after "Staryu wash up at low tide. They glow like little stars on the sand."
+  mon staryu 21
+  mon remoraid 21
+end
+
+trainer p4a_vm_lass_reed
+  class lass
+  name "Reed"
+  intro "I'm not lost! I'm... exploring the marsh! Battle!"
+  defeat "Okay, I'm a little lost."
+  after "Stunfisk lie flat in the mud. I've stepped on three today. They were not happy."
+  mon stunfisk 21
+  mon croagunk 21
+end

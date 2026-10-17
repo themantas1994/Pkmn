@@ -1,0 +1,47 @@
+# Lumen Catacombs (Expansion E1): hidden level under the Lumen Ruins, revealed when the ruins' sealed door opens.
+# Order puzzle: light the four sun stones in the order of the day (dawn east, noon north, dusk west, night south).
+map p4a_lumen_catacombs
+name "Lumen Catacombs"
+location "Lumen Village"
+music dungeon_ruins
+environment cave
+region 15 16
+encounters p4a_lumen_catacombs
+
+layout
+xxxxxxxxxxxxxxxxxxxxxx
+xuuuuxxxxuuuuxxxxuuuux
+xuuuuxxxxuGGuxxxxuuuux
+xuuuuxxxxuuuuxxxxuuuux
+xuuuuxxxxxZxxxxxxuuuux
+xxuxxxuuuuzuuuuxxxuxxx
+xuuuuxuuuuuuuuuxuuuuux
+xuuuuuzuuuuuuuzuuuuuux
+xuuuuxuuuuuuuuuxuuuuux
+xxxxxxuuuuzuuuuxxxxxxx
+xuuuuxxxxxxxuxxxxuuuux
+xuuuuxxxxxxxuxxxxuuuux
+xuuGuuuuuuuuuuuuuuGuux
+xuuuuuuuuuuuuuuuuuuuux
+xxxxxxxxxxxxUxxxxxxxxx
+end
+
+warp 12 14 -> lumen_ruins 17 16 left
+tileif p4a_cat_open 10 4 ruins_floor
+trigger 14 7 1 1 script=p4a_lc_stone_e unless=p4a_cat_open
+trigger 10 5 1 1 script=p4a_lc_stone_n unless=p4a_cat_open
+trigger 6 7 1 1 script=p4a_lc_stone_w unless=p4a_cat_open
+trigger 10 9 1 1 script=p4a_lc_stone_s unless=p4a_cat_open
+sign 11 11 script=p4a_lc_clue
+sign 12 0 script=p4a_lc_mural
+
+trainer p4a_lc_psychic_sol 3 2 sprite=psychic face=down sight=4
+trainer p4a_lc_sage_rin 18 7 sprite=sage face=left sight=2
+trainer p4a_lc_scientist_tao 6 13 sprite=scientist face=right sight=4
+
+item p4a_lc_tm 10 1 tm:ancientpower
+item p4a_lc_revive 1 1 revive
+item p4a_lc_ether 20 1 ether
+hidden p4a_lc_star 19 13 stardust
+hidden p4a_lc_candy 2 10 rarecandy
+trainer p4a_lc_sage_umi 19 2 sprite=sage face=down sight=2

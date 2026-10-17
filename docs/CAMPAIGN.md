@@ -550,3 +550,70 @@ Anorith, Lileep; gifts Hisuian Growlithe, Carbink, Larvesta egg; trade-only Char
 | 5: Gym 4 → Gym 5 | 58 / 61 | 61 / 136 |
 | 6: Gym 5 → Gym 6 | 40 / 48 | 48 / 121 |
 Whole game (with E1/E3 not merged): critical 9.3 h → 9.7 h, with optional 12.5 h → 16.6 h.
+
+## Expansion E1 notes (legs 1–3: start → Gym 3)
+Prefix `p4a_` for all new maps, flags, scripts, trainers and encounter tables. Files: `world/maps/p4a_*.map` (33),
+`world/scripts/p4a_leg1..3.pks`, `world/trainers/p4a_leg1..3.txt` (137 trainer entries incl. 12 rematch tiers and 2 scripted bosses; shared classes only),
+`world/encounters/p4a_leg1..3.txt` (18 tables), `world/quests/p4a.txt` (9 quests), `world/prefabs/p4a.txt`
+(`p4a_lighthouse` tower, `p4a_wreck` hull). No gym leader/rival teams, campaign.json, legend, prefabs.txt or
+classes.txt were touched. B1 (port_tidewater ↔ route5) is unchanged: port's bottom row and route5's top row are as before.
+
+**New areas (all optional, all leg-local field moves only):**
+| Leg | Area (map ids) | Access | Content |
+|---|---|---|---|
+| 1 | Brookside Trail `p4a_brook_trail` + Angler's Cottage `p4a_brook_cottage` | hometown east edge (`connect east … -2`) | fishing spot, 4 trainers, the odd tree (Sudowoodo L12), nook TM Rock Tomb |
+| 1 | Brook Falls `p4a_brook_falls` | Brookside Trail north edge | waterfall basin, ledges, 5 trainers, fishing |
+| 1 | Brookspring Grotto `p4a_brook_grotto` | hidden cave mouth in the trail's NE tree pocket | **hidden grotto**: Water Stone, Ralts/Azurill, Surf-only Big Pearl |
+| 1 | Mossgrove Thicket `p4a_mossgrove` → Glade `p4a_mossgrove_glade` → Root Hollow `p4a_root_hollow` | Whisperwood east rug (27,5) | **side dungeon**: one-way ledge puzzle to two mossy stones (`p4a_mg_stone_a/b` → `p4a_mg_gate` opens the bushes); Root Hollow switch puzzle (`p4a_rh_wall1/2`) to TM Seed Bomb; 15 trainers |
+| 1 | Petal Path `p4a_petal_path` + Berry Cottage `p4a_petal_cottage` | Fernwick east edge | flower meadow, pond fishing, 6 trainers, berry grower (gifts per badge), Combee show-off reward |
+| 1 | Lantern Tower `p4a_lantern_tower_1f/2f/3f`, Flower Shop `p4a_brindle_florist` | Brindle City | Sprout-Tower homage: 4 sages + Elder Rowan (scripted battle, TM Swift, light-shard lore) |
+| 2 | Sunberry Orchard `p4a_orchard` + `p4a_orchard_house` | Route 3 north, Cut tree `p4a_cut_orchard` | 8 trainers, pond fishing, rest stop (heal) |
+| 2 | Tidewater Cape `p4a_tidewater_cape`, Lighthouse `p4a_lighthouse_1f/2f/top` | port_tidewater north edge (`connect north … -4`) | cliffs + beach, 7 trainers, lighthouse (4 trainers); lamp room behind `tileif p4a_lh_unlocked` |
+| 2 | Sea Grotto `p4a_cape_grotto` | cave mouth on the cape beach | **hidden grotto**: keeper's key (`basementkey`), King's Rock, 2 trainers |
+| 2 | S.S. Driftwood `p4a_wreck_deck`, `p4a_wreck_hold` | wreck on the cape's south beach | 6 trainers, captain's log lore (crystal cargo), TM Hex |
+| 2 | Cobblecrest B2F `p4a_cobblecrest_b2f` | new ladder in cobblecrest_b1f (20,3) | **side dungeon**: underground lake, switch puzzle (`p4a_cc2_gate1/2`) to the miners' vault (TM Bulldoze), 5 trainers |
+| 2 | Riptide Dojo `p4a_riptide_dojo` | Port Tidewater | 4 students + Master Kaito → Tyrogue L15 gift |
+| 3 | Glimmer Cave `p4a_glimmer_cave_1f/b1f` | cave mouth on route6's top row (6,0) | **side dungeon**: `dark` (Flash), Rock Smash pockets, 9 trainers, Machine Part, TM Power Gem |
+| 3 | Lumen Catacombs `p4a_lumen_catacombs` | stairs in lumen_ruins (18,16), revealed by `tileif p2_lumen_door` | order puzzle (dawn E → noon N → dusk W → night S; var `p4a_cat_seq`, flag `p4a_cat_open`), TM Ancient Power, 4 trainers |
+| 3 | Solar Ridge `p4a_solar_ridge` + Ridge Station `p4a_ridge_station` | voltara_city north edge | Electric plateau, reservoir fishing, 8 trainers |
+| 3 | Sparkstone Grotto `p4a_ridge_grotto` | behind Rock Smash rock `p4a_sr_smash` on the ridge | **hidden grotto**: Minior/Carbink, Electric Seed, Full Restore |
+| 3 | Seabreeze Cove `p4a_seabreeze_cove` + Beach Hut `p4a_cove_hut` | route5 east edge (`connect east … 15`) | beach, tide-pool fishing, 7 trainers |
+| 3 | Voltmire Marsh `p4a_voltmire_marsh` | route6 bottom edge (`connect south … 10`) | wetland, boardwalks, 6 trainers, hermit lore; Surf-only islet TM Mud Shot |
+
+**Existing maps edited (additions only):** hometown, fernwick_town (east exits + signs), route1 (2 trainers + Pip),
+route2 (2), whisperwood (3 + Mossgrove rug), brindle_city (flower shop, Lantern Tower), brindle/fernwick/tidewater/
+voltara centers (aides, traders), route3 (Cut tree + 3), route4 (3 + Teo), cobblecrest_1f/b1f (1 each + ladder),
+port_tidewater (north exit, dojo, trader), route5 (east exit + 3), lumen_ruins (catacombs stair), route6 (cave
+mouth, south exit, 2 + Dot), voltara_city (north exit).
+
+**Side quests (`world/quests/p4a.txt`):** `p4a_odd_tree` (Squirt Bottle in Mossgrove Glade → Brindle florist gives
+TM Magical Leaf → water the odd tree → Sudowoodo L12; flags `p4a_florist_thanked`, `p4a_sudowoodo_done`),
+`p4a_fishing_log` (catch Magikarp/Poliwag/Goldeen → Mystic Water + 3 Lure Balls), `p4a_feathered_trade`
+(`trade pidgey rookidee 8 nick=Corvo`, `p4a_traded_rookidee`), `p4a_lamp_key` (Basement Key from the Sea Grotto →
+TM Charge Beam, `p4a_lh_unlocked`, `p4a_lh_reward`), `p4a_orchard_fertilizer` (Big Mushroom → Leftovers),
+`p4a_inky_trade` (`trade machop clobbopus 15 nick=Inky`), `p4a_machine_part` (Machine Part from Glimmer B1F →
+Pawmi L20), `p4a_zappy_trade` (`trade electrike blitzle 22 nick=Zappy`), `p4a_shell_bell` (Big Pearl → Shell Bell).
+**Pokédex rewards:** Linden's aides `p4a_dex_aide_1/2/3` (Brindle/Tidewater/Voltara centers) at 10/20/30 species
+caught → Great Balls + Exp. Candy S, Amulet Coin, Ability Capsule + Exp. Candy M (`p4a_dex_reward_1..3`).
+**Phone-style rematch NPCs:** Pip (Route 1; `p4a_pip_1..4`, tiers at 0/2/4/6 badges), Teo (Route 4; `p4a_teo_1..4`,
+1/3/5/7), Dot (Route 6; `p4a_dot_1..4`, 2/4/6/8); each rematch pays out an item. Other gifts: Tyrogue (dojo, `p4a_dojo_gift`),
+berry grower (`p4a_berry_gift`, `_b1`, `_b3`), Honey (`p4a_honey_shown`).
+
+**Roster:** obtainable species (incl. evolutions) 568 → 691 before E2/E3 (e.g. Rookidee, Surskit, Lotad, Taillow,
+Zigzagoon, Combee, Cherubi, Applin, Phantump, Ralts, Whismur, Tyrogue, Clobbopus, Wattrel, Skrelp, Clamperl,
+Mareep, Plusle/Minun, Blitzle, Pawmi, Tadbulb, Minior, Beldum (rare), Sandygast, Paldean Wooper, Stunfisk).
+
+**Field moves:** leg 1 areas need none; leg 2 uses Cut only for the orchard gate; leg 3 uses Flash (Glimmer Cave is
+`dark` but walkable) and Rock Smash for optional pockets. Surf-only islets hold bonus items for later visits.
+
+**Estimator (minutes, critical / with optional):**
+| Leg | Before | After |
+|---|---|---|
+| 1: start → Gym 1 | 43 / 64 | 50 / 135 |
+| 2: Gym 1 → Gym 2 | 51 / 75 | 65 / 147 |
+| 3: Gym 2 → Gym 3 | 50 / 83 | 61 / 153 |
+Whole game after merging E1+E2+E3: critical 11.1 h, with optional content 24.4 h.
+
+**Notes for the lead:** inline `text="…"` on npc/sign lines is tokenized by `ScriptParser.tokenize`, so the compiled
+text is only the first word (e.g. route1's hint NPC compiles to `"See`). All E1 dialogue therefore uses `script=`;
+existing inline-text NPCs/signs across the game need either a tokenizer fix or conversion.

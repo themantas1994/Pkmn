@@ -1,0 +1,22 @@
+# Shell collector's hut in Seabreeze Cove (Expansion E1).
+map p4a_cove_hut
+name "Beach Hut"
+location "Route 5"
+music route_mid
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+_______p
+_tt_____
+_hh___p_
+________
+___RR___
+end
+
+warp 3 6 -> p4a_seabreeze_cove 5 4 down
+warp 4 6 -> p4a_seabreeze_cove 5 4 down
+npc p4a_shell_collector 5 3 sprite=gentleman face=down script=p4a_shell_collector
+npc p4a_old_salt 1 5 sprite=fisherman face=right script=p4a_old_salt

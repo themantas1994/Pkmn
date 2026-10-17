@@ -1,0 +1,35 @@
+# S.S. Driftwood, cargo hold (Expansion E1): creaky, half-flooded, and said to be haunted.
+map p4a_wreck_hold
+name "S.S. Driftwood Hold"
+location "Tidewater Cape"
+music dungeon_eclipse
+environment building
+indoor
+
+legend
+o floor_wood
+~ cave_water
+end
+
+layout
+^^^^^^^^^^^^^^^^
+@@@@@@@@@@@@@@@@
+oooKKoooooooooUo
+ooooooo~~~oooooo
+oKKoooo~~~ooKKoo
+ooooooo~~~oooooo
+ooKKoooooooooooo
+oooooooooKKKoooo
+oKoooooooooooooo
+oooooKKooooooKKo
+end
+
+warp 14 2 -> p4a_wreck_deck 13 3 left
+tile 6 1 sign
+sign 6 1 script=p4a_wreck_log2
+trainer p4a_wr_psychic_esme 4 5 sprite=psychic face=right sight=4
+trainer p4a_wr_sailor_crane 11 8 sprite=sailor face=left sight=4
+trainer p4a_wr_fisher_pike 13 5 sprite=fisherman face=left sight=2
+item p4a_wr_spelltag 1 9 spelltag
+item p4a_wr_crate 13 7 tm:hex
+hidden p4a_wr_pearl 15 9 bigpearl

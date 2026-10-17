@@ -1,0 +1,32 @@
+# Tidewater Lighthouse 1F (Expansion E1).
+map p4a_lighthouse_1f
+name "Tidewater Lighthouse"
+location "Tidewater Cape"
+music town_mid
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^
+@@w@@@@@@w@@
+o.oooo.ooUoo
+oooooooooooo
+oooKKoooKKoo
+oooooooooooo
+oooooooooooo
+oooooooooooo
+oooooRRooooo
+end
+
+legend
+o floor_wood
+. plant
+end
+
+warp 5 8 -> p4a_tidewater_cape 19 5 down
+warp 6 8 -> p4a_tidewater_cape 19 5 down
+warp 9 2 -> p4a_lighthouse_2f 8 3 left
+trainer p4a_lh_sailor_brock 2 5 sprite=sailor face=right sight=4
+npc p4a_lh_guide 10 6 sprite=oldman face=left script=p4a_lh_guide
+item p4a_lh1_potion 11 3 superpotion
+trainer p4a_lh_youngster_tom 9 7 sprite=youngster face=left sight=4

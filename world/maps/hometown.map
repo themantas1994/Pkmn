@@ -8,6 +8,7 @@ fly 10 8
 encounters hometown
 tags town
 connect north route1 0
+connect east p4a_brook_trail -2
 
 layout
 TTTTTTTTT::TTTTTTTTT
@@ -17,8 +18,8 @@ T........::........T
 T........::........T
 T........::........T
 T........::........T
-T...::::::::::::::.T
-T........::........T
+T...::::::::::::::::
+T........::.........
 T.S......::........T
 T........::....p...T
 T........::........T
@@ -45,3 +46,6 @@ npc runner 16 11 sprite=lass face=left script=p1_hometown_runner
 hidden ht_potion 1 16 potion
 hidden ht_berry 18 1 oranberry
 trigger 9 1 2 1 script=hometown_need_starter unless=got_starter
+# Expansion E1: east exit to the Brookside Trail.
+tile 17 6 sign
+sign 17 6 script=p4a_ht_trail_sign

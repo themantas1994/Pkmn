@@ -1,0 +1,51 @@
+# Expansion E1 side quests (legs 1-3).
+
+# ---- Leg 1
+quest p4a_odd_tree "The Odd Tree"
+  desc "A Brindle City florist lost her Squirt Bottle in Mossgrove Thicket."
+  step "Find the Squirt Bottle in Mossgrove Thicket and bring it to the Brindle flower shop."
+  step "Water the odd tree on the Brookside Trail, east of Hollowbrook."
+end
+
+quest p4a_fishing_log "The Fishing Log"
+  desc "Angler Ross on the Brookside Trail wants to see a beginner's fishing log."
+  step "Catch a Magikarp, a Poliwag and a Goldeen, then visit Angler Ross."
+end
+
+quest p4a_feathered_trade "Birds of a Feather"
+  desc "A trader in Fernwick's Pokémon Center will swap his Rookidee for a Pidgey."
+  step "Bring a Pidgey to the trader in Fernwick Town's Pokémon Center."
+end
+
+# ---- Leg 2
+quest p4a_lamp_key "The Dark Lighthouse"
+  desc "A Wingull stole the Tidewater Lighthouse keeper's lamp-room key."
+  step "Find the keeper's key in the sea cave below Tidewater Cape and bring it to him."
+  step "Climb to the lamp room and help the keeper light the lamp."
+end
+
+quest p4a_orchard_fertilizer "Mushroom Fertilizer"
+  desc "The Sunberry Orchard keeper needs a Big Mushroom for his tired trees."
+  step "Bring a Big Mushroom to the orchard keeper north of Route 3."
+end
+
+quest p4a_inky_trade "Deckhand Wanted"
+  desc "A sailor in Port Tidewater wants a Machop and offers his Clobbopus, Inky."
+  step "Bring a Machop to the sailor in Port Tidewater."
+end
+
+# ---- Leg 3
+quest p4a_machine_part "Power to the Ridge"
+  desc "Engineer Watts of Ridge Station dropped a Machine Part in Glimmer Cave."
+  step "Find the Machine Part in dark Glimmer Cave, north of Route 6, and return it to Ridge Station."
+end
+
+quest p4a_zappy_trade "Run, Zappy, Run"
+  desc "A trainer in Voltara's Pokémon Center wants an Electrike for her Blitzle, Zappy."
+  step "Bring an Electrike to the trader in Voltara City's Pokémon Center."
+end
+
+quest p4a_shell_bell "Treasure of the Tide"
+  desc "A shell collector in Seabreeze Cove has always wanted a Big Pearl."
+  step "Bring a Big Pearl to the collector's hut in Seabreeze Cove, east of Route 5."
+end

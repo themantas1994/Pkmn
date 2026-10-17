@@ -1,0 +1,32 @@
+# Lantern Tower 1F (Expansion E1): Brindle City's old wooden tower, tended by sages. Its lantern once held a
+# light shard; the elder at the top tells the story and tests visiting trainers.
+map p4a_lantern_tower_1f
+name "Lantern Tower 1F"
+location "Brindle City"
+music dungeon_ruins
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^
+@w@@@BB@@@w@
+ooooooooooUo
+ooGoooooGooo
+oooooooooooo
+oooooGGooooo
+oooooGGooooo
+ooGoooooGooo
+oooooooooooo
+oooooRRooooo
+end
+
+legend
+o floor_wood
+end
+
+warp 5 9 -> brindle_city 10 19 down
+warp 6 9 -> brindle_city 10 19 down
+warp 10 2 -> p4a_lantern_tower_2f 9 2 left
+trainer p4a_lt_sage_toru 3 5 sprite=sage face=right sight=2
+npc p4a_lt_greeter 8 8 sprite=sage face=left script=p4a_lt_greeter
+item p4a_lt1_potion 1 2 potion

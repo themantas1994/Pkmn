@@ -1,0 +1,16 @@
+# Expansion E1 prefabs.
+# Lighthouse on Tidewater Cape: a tall white tower (4 x 4).
+prefab p4a_lighthouse
+roof2_l roof2_m roof2_m roof2_r
+wall_l wall_window wall_window wall_r
+wall_l wall_m wall_m wall_r
+wall_l wall_m door wall_r
+door 2 3
+end
+
+# Wrecked ship hull on the Tidewater Cape beach (5 x 2).
+prefab p4a_wreck
+wall_l wall_m wall_m wall_m wall_r
+wall_l wall_window door wall_window wall_r
+door 2 1
+end

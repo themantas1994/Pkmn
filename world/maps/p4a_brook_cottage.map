@@ -1,0 +1,22 @@
+# Angler's Cottage on the Brookside Trail (Expansion E1): fishing log quest and brook lore.
+map p4a_brook_cottage
+name "Angler's Cottage"
+location "Brookside Trail"
+music town_small
+environment indoor
+indoor
+
+layout
+^^^^^^^^
+@w@BB@w@
+_______p
+_tt_____
+_hh_____
+________
+___RR___
+end
+
+warp 3 6 -> p4a_brook_trail 9 5 down
+warp 4 6 -> p4a_brook_trail 9 5 down
+npc p4a_angler 5 3 sprite=fisherman face=down script=p4a_angler
+npc p4a_bt_granny 1 5 sprite=oldwoman face=right script=p4a_bt_granny

@@ -1,0 +1,49 @@
+# Brook Falls (Expansion E1): upstream end of the Brookside Trail, where the brook spills off the foothills of
+# Mt. Prism. Ledges, a footbridge, fishing below the falls.
+map p4a_brook_falls
+name "Brook Falls"
+location "Brookside Trail"
+music route_early
+environment grass
+region 8 20
+encounters p4a_brook_falls
+connect south p4a_brook_trail 1
+
+legend
+w waterfall
+end
+
+layout
+TTTTTTTTTMMMMMMMMTTTTTTTTT
+TT,,,,...MMMMwwMMM...,,,TT
+TT,,,,...MMMMwwMMM...,,,TT
+TT.......MMM~~~~MM......TT
+TT..........~~~~........TT
+TTvvvvv.....~~~~....,,,,TT
+TT..........~~~~....,,,,TT
+TT.,,,,.....~~~~........TT
+TT.,,,,......~~.....TT..TT
+TT...........~~.....TT..TT
+TTTTT........HH.........TT
+TT...,,,,....~~...,,,,..TT
+TT...,,,,....~~...,,,,..TT
+TT..........~~~.........TT
+TT.FF......~~~~....rr...TT
+TT.........~~~~.........TT
+TT..,,,,...~~~~..,,,,...TT
+TT..,,,,....~~...,,,,...TT
+TTTTTTTTT..~~~....TTTTTTTT
+TTTTTTTTTTTTTTTTT.TTTTTTTT
+end
+
+sign 11 3 script=p4a_bf_falls_sign
+trainer p4a_bf_fisher_nate 11 7 sprite=fisherman face=right sight=1
+trainer p4a_bf_lass_erin 19 5 sprite=lass face=right sight=4
+trainer p4a_bf_bug_leo 9 11 sprite=bugcatcher face=left sight=4
+trainer p4a_bf_youngster_tobias 22 16 sprite=youngster face=left sight=4
+trainer p4a_bf_hiker_wes 7 1 sprite=hiker face=left sight=4
+
+item p4a_bf_superpotion 2 4 superpotion
+item p4a_bf_nook 23 8 rarecandy
+hidden p4a_bf_berry 3 14 oranberry
+hidden p4a_bf_ether 16 18 ether

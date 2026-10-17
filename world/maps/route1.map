@@ -59,3 +59,7 @@ item r1_greatball 17 9 greatball
 item r1_ball 17 27 pokeball
 hidden r1_berry 2 10 oranberry
 hidden r1_antidote 18 34 antidote
+# Expansion E1: more trainers and Pip, the rematch youngster.
+trainer p4a_r1_kid_lucy 12 31 sprite=kid face=right sight=3
+trainer p4a_r1_youngster_sam 7 4 sprite=youngster face=left sight=4
+npc p4a_pip 17 23 sprite=youngster face=left script=p4a_pip

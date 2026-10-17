@@ -1,0 +1,52 @@
+# Brookside Trail (Expansion E1): optional riverside path east of Hollowbrook. Fishing spots along the brook,
+# the Angler's Cottage (fishing log quest), the odd tree (Sudowoodo) and a hidden grotto behind the trees.
+map p4a_brook_trail
+name "Brookside Trail"
+location "Brookside Trail"
+music route_early
+environment grass
+region 8 22
+encounters p4a_brook_trail
+connect west hometown 2
+connect north p4a_brook_falls -1
+
+layout
+TTTTTTTTTTTTTTTT.TTTTTTTTTTTTT
+TTTTTTTTTTTTTT~~.TTTTTTTMEMTTT
+TTT.........T.~~.TTTTTT,,.,,TT
+TT..........T.~~.TTTTTT,,,,,TT
+TT............~~.TTTTTT,,,,,TT
+TT,,,,,.......~~.......T.TTTTT
+TT,,,,,.......~~.,,,,..T.TTTTT
+TT,,,,,...FF..~~.,,,,..T....TT
+T.............~~.,,,,.......TT
+::::::::::::::HH:::::::.....TT
+::::::::::::::HH:::::::.....TT
+T.........S...~~.........,,,TT
+Tvvvvvv.......~~...TTT...,,,TT
+T.............~~...TTT...,,,TT
+T..,,,,,......~~.........rrrTT
+T..,,,,,......~~..,,,,,..r..TT
+T..,,,,,.....~~~..,,,,,..r..TT
+TF..........~~~~..,,,,,..rr..T
+TFF........~~~~~.............T
+TTTTTTTTTTT~~~~~TTTTTTTTTTTTTT
+end
+
+building house 7 2 -> p4a_brook_cottage 3 6 up
+warp 25 1 -> p4a_brook_grotto 8 9 up
+sign 10 11 script=p4a_bt_sign
+
+trainer p4a_bt_fisher_reed 13 6 sprite=fisherman face=down sight=2
+trainer p4a_bt_lass_petra 21 6 sprite=lass face=left sight=4
+trainer p4a_bt_youngster_dino 8 14 sprite=youngster face=left sight=4
+trainer p4a_bt_bug_nils 20 14 sprite=bugcatcher face=down sight=3
+npc p4a_bt_kid 12 16 sprite=kid face=right script=p4a_bt_kid
+npc p4a_odd_tree 27 17 sprite=cut_tree face=down script=p4a_odd_tree hideif=p4a_sudowoodo_done
+
+item p4a_bt_potion 2 16 potion
+item p4a_bt_superpotion 27 2 superpotion
+item p4a_bt_nook 26 15 tm:rocktomb
+hidden p4a_bt_berry 3 2 oranberry
+hidden p4a_bt_pearl 16 18 pearl
+hidden p4a_bt_ether 27 7 ether

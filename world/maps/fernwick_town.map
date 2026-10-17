@@ -9,6 +9,7 @@ encounters fernwick_town
 tags town
 connect north route2 0
 connect south route1 0
+connect east p4a_petal_path 0
 
 layout
 TTTTTTTTT::TTTTTTTTT
@@ -18,8 +19,8 @@ T........::........T
 T........::........T
 T........::........T
 T...:....::...:....T
-T...::::::::::::...T
-T........::........T
+T...::::::::::::::::
+T........::.........
 T.......S::........T
 T........::........T
 T.~~~~...::........T
@@ -42,3 +43,6 @@ npc fern_youngster 15 8 sprite=youngster move=wander text="Route 2 is north. The
 hidden fw_ether 18 1 ether
 hidden fw_berry 1 16 pechaberry
 trigger 9 16 2 1 script=p1_fern_aide_call unless=p1_got_expshare if=got_pokedex
+# Expansion E1: east exit to the Petal Path.
+tile 18 6 sign
+sign 18 6 script=p4a_fw_path_sign

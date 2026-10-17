@@ -1,0 +1,52 @@
+# Glimmer Cave B1F (Expansion E1): dark lower level around a crystal pool. The Machine Part lies behind a cracked
+# rock in the southwest; the crystal vein in the southeast hides a TM.
+map p4a_glimmer_cave_b1f
+name "Glimmer Cave B1F"
+location "Glimmer Cave"
+music cave
+environment cave
+dark
+region 19 16
+encounters p4a_glimmer_cave_b1f
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWLWWWWffffkfffWWWWfffffffWW
+WffffffffffffffWWWWffkffffWW
+WfffkffWWWWffffffffffffkffWW
+WffffffWWWWfffWWWWWffffffffW
+WWfffWWWW~~~~~~WWWWWWWWfffWW
+WfffffWW~~~~~~~~WWfffffffffW
+WffkffW~~~ff~~~~~WffkfffffWW
+WfffffW~~~ff~~~~WWfffWWWWWWW
+WWffffWW~~~~~~~WWfffffffffWW
+WfffffffWWWWWWWffffkffffffWW
+WfkfffffffffffffffffWWWWffWW
+WffffWWWWWWWfffffWWWWWWWffWW
+WWWfWWWWWWWWWfffWWWfffffffWW
+WfffffWWWWWWWfkfWWWffkffffWW
+WffkffWWWWWWWfffffffffffffWW
+WfffffWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 2 1 -> p4a_glimmer_cave_1f 26 2 down
+obstacle 3 13 smash flag=p4a_gc_smash4
+tile 8 3 sign
+sign 8 3 script=p4a_gc_crystal
+
+trainer p4a_gc2_hiker_quinn 23 6 sprite=hiker face=left sight=4
+trainer p4a_gc2_scientist_amp 12 11 sprite=scientist face=right sight=5
+trainer p4a_gc2_psychic_luna 24 15 sprite=psychic face=left sight=6
+
+item p4a_gc2_part 2 15 machinepart
+item p4a_gc2_vein 25 14 tm:powergem
+item p4a_gc2_island 10 7 ppup
+item p4a_gc2_full 24 1 fullheal
+hidden p4a_gc2_shard 4 9 starpiece
+hidden p4a_gc2_rope 13 14 escaperope
+trainer p4a_gc2_blackbelt_taro 2 10 sprite=blackbelt face=right sight=6

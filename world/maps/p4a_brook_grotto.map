@@ -1,0 +1,33 @@
+# Brookspring Grotto (Expansion E1): hidden grotto where the Hollowbrook brook wells up from under Mt. Prism.
+map p4a_brook_grotto
+name "Brookspring Grotto"
+location "Brookside Trail"
+music cave
+environment cave
+region 8 22
+encounters p4a_brook_grotto
+
+legend
+~ cave_water
+end
+
+layout
+WWWWWWWWWWWWWWWW
+WWffffWWWWffffWW
+Wfffffffkfff~~fW
+Wfff~~~fffff~~fW
+Wff~~~~~ffffffWW
+Wff~~~~~fffkffWW
+Wfff~~~ffffffffW
+WWffffffWWWffffW
+WfffkfffWWWfffWW
+WfffffffffffffWW
+WWWWWWWWEWWWWWWW
+end
+
+warp 8 10 -> p4a_brook_trail 25 2 down
+tile 9 1 sign
+sign 9 1 script=p4a_bg_spring
+item p4a_bg_waterstone 2 1 waterstone
+item p4a_bg_ether 13 8 ether
+hidden p4a_bg_pearl 14 2 bigpearl

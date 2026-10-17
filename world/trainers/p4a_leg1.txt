@@ -1,0 +1,460 @@
+# Expansion E1, leg 1 (start -> Gym 1): Brookside Trail, Mossgrove Thicket, Root Hollow, extra route trainers,
+# and Pip, the rematch youngster on Route 1. Levels: Route 1 3-5, Brookside 5-6, Route 2/Whisperwood 7-10,
+# Mossgrove 8-10, Root Hollow 10-12 (optional areas sit a little above the path they branch from).
+
+# ---------------------------------------------------------------- Route 1
+trainer p4a_r1_kid_lucy
+  class kid
+  name "Lucy"
+  intro "I caught this one in the dark! Wanna see?"
+  defeat "Hoothoot, wake up!"
+  after "Hoothoot only come out at night. They're sleepy in the day, just like me."
+  mon sentret 4
+  mon hoothoot 4
+end
+
+trainer p4a_r1_youngster_sam
+  class youngster
+  name "Sam"
+  intro "Hey! You're not from around here. Battle!"
+  defeat "Lillipup, we'll get them next time!"
+  after "Lillipup's nose is amazing. It found my lost shoe yesterday!"
+  mon lillipup 5
+end
+
+# Pip: phone-style rematch trainer (script p4a_pip). One team per badge tier.
+trainer p4a_pip_1
+  class youngster
+  name "Pip"
+  intro "My Bidoof and I are going to be famous! Battle me!"
+  defeat "Whoa! You're the real deal!"
+  mon bidoof 5
+  mon pidgey 4
+end
+
+trainer p4a_pip_2
+  class youngster
+  name "Pip"
+  intro "I've been training every single day! Let's go!"
+  defeat "Still not enough?!"
+  mon bibarel 18
+  mon pidgeotto 18
+  mon raticate 17
+end
+
+trainer p4a_pip_3
+  class youngster
+  name "Pip"
+  intro "Remember me? Bibarel's teeth are sharper than ever!"
+  defeat "You keep getting stronger too. Not fair!"
+  mon bibarel 31
+  mon pidgeotto 32
+  mon raticate 31
+  mon furret 31
+end
+
+trainer p4a_pip_4
+  class youngster
+  name "Pip"
+  intro "This time for sure! My team's in the top percentage of ALL teams!"
+  defeat "Haha... I knew it. You're a legend."
+  mon bibarel 45
+  mon pidgeot 46
+  mon raticate 45
+  mon furret 45
+  mon noctowl 46
+end
+
+# ---------------------------------------------------------------- Route 2 / Whisperwood
+trainer p4a_r2_lass_nora
+  class lass
+  name "Nora"
+  intro "My Nidoran picked a fight with your shoes. Battle!"
+  defeat "Ouch! Pricked by my own pride."
+  after "Nidoran's horn has poison in it. Carry Antidotes on Route 2!"
+  mon nidoranf 8
+  mon pidove 7
+end
+
+trainer p4a_r2_bug_kip
+  class bugcatcher
+  name "Kip"
+  intro "I've got three bugs in my net! Want to see them all?"
+  defeat "My net has a hole in it..."
+  after "Ledyba come out in the morning, Spinarak at night. Kricketot sing all evening."
+  mon ledyba 7
+  mon spinarak 7
+  mon kricketot 8
+end
+
+trainer p4a_ww_bug_remy
+  class bugcatcher
+  name "Remy"
+  intro "Shh! I'm waiting for Scatterbug to wrap itself up!"
+  defeat "You scared it into evolving! Thanks?"
+  after "Scatterbug's wing patterns change depending on where it grows up."
+  mon scatterbug 8
+  mon spewpa 9
+end
+
+trainer p4a_ww_lass_hana
+  class lass
+  name "Hana"
+  intro "The flowers in this forest grow sweeter than anywhere! Let me show you why."
+  defeat "Petals everywhere..."
+  after "Cutiefly can sense the aura of flowers. It always finds the best ones."
+  mon budew 9
+  mon cutiefly 9
+end
+
+trainer p4a_ww_youngster_jay
+  class youngster
+  name "Jay"
+  intro "There's a secret path east of here. I'm guarding it! Kinda."
+  defeat "Okay, okay, go see for yourself."
+  after "That path leads to Mossgrove Thicket. The bugs there are even bigger!"
+  mon pineco 9
+  mon shroomish 9
+end
+
+# ---------------------------------------------------------------- Brookside Trail
+trainer p4a_bt_fisher_reed
+  class fisherman
+  name "Reed"
+  intro "Shh! You'll scare the fish! ...Fine. Let's battle instead."
+  defeat "Reeled in by a beginner!"
+  after "The brook runs cold and clear. Poliwag love it. So do I."
+  mon magikarp 5
+  mon poliwag 6
+end
+
+trainer p4a_bt_lass_petra
+  class lass
+  name "Petra"
+  intro "I come here to watch the birds. You're not a bird! Battle!"
+  defeat "You're quick as a Taillow!"
+  after "Taillow are tiny, but they're brave enough to take on anything."
+  mon taillow 5
+  mon skitty 6
+end
+
+trainer p4a_bt_youngster_dino
+  class youngster
+  name "Dino"
+  intro "My Zigzagoon found this trail! Now it's OUR trail!"
+  defeat "Zigzagoon zigged when it should've zagged..."
+  after "Zigzagoon walk in zigzags and find stuff on the ground. Look around carefully!"
+  mon zigzagoon 5
+  mon poochyena 6
+end
+
+trainer p4a_bt_bug_nils
+  class bugcatcher
+  name "Nils"
+  intro "Surskit skate on water! Isn't that the coolest?"
+  defeat "Surskit slipped..."
+  after "Surskit skims along the brook when it rains. Wurmple just sits there."
+  mon surskit 6
+  mon wurmple 5
+end
+
+# ---------------------------------------------------------------- Mossgrove Thicket
+trainer p4a_mg_lass_ivy
+  class lass
+  name "Ivy"
+  intro "These berries are mine! ...Oh, you're just passing? Battle anyway!"
+  defeat "Squashed like a berry!"
+  after "Cherubi store their nutrients in the little berry on their head."
+  mon cherubi 9
+  mon petilil 9
+end
+
+trainer p4a_mg_ranger_cole
+  class ranger
+  name "Cole"
+  intro "I patrol Mossgrove. Let's see if you treat the forest with respect!"
+  defeat "Respect earned."
+  after "The mossy stones are older than Brindle City. Light them both and the thicket opens up."
+  mon deerling 10
+  mon fletchling 10
+end
+
+trainer p4a_mg_bug_arlo
+  class bugcatcher
+  name "Arlo"
+  intro "I've caught every bug in Mossgrove! Well, almost."
+  defeat "I should catch some stronger ones."
+  after "Burmy dress themselves in leaves here. In a cave they'd wear sand!"
+  mon burmy 8
+  mon combee 8
+  mon blipbug 9
+end
+
+trainer p4a_mg_kid_wren
+  class kid
+  name "Wren"
+  intro "Spiders and grasshoppers! My two favorite things!"
+  defeat "Bzzt! Hop! Waah!"
+  after "Tarountula spin a ball of thread. Nymble just kick things."
+  mon nymble 9
+  mon tarountula 9
+end
+
+trainer p4a_mg_youngster_bo
+  class youngster
+  name "Bo"
+  intro "I got lost in here two days ago. Let's battle while I figure it out!"
+  defeat "Still lost. Still losing."
+  after "Those ledges only go one way. I keep ending up back down here!"
+  mon fomantis 10
+  mon skwovet 9
+end
+
+trainer p4a_mg_bug_tomas
+  class bugcatcher
+  name "Tomas"
+  intro "At night these two light up the whole thicket!"
+  defeat "Lights out..."
+  after "Volbeat and Illumise dance together. It's like a light show!"
+  mon volbeat 9
+  mon illumise 9
+end
+
+# ---------------------------------------------------------------- Root Hollow
+trainer p4a_rh_hiker_doyle
+  class hiker
+  name "Doyle"
+  intro "Roots, rocks and Pokémon! What more could a hiker want?"
+  defeat "Rooted to the spot!"
+  after "The carvings down here look like the ones in the Lumen Ruins. Who made them?"
+  mon roggenrola 11
+  mon diglett 10
+end
+
+trainer p4a_rh_psychic_lena
+  class psychic
+  name "Lena"
+  intro "I sensed you coming from the glade above."
+  defeat "That I did not foresee."
+  after "The stones down here hum with old energy. Step on them and listen."
+  mon ralts 11
+  mon espurr 11
+end
+
+trainer p4a_rh_bug_ike
+  class bugcatcher
+  name "Ike"
+  intro "The mushrooms down here glow at night! And so do my bugs!"
+  defeat "My bugs need sunlight..."
+  after "Foongus look just like Poké Balls. I've grabbed the wrong one twice!"
+  mon paras 10
+  mon foongus 11
+  mon nincada 10
+end
+
+trainer p4a_rh_hiker_mort
+  class hiker
+  name "Mort"
+  intro "HELLO! ...HELLo... hello... Ha! Listen to that echo!"
+  defeat "Defeat... feat... eat..."
+  after "Whismur cry like crazy when they hear an echo. This cave is their heaven."
+  mon whismur 11
+  mon geodude 11
+end
+
+# ---------------------------------------------------------------- Petal Path (east of Fernwick)
+trainer p4a_pp_lass_rose
+  class lass
+  name "Rose"
+  intro "Isn't this meadow lovely? Let's battle among the flowers!"
+  defeat "You trampled my daisies... and my team."
+  after "Flabébé each pick one flower and carry it forever. Mine chose a white one."
+  mon flabebe 6
+  mon cutiefly 6
+end
+
+trainer p4a_pp_bug_dale
+  class bugcatcher
+  name "Dale"
+  intro "Combee! Swarm formation!"
+  defeat "They flew back to the hive..."
+  after "Only female Combee evolve. I've been checking every one I catch!"
+  mon combee 5
+  mon combee 6
+  mon ledyba 6
+end
+
+trainer p4a_pp_kid_tess
+  class kid
+  name "Tess"
+  intro "I'm having a picnic with my Pokémon! You can join if you win!"
+  defeat "Okay, you can have a sandwich."
+  after "Lechonk eat everything in the picnic basket. EVERYTHING."
+  mon lechonk 6
+  mon tandemaus 6
+end
+
+trainer p4a_pp_youngster_hal
+  class youngster
+  name "Hal"
+  intro "I'm training for the Brindle Gym. You look like good practice!"
+  defeat "Maybe I need more practice first..."
+  after "Hazel uses Grass types. Pidgey's Gust really helped me. Or it would have, if I'd won."
+  mon pidgey 6
+  mon skitty 7
+end
+
+trainer p4a_pp_fisher_otto
+  class fisherman
+  name "Otto"
+  intro "This pond's my secret spot! How'd you find it? Battle!"
+  defeat "My secret's out... and so am I."
+  after "Lotad drift around here like lily pads. A Good Rod hooks bigger fish."
+  mon lotad 6
+  mon goldeen 7
+end
+
+trainer p4a_pp_beauty_lily
+  class beauty
+  name "Lily"
+  intro "I come to Petal Path to pick flowers for my hair. Want to battle?"
+  defeat "My petals are wilting!"
+  after "The berry grower in the cottage up north is so generous. Say hi to him!"
+  mon skitty 7
+  mon budew 7
+end
+
+# ---------------------------------------------------------------- Lantern Tower (Brindle City)
+trainer p4a_lt_sage_toru
+  class sage
+  name "Toru"
+  intro "The tower sways, but the sages do not. Show me your balance!"
+  defeat "I swayed after all."
+  after "This tower is built around one great pillar. In storms the whole tower bends like grass."
+  mon bellsprout 9
+  mon hoppip 9
+end
+
+trainer p4a_lt_sage_gaku
+  class sage
+  name "Gaku"
+  intro "Every step up this tower is a step toward the light. Battle!"
+  defeat "Your light is brighter."
+  after "Natu stare at the sun all day. They say Natu can see the future in it."
+  mon bellsprout 10
+  mon natu 10
+end
+
+trainer p4a_lt_sage_masa
+  class sage
+  name "Masa"
+  intro "Hoothoot keep watch over the tower by night. And I by day!"
+  defeat "Caught napping!"
+  after "Elder Rowan waits at the top. He has tested every Brindle Gym Leader since Hazel's grandmother."
+  mon hoothoot 10
+  mon bellsprout 10
+end
+
+trainer p4a_lt_sage_edmund
+  class sage
+  name "Edmund"
+  intro "Before you meet the Elder, you must pass me!"
+  defeat "You may pass."
+  after "The lantern has been empty for a hundred years. Still, we light candles every night."
+  mon sunkern 11
+  mon bellsprout 11
+  mon weepinbell 12
+end
+
+trainer p4a_lt_elder_rowan
+  class sage
+  name "Elder Rowan"
+  intro "Let us see whether your bond with your Pokémon bends without breaking."
+  defeat "Ho ho! You bend like grass in the wind, and stand back up."
+  mon bellsprout 11
+  mon bellsprout 11
+  mon weepinbell 13
+end
+
+# ---------------------------------------------------------------- Brook Falls
+trainer p4a_bf_fisher_nate
+  class fisherman
+  name "Nate"
+  intro "Fish love the cold water under the falls! I love fish! Battle!"
+  defeat "Slipped right off the hook."
+  after "The falls come all the way down from the foothills of Mt. Prism. Imagine where the water's been!"
+  mon goldeen 7
+  mon poliwag 7
+end
+
+trainer p4a_bf_lass_erin
+  class lass
+  name "Erin"
+  intro "The mist from the falls makes my hair frizzy. Let's battle to forget!"
+  defeat "Frizzy AND defeated..."
+  after "Azurill bounce around on their tails near the water. So cute!"
+  mon azurill 7
+  mon skitty 7
+end
+
+trainer p4a_bf_bug_leo
+  class bugcatcher
+  name "Leo"
+  intro "Surskit skate on the pools up here! Watch mine skate circles around you!"
+  defeat "Round and round... and down."
+  after "If you train Surskit, it grows into Masquerain. Scary eyes on its wings!"
+  mon surskit 7
+  mon kricketot 6
+  mon wurmple 6
+end
+
+trainer p4a_bf_youngster_tobias
+  class youngster
+  name "Tobias"
+  intro "I hiked all the way up from Hollowbrook! My legs are tired but my Pokémon aren't!"
+  defeat "Okay, now everyone's tired."
+  after "Going back is easier. Hop down the ledges and follow the brook!"
+  mon zigzagoon 7
+  mon taillow 8
+end
+
+trainer p4a_bf_hiker_wes
+  class hiker
+  name "Wes"
+  intro "One day I'll climb to the top of those falls! Practice battle first!"
+  defeat "Still at the bottom..."
+  after "You need a special move to climb waterfalls. Not just strong legs."
+  mon geodude 8
+  mon roggenrola 7
+end
+
+# ---------------------------------------------------------------- Glade / Root Hollow extras
+trainer p4a_gl_lass_fay
+  class lass
+  name "Fay"
+  intro "I found this glade by following the green light! Isn't it magical?"
+  defeat "The magic's worn off..."
+  after "The Moss Rock is warm, even at night. Eevee would love it here."
+  mon smoliv 10
+  mon cherubi 10
+end
+
+trainer p4a_gl_ranger_holt
+  class ranger
+  name "Holt"
+  intro "Few trainers make it past the mossy stones. Let's see what you're made of!"
+  defeat "You've earned the glade."
+  after "There's a hollow stump to the north. It leads down into the roots. Bring an Escape Rope."
+  mon phantump 11
+  mon deerling 11
+end
+
+trainer p4a_rh_bug_moss
+  class bugcatcher
+  name "Moss"
+  intro "My mom named me after this cave! Okay, not really. Battle!"
+  defeat "Squished!"
+  after "Paras grow mushrooms on their backs. The mushrooms down here are probably from Paras!"
+  mon paras 11
+  mon tarountula 11
+end

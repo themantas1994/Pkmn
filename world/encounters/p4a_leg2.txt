@@ -1,0 +1,92 @@
+# Expansion E1, leg 2 wild encounters. Orchard 11-14, Tidewater Cape 13-16, sea grotto 14-17, Cobblecrest B2F 14-17.
+
+encounters p4a_orchard
+  rate grass 25
+  grass morning bounsweet 11-13 25
+  grass morning combee 11-13 20
+  grass morning cherubi 11-13 20
+  grass morning ledyba 11-13 20
+  grass morning applin 12-14 5
+  grass morning skitty 11-13 10
+  grass day bounsweet 11-13 25
+  grass day skwovet 11-13 25
+  grass day tandemaus 11-13 20
+  grass day aipom 12-14 15
+  grass day applin 12-14 5
+  grass day minccino 11-13 10
+  grass night spinarak 11-13 25
+  grass night skwovet 11-13 20
+  grass night illumise 12-14 15
+  grass night volbeat 12-14 15
+  grass night oddish 11-13 15
+  grass night aipom 12-14 10
+  oldrod any magikarp 8-12 60
+  oldrod any goldeen 8-12 40
+  goodrod any chewtle 12-16 40
+  goodrod any barboach 12-16 35
+  goodrod any lotad 12-16 25
+end
+
+encounters p4a_tidewater_cape
+  rate grass 25
+  grass morning wingull 13-15 30
+  grass morning taillow 13-15 25
+  grass morning squawkabilly 13-15 20
+  grass morning wattrel 13-15 15
+  grass morning yamper 13-15 10
+  grass day wattrel 13-15 30
+  grass day wingull 13-15 25
+  grass day squawkabilly 13-15 20
+  grass day yamper 13-15 15
+  grass day pachirisu 13-15 10
+  grass night hoothoot 13-15 25
+  grass night meowth 13-15 25
+  grass night yamper 13-15 20
+  grass night wattrel 13-15 15
+  grass night pachirisu 13-15 15
+  surf any tentacool 18-22 45
+  surf any wingull 18-22 30
+  surf any skrelp 18-22 15
+  surf any pelipper 20-24 10
+  oldrod any magikarp 10-14 60
+  oldrod any tentacool 10-14 40
+  goodrod any binacle 14-18 30
+  goodrod any skrelp 14-18 25
+  goodrod any clamperl 14-18 25
+  goodrod any remoraid 14-18 20
+end
+
+encounters p4a_cape_grotto
+  rate cave 12
+  cave any zubat 14-16 30
+  cave any binacle 14-16 25
+  cave any krabby 14-16 20
+  cave any wimpod 14-16 15
+  cave any dwebble 14-16 10
+  surf any tentacool 18-22 50
+  surf any shellder 18-22 30
+  surf any binacle 18-22 20
+  oldrod any magikarp 10-14 60
+  oldrod any krabby 10-14 40
+  goodrod any shellder 14-18 50
+  goodrod any clamperl 14-18 50
+end
+
+encounters p4a_cobblecrest_b2f
+  rate cave 13
+  cave any zubat 14-16 20
+  cave any aron 14-16 15
+  cave any rockruff 14-16 15
+  cave any timburr 14-16 15
+  cave any sizzlipede 14-16 10
+  cave any rolycoly 14-16 10
+  cave any dwebble 14-16 10
+  cave any klawf 15-17 5
+  surf any barboach 18-22 50
+  surf any goldeen 18-22 30
+  surf any poliwhirl 20-22 20
+  oldrod any magikarp 10-14 70
+  oldrod any barboach 10-14 30
+  goodrod any barboach 14-18 60
+  goodrod any goldeen 14-18 40
+end
