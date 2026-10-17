@@ -1,0 +1,10 @@
+[
+  {
+    "map": "p4c_vr_deep_b1",
+    "id": "p4c_vr_deep_b1_vd1_stoneedge",
+    "item": "tm:stoneedge",
+    "defect": "visible-item-on-solid",
+    "reason": "The TM ball was placed at 3,20 on a solid cave_rock scenery tile in an open room: it could only be taken by facing the rock from a neighbour, and it looked embedded in the wall.",
+    "fix": "Moved to the neighbouring cave_floor tile 2,20 (item id and pickup flag unchanged, same badge stage)."
+  }
+]

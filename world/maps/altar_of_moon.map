@@ -4,6 +4,7 @@ name "Altar of the Moon"
 location "Eclipse Atoll"
 music ruins
 environment building
+class ruins
 indoor
 
 layout

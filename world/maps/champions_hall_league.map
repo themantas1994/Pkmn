@@ -5,6 +5,7 @@ name "Rematch Chamber"
 location "Coral Isles"
 music league_hall
 environment building
+class building
 indoor
 onenter p3c_league_enter
 tags powerspot gym

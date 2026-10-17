@@ -163,6 +163,7 @@ class MapCompilerTool(private val root: File) {
         var flyX = -1; var flyY = -1
         var encounters: String? = null
         var onEnter: String? = null
+        var zoneClass: String? = null
         val tags = ArrayList<String>()
         val connections = ArrayList<Connection>()
         val warps = ArrayList<Warp>()
@@ -198,6 +199,10 @@ class MapCompilerTool(private val root: File) {
                 "fly" -> { flyX = t[1].toInt(); flyY = t[2].toInt() }
                 "encounters" -> encounters = t[1].takeIf { it != "none" }
                 "onenter" -> onEnter = t[1]
+                "class" -> {
+                    val kind = Entrances.parseKind(t.getOrNull(1) ?: "") ?: throw CompileError("unknown map class '${t.getOrNull(1)}' (one of ${EntranceKind.entries.joinToString { it.name.lowercase() }})", n)
+                    zoneClass = kind.name.lowercase()
+                }
                 "tags" -> tags.addAll(t.drop(1))
                 "connect" -> connections.add(Connection(t[1], t[2], t.getOrNull(3)?.toInt() ?: 0))
                 "legend" -> {
@@ -291,7 +296,7 @@ class MapCompilerTool(private val root: File) {
         }
         return MapData(id, name, width, height, "world", palette, ground, emptyList(), music, environment, weather, indoor, dark,
             regionX, regionY, location.ifEmpty { name }, flyX, flyY, connections, warps, npcs, signs, items, triggers, obstacles,
-            flagTiles, encounters, onEnter, tags)
+            flagTiles, encounters, onEnter, tags, zoneClass)
     }
 
     private fun waterVariant(isWater: (Int, Int) -> Boolean, x: Int, y: Int, names: Set<String>?): String {
@@ -495,7 +500,18 @@ class MapCompilerTool(private val root: File) {
                 if (!m.inBounds(w.x, w.y)) errors.add("$where: warp at ${w.x},${w.y} out of bounds")
                 if (!target.inBounds(w.toX, w.toY)) errors.add("$where: warp target ${w.toMap} ${w.toX},${w.toY} out of bounds")
                 else if (!walkable(target, w.toX, w.toY)) warnings.add("$where: warp target ${w.toMap} ${w.toX},${w.toY} is on '${target.tileAt(w.toX, w.toY)}'")
+                else if (TileRules.behavior(target.tileAt(w.toX, w.toY)) == TileBehavior.WATER)
+                    errors.add("$where: warp target ${w.toMap} ${w.toX},${w.toY} is on water ('${target.tileAt(w.toX, w.toY)}'): the player would arrive standing on water without Surf")
+                if (m.inBounds(w.x, w.y)) {
+                    val tiles = Entrances.warpTilesAt(m, w.x, w.y)
+                    if (tiles.isEmpty()) errors.add("$where: warp at ${w.x},${w.y} -> ${w.toMap} is on '${m.tileAt(w.x, w.y)}', which is not a warp tile (it would not be walkable or would never trigger)")
+                    else for (tile in tiles) if (!Entrances.compatible(tile, m, target))
+                        errors.add("$where: entrance tile '$tile' (${Entrances.kindOfTile(tile)}) at ${w.x},${w.y} does not match its destination ${w.toMap} " +
+                            "(${Entrances.destinationKind(target)}, from ${Entrances.destinationKind(m)})")
+                }
             }
+            for (w in m.warps) if (w.toMap == Warp.BACK && m.inBounds(w.x, w.y) && Entrances.warpTilesAt(m, w.x, w.y).isEmpty())
+                errors.add("$where: warp at ${w.x},${w.y} -> @back is on '${m.tileAt(w.x, w.y)}', which is not a warp tile")
             for (n in m.npcs) {
                 if (!m.inBounds(n.x, n.y)) errors.add("$where: npc ${n.id} out of bounds")
                 n.trainer?.let { if (it !in trainerIds) errors.add("$where: npc ${n.id} uses unknown trainer '$it'") }
@@ -513,6 +529,14 @@ class MapCompilerTool(private val root: File) {
                 else if (dex.itemOrNull(it.item) == null) errors.add("$where: unknown item '${it.item}'")
             }
             if (m.items.map { it.id }.toSet().size != m.items.size) errors.add("$where: duplicate item ids")
+            for (it in m.items) {
+                if (!m.inBounds(it.x, it.y)) { errors.add("$where: item ${it.id} at ${it.x},${it.y} is out of bounds"); continue }
+                val behaviors = (listOf(m.tileAt(it.x, it.y)) + m.flagTiles.filter { f -> f.x == it.x && f.y == it.y }.map { f -> f.tile }).map { t -> TileRules.behavior(t) }
+                if (it.hidden) behaviors.firstOrNull { b -> b in setOf(TileBehavior.WATER, TileBehavior.WATERFALL, TileBehavior.PC, TileBehavior.TV, TileBehavior.BOOKSHELF, TileBehavior.SIGN) }?.let { b ->
+                    errors.add("$where: hidden item ${it.id} at ${it.x},${it.y} is on a $b tile where interacting never finds it")
+                }
+                if (m.warps.any { w -> w.x == it.x && w.y == it.y }) errors.add("$where: item ${it.id} at ${it.x},${it.y} sits on a warp tile")
+            }
         }
         // Scripts: referenced trainers, maps, shops, items, species.
         for (s in scripts.values) for (ins in s.code) if (ins is Instr.Cmd) {
@@ -529,6 +553,9 @@ class MapCompilerTool(private val root: File) {
                 "call" -> if (a[0] !in scripts) errors.add("$loc: unknown script '${a[0]}'")
             }
         }
+        // The pickup flag is `item:<id>`: ids must be unique across all maps (a shared id would make one pickup remove the other).
+        maps.flatMap { m -> m.items.map { it.id to m.id } }.groupBy({ it.first }, { it.second }).filter { it.value.size > 1 }
+            .forEach { (id, where) -> errors.add("item id '$id' is used by ${where.joinToString()}: their pickup flags collide") }
         val usedTrainers = maps.flatMap { m -> m.npcs.mapNotNull { it.trainer } } +
             scripts.values.flatMap { s -> s.code.filterIsInstance<Instr.Cmd>().filter { it.name == "battle" }.map { it.args[0] } }
         for (t in trainers) if (t.id !in usedTrainers) warnings.add("trainer '${t.id}' is never used")

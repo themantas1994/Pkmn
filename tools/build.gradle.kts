@@ -25,6 +25,8 @@ fun registerTool(name: String, desc: String, vararg args: String) = tasks.regist
     // Extra arguments: ./gradlew :tools:importSprites -Pargs="--only=1-151 --force"
     this.args = args.toList() + ((project.findProperty("args") as String?)?.split(" ")?.filter { it.isNotBlank() } ?: emptyList())
     maxHeapSize = "2g"
+    (project.findProperty("auditDebug") as String?)?.let { systemProperty("audit.debug", it) }
+    (project.findProperty("auditMap") as String?)?.let { systemProperty("audit.map", it) }
 }
 
 registerTool("importData", "Convert data-src/ raw datasets into assets/data/*.json", "import")
@@ -32,6 +34,8 @@ registerTool("compileMaps", "Compile maps/*.map sources into assets/maps/*.json"
 registerTool("validateContent", "Validate all content and write reports/*.json", "validate")
 registerTool("buildAssetManifest", "Scan assets and write the asset manifest", "manifest")
 registerTool("checkProgression", "Check badge-order reachability, softlocks and orphaned content", "progression")
+registerTool("auditEntrances", "Audit every warp: entrance tile vs destination class, traversal, reverse transition -> reports/entrances.*", "entrances")
+registerTool("auditItems", "Strict item reachability audit per badge stage and placement defects -> reports/items.*", "items")
 registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")

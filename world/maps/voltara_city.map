@@ -72,3 +72,4 @@ item cellbattery 33 3 cellbattery
 # Expansion E1: north road to Solar Ridge.
 tile 19 2 sign
 sign 19 2 script=p4a_vc_ridge_sign
+tile 6 5 mart_door

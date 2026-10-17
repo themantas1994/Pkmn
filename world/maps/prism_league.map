@@ -4,6 +4,7 @@ name "Pokémon League"
 location "Prism Plateau"
 music league_hall
 environment indoor
+class building
 indoor
 tags powerspot pokecenter
 
