@@ -69,18 +69,32 @@ class SpriteStylerTest {
     }
 
     @Test
-    fun battleSpriteIsAChunky3xGrid() {
+    fun battleSpriteIsAChunkyNearestNeighbourGrid() {
         val out = SpriteStyler.style(blob(), "back")
-        for (y in 0 until 96) for (x in 0 until 96) assertEquals(out.getRGB(x / 3 * 3, y / 3 * 3), out.getRGB(x, y))
+        for (y in 0 until 96) for (x in 0 until 96) assertEquals(out.getRGB(x / SpriteStyler.UPSCALE * SpriteStyler.UPSCALE, y / SpriteStyler.UPSCALE * SpriteStyler.UPSCALE), out.getRGB(x, y))
     }
 
     @Test
-    fun iconIs16x16FromNonSquareInputWithoutCropping() {
-        val out = SpriteStyler.style(blob(68, 56), "icon")
+    fun iconIs16x16FromNonSquareContentKeepingItsAspectRatio() {
+        // A wide 60x20 shape on a 68x56 canvas: cropped to its content, fitted as 16 wide and centred vertically,
+        // so the top row stays transparent.
+        val wide = BufferedImage(68, 56, BufferedImage.TYPE_INT_ARGB)
+        for (y in 18 until 38) for (x in 4 until 64) wide.setRGB(x, y, if (x < 34) 0xFF3060C0.toInt() else 0xFF60C030.toInt())
+        val out = SpriteStyler.style(wide, "icon")
         assertEquals(16, out.width); assertEquals(16, out.height)
         assertNull(SpriteStyler.validate(out, "icon"))
-        // The 68x56 canvas is fitted as 16x13 and centred: the top row (outside the fitted area) stays transparent.
         assertTrue((0 until 16).all { out.getRGB(it, 0) ushr 24 == 0 })
+    }
+
+    @Test
+    fun smallSpritesAreCroppedToFillTheFrameAndStandOnTheBottomEdge() {
+        // A 12x12 creature in the middle of a 96x96 canvas (as in PokeAPI's sprites of small Pokémon).
+        val small = BufferedImage(96, 96, BufferedImage.TYPE_INT_ARGB)
+        for (y in 42 until 54) for (x in 42 until 54) small.setRGB(x, y, 0xFF40A040.toInt())
+        val out = SpriteStyler.style(small, "front")
+        val opaqueCols = (0 until 96).count { x -> (0 until 96).any { y -> out.getRGB(x, y) ushr 24 == 255 } }
+        assertTrue(opaqueCols >= 80, "cropped sprite fills the frame ($opaqueCols columns)")
+        assertTrue((0 until 96).any { x -> out.getRGB(x, 95) ushr 24 == 255 }, "battle sprites stand on the bottom edge")
     }
 
     @Test

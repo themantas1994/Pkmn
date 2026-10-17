@@ -1,0 +1,531 @@
+{
+  "generatedFrom": "docs/MECHANICS.md checklist (one list, two renderings)",
+  "statusMeaning": {
+    "tested": "Implemented, with the automated tests named in evidence",
+    "implemented": "Implemented; only indirect or partial test coverage",
+    "simplified": "Deliberately simplified or changed for this game (documented)",
+    "excluded": "Deliberately out of scope",
+    "open": "Known gap or unverified behaviour"
+  },
+  "counts": {
+    "tested": 43,
+    "implemented": 12,
+    "simplified": 4,
+    "excluded": 4,
+    "open": 1
+  },
+  "mechanics": [
+    {
+      "area": "Identity and creation",
+      "mechanic": "Six base stats, types, abilities, gender ratio, height/weight, growth rate, EV yield, base friendship",
+      "status": "tested",
+      "ruleset": "Gen IX data (Showdown + PokeAPI)",
+      "evidence": "ContentValidatorTest; :tools:validateContent (0 errors); EV yields 1-3 per base species checked",
+      "note": "Community datasets, not official"
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Catch rate data",
+      "status": "tested",
+      "ruleset": "Gen IX (PokeAPI capture_rate)",
+      "evidence": "ContentValidator cross-check vs PokeAPI (0 mismatches over 1025 base species)",
+      "note": ""
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Species/form identity by id (Showdown-style ids), forms tracked separately",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "AcquisitionTest forms; SaveValidator repair",
+      "note": ""
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Individual: level, EXP, nature, IVs, EVs, moves, ability slot, held item, nickname, OT, ball, met data, unique id",
+      "status": "tested",
+      "ruleset": "Gen III+",
+      "evidence": "StatFormulaTest, AcquisitionTest save/load + migration",
+      "note": ""
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Natures (25, +10%/-10%, HP never affected, neutral natures)",
+      "status": "tested",
+      "ruleset": "Gen III+",
+      "evidence": "StatFormulaTest: all 25 natures",
+      "note": ""
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Mints (stat nature separate from original nature)",
+      "status": "tested",
+      "ruleset": "Gen VIII+",
+      "evidence": "StatFormulaTest mint test",
+      "note": ""
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "IVs 0-31, random on creation; 3 perfect IVs for scripted legendaries/static encounters; fixed trainer IVs",
+      "status": "tested",
+      "ruleset": "Gen III+ / Gen VI+ static",
+      "evidence": "StatFormulaTest generation test",
+      "note": ""
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "EVs: 252 per stat, 510 total, floor(EV/4) in stats",
+      "status": "tested",
+      "ruleset": "Gen VI+",
+      "evidence": "StatFormulaTest",
+      "note": ""
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Shiny odds 1/4096 (Shiny Charm 3 rolls ≈ 1/1365); scripted shinies",
+      "status": "implemented",
+      "ruleset": "Gen VI+",
+      "evidence": "GameContext.rollEncounter, ScriptVM buildMon",
+      "note": "Shiny tracking in Pokédex tested in AcquisitionTest"
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Hidden abilities in the wild (5%)",
+      "status": "simplified",
+      "ruleset": "Design",
+      "evidence": "GameContext.rollEncounter",
+      "note": "Scarlet/Violet normally give hidden abilities only through special encounters; 5% is a design choice"
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Wild held items",
+      "status": "excluded",
+      "ruleset": "—",
+      "evidence": "—",
+      "note": "Wild Pokémon never hold items (no wild held-item dataset imported)"
+    },
+    {
+      "area": "Identity and creation",
+      "mechanic": "Markings, ribbons, Pokérus, contests",
+      "status": "excluded",
+      "ruleset": "—",
+      "evidence": "—",
+      "note": "Out of scope for this campaign"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Stat formula and integer rounding",
+      "status": "tested",
+      "ruleset": "Gen III+",
+      "evidence": "StatFormulaTest (Bulbapedia Garchomp example + hand fixtures)",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Damage formula, STAB 1.5/2.0, Tera STAB, type effectiveness, immunities, random 85-100%",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "BattleCoreTest (hand-computed damage), BattleEdgeCaseTest",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Critical hits (stages 1/24, 1/8, 1/2, always; x1.5; ignore stat drops)",
+      "status": "tested",
+      "ruleset": "Gen VII+",
+      "evidence": "BattleEdgeCaseTest crits vs boosts",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Priority, Trick Room, speed order",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "BattleEdgeCaseTest priority/Trick Room",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Accuracy/evasion stages, speed ties",
+      "status": "implemented",
+      "ruleset": "Gen IX",
+      "evidence": "BattleFuzzTest invariants only",
+      "note": "No dedicated accuracy-stage test"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Multi-hit moves, recoil, drain, healing, stat changes, secondary effects",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "MoveExecutionTest (per-move audit), BattleCoreTest",
+      "note": "See reports/moves-audit.md"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Major status: burn (1/16, halved physical damage), paralysis (25%, half Speed), sleep, poison, toxic",
+      "status": "tested",
+      "ruleset": "Gen VII+",
+      "evidence": "BattleCoreTest burn/paralysis/sleep/toxic tests",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Freeze (20% thaw per turn, thawed by Fire moves)",
+      "status": "implemented",
+      "ruleset": "Gen VII+",
+      "evidence": "Conditions.kt frz",
+      "note": "No dedicated test"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Substitute, Perish Song, Sky Drop, Snatch, Illusion, Disguise",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "BattleEdgeCaseTest",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Confusion (1/3 self-hit, 2-5 turns), flinch, trapping",
+      "status": "implemented",
+      "ruleset": "Gen VII+",
+      "evidence": "Conditions.kt; MoveExecutionTest runs the inflicting moves",
+      "note": "Self-hit chance and duration not asserted by a dedicated test"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Sandstorm, Stealth Rock, Gravity",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "BattleEdgeCaseTest, BattleCoreTest",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Other weather, terrains, screens, Spikes",
+      "status": "implemented",
+      "ruleset": "Gen IX",
+      "evidence": "BattleCoverage classification; MoveExecutionTest runs the moves",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Abilities (318: 299 scripted, 19 no battle effect)",
+      "status": "implemented",
+      "ruleset": "Gen IX",
+      "evidence": "BattleCoverageTest classification; edge-case tests for many",
+      "note": "Classification proves a handler exists, not that every interaction is tested"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Held items in battle (371 implemented, 468 no battle effect)",
+      "status": "implemented",
+      "ruleset": "Gen IX",
+      "evidence": "BattleCoverageTest; edge-case tests (Focus Sash, Life Orb, Choice, Assault Vest...)",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Switching, forced switching, replacement after faint, Shift/Set",
+      "status": "tested",
+      "ruleset": "Gen IX / GSC style",
+      "evidence": "engine+core BattleFlowTest",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "PP use, Struggle, PP Up/Max, Ethers/Elixirs",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "BattleEdgeCaseTest Struggle; FieldItems",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Mega Evolution, Z-Moves, Dynamax/Gigantamax, Terastallization, Primal, Ultra Burst; one gimmick per battle",
+      "status": "tested",
+      "ruleset": "Crystalline unified ruleset",
+      "evidence": "GimmickTest",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Singles",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "all battle tests",
+      "note": ""
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Double/triple battles",
+      "status": "excluded",
+      "ruleset": "—",
+      "evidence": "—",
+      "note": "Singles only"
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "EXP formula (scaled, Gen V+), Lucky Egg, traded bonus",
+      "status": "tested",
+      "ruleset": "Gen VII+",
+      "evidence": "BattleFlowTest exactly one EXP award per faint",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "Trainer-battle x1.5 EXP",
+      "status": "open",
+      "ruleset": "Gen VII+ unverified",
+      "evidence": "—",
+      "note": "Kept from Gen VI; no primary source reachable (see docs/FIDELITY.md)"
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "EXP and EVs for catching",
+      "status": "tested",
+      "ruleset": "Gen VI+",
+      "evidence": "CaptureTest 12",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "EV awards once per defeated Pokémon; Macho Brace, Power items; level-100 Pokémon still gain EVs",
+      "status": "tested",
+      "ruleset": "Gen VII+",
+      "evidence": "StatFormulaTest EV tests; BattleFlowTest",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "Party-wide Exp. Share (option, off by default)",
+      "status": "tested",
+      "ruleset": "Gen VI+ (option)",
+      "evidence": "TimeAndEventsTest/options; PLAYTIME.md",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "Level-up stat recalculation keeping damage; move learning; four-move replacement prompt",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "StatFormulaTest level-up; MoveLearnFlow (UI)",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "Level caps on Challenge difficulty",
+      "status": "implemented",
+      "ruleset": "Design",
+      "evidence": "GameContext.levelCap",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "Friendship: level-up, walking, vitamins, berries, fainting; friendship evolution at 160",
+      "status": "implemented",
+      "ruleset": "Gen VIII+",
+      "evidence": "Progression.evolutionTarget; EvolutionTest (Sylveon branch)",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "Vitamins (+10 to 252), feathers (+1), EV berries (-10)",
+      "status": "tested",
+      "ruleset": "Gen VIII+",
+      "evidence": "StatFormulaTest",
+      "note": ""
+    },
+    {
+      "area": "Experience and growth",
+      "mechanic": "Obedience",
+      "status": "excluded",
+      "ruleset": "—",
+      "evidence": "—",
+      "note": "All Pokémon obey. The capture badge penalty still uses Scarlet/Violet's obedience table"
+    },
+    {
+      "area": "Evolution",
+      "mechanic": "Level, item, friendship, time, move, held item, gender, party, location, stat-comparison and special evolutions",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "EvolutionTest; :tools:validateContent evolution coverage (reports/coverage-evolutions.json)",
+      "note": ""
+    },
+    {
+      "area": "Evolution",
+      "mechanic": "Trade evolutions via Linking Cord (offline substitute)",
+      "status": "tested",
+      "ruleset": "Legends: Arceus item",
+      "evidence": "EvolutionTest Linking Cord",
+      "note": ""
+    },
+    {
+      "area": "Evolution",
+      "mechanic": "Branching (Wurmple, Toxel by original nature, Burmy cloak...)",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "EvolutionTest branch selection",
+      "note": ""
+    },
+    {
+      "area": "Evolution",
+      "mechanic": "Cancel with B, Everstone",
+      "status": "implemented",
+      "ruleset": "Gen IX",
+      "evidence": "EvolutionScreen; EvolutionTest Everstone",
+      "note": ""
+    },
+    {
+      "area": "Evolution",
+      "mechanic": "Evolution keeps nickname, nature, IVs, EVs; registers the new species and shows its Pokédex entry",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "AcquisitionTest evolution",
+      "note": ""
+    },
+    {
+      "area": "Evolution",
+      "mechanic": "Unreachable evolutions (12 regional, Vivillon Fancy, Kubfu)",
+      "status": "simplified",
+      "ruleset": "Design",
+      "evidence": "validateContent warnings (documented in STATUS.md)",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Capture formula (fixed-point), balls, status, badge penalty, critical captures",
+      "status": "tested",
+      "ruleset": "Gen IX (reverse-engineered)",
+      "evidence": "CaptureTest vs CaptureReference; reports/capture.md",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Low-level capture bonus",
+      "status": "simplified",
+      "ruleset": "Gen IX, Casual only",
+      "evidence": "CaptureTest 10",
+      "note": "Deliberate: off on Normal/Challenge (docs/CAPTURE.md)"
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Trainer battles block balls; uncatchable scripted encounters; full storage blocks balls",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "CaptureTest 10; AcquisitionTest storage",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Pokédex seen/caught by species id, forms, shinies; entry on first registration",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "AcquisitionTest",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Nickname offer: starter, captures (incl. duplicates/legendaries), gifts; validation; rename/reset",
+      "status": "tested",
+      "ruleset": "Gen VI+ (12 chars)",
+      "evidence": "AcquisitionTest; scenes capture_flow/starter_nickname",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Party of 6, PC with 16x30 boxes",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "AcquisitionTest full party",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "In-game trades (OT is the NPC, no nickname offer)",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "WorldTest trades",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Eggs/breeding",
+      "status": "simplified",
+      "ruleset": "Design",
+      "evidence": "ScriptVM giveegg",
+      "note": "Gift eggs hatch immediately at level 1; no Day Care or breeding"
+    },
+    {
+      "area": "Items, progression, world",
+      "mechanic": "Healing and status items in and out of battle",
+      "status": "implemented",
+      "ruleset": "Gen IX",
+      "evidence": "FieldItems, BagItemEffects",
+      "note": "EV items and Mints are tested (StatFormulaTest); Potions etc. only in play-throughs"
+    },
+    {
+      "area": "Items, progression, world",
+      "mechanic": "Held item give/take; consumed items stay consumed; stolen items",
+      "status": "implemented",
+      "ruleset": "Gen IX",
+      "evidence": "Battle.cleanupAfterBattle",
+      "note": ""
+    },
+    {
+      "area": "Items, progression, world",
+      "mechanic": "Duplicate item/reward prevention (flags), one-time gifts",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "WorldTest every script yes/no path; ItemAuditTest",
+      "note": ""
+    },
+    {
+      "area": "Items, progression, world",
+      "mechanic": "Badges, gym order, field moves gated by badges",
+      "status": "tested",
+      "ruleset": "Design",
+      "evidence": "checkProgression; StrictReachTest",
+      "note": ""
+    },
+    {
+      "area": "Items, progression, world",
+      "mechanic": "Day/night, weekly events, time-dependent encounters and evolutions",
+      "status": "tested",
+      "ruleset": "GSC-style clock",
+      "evidence": "TimeAndEventsTest",
+      "note": ""
+    },
+    {
+      "area": "Items, progression, world",
+      "mechanic": "Healing at Pokémon Centers, blackout",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "WorldTest (every script run on its yes/no paths)",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "Atomic, checksummed, versioned saves with backup recovery",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "WorldTest save round trip, corruption and tamper tests",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "v1 -> v2 migration (Pokédex forms, nickname offers, unique ids); no rerolls on load",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "AcquisitionTest migration",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "Interrupted capture resumes at the nickname prompt",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "AcquisitionTest interruption",
+      "note": ""
+    }
+  ]
+}

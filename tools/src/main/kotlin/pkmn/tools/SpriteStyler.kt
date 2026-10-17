@@ -7,18 +7,21 @@ import javax.imageio.ImageIO
 import kotlin.math.roundToInt
 
 /**
- * Converts locally sourced Pokémon PNGs to the game's GBC-like pixel style: 32x32 logical battle sprites enlarged 3x
- * to 96x96 (nearest neighbour), 16x16 icons, binary alpha, at most four opaque colours, channels snapped to multiples
+ * Converts locally sourced Pokémon PNGs to the game's GBC-like pixel style: the sprite is cropped to its visible
+ * pixels, fitted to a 48x48 logical battle grid (bottom-aligned) enlarged 2x to 96x96 (nearest neighbour), 16x16 icons, binary alpha, at most four opaque colours, channels snapped to multiples
  * of 8, optional one-pixel outline in the darkest palette colour.
  *
  * Kotlin port of `sprite_style.py` from the user-supplied "pkmn-sprite-style-kit" (the origin of the algorithm).
  * Differences from the kit: no Pillow dependency (own area-averaging downscale and median cut), a sprite without any
- * opaque pixel is an error instead of an empty image, and the output is deterministic byte for byte.
+ * opaque pixel is an error instead of an empty image, the output is deterministic byte for byte, and (after reviewing
+ * the full roster) sprites are cropped to their content and use a 48-pixel grid instead of the kit's uncropped 32-pixel
+ * grid, which shrank small Pokémon to a few pixels and lost most detail.
  */
 object SpriteStyler {
-    const val BATTLE_LOGICAL = 32
+    /** Battle sprites: a 48-pixel grid (Gold/Silver/Crystal battle sprites are 56 px) enlarged 2x to 96 px. */
+    const val BATTLE_LOGICAL = 48
     const val ICON_SIZE = 16
-    const val UPSCALE = 3
+    const val UPSCALE = 2
     const val ALPHA_THRESHOLD = 112
     const val MAX_COLOURS = 4
     const val RGB_STEP = 8
@@ -71,7 +74,7 @@ object SpriteStyler {
     /** Styles one image. Throws [IllegalArgumentException] when the sprite has no visible pixels. */
     fun style(source: BufferedImage, kind: String, outline: Boolean = true): BufferedImage {
         val size = logicalSize(kind)
-        val argb = containOnCanvas(source, size)
+        val argb = containOnCanvas(cropToContent(source), size, bottom = kind != "icon")
         val n = size * size
         val opaque = BooleanArray(n) { (argb[it] ushr 24) >= ALPHA_THRESHOLD }
         val firstOpaque = opaque.indexOfFirst { it }
@@ -149,11 +152,26 @@ object SpriteStyler {
     // ------------------------------------------------------------------ downscale
 
     /**
-     * Fits the complete source into a [size] x [size] canvas without cropping: the image is scaled so its longer side
+     * Fits the source (already cropped to its content) into a [size] x [size] canvas: the image is scaled so its longer side
      * equals [size] (area averaging on premultiplied alpha, so transparent pixels never bleed colour) and centred.
      * Returns non-premultiplied ARGB pixels.
      */
-    private fun containOnCanvas(source: BufferedImage, size: Int): IntArray {
+    /**
+     * Crops [source] to the bounding box of its visible pixels, so a small Pokémon drawn in the
+     * middle of a large transparent canvas fills the frame as Gold/Silver/Crystal sprites do.
+     */
+    fun cropToContent(source: BufferedImage): BufferedImage {
+        var minX = Int.MAX_VALUE; var minY = Int.MAX_VALUE; var maxX = -1; var maxY = -1
+        for (y in 0 until source.height) for (x in 0 until source.width) {
+            if ((source.getRGB(x, y) ushr 24) >= ALPHA_THRESHOLD) {
+                if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y
+            }
+        }
+        if (maxX < 0) return source
+        return source.getSubimage(minX, minY, maxX - minX + 1, maxY - minY + 1)
+    }
+
+    private fun containOnCanvas(source: BufferedImage, size: Int, bottom: Boolean = false): IntArray {
         val sw = source.width; val sh = source.height
         val scale = minOf(size.toDouble() / sw, size.toDouble() / sh)
         val nw = (sw * scale).roundToInt().coerceIn(1, size)
@@ -162,7 +180,8 @@ object SpriteStyler {
         source.getRGB(0, 0, sw, sh, src, 0, sw)
         val resized = areaResize(src, sw, sh, nw, nh)
         val canvas = IntArray(size * size)
-        val ox = (size - nw) / 2; val oy = (size - nh) / 2
+        // Battle sprites stand on the bottom edge (the battle layout puts them on their platform); icons are centred.
+        val ox = (size - nw) / 2; val oy = if (bottom) size - nh else (size - nh) / 2
         for (y in 0 until nh) for (x in 0 until nw) canvas[(oy + y) * size + ox + x] = resized[y * nw + x]
         return canvas
     }
