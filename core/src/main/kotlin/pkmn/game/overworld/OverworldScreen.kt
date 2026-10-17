@@ -189,6 +189,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         game.say(*def.intro.map { ctx.format(it) }.toTypedArray()) {
             val now = ctx.now()
             startWildBattle(mon, canRun = true, music = def.music) { outcome ->
+                scriptBusy = false // also covers startWildBattle's early return when no Pokémon can battle
+                if (outcome == BattleOutcome.RAN && state.party.none { !it.isFainted }) return@startWildBattle
                 ctx.content.events.markEncountered(def, state, now)
                 if (outcome == BattleOutcome.CAUGHT) ctx.content.events.markCaught(def, state)
                 actors.remove(a.id)
