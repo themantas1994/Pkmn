@@ -7,13 +7,13 @@
     "asset-grid": 1
   },
   "generatedBy": "pkmn.tools.AssetManifestTool",
-  "bundledAssets": 449,
+  "bundledAssets": 451,
   "localAssets": 0,
   "bundledByCategory": {
     "audio": 40,
     "font": 6,
     "map": 223,
-    "other": 151,
+    "other": 153,
     "tile": 2,
     "ui": 27
   },

@@ -1,16 +1,28 @@
 {
   "version": 1,
   "root": "assets",
-  "count": 449,
+  "count": 451,
   "byCategory": {
     "audio": 40,
     "font": 6,
     "map": 223,
-    "other": 151,
+    "other": 153,
     "tile": 2,
     "ui": 27
   },
   "assets": [
+    {
+      "id": "anim/battle",
+      "path": "assets/anim/battle.json",
+      "format": "json",
+      "sizeBytes": 3171,
+      "category": "other",
+      "source": "Hand-written animation timing and move-effect style data",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "unspecified"
+    },
     {
       "id": "audio/music/battle_champion",
       "path": "assets/audio/music/battle_champion.mml",
@@ -486,6 +498,18 @@
       "sizeBytes": 1317,
       "category": "audio",
       "source": "Original compositions written for Pokémon Crystalline (MML song data, synthesised at runtime by pkmn.game.audio.ChipSynth)",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true,
+      "status": "unspecified"
+    },
+    {
+      "id": "events/events",
+      "path": "assets/events/events.json",
+      "format": "json",
+      "sizeBytes": 595,
+      "category": "other",
+      "source": "Hand-written recurring world event definitions (see docs/EVENTS.md)",
       "license": "CC0-1.0",
       "author": "Pokémon Crystalline contributors",
       "redistributable": true,
