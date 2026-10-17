@@ -16,6 +16,8 @@ This needs `xvfb-run`. It is not part of CI, because the GitHub runner has no Xv
 | `battle_six.txt` | `battle_intro_trainer`, `battle_ui_six`, `battle_shift_lead`, `battle_shift_prompt`, `battle_party_select`, `battle_next_foe` |
 | `battle_one.txt` | `battle_ui_one`, `battle_last_foe_fainted`, `battle_victory` |
 | `battle_wild.txt` | `wild_ui`, `wild_catch_shake` |
+| `capture_flow.txt` | `capture_registered`, `capture_dex_entry`, `capture_nickname_ask`, `capture_name_entry` |
+| `starter_nickname.txt` | `starter_received`, `starter_nickname_ask` |
 | `daynight.txt` | `town_morning`, `town_day`, `town_evening`, `town_night` |
 | `event.txt` | `event_wednesday_night`, `event_thursday_night`, `event_intro`, `event_battle` |
 | `entrances.txt` | `entrance_forest`, `entrance_mine_cave`, `entrance_ruins`, `entrance_tower`, `entrance_house`, `item_before`, `item_after` |

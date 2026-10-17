@@ -30,6 +30,8 @@ data class BattleRules(
     val inverse: Boolean = false,
     /** The player's trainer id; Pokémon with another OT id (traded) earn 1.5× experience. 0 = no traded bonus. */
     val playerOtId: Int = 0,
+    /** Capture settings (badge penalty, low-level bonus, Pokédex for Repeat Ball and critical captures). */
+    val capture: CaptureRules = CaptureRules(),
 ) {
     companion object {
         val ALL_GIMMICKS = Gimmick.entries.toSet()
@@ -188,7 +190,7 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
 
     private fun computeStats(): IntArray = IntArray(5) { i ->
         val st = Stat.NON_HP[i]
-        Pokemon.calcStat(species, st, mon.level, mon.ivs[st], mon.evs[st], mon.nature)
+        Pokemon.calcStat(species, st, mon.level, mon.ivs[st], mon.evs[st], mon.statNature)
     }
 
     /** Changes the current (battle) species, updating types, ability (optionally) and stats. */

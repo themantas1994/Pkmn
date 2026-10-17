@@ -17,7 +17,7 @@ trainer p3a_r9_lass_wren
   intro "My fluffy friends love this warm weather!"
   defeat "Aww, my fluffballs!"
   after "Altaria sings so nicely when it's sunny."
-  mon altaria 39 moves=dragonpulse,moonblast,cottonguard,roost
+  mon altaria 39 moves=dragonpulse,disarmingvoice,cottonguard,roost
   mon whimsicott 38
 end
 

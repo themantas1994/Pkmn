@@ -1,83 +1,173 @@
 package pkmn.engine.battle
 
 import pkmn.engine.mon.MajorStatus
-import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 
-/** Generation VIII+ capture formula including critical captures. */
+/**
+ * Capture settings for one battle (docs/CAPTURE.md). The defaults are the Scarlet/Violet rules; the campaign fills in
+ * the player's badges and Pokédex, and the difficulty decides whether the low-level bonus applies.
+ */
+data class CaptureRules(
+    /** Badges the player owns (badge penalty). */
+    val badges: Int = 8,
+    /** Highest level that [badges] badges can control: index = badge count (Scarlet/Violet obedience table). */
+    val badgeLevels: List<Int> = SV_BADGE_LEVELS,
+    /** Scarlet/Violet low-level bonus: (36 - 2 x level) / 10 for wild Pokémon below level 13. */
+    val lowLevelBonus: Boolean = true,
+    /** Species (base species ids) registered as caught: the Repeat Ball and critical-capture odds read it. */
+    val caughtSpecies: Set<String> = emptySet(),
+    val catchingCharm: Boolean = false,
+    /** Out-of-battle multiplier D (sandwich Capture Power, off-guard start). 1 in this game. */
+    val difficultyMultiplier: Double = 1.0,
+) {
+    companion object {
+        val SV_BADGE_LEVELS = listOf(25, 30, 35, 40, 45, 50, 55, 60, 100)
+    }
+}
+
+/**
+ * Generation IX (Scarlet/Violet) capture routine, in the game's 1/4096 fixed-point steps.
+ *
+ * Final rate: X = (((3M - 2H) x G x C x B x BP) / 3M) x L x S x D, capped at 255; X >= 255 always catches.
+ * Shake threshold: Y = floor(65536 / (255 / X)^(3/16)); four checks (one on a critical capture), each passing when a
+ * random number in 0..65535 is below Y. Critical capture: random 0..255 below floor(min(255, X) x P x Ch / 6).
+ * Sources and their confidence are listed in docs/CAPTURE.md.
+ */
 object CatchCalc {
     data class Result(val caught: Boolean, val shakes: Int, val critical: Boolean)
 
+    /** Every multiplier of one throw, for tests, reports and the capture audit. */
+    data class Factors(
+        val maxHp: Int, val hp: Int, val catchRate: Int, val ball: Double, val badgePenalty: Double, val lowLevel: Double,
+        val status: Double, val difficulty: Double, val guaranteed: Boolean,
+    )
+
+    private fun round4096(x: Double) = Math.round(x * 4096.0) / 4096.0
+    private fun floor4096(x: Double) = Math.floor(x * 4096.0) / 4096.0
+
+    fun isUltraBeast(sp: pkmn.engine.data.SpeciesData) = "Ultra Beast" in sp.tags
+
+    /** Ball bonus B. Master Ball returns 0 (the formula is skipped). */
     fun ballModifier(b: Battle, user: BattleMon, target: BattleMon, ball: String): Double {
         val sp = target.species
+        if (ball == "masterball") return 0.0
+        if (isUltraBeast(sp)) return if (ball == "beastball") 5.0 else 410.0 / 4096.0
         val types = target.effectiveTypes()
         return when (ball) {
-            "masterball" -> 255.0
             "greatball" -> 1.5
             "ultraball" -> 2.0
             "safariball", "sportball" -> 1.5
             "netball" -> if ("Water" in types || "Bug" in types) 3.5 else 1.0
             "diveball" -> if (b.environment == "water") 3.5 else 1.0
-            "nestball" -> max(1.0, (41 - target.level) / 10.0)
-            "repeatball" -> if (b.player.mons.isNotEmpty() && repeatCheck?.invoke(sp.baseSpecies) == true) 3.5 else 1.0
-            "timerball" -> min(4.0, 1.0 + b.turn * 1229.0 / 4096.0)
+            "lureball" -> if (b.environment == "water" || b.environment == "fishing") 4.0 else 1.0
+            "nestball" -> if (target.level < 30) max(1.0, (41 - target.level) / 10.0) else 1.0
+            "repeatball" -> if (sp.baseSpecies in b.rules.capture.caughtSpecies) 3.5 else 1.0
+            "timerball" -> min(4.0, 1.0 + (b.turn - 1).coerceAtLeast(0) * 1229.0 / 4096.0)
             "duskball" -> if (b.isNight || b.environment == "cave") 3.0 else 1.0
             "quickball" -> if (b.turn <= 1) 5.0 else 1.0
-            "levelball" -> when { user.level >= target.level * 4 -> 8.0; user.level >= target.level * 2 -> 4.0; user.level > target.level -> 2.0; else -> 1.0 }
-            "lureball" -> if (b.environment == "fishing") 4.0 else 1.0
+            "levelball" -> when {
+                user.level / 4 >= target.level -> 8.0
+                user.level / 2 >= target.level -> 4.0
+                user.level > target.level -> 2.0
+                else -> 1.0
+            }
             "moonball" -> if (sp.evolutions.any { it.item == "moonstone" }) 4.0 else 1.0
-            "loveball" -> if (user.species.baseSpecies == sp.baseSpecies && user.mon.gender != target.mon.gender && user.mon.gender != pkmn.engine.mon.Gender.NONE) 8.0 else 1.0
-            "heavyball" -> 1.0 // handled as an additive modifier below
+            "loveball" -> if (user.species.baseSpecies == sp.baseSpecies && user.mon.gender != target.mon.gender &&
+                user.mon.gender != pkmn.engine.mon.Gender.NONE && target.mon.gender != pkmn.engine.mon.Gender.NONE) 8.0 else 1.0
             "fastball" -> if (sp.baseStats.spe >= 100) 4.0 else 1.0
-            "dreamball" -> if (target.status == MajorStatus.SLEEP) 4.0 else 1.0
-            "beastball" -> if ("Ultra Beast" in sp.tags) 5.0 else 0.1
-            else -> 1.0
+            "dreamball" -> if (target.status == MajorStatus.SLEEP || target.ability == "comatose") 4.0 else 1.0
+            "beastball" -> 410.0 / 4096.0
+            else -> 1.0 // Poké, Premier, Luxury, Heal, Friend, Heavy (additive, below) and any other ball
         }
     }
 
-    /** Hook so the campaign layer can tell the Repeat Ball whether a species was caught before. */
-    var repeatCheck: ((String) -> Boolean)? = null
+    /** Badge penalty BP: x0.8 for every badge missing to control a Pokémon of [level]. */
+    fun badgePenalty(rules: CaptureRules, level: Int): Double {
+        if (rules.badges >= rules.badgeLevels.size - 1) return 1.0
+        var bp = 1.0f
+        var i = rules.badges
+        while (i < rules.badgeLevels.size && rules.badgeLevels[i] < level) { bp *= 0.8f; i++ }
+        return round4096(bp.toDouble())
+    }
 
-    fun attempt(b: Battle, user: BattleMon, target: BattleMon, ball: String): Result {
-        if (ball == "masterball") return Result(true, 3, false)
-        val maxHp = target.maxHp.toDouble()
-        val hp = target.hp.toDouble()
-        var rate = target.species.catchRate.toDouble()
+    fun factors(b: Battle, user: BattleMon, target: BattleMon, ball: String): Factors {
+        val rules = b.rules.capture
+        var c = target.species.catchRate
         if (ball == "heavyball") {
             val w = target.species.weightkg
-            rate = max(1.0, rate + when { w >= 300 -> 30; w >= 200 -> 20; w < 100 -> -20; else -> 0 })
+            c = max(1, c + when { w >= 300 -> 30; w >= 200 -> 20; w < 100 -> -20; else -> 0 })
         }
-        val ballMod = if ("Ultra Beast" in target.species.tags && ball != "beastball") 0.1 else ballModifier(b, user, target, ball)
-        val statusMod = when (target.status) {
+        val s = when (target.status) {
             MajorStatus.SLEEP, MajorStatus.FREEZE -> 2.5
             null -> 1.0
             else -> 1.5
         }
-        // Low-level wild Pokémon are easier to catch (Gen VIII+).
-        val lowLevel = if (target.level < 13) (36 - 2 * target.level) / 10.0 else 1.0
-        var a = ((3 * maxHp - 2 * hp) * rate * ballMod / (3 * maxHp)) * statusMod * lowLevel
-        a = min(255.0, max(1.0, a))
-        if (a >= 255) return Result(true, 3, false)
-        val shakeProb = floor(65536 / (255 / a).pow(0.1875)).toInt()
-        // Critical capture chance scales with Pokédex progress (supplied by the campaign layer).
-        val dexCaught = caughtCount?.invoke() ?: 0
-        val critMult = when { dexCaught > 600 -> 2.5; dexCaught > 450 -> 2.0; dexCaught > 300 -> 1.5; dexCaught > 150 -> 1.0; dexCaught > 30 -> 0.5; else -> 0.0 }
-        val critChance = floor(min(255.0, a) * critMult / 6)
-        if (b.rng.nextInt(256) < critChance) {
-            val ok = b.rng.nextInt(65536) < shakeProb
+        val l = if (rules.lowLevelBonus && target.level < 13) (36 - 2 * target.level) / 10.0 else 1.0
+        return Factors(
+            maxHp = target.baseMaxHp, hp = target.hp.coerceIn(0, target.baseMaxHp), catchRate = c,
+            ball = ballModifier(b, user, target, ball), badgePenalty = badgePenalty(rules, target.level), lowLevel = l, status = s,
+            difficulty = rules.difficultyMultiplier, guaranteed = ball == "masterball",
+        )
+    }
+
+    /** Final capture rate X in 1/4096 steps (0..255). 256 means guaranteed (Master Ball). */
+    fun finalRate(f: Factors): Double {
+        if (f.guaranteed) return 256.0
+        val m = f.maxHp.toDouble()
+        val h = f.hp.toDouble()
+        val g = 1.0 // dark-grass multiplier: never active since Generation VI
+        var x = round4096((3 * m - 2 * h) * g)
+        x = round4096(x * f.catchRate * f.ball)
+        x = round4096(x * f.badgePenalty)
+        x = floor4096(x / (3 * m))
+        x = floor4096(x * Math.round(f.lowLevel * 10.0) / 10.0)
+        x = round4096(x * f.status)
+        x = round4096(x * f.difficulty)
+        return min(255.0, x)
+    }
+
+    /** Shake threshold Y (0..65536); each check passes on a random 0..65535 below it. */
+    fun shakeThreshold(x: Double): Int {
+        if (x >= 255) return 65536
+        if (x <= 0) return 0
+        val p = Math.pow(round4096(255.0 / x), 3.0 / 16.0).toFloat().toDouble()
+        return min(65536.0, Math.floor(round4096(65536.0 / round4096(p)))).toInt()
+    }
+
+    /** Critical-capture threshold CC; a random 0..255 below it makes the throw a critical capture. */
+    fun criticalThreshold(x: Double, rules: CaptureRules): Int {
+        val n = rules.caughtSpecies.size
+        val p = when { n > 600 -> 2.5; n > 450 -> 2.0; n > 300 -> 1.5; n > 150 -> 1.0; n > 30 -> 0.5; else -> 0.0 }
+        return Math.floor(round4096(min(x, 255.0) * p * (if (rules.catchingCharm) 2 else 1)) / 6.0).toInt()
+    }
+
+    /** Exact probability that one throw catches, including critical captures. */
+    fun successProbability(f: Factors, rules: CaptureRules): Double {
+        val x = finalRate(f)
+        if (x >= 255) return 1.0
+        val y = shakeThreshold(x) / 65536.0
+        val crit = min(1.0, criticalThreshold(x, rules) / 256.0)
+        return crit * y + (1 - crit) * y.pow(4)
+    }
+
+    fun attempt(b: Battle, user: BattleMon, target: BattleMon, ball: String): Result {
+        val f = factors(b, user, target, ball)
+        val x = finalRate(f)
+        if (x >= 255) return Result(true, 3, false)
+        val y = shakeThreshold(x)
+        if (b.rng.nextInt(256) < criticalThreshold(x, b.rules.capture)) {
+            val ok = b.rng.nextInt(65536) < y
             return Result(ok, if (ok) 1 else 0, true)
         }
         var shakes = 0
         for (i in 0 until 4) {
-            if (b.rng.nextInt(65536) >= shakeProb) return Result(false, min(shakes, 3), false)
+            if (b.rng.nextInt(65536) >= y) return Result(false, min(shakes, 3), false)
             shakes++
         }
         return Result(true, 3, false)
     }
-
-    var caughtCount: (() -> Int)? = null
 }
 
 /** Effects of bag items used during battle (Potions, status cures, X items, revives). */

@@ -52,6 +52,7 @@ class Dex(
     val typeChart: TypeChart,
     private val learnsetLoader: () -> List<LearnsetData>,
     val manifest: ContentManifest? = null,
+    private val dexTextLoader: () -> List<DexEntryText> = { emptyList() },
 ) {
     val species: Map<String, SpeciesData> = speciesList.associateBy { it.id }
     val moves: Map<String, MoveData> = moveList.associateBy { it.id }
@@ -73,15 +74,29 @@ class Dex(
     fun itemOrNull(id: String?) = id?.let { items[toId(it)] }
     fun abilityOrNull(id: String?) = id?.let { abilities[toId(it)] }
 
-    /** Learnset for a species, falling back through forme -> base species. */
+    private val mergedLearnsets = java.util.concurrent.ConcurrentHashMap<String, LearnsetData>()
+
+    /**
+     * Learnset for a species. A form without its own level-up list inherits the one of the species it changes from (or
+     * its base species); its own TM/tutor and egg moves (Rotom-Wash's Hydro Pump...) are kept and merged with the
+     * inherited ones instead of being discarded.
+     */
     fun learnset(speciesId: String): LearnsetData? {
-        learnsets[speciesId]?.let { if (it.levelUp.isNotEmpty()) return it }
-        val sp = species[speciesId] ?: return null
-        sp.changesFrom?.let { learnsets[toId(it)]?.let { l -> return l } }
-        return learnsets[toId(sp.baseSpecies)]
+        val own = learnsets[speciesId]
+        if (own != null && own.levelUp.isNotEmpty()) return own
+        val sp = species[speciesId] ?: return own
+        val inherited = sp.changesFrom?.let { learnsets[toId(it)] } ?: learnsets[toId(sp.baseSpecies)]?.takeIf { toId(sp.baseSpecies) != speciesId }
+        if (own == null || inherited == null) return inherited ?: own
+        return mergedLearnsets.getOrPut(speciesId) {
+            LearnsetData(speciesId, inherited.levelUp, inherited.levelUpGen, (inherited.machine + own.machine).distinct().sorted(),
+                (inherited.egg + own.egg).distinct().sorted())
+        }
     }
 
     fun baseForm(sp: SpeciesData): SpeciesData = species[toId(sp.baseSpecies)] ?: sp
+
+    /** Pokédex category and description by National Dex number (empty when the data file is absent). */
+    val dexText: Map<Int, DexEntryText> by lazy { dexTextLoader().associateBy { it.num } }
 
     companion object {
         fun load(source: ContentSource): Dex {
@@ -94,7 +109,7 @@ class Dex(
             val manifest = source.read("data/manifest.json")?.let { ContentJson.decodeFromString<ContentManifest>(it) }
             return Dex(species, moves, abilities, items, chart, {
                 ContentJson.decodeFromString<List<LearnsetData>>(text("data/learnsets.json"))
-            }, manifest)
+            }, manifest, { source.read("data/dextext.json")?.let { ContentJson.decodeFromString<List<DexEntryText>>(it) } ?: emptyList() })
         }
 
         /** Loads from the directory given by the `pkmn.assets` system property (tests/tools) or ./assets. */

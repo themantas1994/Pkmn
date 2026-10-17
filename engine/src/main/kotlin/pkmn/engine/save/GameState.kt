@@ -71,8 +71,18 @@ class GameState(
     val flags: MutableSet<String> = linkedSetOf(),
     val vars: MutableMap<String, Int> = linkedMapOf(),
     val badges: MutableSet<Int> = sortedSetOf(),
+    /** Pokédex: base species ids the player has seen (encountered) and caught (obtained). Caught is a subset of seen. */
     val seen: MutableSet<String> = linkedSetOf(),
     val caught: MutableSet<String> = linkedSetOf(),
+    /** Pokédex form records: exact species/form ids seen and obtained (e.g. `raichualola`), and base species obtained shiny. */
+    val formsSeen: MutableSet<String> = linkedSetOf(),
+    val formsCaught: MutableSet<String> = linkedSetOf(),
+    val shiniesCaught: MutableSet<String> = linkedSetOf(),
+    /**
+     * Pokémon (by uid) obtained but not yet offered a nickname. Saved with the Pokémon itself, so an interrupted
+     * capture or gift resumes at the nickname prompt instead of losing or duplicating anything.
+     */
+    val pendingNicknames: MutableList<Long> = mutableListOf(),
     val defeatedTrainers: MutableSet<String> = linkedSetOf(),
     val quests: MutableMap<String, QuestState> = linkedMapOf(),
     var map: String = "",
@@ -130,4 +140,16 @@ class GameState(
     }
 
     fun badgeCount() = badges.size
+
+    /** Every Pokémon the player owns, party first, then boxes in order. */
+    fun ownedPokemon(): List<Pokemon> = party + boxes.flatMap { it.filterNotNull() }
+
+    fun findByUid(uid: Long): Pokemon? = ownedPokemon().firstOrNull { it.uid == uid }
+
+    /** Where a Pokémon is stored: "party", "box:<n>" or null. */
+    fun locationOf(uid: Long): String? {
+        if (party.any { it.uid == uid }) return "party"
+        for ((bi, box) in boxes.withIndex()) if (box.any { it?.uid == uid }) return "box:$bi"
+        return null
+    }
 }

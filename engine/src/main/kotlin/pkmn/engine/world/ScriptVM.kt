@@ -33,7 +33,8 @@ sealed class ScriptRequest {
     data class HealAnimation(val atCenter: Boolean) : ScriptRequest()
     data class MoveTutor(val id: String) : ScriptRequest()
     object MoveRelearner : ScriptRequest()
-    data class Nickname(val partyIndex: Int) : ScriptRequest()
+    /** Offer a nickname for the owned Pokémon [uid] (queued automatically after `givemon`/`giveegg`). */
+    data class Nickname(val uid: Long) : ScriptRequest()
     data class NameInput(val what: String) : ScriptRequest()
     data class Weather(val id: String?) : ScriptRequest() { override val blocking = false }
     object Credits : ScriptRequest()
@@ -65,6 +66,8 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
     private var steps = 0
 
     private var pending: ScriptRequest? = null
+    /** Requests that follow the current command (the nickname offer after a gift's message). */
+    private val queued = ArrayDeque<ScriptRequest>()
 
     /** Continues after a blocking request. Text boxes and animations keep the result of the last givemon/takeitem/ask… */
     fun resume(value: Int = 0) { if (pending?.setsResult == true) result = value; pending = null; waiting = false }
@@ -72,6 +75,7 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
     /** Runs until the next host request; returns null when the script has finished. */
     fun next(): ScriptRequest? {
         check(!waiting) { "VM is waiting for resume()" }
+        queued.removeFirstOrNull()?.let { req -> if (req.blocking) { waiting = true; pending = req }; return req }
         while (stack.isNotEmpty()) {
             val f = stack.last()
             if (f.pc >= f.script.code.size) { stack.removeAt(stack.size - 1); continue }
@@ -132,8 +136,9 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "takemoney" -> { val n = a[0].toInt(); result = if (st.money >= n) { st.money -= n; 1 } else 0; null }
             "givemon" -> {
                 val mon = buildMon(a)
-                val where = ctx.receivePokemon(mon)
+                val where = ctx.receivePokemon(mon, offerNickname = !a.contains("nonick"))
                 result = if (where == null) 0 else 1
+                if (where != null && mon.uid in st.pendingNicknames) queued.add(ScriptRequest.Nickname(mon.uid))
                 when {
                     where == null -> ScriptRequest.Say(text("There's no room for more Pokémon!"))
                     where == "party" -> ScriptRequest.Say(text("{player} received ${mon.species(ctx.dex).name}!"))
@@ -145,6 +150,7 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
                 val mon = buildMon(listOf(a[0], "1") + a.drop(2))
                 val where = ctx.receivePokemon(mon)
                 result = if (where == null) 0 else 1
+                if (where != null && mon.uid in st.pendingNicknames) queued.add(ScriptRequest.Nickname(mon.uid))
                 ScriptRequest.Say(text(if (where == null) "There's no room!" else "{player} received an Egg! It hatched into ${mon.species(ctx.dex).name}!"))
             }
             "battle" -> ScriptRequest.TrainerBattle(a[0], a.contains("canlose"))
@@ -178,7 +184,11 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "pokedex" -> { st.setFlag("has_pokedex"); null }
             "movetutor" -> ScriptRequest.MoveTutor(a[0])
             "moverelearner" -> ScriptRequest.MoveRelearner
-            "nickname" -> ScriptRequest.Nickname(st.party.size - 1)
+            // Explicit offer for the most recently obtained Pokémon (givemon already queues one automatically).
+            "nickname" -> (st.pendingNicknames.lastOrNull() ?: st.party.lastOrNull()?.uid)?.let { uid ->
+                if (uid !in st.pendingNicknames) st.pendingNicknames.add(uid)
+                ScriptRequest.Nickname(uid)
+            }
             "nameinput" -> ScriptRequest.NameInput(a[0])
             "weather" -> ScriptRequest.Weather(a[0].takeIf { it != "none" })
             "credits" -> ScriptRequest.Credits

@@ -7,7 +7,7 @@ trainer p4b_r7_lass_tilly
   intro "The pylons make my hair stand on end! Yours too? Let's battle!"
   defeat "Zapped flat..."
   after "Pachirisu stores static in its cheeks. Don't pet it in a thunderstorm."
-  mon pachirisu 27 moves=spark,quickattack,sweetkiss,nuzzle
+  mon pachirisu 27 moves=spark,quickattack,charm,nuzzle
   mon flaaffy 28
 end
 
@@ -41,7 +41,7 @@ trainer p4b_r8_ace_juno
   defeat "Okay. One weakness: you."
   after "Garnet's Rock types can't stand Grass or Water. I built my whole team around that."
   mon golbat 29
-  mon grovyle 30 moves=leafblade,quickattack,agility,pursuit
+  mon grovyle 30 moves=leafblade,quickattack,agility,assurance
   mon prinplup 30 moves=bubblebeam,metalclaw,peck,swagger
 end
 
@@ -84,7 +84,7 @@ trainer p4b_mine1_worker_gil
   intro "Gurdurr and I carry beams all day. You're lighter than a beam!"
   defeat "I should've lifted with my legs."
   after "We're shoring up the old tunnels for the Guild. Slow work. Wild Timburr keep stealing our planks."
-  mon gurdurr 29 moves=lowsweep,rockthrow,bulkup,wakeupslap
+  mon gurdurr 29 moves=lowsweep,rockthrow,bulkup,lowkick
   mon machoke 28
 end
 
@@ -268,8 +268,8 @@ trainer p4b_gulch_blackbelt_oren
   intro "Throh throws, Sawk strikes. Together they are unstoppable!"
   defeat "Stopped..."
   after "I train behind the boulder where nobody bothers me. Well, almost nobody."
-  mon throh 30 moves=seismictoss,stormthrow,bulkup,revenge
-  mon sawk 30 moves=karatechop,lowsweep,bulkup,quickguard
+  mon throh 30 moves=circlethrow,stormthrow,bulkup,revenge
+  mon sawk 30 moves=rocksmash,lowsweep,bulkup,quickguard
 end
 
 trainer p4b_gulch_worker_moss

@@ -215,7 +215,7 @@ script p2_mira_ball
     cry flaaffy
     ask "DR. MIRA: That's Flaaffy, with an Ampharosite. Once it evolves into Ampharos, it can Mega Evolve! Take it?"
     if result yes
-      givemon flaaffy 25 moves=thundershock,cottonguard,powergem,thunderwave
+      givemon flaaffy 25 moves=thundershock,cottonspore,powergem,thunderwave
       if result 1
         giveitem ampharosite
         setflag p2_got_mira_gift

@@ -1,0 +1,21 @@
+# Choosing the starter offers a nickname right after "received".
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+warp lab 7 4 up
+wait 60
+press A
+wait 60
+press A
+wait 45
+press A
+wait 45
+press A
+wait 45
+shot starter_received
+press A
+wait 45
+press A
+wait 45
+shot starter_nickname_ask
+quit

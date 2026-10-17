@@ -80,42 +80,42 @@
     "layout": "{assets,assets-local}/sprites/pokemon/<kind>/<speciesId>.png",
     "front": {
       "bundledFiles": 0,
-      "localFiles": 0,
-      "baseSpeciesWithSprite": 0,
-      "baseSpeciesMissing": 1025,
-      "formsWithSprite": 0,
+      "localFiles": 1374,
+      "baseSpeciesWithSprite": 1025,
+      "baseSpeciesMissing": 0,
+      "formsWithSprite": 349,
       "unknownIds": 0
     },
     "back": {
       "bundledFiles": 0,
-      "localFiles": 0,
-      "baseSpeciesWithSprite": 0,
-      "baseSpeciesMissing": 1025,
-      "formsWithSprite": 0,
+      "localFiles": 1374,
+      "baseSpeciesWithSprite": 1025,
+      "baseSpeciesMissing": 0,
+      "formsWithSprite": 349,
       "unknownIds": 0
     },
     "front-shiny": {
       "bundledFiles": 0,
-      "localFiles": 0,
-      "baseSpeciesWithSprite": 0,
-      "baseSpeciesMissing": 1025,
-      "formsWithSprite": 0,
+      "localFiles": 1374,
+      "baseSpeciesWithSprite": 1025,
+      "baseSpeciesMissing": 0,
+      "formsWithSprite": 349,
       "unknownIds": 0
     },
     "back-shiny": {
       "bundledFiles": 0,
-      "localFiles": 0,
-      "baseSpeciesWithSprite": 0,
-      "baseSpeciesMissing": 1025,
-      "formsWithSprite": 0,
+      "localFiles": 1374,
+      "baseSpeciesWithSprite": 1025,
+      "baseSpeciesMissing": 0,
+      "formsWithSprite": 349,
       "unknownIds": 0
     },
     "icon": {
       "bundledFiles": 0,
-      "localFiles": 0,
-      "baseSpeciesWithSprite": 0,
-      "baseSpeciesMissing": 1025,
-      "formsWithSprite": 0,
+      "localFiles": 996,
+      "baseSpeciesWithSprite": 809,
+      "baseSpeciesMissing": 216,
+      "formsWithSprite": 187,
       "unknownIds": 0
     }
   }

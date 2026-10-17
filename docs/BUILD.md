@@ -85,6 +85,7 @@ On a headless Linux machine, wrap the command in `xvfb-run -a -s "-screen 0 1280
 ./gradlew :android:assembleDebug     # android/build/outputs/apk/debug/android-debug.apk
 ./gradlew :android:assembleRelease   # android/build/outputs/apk/release/android-release.apk
 ./gradlew :android:bundleRelease     # android/build/outputs/bundle/release/android-release.aab
+./gradlew :android:assemblePersonalDebugWithSprites   # personal only: import + style sprites, then android/build/outputs/apk/personal/pkmn-crystalline-personal-debug.apk (never share it; see ASSET_IMPORT.md)
 ```
 
 **Release signing.** Put a keystore at `release.keystore` in the repository root (git-ignored) and export:
@@ -112,4 +113,4 @@ The repository ships only original art plus generated placeholder Pokémon sprit
 
 There are two ways to get them into the game:
 - **Desktop:** reads `assets-local/` automatically.
-- **Android:** use Options → IMPORT SPRITES in the game to pick the zip. For a personal APK, build with `-Ppkmn.bundleLocalAssets=true` to bake `assets-local/sprites` into it. Such an APK contains non-redistributable files and must not be shared.
+- **Android:** use Options → IMPORT SPRITES in the game to pick the zip. For a personal APK, run `./gradlew :android:assemblePersonalDebugWithSprites` (downloads, styles and bundles in one go; options in [ASSET_IMPORT.md](ASSET_IMPORT.md#one-command-personal-apk)), or build with `-Ppkmn.bundleLocalAssets=true` to bake an existing `assets-local/sprites/pokemon` into it. Such an APK contains non-redistributable files and must not be shared.

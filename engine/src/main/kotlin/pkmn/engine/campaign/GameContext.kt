@@ -30,6 +30,8 @@ data class CampaignInfo(
     val startMoney: Int = 3000,
     /** Maps where Dynamax is possible (Power Spots: gyms, league, special dens). */
     val dynamaxTag: String = "powerspot",
+    /** Capture badge penalty: highest level each badge count controls (index = badges). Scarlet/Violet's table. */
+    val captureBadgeLevels: List<Int> = CaptureRules.SV_BADGE_LEVELS,
 )
 
 /** All static campaign content. Maps and scripts are loaded lazily/once from the content source. */
@@ -65,6 +67,8 @@ class WorldContent(private val source: ContentSource) {
  * Game session: state + content + rules. Shared by the script VM, overworld logic and battle setup.
  * Contains no rendering code.
  */
+enum class DexState { UNKNOWN, SEEN, CAUGHT }
+
 class GameContext(val dex: Dex, val content: WorldContent, var state: GameState) {
     val factory = PokemonFactory(dex)
     val progression = Progression(dex)
@@ -122,11 +126,75 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
 
     // ------------------------------------------------------------------ party / pokedex
 
-    fun receivePokemon(mon: Pokemon): String? {
+    /** Gives the player a Pokémon (gift, starter, egg). Returns "party", "box:<n>" or null; see [acquire]. */
+    fun receivePokemon(mon: Pokemon, offerNickname: Boolean = true): String? = acquire(mon, offerNickname).where
+
+    /**
+     * The single path by which the player obtains a Pokémon. In one step it stores the Pokémon (party, else the first
+     * free box slot), registers its species, form and shininess as caught in the Pokédex, and queues the nickname offer
+     * (it is saved with the Pokémon, so an interruption resumes at the prompt). Calling it again for the same
+     * individual (same uid) changes nothing, so a repeated battle result can never duplicate a capture.
+     */
+    fun acquire(mon: Pokemon, offerNickname: Boolean = true): Acquisition {
+        state.locationOf(mon.uid)?.let { if (mon.uid != 0L) return Acquisition(state.findByUid(mon.uid)!!, it, false, false, duplicate = true) }
         if (mon.otName.isEmpty()) { mon.otName = state.playerName; mon.otId = state.trainerId }
-        val base = mon.species(dex).baseSpecies
-        state.seen.add(base); state.caught.add(base)
-        return state.addPokemon(mon)
+        if (mon.uid == 0L || state.ownedPokemon().any { it.uid == mon.uid }) mon.uid = factory.nextUid()
+        val where = state.addPokemon(mon) ?: return Acquisition(mon, null, false, false)
+        val (newSpecies, newForm) = registerCaught(mon)
+        if (offerNickname && mon.nickname == null && mon.uid !in state.pendingNicknames) state.pendingNicknames.add(mon.uid)
+        return Acquisition(mon, where, newSpecies, newForm)
+    }
+
+    /** Records a Pokémon as seen (species and exact form). */
+    fun markSeen(speciesId: String) {
+        val sp = dex.speciesOrNull(speciesId)
+        state.seen.add(sp?.baseSpecies ?: speciesId)
+        state.formsSeen.add(sp?.id ?: speciesId)
+    }
+
+    /** Registers an obtained Pokémon in the Pokédex. Returns (new species, new form). */
+    fun registerCaught(mon: Pokemon): Pair<Boolean, Boolean> {
+        val sp = mon.species(dex)
+        markSeen(sp.id)
+        val newSpecies = state.caught.add(sp.baseSpecies)
+        val newForm = state.formsCaught.add(sp.id)
+        if (mon.shiny) state.shiniesCaught.add(sp.baseSpecies)
+        return newSpecies to newForm
+    }
+
+    /** Pokédex state of a species (by id; forms count towards their base species). */
+    fun dexState(speciesId: String): DexState {
+        val base = dex.speciesOrNull(speciesId)?.baseSpecies ?: speciesId
+        return when (base) { in state.caught -> DexState.CAUGHT; in state.seen -> DexState.SEEN; else -> DexState.UNKNOWN }
+    }
+
+    /** The next obtained Pokémon still waiting for its nickname offer; stale entries (released, traded) are dropped. */
+    fun nextPendingNickname(): Pokemon? {
+        state.pendingNicknames.removeAll { state.findByUid(it) == null }
+        return state.pendingNicknames.firstOrNull()?.let { state.findByUid(it) }
+    }
+
+    /**
+     * Applies the player's nickname choice and closes the offer. A null [name] keeps the species name. Returns an error
+     * message (and changes nothing) when the name is invalid.
+     */
+    fun resolveNickname(uid: Long, name: String?): String? {
+        val mon = state.findByUid(uid) ?: run { state.pendingNicknames.remove(uid); return null }
+        if (name != null) when (val c = Nicknames.check(name)) {
+            is Nicknames.Check.Invalid -> return "That name can't be used: ${c.reason}."
+            is Nicknames.Check.Ok -> mon.nickname = c.name.takeIf { it != mon.species(dex).name }
+        }
+        state.pendingNicknames.remove(uid)
+        return null
+    }
+
+    /** Renames a Pokémon the player owns (null restores the species name). Returns an error message or null. */
+    fun rename(mon: Pokemon, name: String?): String? {
+        if (name == null) { mon.nickname = null; return null }
+        return when (val c = Nicknames.check(name)) {
+            is Nicknames.Check.Invalid -> "That name can't be used: ${c.reason}."
+            is Nicknames.Check.Ok -> { mon.nickname = c.name.takeIf { it != mon.species(dex).name }; null }
+        }
     }
 
     /**
@@ -145,12 +213,9 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
     fun performTrade(index: Int, want: String, received: Pokemon): String? {
         require(index in tradeCandidates(want)) { "party slot $index is not a $want" }
         state.party[index] = received
-        val base = received.species(dex).baseSpecies
-        state.seen.add(base); state.caught.add(base)
+        registerCaught(received)
         return evolutionByItem(received, "linkingcord", null)
     }
-
-    fun markSeen(speciesId: String) { state.seen.add(dex.speciesOrNull(speciesId)?.baseSpecies ?: speciesId) }
 
     fun healParty() { for (m in state.party) m.healFully(dex) }
 
@@ -296,14 +361,31 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return Battle(dex, listOf(playerSide(), foe), rules, seed, environment = map?.environment ?: "plain", isNight = isNight())
     }
 
-    fun createWildBattle(wild: Pokemon, map: MapData?, canRun: Boolean = true, seed: Long = rng.nextLong()): Battle {
+    /**
+     * Capture rules for the player's current progress (docs/CAPTURE.md). Scarlet/Violet's low-level bonus is a Casual
+     * difficulty option only: this campaign's first two hours are all below level 13, where the bonus made full-HP
+     * throws at common Pokémon 95-100% certain.
+     */
+    /** True when the party and every PC box are full: Poké Balls cannot be thrown (as in the official games). */
+    fun storageFull(): Boolean = state.party.size >= 6 && state.boxes.all { box -> box.none { it == null } }
+
+    fun captureRules(): CaptureRules = CaptureRules(
+        badges = state.badgeCount(), badgeLevels = content.info.captureBadgeLevels,
+        lowLevelBonus = state.options.difficulty == 0, caughtSpecies = state.caught.toSet(),
+        catchingCharm = state.itemCount("catchingcharm") > 0,
+    )
+
+    /**
+     * A wild battle. [environment] overrides the map's battle environment ("water" while surfing, "fishing" after a
+     * bite) so the Dive and Lure Balls work. [canCatch] is false for scripted Pokémon that must not be caught.
+     */
+    fun createWildBattle(wild: Pokemon, map: MapData?, canRun: Boolean = true, seed: Long = rng.nextLong(),
+                         environment: String? = null, canCatch: Boolean = true): Battle {
         val foe = Side(1, "Wild", listOf(wild), Controller.WILD, dex)
-        val rules = BattleRules(allowedGimmicks = allowedGimmicks(map), canRun = canRun, isTrainerBattle = false,
-            expShareAll = state.options.expShare, levelCap = levelCap(), playerOtId = state.trainerId)
-        CatchCalc.repeatCheck = { base -> base in state.caught }
-        CatchCalc.caughtCount = { state.caught.size }
+        val rules = BattleRules(allowedGimmicks = allowedGimmicks(map), canRun = canRun, canCatch = canCatch, isTrainerBattle = false,
+            expShareAll = state.options.expShare, levelCap = levelCap(), playerOtId = state.trainerId, capture = captureRules())
         markSeen(wild.speciesId)
-        return Battle(dex, listOf(playerSide(), foe), rules, seed, environment = map?.environment ?: "plain", isNight = isNight())
+        return Battle(dex, listOf(playerSide(), foe), rules, seed, environment = environment ?: map?.environment ?: "plain", isNight = isNight())
     }
 
     fun prizeMoney(trainerId: String): Int {
@@ -317,7 +399,12 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      * Applies the outcome of a battle to the game state. Returns messages to show. A loss in a [canLose] battle
      * (scripted story fights) costs nothing and does not black out.
      */
+    /** The capture recorded by the last [applyBattleResult] (the UI shows its Pokédex entry and nickname prompt). */
+    var lastCapture: Acquisition? = null
+        private set
+
     fun applyBattleResult(b: Battle, trainerId: String?, canLose: Boolean = false): List<String> {
+        lastCapture = null
         val msgs = ArrayList<String>()
         when (b.outcome) {
             BattleOutcome.WIN -> if (trainerId != null) {
@@ -327,10 +414,11 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
                 msgs.add("${state.playerName} got ¥$prize for winning!")
             }
             BattleOutcome.CAUGHT -> b.caughtMon?.let { mon ->
-                mon.otName = state.playerName; mon.otId = state.trainerId
-                mon.metLocation = state.map; mon.metLevel = mon.level
-                val where = receivePokemon(mon)
-                if (where != null && where != "party") msgs.add("${mon.species(dex).name} was sent to the PC.")
+                if (state.locationOf(mon.uid) == null) {
+                    mon.otName = state.playerName; mon.otId = state.trainerId
+                    mon.metLocation = state.map; mon.metLevel = mon.level
+                }
+                lastCapture = acquire(mon).also { if (it.where == null) msgs.add("There's no room left for ${mon.species(dex).name}! It was released.") }
             }
             BattleOutcome.LOSE, BattleOutcome.DRAW -> if (!canLose) {
                 val lost = (state.money / 2).coerceAtMost(state.money)
@@ -373,11 +461,11 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         mon.speciesId = target
         val newMax = mon.maxHp(dex)
         if (!mon.isFainted) mon.hp = (mon.hp + newMax - oldMax).coerceIn(1, newMax)
-        state.seen.add(dex.species(target).baseSpecies); state.caught.add(dex.species(target).baseSpecies)
+        registerCaught(mon)
         // Shedinja: Nincada leaves a Shedinja behind if there is a free party slot and a Poké Ball.
         if (oldSpecies == "nincada" && target == "ninjask" && state.party.size < 6 && state.removeItem("pokeball")) {
             val shed = factory.create("shedinja", mon.level, rng, moves = mon.moves.map { it.id })
-            receivePokemon(shed)
+            receivePokemon(shed, offerNickname = false)
         }
         val pending = ArrayList<String>()
         for (mv in progression.movesOnEvolution(target, mon.level)) {

@@ -7,7 +7,7 @@ trainer p2_r5_lass_tessa
   intro "The meadow flowers are blooming! So are my Pokémon!"
   defeat "Wilted..."
   after "Flabébé holds a flower its whole life. Isn't that sweet?"
-  mon flabebe 18 moves=fairywind,razorleaf,wish,vinewhip
+  mon flabebe 18 moves=fairywind,razorleaf,safeguard,vinewhip
   mon skiploom 19 moves=bulletseed,poisonpowder,tailwhip,acrobatics
 end
 
@@ -17,8 +17,8 @@ trainer p2_r5_youngster_ned
   intro "Two badges? I have two shoes. Same thing! Battle!"
   defeat "Not the same thing at all..."
   after "Herdier's fur is super soft. Want to pet it? No? Okay."
-  mon herdier 20 moves=bite,takedown,workup,retaliate
-  mon ponyta 19 moves=flamecharge,stomp,ember,tailwhip
+  mon herdier 20 moves=bite,tackle,workup,retaliate
+  mon ponyta 19 moves=flamecharge,tackle,ember,tailwhip
 end
 
 trainer p2_r5_fisher_wade
@@ -29,7 +29,7 @@ trainer p2_r5_fisher_wade
   after "The tide's coming in. Good time for Remoraid."
   mon tentacool 19
   mon wingull 19
-  mon remoraid 20 moves=watergun,psybeam,aurorabeam,lockon
+  mon remoraid 20 moves=watergun,psybeam,aurorabeam,focusenergy
 end
 
 trainer p2_r5_bug_otto
@@ -71,7 +71,7 @@ trainer p2_lr_psychic_iris
   defeat "...I need a new crystal ball."
   after "The Unown whisper at night. Mostly vowels."
   mon natu 20 moves=psychic,nightshade,teleport,peck
-  mon elgyem 21 moves=psybeam,confusion,headbutt,growl
+  mon elgyem 21 moves=psybeam,confusion,imprison,growl
 end
 
 trainer p2_lr_sage_ono
@@ -91,7 +91,7 @@ trainer p2_lr_scientist_kurt
   defeat "Fascinating. And humiliating."
   after "My readings show tremendous Psychic energy here."
   mon magnemite 20
-  mon porygon 21 moves=psybeam,agility,signalbeam,recover
+  mon porygon 21 moves=psybeam,agility,signalbeam,recycle
 end
 
 trainer p2_lr_hiker_dale
@@ -101,7 +101,7 @@ trainer p2_lr_hiker_dale
   defeat "Dug my own hole there."
   after "Quarrytown's the place for fossils. It's way east, past Voltara."
   mon golett 20
-  mon rhyhorn 21 moves=stomp,bulldoze,rockblast,scaryface
+  mon rhyhorn 21 moves=hornattack,bulldoze,rockblast,scaryface
 end
 
 # --- Route 6 ---
@@ -111,7 +111,7 @@ trainer p2_r6_youngster_cal
   intro "I've been charging up all day! Literally. Look at my hair!"
   defeat "Fizzled out..."
   after "Electrike love the tall grass here. They're quick, though!"
-  mon electrike 21 moves=spark,howl,bite,quickattack
+  mon electrike 21 moves=shockwave,howl,bite,quickattack
   mon flaaffy 21
 end
 
@@ -143,7 +143,7 @@ trainer p2_r6_cooltrainer_jin
   after "Volta's Gym is all Electric-types. Bring a Ground-type and you'll be fine."
   mon luxio 22 moves=spark,bite,roar,swagger
   mon croagunk 22 moves=poisonjab,suckerpunch,revenge,mudslap
-  mon ponyta 22 moves=flamecharge,stomp,firespin,agility
+  mon ponyta 22 moves=flamecharge,tackle,firespin,agility
 end
 
 trainer p2_r6_scientist_vale

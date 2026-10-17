@@ -888,7 +888,7 @@ object Abilities {
                 c.b.message("You sense the presence of many!")
                 val ratio = c.mon.hp
                 c.b.formeChange(c.mon, "zygardecomplete", "battle", "${c.b.nm(c.mon)} transformed into its Complete Forme!", changeAbility = false)
-                c.mon.hp = ratio + (c.mon.maxHp - c.b.dex.species(sp.id).let { pkmn.engine.mon.Pokemon.calcStat(it, Stat.HP, c.mon.level, c.mon.mon.ivs.hp, c.mon.mon.evs.hp, c.mon.mon.nature) })
+                c.mon.hp = ratio + (c.mon.maxHp - c.b.dex.species(sp.id).let { pkmn.engine.mon.Pokemon.calcStat(it, Stat.HP, c.mon.level, c.mon.mon.ivs.hp, c.mon.mon.evs.hp, c.mon.mon.statNature) })
             }
         })
         reg(object : A("forecast") {

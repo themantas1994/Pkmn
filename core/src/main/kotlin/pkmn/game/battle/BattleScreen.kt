@@ -580,6 +580,9 @@ class BattleScreen(
             if (dex.itemOrNull(item)?.isPokeball == true && !battle.opponent.isWild) {
                 flow.resume(); say("The Trainer blocked the BALL!\nDon't be a thief!"); return@BagScreen
             }
+            if (dex.itemOrNull(item)?.isPokeball == true && ctx.storageFull()) {
+                flow.resume(); say("The PC BOXES are full!\nYou can't catch any more POKéMON."); return@BagScreen
+            }
             ctx.state.removeItem(item)
             submit(Choice.UseItem(item, target ?: battle.player.mons.indexOf(battle.player.active)))
         })

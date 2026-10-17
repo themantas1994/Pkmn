@@ -4,6 +4,7 @@ import kotlinx.serialization.json.*
 import pkmn.engine.data.ContentJson
 import pkmn.engine.data.FormKind
 import pkmn.engine.data.SpeciesData
+import pkmn.engine.util.SpriteArchive
 import java.io.File
 import java.io.IOException
 import java.net.ProxySelector
@@ -11,11 +12,14 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.time.Duration
 import java.time.Instant
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import java.util.zip.ZipException
 import java.util.zip.ZipFile
 
 /**
@@ -23,9 +27,16 @@ import java.util.zip.ZipFile
  * (git-ignored, never redistributed). See docs/ASSET_IMPORT.md.
  *
  * Usage: `tools sprites [--only=1-151[,152-251]] [--force] [--forms=false] [--kinds=front,back] [--jobs=8]
- *         [--retries=3] [--from=<dir|zip>] [--base-url=<url>]`
+ *         [--retries=3] [--from=<dir|zip>] [--base-url=<url>] [--dest=<dir>] [--offline] [--tolerate-failures]`
+ *
+ * `--dest` redirects the `<kind>/<id>.png` tree (the personal APK pipeline uses the raw cache
+ * `assets-local/sprites-raw/pokemon`); IMPORT_LOG.json is then written next to it. Files are written via
+ * temp file + rename, so an interrupted run never leaves a truncated PNG behind.
+ *
+ * [fetch] replaces the HTTP client (tests): it returns the body, null for "not found", or throws [IOException]
+ * for transient failures.
  */
-class SpriteImporter(private val root: File, args: List<String>) {
+class SpriteImporter(private val root: File, args: List<String>, private val fetch: ((String) -> ByteArray?)? = null) {
     data class Options(
         val only: List<IntRange>? = null,
         val force: Boolean = false,
@@ -35,11 +46,17 @@ class SpriteImporter(private val root: File, args: List<String>) {
         val retries: Int = 3,
         val from: File? = null,
         val baseUrl: String = DEFAULT_BASE,
+        /** Destination of the `<kind>/<id>.png` tree, relative to the repository root unless absolute. */
+        val dest: File? = null,
+        /** No network access: only `--from` imports run; existing files and their log entries are kept as they are. */
+        val offline: Boolean = false,
+        /** Network mode only: individual failed downloads do not fail the run as long as something was imported (rerun to retry). */
+        val tolerateFailures: Boolean = false,
     )
 
     val options: Options = parseArgs(args)
-    private val outDir = SpriteLayout.localDir(root)
-    private val logFile = File(root, "assets-local/sprites/IMPORT_LOG.json")
+    private val outDir = options.dest?.let { if (it.isAbsolute) it else File(root, it.path) } ?: SpriteLayout.localDir(root)
+    private val logFile = File(outDir.parentFile, "IMPORT_LOG.json")
     private val retrieved = Instant.now().toString()
 
     data class Entry(val speciesId: String, val kind: String, val file: String, val source: String, val sha256: String,
@@ -51,7 +68,12 @@ class SpriteImporter(private val root: File, args: List<String>) {
     }
 
     fun run(): Boolean {
-        val species = ContentJson.decodeFromString<List<SpeciesData>>(File(root, "assets/data/species.json").readText())
+        val speciesFile = File(root, "assets/data/species.json")
+        if (!speciesFile.isFile) {
+            System.err.println("ERROR: ${speciesFile.path} not found. Run from the repository root (or pass --root=<repo>); generate it with ./gradlew :tools:importData.")
+            return false
+        }
+        val species = ContentJson.decodeFromString<List<SpeciesData>>(speciesFile.readText())
         val selected = species.filter { sp ->
             (options.only == null || options.only.any { sp.num in it }) && (options.forms || sp.formKind == FormKind.BASE)
         }
@@ -64,14 +86,12 @@ class SpriteImporter(private val root: File, args: List<String>) {
 
         if (options.from != null) {
             importFrom(options.from, species.map { it.id }.toSet(), entries, failures)
-        } else {
+        } else if (!options.offline) {
             val mapping = SpriteMapping(
                 Csv.read(File(root, "data-src/pokeapi/pokemon.csv")),
                 Csv.read(File(root, "data-src/pokeapi/pokemon_forms.csv")),
                 Csv.read(File(root, "data-src/pokeapi/pokemon_species.csv")),
             )
-            val client = HttpClient.newBuilder().proxy(ProxySelector.getDefault()).connectTimeout(Duration.ofSeconds(20))
-                .followRedirects(HttpClient.Redirect.NORMAL).build()
             val pool = Executors.newFixedThreadPool(options.jobs.coerceIn(1, 32))
             for (sp in selected) {
                 val ref = mapping.map(sp)
@@ -87,11 +107,10 @@ class SpriteImporter(private val root: File, args: List<String>) {
                     }
                     pool.submit {
                         try {
-                            val got = candidatesFor(kind, ref.stem).firstNotNullOfOrNull { url -> download(client, url)?.let { url to it } }
+                            val got = candidatesFor(kind, ref.stem).firstNotNullOfOrNull { url -> download(url)?.let { url to it } }
                             if (got == null) missing += "${sp.id}:$kind"
                             else {
-                                dest.parentFile.mkdirs()
-                                dest.writeBytes(got.second)
+                                writeAtomic(dest, got.second)
                                 entries += Entry(sp.id, kind, dest.relativeTo(root).invariantSeparatorsPath, got.first, sha256(got.second),
                                     got.second.size.toLong(), retrieved, "${ref.method}:${ref.pokeapiIdentifier}")
                             }
@@ -111,16 +130,18 @@ class SpriteImporter(private val root: File, args: List<String>) {
         entries.forEach { merged[it.speciesId to it.kind] = it }
         writeJson(logFile, buildJsonObject {
             put("tool", "pkmn.tools.SpriteImporter (./gradlew :tools:importSprites)")
+            put("layout", if (outDir.canonicalFile == SpriteLayout.localDir(root).canonicalFile) "live" else "raw-cache")
             put("redistributable", false)
             put("license", "Official Pokémon sprites are © Nintendo/Creatures/GAME FREAK. Imported for personal use only; do not commit or redistribute.")
-            put("source", options.from?.path ?: options.baseUrl)
+            put("source", options.from?.path ?: if (options.offline) "offline (existing files only)" else options.baseUrl)
             put("lastRun", retrieved)
             putJsonObject("lastRunOptions") {
                 put("only", options.only?.joinToString(",") { "${it.first}-${it.last}" } ?: "all")
                 put("force", options.force); put("forms", options.forms); put("kinds", strArray(options.kinds)); put("jobs", options.jobs)
+                put("offline", options.offline)
             }
             putJsonObject("lastRunCounts") {
-                put("speciesSelected", if (options.from != null) 0 else selected.size)
+                put("speciesSelected", if (options.from != null || options.offline) 0 else selected.size)
                 put("written", entries.count { it.retrieved == retrieved && !it.source.startsWith("existing") })
                 put("skippedExisting", skipped)
                 put("missingUpstream", missing.size); put("unmapped", unmapped.size); put("failures", failures.size)
@@ -133,6 +154,10 @@ class SpriteImporter(private val root: File, args: List<String>) {
         println("Sprites: ${entries.size - skipped} written, $skipped already present, ${missing.size} not available upstream, " +
             "${unmapped.size} unmapped, ${failures.size} failed. Log: ${logFile.relativeTo(root).path}")
         failures.take(20).forEach { println("  FAILED $it") }
+        if (failures.isNotEmpty() && options.tolerateFailures && options.from == null && !options.offline && entries.isNotEmpty()) {
+            println("WARNING: ${failures.size} download(s) failed; continuing because --tolerate-failures is set. Run again to retry them (existing files are kept).")
+            return true
+        }
         return failures.isEmpty()
     }
 
@@ -149,21 +174,33 @@ class SpriteImporter(private val root: File, args: List<String>) {
         }
     }
 
-    /** Returns the PNG bytes, null on 404, and retries transient failures with backoff. */
-    private fun download(client: HttpClient, url: String): ByteArray? {
+    private val client by lazy {
+        HttpClient.newBuilder().proxy(ProxySelector.getDefault()).connectTimeout(Duration.ofSeconds(20))
+            .followRedirects(HttpClient.Redirect.NORMAL).build()
+    }
+
+    /** One HTTP attempt: the body, null on 404, [IOException] for transient failures. */
+    private fun httpGet(url: String): ByteArray? {
+        val res = client.send(HttpRequest.newBuilder(URI.create(url)).timeout(Duration.ofSeconds(60)).GET().build(),
+            HttpResponse.BodyHandlers.ofByteArray())
+        return when {
+            res.statusCode() == 404 -> null
+            res.statusCode() == 200 -> res.body()
+            res.statusCode() == 429 || res.statusCode() >= 500 -> throw IOException("HTTP ${res.statusCode()}")
+            else -> throw IllegalStateException("HTTP ${res.statusCode()} for $url")
+        }
+    }
+
+    /** Returns the PNG bytes, null on 404, and retries transient failures (including truncated bodies) with backoff. */
+    private fun download(url: String): ByteArray? {
         var attempt = 0
         while (true) {
             attempt++
             try {
-                val res = client.send(HttpRequest.newBuilder(URI.create(url)).timeout(Duration.ofSeconds(60)).GET().build(),
-                    HttpResponse.BodyHandlers.ofByteArray())
-                when {
-                    res.statusCode() == 404 -> return null
-                    res.statusCode() == 200 && isPng(res.body()) -> return res.body()
-                    res.statusCode() == 200 -> throw IOException("response is not a PNG")
-                    res.statusCode() == 429 || res.statusCode() >= 500 -> throw IOException("HTTP ${res.statusCode()}")
-                    else -> throw IllegalStateException("HTTP ${res.statusCode()} for $url")
-                }
+                val body = (fetch ?: ::httpGet)(url) ?: return null
+                if (!isPng(body)) throw IOException("response is not a PNG")
+                if (!isCompletePng(body)) throw IOException("response is a truncated PNG")
+                return body
             } catch (e: IOException) {
                 if (attempt > options.retries) throw IOException("$url: ${e.message}", e)
                 Thread.sleep(500L * (1 shl (attempt - 1)))
@@ -174,7 +211,7 @@ class SpriteImporter(private val root: File, args: List<String>) {
     /** Imports `<kind>/<speciesId>.png` files from a user-supplied directory or zip (any leading path is ignored). */
     private fun importFrom(src: File, ids: Set<String>, entries: MutableCollection<Entry>, failures: MutableCollection<String>) {
         val pattern = Regex("(?:^|.*/)(${SpriteLayout.KINDS.joinToString("|") { Regex.escape(it) }})/([a-z0-9]+)\\.png$")
-        fun accept(path: String, bytes: () -> ByteArray, sourceUri: String) {
+        fun accept(path: String, bytes: () -> ByteArray?, sourceUri: String) {
             val m = pattern.matchEntire(path.replace('\\', '/')) ?: return
             val (kind, id) = m.destructured
             if (kind !in options.kinds) return
@@ -182,20 +219,56 @@ class SpriteImporter(private val root: File, args: List<String>) {
             val dest = File(outDir, "$kind/$id.png")
             if (dest.isFile && !options.force) return
             val data = bytes()
+            if (data == null) { failures += "$path: larger than ${MAX_ENTRY_BYTES / 1024 / 1024} MiB, skipped"; return }
             if (!isPng(data)) { failures += "$path: not a PNG"; return }
-            dest.parentFile.mkdirs(); dest.writeBytes(data)
+            writeAtomic(dest, data)
             entries += Entry(id, kind, dest.relativeTo(root).invariantSeparatorsPath, sourceUri, sha256(data), data.size.toLong(), retrieved, "user-supplied")
         }
         when {
             src.isDirectory -> src.walkTopDown().filter { it.isFile }.forEach { f ->
-                accept(f.relativeTo(src).invariantSeparatorsPath, { f.readBytes() }, f.absoluteFile.toURI().toString())
+                accept(f.relativeTo(src).invariantSeparatorsPath, { f.takeIf { it.length() <= MAX_ENTRY_BYTES }?.readBytes() }, f.absoluteFile.toURI().toString())
             }
-            src.isFile && src.extension.lowercase() == "zip" -> ZipFile(src).use { z ->
-                z.entries().asSequence().filter { !it.isDirectory }.forEach { e ->
-                    accept(e.name, { z.getInputStream(e).use { it.readBytes() } }, "${src.absoluteFile.toURI()}!/${e.name}")
+            src.isFile && src.extension.lowercase() == "zip" -> importZip(src, ::accept, failures)
+            else -> failures += "--from=${src.path}: not a directory or .zip file"
+        }
+    }
+
+    /**
+     * Zips: a malformed archive is a clear failure and entries with `..`, absolute or drive-letter paths are rejected.
+     * Archives in the documented `sprites/` layout are extracted by the shared [SpriteArchive] (path traversal and size
+     * limits) into a scratch directory inside assets-local; loose `<kind>/<id>.png` packs are read entry by entry.
+     * Either way the destination path is built from the species id, never from the entry name.
+     */
+    private fun importZip(src: File, accept: (String, () -> ByteArray?, String) -> Unit, failures: MutableCollection<String>) {
+        val names = try {
+            ZipFile(src).use { z -> z.entries().asSequence().map { it.name }.toList() }
+        } catch (e: ZipException) {
+            failures += "--from=${src.path}: not a valid zip file (${e.message})"; return
+        } catch (e: IOException) {
+            failures += "--from=${src.path}: cannot read zip file (${e.message})"; return
+        }
+        names.filter { isUnsafeZipName(it) }.forEach { failures += "$it: rejected unsafe path in zip" }
+        val zipUri = src.absoluteFile.toURI()
+        val documented = names.any { n -> n.replace('\\', '/').let { it.startsWith("sprites/") || it.startsWith("assets-local/sprites/") } }
+        if (documented) {
+            val scratch = File(root, "assets-local/.zip-extract.tmp")
+            scratch.deleteRecursively()
+            try {
+                src.inputStream().use { SpriteArchive.extract(it, scratch) }
+                val base = File(scratch, "sprites")
+                base.walkTopDown().filter { it.isFile }.sortedBy { it.path }.forEach { f ->
+                    val rel = f.relativeTo(base).invariantSeparatorsPath
+                    accept(rel, { f.readBytes() }, "$zipUri!/sprites/$rel")
+                }
+            } finally { scratch.deleteRecursively() }
+        } else {
+            ZipFile(src).use { z ->
+                z.entries().asSequence().filter { !it.isDirectory && !isUnsafeZipName(it.name) }.forEach { e ->
+                    accept(e.name, {
+                        z.getInputStream(e).use { it.readNBytes(MAX_ENTRY_BYTES + 1) }.takeIf { it.size <= MAX_ENTRY_BYTES }
+                    }, "$zipUri!/${e.name}")
                 }
             }
-            else -> failures += "--from=${src.path}: not a directory or .zip file"
         }
     }
 
@@ -210,8 +283,40 @@ class SpriteImporter(private val root: File, args: List<String>) {
 
     companion object {
         const val DEFAULT_BASE = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon"
+        const val MAX_ENTRY_BYTES = 4 * 1024 * 1024
 
         fun isPng(b: ByteArray) = b.size > 8 && b[0] == 0x89.toByte() && b[1] == 'P'.code.toByte() && b[2] == 'N'.code.toByte() && b[3] == 'G'.code.toByte()
+
+        /**
+         * True when the chunk structure of the PNG reaches a complete IEND chunk, i.e. the download was not cut off.
+         * Trailing bytes after IEND are tolerated (some upstream files have them).
+         */
+        fun isCompletePng(b: ByteArray): Boolean {
+            if (!isPng(b)) return false
+            var o = 8
+            while (o + 12 <= b.size) {
+                val len = ((b[o].toLong() and 0xFF) shl 24) or ((b[o + 1].toLong() and 0xFF) shl 16) or ((b[o + 2].toLong() and 0xFF) shl 8) or (b[o + 3].toLong() and 0xFF)
+                if (len < 0 || o + 12 + len > b.size) return false
+                if (b[o + 4] == 'I'.code.toByte() && b[o + 5] == 'E'.code.toByte() && b[o + 6] == 'N'.code.toByte() && b[o + 7] == 'D'.code.toByte()) return true
+                o += 12 + len.toInt()
+            }
+            return false
+        }
+
+        fun isUnsafeZipName(name: String): Boolean {
+            val n = name.replace('\\', '/')
+            return n.startsWith("/") || n.contains('\u0000') || Regex("^[A-Za-z]:").containsMatchIn(n) || n.split('/').any { it == ".." }
+        }
+
+        /** Writes via a sibling temp file and an atomic rename: readers never see a partial file. */
+        fun writeAtomic(dest: File, data: ByteArray) {
+            dest.parentFile.mkdirs()
+            val tmp = File(dest.parentFile, dest.name + ".part")
+            try {
+                tmp.writeBytes(data)
+                Files.move(tmp.toPath(), dest.toPath(), StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING)
+            } finally { tmp.delete() }
+        }
 
         fun parseRanges(spec: String): List<IntRange> = spec.split(',').filter { it.isNotBlank() }.map { part ->
             val p = part.trim().split('-')
@@ -222,9 +327,12 @@ class SpriteImporter(private val root: File, args: List<String>) {
             }
         }
 
+        /** Splits one string holding several options ("--only=1-30 --forms=false") before each "--", so paths with spaces survive. */
+        fun splitOptions(args: List<String>): List<String> = args.flatMap { it.trim().split(Regex("\\s+(?=--)")) }.filter { it.isNotBlank() }
+
         fun parseArgs(args: List<String>): Options {
             var o = Options()
-            for (a in args.flatMap { it.split(' ') }.filter { it.isNotBlank() }) {
+            for (a in splitOptions(args)) {
                 val (k, v) = if ('=' in a) a.substringBefore('=') to a.substringAfter('=') else a to "true"
                 o = when (k) {
                     "--only" -> o.copy(only = parseRanges(v))
@@ -237,6 +345,9 @@ class SpriteImporter(private val root: File, args: List<String>) {
                     "--retries" -> o.copy(retries = v.toInt())
                     "--from" -> o.copy(from = File(v))
                     "--base-url" -> o.copy(baseUrl = v)
+                    "--dest" -> o.copy(dest = File(v))
+                    "--offline" -> o.copy(offline = v.toBoolean())
+                    "--tolerate-failures" -> o.copy(tolerateFailures = v.toBoolean())
                     else -> throw IllegalArgumentException("unknown option '$a'")
                 }
             }

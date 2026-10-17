@@ -12,7 +12,14 @@ enum class Nature(val plus: Stat?, val minus: Stat?) {
     MODEST(Stat.SPA, Stat.ATK), MILD(Stat.SPA, Stat.DEF), QUIET(Stat.SPA, Stat.SPE), BASHFUL(null, null), RASH(Stat.SPA, Stat.SPD),
     CALM(Stat.SPD, Stat.ATK), GENTLE(Stat.SPD, Stat.DEF), SASSY(Stat.SPD, Stat.SPE), CAREFUL(Stat.SPD, Stat.SPA), QUIRKY(null, null);
 
-    fun multiplier(stat: Stat): Double = when (stat) { plus -> if (plus == minus) 1.0 else 1.1; minus -> 0.9; else -> 1.0 }
+    /** Stat multiplier in percent: 110 for the raised stat, 90 for the lowered one, 100 otherwise (HP is never changed). */
+    fun percent(stat: Stat): Int = when {
+        stat == Stat.HP || plus == null -> 100
+        stat == plus -> 110
+        stat == minus -> 90
+        else -> 100
+    }
+    fun multiplier(stat: Stat): Double = percent(stat) / 100.0
     val label: String get() = name.lowercase().replaceFirstChar { it.uppercase() }
 }
 
@@ -50,6 +57,7 @@ data class MoveSlot(val id: String, var pp: Int, var ppUps: Int = 0) {
 class Pokemon(
     var speciesId: String,
     var level: Int,
+    /** The nature the Pokémon was born with. Never rerolled; evolution keeps it (it decides Toxtricity's form). */
     var nature: Nature = Nature.HARDY,
     val ivs: StatSpread = StatSpread(31, 31, 31, 31, 31, 31),
     val evs: StatSpread = StatSpread(),
@@ -75,11 +83,16 @@ class Pokemon(
     var metLocation: String = "",
     var metLevel: Int = 1,
     /** Unique id for this individual (used for party/box identity and evolution tracking). */
-    val uid: Long = 0,
+    var uid: Long = 0,
     /** Counters used by special evolution conditions (critical hits landed, specific move uses, ...). */
     val counters: MutableMap<String, Int> = mutableMapOf(),
     var fainted: Boolean = false,
+    /** Nature applied to stats by a Mint (Generation VIII+). The original [nature] is kept and still shown. */
+    var mintNature: Nature? = null,
 ) {
+    /** The nature that modifies stats: the Mint's if one was used, otherwise the original nature. */
+    val statNature: Nature get() = mintNature ?: nature
+
     fun species(dex: Dex): SpeciesData = dex.species(speciesId)
 
     fun displayName(dex: Dex): String = nickname ?: species(dex).name
@@ -89,7 +102,7 @@ class Pokemon(
         return sp.abilities[abilitySlot] ?: sp.abilities["0"] ?: "noability"
     }
 
-    fun stat(dex: Dex, stat: Stat): Int = calcStat(species(dex), stat, level, ivs[stat], evs[stat], nature)
+    fun stat(dex: Dex, stat: Stat): Int = calcStat(species(dex), stat, level, ivs[stat], evs[stat], statNature)
 
     fun maxHp(dex: Dex): Int = stat(dex, Stat.HP)
 
@@ -109,6 +122,11 @@ class Pokemon(
         kotlinx.serialization.json.Json.encodeToString(serializer(), this))
 
     companion object {
+        /**
+         * Generation III+ stat formula (integer arithmetic, each division rounds down):
+         * HP = floor((2B + IV + floor(EV/4)) x L / 100) + L + 10; other = floor((floor((2B + IV + floor(EV/4)) x L / 100) + 5) x N),
+         * with N = 110/100, 90/100 or 1 from the nature. Shedinja's HP is always 1.
+         */
         fun calcStat(sp: SpeciesData, stat: Stat, level: Int, iv: Int, ev: Int, nature: Nature): Int {
             val base = sp.baseStats[stat]
             if (stat == Stat.HP) {
@@ -116,7 +134,7 @@ class Pokemon(
                 return (2 * base + iv + ev / 4) * level / 100 + level + 10
             }
             val raw = (2 * base + iv + ev / 4) * level / 100 + 5
-            return (raw * nature.multiplier(stat)).toInt()
+            return raw * nature.percent(stat) / 100
         }
     }
 }

@@ -165,7 +165,12 @@ class IntroScreen(game: PkmnGame) : Screen(game) {
 }
 
 /** On-screen keyboard for naming (works with touch D-pad and keyboard arrows). */
-class NameInputScreen(game: PkmnGame, private val title: String, initial: String, private val maxLen: Int = 10, private val onDone: (String) -> Unit) : Screen(game) {
+/**
+ * Name entry keyboard. B deletes a character; with [onCancel] set, B on an empty name (or Android Back) cancels.
+ * END (or START) confirms; an empty name is refused.
+ */
+class NameInputScreen(game: PkmnGame, private val title: String, initial: String, private val maxLen: Int = 10,
+                      private val onCancel: (() -> Unit)? = null, private val onDone: (String) -> Unit) : Screen(game) {
     private val rows = listOf("ABCDEFGHI", "JKLMNOPQR", "STUVWXYZ ", "abcdefghi", "jklmnopqr", "stuvwxyz.", "0123456789".take(9), "-'!?♂♀é,&")
     private var cx = 0
     private var cy = 0
@@ -179,7 +184,10 @@ class NameInputScreen(game: PkmnGame, private val title: String, initial: String
         if (input.repeat(Button.LEFT)) cx = (cx - 1 + 9) % 9
         if (input.repeat(Button.RIGHT)) cx = (cx + 1) % 9
         if (input.justPressed(Button.START)) finish()
-        if (input.justPressed(Button.B)) { if (text.isNotEmpty()) text.deleteCharAt(text.length - 1) }
+        if (input.justPressed(Button.B)) {
+            if (text.isNotEmpty()) text.deleteCharAt(text.length - 1)
+            else if (onCancel != null) { cancel(); return }
+        }
         if (input.justPressed(Button.A)) {
             if (bottom) { if (cx < 4) { if (text.isNotEmpty()) text.deleteCharAt(text.length - 1) } else finish() }
             else if (text.length < maxLen) {
@@ -189,6 +197,10 @@ class NameInputScreen(game: PkmnGame, private val title: String, initial: String
             }
         }
     }
+
+    override fun onBack(): Boolean { if (onCancel != null) cancel(); return true }
+
+    private fun cancel() { pop(); onCancel?.invoke() }
 
     private fun finish() {
         val t = text.toString().trim()
@@ -205,6 +217,7 @@ class NameInputScreen(game: PkmnGame, private val title: String, initial: String
         rows.forEachIndexed { y, row -> row.forEachIndexed { x, ch -> r.text(ch.toString(), 32 + x * 22, 64 + y * 16) } }
         r.text("DEL", 40, 64 + rows.size * 16)
         r.text("END", 150, 64 + rows.size * 16)
+        if (onCancel != null && text.isEmpty()) r.text("B: BACK", 196, 10, small = true)
         if (bottom) r.cursor(if (cx < 4) 30 else 140, 64 + rows.size * 16) else r.cursor(22 + cx * 22, 64 + cy * 16)
     }
 }

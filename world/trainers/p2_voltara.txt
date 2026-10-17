@@ -66,7 +66,7 @@ trainer p2_pp_captain
   intro "The siphon stays on!"
   defeat "The light... slipping away..."
   after "We'll take the light from Mt. Prism itself next."
-  mon golbat 24 moves=wingattack,bite,confuseray,poisonfang
+  mon golbat 24 moves=astonish,supersonic,screech,poisonfang
   mon skuntank 25 moves=poisonjab,bite,smokescreen,screech
   mon mightyena 25 moves=crunch,takedown,roar,swagger
 end
