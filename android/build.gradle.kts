@@ -54,6 +54,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        // java.time (game clock, saves) needs API 26; desugaring makes it work on minSdk 24-25 devices too.
+        isCoreLibraryDesugaringEnabled = true
     }
     packaging { resources.excludes += setOf("META-INF/*.kotlin_module", "META-INF/versions/**") }
 }
@@ -62,6 +64,7 @@ kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarg
 
 dependencies {
     implementation(project(":core"))
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     implementation("com.badlogicgames.gdx:gdx-backend-android:$gdxVersion")
     for (abi in listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64"))
         natives("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-$abi")

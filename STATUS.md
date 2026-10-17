@@ -8,30 +8,68 @@ Every number in this document was produced by the commands listed next to it. No
 |---|---|
 | Builds | Desktop (LWJGL3) and Android APK/AAB build reproducibly with `./gradlew`; release builds fall back to the debug key without a keystore |
 | Content data | 1025 species + 354 forms, 951 moves, 318 abilities, 839 items, imported from Showdown and PokeAPI and validated |
-| Battle engine | Singles, Gen IX rules, all gimmicks; every move, ability and held item classified (0 unimplemented) |
+| Battle engine | Singles, Gen IX rules, all gimmicks; every move, ability and held item classified (0 unimplemented). Replacement phase after a faint; Shift/Set battle styles |
+| Presentation | Gold/Silver/Crystal-style battle flow with party Poké Ball indicators. Elapsed-time animation system for battle and overworld (skippable; speed and off settings) |
+| Time | Device clock and time zone through an injectable `GameClock`; morning/day/night lighting; time-dependent encounters; data-driven weekly events (Thursday-night Mistwood Clefable) |
 | Campaign | Complete from new game to the Hall of Fame, plus post-game: 223 maps, 684 trainers, 89 encounter tables, 451 scripts |
 | Saves | Atomic, checksummed, versioned, with backup/repair; corruption tests pass |
-| Tests | 75 engine tests and 17 tool tests, all passing; CI runs them on every push |
-| Playtime | Content-derived estimate: 11.1 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target |
+| Tests | 106 engine, 44 core and 40 tool tests, all passing; CI runs them on every push. 26 reproducible visual-regression screenshots of the real desktop game |
+| Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
+
+## Post-release update: verified fixes
+
+Each fix below was reproduced first, then checked with tests and in the running desktop game. Screenshots are in [docs/screenshots](docs/screenshots); see [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).
+
+**Defects found and fixed**
+
+| Defect | Root cause | Fix | Evidence |
+|---|---|---|---|
+| A fainted foe stayed on screen until the player attacked again | The engine only sent in the AI's replacement inside the *next* `advance()`, after the player had already picked a move against an empty slot | A replacement phase after each faint: `request()` asks nothing until replacements are in; Shift prompt; switch-in effects of simultaneous replacements run by speed | engine `BattleFlowTest` (9), core `BattleFlowTest` (7), screenshots `battle_*` |
+| No party indicators | The `ball_icons` asset was never drawn | Ball rows for both sides, updated as each faint or status is *shown* | `battle_ui_one`, `battle_ui_six` |
+| Move animations played on misses, failures and Protect | The presentation reacted to `MoveUsed` | New `MoveEffect` event, emitted only when a move took effect | `BattleFlowTest` event order; screenshots |
+| Zone entrances drawn as house doors (29 warps), one exit landing on water | Generic `door` stamp reused for forests, towers, ruins, mines; Frozen Falls → Route 12 landing | Explicit entrance classes, 6 new entrance tiles, map data fixed, compiler errors on mismatches | `reports/entrances.md`, [docs/WORLD_VALIDATION.md](docs/WORLD_VALIDATION.md) |
+| `gym_window` was walkable | Not in the solid-tile list | Solid | `EntranceTest` |
+| TM Stone Edge drawn on a solid rock | Placement | Moved one tile; same id and flag | `reports/items.md` |
+| Party 16–23 levels above late bosses with optional content | Party-wide Exp. Share together with the expansions' optional trainers | Exp. Share off by default for **new** players; existing option files keep it on | [docs/PLAYTIME.md](docs/PLAYTIME.md), `TimeAndEventsTest` |
+| `java.time` would crash on Android 7.0–7.1 (minSdk 24) | No core-library desugaring | Desugaring enabled (`desugar_jdk_libs` 2.1.5) | APK dex contains `j$.time` |
+| Empty or broken time-of-day encounter table gave no encounters | Fallback only when the key was missing | Period + `any` slots, then a documented fallback chain | `TimeAndEventsTest` |
+
+**Also added**
+- **Battle flow.** A `BattleFlow` state machine.
+  - Shift is the default; Set skips the switch offer.
+  - Wild battles ask "Use next POKéMON?": No tries to run; a failed escape forces a pick.
+  - Gold/Silver/Crystal battle text: "Enemy X", "wants to battle!", and send-out and recall lines that depend on HP.
+- **Animation.** `AnimationPlayer` runs elapsed-time clips; `assets/anim/battle.json` holds the timings and move-effect styles.
+  - Battle: send-out, recall, faint, hit, HP/EXP bars, move effects, status, stat changes, transformations, capture and the victory slide.
+  - Overworld: battle-start transition, door entry, white warp fade, grass, item pickup, cut/smash, event Pokémon.
+  - B skips; an ANIM SPEED option; BATTLE ANIM OFF and REDUCE MOTION. Skipping applies each clip's end state (`AnimationPlayerTest`).
+- **Clock, encounters, events.** See [docs/EVENTS.md](docs/EVENTS.md).
+- **Fidelity matrix.** See [docs/FIDELITY.md](docs/FIDELITY.md).
 
 ## Builds
 
 | Artifact | Command | Result |
 |---|---|---|
-| Debug APK | `./gradlew :android:assembleDebug` | `android-debug.apk`, ~6.4 MB |
-| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, ~5.0 MB (debug-key signed unless `release.keystore` is provided) |
+| Debug APK | `./gradlew :android:assembleDebug` | `android-debug.apk`, ~7.3 MB |
+| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, ~5.2 MB (debug-key signed unless `release.keystore` is provided) |
 | App bundle | `./gradlew :android:bundleRelease` | `android-release.aab`, ~4.6 MB |
 | Desktop jar | `./gradlew :desktop:dist` | `pkmn-crystalline-desktop.jar` |
 
 - **APK metadata** (`aapt2 dump badging`): package `io.github.pkmncrystalline`, minSdk 24, targetSdk 35.
 - **Native libraries:** for armeabi-v7a, arm64-v8a, x86 and x86_64.
-- **Not tested on a device:** the APK has not been run on hardware or an emulator. The build machine has no KVM, so no emulator could run, and no device was attached. Android-specific code (launcher, touch input, sprite import through the document picker) compiles and is packaged, but has not been exercised at runtime.
+- **Desugaring:** `java.time` is desugared for API 24–25.
+- **Permissions:** only `VIBRATE`; no network or location.
+- **Rebuilt for this update** with `./gradlew :android:assembleDebug :android:assembleRelease`, using SDK platform 35 and build-tools 35.0.0.
+- **Not tested on a device.** The build machine has no KVM, so no emulator could run, and no device was attached. Android-specific behaviour has not been exercised at runtime: launcher, touch input, back button, pause/resume, the clock refresh on resume and process death.
+  - It is code-reviewed.
+  - Battles are never autosaved mid-fight, so a killed process resumes from the last overworld save.
+  - Battle prompts use the same A/B/D-pad buttons as the touch pad.
 
 See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install instructions.
 
 ## Tests
 
-`./gradlew :engine:test :tools:test`, all passing. GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (106 + 44 + 40). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.
@@ -53,7 +91,13 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 - **Saves:** round trip, backup recovery, corrupt files preserved, tampered payload rejected by checksum.
 - **Sprite archive import:** extraction, path-traversal rejection.
 
-**Tools:** importer, validators and manifest checks.
+- **Battle flow and animation (new):**
+  - Engine `BattleFlowTest`: replacement before the next choice; Shift/Set; invalid picks; simultaneous faints; exactly one End and one EXP award per faint; party sizes 1–6; fleeing.
+  - Core `BattleFlowTest`: the state machine driven like the screen, including indicators at the prompt.
+  - `AnimationPlayerTest`: frame-rate independence, skipping, animations off, speed.
+- **Time and events (new):** `TimeAndEventsTest` (11), covering boundaries, time zones, DST, Thursday-night rules, save/load, invalid config, encounter fallback and weights.
+
+**Tools:** importer, validators and manifest checks. New: `EntranceAuditTest`, `ItemAuditTest`, `StrictReachTest`.
 
 **Automated play on desktop.** These runs use `--script` under Xvfb, with screenshots reviewed:
 - Bedroom → town → lab → starter choice → rival battle → Route 1 → wild battle.
@@ -132,6 +176,8 @@ Android devices were not measured; see Builds.
 
 ## Playtime
 
+Updated in this release; the analysis is in [docs/PLAYTIME.md](docs/PLAYTIME.md). The table below is the earlier one, kept for comparison.
+
 `./gradlew :tools:estimatePlaytime` writes `reports/playtime.json`. This is a model, not a measurement. It sums, along the route between gyms:
 - Walking.
 - Trainer battles.
@@ -140,7 +186,7 @@ Android devices were not measured; see Builds.
 - Grinding, from a simulation of the party's experience.
 
 The model's constants are listed in the report. Current result:
-- Critical path: **11.1 h**.
+- Critical path: **12.7 h** (was 11.1 h; the extra time is optional grinding for players who skip all side content, now that Exp. Share is off by default).
 - With optional content: **24.4 h**.
 - Post-game: **4.5 h**.
 
@@ -162,13 +208,16 @@ The model is a content sum, not a measurement of real players. It assumes a typi
 
 ## Known issues and limitations
 
-- **Android is untested on hardware or an emulator.** Touch layout, audio latency, the lifecycle (pause/resume autosave) and gamepad mapping have not been verified on a device.
+- **Android is untested on hardware or an emulator.** Touch layout, audio latency, the lifecycle (pause/resume autosave, clock refresh on resume) and gamepad mapping have not been verified on a device.
+- **The trainer-battle ×1.5 EXP bonus is unverified for Gen VII+.** No primary source was reachable, so the formula is unchanged (see docs/FIDELITY.md).
+- **No idle animations for standing NPCs.** Gold/Silver/Crystal has none either. Event Pokémon bob.
+- **Visual-regression scenes are not in CI.** They need Xvfb; run `tools/visual/run_scenes.sh` locally.
 - **Pokémon sprites are placeholders.** Official sprites are only available through the local import path. Trainer, overworld and UI art is original and complete.
 - **Singles only:** no double battles.
 - **Playtime is below target.** About 24 h to the Hall of Fame with optional content (estimate); see the Playtime section.
-- **Normal difficulty is easy late in the game.** With Exp. Share on and no level cap on Normal, the model has the party about 9–11 levels above the late gym and Champion aces. Challenge difficulty caps levels at the next leader's ace. Raising the late bosses or defaulting Exp. Share off would fix this; neither has been done.
+- **Late-game difficulty depends on Exp. Share.** With it off (the new default) the model has exploring players 4–9 levels above gym aces. With it on, they are 16–23 levels above. Challenge difficulty still caps levels at the next leader's ace.
 - **Some checks are approximate.** Ice-sliding puzzles were verified with a separate simulator during authoring, not by `checkProgression`, which treats ice as walkable. Waterfalls can be climbed but not descended, so areas above them have one-way ledges back down.
 - **Missing evolution methods:** Kubfu/Urshifu (not obtainable) and Vivillon Fancy (event-only) cannot evolve in-game, and regional-variant evolutions are disabled by design. Milcery evolves by spinning on the spot while it holds a Sweet.
 - **Necrozma fusion is simplified.** The engine has no N-Solarizer/N-Lunarizer fusion. The post-game "Prism Pedestal" swaps a Necrozma for a fresh level-75 Dusk Mane or Dawn Wings, so the player's own Necrozma (level, EVs) is replaced.
 - **Static checks are optimistic.** The progression checker assumes story gates open once their flags are set. It proves nothing is unreachable, but it does not prove every scripted gate opens.
-- **Automated play coverage is limited.** It covers the opening hour of the game and every menu; none of the expansion areas have been walked through. Later areas are covered by the script and battle tests and by the progression checker, not by full playthroughs.
+- **Automated play coverage is limited.** It covers the opening hour of the game, every menu, the battle flows above, and teleported checks of several expansion areas (Mistwood, Quarrytown, Eclipse Atoll, Ashfall City). The expansion areas have not been walked through end to end. Later areas are covered by the script and battle tests and by the progression checker, not by full playthroughs.

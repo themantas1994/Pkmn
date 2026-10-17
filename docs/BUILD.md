@@ -36,6 +36,9 @@ Generated content in `assets/` is committed, so a fresh clone builds without run
 ./gradlew :tools:checkProgression    # badge-order reachability / softlock check -> reports/progression.json
 ./gradlew :tools:estimatePlaytime    # content-derived playtime estimate -> reports/playtime.json
 ./gradlew :tools:benchmark           # engine performance -> reports/performance.json
+./gradlew :tools:auditEntrances      # every warp vs its destination class -> reports/entrances.*
+./gradlew :tools:auditItems          # strict item reachability per badge stage -> reports/items.*
+tools/visual/run_scenes.sh           # capture visual-regression scenes under Xvfb and compare (see docs/SCREENSHOTS.md)
 ```
 
 `compileMaps`, `validateContent`, `buildAssetManifest` and `checkProgression` exit non-zero on errors, so they can gate CI.
@@ -43,7 +46,7 @@ Generated content in `assets/` is committed, so a fresh clone builds without run
 ## Tests
 
 ```sh
-./gradlew :engine:test :tools:test                          # unit, battle, world, save and tool tests
+./gradlew :engine:test :core:test :tools:test              # unit, battle, battle-flow, animation, time/event, world, save and tool tests
 ./gradlew :engine:test --tests '*BattleFuzzTest*' -Dfuzz.battles=3000 --rerun   # long AI-vs-AI fuzz run
 ```
 
@@ -56,6 +59,7 @@ Generated content in `assets/` is committed, so a fresh clone builds without run
 ```
 
 Launcher options:
+- `--fixedstep` (every frame advances 1/60 s; reproducible automation and screenshots)
 - `--saves=<dir>`
 - `--mute`
 - `--scale=N`
