@@ -1115,7 +1115,7 @@ class Battle(
         // Primary non-damaging effects of damaging moves.
         if (!user.fainted) {
             move.data.self?.let { s ->
-                if (s.boosts.isNotEmpty() && (move.data2["parentalbond"] != true || true)) boost(user, s.boosts, user, move.id)
+                if (s.boosts.isNotEmpty() && move.data2["selfBoostsHandled"] != true) boost(user, s.boosts, user, move.id)
                 s.volatileStatus?.let { addVolatile(user, it, user, move.id) }
             }
             if (move.data.recoil != null && move.totalDamage > 0 && !(user.ability == "rockhead" && abilityActive(user)) && !(user.ability == "magicguard" && abilityActive(user))) {
@@ -1137,6 +1137,7 @@ class Battle(
         if (move.data.status != null && !target.fainted && !mc.substituteHit) trySetStatus(target, MajorStatus.byId(move.data.status)!!, user, move.id, primary = false)
         if (move.data.volatileStatus != null && !target.fainted && !mc.substituteHit && move.data.volatileStatus != "partiallytrapped") addVolatile(target, move.data.volatileStatus, user, move.id)
         if (move.data.volatileStatus == "partiallytrapped" && !target.fainted && !mc.substituteHit) addVolatile(target, "partiallytrapped", user, move.id)?.moveId = move.id
+        move.data.pseudoWeather?.let { addPseudoWeather(it, user) } // Plasma Fists: Ion Deluge
         for (c in moveHandlers(mc)) c.effect.onAfterMoveSecondary(c, mc)
         if (move.data.selfSwitch != null && !user.fainted && user.side.canSwitchTo().isNotEmpty()) user.switchFlag = move.data.selfSwitch
         if (move.data.forceSwitch && !target.fainted && !mc.substituteHit && target.side.canSwitchTo().isNotEmpty() && canDrag(target)) target.forceSwitchFlag = true
@@ -1189,7 +1190,9 @@ class Battle(
             if (!ok) return true.also { /* message already shown */ }
         }
         m.volatileStatus?.let { v -> ok = (addVolatile(target, v, user, m.id) != null) || ok.also { } }
-        m.heal?.let { h ->
+        // Moonlight, Synthesis, Morning Sun and Shore Up have no `heal` field in the data (Showdown heals in a callback).
+        val healFraction = m.heal ?: if (m.id in setOf("moonlight", "synthesis", "morningsun", "shoreup")) listOf(1, 2) else null
+        healFraction?.let { h ->
             var frac = h[0].toDouble() / h[1]
             if (m.id in setOf("moonlight", "synthesis", "morningsun")) frac = when {
                 isSun(user) -> 2.0 / 3

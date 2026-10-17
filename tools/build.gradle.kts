@@ -37,6 +37,7 @@ registerTool("checkProgression", "Check badge-order reachability, softlocks and 
 registerTool("auditEntrances", "Audit every warp: entrance tile vs destination class, traversal, reverse transition -> reports/entrances.*", "entrances")
 registerTool("auditItems", "Strict item reachability audit per badge stage and placement defects -> reports/items.*", "items")
 registerTool("auditLearnsets", "Learnset legality audit (importer vs raw Showdown, forms, world moves, TMs, tutors) -> reports/learnsets.*", "learnsets")
+registerTool("auditMoves", "Merge engine/build/reports/move-execution.json (run :engine:test --tests '*MoveExecutionTest*' first) with BattleCoverage -> reports/moves-audit.*", "moves")
 registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")

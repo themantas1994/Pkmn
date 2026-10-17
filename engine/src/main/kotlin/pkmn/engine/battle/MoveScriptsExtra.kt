@@ -176,7 +176,15 @@ object MoveScriptsExtra {
         }
         secondary("throatchop") { b, mc -> b.addVolatile(mc.target, "throatchop", mc.user, "throatchop") }
         // The imported data drops the "self" part of these secondaries.
-        secondary("diamondstorm") { b, mc -> if (!mc.user.fainted) b.boost(mc.user, mapOf("def" to 2), mc.user, "diamondstorm") }
+        // Diamond Storm's raw data is `self: {chance: 50, boosts: {def: 2}}`, which the importer turns into an unconditional
+        // `self` boost: the script takes over the roll (Serene Grace doubles it) and suppresses the data boost.
+        reg(object : MoveScript("diamondstorm") {
+            override fun onHit(b: Battle, mc: MoveCtx) { mc.move.data2["selfBoostsHandled"] = true }
+            override fun onAfterUse(b: Battle, mc: MoveCtx, hitAny: Boolean) {
+                val chance = if (mc.user.ability == "serenegrace" && b.abilityActive(mc.user)) 100 else 50
+                if (hitAny && !mc.user.fainted && b.rng.nextInt(100) < chance) b.boost(mc.user, mapOf("def" to 2), mc.user, "diamondstorm")
+            }
+        })
         secondary("clangoroussoulblaze") { b, mc -> if (!mc.user.fainted) b.boost(mc.user, mapOf("atk" to 1, "def" to 1, "spa" to 1, "spd" to 1, "spe" to 1), mc.user, "clangoroussoulblaze") }
         reg(object : MoveScript("steelbeam") {
             override fun onAfterUse(b: Battle, mc: MoveCtx, hitAny: Boolean) {
