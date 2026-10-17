@@ -134,6 +134,20 @@
       "license": "CC0-1.0",
       "author": "Pokémon Crystalline contributors",
       "redistributable": true
+    },
+    {
+      "pathGlob": "assets/anim/**",
+      "source": "Hand-written animation timing and move-effect style data",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true
+    },
+    {
+      "pathGlob": "assets/events/**",
+      "source": "Hand-written recurring world event definitions (see docs/EVENTS.md)",
+      "license": "CC0-1.0",
+      "author": "Pokémon Crystalline contributors",
+      "redistributable": true
     }
   ]
 }

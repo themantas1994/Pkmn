@@ -71,6 +71,8 @@ class PartyScreen(
     private val forced: Boolean,
     private val ow: OverworldScreen? = null,
     private val prompt: String? = null,
+    /** Shift battle style: a free switch before the foe's next Pokémon, cancellable and not blocked by trapping. */
+    private val shift: Boolean = false,
     private val onChoose: (Int?) -> Unit,
 ) : Screen(game) {
     enum class Mode { OVERWORLD, BATTLE, CHOOSE }
@@ -105,7 +107,7 @@ class PartyScreen(
                         "SWITCH" -> when {
                             bm.fainted -> game.say("There's no will to fight!")
                             bm === battle.player.active -> game.say("${bm.name} is already in battle!")
-                            !forced && !battle.canSwitchOut(battle.player.active!!) -> game.say("${battle.player.active!!.name} can't be switched out!")
+                            !forced && !shift && !battle.canSwitchOut(battle.player.active!!) -> game.say("${battle.player.active!!.name} can't be switched out!")
                             else -> { pop(); onChoose(cursor) }
                         }
                         "SUMMARY" -> push(SummaryScreen(game, ctx, mon))

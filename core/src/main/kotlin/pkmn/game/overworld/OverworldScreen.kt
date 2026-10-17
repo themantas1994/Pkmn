@@ -9,6 +9,11 @@ import pkmn.engine.mon.Pokemon
 import pkmn.engine.world.*
 import pkmn.game.AutosaveAware
 import pkmn.game.PkmnGame
+import pkmn.game.anim.AnimationPlayer
+import pkmn.game.anim.Clip
+import pkmn.game.anim.Ease
+import pkmn.engine.campaign.LightPhase
+import pkmn.engine.campaign.WorldEventDef
 import pkmn.game.battle.BattleScreen
 import pkmn.game.gfx.Palette
 import pkmn.game.gfx.Renderer
@@ -49,6 +54,22 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     private var shake = 0f
     private val weatherParticles = FloatArray(80)
     private var pendingTrainerCheck = false
+    /** Cosmetic overworld clips (door opening, item pickup, cut/smash). Never gate movement except where noted. */
+    private val fx = AnimationPlayer()
+    /** Tall-grass rustles: x, y, age (s). */
+    private val rustles = ArrayList<FloatArray>()
+    private var fadeColor = Color.BLACK
+    /** Door being opened before a warp: x, y, progress 0..1 (null = none). */
+    private var doorAnim: FloatArray? = null
+    /** Item ball being picked up: x, y, progress. */
+    private var pickupAnim: FloatArray? = null
+    /** Obstacle being cleared (cut/smash): x, y, progress, kind. */
+    private var clearAnim: Pair<ObstacleDef, FloatArray>? = null
+    /** Seconds until the next wall-clock check (period, lighting, scheduled events). */
+    private var clockCheck = 0f
+    private var worldTimeKey = ""
+    /** Event Pokémon appearing: actor id -> appear progress. */
+    private val appearing = HashMap<String, Float>()
 
     override fun onEnter() {
         player.sprite = playerSprite()
@@ -115,6 +136,63 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             val a = Actor(n.id, n.sprite, n.x, n.y, Facing.parse(n.facing), n)
             actors[n.id] = a
         }
+        addEventActors()
+        worldTimeKey = worldTimeKey()
+    }
+
+    // ================================================================= clock-driven world state
+
+    private fun eventActorId(e: WorldEventDef) = "event:${e.id}"
+
+    /** Scheduled event Pokémon (e.g. the Thursday-night visitor) are actors on their map while their schedule is active. */
+    private fun addEventActors() {
+        for (e in ctx.activeEvents(baseMap.id)) {
+            val id = eventActorId(e)
+            if (actors.containsKey(id)) continue
+            val npc = NpcDef(id, e.x, e.y, "@mon:${e.species}", e.facing)
+            actors[id] = Actor(id, npc.sprite, e.x, e.y, Facing.parse(e.facing), npc)
+        }
+    }
+
+    private fun worldTimeKey(): String = "${ctx.lightPhase()}|" + ctx.activeEvents(baseMap.id).joinToString(",") { it.id }
+
+    /**
+     * Re-reads the device clock: lighting phase and scheduled events. Called on map load, every few seconds while
+     * exploring, and immediately when the app resumes, so events appear and vanish on time without a restart.
+     */
+    fun refreshWorldTime(force: Boolean = false) {
+        clockCheck = 10f
+        if (!::baseMap.isInitialized) return
+        val key = worldTimeKey()
+        if (!force && key == worldTimeKey) return
+        worldTimeKey = key
+        val active = ctx.activeEvents(baseMap.id).map { eventActorId(it) }.toSet()
+        // Remove events that ended (unless the player is mid-interaction), add new ones with a short appear effect.
+        if (!scriptBusy) actors.keys.filter { it.startsWith("event:") && it !in active }.forEach { actors.remove(it) }
+        val before = actors.keys.toSet()
+        addEventActors()
+        for (id in actors.keys - before) {
+            appearing[id] = 0f
+            fx.spawn(Clip("event_appear", 0.8f, onUpdate = { appearing[id] = it }, onEnd = { appearing.remove(id) }))
+        }
+    }
+
+    private fun startEventEncounter(a: Actor) {
+        val def = ctx.content.events.defs.firstOrNull { eventActorId(it) == a.id } ?: return
+        // The schedule may have ended while the player walked up: re-check on interaction.
+        if (def !in ctx.activeEvents(baseMap.id)) { actors.remove(a.id); return }
+        scriptBusy = true
+        val mon = ctx.factory.create(def.species, def.level, ctx.rng, moves = def.moves.ifEmpty { null })
+        game.audio.playSfx("cry")
+        game.say(*def.intro.map { ctx.format(it) }.toTypedArray()) {
+            val now = ctx.now()
+            startWildBattle(mon, canRun = true, music = def.music) { outcome ->
+                ctx.content.events.markEncountered(def, state, now)
+                if (outcome == BattleOutcome.CAUGHT) ctx.content.events.markCaught(def, state)
+                actors.remove(a.id)
+                if (outcome != BattleOutcome.CAUGHT && outcome != BattleOutcome.LOSE) game.say("The ${mon.species(ctx.dex).name} vanished into the night...")
+            }
+        }
     }
 
     private fun playerSprite(): String {
@@ -125,6 +203,12 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     // ================================================================= update
 
     override fun update(dt: Float, input: InputState) {
+        fx.cosmetic = !game.options.reduceMotion
+        fx.update(dt)
+        rustles.forEach { it[2] += dt }
+        rustles.removeAll { it[2] > 0.3f }
+        clockCheck -= dt
+        if (clockCheck <= 0f) refreshWorldTime()
         if (fade != fadeTarget) {
             fade = if (fadeTarget > fade) minOf(fadeTarget, fade + dt * 4) else maxOf(fadeTarget, fade - dt * 4)
             if (fade == fadeTarget) { val f = fadeDone; fadeDone = null; f?.invoke() }
@@ -230,6 +314,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         state.steps++
         stepsSinceSave++
         stepEffects()
+        if (rules.behavior(map, player.x, player.y) == TileBehavior.TALL_GRASS) rustles.add(floatArrayOf(player.x.toFloat(), player.y.toFloat(), 0f))
         // Warp tiles reached by walking.
         rules.warpAt(map, player.x, player.y)?.let { w ->
             val b = rules.behavior(map, player.x, player.y)
@@ -325,10 +410,23 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         game.audio.playSfx("door")
         val target = if (w.toMap == Warp.BACK) Triple(state.backMap.ifEmpty { content.info.startMap }, state.backX, state.backY) else Triple(w.toMap, w.toX, w.toY)
         val facing = w.facing?.let { Facing.parse(it) } ?: if (w.toMap == Warp.BACK) Facing.DOWN else player.facing
-        fadeOut {
-            loadMap(target.first, target.second, target.third, facing, viaWarp = true)
-            fadeIn {}
+        val go = {
+            // Gold/Silver/Crystal fade to white on warps (doors, stairs, caves).
+            fadeColor = Color.WHITE
+            fadeOut {
+                doorAnim = null
+                loadMap(target.first, target.second, target.third, facing, viaWarp = true)
+                fadeIn { fadeColor = Color.BLACK }
+            }
         }
+        val tile = map.tileAt(w.x, w.y)
+        val isDoor = tile == "door" || tile.endsWith("_door")
+        if (isDoor && !game.options.reduceMotion) {
+            // The door slides open before the fade; input waits on the timer, so nothing can move meanwhile.
+            doorAnim = floatArrayOf(w.x.toFloat(), w.y.toFloat(), 0f)
+            fx.enqueue(Clip("door_open", 0.18f, onUpdate = { t -> doorAnim?.set(2, t) }))
+            wait(0.18f) { go() }
+        } else go()
     }
 
     fun fadeOut(then: () -> Unit) { fadeTarget = 1f; fadeDone = then; if (fade == 1f) { fadeDone = null; then() } }
@@ -365,6 +463,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     }
 
     private fun talkTo(a: Actor) {
+        if (a.id.startsWith("event:")) { startEventEncounter(a); return }
         val n = a.npc ?: return
         val trainer = n.trainer
         val script = n.script
@@ -379,9 +478,20 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     }
 
     private fun pickUp(item: ItemPickup) {
+        if (state.hasFlag("item:${item.id}")) return
         state.setFlag("item:${item.id}")
         state.addItem(item.item, item.qty)
         game.audio.playSfx("item_get")
+        if (!item.hidden) {
+            // The ball pops and vanishes; the item is already in the bag (the animation is cosmetic only).
+            val a = floatArrayOf(item.x.toFloat(), item.y.toFloat(), 0f)
+            pickupAnim = a
+            fx.spawn(Clip("item_pickup", 0.35f, onUpdate = { t -> a[2] = t }, onEnd = { if (pickupAnim === a) pickupAnim = null }))
+        } else {
+            val a = floatArrayOf(item.x.toFloat(), item.y.toFloat(), 0f)
+            pickupAnim = a
+            fx.spawn(Clip("hidden_sparkle", 0.45f, onUpdate = { t -> a[2] = t }, onEnd = { if (pickupAnim === a) pickupAnim = null }))
+        }
         val name = ctx.itemName(item.item)
         game.say("${state.playerName} found ${if (item.qty > 1) "${item.qty}× " else ""}$name!", "${state.playerName} put the $name in the BAG.")
     }
@@ -410,6 +520,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                 else {
                     state.setFlag(o.flag)
                     game.audio.playSfx(if (o.kind == "cut_tree") "cut" else "rock_smash")
+                    val a = floatArrayOf(0f)
+                    clearAnim = o to a
+                    fx.spawn(Clip("clear_obstacle", 0.4f, onUpdate = { t -> a[0] = t }, onEnd = { if (clearAnim?.second === a) clearAnim = null }))
                     refreshMap()
                     if (o.kind == "rock_smash") ctx.rollEncounter(map, "rocksmash", forceEncounter = ctx.rng.nextInt(4) == 0)?.let { startWildBattle(it, true, null) {} }
                 }
@@ -620,32 +733,72 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val camX = player.pixelX() + 8 - Renderer.W / 2 + if (shake > 0) ((game.timeMs / 30) % 3 - 1) * 2 else 0
         val camY = player.pixelY().let { if (player.jumping) (player.fromY + (player.y - player.fromY) * player.progress) * 16f else it } + 8 - Renderer.H / 2
         r.rect(0, 0, Renderer.W, Renderer.H, if (baseMap.indoor || baseMap.environment == "cave") Palette.BLACK else Color.valueOf("306830"))
-        drawMap(r, map, 0, 0, camX, camY, border = true)
-        for (c in map.connections) {
-            val other = content.mapOrNull(c.map) ?: continue
-            val (ox, oy) = when (c.direction) {
-                "north" -> c.offset to -other.height
-                "south" -> c.offset to map.height
-                "west" -> -other.width to c.offset
-                else -> map.width to c.offset
+        val outdoor = !baseMap.indoor && baseMap.environment != "cave"
+        val light = if (outdoor) lightTint(ctx.lightPhase()) else Color.WHITE
+        r.tint(light) {
+            drawMap(r, map, 0, 0, camX, camY, border = true)
+            for (c in map.connections) {
+                val other = content.mapOrNull(c.map) ?: continue
+                val (ox, oy) = when (c.direction) {
+                    "north" -> c.offset to -other.height
+                    "south" -> c.offset to map.height
+                    "west" -> -other.width to c.offset
+                    else -> map.width to c.offset
+                }
+                drawMap(r, other, ox, oy, camX, camY, border = false)
             }
-            drawMap(r, other, ox, oy, camX, camY, border = false)
         }
-        // Items and obstacles.
-        for (it in map.items) if (!it.hidden && rules.itemVisible(map, it)) {
-            r.draw(r.assets.character("itemball")[0][0], it.x * 16f - camX, it.y * 16f - camY)
+        if (outdoor && ctx.lightPhase() == LightPhase.NIGHT) drawWindowLights(r, camX, camY)
+        doorAnim?.let { d ->
+            // Dark doorway opening upward over the door tile.
+            val h = 14f * d[2]
+            r.rect(d[0] * 16f - camX + 3, d[1] * 16f - camY + 15 - h, 10f, h, Palette.TEXT)
         }
-        for (o in map.obstacles) r.draw(r.assets.character(o.kind)[0][0], o.x * 16f - camX, o.y * 16f - camY)
-        // Actors sorted by y.
-        val all = (actors.values.filter { it.visible } + player).sortedBy { it.pixelY() }
-        for (a in all) drawActor(r, a, camX, camY)
+        r.tint(light.cpy().lerp(Color.WHITE, 0.35f)) {
+            // Items and obstacles.
+            for (it in map.items) if (!it.hidden && rules.itemVisible(map, it)) {
+                r.draw(r.assets.character("itemball")[0][0], it.x * 16f - camX, it.y * 16f - camY)
+            }
+            for (o in map.obstacles) r.draw(r.assets.character(o.kind)[0][0], o.x * 16f - camX, o.y * 16f - camY)
+            clearAnim?.let { (o, a) ->
+                // The cleared tree/rock flickers and shrinks away.
+                val t = a[0]
+                if ((t * 8).toInt() % 2 == 0) {
+                    val sz = 16f * (1f - t)
+                    r.draw(r.assets.character(o.kind)[0][0], o.x * 16f - camX + (16 - sz) / 2, o.y * 16f - camY + (16 - sz), sz, sz)
+                }
+            }
+            // Actors sorted by y.
+            val all = (actors.values.filter { it.visible } + player).sortedBy { it.pixelY() }
+            for (a in all) drawActor(r, a, camX, camY)
+            // Tall grass hides the lower part of anyone standing in it (as in the Game Boy games).
+            val grass = r.assets.tile("tall_grass").frame(game.timeMs)
+            val grassFeet = com.badlogic.gdx.graphics.g2d.TextureRegion(grass, 0, 10, 16, 6)
+            for (a in all) if (!a.moving && !a.sprite.startsWith("@mon:") && rules.behavior(map, a.x, a.y) == TileBehavior.TALL_GRASS)
+                r.draw(grassFeet, a.x * 16f - camX, a.y * 16f - camY + 10)
+        }
+        pickupAnim?.let { a ->
+            val t = a[2]
+            val px = a[0] * 16f - camX + 8; val py = a[1] * 16f - camY + 8
+            for (i in 0 until 4) {
+                val ang = i * Math.PI / 2 + t * 3
+                val rad = 4 + 10 * t
+                r.rect(px + (kotlin.math.cos(ang) * rad).toFloat() - 1, py + (kotlin.math.sin(ang) * rad).toFloat() - 1 - 6 * t, 2f, 2f, Palette.HIGHLIGHT)
+            }
+        }
+        // Tall grass covers the walker's feet and rustles when stepped in.
+        for (g in rustles) {
+            val gx = g[0] * 16f - camX; val gy = g[1] * 16f - camY
+            val k = 1f - g[2] / 0.3f
+            for (i in 0 until 3) r.rect(gx + 2 + i * 5, gy + 10 - 3 * k - (i % 2) * 2, 2f, 3f, Color(0.18f, 0.45f, 0.2f, k))
+        }
         drawAtmosphere(r)
         if (popupTimer > 0 && popupText != null) {
             val w = r.textWidth(popupText!!) + 20
             r.frame(4, 4, w, 24)
             r.text(popupText!!, 14, 12)
         }
-        if (fade > 0) r.rect(0f, 0f, Renderer.W.toFloat(), Renderer.H.toFloat(), Color(0f, 0f, 0f, fade))
+        if (fade > 0) r.rect(0f, 0f, Renderer.W.toFloat(), Renderer.H.toFloat(), Color(fadeColor.r, fadeColor.g, fadeColor.b, fade))
     }
 
     private fun drawMap(r: Renderer, m: MapData, ox: Int, oy: Int, camX: Float, camY: Float, border: Boolean) {
@@ -667,6 +820,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     }
 
     private fun drawActor(r: Renderer, a: Actor, camX: Float, camY: Float) {
+        if (a.sprite.startsWith("@mon:")) { drawEventMon(r, a, camX, camY); return }
         val frames = r.assets.character(a.sprite)
         val dirRow = when (a.facing) { Facing.DOWN -> 0; Facing.UP -> 1; Facing.LEFT -> 2; Facing.RIGHT -> 3 }
         val px = a.pixelX() - camX
@@ -679,13 +833,46 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         }
     }
 
+    /** A scheduled event Pokémon: its icon sprite, gently bobbing, sparkling in when it appears. */
+    private fun drawEventMon(r: Renderer, a: Actor, camX: Float, camY: Float) {
+        val species = a.sprite.removePrefix("@mon:")
+        val tex = r.assets.pokemon(species, "icon")
+        val appear = appearing[a.id] ?: 1f
+        val bob = if (game.options.reduceMotion) 0f else kotlin.math.sin(game.timeMs / 300.0).toFloat() * 1.5f
+        val w = 24f * appear; val h = 24f * appear
+        val px = a.x * 16f - camX + 8 - w / 2
+        val py = a.y * 16f - camY + 14 - h + bob
+        r.rect(a.x * 16f - camX + 3, a.y * 16f - camY + 12, 10f, 3f, Color(0f, 0f, 0f, 0.3f))
+        r.draw(tex, px, py, w, h)
+        if (appear < 1f || (game.timeMs / 500) % 4 == 0L) {
+            val t = (game.timeMs % 1000) / 1000f
+            for (i in 0 until 3) r.rect(px + (i * 9 + t * 6) % w, py + (i * 7) % h, 2f, 2f, Palette.HIGHLIGHT)
+        }
+    }
+
+    /** Multiplicative lighting per phase: keeps pixel art crisp and readable (no blur, no washed-out overlay). */
+    private fun lightTint(p: LightPhase): Color = when (p) {
+        LightPhase.MORNING -> Color(1f, 0.96f, 0.88f, 1f)
+        LightPhase.DAY -> Color.WHITE
+        LightPhase.EVENING -> Color(1f, 0.84f, 0.72f, 1f)
+        LightPhase.NIGHT -> Color(0.58f, 0.62f, 0.86f, 1f)
+    }
+
+    private val warmLight = Color(1f, 0.86f, 0.45f, 0.9f)
+
+    /** At night, building windows glow (drawn after the tint, so they stay bright). */
+    private fun drawWindowLights(r: Renderer, camX: Float, camY: Float) {
+        val x0 = (camX / 16).toInt() - 1; val y0 = (camY / 16).toInt() - 1
+        for (ty in y0..y0 + Renderer.H / 16 + 2) for (tx in x0..x0 + Renderer.W / 16 + 2) {
+            if (!map.inBounds(tx, ty)) continue
+            val t = map.tileAt(tx, ty)
+            if (t == "wall_window" || t == "gym_window") r.rect(tx * 16f - camX + 4, ty * 16f - camY + 4, 8f, 6f, warmLight)
+        }
+    }
+
     private fun drawAtmosphere(r: Renderer) {
         val outdoor = !baseMap.indoor && baseMap.environment != "cave"
         if (outdoor) {
-            when (ctx.timeOfDay()) {
-                "night" -> r.rect(0f, 0f, Renderer.W.toFloat(), Renderer.H.toFloat(), Palette.NIGHT)
-                "morning" -> r.rect(0f, 0f, Renderer.W.toFloat(), Renderer.H.toFloat(), Color(1f, 0.85f, 0.6f, 0.08f))
-            }
             when (baseMap.weather) {
                 "rain" -> {
                     val t = game.timeMs / 16

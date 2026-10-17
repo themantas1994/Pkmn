@@ -1,0 +1,56 @@
+{
+  "_doc": "Battle animation timing (seconds at normal speed) and move-effect styles. Styles are drawn procedurally by core/.../battle/MoveFx.kt. Edit and rebuild; no code change needed to retime or restyle a move.",
+  "clips": {
+    "intro_slide": 0.9,
+    "wild_slide": 0.7,
+    "ball_throw": 0.35,
+    "ball_pop": 0.3,
+    "recall": 0.3,
+    "lunge": 0.14,
+    "hit_blink": 0.32,
+    "hp_drain_min": 0.25,
+    "hp_drain_full": 0.9,
+    "faint": 0.45,
+    "status": 0.45,
+    "stat": 0.5,
+    "exp_fill_full": 0.8,
+    "level_up": 0.45,
+    "transform": 0.8,
+    "catch_throw": 0.55,
+    "catch_absorb": 0.35,
+    "catch_shake": 0.55,
+    "catch_result": 0.45,
+    "victory_slide": 0.7
+  },
+  "styleDurations": {
+    "impact": 0.3, "slash": 0.35, "burst": 0.5, "bolt": 0.45, "beam": 0.5, "bubbles": 0.55, "leaves": 0.5, "shards": 0.5,
+    "rocks": 0.5, "quake": 0.6, "gust": 0.45, "rings": 0.55, "sparkle": 0.5, "wave": 0.55, "aura": 0.5, "heal": 0.55
+  },
+  "typeStyles": {
+    "Normal": "impact", "Fighting": "impact", "Fire": "burst", "Water": "bubbles", "Electric": "bolt", "Grass": "leaves",
+    "Ice": "shards", "Poison": "bubbles", "Ground": "quake", "Flying": "gust", "Psychic": "rings", "Bug": "impact",
+    "Rock": "rocks", "Ghost": "rings", "Dragon": "burst", "Dark": "slash", "Steel": "slash", "Fairy": "sparkle",
+    "Stellar": "sparkle", "???": "impact"
+  },
+  "specialStyles": {
+    "Fire": "burst", "Water": "wave", "Electric": "bolt", "Ice": "beam", "Psychic": "rings", "Dragon": "beam", "Normal": "beam",
+    "Grass": "leaves", "Poison": "bubbles", "Ghost": "rings", "Dark": "rings", "Steel": "beam", "Fairy": "sparkle", "Bug": "beam",
+    "Flying": "gust", "Fighting": "impact", "Ground": "quake", "Rock": "rocks"
+  },
+  "moveStyles": {
+    "scratch": "slash", "slash": "slash", "cut": "slash", "furyswipes": "slash", "nightslash": "slash", "xscissor": "slash", "leafblade": "slash",
+    "aerialace": "slash", "psychocut": "slash", "sacredsword": "slash", "airslash": "gust", "crosschop": "impact",
+    "thunderbolt": "bolt", "thunder": "bolt", "thundershock": "bolt", "discharge": "bolt", "voltswitch": "bolt",
+    "surf": "wave", "hydropump": "beam", "watergun": "bubbles", "bubblebeam": "bubbles", "scald": "bubbles", "muddywater": "wave",
+    "flamethrower": "burst", "fireblast": "burst", "ember": "burst", "heatwave": "gust", "eruption": "burst",
+    "icebeam": "beam", "blizzard": "shards", "hyperbeam": "beam", "solarbeam": "beam", "aurorabeam": "beam", "dragonpulse": "beam",
+    "earthquake": "quake", "magnitude": "quake", "bulldoze": "quake", "earthpower": "quake",
+    "rockslide": "rocks", "stoneedge": "rocks", "rockthrow": "rocks", "ancientpower": "rocks",
+    "gust": "gust", "hurricane": "gust", "whirlwind": "gust", "twister": "gust",
+    "recover": "heal", "softboiled": "heal", "roost": "heal", "synthesis": "heal", "moonlight": "heal", "rest": "heal", "wish": "heal",
+    "gigadrain": "leaves", "megadrain": "leaves", "absorb": "leaves", "razorleaf": "leaves", "petaldance": "leaves",
+    "moonblast": "sparkle", "dazzlinggleam": "sparkle", "drainingkiss": "sparkle"
+  },
+  "statusStyle": "aura",
+  "statusFoeStyle": "rings"
+}

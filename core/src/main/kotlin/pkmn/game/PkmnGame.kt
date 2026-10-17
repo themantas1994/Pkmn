@@ -233,7 +233,16 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         saveOptions()
     }
 
-    override fun resume() { audio.resume() }
+    override fun resume() {
+        audio.resume()
+        // The device clock or time zone may have changed while suspended: re-evaluate time of day and events now.
+        refreshWorldTime()
+    }
+
+    /** Re-reads the wall clock for the overworld (lighting, scheduled events). Safe to call at any time. */
+    fun refreshWorldTime() {
+        stack.filterIsInstance<pkmn.game.overworld.OverworldScreen>().forEach { it.refreshWorldTime(force = true) }
+    }
 
     override fun dispose() {
         audio.dispose()

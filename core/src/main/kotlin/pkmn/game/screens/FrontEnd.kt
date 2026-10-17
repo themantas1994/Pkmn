@@ -228,6 +228,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
         "SWAP A/B" to { if (o.leftHanded) "ON" else "OFF" },
         "VIBRATION" to { if (o.haptics) "ON" else "OFF" },
         "REDUCE MOTION" to { if (o.reduceMotion) "ON" else "OFF" },
+        "ANIM SPEED" to { listOf("NORMAL", "FAST", "FASTEST")[o.animSpeed.coerceIn(0, 2)] },
     ) + (if (game.platform.canImportAssets) listOf("IMPORT SPRITES" to { "PRESS A" }) else emptyList())
 
     private fun change(i: Int, d: Int) {
@@ -246,6 +247,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
             11 -> o.leftHanded = !o.leftHanded
             12 -> o.haptics = !o.haptics
             13 -> o.reduceMotion = !o.reduceMotion
+            14 -> o.animSpeed = (o.animSpeed + d + 3) % 3
             IMPORT_ROW -> { if (d > 0) importSprites(); return }
         }
         game.applyOptions()
@@ -259,7 +261,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
         if (input.justPressed(Button.B) || input.justPressed(Button.START)) close()
     }
 
-    private companion object { const val IMPORT_ROW = 14 }
+    private companion object { const val IMPORT_ROW = 15 }
 
     private fun importSprites() {
         game.platform.importAssets { msg ->
@@ -274,9 +276,9 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
     override fun draw(r: Renderer) {
         r.rect(0, 0, Renderer.W, Renderer.H, Palette.WINDOW)
         r.frame(0, 0, Renderer.W, Renderer.H)
-        r.text("OPTIONS", 16, 10)
+        r.text("OPTIONS", 16, 8)
         entries.forEachIndexed { i, (label, value) ->
-            val y = 26 + i * 13
+            val y = 22 + i * 12
             r.text(label, 20, y)
             r.text(value(), 150, y)
             if (i == cursor) r.cursor(10, y)

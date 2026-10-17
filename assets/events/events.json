@@ -1,0 +1,21 @@
+[
+  {
+    "id": "mistwood_moon_dancer",
+    "name": "Moonlit Dancer",
+    "schedule": { "days": ["THURSDAY"], "periods": ["night"], "nightBelongsToPreviousDay": true },
+    "map": "p4b_mistwood",
+    "x": 17,
+    "y": 19,
+    "facing": "down",
+    "species": "clefable",
+    "level": 40,
+    "moves": ["moonblast", "moonlight", "metronome", "cosmicpower"],
+    "intro": [
+      "A soft light is dancing on the shrine islet...",
+      "A CLEFABLE is twirling in the moonlight!",
+      "It noticed you and stopped dancing!"
+    ],
+    "music": "battle_legendary",
+    "endsWhenCaught": true
+  }
+]

@@ -16,6 +16,8 @@ sealed class BattleEvent {
     data class StatChange(val side: Int, val stat: String, val amount: Int, val text: String) : BattleEvent()
     data class FormeChange(val side: Int, val teamIndex: Int, val speciesId: String, val kind: String, val text: String) : BattleEvent()
     data class FieldChange(val kind: String, val id: String?, val text: String) : BattleEvent()
+    /** Inserted right after [MoveUsed] when the move took effect; drives the move's animation. */
+    data class MoveEffect(val side: Int, val targetSide: Int, val moveId: String, val moveType: String, val category: String) : BattleEvent()
     data class Effectiveness(val multiplier: Double) : BattleEvent()
     data class Animation(val side: Int, val id: String) : BattleEvent()
     data class CatchAttempt(val ball: String, val shakes: Int, val caught: Boolean, val critical: Boolean) : BattleEvent()

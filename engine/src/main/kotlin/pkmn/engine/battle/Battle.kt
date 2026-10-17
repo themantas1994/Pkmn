@@ -78,18 +78,16 @@ class Battle(
 
     fun message(text: String) { events.add(BattleEvent.Message(text)); log.add(text) }
 
-    /** Name for the start of a sentence: "Pikachu", "The opposing Pikachu", "The wild Pikachu". */
+    /** Name for the start of a sentence, Gold/Silver/Crystal style: "Pikachu", "Enemy Pikachu" (wild or trainer foe). */
     fun nm(mon: BattleMon): String = when (mon.side.controller) {
         Controller.PLAYER -> mon.shownName
-        Controller.WILD -> "The wild ${mon.shownName}"
-        Controller.AI -> "The opposing ${mon.shownName}"
+        Controller.WILD, Controller.AI -> "Enemy ${mon.shownName}"
     }
 
     /** Name in the middle of a sentence. */
     fun nmL(mon: BattleMon): String = when (mon.side.controller) {
         Controller.PLAYER -> mon.shownName
-        Controller.WILD -> "the wild ${mon.shownName}"
-        Controller.AI -> "the opposing ${mon.shownName}"
+        Controller.WILD, Controller.AI -> "enemy ${mon.shownName}"
     }
 
     /** Illusion: disguise [mon] as the last healthy party member that is not itself (Showdown's rule). */
@@ -262,7 +260,9 @@ class Battle(
 
     fun request(side: Side): Request {
         if (outcome != BattleOutcome.ONGOING) return Request.Wait
-        if (side.index in pendingSwitches) return Request.SwitchIn(true)
+        if (side.index in pendingSwitches) return if (side.index in replacementChoices) Request.Wait else Request.SwitchIn(true)
+        // While another side is replacing a fainted Pokémon nobody picks a move; [advance] finishes the replacement first.
+        if (pendingSwitches.isNotEmpty()) return Request.Wait
         val active = side.active ?: return Request.Wait
         if (choices.containsKey(side.index)) return Request.Wait
         val locked = lockedMove(active)
@@ -311,11 +311,12 @@ class Battle(
             if (choice !is Choice.Switch) return "Must switch"
             val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
             if (target.fainted || target === side.active) return "Cannot switch to that Pokémon"
-            pendingSwitches.remove(side.index)
-            performSwitch(side, target, forced = true)
-            if (pendingSwitches.isEmpty()) afterReplacements()
+            replacementChoices[side.index] = choice.teamIndex
+            // Resolve now when every side that must replace has chosen (AI sides choose in [advance]).
+            if (pendingSwitches.all { it in replacementChoices }) resolveReplacements(null)
             return null
         }
+        if (pendingSwitches.isNotEmpty()) return "Waiting for the other side to send out a Pokémon"
         val active = side.active ?: return "No active Pokémon"
         when (choice) {
             is Choice.UseMove -> {
@@ -344,16 +345,19 @@ class Battle(
     /** Fill in AI choices and run the turn once every side has chosen. Returns true if a turn was executed. */
     fun advance(ai: BattleAI = BattleAI()): Boolean {
         if (outcome != BattleOutcome.ONGOING) return false
+        // Replacement phase: fainted Pokémon are replaced before anyone picks a move for the next turn.
+        if (pendingSwitches.isNotEmpty()) {
+            for (s in sides) if (!s.isPlayer && s.index in pendingSwitches && s.index !in replacementChoices)
+                replacementChoices[s.index] = plannedReplacement(s, ai) ?: ai.chooseReplacement(this, s)
+            if (pendingSwitches.all { it in replacementChoices }) resolveReplacements(ai)
+            return false
+        }
         for (s in sides) if (!s.isPlayer) {
-            if (s.index in pendingSwitches) {
-                val pick = ai.chooseReplacement(this, s)
-                choose(s, Choice.Switch(pick))
-            } else if (!choices.containsKey(s.index) && pendingSwitches.isEmpty()) {
+            if (!choices.containsKey(s.index)) {
                 val c = ai.chooseAction(this, s)
                 if (choose(s, c) != null) choose(s, Choice.UseMove(0))
             }
         }
-        if (pendingSwitches.isNotEmpty()) return false
         if (choices.size < sides.count { it.active != null }) return false
         runTurn()
         return true
@@ -469,6 +473,96 @@ class Battle(
         if (outcome == BattleOutcome.ONGOING) requestReplacements()
     }
 
+    // ================================================================= replacement phase (faint -> next Pokémon)
+
+    /** Team index each side will send in to replace its fainted Pokémon, once chosen. */
+    private val replacementChoices = HashMap<Int, Int>()
+    /** AI replacements decided early so the Shift-style prompt can announce them; never changed afterwards. */
+    private val plannedReplacements = HashMap<Int, Int>()
+    /** Free switch the player asked for while the foe replaces (Shift battle style). */
+    private var shiftChoice: Int? = null
+
+    /** True while [side]'s active Pokémon has fainted and must be replaced before the next turn. */
+    fun needsReplacement(side: Side): Boolean = side.index in pendingSwitches
+
+    /** The team index the AI will send in for [side] (decided once; the UI may announce it before it happens). */
+    fun plannedReplacement(side: Side, ai: BattleAI = BattleAI()): Int? {
+        if (side.isPlayer || side.index !in pendingSwitches) return null
+        return plannedReplacements.getOrPut(side.index) { ai.chooseReplacement(this, side) }
+    }
+
+    /**
+     * Shift battle style: after a trainer's Pokémon faints and before the next one comes out, the player may switch
+     * for free. Not offered in Set style, in wild battles, or when the player must replace a fainted Pokémon anyway.
+     */
+    fun shiftAvailable(): Boolean {
+        if (outcome != BattleOutcome.ONGOING || !rules.isTrainerBattle || rules.setMode) return false
+        if (opponent.index !in pendingSwitches || player.index in pendingSwitches) return false
+        val a = player.active ?: return false
+        return !a.fainted && player.canSwitchTo().isNotEmpty() && shiftChoice == null
+    }
+
+    /** Records the player's Shift-style switch; it happens just before the foe's replacement in [advance]. */
+    fun chooseShift(teamIndex: Int): String? {
+        if (!shiftAvailable()) return "Can't switch now"
+        val target = player.mons.getOrNull(teamIndex) ?: return "Invalid Pokémon"
+        if (target.fainted) return "There's no will to battle!"
+        if (target === player.active) return "${target.name} is already out!"
+        shiftChoice = teamIndex
+        return null
+    }
+
+    /** Name the player is shown for [side]'s team member [teamIndex] when it comes out (Illusion disguises it). */
+    fun nameOnSendOut(side: Side, teamIndex: Int): String {
+        val m = side.mons.getOrNull(teamIndex) ?: return ""
+        if (m.ability == "illusion" && !isNeutralizingGasActive()) {
+            val last = side.mons.lastOrNull { !it.fainted }
+            if (last != null && last !== m) return last.name
+        }
+        return m.name
+    }
+
+    /**
+     * Wild battles: answering "No" to "Use next Pokémon?" tries to run instead, using the next healthy Pokémon's Speed.
+     * Returns true if the battle ended. A failed attempt leaves the forced replacement pending.
+     */
+    fun fleeInsteadOfReplacing(): Boolean {
+        if (outcome != BattleOutcome.ONGOING || !opponent.isWild || player.index !in pendingSwitches) return false
+        if (!rules.canRun) { message("No! There's no running!"); return false }
+        val next = player.canSwitchTo().firstOrNull() ?: return false
+        val foe = opponent.active ?: return false
+        runAttempts++
+        val ps = next.rawStat(pkmn.engine.data.Stat.SPE).coerceAtLeast(1); val fs = max(1, getSpeed(foe))
+        val escaped = next.item == "smokeball" || next.hasType("Ghost") || ps >= fs || rng.nextInt(256) < ((ps * 128 / fs + 30 * runAttempts) % 256)
+        if (escaped) { message("Got away safely!"); finish(BattleOutcome.RAN); return true }
+        message("Can't escape!")
+        return false
+    }
+
+    /** Sends in every chosen replacement (the player's Shift switch first), then runs switch-in effects by speed. */
+    private fun resolveReplacements(ai: BattleAI?) {
+        val incoming = ArrayList<BattleMon>()
+        shiftChoice?.let { idx ->
+            shiftChoice = null
+            val t = player.mons[idx]
+            val a = player.active
+            if (a != null && !a.fainted && !t.fainted && t !== a) { performSwitch(player, t, forced = false, runEffects = false); incoming.add(t) }
+        }
+        for (s in sides) {
+            if (s.index !in pendingSwitches) continue
+            val pick = replacementChoices[s.index] ?: ai?.let { a -> plannedReplacement(s, a) } ?: continue
+            val t = s.mons.getOrNull(pick)?.takeIf { !it.fainted && it !== s.active } ?: s.canSwitchTo().firstOrNull() ?: continue
+            pendingSwitches.remove(s.index)
+            performSwitch(s, t, forced = true, runEffects = false)
+            incoming.add(t)
+        }
+        replacementChoices.clear()
+        plannedReplacements.clear()
+        updateFacedFoes()
+        for (m in activeMonsBySpeed()) if (m in incoming) runSwitchInEffects(m)
+        afterReplacements()
+    }
+
     private fun resolveSwitchFlags(s: Side) {
         val a = s.active ?: return
         if (a.switchFlag != null && !a.fainted) {
@@ -497,7 +591,7 @@ class Battle(
 
     // ================================================================= switching
 
-    fun performSwitch(side: Side, incoming: BattleMon, forced: Boolean, isDrag: Boolean = false, batonPass: Boolean = false, shedTail: Boolean = false) {
+    fun performSwitch(side: Side, incoming: BattleMon, forced: Boolean, isDrag: Boolean = false, batonPass: Boolean = false, shedTail: Boolean = false, runEffects: Boolean = true) {
         val out = side.active
         var passedBoosts: IntArray? = null
         var passedVolatiles: Map<String, EffectState>? = null
@@ -532,8 +626,10 @@ class Battle(
             passedVolatiles?.forEach { (k, v) -> incoming.volatiles[k] = v }
         }
         if (shedTail && subHp > 0) incoming.volatiles["substitute"] = EffectState().also { it.hp = subHp }
-        updateFacedFoes()
-        runSwitchInEffects(incoming)
+        if (runEffects) {
+            updateFacedFoes()
+            runSwitchInEffects(incoming)
+        }
     }
 
     private fun clearOnSwitchOut(mon: BattleMon) {
@@ -687,6 +783,7 @@ class Battle(
         }
         user.volatiles.remove("twoturnmove")
         val text = if (calledBy != null) "${nm(user)} used ${move.name}!" else "${nm(user)} used ${move.name}!"
+        val moveUsedIndex = events.size
         events.add(BattleEvent.MoveUsed(user.side.index, move.id, move.type, move.category, text, mc.target.side.index)); log.add(text)
 
         if (move.id == "struggle" || move.data.struggleRecoil) {
@@ -711,6 +808,8 @@ class Battle(
         }
         user.lastMoveFailed = !hit
         user.lastMoveTarget = mc.target
+        // The presentation plays a move's animation only when it actually took effect (not on a miss, fail or Protect).
+        if (hit) events.add(moveUsedIndex + 1, BattleEvent.MoveEffect(user.side.index, mc.target.side.index, move.id, move.type, move.category))
         if (hit) lastSuccessfulMoveThisTurn = move.id
         for (c in moveHandlers(mc)) if (c.holder === user) c.effect.onAfterMove(c, mc)
         script?.onAfterUse(this, mc, hit)

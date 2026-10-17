@@ -26,6 +26,8 @@ data class Options(
     /** Use the device clock for day/night (true) or keep permanent daytime (false). */
     var realTimeClock: Boolean = true,
     var reduceMotion: Boolean = false,
+    /** Battle animation speed: 0 normal, 1 fast, 2 fastest. Nonessential animations are skipped when [battleAnimations] is off. */
+    var animSpeed: Int = 0,
     var showTouchControls: Boolean = true,
 )
 
