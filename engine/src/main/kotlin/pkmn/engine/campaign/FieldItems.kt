@@ -24,11 +24,26 @@ class FieldItems(private val ctx: GameContext) {
     private val dex = ctx.dex
 
     private val vitamins = mapOf("hpup" to Stat.HP, "protein" to Stat.ATK, "iron" to Stat.DEF, "calcium" to Stat.SPA, "zinc" to Stat.SPD, "carbos" to Stat.SPE)
+    /** EV-reducing berries (Generation VIII+: -10 EVs) and they raise friendship. */
+    private val evBerries = mapOf("pomegberry" to Stat.HP, "kelpsyberry" to Stat.ATK, "qualotberry" to Stat.DEF, "hondewberry" to Stat.SPA,
+        "grepaberry" to Stat.SPD, "tamatoberry" to Stat.SPE)
+
+    private fun evBerry(mon: Pokemon, stat: Stat): FieldItemResult {
+        if (mon.evs[stat] <= 0 && mon.friendship >= 255) return FieldItemResult(false, "It won't have any effect.")
+        val hpBefore = mon.maxHp(dex)
+        val before = mon.evs[stat]
+        mon.evs[stat] = maxOf(0, before - 10)
+        keepDamage(mon, hpBefore)
+        mon.friendship = minOf(255, mon.friendship + when { mon.friendship < 100 -> 10; mon.friendship < 200 -> 5; else -> 2 })
+        val name = mon.displayName(dex)
+        return FieldItemResult(true, if (before > 0) "$name became more friendly. Its base ${stat.label} fell!" else "$name became more friendly. Its base ${stat.label} can't fall any further!")
+    }
+
     private val feathers = mapOf("healthfeather" to Stat.HP, "musclefeather" to Stat.ATK, "resistfeather" to Stat.DEF, "geniusfeather" to Stat.SPA,
         "cleverfeather" to Stat.SPD, "swiftfeather" to Stat.SPE)
 
     /** Whether the item is used on a party member (vs. used directly, like Repel). */
-    fun needsTarget(item: String): Boolean = item.startsWith("tm:") || item in BagItemEffects.healing || item in vitamins || item in feathers ||
+    fun needsTarget(item: String): Boolean = item.startsWith("tm:") || item in BagItemEffects.healing || item in vitamins || item in feathers || item in evBerries ||
         item in setOf("ether", "maxether", "elixir", "maxelixir", "ppup", "ppmax", "rarecandy", "linkingcord", "abilitycapsule", "abilitypatch") ||
         item.endsWith("mint") || dex.itemOrNull(item)?.category == ItemCategory.EVOLUTION || isEvolutionItem(item)
 
@@ -119,9 +134,14 @@ class FieldItems(private val ctx: GameContext) {
         }
         vitamins[item]?.let { stat -> return evItem(mon, stat, 10, 252) }
         feathers[item]?.let { stat -> return evItem(mon, stat, 1, 252) }
+        evBerries[item]?.let { stat -> return evBerry(mon, stat) }
         if (item.endsWith("mint") && item != "mint") {
             val nature = Nature.entries.firstOrNull { it.name.lowercase() + "mint" == item } ?: return FieldItemResult(false, "It won't have any effect.")
-            mon.nature = nature
+            if (mon.statNature == nature) return FieldItemResult(false, "It won't have any effect.")
+            // Generation VIII+: a Mint changes which stats the nature affects; the original nature is kept.
+            val hpBefore = mon.maxHp(dex)
+            mon.mintNature = nature.takeIf { it != mon.nature }
+            keepDamage(mon, hpBefore)
             return FieldItemResult(true, "$name's stats may have changed due to the effects of the ${dex.itemOrNull(item)?.name ?: "mint"}!")
         }
         // Evolution stones and other use-item evolutions.
@@ -129,10 +149,20 @@ class FieldItems(private val ctx: GameContext) {
         return FieldItemResult(false, "It won't have any effect.", consumed = false)
     }
 
+    /** When max HP changes outside battle, current HP moves by the same amount (damage taken is kept). */
+    private fun keepDamage(mon: Pokemon, maxBefore: Int) {
+        if (mon.isFainted) return
+        val max = mon.maxHp(dex)
+        mon.hp = (mon.hp + max - maxBefore).coerceIn(1, max)
+    }
+
+    /** Generation VIII+ vitamins (+10, up to 252) and feathers (+1). Never beyond 252 per stat or 510 in total. */
     private fun evItem(mon: Pokemon, stat: Stat, amount: Int, cap: Int): FieldItemResult {
         val room = minOf(cap - mon.evs[stat], 510 - mon.evs.total)
         if (room <= 0) return FieldItemResult(false, "It won't have any effect.")
+        val hpBefore = mon.maxHp(dex)
         mon.evs[stat] = mon.evs[stat] + minOf(room, amount)
+        keepDamage(mon, hpBefore)
         mon.friendship = minOf(255, mon.friendship + 2)
         return FieldItemResult(true, "${mon.displayName(dex)}'s base ${stat.label} rose.")
     }

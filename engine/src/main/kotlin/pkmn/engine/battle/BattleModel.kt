@@ -190,7 +190,7 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
 
     private fun computeStats(): IntArray = IntArray(5) { i ->
         val st = Stat.NON_HP[i]
-        Pokemon.calcStat(species, st, mon.level, mon.ivs[st], mon.evs[st], mon.nature)
+        Pokemon.calcStat(species, st, mon.level, mon.ivs[st], mon.evs[st], mon.statNature)
     }
 
     /** Changes the current (battle) species, updating types, ability (optionally) and stats. */

@@ -256,7 +256,7 @@ class SummaryScreen(game: PkmnGame, private val ctx: GameContext, private val mo
         when (page) {
             0 -> {
                 r.text("OT/${mon.otName}  ID ${mon.otId.toString().padStart(5, '0')}", 12, 110)
-                r.text("NATURE/${mon.nature.label.uppercase()}", 12, 124)
+                r.text("NATURE/${mon.nature.label.uppercase()}" + (mon.mintNature?.let { " (MINT ${it.label.uppercase()})" } ?: ""), 12, 124)
                 r.text("ABILITY/${dex.abilityOrNull(mon.ability(dex))?.name ?: "-"}", 12, 138)
                 r.text("ITEM/${mon.heldItem?.let { ctx.itemName(it) } ?: "NONE"}", 12, 152)
                 val next = mon.expToNextLevel(dex)
@@ -267,7 +267,7 @@ class SummaryScreen(game: PkmnGame, private val ctx: GameContext, private val mo
             1 -> {
                 r.text("HP     ${mon.hp}/${mon.maxHp(dex)}", 12, 110)
                 for ((i, s) in Stat.NON_HP.withIndex()) {
-                    val mark = when (s) { mon.nature.plus -> "+"; mon.nature.minus -> "-"; else -> " " }
+                    val mark = when (s) { mon.statNature.plus -> "+"; mon.statNature.minus -> "-"; else -> " " }
                     r.text("${s.label.uppercase().padEnd(7)}${mon.stat(dex, s).toString().padStart(4)} $mark", 12, 124 + i * 14)
                 }
                 r.text("EV ${mon.evs.total}/510", 12, 196, small = true)
@@ -277,7 +277,7 @@ class SummaryScreen(game: PkmnGame, private val ctx: GameContext, private val mo
                 // Individual values (0-31) and effort values (max 252 each, 510 total) behind the stats on page 2.
                 r.text("STAT      IV   EV", 12, 110)
                 for ((i, s) in Stat.entries.withIndex()) {
-                    val mark = when (s) { mon.nature.plus -> "+"; mon.nature.minus -> "-"; else -> " " }
+                    val mark = when (s) { mon.statNature.plus -> "+"; mon.statNature.minus -> "-"; else -> " " }
                     r.text("${s.label.uppercase().take(7).padEnd(7)}$mark ${mon.ivs[s].toString().padStart(3)}  ${mon.evs[s].toString().padStart(3)}", 12, 124 + i * 12)
                 }
                 r.text("TOTAL EV ${mon.evs.total}/510", 12, 198, small = true)
