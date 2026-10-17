@@ -421,9 +421,12 @@ class MapCompilerTool(private val root: File) {
             if (t[0] != "shop") { errors.add("shops.txt:${i + 1}: expected 'shop <id> items...'"); continue }
             val prices = LinkedHashMap<String, Int>()
             val items = t.drop(2).map { s ->
-                val id = toId(s.substringBefore('='))
+                // TMs keep their "tm:<move>" bag key (toId would drop the ':' and make an item the game can't use).
+                val raw = s.substringBefore('=')
+                val id = if (raw.startsWith("tm:")) "tm:" + toId(raw.removePrefix("tm:")) else toId(raw)
                 if ('=' in s) prices[id] = s.substringAfter('=').toInt()
-                if (!id.startsWith("tm") && dex.itemOrNull(id) == null) errors.add("shops.txt:${i + 1}: unknown item '$id'")
+                if (id.startsWith("tm:")) { if (dex.moveOrNull(id.removePrefix("tm:")) == null) errors.add("shops.txt:${i + 1}: unknown TM move '$id'") }
+                else if (dex.itemOrNull(id) == null) errors.add("shops.txt:${i + 1}: unknown item '$id'")
                 id
             }
             out.add(ShopDef(t[1], items, prices))

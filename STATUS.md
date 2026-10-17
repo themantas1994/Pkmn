@@ -12,9 +12,26 @@ Every number in this document was produced by the commands listed next to it. No
 | Presentation | Gold/Silver/Crystal-style battle flow with party Poké Ball indicators. Elapsed-time animation system for battle and overworld (skippable; speed and off settings) |
 | Time | Device clock and time zone through an injectable `GameClock`; morning/day/night lighting; time-dependent encounters; data-driven weekly events (Thursday-night Mistwood Clefable) |
 | Campaign | Complete from new game to the Hall of Fame, plus post-game: 223 maps, 684 trainers, 89 encounter tables, 451 scripts |
-| Saves | Atomic, checksummed, versioned, with backup/repair; corruption tests pass |
+| Saves | Atomic, checksummed, versioned (v2, with migration from v1), with backup/repair; corruption and migration tests pass |
+| Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
+| Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
 | Tests | 106 engine, 44 core and 40 tool tests, all passing; CI runs them on every push. 26 reproducible visual-regression screenshots of the real desktop game |
 | Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
+
+## Mechanics update: capture, Pokédex, nicknames, IVs/EVs, sprites
+
+Every item was reproduced or measured first, then fixed and tested.
+
+| Defect / gap | Root cause | Fix | Evidence |
+|---|---|---|---|
+| Wild Pokémon far too easy to catch, even at full HP | Scarlet/Violet's low-level bonus `(36 − 2L)/10` below level 13. This campaign's first two hours are level 2–8 with catch-rate-255 species, so full-HP throws were 95–100% certain. Catch-rate data was correct (0 mismatches vs PokeAPI) | Bonus only on Casual difficulty. Exact Scarlet/Violet maths otherwise | `reports/capture.md` (level-2 Pidgey: 100% → 44% at full HP), `CaptureTest` |
+| No badge penalty; fractional maths; Timer/Nest/Level/Dream/Dive/Lure Ball errors; no EXP for catching | Implementation errors | Fixed against an independent reference | `CaptureTest` (13, incl. 4,000+ exact comparisons and Monte Carlo) |
+| No Pokédex entry on capture; no nickname offer for captures or the starter | Not implemented | `GameContext.acquire` (idempotent), Pokédex entry screen, nickname flow, resume after interruption | `AcquisitionTest` (14); scenes `capture_*`, `starter_*` |
+| Pokédex tracked base species only | — | Form and shiny records; seen/caught/unknown states | `AcquisitionTest` |
+| Mints overwrote the original nature | Mint set `nature` | Separate stat nature (Gen VIII+) | `StatFormulaTest` |
+| Level-100 Pokémon gained no EVs; no EV-reducing berries; vitamins changed max HP without keeping damage | Implementation gaps | Fixed | `StatFormulaTest` (10, hand-calculated fixtures) |
+| A capture with every box full was lost | No check | Balls can't be thrown when storage is full | `AcquisitionTest` |
+| Sprite kit integration | — | `./gradlew :android:assemblePersonalDebugWithSprites`, a Kotlin port of the kit's style (cropped, 48px grid ×2, ≤4 colours) | `SpriteStylerTest` (28), full-roster run: 6,492 sprites |
 
 ## Post-release update: verified fixes
 
@@ -212,7 +229,8 @@ The model is a content sum, not a measurement of real players. It assumes a typi
 - **The trainer-battle ×1.5 EXP bonus is unverified for Gen VII+.** No primary source was reachable, so the formula is unchanged (see docs/FIDELITY.md).
 - **No idle animations for standing NPCs.** Gold/Silver/Crystal has none either. Event Pokémon bob.
 - **Visual-regression scenes are not in CI.** They need Xvfb; run `tools/visual/run_scenes.sh` locally.
-- **Pokémon sprites are placeholders.** Official sprites are only available through the local import path. Trainer, overworld and UI art is original and complete.
+- **Pokémon sprites are placeholders in public builds.** Official sprites are only available through the local import path and the one-command personal APK (`./gradlew :android:assemblePersonalDebugWithSprites`; never share that APK). PokeAPI has no files for Zygarde-Mega and 379 icons, and the 4 Ogerpon Tera forms have no mapping, so they use the fallback. The styled sprites are an automated approximation, and some need hand touch-ups. Trainer, overworld and UI art is original and complete.
+- **Obedience is not implemented**: every Pokémon obeys. Breeding is out of scope (gift Eggs hatch at once). Wild Pokémon hold no items. See [docs/MECHANICS.md](docs/MECHANICS.md).
 - **Singles only:** no double battles.
 - **Playtime is below target.** About 24 h to the Hall of Fame with optional content (estimate); see the Playtime section.
 - **Late-game difficulty depends on Exp. Share.** With it off (the new default) the model has exploring players 4–9 levels above gym aces. With it on, they are 16–23 levels above. Challenge difficulty still caps levels at the next leader's ace.

@@ -165,6 +165,14 @@ class SaveValidator(private val dex: Dex) {
             if (mon.hp > max) mon.hp = max
             if (mon.hp < 0) mon.hp = max
         }
+        // TMs bought before the shop fix were stored as "tm<move>" instead of "tm:<move>": convert them.
+        for (key in state.bag.keys.toList()) {
+            if (key.startsWith("tm") && !key.startsWith("tm:") && dex.itemOrNull(key) == null && dex.moveOrNull(key.removePrefix("tm")) != null) {
+                val fixed = "tm:" + key.removePrefix("tm")
+                state.bag[fixed] = ((state.bag[fixed] ?: 0) + (state.bag.remove(key) ?: 0)).coerceAtMost(999)
+                warnings.add("Converted shop TM '$key' to '$fixed'.")
+            }
+        }
         val unknownItems = state.bag.keys.filter { dex.itemOrNull(it) == null && !it.startsWith("tm") && !it.startsWith("key:") }
         if (unknownItems.isNotEmpty()) warnings.add("Bag contains items not in this version: $unknownItems (kept).")
         warnings += repairIdentityAndDex(state)

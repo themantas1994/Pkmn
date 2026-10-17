@@ -310,4 +310,21 @@ class AcquisitionTest {
         assertNull(ctx.nextPendingNickname())
     }
 
+
+    @Test
+    fun `shop TMs use the tm prefix and old saves with broken TM keys are repaired`() {
+        val shopTms = content.shops.values.flatMap { it.items }.filter { it.startsWith("tm") }
+        assertTrue(shopTms.isNotEmpty())
+        for (id in shopTms) {
+            assertTrue(id.startsWith("tm:"), "shop item '$id' must be a tm: key")
+            assertNotNull(dex.moveOrNull(id.removePrefix("tm:")), id)
+        }
+        val dir = Files.createTempDirectory("acq4").toFile()
+        val ctx = withStarter()
+        ctx.state.bag["tmthunderbolt"] = 1
+        ctx.state.bag["tm:thunderbolt"] = 1
+        SaveManager(dir, dex).save(ctx.state)
+        val bag = (SaveManager(dir, dex).load() as LoadResult.Ok).state.bag
+        assertEquals(2, bag["tm:thunderbolt"]); assertNull(bag["tmthunderbolt"])
+    }
 }
