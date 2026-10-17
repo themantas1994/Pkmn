@@ -343,6 +343,7 @@ class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val 
         }
         if (t >= 4.5f) {
             stage = 2
+            val newSpecies = ctx.dexState(target) != pkmn.engine.campaign.DexState.CAUGHT
             val pending = ctx.evolve(mon, target)
             game.audio.playSfx("evolution_finish")
             val newName = ctx.dex.species(target).name
@@ -351,7 +352,10 @@ class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val 
                     if (i >= pending.size) { pop(); then(); return }
                     MoveLearnFlow.offer(game, ctx, mon, pending[i]) { learnNext(i + 1) }
                 }
-                learnNext(0)
+                // A first registration through evolution shows the Pokédex entry too.
+                if (newSpecies) game.say("$newName's data was newly registered in the POKéDEX!") {
+                    game.push(PokedexEntryScreen(game, ctx, mon) { learnNext(0) })
+                } else learnNext(0)
             }
         }
     }
