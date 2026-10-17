@@ -322,3 +322,8 @@ script p4a_lt_elder
     say "ELDER ROWAN: If those dark uniforms seek the light, they will go where it is strongest. Mt. Prism. Be watchful, young one."
   end
 end
+
+# ---------------------------------------------------------------- Brook Falls
+script p4a_bf_falls_sign
+  say "The brook tumbles over the rocks in a roaring white curtain.\pFar above, the foothills of Mt. Prism glitter in the sun."
+end

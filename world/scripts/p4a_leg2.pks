@@ -232,3 +232,12 @@ script p4a_dojo_master
     say "MASTER KAITO: Tyrogue becomes Hitmonlee, Hitmonchan or Hitmontop, depending on whether its Attack or Defense is stronger."
   end
 end
+
+# ---------------------------------------------------------------- S.S. Driftwood
+script p4a_wreck_log1
+  say "A water-stained page is nailed to the wall:\p\"CAPTAIN'S LOG. Cargo: twelve crates of glowing crystal from the Coral Isles. The crew says they hum at night.\""
+end
+
+script p4a_wreck_log2
+  say "Another page, barely legible:\p\"Storm off the cape. The crystals flared so bright the lighthouse beam vanished beside them. We ran aground.\pThe crates are gone. Who took them?\""
+end

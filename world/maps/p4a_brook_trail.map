@@ -8,10 +8,11 @@ environment grass
 region 8 22
 encounters p4a_brook_trail
 connect west hometown 2
+connect north p4a_brook_falls -1
 
 layout
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-TTTTTTTTTTTTTT~~TTTTTTTTMEMTTT
+TTTTTTTTTTTTTTTT.TTTTTTTTTTTTT
+TTTTTTTTTTTTTT~~.TTTTTTTMEMTTT
 TTT.........T.~~.TTTTTT,,.,,TT
 TT..........T.~~.TTTTTT,,,,,TT
 TT............~~.TTTTTT,,,,,TT

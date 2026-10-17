@@ -1,0 +1,46 @@
+# Voltmire Marsh (Expansion E1): optional wetland south of Route 6, under Voltara's power lines. Boardwalks over
+# shallow pools, fishing, and a marsh hermit's lore. Deeper pools are for Surfers later.
+map p4a_voltmire_marsh
+name "Voltmire Marsh"
+location "Route 6"
+music route_mid
+environment grass
+region 18 20
+encounters p4a_voltmire_marsh
+connect north route6 -10
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTT..TTTT
+TT,,,,,,......,,,,......::.TTT
+TT,,,,,,..~~~~~,,,,.....::..TT
+TT......~~~~~~~~....,,,,::..TT
+TT..,,,.~~~~~~ss~...,,,,::..TT
+TT..,,,..~~~~~~~....,,,,::..TT
+TT..,,,......HHH........::..TT
+TT...........~~~~~~.....::..TT
+TT,,,,,,....~~~~~~~~~~..::..TT
+TT,,,,,,...~~~~~~~~~~~..::..TT
+TT.........~~~~~~~~~~~HHHH..TT
+TT..,,,,,..~~~~~~~~~~~..,,,.TT
+TT..,,,,,...~~~~~~~~~...,,,.TT
+TT..........,,,,,,......,,,.TT
+TTTT..~~~~..,,,,,,..~~~~~...TT
+TT....~~~~..........~~~~~...TT
+TT..,,,..........,,,,.......TT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+end
+
+tile 23 1 sign
+sign 23 1 script=p4a_vm_sign
+trainer p4a_vm_fisher_cobb 10 6 sprite=fisherman face=up sight=1
+trainer p4a_vm_bug_gnat 5 11 sprite=bugcatcher face=right sight=3
+trainer p4a_vm_pokefan_ola 21 4 sprite=pokefan face=left sight=4
+trainer p4a_vm_scientist_eel 26 12 sprite=scientist face=left sight=3
+trainer p4a_vm_youngster_wade 14 13 sprite=youngster face=down sight=3
+npc p4a_vm_hermit 3 15 sprite=oldman face=right script=p4a_vm_hermit
+
+item p4a_vm_revive 2 1 revive
+item p4a_vm_ball 26 16 ultraball
+item p4a_vm_islet 15 4 tm:mudshot
+hidden p4a_vm_mushroom 3 6 bigmushroom
+hidden p4a_vm_berry 18 16 lumberry

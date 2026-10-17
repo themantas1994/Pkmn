@@ -220,3 +220,18 @@ script p4a_old_salt
   say "OLD SALT: Fifty years I sailed between Port Tidewater and the Coral Isles. Fifty years!"
   say "OLD SALT: Now they only let Champions on the ferry. Bah! In my day, any kid with a Magikarp could ride."
 end
+
+# ---------------------------------------------------------------- Voltmire Marsh
+script p4a_vm_sign
+  say "VOLTMIRE MARSH\pCaution: deep pools. Do not touch the power line pylons."
+end
+
+script p4a_vm_hermit
+  faceplayer
+  if flag p2_power_restored
+    say "HERMIT: The lines are humming again. The Tynamo are happy. Me too, I suppose."
+  else
+    say "HERMIT: The power lines went quiet a while ago. The Tynamo in the pools have stopped glowing."
+    say "HERMIT: Something in Voltara is drinking all the power. Mark my words, it's those folks in the dark uniforms."
+  end
+end

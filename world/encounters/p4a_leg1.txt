@@ -115,3 +115,25 @@ encounters p4a_petal_path
   goodrod any goldeen 10-14 35
   goodrod any surskit 10-14 25
 end
+
+encounters p4a_brook_falls
+  rate grass 25
+  grass morning azurill 5-7 25
+  grass morning taillow 5-7 25
+  grass morning surskit 5-7 25
+  grass morning skitty 5-7 25
+  grass day lotad 5-7 25
+  grass day azurill 5-7 25
+  grass day zigzagoon 5-7 25
+  grass day taillow 5-7 25
+  grass night poochyena 5-7 30
+  grass night hoothoot 5-7 25
+  grass night surskit 5-7 25
+  grass night wooper 6-8 20
+  oldrod any magikarp 5-8 50
+  oldrod any poliwag 5-8 30
+  oldrod any goldeen 5-8 20
+  goodrod any poliwag 12-16 40
+  goodrod any goldeen 12-16 35
+  goodrod any azurill 12-16 25
+end

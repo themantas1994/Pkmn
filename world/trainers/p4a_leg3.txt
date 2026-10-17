@@ -339,3 +339,54 @@ trainer p4a_sb_kid_robin
   mon dwebble 20
   mon krabby 20
 end
+
+# ---------------------------------------------------------------- Voltmire Marsh (south of Route 6)
+trainer p4a_vm_fisher_cobb
+  class fisherman
+  name "Cobb"
+  intro "The marsh pools hum when the power lines buzz. The fish love it!"
+  defeat "Zapped my confidence."
+  after "Chinchou somehow found their way into these pools. Must be the electricity."
+  mon barboach 21
+  mon chinchou 21
+end
+
+trainer p4a_vm_bug_gnat
+  class bugcatcher
+  name "Gnat"
+  intro "Marsh bugs are the toughest bugs! Muddy and mean!"
+  defeat "Stuck in the mud..."
+  after "Surskit skate here in spring. In summer they grow into Masquerain and fly off."
+  mon masquerain 22
+  mon venonat 21
+end
+
+trainer p4a_vm_pokefan_ola
+  class pokefan
+  name "Ola"
+  intro "Look at my muddy babies! Aren't they precious?"
+  defeat "Oh no, they need a bath now."
+  after "Wooper here are brown instead of blue! Paldean Wooper, they call them. Poison type, too!"
+  mon wooperpaldea 21
+  mon stunky 21
+end
+
+trainer p4a_vm_scientist_eel
+  class scientist
+  name "Eel"
+  intro "I study how the power lines affect marsh Pokémon! Let me collect some data from you!"
+  defeat "Inconclusive... I mean, you win."
+  after "Tynamo float in the shallows at night, glowing like little lanterns."
+  mon tynamo 22
+  mon stunfisk 22
+end
+
+trainer p4a_vm_youngster_wade
+  class youngster
+  name "Wade"
+  intro "My boots are full of mud but my heart is full of fire! Battle!"
+  defeat "My boots are full of defeat."
+  after "Croagunk puff up their cheeks and croak at sunset. It's like a concert, but worse."
+  mon croagunk 22
+  mon tympole 21
+end

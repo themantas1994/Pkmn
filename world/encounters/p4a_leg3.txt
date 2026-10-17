@@ -109,3 +109,30 @@ encounters p4a_seabreeze_cove
   goodrod any clamperl 20-24 20
   goodrod any staryu 20-24 20
 end
+
+encounters p4a_voltmire_marsh
+  rate grass 25
+  grass morning wooperpaldea 18-21 25
+  grass morning croagunk 18-21 25
+  grass morning stunfisk 18-21 15
+  grass morning masquerain 19-21 15
+  grass morning venonat 18-21 20
+  grass day wooperpaldea 18-21 25
+  grass day croagunk 18-21 20
+  grass day stunfisk 18-21 20
+  grass day tympole 18-21 20
+  grass day stunky 18-21 15
+  grass night tynamo 18-21 25
+  grass night tympole 18-21 25
+  grass night croagunk 18-21 20
+  grass night stunky 18-21 15
+  grass night venonat 18-21 15
+  surf any palpitoad 22-26 40
+  surf any chinchou 22-26 30
+  surf any barboach 22-26 30
+  oldrod any magikarp 15-20 60
+  oldrod any tympole 15-20 40
+  goodrod any barboach 20-24 40
+  goodrod any chinchou 20-24 30
+  goodrod any stunfisk 20-24 30
+end

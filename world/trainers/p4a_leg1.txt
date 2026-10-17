@@ -375,3 +375,55 @@ trainer p4a_lt_elder_rowan
   mon bellsprout 11
   mon weepinbell 13
 end
+
+# ---------------------------------------------------------------- Brook Falls
+trainer p4a_bf_fisher_nate
+  class fisherman
+  name "Nate"
+  intro "Fish love the cold water under the falls! I love fish! Battle!"
+  defeat "Slipped right off the hook."
+  after "The falls come all the way down from the foothills of Mt. Prism. Imagine where the water's been!"
+  mon goldeen 7
+  mon poliwag 7
+end
+
+trainer p4a_bf_lass_erin
+  class lass
+  name "Erin"
+  intro "The mist from the falls makes my hair frizzy. Let's battle to forget!"
+  defeat "Frizzy AND defeated..."
+  after "Azurill bounce around on their tails near the water. So cute!"
+  mon azurill 7
+  mon skitty 7
+end
+
+trainer p4a_bf_bug_leo
+  class bugcatcher
+  name "Leo"
+  intro "Surskit skate on the pools up here! Watch mine skate circles around you!"
+  defeat "Round and round... and down."
+  after "If you train Surskit, it grows into Masquerain. Scary eyes on its wings!"
+  mon surskit 7
+  mon kricketot 6
+  mon wurmple 6
+end
+
+trainer p4a_bf_youngster_tobias
+  class youngster
+  name "Tobias"
+  intro "I hiked all the way up from Hollowbrook! My legs are tired but my Pokémon aren't!"
+  defeat "Okay, now everyone's tired."
+  after "Going back is easier. Hop down the ledges and follow the brook!"
+  mon zigzagoon 7
+  mon taillow 8
+end
+
+trainer p4a_bf_hiker_wes
+  class hiker
+  name "Wes"
+  intro "One day I'll climb to the top of those falls! Practice battle first!"
+  defeat "Still at the bottom..."
+  after "You need a special move to climb waterfalls. Not just strong legs."
+  mon geodude 8
+  mon roggenrola 7
+end

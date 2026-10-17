@@ -52,3 +52,5 @@ item p4a_cp_ether 13 18 ether
 item p4a_cp_bigpearl 27 3 bigpearl
 hidden p4a_cp_pearl 27 9 pearl
 hidden p4a_cp_heart 3 4 heartscale
+# The S.S. Driftwood wreck on the south beach.
+stamp p4a_wreck 19 13 -> p4a_wreck_deck 7 8 up

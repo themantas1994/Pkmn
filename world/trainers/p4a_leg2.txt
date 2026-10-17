@@ -357,3 +357,65 @@ trainer p4a_ccb_psychic_noor
   mon noibat 16
   mon drowzee 16
 end
+
+# ---------------------------------------------------------------- S.S. Driftwood (wreck on Tidewater Cape)
+trainer p4a_wr_sailor_quill
+  class sailor
+  name "Quill"
+  intro "I served on this ship before she ran aground! Nobody loots her on my watch!"
+  defeat "Abandon ship!"
+  after "She was carrying crates of glowing stones from the islands when the storm hit."
+  mon wingull 16
+  mon machop 17
+end
+
+trainer p4a_wr_gentleman_hale
+  class gentleman
+  name "Hale"
+  intro "I came looking for my lost luggage. Fifteen years late, admittedly."
+  defeat "My luggage is still lost, and now so is the battle."
+  after "First class used to be up here. Now it's mostly barnacles."
+  mon furret 17
+  mon meowth 17
+end
+
+trainer p4a_wr_sailor_morgan
+  class sailor
+  name "Morgan"
+  intro "Har! A stowaway! Prepare to battle!"
+  defeat "Shiver me timbers."
+  after "The captain's log is still on the wall. Spooky reading."
+  mon krabby 17
+  mon tentacool 16
+end
+
+trainer p4a_wr_psychic_esme
+  class psychic
+  name "Esme"
+  intro "The spirits of this ship are restless... Can you feel them?"
+  defeat "The spirits are... amused."
+  after "Shuppet feed on grudges. This ship has plenty. The captain never forgave that storm."
+  mon shuppet 17
+  mon duskull 17
+  mon misdreavus 18
+end
+
+trainer p4a_wr_sailor_crane
+  class sailor
+  name "Crane"
+  intro "Something moved in the dark down here! Was it you? BATTLE!"
+  defeat "Okay, it wasn't you."
+  after "I keep hearing giggling from behind the crates. Must be the wind. Must be."
+  mon pelipper 17
+  mon crabrawler 17
+end
+
+trainer p4a_wr_fisher_pike
+  class fisherman
+  name "Pike"
+  intro "The hold flooded, so I fish in it! Smart, eh?"
+  defeat "Not so smart."
+  after "Caught a Shellder in here once. Must have washed in with the tide."
+  mon shellder 17
+  mon finneon 17
+end

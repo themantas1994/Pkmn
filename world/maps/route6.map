@@ -8,6 +8,7 @@ region 18 18
 encounters p2_route6
 connect west lumen_village 5
 connect east voltara_city -6
+connect south p4a_voltmire_marsh 10
 
 layout
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
@@ -32,8 +33,8 @@ T.,,,,,,,,TTTs~~~~~ss~~~~~s..,,,,,,,,,.T
 T.,,,,,,,,TTTs~~~~~ss~~~~~s..,,,,,,,,,.T
 T.,,,,,,,,TTTs~~~~~~~~~~~~s..,,,,,,,,,.T
 T.,,,,,,,,TTTs~~~~~~~~~~~~s............T
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT..TTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT..TTTT
 end
 
 sign 3 13 text="ROUTE 6\nLumen Village - Voltara City"

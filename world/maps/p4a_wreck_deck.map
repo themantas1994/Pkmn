@@ -1,0 +1,35 @@
+# S.S. Driftwood, upper deck (Expansion E1): an old cargo ship run aground on the Tidewater Cape beach.
+map p4a_wreck_deck
+name "S.S. Driftwood"
+location "Tidewater Cape"
+music dungeon_eclipse
+environment building
+indoor
+
+layout
+^^^^^^^^^^^^^^^^
+@w@@@@w@@@@w@@@@
+oooooooooooooooo
+oKKoooKKooooooDo
+oooooooooooooooo
+ooooKKooooKKoooo
+oooooooooooooooo
+oKKooooooooooKKo
+oooooooooooooooo
+oooooooRRooooooo
+end
+
+legend
+o floor_wood
+end
+
+warp 7 9 -> p4a_tidewater_cape 21 15 down
+warp 8 9 -> p4a_tidewater_cape 21 15 down
+warp 14 3 -> p4a_wreck_hold 13 3 left
+tile 4 1 sign
+sign 4 1 script=p4a_wreck_log1
+trainer p4a_wr_sailor_quill 2 5 sprite=sailor face=right sight=3
+trainer p4a_wr_gentleman_hale 12 6 sprite=gentleman face=left sight=4
+trainer p4a_wr_sailor_morgan 8 2 sprite=sailor face=down sight=3
+item p4a_wr_superpotion 1 8 superpotion
+hidden p4a_wr_coin 15 8 nugget
