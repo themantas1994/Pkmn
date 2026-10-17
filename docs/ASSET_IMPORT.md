@@ -193,15 +193,19 @@ assets-local/sprites/COVERAGE.json                 coverage against assets/data/
 `SpriteStyler` is a Kotlin port (no Python or Pillow needed) of `sprite_style.py` from the user-supplied
 "pkmn-sprite-style-kit", which is the origin of this algorithm:
 
-- fit the whole source canvas into 32x32 (battle kinds) or 16x16 (`icon`) without cropping, with area averaging on
-  premultiplied alpha;
+- crop the source to its visible pixels, then fit it into 48x48 (battle kinds, standing on the bottom edge) or 16x16
+  (`icon`, centred), with area averaging on premultiplied alpha;
 - binary alpha with threshold 112/255; transparent pixels get the colour of one opaque seed pixel before quantising;
 - median cut to at most 4 colours without dithering, then every channel snapped to a multiple of 8 (maximum 248);
 - a one-pixel outline on opaque edge pixels in the darkest palette colour, so it never adds a fifth colour;
-- battle kinds enlarged 3x with nearest neighbour to 96x96 (the placeholder generator uses the same 32px grid x 3).
+- battle kinds enlarged 2x with nearest neighbour to 96x96, the size the battle screen draws.
 
-Differences from the kit: the median cut is our own deterministic implementation, so palettes differ a little from
-Pillow's, and a sprite without any visible pixel is a failure instead of an empty file. Output is byte-for-byte
+Differences from the kit:
+- The kit fits the uncropped 96x96 PokeAPI canvas into a 32-pixel grid. Across the full roster that shrank small
+  Pokémon to a few pixels and lost most detail. Sprites are now cropped to their content and use a 48-pixel grid, which
+  is closer to Gold/Silver/Crystal's 56-pixel battle sprites.
+- The median cut is our own deterministic implementation, so palettes differ a little from Pillow's.
+- A sprite without any visible pixel is a failure instead of an empty file. Output is byte-for-byte
 deterministic.
 
 ### Coverage report
