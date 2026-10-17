@@ -52,3 +52,4 @@ hidden r3_water 35 18 freshwater
 obstacle 12 1 cut flag=p4a_cut_orchard
 trainer p4a_r3_lass_wendy 34 14 sprite=lass face=left sight=4
 trainer p4a_r3_youngster_lex 9 3 sprite=youngster face=right sight=4
+trainer p4a_r3_bug_clint 10 18 sprite=bugcatcher face=left sight=5

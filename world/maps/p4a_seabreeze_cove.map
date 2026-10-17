@@ -46,3 +46,4 @@ item p4a_sb_star 25 9 stardust
 item p4a_sb_net 21 1 netball 2
 hidden p4a_sb_pearl 24 4 pearl
 hidden p4a_sb_heart 14 12 heartscale
+trainer p4a_sb_fisher_wally 14 2 sprite=fisherman face=left sight=4

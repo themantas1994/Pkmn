@@ -45,3 +45,4 @@ item p4a_rh_rope 1 13 escaperope
 item p4a_rh_xattack 18 2 xattack
 hidden p4a_rh_mushroom 24 2 bigmushroom
 hidden p4a_rh_stardust 2 14 stardust
+trainer p4a_rh_bug_moss 6 14 sprite=bugcatcher face=left sight=4

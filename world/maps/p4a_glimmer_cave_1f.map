@@ -54,3 +54,4 @@ item p4a_gc_hyper 28 6 hyperpotion
 item p4a_gc_thunder 26 17 thunderstone
 hidden p4a_gc_shard 15 2 starpiece
 hidden p4a_gc_ether 9 7 ether
+trainer p4a_gc_psychic_orin 24 2 sprite=psychic face=left sight=3

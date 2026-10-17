@@ -427,3 +427,34 @@ trainer p4a_bf_hiker_wes
   mon geodude 8
   mon roggenrola 7
 end
+
+# ---------------------------------------------------------------- Glade / Root Hollow extras
+trainer p4a_gl_lass_fay
+  class lass
+  name "Fay"
+  intro "I found this glade by following the green light! Isn't it magical?"
+  defeat "The magic's worn off..."
+  after "The Moss Rock is warm, even at night. Eevee would love it here."
+  mon smoliv 10
+  mon cherubi 10
+end
+
+trainer p4a_gl_ranger_holt
+  class ranger
+  name "Holt"
+  intro "Few trainers make it past the mossy stones. Let's see what you're made of!"
+  defeat "You've earned the glade."
+  after "There's a hollow stump to the north. It leads down into the roots. Bring an Escape Rope."
+  mon phantump 11
+  mon deerling 11
+end
+
+trainer p4a_rh_bug_moss
+  class bugcatcher
+  name "Moss"
+  intro "My mom named me after this cave! Okay, not really. Battle!"
+  defeat "Squished!"
+  after "Paras grow mushrooms on their backs. The mushrooms down here are probably from Paras!"
+  mon paras 11
+  mon tarountula 11
+end

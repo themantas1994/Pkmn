@@ -31,3 +31,5 @@ sign 8 7 script=p4a_gl_mossrock
 item p4a_gl_squirtbottle 13 3 squirtbottle
 item p4a_gl_revive 14 9 revive
 hidden p4a_gl_honey 4 11 honey
+trainer p4a_gl_lass_fay 13 6 sprite=lass face=left sight=4
+trainer p4a_gl_ranger_holt 4 9 sprite=ranger face=right sight=3

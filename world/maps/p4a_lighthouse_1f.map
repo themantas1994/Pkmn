@@ -29,3 +29,4 @@ warp 9 2 -> p4a_lighthouse_2f 8 3 left
 trainer p4a_lh_sailor_brock 2 5 sprite=sailor face=right sight=4
 npc p4a_lh_guide 10 6 sprite=oldman face=left script=p4a_lh_guide
 item p4a_lh1_potion 11 3 superpotion
+trainer p4a_lh_youngster_tom 9 7 sprite=youngster face=left sight=4

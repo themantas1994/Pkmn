@@ -44,3 +44,4 @@ item p4a_vm_ball 26 16 ultraball
 item p4a_vm_islet 15 4 tm:mudshot
 hidden p4a_vm_mushroom 3 6 bigmushroom
 hidden p4a_vm_berry 18 16 lumberry
+trainer p4a_vm_lass_reed 27 3 sprite=lass face=down sight=4

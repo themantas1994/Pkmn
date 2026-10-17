@@ -54,3 +54,4 @@ hidden p4a_cp_pearl 27 9 pearl
 hidden p4a_cp_heart 3 4 heartscale
 # The S.S. Driftwood wreck on the south beach.
 stamp p4a_wreck 19 13 -> p4a_wreck_deck 7 8 up
+trainer p4a_cp_lass_ivette 10 13 sprite=lass face=left sight=3

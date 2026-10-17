@@ -44,3 +44,4 @@ item p4a_lc_revive 1 1 revive
 item p4a_lc_ether 20 1 ether
 hidden p4a_lc_star 19 13 stardust
 hidden p4a_lc_candy 2 10 rarecandy
+trainer p4a_lc_sage_umi 19 2 sprite=sage face=down sight=2

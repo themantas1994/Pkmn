@@ -80,3 +80,4 @@ trainer p4a_r5_picnic_ada 14 29 sprite=lass face=right sight=3
 trainer p4a_r5_kid_milo 2 36 sprite=kid face=right sight=3
 tile 17 26 sign
 sign 17 26 script=p4a_r5_cove_sign
+trainer p4a_r5_pokefan_hugo 8 10 sprite=pokefan face=left sight=4

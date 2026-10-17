@@ -49,3 +49,4 @@ item p4a_gc2_island 10 7 ppup
 item p4a_gc2_full 24 1 fullheal
 hidden p4a_gc2_shard 4 9 starpiece
 hidden p4a_gc2_rope 13 14 escaperope
+trainer p4a_gc2_blackbelt_taro 2 10 sprite=blackbelt face=right sight=6

@@ -58,3 +58,4 @@ hidden r4_pond 9 16 pearl
 trainer p4a_r4_pokefan_greta 30 14 sprite=pokefan face=left sight=4
 trainer p4a_r4_blackbelt_koji 12 21 sprite=blackbelt face=left sight=5
 npc p4a_teo 36 8 sprite=hiker face=left script=p4a_teo
+trainer p4a_r4_cooltrainer_maya 30 8 sprite=cooltrainer_f face=down sight=3

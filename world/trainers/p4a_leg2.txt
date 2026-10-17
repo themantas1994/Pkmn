@@ -419,3 +419,95 @@ trainer p4a_wr_fisher_pike
   mon shellder 17
   mon finneon 17
 end
+
+# ---------------------------------------------------------------- Extras
+trainer p4a_r3_bug_clint
+  class bugcatcher
+  name "Clint"
+  intro "Nincada dig under Route 3! I dug up mine with my own hands!"
+  defeat "I'll go dig a hole and hide in it."
+  after "If you train Nincada, sometimes you get a bonus Pokémon when it evolves. Spooky!"
+  mon nincada 13
+  mon kricketune 13
+end
+
+trainer p4a_cp_lass_ivette
+  class lass
+  name "Ivette"
+  intro "I'm flying a kite! Well, Wingull is. Want to battle while it's up there?"
+  defeat "My kite string snapped!"
+  after "The sea wind up here can lift a Swablu clear over the lighthouse."
+  mon wingull 16
+  mon swablu 16
+end
+
+trainer p4a_or_kid_pip
+  class kid
+  name "Pipkin"
+  intro "Grandpa says I can't eat berries until I win a battle!"
+  defeat "Nooo, my berries!"
+  after "Grandpa runs the orchard. Grandma makes tea that fixes everything!"
+  mon bounsweet 14
+  mon tandemaus 14
+end
+
+trainer p4a_cg_swimmer_lars
+  class swimmer_m
+  name "Lars"
+  intro "I swam in through an underwater tunnel! Don't tell my mom!"
+  defeat "I'll swim home and think about this."
+  after "Wingull nest up on the ledges in here. They steal anything shiny."
+  mon tentacool 16
+  mon shellder 16
+end
+
+trainer p4a_cg_hiker_reef
+  class hiker
+  name "Reef"
+  intro "Sea caves are the best caves! Salt, rocks and Krabby!"
+  defeat "Pinched by defeat!"
+  after "The tide fills half this cave at night. Explore it while you can!"
+  mon dwebble 16
+  mon binacle 17
+end
+
+trainer p4a_cc2_youngster_dax
+  class youngster
+  name "Dax"
+  intro "I climbed down the new ladder! I'm the first one here! ...Right?"
+  defeat "Okay, maybe not the first."
+  after "The old miner by the lake knows everything about this place."
+  mon aron 16
+  mon rockruff 16
+end
+
+trainer p4a_lh_youngster_tom
+  class youngster
+  name "Tom"
+  intro "I'm counting the stairs in the lighthouse! Battle me so I don't lose count!"
+  defeat "Now I've lost count. And the battle."
+  after "One hundred and twelve steps. Or so. Probably."
+  mon yamper 16
+  mon taillow 16
+end
+
+trainer p4a_r4_cooltrainer_maya
+  class cooltrainer_f
+  name "Maya"
+  intro "I came over the ridge just to battle at Port Tidewater. You'll be my warm-up!"
+  defeat "Some warm-up. I'm exhausted."
+  after "Marina's Water types are fast. Grass and Electric moves are your best friends there."
+  mon electrike 16
+  mon wingull 16
+  mon nuzleaf 17
+end
+
+trainer p4a_or_gentleman_basil
+  class gentleman
+  name "Basil"
+  intro "I buy the orchard's finest fruit every season. Shall we have a refined battle?"
+  defeat "Most unrefined of me to lose."
+  after "Leftovers from this orchard? A trainer's secret weapon, they say. Ask the keeper."
+  mon furret 15
+  mon applin 15
+end

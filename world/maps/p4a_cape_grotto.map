@@ -31,3 +31,5 @@ item p4a_cg_key 13 1 basementkey
 item p4a_cg_kingsrock 2 7 kingsrock
 hidden p4a_cg_pearl 5 1 bigpearl
 hidden p4a_cg_star 16 4 stardust
+trainer p4a_cg_swimmer_lars 8 6 sprite=swimmer_m face=right sight=3
+trainer p4a_cg_hiker_reef 3 8 sprite=hiker face=right sight=3

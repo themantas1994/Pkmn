@@ -390,3 +390,74 @@ trainer p4a_vm_youngster_wade
   mon croagunk 22
   mon tympole 21
 end
+
+# ---------------------------------------------------------------- Extras
+trainer p4a_r5_pokefan_hugo
+  class pokefan
+  name "Hugo"
+  intro "My Ponyta's mane is the shiniest on Route 5! Battle and see!"
+  defeat "Its mane is still shiny. My pride, less so."
+  after "Ponyta only let you ride them if they trust you. Mine still doesn't."
+  mon ponyta 20
+  mon skiddo 20
+end
+
+trainer p4a_lc_sage_umi
+  class sage
+  name "Umi"
+  intro "I keep watch over the east wing. Only the worthy pass!"
+  defeat "Worthy indeed."
+  after "Each stone holds one part of the day. Light them as the sun travels."
+  mon bronzor 22
+  mon chingling 21
+end
+
+trainer p4a_gc2_blackbelt_taro
+  class blackbelt
+  name "Taro"
+  intro "I punch crystals to train! They punch back sometimes!"
+  defeat "Ow, my knuckles!"
+  after "The cracked rock behind me hides something the engineer would want."
+  mon machoke 23
+  mon throh 23
+end
+
+trainer p4a_gc_psychic_orin
+  class psychic
+  name "Orin"
+  intro "I came to meditate among the crystals. Your light disturbs me!"
+  defeat "Perhaps light is not so bad."
+  after "The ladder behind me leads down to the deepest crystals."
+  mon kirlia 23
+  mon chingling 22
+end
+
+trainer p4a_sr_kid_sunny
+  class kid
+  name "Sunny"
+  intro "I'm helping Grandpa clean the solar panels! Battle break!"
+  defeat "Break's over, I guess."
+  after "Plusle and Minun love the panels. They nap on them when it's sunny."
+  mon pawmi 22
+  mon minun 22
+end
+
+trainer p4a_sb_fisher_wally
+  class fisherman
+  name "Wally"
+  intro "The cove's tide pools are packed today! Fight me for the best spot!"
+  defeat "Fine, take the spot."
+  after "Staryu wash up at low tide. They glow like little stars on the sand."
+  mon staryu 21
+  mon remoraid 21
+end
+
+trainer p4a_vm_lass_reed
+  class lass
+  name "Reed"
+  intro "I'm not lost! I'm... exploring the marsh! Battle!"
+  defeat "Okay, I'm a little lost."
+  after "Stunfisk lie flat in the mud. I've stepped on three today. They were not happy."
+  mon stunfisk 21
+  mon croagunk 21
+end

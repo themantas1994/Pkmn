@@ -52,3 +52,4 @@ item p4a_sr_ultra 2 13 ultraball
 item p4a_sr_tm 32 18 tm:shockwave
 hidden p4a_sr_nugget 3 17 nugget
 hidden p4a_sr_thunder 32 16 thunderstone
+trainer p4a_sr_kid_sunny 10 16 sprite=kid face=right sight=4
