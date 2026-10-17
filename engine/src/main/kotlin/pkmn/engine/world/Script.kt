@@ -151,6 +151,19 @@ object ScriptParser {
         return out
     }
 
+    /** Reads the quoted string starting at [start] (a `"`) into [sb], applying the [tokenize] escapes; returns the index after it. */
+    private fun readQuoted(line: String, start: Int, sb: StringBuilder, file: String, lineNo: Int): Int {
+        var i = start + 1
+        while (i < line.length) {
+            val d = line[i]
+            if (d == '\\' && i + 1 < line.length) {
+                when (line[i + 1]) { 'n' -> sb.append('\n'); 'p' -> sb.append('\u000C'); '"' -> sb.append('"'); '\\' -> sb.append('\\'); else -> sb.append(line[i + 1]) }
+                i += 2
+            } else if (d == '"') return i + 1 else { sb.append(d); i++ }
+        }
+        throw ScriptError("unterminated string", file, lineNo)
+    }
+
     /** Splits a line into tokens; double-quoted strings keep spaces and support \n, \p, \" and \\ escapes. */
     fun tokenize(line: String, file: String = "", lineNo: Int = 0): List<String> {
         val out = ArrayList<String>()
@@ -162,22 +175,17 @@ object ScriptParser {
                 c.isWhitespace() -> i++
                 c == '"' -> {
                     val sb = StringBuilder()
-                    i++
-                    var closed = false
-                    while (i < line.length) {
-                        val d = line[i]
-                        if (d == '\\' && i + 1 < line.length) {
-                            when (line[i + 1]) { 'n' -> sb.append('\n'); 'p' -> sb.append('\u000C'); '"' -> sb.append('"'); '\\' -> sb.append('\\'); else -> sb.append(line[i + 1]) }
-                            i += 2
-                        } else if (d == '"') { closed = true; i++; break } else { sb.append(d); i++ }
-                    }
-                    if (!closed) throw ScriptError("unterminated string", file, lineNo)
+                    i = readQuoted(line, i, sb, file, lineNo)
                     out.add(sb.toString())
                 }
                 else -> {
-                    val start = i
-                    while (i < line.length && !line[i].isWhitespace() && line[i] != '#') i++
-                    out.add(line.substring(start, i))
+                    // A bare token; `key="quoted value"` keeps the quoted part (spaces included) as the value.
+                    val sb = StringBuilder()
+                    while (i < line.length && !line[i].isWhitespace() && line[i] != '#') {
+                        if (line[i] == '"' && sb.endsWith("=")) i = readQuoted(line, i, sb, file, lineNo)
+                        else sb.append(line[i++])
+                    }
+                    out.add(sb.toString())
                 }
             }
         }

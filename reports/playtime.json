@@ -13,8 +13,8 @@
     "gym 8: dragonspire_gym_2f",
     "hall of fame: league_champion"
   ],
-  "criticalPathHours": 10.5,
-  "withOptionalContentHours": 20.5,
+  "criticalPathHours": 11.1,
+  "withOptionalContentHours": 24.4,
   "postGameHours": 4.5,
   "legs": [
     {
@@ -30,15 +30,15 @@
         "brindle_city",
         "brindle_gym"
       ],
-      "criticalMinutes": 43,
-      "fullMinutes": 64,
-      "trainersOnPath": 13,
+      "criticalMinutes": 50,
+      "fullMinutes": 135,
+      "trainersOnPath": 17,
       "expectedWildEncounters": 6,
-      "partyLevelOnArrival": 19,
+      "partyLevelOnArrival": 18,
       "bossAceLevel": 14,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 10
+      "optionalMaps": 23
     },
     {
       "leg": "gym 1 -> gym 2",
@@ -51,15 +51,15 @@
         "port_tidewater",
         "tidewater_gym"
       ],
-      "criticalMinutes": 51,
-      "fullMinutes": 75,
-      "trainersOnPath": 17,
+      "criticalMinutes": 65,
+      "fullMinutes": 147,
+      "trainersOnPath": 24,
       "expectedWildEncounters": 10,
       "partyLevelOnArrival": 26,
       "bossAceLevel": 21,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 6
+      "optionalMaps": 17
     },
     {
       "leg": "gym 2 -> gym 3",
@@ -73,15 +73,15 @@
         "voltara_city",
         "voltara_gym"
       ],
-      "criticalMinutes": 50,
-      "fullMinutes": 83,
-      "trainersOnPath": 15,
+      "criticalMinutes": 61,
+      "fullMinutes": 153,
+      "trainersOnPath": 21,
       "expectedWildEncounters": 13,
-      "partyLevelOnArrival": 32,
+      "partyLevelOnArrival": 33,
       "bossAceLevel": 28,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 14
+      "optionalMaps": 23
     },
     {
       "leg": "gym 3 -> gym 4",
@@ -98,7 +98,7 @@
       "fullMinutes": 136,
       "trainersOnPath": 20,
       "expectedWildEncounters": 16,
-      "partyLevelOnArrival": 39,
+      "partyLevelOnArrival": 40,
       "bossAceLevel": 34,
       "grindMinutes": 0,
       "grindBattles": 0,
@@ -163,7 +163,7 @@
       "fullMinutes": 146,
       "trainersOnPath": 28,
       "expectedWildEncounters": 27,
-      "partyLevelOnArrival": 61,
+      "partyLevelOnArrival": 60,
       "bossAceLevel": 52,
       "grindMinutes": 0,
       "grindBattles": 0,

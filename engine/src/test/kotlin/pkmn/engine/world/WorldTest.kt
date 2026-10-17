@@ -49,6 +49,17 @@ class WorldTest {
     }
 
     @Test
+    fun `key=quoted values keep their spaces`() {
+        assertEquals(listOf("npc", "a", "text=Hi there\u000CBye", "face=left"), ScriptParser.tokenize("npc a text=\"Hi there\\pBye\" face=left"))
+        assertFailsWith<ScriptError> { ScriptParser.tokenize("sign 1 2 text=\"open") }
+        // Every inline NPC and sign text in the campaign compiled as a whole sentence, not its first word.
+        for (id in content.index.maps) {
+            val m = content.map(id)
+            for (t in m.npcs.mapNotNull { it.text } + m.signs.mapNotNull { it.text }) assertFalse(t.startsWith("\"") && !t.endsWith("\""), "$id: $t")
+        }
+    }
+
+    @Test
     fun `choosing a starter gives the pokemon and sets flags`() {
         val ctx = newCtx()
         val reqs = run(ctx, "lab_ball_fire", mutableListOf(1))
