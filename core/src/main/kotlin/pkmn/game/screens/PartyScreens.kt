@@ -211,10 +211,10 @@ class PartyScreen(
             if (i == swapFrom) r.rect(0, y - 2, 4, 28, Palette.BLUE)
             val icon = r.assets.pokemon(m.speciesId, "icon")
             r.draw(icon, 8f, y.toFloat(), 24f, 24f)
-            r.text(m.displayName(dex).take(10), 40, y + 2)
-            r.text("L${m.level}", 136, y + 2)
-            m.status?.let { r.text(it.label, 176, y + 2, Palette.RED) }
-            if (m.isFainted) r.text("FNT", 176, y + 2, Palette.RED)
+            r.text(m.displayName(dex).take(pkmn.engine.campaign.Nicknames.MAX_LENGTH), 40, y + 2)
+            r.text("L${m.level}", 144, y + 2)
+            m.status?.let { r.text(it.label, 184, y + 2, Palette.RED) }
+            if (m.isFainted) r.text("FNT", 184, y + 2, Palette.RED)
             m.heldItem?.let { r.text("●", 32, y + 14, Palette.BLUE, small = true) }
             val max = m.maxHp(dex)
             val f = m.hp.toFloat() / maxOf(1, max)
