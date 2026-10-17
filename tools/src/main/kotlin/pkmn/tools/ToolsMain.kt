@@ -21,6 +21,7 @@ fun main(args: Array<String>) {
                 File(rest.getOrElse(1) { "docs/screenshots" }).absoluteFile, "--update" in args).run()
             if (!ok) kotlin.system.exitProcess(1)
         }
+        "capture" -> CaptureAudit(root, write).run()
         "sprites" -> { val ok = SpriteImporter(root, args.drop(1)).run(); if (!ok) kotlin.system.exitProcess(1) }
         else -> {
             println("usage: tools <import|validate|maps|manifest|playtime|progression|entrances|items|perf|screenshots <actual> <baseline> [--update]|sprites [--only=1-151] [--force] [--from=<dir|zip>] ...>")

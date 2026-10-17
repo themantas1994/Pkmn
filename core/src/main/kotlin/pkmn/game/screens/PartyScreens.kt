@@ -116,10 +116,13 @@ class PartyScreen(
             }
             Mode.OVERWORLD -> {
                 val field = fieldMovesFor(mon)
-                val opts = field + listOf("SUMMARY", "SWITCH", "ITEM", "CANCEL")
-                push(Menu(game, opts, 152, 64, 96, onCancel = {}) { i ->
+                // Only the original trainer may rename a Pokémon (traded ones keep their name, as in the official games).
+                val own = mon.otId == ctx.state.trainerId && mon.otName == ctx.state.playerName
+                val opts = field + listOf("SUMMARY", "SWITCH", "ITEM") + (if (own) listOf("NICKNAME") else emptyList()) + "CANCEL"
+                push(Menu(game, opts, 152, 48, 96, onCancel = {}) { i ->
                     when (val o = opts[i]) {
                         "SUMMARY" -> push(SummaryScreen(game, ctx, mon))
+                        "NICKNAME" -> renameMenu(mon)
                         "SWITCH" -> swapFrom = cursor
                         "ITEM" -> itemMenu(mon)
                         "CANCEL" -> {}
@@ -161,6 +164,19 @@ class PartyScreen(
                 })
             }
         }
+    }
+
+    /** Rename, or restore the species name. Nickname and species stay separate: the summary always shows both. */
+    private fun renameMenu(mon: Pokemon) {
+        val species = mon.species(dex).name
+        val opts = listOf("RENAME") + (if (mon.nickname != null) listOf("RESET NAME") else emptyList()) + "CANCEL"
+        push(Menu(game, opts, 152, 96, 96, onCancel = {}) { i ->
+            when (opts[i]) {
+                "RENAME" -> push(NameInputScreen(game, "${species.uppercase()}'S NICKNAME?", mon.nickname ?: "", pkmn.engine.campaign.Nicknames.MAX_LENGTH,
+                    onCancel = {}) { n -> ctx.rename(mon, n)?.let { game.say(it) } })
+                "RESET NAME" -> { ctx.rename(mon, null); game.say("${mon.displayName(dex)} is called by its species name again.") }
+            }
+        })
     }
 
     private fun itemMenu(mon: Pokemon) {
@@ -215,11 +231,12 @@ class PartyScreen(
 
 /** Pokémon summary: stats, moves, ability, item, nature. LEFT/RIGHT switch pages. */
 class SummaryScreen(game: PkmnGame, private val ctx: GameContext, private val mon: Pokemon) : Screen(game) {
+    private companion object { const val PAGES = 4 }
     private var page = 0
     private val dex = ctx.dex
     override fun update(dt: Float, input: InputState) {
-        if (input.justPressed(Button.LEFT)) page = (page + 2) % 3
-        if (input.justPressed(Button.RIGHT) || input.justPressed(Button.A)) page = (page + 1) % 3
+        if (input.justPressed(Button.LEFT)) page = (page + PAGES - 1) % PAGES
+        if (input.justPressed(Button.RIGHT) || input.justPressed(Button.A)) page = (page + 1) % PAGES
         if (input.justPressed(Button.B)) pop()
     }
     override fun onBack(): Boolean { pop(); return true }
@@ -234,7 +251,7 @@ class SummaryScreen(game: PkmnGame, private val ctx: GameContext, private val mo
         sp.types.forEachIndexed { i, t -> r.rect(104 + i * 56, 44, 52, 12, Palette.type(t)); r.text(t.uppercase().take(6), 108 + i * 56, 46, Palette.WHITE, small = true) }
         mon.teraType?.let { r.text("TERA:${it.uppercase()}", 104, 60, Palette.type(it).cpy().mul(0.7f, 0.7f, 0.7f, 1f), small = true) }
         if (mon.shiny) r.text("★", 236, 8, Palette.RED)
-        r.text("${page + 1}/3 ◀▶", 196, 88, small = true)
+        r.text("${page + 1}/$PAGES ◀▶", 196, 88, small = true)
         r.frame(0, 100, Renderer.W, 124)
         when (page) {
             0 -> {
@@ -255,6 +272,15 @@ class SummaryScreen(game: PkmnGame, private val ctx: GameContext, private val mo
                 }
                 r.text("EV ${mon.evs.total}/510", 12, 196, small = true)
                 r.text(dex.abilityOrNull(mon.ability(dex))?.shortDesc?.take(40) ?: "", 12, 208, small = true)
+            }
+            2 -> {
+                // Individual values (0-31) and effort values (max 252 each, 510 total) behind the stats on page 2.
+                r.text("STAT      IV   EV", 12, 110)
+                for ((i, s) in Stat.entries.withIndex()) {
+                    val mark = when (s) { mon.nature.plus -> "+"; mon.nature.minus -> "-"; else -> " " }
+                    r.text("${s.label.uppercase().take(7).padEnd(7)}$mark ${mon.ivs[s].toString().padStart(3)}  ${mon.evs[s].toString().padStart(3)}", 12, 124 + i * 12)
+                }
+                r.text("TOTAL EV ${mon.evs.total}/510", 12, 198, small = true)
             }
             else -> mon.moves.forEachIndexed { i, s ->
                 val m = dex.moveOrNull(s.id) ?: return@forEachIndexed

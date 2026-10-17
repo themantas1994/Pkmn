@@ -115,7 +115,11 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
     }
 
     companion object {
-        const val CURRENT_VERSION = 1
+        /**
+         * 1: original release. 2: Pokédex form/shiny records, pending nickname offers and unique Pokémon ids
+         * (new fields default to empty; [SaveValidator] rebuilds the form records from the Pokémon the player owns).
+         */
+        const val CURRENT_VERSION = 2
 
         /** Migration from version [from] to from+1 on the raw JSON payload. */
         fun migrate(from: Int, payload: JsonObject): JsonObject = when (from) {
@@ -124,6 +128,7 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
                 payload.forEach { (k, v) -> put(k, v) }
                 if ("options" !in payload) put("options", Json.encodeToJsonElement(Options.serializer(), Options()))
             }
+            // 1 -> 2: the new fields have safe defaults; nothing to rewrite in the raw payload.
             else -> payload
         }
 
@@ -162,6 +167,7 @@ class SaveValidator(private val dex: Dex) {
         }
         val unknownItems = state.bag.keys.filter { dex.itemOrNull(it) == null && !it.startsWith("tm") && !it.startsWith("key:") }
         if (unknownItems.isNotEmpty()) warnings.add("Bag contains items not in this version: $unknownItems (kept).")
+        warnings += repairIdentityAndDex(state)
         if (state.party.isEmpty() && all.isNotEmpty()) {
             val first = state.boxes.flatten().firstOrNull { it != null }
             if (first != null) {
@@ -170,6 +176,38 @@ class SaveValidator(private val dex: Dex) {
                 warnings.add("Party was empty; moved a Pokémon from the PC into the party.")
             }
         }
+        return warnings
+    }
+
+    /**
+     * Every owned Pokémon gets a unique non-zero uid (version 1 could contain zeros from hand-built Pokémon), and the
+     * Pokédex is made consistent with what the player owns: an owned species or form is always caught, and anything
+     * caught is also seen. Records are only ever added, never removed, so no progress is lost.
+     */
+    fun repairIdentityAndDex(state: GameState): List<String> {
+        val warnings = ArrayList<String>()
+        val owned = state.ownedPokemon()
+        val used = HashSet<Long>()
+        var next = (owned.maxOfOrNull { it.uid } ?: 0L).coerceAtLeast(0L) + 1
+        for (m in owned) {
+            if (m.uid == 0L || !used.add(m.uid)) {
+                state.pendingNicknames.remove(m.uid)
+                m.uid = next++
+                used.add(m.uid)
+            }
+        }
+        var added = 0
+        for (m in owned) {
+            val sp = dex.speciesOrNull(m.speciesId) ?: continue
+            if (state.caught.add(sp.baseSpecies)) added++
+            state.formsCaught.add(sp.id)
+            if (m.shiny) state.shiniesCaught.add(sp.baseSpecies)
+        }
+        for (f in state.formsCaught.toList()) dex.speciesOrNull(f)?.let { state.caught.add(it.baseSpecies) }
+        state.seen.addAll(state.caught)
+        state.formsSeen.addAll(state.formsCaught)
+        if (added > 0) warnings.add("Pokédex: registered $added owned species that were missing from the caught list.")
+        state.pendingNicknames.retainAll { uid -> owned.any { it.uid == uid } }
         return warnings
     }
 }

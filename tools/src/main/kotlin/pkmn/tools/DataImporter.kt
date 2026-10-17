@@ -53,6 +53,8 @@ class DataImporter(private val root: File) {
         write("items.json", outJson.encodeToString(kotlinx.serialization.builtins.ListSerializer(ItemData.serializer()), items))
         write("species.json", outJson.encodeToString(kotlinx.serialization.builtins.ListSerializer(SpeciesData.serializer()), species))
         write("learnsets.json", outJson.encodeToString(kotlinx.serialization.builtins.ListSerializer(LearnsetData.serializer()), learnsets))
+        val dexText = importDexText()
+        write("dextext.json", outJson.encodeToString(kotlinx.serialization.builtins.ListSerializer(DexEntryText.serializer()), dexText))
         write("manifest.json", Json { prettyPrint = true }.encodeToString(ContentManifest.serializer(), manifest()))
         println("Imported ${species.size} species entries (${species.count { it.formKind == FormKind.BASE }} base), " +
             "${moves.size} moves, ${abilities.size} abilities, ${items.size} items, ${learnsets.size} learnsets.")
@@ -503,6 +505,28 @@ class DataImporter(private val root: File) {
         }
     }
 
+    // ---------------------------------------------------------------- Pokédex text
+
+    /**
+     * Pokédex category and one English description per species from PokeAPI's CSVs (English rows only, see
+     * data-src/README). The description comes from Scarlet/Violet when the species is in those games, otherwise from the
+     * most recent game that has one.
+     */
+    private val DEX_TEXT_FILES = setOf("pokeapi/pokemon_species_flavor_text_en.csv", "pokeapi/pokemon_species_names_en.csv", "pokeapi/versions.csv")
+
+    private fun importDexText(): List<DexEntryText> {
+        val versions = Csv.read(File(src, "pokeapi/versions.csv")).associate { it["id"]!!.toInt() to it["identifier"]!! }
+        val preferred = listOf("scarlet", "violet", "the-teal-mask-scarlet", "the-indigo-disk-scarlet", "legends-za", "legends-arceus")
+        fun rank(v: Int): Int = preferred.indexOf(versions[v]).let { if (it >= 0) 10_000 - it else v }
+        val texts = Csv.read(File(src, "pokeapi/pokemon_species_flavor_text_en.csv")).groupBy { it["species_id"]!!.toInt() }
+        val genus = Csv.read(File(src, "pokeapi/pokemon_species_names_en.csv")).associate { it["pokemon_species_id"]!!.toInt() to (it["genus"] ?: "") }
+        return (genus.keys + texts.keys).toSortedSet().map { num ->
+            val best = texts[num]?.maxByOrNull { rank(it["version_id"]!!.toInt()) }
+            val clean = best?.get("flavor_text")?.replace("\u00ad\n", "")?.replace("\u00ad", "")?.replace('\u000c', ' ')?.replace('\u2019', '\'')?.replace('\u2018', '\'')?.replace('\u201c', '"')?.replace('\u201d', '"')?.replace(Regex("\\s+"), " ")?.trim() ?: ""
+            DexEntryText(num, genus[num] ?: "", clean, best?.get("version_id")?.toInt()?.let { versions[it] } ?: "")
+        }
+    }
+
     // ---------------------------------------------------------------- learnsets
 
     private fun importLearnsets(raw: JsonObject, speciesIds: Set<String>, moveIds: Set<String>): List<LearnsetData> {
@@ -557,8 +581,17 @@ class DataImporter(private val root: File) {
                     name = "PokeAPI CSV data",
                     source = "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/",
                     license = "BSD-3-Clause (PokeAPI). Pokémon names and game data are property of Nintendo/Creatures/GAME FREAK.",
-                    files = sums.filterKeys { it.startsWith("pokeapi/") },
+                    files = sums.filterKeys { it.startsWith("pokeapi/") && it !in DEX_TEXT_FILES },
                     retrieved = "2026-10-13",
+                ),
+                ContentProvenance(
+                    name = "PokeAPI CSV data: Pokédex text (English rows of pokemon_species_flavor_text.csv and pokemon_species_names.csv; " +
+                        "upstream sha256 c341e602ab623084fef4c44ca4a174938e617802cfcf2deec830d824f688dc69 and " +
+                        "820cde17074cdb1c2b0595c997fb8f998e773bd5da3bb525dec85703c86c5fd9)",
+                    source = "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/",
+                    license = "BSD-3-Clause (PokeAPI). Pokédex text is property of Nintendo/Creatures/GAME FREAK.",
+                    files = sums.filterKeys { it in DEX_TEXT_FILES },
+                    retrieved = "2026-10-17",
                 ),
             ),
         )

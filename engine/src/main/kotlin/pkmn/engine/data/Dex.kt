@@ -52,6 +52,7 @@ class Dex(
     val typeChart: TypeChart,
     private val learnsetLoader: () -> List<LearnsetData>,
     val manifest: ContentManifest? = null,
+    private val dexTextLoader: () -> List<DexEntryText> = { emptyList() },
 ) {
     val species: Map<String, SpeciesData> = speciesList.associateBy { it.id }
     val moves: Map<String, MoveData> = moveList.associateBy { it.id }
@@ -83,6 +84,9 @@ class Dex(
 
     fun baseForm(sp: SpeciesData): SpeciesData = species[toId(sp.baseSpecies)] ?: sp
 
+    /** Pokédex category and description by National Dex number (empty when the data file is absent). */
+    val dexText: Map<Int, DexEntryText> by lazy { dexTextLoader().associateBy { it.num } }
+
     companion object {
         fun load(source: ContentSource): Dex {
             fun text(path: String) = source.read(path) ?: error("Missing content file '$path'")
@@ -94,7 +98,7 @@ class Dex(
             val manifest = source.read("data/manifest.json")?.let { ContentJson.decodeFromString<ContentManifest>(it) }
             return Dex(species, moves, abilities, items, chart, {
                 ContentJson.decodeFromString<List<LearnsetData>>(text("data/learnsets.json"))
-            }, manifest)
+            }, manifest, { source.read("data/dextext.json")?.let { ContentJson.decodeFromString<List<DexEntryText>>(it) } ?: emptyList() })
         }
 
         /** Loads from the directory given by the `pkmn.assets` system property (tests/tools) or ./assets. */

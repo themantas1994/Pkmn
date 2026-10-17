@@ -97,19 +97,14 @@ class ScriptHost(
             is ScriptRequest.MoveTutor -> game.push(MoveTutorScreen(game, ctx, req.id) { resume() })
             ScriptRequest.MoveRelearner -> game.push(MoveRelearnerScreen(game, ctx) { resume() })
             is ScriptRequest.Nickname -> {
-                val mon = ctx.state.party.getOrNull(req.partyIndex)
-                if (mon == null) resume() else game.push(TextBox(game, "Give a nickname to ${mon.species(ctx.dex).name}?") {
-                    game.push(YesNo(game, null) { yes ->
-                        if (!yes) resume() else game.push(NameInputScreen(game, "NICKNAME?", mon.species(ctx.dex).name) { n ->
-                            mon.nickname = n.takeIf { it != mon.species(ctx.dex).name }; resume()
-                        })
-                    })
-                })
+                val mon = ctx.state.findByUid(req.uid)
+                if (mon == null || req.uid !in ctx.state.pendingNicknames) resume()
+                else NicknameFlow.offer(game, ctx, mon) { resume() }
             }
-            is ScriptRequest.NameInput -> game.push(NameInputScreen(game, "${req.what.uppercase()}'S NAME?", ctx.state.rivalName) { n ->
+            is ScriptRequest.NameInput -> game.push(NameInputScreen(game, "${req.what.uppercase()}'S NAME?", ctx.state.rivalName, onDone = { n ->
                 if (req.what == "rival") ctx.state.rivalName = n
                 resume()
-            })
+            }))
             ScriptRequest.Credits -> game.push(CreditsScreen(game, ctx) { resume() })
             ScriptRequest.HallOfFame -> game.push(HallOfFameScreen(game, ctx) { resume() })
             ScriptRequest.CheckEvolution -> ow.runEvolutions(ctx.state.party.indices.toList()) { resume() }

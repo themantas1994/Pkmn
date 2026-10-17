@@ -30,6 +30,8 @@ data class BattleRules(
     val inverse: Boolean = false,
     /** The player's trainer id; Pokémon with another OT id (traded) earn 1.5× experience. 0 = no traded bonus. */
     val playerOtId: Int = 0,
+    /** Capture settings (badge penalty, low-level bonus, Pokédex for Repeat Ball and critical captures). */
+    val capture: CaptureRules = CaptureRules(),
 ) {
     companion object {
         val ALL_GIMMICKS = Gimmick.entries.toSet()

@@ -241,6 +241,10 @@ data class LearnsetData(
     val egg: List<String> = emptyList(),
 )
 
+/** Pokédex text for a National Dex number: category ("Seed Pokémon") and one description, with the game it came from. */
+@Serializable
+data class DexEntryText(val num: Int, val genus: String = "", val text: String = "", val source: String = "")
+
 @Serializable
 data class LevelMove(val level: Int, val move: String)
 

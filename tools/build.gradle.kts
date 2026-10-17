@@ -38,6 +38,7 @@ registerTool("auditEntrances", "Audit every warp: entrance tile vs destination c
 registerTool("auditItems", "Strict item reachability audit per badge stage and placement defects -> reports/items.*", "items")
 registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
+registerTool("auditCapture", "Capture chance of every wild encounter slot before/after the capture fix -> reports/capture.*", "capture")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
 
 tasks.test {

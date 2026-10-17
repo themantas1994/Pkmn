@@ -36,6 +36,17 @@
                 "pokeapi/pokemon_stats.csv": "fa2c44263a3706468682fefc3e0b3c4f5487fe9febed7d4ebcd6939c34b16aa8"
             },
             "retrieved": "2026-10-13"
+        },
+        {
+            "name": "PokeAPI CSV data: Pokédex text (English rows of pokemon_species_flavor_text.csv and pokemon_species_names.csv; upstream sha256 c341e602ab623084fef4c44ca4a174938e617802cfcf2deec830d824f688dc69 and 820cde17074cdb1c2b0595c997fb8f998e773bd5da3bb525dec85703c86c5fd9)",
+            "source": "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/",
+            "license": "BSD-3-Clause (PokeAPI). Pokédex text is property of Nintendo/Creatures/GAME FREAK.",
+            "files": {
+                "pokeapi/pokemon_species_flavor_text_en.csv": "bee766da5ee4fc80061dadb3066520359eb6e629d69551712a1a72930a6e38fd",
+                "pokeapi/pokemon_species_names_en.csv": "2c7bd971da93045b10de863a4c5d9ebc1a86ab3c7e1037c1a9f5c917f3e25c82",
+                "pokeapi/versions.csv": "70083465865a6a69a9aad2be3fc3915078c6ff740f14a090b1367d8ec9cfc3cd"
+            },
+            "retrieved": "2026-10-17"
         }
     ]
 }

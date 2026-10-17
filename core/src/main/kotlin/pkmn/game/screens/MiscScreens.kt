@@ -39,20 +39,12 @@ class PokedexScreen(game: PkmnGame, private val ctx: GameContext) : Screen(game)
         val st = ctx.state
         if (detail) {
             val sp = list[cursor]
-            r.draw(r.assets.pokemon(sp.id), 8f, 16f)
-            r.text("No.${sp.num.toString().padStart(4, '0')}", 112, 16)
-            r.text(sp.name.uppercase(), 112, 30)
-            sp.types.forEachIndexed { i, t -> r.rect(112 + i * 56, 44, 52, 12, Palette.type(t)); r.text(t.uppercase().take(6), 116 + i * 56, 46, Palette.WHITE, small = true) }
-            r.text("HT ${sp.heightm} m", 112, 64); r.text("WT ${sp.weightkg} kg", 112, 76)
+            PokedexPage.draw(r, ctx, sp, caught = sp.id in st.caught, shiny = false)
             if (sp.id in st.caught) {
-                r.frame(0, 120, Renderer.W, 104)
-                val b = sp.baseStats
-                r.text("HP ${b.hp}  ATK ${b.atk}  DEF ${b.def}", 12, 132)
-                r.text("SPA ${b.spa}  SPD ${b.spd}  SPE ${b.spe}", 12, 146)
-                r.text("ABILITIES:", 12, 164)
-                r.text(sp.abilities.values.mapNotNull { ctx.dex.abilityOrNull(it)?.name }.joinToString(", ").take(30), 12, 178)
-                r.text("EGG: ${sp.eggGroups.joinToString("/")}", 12, 196, small = true)
-            } else { r.frame(0, 120, Renderer.W, 40); r.text("Catch it to learn more!", 12, 134) }
+                val forms = st.formsCaught.count { ctx.dex.speciesOrNull(it)?.baseSpecies == sp.id && it != sp.id }
+                val marks = listOfNotNull("CAUGHT", if (sp.id in st.shiniesCaught) "SHINY ★" else null, if (forms > 0) "+$forms FORM${if (forms > 1) "S" else ""}" else null)
+                r.text(marks.joinToString("  "), 112, 100, Palette.RED, small = true)
+            }
             return
         }
         r.frame(0, 0, Renderer.W, 24)

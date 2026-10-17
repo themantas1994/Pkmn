@@ -1796,10 +1796,12 @@ class Battle(
     }
 
     private fun awardExp(defeated: BattleMon) {
-        val receivers = player.mons.filter { !it.fainted && it.level < rules.levelCap && it.level < 100 }
-        val participants = receivers.filter { defeated.mon.uid in it.facedFoes || it.isActive }
-        val recipients = if (rules.expShareAll) receivers else participants
-        for (r in recipients) {
+        val eligible = player.mons.filter { !it.fainted }
+        val participants = eligible.filter { defeated.mon.uid in it.facedFoes || it.isActive }
+        val recipients = if (rules.expShareAll) eligible else participants
+        // Effort values go to every recipient, including Pokémon at level 100 or at the level cap (they gain no EXP).
+        for (r in recipients) addEvs(r.mon, defeated.species.evYield)
+        for (r in recipients.filter { it.level < rules.levelCap && it.level < 100 }) {
             val participated = r in participants
             val traded = rules.playerOtId != 0 && r.mon.otId != rules.playerOtId
             var amount = progression.expYield(defeated.mon, r.level, rules.isTrainerBattle, luckyEgg = r.item == "luckyegg", traded = traded)
@@ -1810,7 +1812,6 @@ class Battle(
             val ti = teamIndex(r)
             val text = "${r.name} gained $amount Exp. Points!"
             events.add(BattleEvent.ExpGain(ti, amount, text)); log.add(text)
-            addEvs(r.mon, defeated.species.evYield)
             val levels = progression.addExp(r.mon, amount)
             for (lv in levels) {
                 r.recomputeStats()
@@ -1921,9 +1922,15 @@ class Battle(
 
     private fun throwBall(side: Side, ball: ItemData) {
         val target = side.foe.active ?: return
+        if (outcome != BattleOutcome.ONGOING || caughtMon != null) return
         message("${side.name} threw a ${ball.name}!")
         if (!side.foe.isWild) {
             message("The Trainer blocked the Ball! Don't be a thief!")
+            return
+        }
+        if (!rules.canCatch) {
+            // Scripted encounters that must not be caught (the ball is knocked away, as with the Gen IX titans).
+            message("The Pokémon knocked the Ball away!")
             return
         }
         if (target.hasVolatile("semiinvulnerable")) { message("But it missed!"); return }
@@ -1933,8 +1940,10 @@ class Battle(
             message("Gotcha! ${target.name} was caught!")
             target.mon.ball = ball.id
             if (ball.id == "healball") target.mon.healFully(dex)
-            if (ball.id == "friendball") target.mon.friendship = 200
+            if (ball.id == "friendball") target.mon.friendship = 150
             caughtMon = target.mon
+            // Generation VI+: catching a Pokémon gives the same experience and effort values as defeating it.
+            if (rules.expEnabled) awardExp(target)
             finish(BattleOutcome.CAUGHT)
         } else {
             message(when (result.shakes) {

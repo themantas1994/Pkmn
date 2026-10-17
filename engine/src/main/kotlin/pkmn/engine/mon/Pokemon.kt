@@ -75,7 +75,7 @@ class Pokemon(
     var metLocation: String = "",
     var metLevel: Int = 1,
     /** Unique id for this individual (used for party/box identity and evolution tracking). */
-    val uid: Long = 0,
+    var uid: Long = 0,
     /** Counters used by special evolution conditions (critical hits landed, specific move uses, ...). */
     val counters: MutableMap<String, Int> = mutableMapOf(),
     var fainted: Boolean = false,

@@ -206,7 +206,18 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
 
     // ================================================================= update
 
+    /** Nickname offers left open by an interrupted capture or gift are resumed once, when the overworld first runs. */
+    private var pendingNicknamesChecked = false
+
     override fun update(dt: Float, input: InputState) {
+        if (!pendingNicknamesChecked && !scriptBusy) {
+            pendingNicknamesChecked = true
+            if (ctx.nextPendingNickname() != null) {
+                scriptBusy = true
+                NicknameFlow.offerAllPending(game, ctx) { scriptBusy = false; save() }
+                return
+            }
+        }
         fx.cosmetic = !game.options.reduceMotion
         fx.update(dt)
         rustles.forEach { it[2] += dt }
@@ -343,7 +354,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val method = rules.encounterMethod(map, player.x, player.y, state.surfing) ?: return
         val wild = ctx.rollEncounter(map, method) ?: return
         if (ctx.repelBlocks(wild)) return
-        startWildBattle(wild, canRun = true, music = null) {}
+        startWildBattle(wild, canRun = true, music = null, environment = if (method == "surf") "water" else null) {}
     }
 
     private fun stepEffects() {
@@ -585,7 +596,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (rules.behavior(map, fx, fy) != TileBehavior.WATER) { game.say("There's a time and place for everything! But not now."); return }
         game.say("${state.playerName} used the ${ctx.itemName(rod)}!") {
             val mon = if (ctx.rng.nextInt(100) < 75) ctx.rollEncounter(map, rod, forceEncounter = true) else null
-            if (mon == null) game.say("Not even a nibble!") else game.say("Oh! A bite!") { startWildBattle(mon, true, null) {} }
+            if (mon == null) game.say("Not even a nibble!") else game.say("Oh! A bite!") { startWildBattle(mon, true, null, environment = "fishing") {} }
         }
     }
 
@@ -636,9 +647,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         runBattle(battle, trainerId, canLose) { outcome -> onDone(outcome == BattleOutcome.WIN) }
     }
 
-    fun startWildBattle(mon: Pokemon, canRun: Boolean, music: String?, onDone: (BattleOutcome) -> Unit) {
+    fun startWildBattle(mon: Pokemon, canRun: Boolean, music: String?, environment: String? = null, onDone: (BattleOutcome) -> Unit) {
         if (state.party.none { !it.isFainted }) { onDone(BattleOutcome.RAN); return }
-        val battle = ctx.createWildBattle(mon, map, canRun)
+        val battle = ctx.createWildBattle(mon, map, canRun, environment = environment)
         runBattle(battle, null, canLose = false, music = music ?: if (mon.species(ctx.dex).isLegendary || mon.species(ctx.dex).isMythical) "battle_legendary" else null, onDone = onDone)
     }
 
@@ -662,7 +673,14 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                     }
                 }
             }
-            if (msgs.isEmpty()) after() else game.say(*msgs.toTypedArray()) { after() }
+            val showMessages = { if (msgs.isEmpty()) after() else game.say(*msgs.toTypedArray()) { after() } }
+            val capture = ctx.lastCapture
+            if (capture != null && capture.where != null && !capture.duplicate) {
+                // The capture is already stored and registered; save now so an interruption resumes at the nickname
+                // prompt (the offer is saved with the Pokémon) instead of losing the Pokémon.
+                save()
+                CaptureFlow.present(game, ctx, capture, save = { save() }) { showMessages() }
+            } else showMessages()
         }
         if (game.options.reduceMotion) { push(screen); return }
         // Gold/Silver/Crystal-style transition: the screen flashes, then closes in; input is already locked (scriptBusy).
