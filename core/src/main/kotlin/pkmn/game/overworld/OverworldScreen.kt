@@ -70,6 +70,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     private var worldTimeKey = ""
     /** Event Pokémon appearing: actor id -> appear progress. */
     private val appearing = HashMap<String, Float>()
+    /** Battle-start transition progress (null = none): flashes, then the screen closes to black. */
+    private var battleIntro: Float? = null
 
     override fun onEnter() {
         player.sprite = playerSprite()
@@ -424,8 +426,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (isDoor && !game.options.reduceMotion) {
             // The door slides open before the fade; input waits on the timer, so nothing can move meanwhile.
             doorAnim = floatArrayOf(w.x.toFloat(), w.y.toFloat(), 0f)
-            fx.enqueue(Clip("door_open", 0.18f, onUpdate = { t -> doorAnim?.set(2, t) }))
-            wait(0.18f) { go() }
+            fx.enqueue(Clip("door_open", 0.22f, onUpdate = { t -> doorAnim?.set(2, t) }))
+            wait(0.22f) { go() }
         } else go()
     }
 
@@ -642,6 +644,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         scriptBusy = true
         game.audio.playSfx("battle_start")
         val screen = BattleScreen(game, ctx, battle, trainerId, music) { outcome ->
+            battleIntro = null
             val msgs = ctx.applyBattleResult(battle, trainerId, canLose)
             val lost = outcome == BattleOutcome.LOSE || outcome == BattleOutcome.DRAW
             val after = {
@@ -659,7 +662,11 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             }
             if (msgs.isEmpty()) after() else game.say(*msgs.toTypedArray()) { after() }
         }
-        push(screen)
+        if (game.options.reduceMotion) { push(screen); return }
+        // Gold/Silver/Crystal-style transition: the screen flashes, then closes in; input is already locked (scriptBusy).
+        battleIntro = 0f
+        fx.enqueue(Clip("battle_transition", 0.85f, onUpdate = { t -> battleIntro = t }))
+        wait(0.85f) { push(screen) }
     }
 
     private fun blackout(then: () -> Unit) {
@@ -754,11 +761,6 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             }
         }
         if (outdoor && ctx.lightPhase() == LightPhase.NIGHT) drawWindowLights(r, camX, camY)
-        doorAnim?.let { d ->
-            // Dark doorway opening upward over the door tile.
-            val h = 14f * d[2]
-            r.rect(d[0] * 16f - camX + 3, d[1] * 16f - camY + 15 - h, 10f, h, Palette.TEXT)
-        }
         r.tint(light.cpy().lerp(Color.WHITE, 0.35f)) {
             // Items and obstacles.
             for (it in map.items) if (!it.hidden && rules.itemVisible(map, it)) {
@@ -782,6 +784,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             for (a in all) if (!a.moving && !a.sprite.startsWith("@mon:") && rules.behavior(map, a.x, a.y) == TileBehavior.TALL_GRASS)
                 r.draw(grassFeet, a.x * 16f - camX, a.y * 16f - camY + 10)
         }
+        doorAnim?.let { d ->
+            // The player steps into the opened, dark doorway (drawn over them as it opens), then the warp fades to white.
+            r.rect(d[0] * 16f - camX + 2, d[1] * 16f - camY - 4, 12f, 19f, Color(0.09f, 0.06f, 0.06f, 0.85f * d[2]))
+        }
         pickupAnim?.let { a ->
             val t = a[2]
             val px = a[0] * 16f - camX + 8; val py = a[1] * 16f - camY + 8
@@ -804,6 +810,21 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             r.text(popupText!!, 14, 12)
         }
         if (fade > 0) r.rect(0f, 0f, Renderer.W.toFloat(), Renderer.H.toFloat(), Color(fadeColor.r, fadeColor.g, fadeColor.b, fade))
+        battleIntro?.let { t ->
+            if (t < 0.45f) {
+                if ((t * 13).toInt() % 2 == 0) r.rect(0f, 0f, Renderer.W.toFloat(), Renderer.H.toFloat(), Color(1f, 1f, 1f, 0.75f))
+            } else {
+                // Horizontal bands close from the top and bottom toward the middle.
+                val k = ((t - 0.45f) / 0.55f).coerceIn(0f, 1f)
+                val bands = 7
+                val bh = Renderer.H / (2f * bands)
+                for (i in 0 until bands) {
+                    val h = bh * (k * bands - i).coerceIn(0f, 1f)
+                    r.rect(0f, i * bh, Renderer.W.toFloat(), h, Palette.BLACK)
+                    r.rect(0f, Renderer.H - i * bh - h, Renderer.W.toFloat(), h, Palette.BLACK)
+                }
+            }
+        }
     }
 
     private fun drawMap(r: Renderer, m: MapData, ox: Int, oy: Int, camX: Float, camY: Float, border: Boolean) {

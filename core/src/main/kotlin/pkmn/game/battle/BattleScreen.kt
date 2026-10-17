@@ -632,6 +632,8 @@ class BattleScreen(
             "sand" -> Color.valueOf("f0e0b0"); "indoor", "building" -> Color.valueOf("e0d8d0"); else -> Color.valueOf("e8f0d8")
         }
         val sx = if (shake > 0) ((game.timeMs / 40) % 3 - 1) * 2f else 0f
+        // Outdoor battles at night use a dimmer backdrop (the overworld clock decided isNight when the battle began).
+        if (battle.isNight && battle.environment !in setOf("cave", "indoor", "building")) bg.mul(0.72f, 0.76f, 0.95f, 1f)
         r.rect(0, 0, Renderer.W, Renderer.H, Palette.WINDOW)
         r.rect(0, 0, Renderer.W, 160, bg)
         val ground = bg.cpy().mul(0.85f, 0.85f, 0.82f, 1f)
