@@ -1,6 +1,8 @@
 package pkmn.tools
 
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonObject
@@ -18,7 +20,7 @@ import java.io.File
  *  world/maps/NAME.map        map sources (see docs/WORLD_FORMAT.md)
  *  world/trainers/NAME.txt    trainer classes and trainers
  *  world/encounters/NAME.txt  wild encounter tables
- *  world/shops.txt, world/quests.txt, world/campaign.json
+ *  world/shops.txt, world/tutors.txt, world/quests.txt, world/campaign.json
  *  world/scripts/NAME.pks     event scripts (copied after validation)
  */
 class MapCompilerTool(private val root: File) {
@@ -46,10 +48,11 @@ class MapCompilerTool(private val root: File) {
         val (classes, trainers) = compileTrainers(dex)
         val encounters = compileEncounters(dex)
         val shops = compileShops(dex)
+        val tutors = compileTutors(dex)
         val quests = compileQuests()
         val scripts = compileScripts()
 
-        validateReferences(dex, maps, trainers, encounters, shops, scripts)
+        validateReferences(dex, maps, trainers, encounters, shops, tutors, scripts)
 
         if (errors.isEmpty()) {
             outMaps.mkdirs(); outWorld.mkdirs(); outScripts.mkdirs()
@@ -59,6 +62,7 @@ class MapCompilerTool(private val root: File) {
             File(outWorld, "trainer_classes.json").writeText(json.encodeToString(ListSerializer(TrainerClass.serializer()), classes))
             File(outWorld, "encounters.json").writeText(json.encodeToString(ListSerializer(EncounterTable.serializer()), encounters))
             File(outWorld, "shops.json").writeText(json.encodeToString(ListSerializer(ShopDef.serializer()), shops))
+            File(outWorld, "tutors.json").writeText(json.encodeToString(MapSerializer(String.serializer(), ListSerializer(String.serializer())), tutors))
             File(outWorld, "quests.json").writeText(json.encodeToString(ListSerializer(QuestDef.serializer()), quests))
             val campaign = File(world, "campaign.json")
             if (campaign.exists()) campaign.copyTo(File(outWorld, "campaign.json"), overwrite = true) else errors.add("world/campaign.json missing")
@@ -424,6 +428,18 @@ class MapCompilerTool(private val root: File) {
         return out
     }
 
+    private fun compileTutors(dex: Dex): Map<String, List<String>> {
+        val out = LinkedHashMap<String, List<String>>()
+        for (f in sourcesFor("tutors.txt", "tutors")) for ((i, l) in f.readLines().withIndex()) {
+            val t = tok(l, f.name, i + 1)
+            if (t.isEmpty()) continue
+            if (t[0] != "tutor" || t.size < 3) { errors.add("${f.name}:${i + 1}: expected 'tutor <id> moves...'"); continue }
+            if (t[1] in out) errors.add("${f.name}:${i + 1}: duplicate tutor '${t[1]}'")
+            out[t[1]] = t.drop(2).map { s -> toId(s).also { if (dex.moveOrNull(it) == null) errors.add("${f.name}:${i + 1}: unknown move '$it'") } }
+        }
+        return out
+    }
+
     private fun compileQuests(): List<QuestDef> {
         val out = ArrayList<QuestDef>()
         for (f in sourcesFor("quests.txt", "quests")) {
@@ -462,7 +478,7 @@ class MapCompilerTool(private val root: File) {
     // ------------------------------------------------------------------ cross references
 
     private fun validateReferences(dex: Dex, maps: List<MapData>, trainers: List<TrainerDef>,
-                                   encounters: List<EncounterTable>, shops: List<ShopDef>, scripts: Map<String, CompiledScript>) {
+                                   encounters: List<EncounterTable>, shops: List<ShopDef>, tutors: Map<String, List<String>>, scripts: Map<String, CompiledScript>) {
         val mapsById = maps.associateBy { it.id }
         val trainerIds = trainers.map { it.id }.toSet()
         val charDir = File(root, "assets/gfx/chars")
@@ -506,6 +522,7 @@ class MapCompilerTool(private val root: File) {
                 "battle" -> if (a[0] !in trainerIds) errors.add("$loc: unknown trainer '${a[0]}'")
                 "warp" -> mapsById[a[0]]?.let { if (!it.inBounds(a[1].toInt(), a[2].toInt())) errors.add("$loc: warp out of bounds") } ?: errors.add("$loc: unknown map '${a[0]}'")
                 "shop" -> if (shops.none { it.id == a[0] }) errors.add("$loc: unknown shop '${a[0]}'")
+                "movetutor" -> if (a[0] !in tutors) errors.add("$loc: unknown tutor '${a[0]}'")
                 "giveitem", "takeitem" -> if (dex.itemOrNull(toId(a[0])) == null) errors.add("$loc: unknown item '${a[0]}'")
                 "givemon", "wildbattle", "giveegg" -> if (dex.speciesOrNull(toId(a[0])) == null) errors.add("$loc: unknown species '${a[0]}'")
                 "tm" -> if (dex.moveOrNull(toId(a[0])) == null) errors.add("$loc: unknown move '${a[0]}'")

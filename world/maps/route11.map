@@ -61,3 +61,10 @@ item r11_waterterashard 8 25 waterterashard 2
 hidden r11_hidden_pearl 15 7 bigpearl
 hidden r11_hidden_heartscale 12 17 heartscale
 hidden r11_hidden_maxether 2 2 maxether
+# --- Expansion E3: Tide Grotto entrance in the islet cliff, more trainers
+tile 6 24 cave_entrance
+warp 6 24 -> p4c_tide_grotto 13 22 up
+trainer p4c_r11_swim_marlo 27 16 sprite=swimmer_m face=left sight=4
+trainer p4c_r11_swim_ondine 5 19 sprite=swimmer_f face=right sight=4
+trainer p4c_r11_fisher_gus 8 26 sprite=fisherman face=right sight=3
+hidden p4c_r11_hidden_starpiece 32 6 starpiece

@@ -1,0 +1,10 @@
+# Expansion E2 trainer classes (only classes missing from classes.txt and the part class files).
+class p4b_worker "Worker" payout=32 portrait=hiker
+class p4b_ruinmaniac "Ruin Maniac" payout=40 portrait=hiker
+class p4b_hexmaniac "Hex Maniac" payout=40 portrait=psychic gender=f
+class p4b_picnicker "Picnicker" payout=20 portrait=lass gender=f
+class p4b_fairytale "Fairy Tale Girl" payout=24 portrait=lass gender=f
+class p4b_diver "Crystal Diver" payout=32 portrait=swimmer_m
+class p4b_diver_f "Crystal Diver" payout=32 portrait=swimmer_f gender=f
+class p4b_firebreather "Fire Breather" payout=32 portrait=hiker
+class p4b_glassblower "Glassblower" payout=48 portrait=gentleman

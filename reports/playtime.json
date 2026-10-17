@@ -13,8 +13,8 @@
     "gym 8: dragonspire_gym_2f",
     "hall of fame: league_champion"
   ],
-  "criticalPathHours": 9.3,
-  "withOptionalContentHours": 12.5,
+  "criticalPathHours": 10.5,
+  "withOptionalContentHours": 20.5,
   "postGameHours": 4.5,
   "legs": [
     {
@@ -94,15 +94,15 @@
         "quarrytown",
         "quarrytown_gym"
       ],
-      "criticalMinutes": 48,
-      "fullMinutes": 60,
-      "trainersOnPath": 16,
+      "criticalMinutes": 55,
+      "fullMinutes": 136,
+      "trainersOnPath": 20,
       "expectedWildEncounters": 16,
-      "partyLevelOnArrival": 38,
+      "partyLevelOnArrival": 39,
       "bossAceLevel": 34,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 7
+      "optionalMaps": 16
     },
     {
       "leg": "gym 4 -> gym 5",
@@ -116,15 +116,15 @@
         "seraphine_town",
         "seraphine_gym"
       ],
-      "criticalMinutes": 58,
-      "fullMinutes": 61,
-      "trainersOnPath": 17,
+      "criticalMinutes": 61,
+      "fullMinutes": 136,
+      "trainersOnPath": 19,
       "expectedWildEncounters": 22,
-      "partyLevelOnArrival": 46,
+      "partyLevelOnArrival": 47,
       "bossAceLevel": 40,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 4
+      "optionalMaps": 12
     },
     {
       "leg": "gym 5 -> gym 6",
@@ -136,15 +136,15 @@
         "ashfall_city",
         "ashfall_gym"
       ],
-      "criticalMinutes": 40,
-      "fullMinutes": 48,
-      "trainersOnPath": 11,
-      "expectedWildEncounters": 4,
-      "partyLevelOnArrival": 51,
+      "criticalMinutes": 48,
+      "fullMinutes": 121,
+      "trainersOnPath": 14,
+      "expectedWildEncounters": 7,
+      "partyLevelOnArrival": 52,
       "bossAceLevel": 46,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 6
+      "optionalMaps": 15
     },
     {
       "leg": "gym 6 -> gym 7",
@@ -159,15 +159,15 @@
         "frostmere_town",
         "frostmere_gym"
       ],
-      "criticalMinutes": 66,
-      "fullMinutes": 75,
-      "trainersOnPath": 21,
+      "criticalMinutes": 82,
+      "fullMinutes": 146,
+      "trainersOnPath": 28,
       "expectedWildEncounters": 27,
-      "partyLevelOnArrival": 58,
+      "partyLevelOnArrival": 61,
       "bossAceLevel": 52,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 6
+      "optionalMaps": 13
     },
     {
       "leg": "gym 7 -> gym 8",
@@ -180,15 +180,15 @@
         "dragonspire_gym",
         "dragonspire_gym_2f"
       ],
-      "criticalMinutes": 47,
-      "fullMinutes": 109,
-      "trainersOnPath": 12,
-      "expectedWildEncounters": 6,
-      "partyLevelOnArrival": 63,
+      "criticalMinutes": 58,
+      "fullMinutes": 179,
+      "trainersOnPath": 16,
+      "expectedWildEncounters": 7,
+      "partyLevelOnArrival": 66,
       "bossAceLevel": 58,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 11
+      "optionalMaps": 19
     },
     {
       "leg": "gym 8 -> hall of fame",
@@ -209,15 +209,15 @@
         "league_nox",
         "league_champion"
       ],
-      "criticalMinutes": 107,
-      "fullMinutes": 108,
-      "trainersOnPath": 24,
+      "criticalMinutes": 123,
+      "fullMinutes": 178,
+      "trainersOnPath": 30,
       "expectedWildEncounters": 34,
-      "partyLevelOnArrival": 74,
+      "partyLevelOnArrival": 77,
       "bossAceLevel": 66,
       "grindMinutes": 0,
       "grindBattles": 0,
-      "optionalMaps": 1
+      "optionalMaps": 5
     }
   ],
   "constants": {

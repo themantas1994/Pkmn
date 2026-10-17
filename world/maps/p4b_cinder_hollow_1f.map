@@ -1,0 +1,48 @@
+# Cinder Hollow 1F — a volcanic vent cave above Route 9's Cinder Pass (Expansion E2).
+map p4b_cinder_hollow_1f
+name "Cinder Hollow"
+location "Route 9"
+music cave
+environment cave
+region 14 5
+encounters p4b_cinder_hollow
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWffffffffffffffffffWWW
+WWWWWWWWWfddddfffkfffffffffWWW
+WWffffffffddddfffffffffffffWWW
+WWfffffffffffffffffffffffffWWW
+WWffkffffWWWWWWWWWWWWWWWfWWWWW
+WWfffffffWWWWWWWWWWWWWWWfWWWWW
+WWfffffffWWWWWWWWWWWWfffffffWW
+WWfdddfffWWWWWWWWWWWWfffffLfWW
+WWfdddfffWWWWWWWWWWWWffkffffWW
+WWfdddfffWWWWWWWWWWWWfffffffWW
+WWfffffffWWWWWWWWWWWWfffffffWW
+WWfffffffWWWWWWWWWWWWfdddfffWW
+WWWWWffWWWWWWWWWWWWWWfdddfffWW
+WWfffWffffffffffffffWfdddffkWW
+WWfffWffffffffffffkfWfffffffWW
+WWffffffffffffddddffffffffffWW
+WWfffWffffffffddddffffffffffWW
+WWWWWWffkfffffffffffWWWWWWWWWW
+WWWWWWffffffffffffffWWWWWWWWWW
+WWWWWWWWWWWWEWWWWWWWWWWWWWWWWW
+end
+
+warp 12 21 -> route9 8 3 down
+warp 26 9 -> p4b_cinder_hollow_b1f 28 3 down
+obstacle 24 7 smash flag=p4b_ch1_smash
+obstacle 5 17 boulder flag=p4b_ch1_boulder
+trainer p4b_ch1_kindler_ignis 15 18 sprite=hiker face=left sight=3
+trainer p4b_ch1_hiker_basil 5 8 sprite=hiker face=down sight=4
+trainer p4b_ch1_breather_vulk 12 4 sprite=hiker face=right sight=4
+trainer p4b_ch1_ace_nadia 22 3 sprite=cooltrainer_f face=left sight=4
+trainer p4b_ch1_scientist_caro 24 16 sprite=scientist face=up sight=3
+item p4b_ch1_niche 2 16 tm:willowisp
+item p4b_ch1_ether 26 2 ether
+item p4b_ch1_rock 27 12 heatrock
+hidden p4b_ch1_dust 2 4 stardust
+hidden p4b_ch1_shard 19 20 fireterashard

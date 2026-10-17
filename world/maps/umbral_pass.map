@@ -77,3 +77,9 @@ item up_nook_east 20 38 ppup
 hidden up_hidden1 21 4 maxelixir
 hidden up_hidden2 2 22 duskstone
 hidden up_hidden3 16 39 rarecandy
+# --- Expansion E3: Eclipse Workshop cave in the west cliff, Clan scout Haru, two more trainers
+tile 1 30 cave_entrance
+warp 1 30 -> p4c_eclipse_workshop 13 18 up
+npc p4c_up_haru 2 28 sprite=ranger face=down script=p4c_up_haru
+trainer p4c_up_cool_selka 14 9 sprite=cooltrainer_f face=left sight=3
+trainer p4c_up_ranger_oskar 8 33 sprite=ranger face=right sight=3

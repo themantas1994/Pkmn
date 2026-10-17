@@ -95,7 +95,7 @@ class ContentValidatorTest {
         assertTrue("linkingCord" in results.getValue("kadabra->alakazam").requires)
         val alolan = results.getValue("pikachu->raichualola")
         assertTrue(!alolan.satisfiable && alolan.reason!!.contains("Alola"))
-        assertTrue(!results.getValue("milcery->alcremie").satisfiable)
+        assertTrue(results.getValue("milcery->alcremie").satisfiable)
     }
 
     @Test

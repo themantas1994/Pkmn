@@ -1,0 +1,125 @@
+# Expansion E2, leg 5: Prism Grotto and Mistwood (wild levels 32-37).
+
+encounters p4b_prism_grotto
+  rate cave 12
+  rate surf 10
+  cave morning minior 32-35 20
+  cave morning chingling 32-34 20
+  cave morning carbink 33-35 15
+  cave morning glimmet 32-34 20
+  cave morning lairon 32-35 15
+  cave morning rockruff 32-34 10
+  cave day minior 32-35 25
+  cave day glimmet 32-34 20
+  cave day carbink 33-35 20
+  cave day chingling 32-34 15
+  cave day lairon 32-35 15
+  cave day rockruff 32-34 5
+  cave night woobat 32-34 25
+  cave night chingling 32-34 20
+  cave night carbink 33-35 15
+  cave night sableye 32-35 15
+  cave night minior 32-35 15
+  cave night misdreavus 32-34 10
+  surf any dewpider 32-35 35
+  surf any masquerain 33-36 15
+  surf any whiscash 33-36 25
+  surf any golduck 33-36 20
+  surf any araquanid 34-36 5
+  oldrod any magikarp 20-25 100
+  goodrod any barboach 30-34 60
+  goodrod any finneon 30-34 40
+  superrod any lumineon 34-37 50
+  superrod any whiscash 34-37 30
+  superrod any gyarados 34-37 20
+end
+
+encounters p4b_mistwood
+  rate grass 25
+  rate surf 10
+  grass morning cottonee 33-35 20
+  grass morning petilil 33-35 20
+  grass morning fomantis 33-35 15
+  grass morning cutiefly 33-35 15
+  grass morning clefairy 34-36 10
+  grass morning jigglypuff 33-35 10
+  grass morning deerling 34-36 10
+  grass day petilil 33-35 20
+  grass day fomantis 33-35 20
+  grass day deerling 34-36 15
+  grass day cutiefly 33-35 15
+  grass day foongus 33-35 15
+  grass day jigglypuff 33-35 10
+  grass day phantump 33-35 5
+  grass night phantump 33-36 25
+  grass night impidimp 33-35 20
+  grass night foongus 33-35 15
+  grass night clefairy 34-36 15
+  grass night morelull 33-35 15
+  grass night venonat 33-35 10
+  surf any marill 32-35 50
+  surf any azumarill 34-36 20
+  surf any lotad 32-34 30
+  oldrod any magikarp 20-25 100
+  goodrod any goldeen 30-34 50
+  goodrod any lumineon 30-34 50
+  superrod any seaking 34-37 50
+  superrod any lombre 34-37 50
+end
+
+encounters p4b_crystal_depths
+  rate cave 12
+  cave morning carbink 34-37 20
+  cave morning minior 34-37 20
+  cave morning glimmet 34-36 15
+  cave morning boldore 34-37 15
+  cave morning lairon 34-37 15
+  cave morning sableye 34-37 12
+  cave morning gible 33-35 3
+  cave day carbink 34-37 25
+  cave day minior 34-37 20
+  cave day glimmet 34-36 20
+  cave day boldore 34-37 15
+  cave day lairon 34-37 17
+  cave day gible 33-35 3
+  cave night sableye 34-37 25
+  cave night carbink 34-37 20
+  cave night woobat 34-36 20
+  cave night glimmet 34-36 15
+  cave night lairon 34-37 13
+  cave night chingling 34-36 5
+  cave night deino 33-35 2
+end
+
+encounters p4b_prism_foothills
+  rate grass 25
+  rate surf 10
+  grass morning skiddo 32-35 25
+  grass morning ponyta 32-35 20
+  grass morning rufflet 32-34 15
+  grass morning fearow 33-35 15
+  grass morning girafarig 33-35 15
+  grass morning axew 32-34 5
+  grass morning bagon 32-34 5
+  grass day skiddo 32-35 20
+  grass day deerling 32-35 20
+  grass day vullaby 32-34 15
+  grass day rufflet 32-34 15
+  grass day ponyta 32-35 15
+  grass day girafarig 33-35 10
+  grass day axew 32-34 5
+  grass night noctowl 33-35 20
+  grass night vullaby 32-34 20
+  grass night girafarig 33-35 15
+  grass night mightyena 33-35 15
+  grass night gligar 32-35 15
+  grass night misdreavus 32-34 10
+  grass night bagon 32-34 5
+  surf any marill 32-35 60
+  surf any azumarill 34-36 40
+  oldrod any magikarp 20-25 100
+  goodrod any goldeen 30-34 60
+  goodrod any poliwag 30-34 40
+  superrod any poliwhirl 34-37 60
+  superrod any seaking 34-37 40
+end

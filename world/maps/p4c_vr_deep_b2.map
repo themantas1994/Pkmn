@@ -1,0 +1,47 @@
+# Victory Road Depths B2 (Expansion E3) — the deepest gallery. An Eclipse remnant cell hides in the south chamber.
+map p4c_vr_deep_b2
+name "Victory Road Depths B2"
+location "Victory Road"
+music cave
+environment cave
+region 15 4
+encounters p4c_vr_deep
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWffffffffffffffffffffffLfWW
+WWffkfffffffffffffkfffffffWW
+WWffffffWWWWWWWWWWWWffffffWW
+WWffffffWWWWWWWWWWWWffffffWW
+WWffffffffffWWWWffffffffffWW
+WWfffkffffffWWWWffffffkfffWW
+WWffffffffffWWWWffffffffffWW
+WWWWWWffffWWWWWWWWffffWWWWWW
+WWWWWWffffWWWWWWWWffffWWWWWW
+WWffffffffffffffffffffffffWW
+WWffffffffffffkfffffffffffWW
+WWfffkffffffffffffffffkfffWW
+WWffffffffffffffffffffffffWW
+WWWWWWWWWWWWffffWWWWWWWWWWWW
+WWWWWWWWffffffffffffWWWWWWWW
+WWWWWWWWffffffffffffWWWWWWWW
+WWWWWWWWfffffkffffffWWWWWWWW
+WWWWWWWWffffffffffffWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 24 2 -> p4c_vr_deep_b1 26 20 right
+trainer p4c_vd2_veteran_marisol 4 6 sprite=cooltrainer_f face=down sight=3
+trainer p4c_vd2_cool_teodor 21 7 sprite=cooltrainer_m face=left sight=4
+trainer p4c_vd2_sage_ondrej 13 3 sprite=sage face=down sight=2
+trainer p4c_vd2_hiker_magnus 8 12 sprite=hiker face=right sight=4
+npc vd2_remnant 13 16 sprite=scientist face=up script=p4c_remnant_depths hideif=p4c_remnant_depths_done
+npc vd2_remnant_grunt 15 17 sprite=grunt_m face=left text="Sir, I really think we should have run further than Victory Road. It's FULL of Ace Trainers." hideif=p4c_remnant_depths_done
+item vd2_choicespecs 9 18 choicespecs
+item vd2_assaultvest 18 18 assaultvest
+item vd2_focusblast 2 2 tm:focusblast
+hidden vd2_hidden_gold 25 13 goldbottlecap
+hidden vd2_hidden_candy 2 14 rarecandy
+trainer p4c_vd2_tamer_yuna 20 12 sprite=blackbelt face=left sight=3

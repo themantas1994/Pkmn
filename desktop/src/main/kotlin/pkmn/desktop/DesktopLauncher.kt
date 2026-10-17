@@ -15,7 +15,7 @@ import pkmn.game.SynthAudio
 import pkmn.game.input.Button
 import java.io.File
 
-class DesktopPlatform(override val saveDir: File) : Platform {
+class DesktopPlatform(override val saveDir: File, override val forceTouchControls: Boolean = false) : Platform {
     override val name = "desktop"
     override val isMobile = false
     override val importedAssetsDir: File? = listOf(File("../assets-local"), File("assets-local")).firstOrNull { it.isDirectory }
@@ -36,7 +36,7 @@ class DesktopPlatform(override val saveDir: File) : Platform {
 fun main(args: Array<String>) {
     val opts = args.associate { a -> a.removePrefix("--").substringBefore('=') to a.substringAfter('=', "true") }
     val saves = File(opts["saves"] ?: (System.getProperty("user.home") + "/.pkmn-crystalline"))
-    val platform = DesktopPlatform(saves)
+    val platform = DesktopPlatform(saves, forceTouchControls = opts["portrait"] == "true")
     val audio: (() -> GameAudio)? = if (opts["mute"] == "true") ({ NoAudio }) else ({ SynthAudio() })
     val game = PkmnGame(platform, audio)
     opts["quickstart"]?.let { game.quickstart = if (it == "true") "ARI" else it }

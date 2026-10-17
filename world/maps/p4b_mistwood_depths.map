@@ -1,0 +1,67 @@
+# Mistwood Depths — the old fairy shrine at the heart of the forest (Expansion E2).
+map p4b_mistwood_depths
+name "Mistwood Depths"
+location "Seraphine Town"
+music forest
+environment grass
+weather fog
+region 20 2
+encounters p4b_mistwood
+connect south p4b_mistwood 2
+
+layout
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTT..................TTTTTTTTT
+TTT..............G.........TTTTTTTTT
+TTT............F...F,,,,,..TTTTTTTTT
+TTT....TT...........,,,,,..TT....TTT
+TTT..b.TT......F...F,,,,,..TT....TTT
+TTT....TT.......F.F.,,,,,........TTT
+TTT,,,,TT..................TT....TTT
+TTT,,,,TT..................TT....TTT
+TTT,,,,TTTTTTTTTT.TTTTTTTTTTT....TTT
+TTT,,,,TTTTTTTTTT.TTTTTTTTTTT..b.TTT
+TTT,,,,TTTTTTTTTT.TTTTTTTTTTT....TTT
+TTT,,,,TTTTTTTTTT.TTTTTTTTTTT....TTT
+TTT....TTTTTTTTTT.TTTTTTTTTTT....TTT
+TTT....TTTTTTTTTT.TTTTTTTTTTT,,,,TTT
+TTT....TTT................TTT,,,,TTT
+TTT....TTT..........,,,,,.TTT,,,,TTT
+TTT....TTT..~~~~....,,,,b.TTT,,,,TTT
+TTT....TTT..~~~~....,,,,,.TTT,,,,TTT
+TTT....TTT..~~~~....,,,,,.TTT,,,,TTT
+TTT....TTT.b..............TTT,,,,TTT
+TTT....TTT................TTT....TTT
+TTT....TTTTTTTTTT::TTTTTTTTTT....TTT
+TTT....TTTTTTTTTT::TTTTTTTTTT....TTT
+TTT..............................TTT
+TTT..,,,,,,......................TTT
+TTT..,,,,,,..........,,,,,,,,....TTT
+TTT..,,,F,,..........,,,,,,,,.b..TTT
+TTT..,,,,,,..........,,,,,F,,....TTT
+TTT.b................,,,,,,,,....TTT
+TTT..............................TTT
+TTTTTTTTTTTT::TTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTT::TTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTTTT::TTTTTTTTTTTTTTTTTTTTTT
+end
+
+obstacle 27 8 cut flag=p4b_depths_cut
+obstacle 17 12 boulder flag=p4b_depths_boulder
+sign 17 4 script=p4b_fairy_shrine
+npc p4b_granny_moss 14 5 sprite=oldwoman face=down script=p4b_granny_moss
+trainer p4b_depths_fairy_lark 8 28 sprite=lass face=right sight=3
+trainer p4b_depths_ace_seren 24 29 sprite=cooltrainer_f face=left sight=4
+trainer p4b_depths_bug_alder 4 12 sprite=bugcatcher face=down sight=4
+trainer p4b_depths_psychic_nima 5 22 sprite=psychic face=up sight=3
+trainer p4b_depths_ranger_corin 30 10 sprite=ranger face=down sight=4
+trainer p4b_depths_beauty_lumi 31 21 sprite=beauty face=left sight=3
+trainer p4b_depths_gent_basil 22 20 sprite=gentleman face=left sight=3
+trainer p4b_depths_ace_rowen 23 6 sprite=cooltrainer_m face=left sight=4
+item p4b_depths_feather 25 4 fairyfeather
+item p4b_depths_revive 3 6 revive
+item p4b_depths_tm 32 6 tm:mistyterrain
+hidden p4b_depths_berry 14 22 lumberry
+hidden p4b_depths_candy 9 10 rarecandy

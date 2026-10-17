@@ -54,3 +54,6 @@ item vr2_d2 23 9 ppup
 item vr2_e 2 20 fullrestore
 hidden vr2_hidden1 27 10 rarecandy
 hidden vr2_hidden2 9 13 bignugget
+# --- Expansion E3: ladder down to the Victory Road Depths (optional side branch)
+tile 5 21 cave_ladder
+warp 5 21 -> p4c_vr_deep_b1 4 2 right

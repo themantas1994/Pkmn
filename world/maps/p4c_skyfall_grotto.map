@@ -1,0 +1,50 @@
+# Skyfall Grotto (Expansion E3) — cave behind the head of Route 13's river (surf to the cliff at the river's north end).
+# A waterfall (badge 7) climbs to the upper level and the exit to Skyfall Basin; ledges at x=20 lead back down.
+map p4c_skyfall_grotto
+name "Skyfall Grotto"
+location "Route 13"
+music cave
+environment cave
+region 12 0
+encounters p4c_skyfall_grotto
+
+legend
+a cave_water
+* waterfall
+end
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWEWWWWWWWWWWWW
+WWffffffffffffffffffffWW
+WWffkfffffaaaafffffkffWW
+WWffffffffaaaaffffffffWW
+WWWWWWWWWWWW*WWWWWWWvWWW
+WWWWWWWWWWWW*WWWWWWWfWWW
+WWWWWWWWWWWW*WWWWWWWvWWW
+WWffffffaaaaaaaaaaaaffWW
+WWfkffffaaaaaaaaaaaaffWW
+WWffffffaaaaaakaaaaaffWW
+WWffffffaaaaaaaaaaaaffWW
+WWffffffaaaaaaaaaaaakfWW
+WWffffffffffffffffffffWW
+WWfffkffffffffffffffffWW
+WWWWWWWWffffffffWWWWWWWW
+WWffffffffffffffffffffWW
+WWffffffffkfffffffkfffWW
+WWffffffffffffffffffffWW
+WWWWWWWWWWffffWWWWWWWWWW
+WWWWWWWWWWWfWWWWWWWWWWWW
+WWWWWWWWWWWEWWWWWWWWWWWW
+end
+
+warp 11 21 -> route13 13 2 down
+warp 11 1 -> p4c_skyfall_basin 13 19 up
+trainer p4c_sg_swim_maris 16 9 sprite=swimmer_f face=left sight=4
+trainer p4c_sg_fisher_tobin 6 9 sprite=fisherman face=right sight=3
+trainer p4c_sg_cool_reza 17 3 sprite=cooltrainer_m face=left sight=4
+trainer p4c_sg_veteran_ilse 15 17 sprite=cooltrainer_f face=up sight=3
+item sg_ppup 3 16 ppup
+item sg_maxrevive 21 2 maxrevive
+hidden sg_hidden_pearl 14 10 bigpearl
+hidden sg_hidden_scale 2 13 heartscale

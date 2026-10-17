@@ -286,8 +286,11 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return payout * (t.team.maxOfOrNull { it.level } ?: 1)
     }
 
-    /** Applies the outcome of a battle to the game state. Returns messages to show. */
-    fun applyBattleResult(b: Battle, trainerId: String?): List<String> {
+    /**
+     * Applies the outcome of a battle to the game state. Returns messages to show. A loss in a [canLose] battle
+     * (scripted story fights) costs nothing and does not black out.
+     */
+    fun applyBattleResult(b: Battle, trainerId: String?, canLose: Boolean = false): List<String> {
         val msgs = ArrayList<String>()
         when (b.outcome) {
             BattleOutcome.WIN -> if (trainerId != null) {
@@ -302,7 +305,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
                 val where = receivePokemon(mon)
                 if (where != null && where != "party") msgs.add("${mon.species(dex).name} was sent to the PC.")
             }
-            BattleOutcome.LOSE, BattleOutcome.DRAW -> {
+            BattleOutcome.LOSE, BattleOutcome.DRAW -> if (!canLose) {
                 val lost = (state.money / 2).coerceAtMost(state.money)
                 state.money -= lost
                 msgs.add("${state.playerName} is out of usable Pokémon!")
@@ -315,14 +318,20 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return msgs
     }
 
-    /** Party members that should evolve after battle (index -> target species). */
-    fun pendingEvolutions(candidates: Collection<Int>, map: MapData?): List<Pair<Int, String>> {
+    /**
+     * Party members that should evolve (index -> target species): after battle, or with [spun] after the player spins
+     * on the spot, in which case only spin evolutions (Milcery) are considered.
+     */
+    fun pendingEvolutions(candidates: Collection<Int>, map: MapData?, spun: Boolean = false): List<Pair<Int, String>> {
         val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = clock().hour in 17..18, raining = map?.weather == "rain",
-            party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain")
+            party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain",
+            spun = spun)
         return candidates.mapNotNull { i ->
             val m = state.party.getOrNull(i) ?: return@mapNotNull null
             if (m.isFainted) return@mapNotNull null
-            progression.evolutionTarget(m, ctx)?.let { i to it }
+            val target = progression.evolutionTarget(m, ctx) ?: return@mapNotNull null
+            if (spun && m.species(dex).evolutions.none { it.target == target && it.conditionCode?.split('&')?.contains("spin") == true }) return@mapNotNull null
+            i to target
         }
     }
 

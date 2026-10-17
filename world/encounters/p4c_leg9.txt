@@ -1,0 +1,61 @@
+# Expansion E3, leg 9 wild encounters (levels 54-60).
+
+encounters p4c_skyfall_grotto
+  rate cave 12
+  cave any golbat 54-56 25
+  cave any boldore 54-56 20
+  cave any woobat 54-56 20
+  cave any swoobat 56-58 10
+  cave any lairon 54-56 15
+  cave any onix 55-57 10
+  surf any golduck 54-56 40
+  surf any seaking 54-56 30
+  surf any basculin 54-56 30
+  goodrod any basculin 52-55 60
+  goodrod any goldeen 50-54 40
+  superrod any seaking 55-58 40
+  superrod any basculegion 56-58 20
+  superrod any dratini 50-54 20
+  superrod any dragonair 55-57 20
+end
+
+encounters p4c_skyfall_basin
+  rate grass 25
+  grass morning swablu 54-56 20
+  grass morning altaria 56-58 15
+  grass morning tauros 55-57 20
+  grass morning bouffalant 55-57 15
+  grass morning girafarig 55-57 15
+  grass morning heracross 55-57 15
+  grass day tauros 55-57 20
+  grass day bouffalant 55-57 15
+  grass day pinsir 55-57 15
+  grass day heracross 55-57 15
+  grass day sawsbuck 55-57 15
+  grass day druddigon 56-58 10
+  grass day dragonite 58-60 10
+  grass night noctowl 55-57 25
+  grass night zweilous 55-57 20
+  grass night absol 56-58 20
+  grass night mightyena 55-57 20
+  grass night dragonair 56-58 15
+  surf any basculin 54-56 50
+  surf any azumarill 55-57 30
+  surf any dragonair 56-58 20
+  goodrod any basculin 52-55 100
+  superrod any dragonair 56-58 50
+  superrod any gyarados 56-58 50
+end
+
+encounters p4c_vr_deep
+  rate cave 14
+  cave any golurk 57-59 15
+  cave any steelix 57-59 15
+  cave any crobat 57-59 15
+  cave any hippowdon 57-59 10
+  cave any lucario 57-59 10
+  cave any excadrill 57-59 10
+  cave any durant 56-58 10
+  cave any druddigon 57-59 10
+  cave any aggron 58-60 5
+end

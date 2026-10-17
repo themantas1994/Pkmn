@@ -10,6 +10,7 @@ fly 15 13
 tags town
 encounters p2_seraphine
 connect west route9 3
+connect north p4b_mistwood -1
 
 layout
 TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
@@ -55,3 +56,12 @@ npc st_ranger 2 10 sprite=ranger face=right text="Route 9 runs west toward Ashfa
 hidden st_hidden1 2 16 pixieplate
 hidden st_hidden2 26 2 moonstone
 item st_gardevoirite 18 2 gardevoirite
+# Expansion E2: the northern path into Mistwood.
+tile 15 0 path
+tile 16 0 path
+tile 15 1 path
+tile 16 1 path
+tile 14 2 sign
+sign 14 2 text="NORTH: MISTWOOD\nDo not wander off the path in thick fog."
+npc p4b_rowan 13 4 sprite=beauty face=right script=p4b_rowan
+hidden p4b_sera_tinymush 27 7 tinymushroom

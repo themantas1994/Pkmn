@@ -40,4 +40,14 @@ class EvolutionTest {
         val targets = (0 until 10).map { prog.evolutionTarget(TestSupport.mon("wurmple", level = 10), Progression.EvolutionContext()) }.toSet()
         assertEquals(setOf("silcoon", "cascoon"), targets)
     }
+
+    @Test
+    fun `milcery evolves when spun holding a sweet`() {
+        val prog = Progression(dex)
+        val milcery = TestSupport.factory.create("milcery", 30, TestSupport.rng(), item = "strawberrysweet")
+        assertNull(prog.evolutionTarget(milcery, Progression.EvolutionContext()))
+        assertEquals("alcremie", prog.evolutionTarget(milcery, Progression.EvolutionContext(spun = true)))
+        milcery.heldItem = null
+        assertNull(prog.evolutionTarget(milcery, Progression.EvolutionContext(spun = true)))
+    }
 }

@@ -1,0 +1,27 @@
+# Mist Hollow — a hidden grotto behind a tree in Mistwood's fairy-ring clearing.
+map p4b_mist_hollow
+name "Mist Hollow"
+location "Seraphine Town"
+music forest
+environment grass
+weather fog
+
+layout
+TTTTTTTTTTTTTT
+TTTTTTTTTTTTTT
+TT..........TT
+TT.FFF......TT
+TT.FFF......TT
+TT..........TT
+TT..........TT
+TT......,,,.TT
+TT......,,,.TT
+TT..........TT
+TT..........TT
+TTTTTTTETTTTTT
+end
+
+warp 7 11 -> p4b_mistwood 27 3 down
+npc p4b_hollow_mime 7 4 sprite=legendary_shadow face=down script=p4b_hollow_mime hideif=p4b_mime_done
+item p4b_hollow_dawn 10 3 dawnstone
+hidden p4b_hollow_ppup 2 9 ppup

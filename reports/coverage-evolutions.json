@@ -44,8 +44,8 @@
     "tradewith:shelmet": 1,
     "upsidedown": 1
   },
-  "satisfiable": 513,
-  "unsatisfiable": 16,
+  "satisfiable": 514,
+  "unsatisfiable": 15,
   "method": "Each evolution is checked by searching for a game state under which pkmn.engine.mon.Progression.evolutionTarget returns its target. The game's region is fixed to Progression.EvolutionContext().region.",
   "gameRegion": "Tessera",
   "unsatisfiableEvolutions": [
@@ -154,15 +154,6 @@
       "level": 36,
       "conditionCode": "region:Hisui",
       "reason": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)"
-    },
-    {
-      "from": "milcery",
-      "to": "alcremie",
-      "method": "OTHER",
-      "condition": "spin while holding a Sweet",
-      "conditionCode": "spin",
-      "gender": "F",
-      "reason": "Progression has no in-game input for condition 'spin' (otherMet returns false)"
     },
     {
       "from": "kubfu",
@@ -3970,7 +3961,10 @@
       "condition": "spin while holding a Sweet",
       "conditionCode": "spin",
       "gender": "F",
-      "reason": "Progression has no in-game input for condition 'spin' (otherMet returns false)"
+      "requires": [
+        "holdItem:strawberrysweet",
+        "spinInOverworld"
+      ]
     },
     {
       "from": "snom",

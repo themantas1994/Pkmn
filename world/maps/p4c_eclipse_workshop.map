@@ -1,0 +1,54 @@
+# Eclipse Workshop (Expansion E3) — tunnels Team Eclipse dug into Umbral Pass's west cliff to build their lenses.
+# Two switches (NW and NE rooms) lower the two gate rows in front of the ladder to the inner lab.
+map p4c_eclipse_workshop
+name "Eclipse Workshop"
+location "Umbral Pass"
+music villain_hideout
+environment cave
+region 12 5
+encounters p4c_eclipse_workshop
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWffffffWWWWWWLWWWWWWWffffWW
+WWffzfffWWWWWfffWWWWWWfzffWW
+WWffffffWWWWWfffWWWWWWffffWW
+WWWWffWWWWWWWZZZWWWWWWWffWWW
+WWWWffWWWWWWWZZZWWWWWWWffWWW
+WWffffffffffffffffffffffffWW
+WWffkfffffffffffffffffkfffWW
+WWffffffffffffffffffffffffWW
+WWWWWWWWWfffWWWWfffWWWWWWWWW
+WWffffffffffWWWWffffffffffWW
+WWffffkfffffWWWWfffffkffffWW
+WWffffffffffWWWWffffffffffWW
+WWWWWWWWffffffffffffWWWWWWWW
+WWWWWWWWffffffffffffWWWWWWWW
+WWWWWWWWfffffkffffffWWWWWWWW
+WWWWWWWWffffffffffffWWWWWWWW
+WWWWWWWWWWWWWffWWWWWWWWWWWWW
+WWWWWWWWWWWWWEWWWWWWWWWWWWWW
+end
+
+warp 13 19 -> umbral_pass 2 30 right
+warp 14 2 -> p4c_eclipse_lab 10 12 up
+trigger 4 3 1 1 script=p4c_ws_switch_a unless=p4c_ws_a
+trigger 23 3 1 1 script=p4c_ws_switch_b unless=p4c_ws_b
+tileif p4c_ws_a 13 5 cave_floor
+tileif p4c_ws_a 14 5 cave_floor
+tileif p4c_ws_a 15 5 cave_floor
+tileif p4c_ws_b 13 6 cave_floor
+tileif p4c_ws_b 14 6 cave_floor
+tileif p4c_ws_b 15 6 cave_floor
+sign 12 9 text="AUTHORISED PERSONNEL ONLY. Lens Division, Team Eclipse. (The gates open from the side rooms.)"
+trainer p4c_ew_grunt_a 10 15 sprite=grunt_m face=down sight=3
+trainer p4c_ew_grunt_b 20 8 sprite=grunt_f face=left sight=4
+trainer p4c_ew_sci_lumen 7 12 sprite=scientist face=right sight=3
+trainer p4c_ew_grunt_c 4 5 sprite=grunt_m face=down sight=2
+trainer p4c_ew_sci_obscura 23 6 sprite=scientist face=down sight=2
+item ew_maxrevive 2 2 maxrevive
+item ew_fullrestore 25 12 fullrestore
+item ew_blackglasses 2 11 blackglasses
+hidden ew_hidden_nugget 18 16 bignugget
+hidden ew_hidden_elixir 25 2 maxelixir

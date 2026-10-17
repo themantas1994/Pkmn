@@ -1,0 +1,60 @@
+# Ashen Trail — volcanic badlands west of Ashfall City, ending at the Obsidian Grotto (Expansion E2).
+map p4b_ashen_trail
+name "Ashen Trail"
+location "Ashfall City"
+music route_late
+environment sand
+weather sand
+region 9 4
+encounters p4b_ashen_trail
+connect east ashfall_city 0
+
+layout
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMEMMMMMMM...r................MMMM
+MM..................,,,,,,..........MMMM
+MM............r.....,,,,,,.........rMMMM
+MM.,,,,,,...........................MMMM
+MM.,,,,,,.......MMMMMMMMMMMMMM.MMMMMMMMM
+MM.,,,,,,.......MMMMMMMM.............r.M
+MM.,,,,,,.......MMMMMMMM..ssssss.,,,,,.M
+MM.,,,,,,....r..MMMMMMMM..ssssss.,,,,,.M
+MM..............MMMMMMMM..ssssss.,,,,,.M
+MM..............MMMMMMMM..ssssss.,,,,,.M
+MM..............dddddddd.......S.......M
+MM..............dddddddd......::::::::::
+MM..............dddddddd......::::::::::
+MM..............dddddddd...............M
+MM..............MMMMMMMM.,,,,,,........M
+MM...~~~~~......MMMMMMMM.,,,,,,.ssssss.M
+MM...~~~~~......MMMMMMMM.,,,,,,.ssssss.M
+MM...~~~~~,,,,,.MMMMMMMM.,,,,,,.ssssss.M
+MM...~~~~~,,,,,.MMMMMMMM.,,,,,,.ssssss.M
+MM........,,,,,.MMMMMMMMr..............M
+MM........,,,,,.MMMMMMMM...r...........M
+MM.r......,,,,,.MMMMMMMMMMMMMMMMMMMMMMMM
+MM..............MMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+end
+
+warp 8 3 -> p4b_obsidian_grotto 8 12 up
+tile 32 2 cave_entrance
+warp 32 2 -> p4b_magma_tunnel 14 18 up
+sign 31 13 text="ASHEN TRAIL\nMaster Kaen's training ground. Fire Breathers ahead: approach with caution and a Burn Heal."
+npc p4b_apprentice_sora 34 13 sprite=youngster face=down script=p4b_apprentice_sora
+trainer p4b_trail_breather_ash 27 15 sprite=hiker face=right sight=4
+trainer p4b_trail_breather_blaze 14 14 sprite=hiker face=right sight=4
+trainer p4b_trail_breather_coal 22 4 sprite=hiker face=down sight=3
+trainer p4b_trail_ace_veda 35 20 sprite=cooltrainer_f face=left sight=4
+trainer p4b_trail_hiker_slag 6 8 sprite=hiker face=right sight=4
+trainer p4b_trail_beauty_rosa 11 22 sprite=beauty face=up sight=3
+item p4b_trail_tm 2 4 tm:scorchingsands
+item p4b_trail_cookie 38 22 lavacookie
+item p4b_trail_restore 15 25 fullrestore
+hidden p4b_trail_sand 37 9 softsand
+hidden p4b_trail_heat 2 21 heatrock

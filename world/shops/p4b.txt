@@ -1,0 +1,2 @@
+# Expansion E2 shops.
+shop p4b_sweets strawberrysweet=500 berrysweet=500 lovesweet=500 starsweet=500 cloversweet=500 flowersweet=500 ribbonsweet=500

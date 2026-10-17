@@ -226,7 +226,17 @@ class BoxScreen(game: PkmnGame, private val ctx: GameContext, private val op: Op
 class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow: OverworldScreen, private val flyMode: Boolean, private val onClose: () -> Unit) : Screen(game) {
     private val towns = ctx.content.index.maps.mapNotNull { ctx.content.mapOrNull(it) }.filter { it.flyX >= 0 && it.regionX >= 0 }
     private val visitedTowns get() = towns.filter { it.id in ctx.state.visited }
-    private var cursor = 0
+
+    /** The player's position on the region map: interiors resolve to the outdoor map they were entered from. */
+    private val here: pkmn.engine.world.MapData? = ctx.content.mapOrNull(ctx.state.map)?.let { m ->
+        if (m.regionX >= 0) m
+        else ctx.content.mapOrNull(ctx.state.backMap)?.takeIf { it.regionX >= 0 }
+            ?: towns.firstOrNull { it.location == m.location }
+    }
+    private var cursor = run {
+        val list = if (flyMode) visitedTowns else towns
+        here?.let { h -> list.indexOfFirst { it.id == h.id }.takeIf { it >= 0 } ?: list.indexOfFirst { it.location == h.location } }?.coerceAtLeast(0) ?: 0
+    }
 
     override fun update(dt: Float, input: InputState) {
         val list = if (flyMode) visitedTowns else towns
@@ -250,7 +260,6 @@ class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow
             r.rect(0, 0, Renderer.W, Renderer.H, com.badlogic.gdx.graphics.Color.valueOf("4878c8"))
             for (m in towns) r.rect(m.regionX * 8 - 6, m.regionY * 8 - 6, 20, 20, com.badlogic.gdx.graphics.Color.valueOf("78c060"))
         }
-        val here = ctx.content.mapOrNull(ctx.state.map)
         for (m in towns) r.rect(m.regionX * 8 + 1, m.regionY * 8 + 1, 6, 6, if (m.id in ctx.state.visited) Palette.RED else Palette.GREY)
         if (here != null && here.regionX >= 0 && (game.timeMs / 300) % 2 == 0L) r.text("★", here.regionX * 8, here.regionY * 8 - 2, Palette.HIGHLIGHT)
         val list = if (flyMode) visitedTowns else towns

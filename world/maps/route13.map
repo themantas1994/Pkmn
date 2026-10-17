@@ -52,3 +52,14 @@ item r13_sw 2 16 fullrestore
 hidden r13_hidden1 1 2 bignugget
 hidden r13_hidden2 35 17 maxrevive
 hidden r13_hidden3 31 16 heartscale
+# --- Expansion E3: Skyfall Grotto behind the river's head (surf north), Eclipse remnant on the lake islet,
+# three more trainers, a painter
+tile 14 1 waterfall
+tile 15 1 cave_entrance
+tile 16 1 waterfall
+warp 15 1 -> p4c_skyfall_grotto 11 20 up
+npc p4c_r13_remnant 26 14 sprite=grunt_f face=left script=p4c_remnant_islet hideif=p4c_remnant_islet_done
+trainer p4c_r13_cool_orla 5 14 sprite=cooltrainer_f face=right sight=3
+trainer p4c_r13_swim_bastian 27 16 sprite=swimmer_m face=up sight=3
+trainer p4c_r13_black_petra 20 16 sprite=blackbelt face=up sight=3
+npc p4c_r13_painter 9 6 sprite=beauty face=up text="I'm painting the Skyfall River's source. Nobody's seen it, so I'm guessing. Swim north past the bridge and tell me if I got it right!"

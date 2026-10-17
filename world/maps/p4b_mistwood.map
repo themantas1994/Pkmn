@@ -1,0 +1,77 @@
+# Mistwood — fog-bound fairy forest north of Seraphine Town (Expansion E2). Moon pond with a shrine islet (Surf).
+map p4b_mistwood
+name "Mistwood"
+location "Seraphine Town"
+music forest
+environment grass
+weather fog
+region 20 3
+encounters p4b_mistwood
+connect south seraphine_town 1
+connect north p4b_mistwood_depths -2
+
+layout
+TTTTTTTTTT::TTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTT::TTTTTTTTTTTTTTTTTTTTTT
+TTTTTTTTTT::TTTTTTTTTTTTTTTETTTTTT
+TTTTT........................TTTTT
+TTTTT...........F..,,,,,,....TTTTT
+TTTTT..,,,,,,..F.F.,,,,,,....TTTTT
+TTTTT..,,,,,,.F.F..,,,,,,....TTTTT
+TTTTT..,,,,,,..F.............TTTTT
+TTTTT..,,,,,,................TTTTT
+TTTTT........................TTTTT
+TTTTT........................TTTTT
+TTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTT
+TTTTTTTT..................TTTTTTTT
+TTTTTTTT.TT............TT.TTTTTTTT
+TTT......TT............TT......TTT
+TTT......TT~~~~~~~~~~~~........TTT
+TTT........~~~~~~~~~~~~....,,,.TTT
+TTT.,,,....~~~~~~~~~~~~....,,,.TTT
+TTT.,,,....~~~~.G..~~~~....,,,.TTT
+TTT.,,,....~~~~....~~~~....,,,.TTT
+TTT.,,,....~~~~....~~~~..b.,,,.TTT
+TTT.,,,....~~~~~~~~~~~~....,,,.TTT
+TTT.,,,....~~~~~~~~~~~~....,,,.TTT
+TTT.,,,..TT~~~~~~~~~~~~.TT.,,,.TTT
+TTT.,,,..TT..F......F...TT.,,,.TTT
+TTT.....................TT.....TTT
+TTT.....TTTTTTTTTTTTTTTTTT.....TTT
+TTT..F..TTTTTTTTTTTTTTTTTTTT.TTTTT
+TTTT.......bb.................TTTT
+TTTT..........................TTTT
+TTTT..,,,,,,,,...............FTTTT
+TTTT..,,,,,,,,................TTTT
+TTTT..,,,,,,,,.,,,,,..........TTTT
+TTTT..,,,,,,,,.,,,,,........b.TTTT
+TTTT...........,,,,,..........TTTT
+TTTT.b........................TTTT
+TTTT..........................TTTT
+TTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTT
+TTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTT
+end
+
+building house 22 29 -> p4b_mistwood_cabin 3 5 up
+warp 27 2 -> p4b_mist_hollow 7 10 up
+obstacle 28 27 cut flag=p4b_mist_cut1
+obstacle 27 3 cut flag=p4b_mist_cut2
+sign 16 18 script=p4b_moon_shrine
+tile 18 35 sign
+sign 18 35 text="MISTWOOD\nThe fog is thick and the paths wander. Stay close to your Pokémon."
+npc p4b_poppy 6 4 sprite=kid face=down script=p4b_poppy hideif=p4b_poppy_found
+trainer p4b_mist_fairy_bryony 9 32 sprite=lass face=right sight=3
+trainer p4b_mist_bug_moth 19 30 sprite=bugcatcher face=down sight=4
+trainer p4b_mist_beauty_vivi 5 20 sprite=beauty face=right sight=3
+trainer p4b_mist_ranger_hale 28 18 sprite=ranger face=left sight=4
+trainer p4b_mist_psychic_wren 12 13 sprite=psychic face=down sight=3
+trainer p4b_mist_fairy_thistle 10 6 sprite=lass face=right sight=4
+trainer p4b_mist_gent_aurel 24 8 sprite=gentleman face=left sight=4
+item p4b_mist_moon 28 15 moonstone
+item p4b_mist_tm 5 3 tm:drainingkiss
+item p4b_mist_ether 3 26 maxether
+item p4b_mist_islet 18 20 shinystone
+hidden p4b_mist_sweet 28 4 sachet
+hidden p4b_mist_cream 4 35 whippeddream
+hidden p4b_mist_star 22 25 stardust

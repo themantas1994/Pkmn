@@ -194,7 +194,9 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         val s = (touch.a.width / 24f).coerceAtLeast(1f)
         fun label(txt: String, rect: Rectangle) {
             val m = batch.transformMatrix.cpy()
-            batch.transformMatrix = m.cpy().translate(rect.x + rect.width / 2 - f.width(txt) * s / 2, rect.y + rect.height / 2 + 4 * s, 0f).scale(s, s, 1f)
+            // Long labels (START/SELECT) shrink to fit their button.
+            val ls = minOf(s, rect.width * 0.85f / f.width(txt))
+            batch.transformMatrix = m.cpy().translate(rect.x + rect.width / 2 - f.width(txt) * ls / 2, rect.y + rect.height / 2 + 4 * ls, 0f).scale(ls, ls, 1f)
             // draw with y-up: reuse glyph regions directly
             var cx = 0f
             for (ch in txt) { glyphOf(ch)?.let { batch.setColor(1f, 1f, 1f, 0.7f); batch.draw(it, cx, -8f) }; cx += 8f }
@@ -211,7 +213,8 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         if (width <= 0 || height <= 0) return
         screenCam.setToOrtho(false, width.toFloat(), height.toFloat())
         val portrait = height > width
-        val showTouch = options.showTouchControls && (platform.isMobile || Gdx.input.isPeripheralAvailable(com.badlogic.gdx.Input.Peripheral.MultitouchScreen))
+        val showTouch = options.showTouchControls &&
+            (platform.isMobile || platform.forceTouchControls || Gdx.input.isPeripheralAvailable(com.badlogic.gdx.Input.Peripheral.MultitouchScreen))
         touch.enabled = showTouch
         // Integer scale that fits; in portrait leave room for controls below.
         val availH = if (portrait && showTouch) (height * 0.58f).toInt() else height

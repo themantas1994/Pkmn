@@ -1,0 +1,54 @@
+# Expansion E2 side quests (legs 4-6).
+
+# --- Leg 4: Quarrytown, Ruins of Sol, Route 8 ---
+quest p4b_canary_lamp "Tam's Lamp"
+  desc "Old Bryn of Quarrytown left his late partner's lamp in the vault of the collapsed Shaft No. 3."
+  step "Find Tam's lamp in the deepest gallery of the Old Shaft."
+  step "Bring the lamp back to Bryn in Quarrytown."
+end
+
+quest p4b_sol_tablets "Tablets of Sol"
+  desc "A scholar at the Temple of Sol wants the four tablets of the Sol Catacombs read in full."
+  step "Read the four tablets in the Sol Catacombs and the Sun Sanctum."
+  step "Report to the scholar in the Temple of Sol."
+end
+
+quest p4b_strata_survey "Strata Survey"
+  desc "Dr. Fenna is recording which Pokémon live in each rock layer around Quarrytown."
+  step "Catch a Klawf, a Silicobra and a Timburr, then visit Dr. Fenna in Strata Gulch."
+end
+
+# --- Leg 5: Mt. Prism, Seraphine Town ---
+quest p4b_prism_choir "The Silent Crystals"
+  desc "A hermit in the Prism Grotto wants the three prism shards scattered around its crystal lake."
+  step "Find the three prism shards in the Prism Grotto."
+  step "Bring the shards to the hermit on the central island."
+end
+
+quest p4b_stolen_light "Stolen Light"
+  desc "Surveyor Maeve found Team Eclipse siphoning the crystal heart beneath Mt. Prism 2F."
+  step "Stop the Eclipse scientist at the far end of the dig site."
+  step "Tell Maeve the siphon has stopped."
+end
+
+quest p4b_lost_poppy "Lost in the Mist"
+  desc "Mrs. Rowan's daughter Poppy chased a Clefairy into Mistwood, north of Seraphine Town."
+  step "Find Poppy in Mistwood."
+  step "Let Mrs. Rowan in Seraphine Town know that Poppy is safe."
+end
+
+# --- Leg 6: Route 9, Ashfall City ---
+quest p4b_ember_escort "Burned and Stranded"
+  desc "A hiker was burned by a Slugma deep in Cinder Hollow and can't climb out."
+  step "Bring the hiker in Cinder Hollow B1F a Burn Heal."
+end
+
+quest p4b_trial_by_fire "Trial by Fire"
+  desc "Master Kaen, Blaise's old teacher, battles only trainers who beat his three students."
+  step "Defeat Brand, Blaze and Coal on the Ashen Trail, then Master Kaen in the Obsidian Grotto."
+end
+
+quest p4b_glass_furnace "The Glassblower's Furnace"
+  desc "Vitra the glassblower in Ashfall City needs a Heat Rock to even out her furnace."
+  step "Bring a Heat Rock to Vitra's glass workshop in Ashfall City."
+end

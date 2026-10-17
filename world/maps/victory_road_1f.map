@@ -54,3 +54,5 @@ item vr1_shelf 27 2 maxelixir
 item vr1_lower 27 21 ultraball 3
 hidden vr1_hidden1 2 22 maxrevive
 hidden vr1_hidden2 17 4 bottlecap
+# --- Expansion E3: one more Ace Trainer
+trainer p4c_vr1_ace_lorne 16 16 sprite=cooltrainer_m face=down sight=3

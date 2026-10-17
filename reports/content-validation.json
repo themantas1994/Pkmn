@@ -1,10 +1,10 @@
 {
   "ok": true,
   "errorCount": 0,
-  "warningCount": 16,
+  "warningCount": 15,
   "errorsByCode": {},
   "warningsByCode": {
-    "evolution-unsatisfiable": 16
+    "evolution-unsatisfiable": 15
   },
   "generatedBy": "pkmn.tools.ContentValidator",
   "contentVersion": 1,
@@ -87,12 +87,6 @@
       "code": "evolution-unsatisfiable",
       "subject": "dartrix->decidueyehisui",
       "message": "regional evolution limited to Hisui; the game's region is 'Tessera' (Progression.EvolutionContext.region)",
-      "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
-    },
-    {
-      "code": "evolution-unsatisfiable",
-      "subject": "milcery->alcremie",
-      "message": "Progression has no in-game input for condition 'spin' (otherMet returns false)",
       "justification": "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json."
     },
     {

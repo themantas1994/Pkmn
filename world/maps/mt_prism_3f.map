@@ -43,3 +43,5 @@ trigger 2 1 3 2 script=p2_prism_rival unless=p2_rival_prism_done
 item mp3_fullrestore 2 10 fullrestore
 item mp3_maxpotion 22 1 maxpotion
 hidden mp3_hidden 8 6 nugget
+# Expansion E2: one more siphon-camp guard.
+trainer p4b_mp3_grunt_g 5 8 sprite=grunt_f face=up sight=3

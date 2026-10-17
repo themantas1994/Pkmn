@@ -1,0 +1,31 @@
+# Rime Den (Expansion E3) — the Power Spot under Frostmere. Galar particles well up around a sleeping Snorlax.
+map p4c_rime_den
+name "Rime Den"
+location "Rime Hollow"
+music cave
+environment cave
+region 3 3
+tags powerspot
+
+layout
+YYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWW
+WWWWWfLffWWWWWWW
+WWWWffffffWWWWWW
+WWWffffffffffWWW
+WWffkfffffffffWW
+WWffffffffffkfWW
+WWfffffzzffffffW
+WWffffffffffffWW
+WWWfffffffffffWW
+WWWWWffffffWWWWW
+WWWWWWWWWWWWWWWW
+end
+
+warp 6 2 -> p4c_rime_hollow_b1 22 22 left
+trigger 7 7 2 1 script=p4c_rime_reading3 if=p4c_hollis_survey unless=p4c_rime_read3
+npc rd_snorlax 7 5 sprite=legendary_shadow face=down script=p4c_rime_snorlax hideif=p4c_snorlax_done
+sign 12 6 text="Scratched into the ice: \"The north wind sleeps here. Let it dream.\""
+item rd_dynamaxcandy 13 7 dynamaxcandy
+item rd_maxmushrooms 3 9 maxmushrooms
+hidden rd_hidden_wishing 10 10 wishingpiece

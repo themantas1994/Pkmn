@@ -18,3 +18,5 @@ warp 3 5 -> route13 23 6 down
 warp 4 5 -> route13 23 6 down
 npc lodge_keeper 5 3 sprite=oldwoman face=left script=p3b_lodge_keeper
 npc lodge_veteran 1 3 sprite=gentleman face=right script=p3b_lodge_veteran
+# --- Expansion E3: Agent Calloway (Eclipse remnant hunt)
+npc p4c_lodge_agent 6 2 sprite=policeman face=down script=p4c_lodge_agent

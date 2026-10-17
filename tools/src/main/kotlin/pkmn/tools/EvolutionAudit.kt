@@ -58,6 +58,7 @@ class EvolutionAudit(private val dex: Dex) {
         }
         val gender = when (evo.gender) { "M" -> Gender.MALE; "F" -> Gender.FEMALE; else -> if (sp.genderless) Gender.NONE else Gender.MALE }
         val heldItem = evo.item?.takeIf { evo.method == EvolutionMethod.LEVEL_HOLD || evo.method == EvolutionMethod.TRADE }
+            ?: "strawberrysweet".takeIf { "spin" in codes }
 
         // Stat spreads for Tyrogue-style Atk/Def comparisons: neutral, Atk-favoured, Def-favoured.
         val spreads = listOf(Nature.HARDY to null, Nature.LONELY to Stat.ATK, Nature.BOLD to Stat.DEF)
@@ -72,7 +73,8 @@ class EvolutionAudit(private val dex: Dex) {
                     evStat?.let { mon.evs[it] = 252 }
                     val party = listOf(mon) + partySpecies.map { Pokemon(it, 50) }
                     val ctx = Progression.EvolutionContext(isNight = night, isDusk = dusk, raining = rain, party = party,
-                        usedItem = useItem, linkingCord = cord, locationTags = locationTags, coins = 9999, deviceUpsideDown = upside, environment = env)
+                        usedItem = useItem, linkingCord = cord, locationTags = locationTags, coins = 9999, deviceUpsideDown = upside, environment = env,
+                        spun = "spin" in codes)
                     val chosen = progression.evolutionTarget(mon, ctx)
                     if (chosen != null && chosen != evo.target) chosenInstead += chosen
                     if (chosen == evo.target) {
@@ -80,7 +82,7 @@ class EvolutionAudit(private val dex: Dex) {
                             if (uid != 0L) add("individual:uid=$uid"); if (env != "plain") add("environment:$env")
                             if (night) add("night"); if (dusk) add("dusk"); if (rain) add("rain")
                             useItem?.let { add("useItem:$it") }; heldItem?.let { add("holdItem:$it") }
-                            if (cord) add("linkingCord"); if (upside) add("deviceUpsideDown")
+                            if (cord) add("linkingCord"); if (upside) add("deviceUpsideDown"); if ("spin" in codes) add("spinInOverworld")
                             evStat?.let { add("statSpread:${it.id}") }
                             locationTags.forEach { add("locationTag:$it") }
                             partySpecies.forEach { add("partyMember:$it") }

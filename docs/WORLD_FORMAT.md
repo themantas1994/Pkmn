@@ -107,6 +107,9 @@ end
 ## Shops `world/shops.txt`
 `shop <id> pokeball potion antidote superpotion=750 ...` (optional `=price` overrides; `tm:<move>` sells TMs).
 
+## Move tutors `world/tutors.txt`
+`tutor <id> icepunch icywind ...` defines the list a script opens with `movetutor <id>`. A Pokémon can learn a listed move if its learnset (or a pre-evolution's) allows it as a TM/tutor or level-up move. Unknown moves and unknown tutor ids are compile errors.
+
 ## Quests `world/quests.txt`
 ```
 quest main_story "The Crystal Bell" main

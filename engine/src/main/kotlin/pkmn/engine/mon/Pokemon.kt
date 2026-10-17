@@ -251,6 +251,8 @@ class Progression(private val dex: Dex) {
         val deviceUpsideDown: Boolean = false,
         /** Battle environment of the current map (plain, grass, cave, sand, indoor, building...): decides Burmy's cloak. */
         val environment: String = "plain",
+        /** The player just spun on the spot in the overworld (Milcery evolves if it holds a Sweet). */
+        val spun: Boolean = false,
     )
 
     /** Returns the species this Pokémon would evolve into now, or null. Unusable region-specific evolutions are skipped. */
@@ -350,7 +352,7 @@ class Progression(private val dex: Dex) {
             code.startsWith("coins:") -> ctx.coins >= code.removePrefix("coins:").toInt()
             code.startsWith("defeat:") -> (mon.counters["defeat:${code.split(':')[1]}"] ?: 0) >= code.split(':')[2].toInt()
             code == "fullmoon" -> ctx.usedItem == null && ctx.isNight && "fullmoon" in ctx.locationTags
-            code == "spin" -> false
+            code == "spin" -> ctx.spun && mon.heldItem?.endsWith("sweet") == true
             code.startsWith("tower:") -> false
             else -> false
         }

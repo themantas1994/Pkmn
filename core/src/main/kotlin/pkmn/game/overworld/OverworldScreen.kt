@@ -147,10 +147,26 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (dir == null) { turnGrace = 0f; return }
         val facing = buttonToFacing(dir)
         if (facing != player.facing && !input.pressed(Button.B) && input.heldTime(dir) < 0.1f) {
-            player.facing = facing; turnGrace = 0.08f; return
+            player.facing = facing; turnGrace = 0.08f
+            if (registerTurn(facing)) runEvolutions(state.party.indices.toList(), spun = true) {}
+            return
         }
         if (turnGrace > 0) { turnGrace -= dt; return }
         tryStep(facing, running = input.pressed(Button.B) != state.options.autoRun)
+    }
+
+    private val recentTurns = ArrayDeque<Pair<Long, Facing>>()
+
+    /** Records a turn on the spot; true when the last four turns form a full spin (same rotation, within 2 s). */
+    private fun registerTurn(f: Facing): Boolean {
+        recentTurns.addLast(game.timeMs to f)
+        while (recentTurns.size > 4 || (recentTurns.isNotEmpty() && game.timeMs - recentTurns.first().first > 2000)) recentTurns.removeFirst()
+        if (recentTurns.size < 4) return false
+        val cw = listOf(Facing.UP, Facing.RIGHT, Facing.DOWN, Facing.LEFT)
+        val steps = recentTurns.map { cw.indexOf(it.second) }.zipWithNext { a, b -> (b - a + 4) % 4 }
+        val spun = steps.all { it == 1 } || steps.all { it == 3 }
+        if (spun) recentTurns.clear()
+        return spun
     }
 
     private fun buttonToFacing(b: Button) = when (b) { Button.UP -> Facing.UP; Button.DOWN -> Facing.DOWN; Button.LEFT -> Facing.LEFT; else -> Facing.RIGHT }
@@ -508,7 +524,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         scriptBusy = true
         game.audio.playSfx("battle_start")
         val screen = BattleScreen(game, ctx, battle, trainerId, music) { outcome ->
-            val msgs = ctx.applyBattleResult(battle, trainerId)
+            val msgs = ctx.applyBattleResult(battle, trainerId, canLose)
             val lost = outcome == BattleOutcome.LOSE || outcome == BattleOutcome.DRAW
             val after = {
                 if (lost && !canLose) blackout { scriptBusy = false; onDone(outcome) }
@@ -523,8 +539,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                     }
                 }
             }
-            val shown = if (lost && !canLose) msgs else msgs.filter { !it.contains("blacked out") && !it.contains("out of usable") && !it.contains("panicked") }
-            if (shown.isEmpty()) after() else game.say(*shown.toTypedArray()) { after() }
+            if (msgs.isEmpty()) after() else game.say(*msgs.toTypedArray()) { after() }
         }
         push(screen)
     }
@@ -536,8 +551,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     }
 
     /** Runs evolution screens one after another for the given party indices. */
-    fun runEvolutions(indices: List<Int>, then: () -> Unit) {
-        val pending = ctx.pendingEvolutions(indices, map)
+    fun runEvolutions(indices: List<Int>, spun: Boolean = false, then: () -> Unit) {
+        val pending = ctx.pendingEvolutions(indices, map, spun)
         fun next(i: Int) {
             if (i >= pending.size) { then(); return }
             val (idx, target) = pending[i]

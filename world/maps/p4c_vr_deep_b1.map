@@ -1,0 +1,51 @@
+# Victory Road Depths B1 (Expansion E3) — optional side branch below Victory Road 2F: the old proving grounds where
+# League hopefuls trained for decades. Strong trainers, rare items; Rock Smash opens the west pocket.
+map p4c_vr_deep_b1
+name "Victory Road Depths"
+location "Victory Road"
+music cave
+environment cave
+region 15 4
+encounters p4c_vr_deep
+
+layout
+YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWfLffffWWWWWWWWWWffffffffffWW
+WWffffffffffffffffffffkfffffWW
+WWffffkfffWWWWWWffffffffffffWW
+WWWWffffffWWWWWWffffWWWWffffWW
+WWWWffffffWWWWWWffffWWWWffffWW
+WWffffffffffffffffffWWWWffffWW
+WWffkfffffffffffffffWWWWfkffWW
+WWffffffffWWWWffffffWWWWffffWW
+WWWWWWffffWWWWffffffffffffffWW
+WWWWWWffffWWWWffffffffffffffWW
+WWffffffffWWWWWWWWWffffkffffWW
+WWffkfffffWWWWWWWWWfffffffffWW
+WWffffffffffffWWWWWfffffffffWW
+WWWWWWWfffffffWWWWWWWWWfffffWW
+WWffffffffffffffffffWWWfffffWW
+WWfffffkfffffffffkffWWWfffffWW
+WWWWWWfWffffffffffffffffffffWW
+WWffffffWWWWWWffffffffffkfffWW
+WWfkffffWWWWWWfffffffffffffLWW
+WWffffffWWWWWWffffffffffffffWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+end
+
+warp 3 2 -> victory_road_2f 5 20 up
+warp 27 20 -> p4c_vr_deep_b2 23 2 left
+obstacle 6 18 smash flag=p4c_vd1_smash
+sign 4 7 text="Carved into the rock: \"Celeste was here. Age 11. Will be Champion.\" Below, in neater letters: \"Was.\""
+trainer p4c_vd1_veteran_aurel 18 7 sprite=cooltrainer_m face=left sight=4
+trainer p4c_vd1_cool_sasha 25 10 sprite=cooltrainer_f face=down sight=3
+trainer p4c_vd1_tamer_kenrick 7 12 sprite=blackbelt face=right sight=3
+trainer p4c_vd1_psychic_seren 16 16 sprite=psychic face=down sight=3
+trainer p4c_vd1_black_jiro 20 18 sprite=blackbelt face=left sight=3
+item vd1_rockyhelmet 26 2 rockyhelmet
+item vd1_stoneedge 3 20 tm:stoneedge
+item vd1_fullrestore 2 12 fullrestore
+hidden vd1_hidden_ppmax 27 5 ppmax
+hidden vd1_hidden_cap 9 3 bottlecap

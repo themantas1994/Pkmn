@@ -58,3 +58,9 @@ item r10_protein 1 22 protein
 hidden r10_hidden_revive 29 13 revive
 hidden r10_hidden_starpiece 12 22 starpiece
 obstacle 5 21 smash flag=p3a_r10_smash1
+# --- Expansion E3: more trainers, a geologist, a hidden item
+trainer p4c_r10_kindler_cinda 26 12 sprite=hiker face=left sight=4
+trainer p4c_r10_pokefan_bert 3 15 sprite=pokefan face=right sight=3
+trainer p4c_r10_cool_selene 16 21 sprite=cooltrainer_f face=up sight=3
+npc p4c_r10_geologist 26 9 sprite=scientist face=left script=p4c_r10_geologist
+hidden p4c_r10_hidden_ppup 30 5 ppup

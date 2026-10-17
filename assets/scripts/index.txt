@@ -26,3 +26,9 @@ p3c_ferry.pks
 p3c_hall.pks
 p3c_legends.pks
 p3c_tower.pks
+p4b_leg4.pks
+p4b_leg5.pks
+p4b_leg6.pks
+p4c_leg7.pks
+p4c_leg8.pks
+p4c_leg9.pks
