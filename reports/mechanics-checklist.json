@@ -8,7 +8,7 @@
     "open": "Known gap or unverified behaviour"
   },
   "counts": {
-    "tested": 43,
+    "tested": 46,
     "implemented": 12,
     "simplified": 4,
     "excluded": 4,
@@ -153,11 +153,19 @@
     },
     {
       "area": "Stats and battle calculations",
-      "mechanic": "Multi-hit moves, recoil, drain, healing, stat changes, secondary effects",
+      "mechanic": "Every move executed: 413 scripted + 524 data-driven moves tested, 14 with no singles effect, 0 unsupported (power, type, category, PP, accuracy, priority, damage, secondary effects, recoil, drain, healing, stat changes, multi-hit, Z/Max paths)",
       "status": "tested",
       "ruleset": "Gen IX",
-      "evidence": "MoveExecutionTest (per-move audit), BattleCoreTest",
-      "note": "See reports/moves-audit.md"
+      "evidence": "MoveExecutionTest; reports/moves-audit.md",
+      "note": "Scripted moves: data-derived checks plus ~60 move-specific checks; not every script detail is asserted"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Move bugs found by the audit: Moonlight/Morning Sun/Synthesis/Shore Up healed nothing; duplicate script registrations (Spit Up, Knock Off, Wake-Up Slap, Smelling Salts, Fury Cutter, Burn Up, Double Shock, Steel Roller); Diamond Storm +4 Def; Plasma Fists",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "MoveExecutionTest",
+      "note": "Fixed"
     },
     {
       "area": "Stats and battle calculations",
@@ -262,6 +270,22 @@
       "ruleset": "—",
       "evidence": "—",
       "note": "Singles only"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Learnsets: 1379 species/forms (1135 own, 244 inherited, 0 missing); importer cross-checked against raw Showdown (0 discrepancies); world movesets legal (0 errors)",
+      "status": "tested",
+      "ruleset": "Crystalline policy (docs/LEARNSETS.md)",
+      "evidence": "LearnsetAuditTest; :tools:auditLearnsets; reports/learnsets.md",
+      "note": "32 trainer egg moves are documented conflicts (breeding out of scope)"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Shop TMs usable after purchase",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "AcquisitionTest shop TMs",
+      "note": "Bug fixed: shop TMs lost their tm: key"
     },
     {
       "area": "Experience and growth",

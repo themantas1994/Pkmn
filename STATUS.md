@@ -15,7 +15,8 @@ Every number in this document was produced by the commands listed next to it. No
 | Saves | Atomic, checksummed, versioned (v2, with migration from v1), with backup/repair; corruption and migration tests pass |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
-| Tests | 106 engine, 44 core and 40 tool tests, all passing; CI runs them on every push. 26 reproducible visual-regression screenshots of the real desktop game |
+| Tests | 148 engine, 44 core and 78 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
+| Learnsets and moves | Every species/form audited (`:tools:auditLearnsets`: 0 errors) and every move executed in battle (`MoveExecutionTest`: 0 unsupported); see [docs/LEARNSETS.md](docs/LEARNSETS.md), [reports/moves-audit.md](reports/moves-audit.md) |
 | Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
 
 ## Mechanics update: capture, Pokédex, nicknames, IVs/EVs, sprites
@@ -31,6 +32,10 @@ Every item was reproduced or measured first, then fixed and tested.
 | Mints overwrote the original nature | Mint set `nature` | Separate stat nature (Gen VIII+) | `StatFormulaTest` |
 | Level-100 Pokémon gained no EVs; no EV-reducing berries; vitamins changed max HP without keeping damage | Implementation gaps | Fixed | `StatFormulaTest` (10, hand-calculated fixtures) |
 | A capture with every box full was lost | No check | Balls can't be thrown when storage is full | `AcquisitionTest` |
+| Shop TMs unusable after purchase (all 32) | `compileShops` ran `toId()` over `tm:x` | `tm:` key kept; old saves converted | `AcquisitionTest`; found by the learnset audit |
+| Form signature moves unlearnable (Rotom-Wash Hydro Pump, Zacian Behemoth Blade, ...) | Importer dropped Showdown `R` sources; `Dex.learnset` discarded a form's own TM list | Imported; merged | `:tools:auditLearnsets` 0 errors |
+| 23 trainer/gift moves above the Pokémon's level or only legal in older games | Content | Replaced with legal moves of the same role | `:tools:auditLearnsets` |
+| Moonlight/Morning Sun/Synthesis/Shore Up healed nothing; Spit Up did no damage; Knock Off, Wake-Up Slap, Smelling Salts, Fury Cutter lost their power changes; Burn Up, Double Shock, Steel Roller lost their failure checks; Diamond Storm gave +4 Def; Plasma Fists never set Ion Deluge | Missing heal data; duplicate script registrations overwrote each other; importer drops `self.chance` | Fixed | `MoveExecutionTest` (all 951 moves executed) |
 | Sprite kit integration | — | `./gradlew :android:assemblePersonalDebugWithSprites`, a Kotlin port of the kit's style (cropped, 48px grid ×2, ≤4 colours) | `SpriteStylerTest` (28), full-roster run: 6,492 sprites |
 
 ## Post-release update: verified fixes
@@ -86,7 +91,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (106 + 44 + 40). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (148 + 44 + 78; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.

@@ -4,7 +4,7 @@ Every core mechanic, its status, the ruleset it follows and the evidence. Machin
 
 Status: **tested** = implemented with the named automated tests; **implemented** = in code, only indirectly tested; **simplified** = deliberate simplification; **excluded** = out of scope; **open** = known gap.
 
-Totals: excluded 4, implemented 12, open 1, simplified 4, tested 43.
+Totals: excluded 4, implemented 12, open 1, simplified 4, tested 46.
 
 ## Identity and creation
 
@@ -32,7 +32,8 @@ Totals: excluded 4, implemented 12, open 1, simplified 4, tested 43.
 | Critical hits (stages 1/24, 1/8, 1/2, always; x1.5; ignore stat drops) | tested | Gen VII+ | BattleEdgeCaseTest crits vs boosts |  |
 | Priority, Trick Room, speed order | tested | Gen IX | BattleEdgeCaseTest priority/Trick Room |  |
 | Accuracy/evasion stages, speed ties | implemented | Gen IX | BattleFuzzTest invariants only | No dedicated accuracy-stage test |
-| Multi-hit moves, recoil, drain, healing, stat changes, secondary effects | tested | Gen IX | MoveExecutionTest (per-move audit), BattleCoreTest | See reports/moves-audit.md |
+| Every move executed: 413 scripted + 524 data-driven moves tested, 14 with no singles effect, 0 unsupported (power, type, category, PP, accuracy, priority, damage, secondary effects, recoil, drain, healing, stat changes, multi-hit, Z/Max paths) | tested | Gen IX | MoveExecutionTest; reports/moves-audit.md | Scripted moves: data-derived checks plus ~60 move-specific checks; not every script detail is asserted |
+| Move bugs found by the audit: Moonlight/Morning Sun/Synthesis/Shore Up healed nothing; duplicate script registrations (Spit Up, Knock Off, Wake-Up Slap, Smelling Salts, Fury Cutter, Burn Up, Double Shock, Steel Roller); Diamond Storm +4 Def; Plasma Fists | tested | Gen IX | MoveExecutionTest | Fixed |
 | Major status: burn (1/16, halved physical damage), paralysis (25%, half Speed), sleep, poison, toxic | tested | Gen VII+ | BattleCoreTest burn/paralysis/sleep/toxic tests |  |
 | Freeze (20% thaw per turn, thawed by Fire moves) | implemented | Gen VII+ | Conditions.kt frz | No dedicated test |
 | Substitute, Perish Song, Sky Drop, Snatch, Illusion, Disguise | tested | Gen IX | BattleEdgeCaseTest |  |
@@ -46,6 +47,8 @@ Totals: excluded 4, implemented 12, open 1, simplified 4, tested 43.
 | Mega Evolution, Z-Moves, Dynamax/Gigantamax, Terastallization, Primal, Ultra Burst; one gimmick per battle | tested | Crystalline unified ruleset | GimmickTest |  |
 | Singles | tested | Gen IX | all battle tests |  |
 | Double/triple battles | excluded | — | — | Singles only |
+| Learnsets: 1379 species/forms (1135 own, 244 inherited, 0 missing); importer cross-checked against raw Showdown (0 discrepancies); world movesets legal (0 errors) | tested | Crystalline policy (docs/LEARNSETS.md) | LearnsetAuditTest; :tools:auditLearnsets; reports/learnsets.md | 32 trainer egg moves are documented conflicts (breeding out of scope) |
+| Shop TMs usable after purchase | tested | — | AcquisitionTest shop TMs | Bug fixed: shop TMs lost their tm: key |
 
 ## Experience and growth
 
