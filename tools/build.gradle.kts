@@ -40,6 +40,17 @@ registerTool("benchmark", "Measure engine performance (loading, battle turns, AI
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
 
+// Personal APK sprite pipeline (docs/ASSET_IMPORT.md). Options come from -P properties so one command drives it all:
+//   pkmn.sprites.only=1-151  pkmn.sprites.style=gbc|none  pkmn.sprites.from=<dir|zip>  pkmn.sprites.offline=true
+fun spriteProp(name: String) = (findProperty("pkmn.sprites.$name") as String?)?.trim()?.takeIf { it.isNotEmpty() }
+val spriteOffline = spriteProp("offline")?.toBoolean() == true
+val spriteImportArgs = listOfNotNull("sprites", "--dest=assets-local/sprites-raw/pokemon", "--tolerate-failures", spriteProp("only")?.let { "--only=$it" },
+    spriteProp("from")?.let { "--from=$it" }, if (spriteOffline) "--offline" else null)
+val spriteStyleArgs = listOfNotNull("sprites-style", "--style=${spriteProp("style") ?: "gbc"}", spriteProp("only")?.let { "--only=$it" })
+val importSpritesRaw = registerTool("importSpritesRaw", "Download/import Pokémon sprites into the raw cache assets-local/sprites-raw (never modified afterwards, never bundled)", *spriteImportArgs.toTypedArray())
+val styleSprites = registerTool("styleSprites", "Raw cache -> styled live set assets-local/sprites (-Ppkmn.sprites.style=gbc|none), atomic swap, STYLE_REPORT.json + COVERAGE.json", *spriteStyleArgs.toTypedArray())
+styleSprites { mustRunAfter(importSpritesRaw) }
+
 tasks.test {
     useJUnitPlatform()
     systemProperty("pkmn.assets", rootProject.file("assets").absolutePath)
