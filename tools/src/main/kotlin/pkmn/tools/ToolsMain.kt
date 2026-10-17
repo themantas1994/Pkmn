@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
         "progression" -> { val ok = ProgressionChecker(root).run(); if (!ok) kotlin.system.exitProcess(1) }
         "entrances" -> { val ok = EntranceAudit(root, write).run(); if (!ok) kotlin.system.exitProcess(1) }
         "items" -> { val ok = ItemAudit(root, write).run(); if (!ok) kotlin.system.exitProcess(1) }
+        "learnsets" -> { val ok = LearnsetAudit(root, write).run(); if (!ok) kotlin.system.exitProcess(1) }
         "screenshots" -> {
             val rest = args.drop(1).filter { !it.startsWith("--") }
             val ok = ScreenshotCompare(File(rest.getOrElse(0) { "build/screenshots" }).absoluteFile,
@@ -23,7 +24,7 @@ fun main(args: Array<String>) {
         }
         "sprites" -> { val ok = SpriteImporter(root, args.drop(1)).run(); if (!ok) kotlin.system.exitProcess(1) }
         else -> {
-            println("usage: tools <import|validate|maps|manifest|playtime|progression|entrances|items|perf|screenshots <actual> <baseline> [--update]|sprites [--only=1-151] [--force] [--from=<dir|zip>] ...>")
+            println("usage: tools <import|validate|maps|manifest|playtime|progression|entrances|items|learnsets|perf|screenshots <actual> <baseline> [--update]|sprites [--only=1-151] [--force] [--from=<dir|zip>] ...>")
             kotlin.system.exitProcess(2)
         }
     }

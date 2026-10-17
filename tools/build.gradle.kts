@@ -36,6 +36,7 @@ registerTool("buildAssetManifest", "Scan assets and write the asset manifest", "
 registerTool("checkProgression", "Check badge-order reachability, softlocks and orphaned content", "progression")
 registerTool("auditEntrances", "Audit every warp: entrance tile vs destination class, traversal, reverse transition -> reports/entrances.*", "entrances")
 registerTool("auditItems", "Strict item reachability audit per badge stage and placement defects -> reports/items.*", "items")
+registerTool("auditLearnsets", "Learnset legality audit (importer vs raw Showdown, forms, world moves, TMs, tutors) -> reports/learnsets.*", "learnsets")
 registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
