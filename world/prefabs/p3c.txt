@@ -4,7 +4,7 @@
 prefab p3c_hall
 roof2_l_top roof2_m_top roof2_m_top roof2_m_top roof2_m_top roof2_m_top roof2_r_top
 roof2_l roof2_m roof2_m gym_sign roof2_m roof2_m roof2_r
-wall_l wall_window wall_window door wall_window wall_window wall_r
+wall_l wall_window wall_window building_door wall_window wall_window wall_r
 door 3 2
 end
 
@@ -14,7 +14,7 @@ gym_roof_l_top gym_roof_m_top gym_roof_m_top gym_roof_m_top gym_roof_r_top
 gym_roof_l gym_roof_m gym_sign gym_roof_m gym_roof_r
 gym_wall_l wall_window gym_wall_m wall_window gym_wall_r
 gym_wall_l wall_window gym_wall_m wall_window gym_wall_r
-gym_wall_l gym_wall_m gym_door gym_wall_m gym_wall_r
+gym_wall_l gym_wall_m tower_door gym_wall_m gym_wall_r
 door 2 4
 end
 
@@ -22,6 +22,6 @@ end
 prefab p3c_shrine
 ruins_wall ruins_wall ruins_wall ruins_wall ruins_wall
 ruins_wall gym_statue ruins_wall gym_statue ruins_wall
-ruins_wall ruins_wall door ruins_wall ruins_wall
+ruins_wall ruins_wall ruins_entrance ruins_wall ruins_wall
 door 2 2
 end

@@ -62,3 +62,4 @@ item p4b_cat_repel 22 21 maxrepel
 item p4b_cat_dusk 20 6 duskstone
 hidden p4b_cat_cloth 3 24 reapercloth
 hidden p4b_cat_dust 18 22 stardust
+tile 14 22 ruins_entrance

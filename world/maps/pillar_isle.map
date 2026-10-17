@@ -47,3 +47,4 @@ tile 13 14 sign
 npc pillar_monk 7 12 sprite=sage face=right script=p3c_pillar_monk
 item pi_dragonfang 16 12 dragonfang
 hidden pi_hidden1 8 4 cometshard
+tile 11 10 tower_door

@@ -15,6 +15,6 @@ prefab p3b_league
 gym_roof_l gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_m gym_roof_r
 gym_roof_l gym_roof_m gym_roof_m gym_sign gym_roof_m gym_roof_m gym_roof_m gym_roof_r
 gym_wall_l gym_window gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_window gym_wall_r
-gym_wall_l gym_wall_m gym_wall_m gym_door gym_wall_m gym_wall_m gym_wall_m gym_wall_r
+gym_wall_l gym_wall_m gym_wall_m building_door gym_wall_m gym_wall_m gym_wall_m gym_wall_r
 door 3 3
 end

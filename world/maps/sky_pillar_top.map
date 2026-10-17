@@ -4,6 +4,7 @@ name "Sky Pillar Summit"
 location "Pillar Isle"
 music ruins
 environment plain
+class tower
 
 layout
 xxxxxxxxxxxxxxx

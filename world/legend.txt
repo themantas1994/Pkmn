@@ -58,3 +58,10 @@ u ruins_floor
 x ruins_wall
 l league_floor
 d dark_floor
+# entrances (warp tiles that must look like where they lead)
+N forest_entrance
+A ruins_entrance
+J mine_entrance
+O tower_door
+C gate_door
+Q building_door

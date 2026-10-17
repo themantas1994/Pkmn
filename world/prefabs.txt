@@ -48,3 +48,11 @@ gym_wall_l gym_wall_m gym_wall_m gym_wall_m gym_wall_m gym_wall_r
 gym_wall_l gym_wall_m gym_door gym_wall_m gym_wall_m gym_wall_r
 door 2 3
 end
+
+# A thicket of trees with a path gap: the entrance to a forest zone (door at the gap).
+prefab grove
+tree tree tree tree
+tree tree tree tree
+tree tree forest_entrance tree
+door 2 2
+end
