@@ -552,9 +552,9 @@ Anorith, Lileep; gifts Hisuian Growlithe, Carbink, Larvesta egg; trade-only Char
 Whole game (with E1/E3 not merged): critical 9.3 h → 9.7 h, with optional 12.5 h → 16.6 h.
 
 ## Expansion E1 notes (legs 1–3: start → Gym 3)
-Prefix `p4a_` for all new maps, flags, scripts, trainers and encounter tables. Files: `world/maps/p4a_*.map` (32),
-`world/scripts/p4a_leg1..3.pks`, `world/trainers/p4a_leg1..3.txt` (113 trainers, shared classes only),
-`world/encounters/p4a_leg1..3.txt` (20 tables), `world/quests/p4a.txt` (10 quests), `world/prefabs/p4a.txt`
+Prefix `p4a_` for all new maps, flags, scripts, trainers and encounter tables. Files: `world/maps/p4a_*.map` (33),
+`world/scripts/p4a_leg1..3.pks`, `world/trainers/p4a_leg1..3.txt` (137 trainer entries incl. 12 rematch tiers and 2 scripted bosses; shared classes only),
+`world/encounters/p4a_leg1..3.txt` (18 tables), `world/quests/p4a.txt` (9 quests), `world/prefabs/p4a.txt`
 (`p4a_lighthouse` tower, `p4a_wreck` hull). No gym leader/rival teams, campaign.json, legend, prefabs.txt or
 classes.txt were touched. B1 (port_tidewater ↔ route5) is unchanged: port's bottom row and route5's top row are as before.
 
