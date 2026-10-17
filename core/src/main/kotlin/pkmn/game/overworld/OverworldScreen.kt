@@ -493,7 +493,12 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             fx.spawn(Clip("hidden_sparkle", 0.45f, onUpdate = { t -> a[2] = t }, onEnd = { if (pickupAnim === a) pickupAnim = null }))
         }
         val name = ctx.itemName(item.item)
-        game.say("${state.playerName} found ${if (item.qty > 1) "${item.qty}× " else ""}$name!", "${state.playerName} put the $name in the BAG.")
+        val pocket = when (if (item.item.startsWith("tm:")) pkmn.engine.data.BagPocket.TMS else ctx.dex.itemOrNull(item.item)?.pocket) {
+            pkmn.engine.data.BagPocket.MEDICINE -> "MEDICINE POCKET"; pkmn.engine.data.BagPocket.BALLS -> "BALL POCKET"
+            pkmn.engine.data.BagPocket.BERRIES -> "BERRY POCKET"; pkmn.engine.data.BagPocket.TMS -> "TM POCKET"
+            pkmn.engine.data.BagPocket.KEY -> "KEY POCKET"; else -> "ITEM POCKET"
+        }
+        game.say("${state.playerName} found ${if (item.qty > 1) "${item.qty}× " else ""}$name!", "${state.playerName} put the $name in the $pocket.")
     }
 
     /** Hidden items are found by interacting with their tile (checked when facing an empty tile). */

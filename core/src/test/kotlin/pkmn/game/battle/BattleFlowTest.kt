@@ -92,7 +92,7 @@ class BattleFlowTest {
     }
 
     @Test
-    fun `shift yes opens the party, cancel returns to the prompt, invalid picks are rejected`() {
+    fun `shift yes opens the party, invalid picks are rejected`() {
         val flow = BattleFlow(battle(strongParty(3), weakFoes(2)))
         flow.battle.player.mons[2].mon.hp = 0 // pikachu #2 fainted in reserve
         var asked = 0
@@ -101,9 +101,6 @@ class BattleFlowTest {
             assertEquals("Pidgey", f.upcomingFoeName())
             f.answerShift(true)
             assertEquals(BattleFlow.Phase.SHIFT_PARTY, f.phase)
-            assertNull(f.shiftPick(null))
-            assertEquals(BattleFlow.Phase.SHIFT_PROMPT, f.phase)
-            f.answerShift(true)
             assertNotNull(f.shiftPick(2), "fainted Pokémon")
             assertNotNull(f.shiftPick(0), "already in battle")
             assertEquals(BattleFlow.Phase.SHIFT_PARTY, f.phase)
@@ -112,6 +109,18 @@ class BattleFlowTest {
         }
         assertEquals(1, asked)
         assertEquals("pikachu", flow.battle.player.active!!.species.id)
+    }
+
+    @Test
+    fun `cancelling the shift party menu counts as no`() {
+        val flow = BattleFlow(battle(strongParty(), weakFoes(2)))
+        play(flow) { f ->
+            f.answerShift(true)
+            assertNull(f.shiftPick(null))
+            assertEquals(BattleFlow.Phase.PRESENTING, f.phase)
+        }
+        assertEquals("mewtwo", flow.battle.player.active!!.species.id)
+        assertEquals(BattleOutcome.WIN, flow.battle.outcome)
     }
 
     @Test

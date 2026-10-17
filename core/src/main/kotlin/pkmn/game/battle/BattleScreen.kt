@@ -271,6 +271,8 @@ class BattleScreen(
                 play(Clip("faint", clipTime("faint", 0.45f), essential = true, onUpdate = { v.drop = Ease.inQuad(it) }, onEnd = {
                     v.visible = false; v.hud = false; v.drop = 0f
                 }))
+                // Gold/Silver/Crystal: the wild victory theme starts as soon as the wild Pokémon faints.
+                if (e.side == 1 && battle.opponent.isWild) doNow { game.audio.playMusic("victory_wild", 0) }
                 // Party indicators update the moment the faint is shown.
                 doNow { balls[e.side].let { if (e.teamIndex in it.indices) it[e.teamIndex] = 2 } }
                 say(e.text)
@@ -600,8 +602,6 @@ class BattleScreen(
             doNow { game.audio.playMusic(if ("leader" in trainer.trainerClass || trainer.trainerClass == "leader") "victory_gym" else "victory_trainer", 0) }
             play(Clip("victory_slide", clipTime("victory_slide", 0.7f), onUpdate = { portrait = Ease.outQuad(it) }, onEnd = { portrait = 1f }))
             say(ctx.format(trainer.defeat.ifEmpty { "..." }))
-        } else if (outcome == BattleOutcome.WIN) {
-            doNow { game.audio.playMusic("victory_wild", 0) }
         }
         doNow { finish(outcome) }
     }

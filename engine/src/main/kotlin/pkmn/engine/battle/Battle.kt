@@ -252,6 +252,7 @@ class Battle(
             }
             events.add(BattleEvent.SwitchIn(s.index, teamIndex(lead), shownSpecies(lead), lead.hp, lead.maxHp, text)); log.add(text)
         }
+        foeHpAtPlayerEntry = opponent.active?.let { it to it.hp }
         // Switch-in effects (Intimidate, weather...) run by speed.
         for (m in activeMonsBySpeed()) runSwitchInEffects(m)
         updateFacedFoes()
@@ -604,7 +605,7 @@ class Battle(
             if (shedTail) subHp = out.volatiles["substitute"]?.hp ?: 0
             for (c in targetHandlers(out)) if (c.holder === out) c.effect.onSwitchOut(c)
             val text = when (side.controller) {
-                Controller.PLAYER -> "${out.name}, come back!"
+                Controller.PLAYER -> recallText(out)
                 else -> "${side.name} withdrew ${out.name}!"
             }
             if (!isDrag) { events.add(BattleEvent.SwitchOut(side.index, teamIndex(out), text)); log.add(text) }
@@ -617,9 +618,10 @@ class Battle(
         applyIllusion(incoming)
         val text = when {
             isDrag -> "${nm(incoming)} was dragged out!"
-            side.controller == Controller.PLAYER -> "Go! ${incoming.shownName}!"
+            side.controller == Controller.PLAYER -> sendOutText(incoming)
             else -> "${side.name} sent out ${incoming.shownName}!"
         }
+        if (side.isPlayer) foeHpAtPlayerEntry = side.foe.active?.takeIf { !it.fainted }?.let { it to it.hp }
         events.add(BattleEvent.SwitchIn(side.index, teamIndex(incoming), shownSpecies(incoming), incoming.hp, incoming.maxHp, text)); log.add(text)
         if (passedBoosts != null) {
             passedBoosts.copyInto(incoming.boosts)
@@ -629,6 +631,34 @@ class Battle(
         if (runEffects) {
             updateFacedFoes()
             runSwitchInEffects(incoming)
+        }
+    }
+
+    /** The foe and its HP when the player's current Pokémon came out (for the GSC recall line). */
+    private var foeHpAtPlayerEntry: Pair<BattleMon, Int>? = null
+
+    /** Gold/Silver/Crystal send-out line, by the foe's remaining HP. */
+    private fun sendOutText(mon: BattleMon): String {
+        val foe = mon.side.foe.active?.takeIf { !it.fainted } ?: return "Go! ${mon.shownName}!"
+        val pct = foe.hp * 100 / maxOf(1, foe.maxHp)
+        return when {
+            pct >= 70 -> "Go! ${mon.shownName}!"
+            pct >= 40 -> "Do it! ${mon.shownName}!"
+            pct >= 10 -> "Go for it, ${mon.shownName}!"
+            else -> "Your foe's weak! Get'm, ${mon.shownName}!"
+        }
+    }
+
+    /** Gold/Silver/Crystal recall line, by the damage dealt to the foe since this Pokémon came out. */
+    private fun recallText(mon: BattleMon): String {
+        val (foe, hpThen) = foeHpAtPlayerEntry ?: return "${mon.name}, come back!"
+        if (foe !== mon.side.foe.active) return "${mon.name}, come back!"
+        val dealt = (hpThen - foe.hp).coerceAtLeast(0) * 100 / maxOf(1, foe.maxHp)
+        return when {
+            dealt <= 0 -> "${mon.name}, that's enough! Come back!"
+            dealt < 30 -> "${mon.name}, come back!"
+            dealt < 70 -> "${mon.name}, OK! Come back!"
+            else -> "${mon.name}, good! Come back!"
         }
     }
 

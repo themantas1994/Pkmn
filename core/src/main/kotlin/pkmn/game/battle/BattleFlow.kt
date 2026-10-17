@@ -10,7 +10,7 @@ import pkmn.engine.battle.*
  * INTRO -> PRESENTING --(events drained, animations idle)--> settle()
  *   settle(): outcome decided            -> ENDING -> DONE (exactly once)
  *             player must replace        -> FORCED_SWITCH (trainer) | NEXT_MON_PROMPT (wild: "Use next Pokémon?")
- *             foe must replace, Shift on -> SHIFT_PROMPT -> (YES) SHIFT_PARTY -> PRESENTING
+ *             foe must replace, Shift on -> SHIFT_PROMPT -> (YES) SHIFT_PARTY -> PRESENTING (cancel = NO)
  *                                                      -> (NO)  PRESENTING (foe sends out)
  *             foe must replace, Set      -> PRESENTING (foe sends out)
  *             move request               -> CHOOSE_ACTION (or auto-submit a locked move)
@@ -84,10 +84,10 @@ class BattleFlow(val battle: Battle, private val ai: BattleAI = BattleAI()) {
         phase = Phase.PRESENTING
     }
 
-    /** Party choice after "YES": null (cancel) returns to the prompt. */
+    /** Party choice after "YES": null (cancelled party menu) counts as NO, as in Gold/Silver/Crystal. */
     fun shiftPick(teamIndex: Int?): String? {
         check(phase == Phase.SHIFT_PARTY) { "not choosing a shift switch" }
-        if (teamIndex == null) { phase = Phase.SHIFT_PROMPT; return null }
+        if (teamIndex == null) { battle.advance(ai); phase = Phase.PRESENTING; return null }
         val err = battle.chooseShift(teamIndex)
         if (err != null) return err
         battle.advance(ai)
