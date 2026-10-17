@@ -239,7 +239,8 @@ class BattleScreen(
     private fun askYesNo(question: String, lead: String? = null, then: (Boolean) -> Unit) {
         promptOpen = true
         text = null
-        val ask = { game.push(TextBox(game, question) { game.push(YesNo(game, question) { yes -> promptOpen = false; then(yes) }) }) }
+        // The YES/NO box appears together with the question (as in GSC), so answering takes one press.
+        val ask = { game.push(YesNo(game, question) { yes -> promptOpen = false; then(yes) }) }
         if (lead != null) game.push(TextBox(game, lead) { ask() }) else ask()
     }
 

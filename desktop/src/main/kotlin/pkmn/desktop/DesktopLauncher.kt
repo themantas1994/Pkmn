@@ -35,6 +35,7 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
  *   --scale=N            window scale (default 3)
  *   --portrait           phone-like portrait window with touch controls
  *   --quickstart[=NAME]  skip title/intro and start a new game (debugging)
+ *   --fixedstep          every frame advances 1/60 s regardless of real time (reproducible screenshots)
  */
 fun main(args: Array<String>) {
     val opts = args.associate { a -> a.removePrefix("--").substringBefore('=') to a.substringAfter('=', "true") }
@@ -43,6 +44,7 @@ fun main(args: Array<String>) {
     val audio: (() -> GameAudio)? = if (opts["mute"] == "true") ({ NoAudio }) else ({ SynthAudio() })
     val game = PkmnGame(platform, audio)
     opts["quickstart"]?.let { game.quickstart = if (it == "true") "ARI" else it }
+    if (opts["fixedstep"] == "true") game.fixedStep = 1f / 60f
     opts["script"]?.let { Automation(File(it).readLines(), File(opts["shots"] ?: "shots")).attach(game) }
     val scale = opts["scale"]?.toIntOrNull() ?: 3
     val config = Lwjgl3ApplicationConfiguration().apply {

@@ -1,0 +1,21 @@
+# Wild battle: slide-in and a capture.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+option animSpeed 0
+option battleAnimations true
+party pikachu:60:thunderbolt
+item masterball 1
+wild clefable 20
+waitstate menu=ACTION 3000
+shot wild_ui
+press DOWN
+wait 8
+press A
+waittop BagScreen 300
+press RIGHT
+wait 8
+press A
+waitstate catch_shake 600
+shot wild_catch_shake
+quit

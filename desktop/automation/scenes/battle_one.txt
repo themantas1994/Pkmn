@@ -1,0 +1,20 @@
+# One-Pokemon trainer: UI with a party of one, the last foe before and after fainting, the victory.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+option animSpeed 0
+option battleAnimations true
+party pikachu:60:thunderbolt
+trainer route1_joey
+waitstate menu=ACTION 3000
+shot battle_ui_one
+press A
+wait 10
+press A
+waitstate fainte 900
+wait 10
+shot battle_last_foe_fainted
+waitstate phase=DONE 1200
+wait 50
+shot battle_victory
+quit

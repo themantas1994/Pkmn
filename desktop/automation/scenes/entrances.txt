@@ -1,0 +1,31 @@
+# Representative entrances: forest path, mine and cave, ruins, tower and house doors; an item before and after pickup.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+party pikachu:20:thunderbolt
+warp route2 5 10 up
+wait 60
+shot entrance_forest
+warp quarrytown 25 2 up
+wait 60
+shot entrance_mine_cave
+warp eclipse_atoll 14 7 up
+wait 60
+shot entrance_ruins
+warp ashfall_city 16 9 up
+wait 60
+shot entrance_tower
+warp ashfall_city 5 20 up
+wait 60
+shot entrance_house
+warp route1 1 20 up
+wait 60
+shot item_before
+press A
+wait 30
+press A
+wait 20
+press A
+wait 40
+shot item_after
+quit

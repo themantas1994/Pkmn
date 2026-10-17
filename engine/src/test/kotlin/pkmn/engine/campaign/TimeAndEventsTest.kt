@@ -184,6 +184,17 @@ class TimeAndEventsTest {
     }
 
     @Test
+    fun `exp share default changes only for new players`() {
+        val json = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
+        assertFalse(pkmn.engine.save.Options().expShare)
+        // An options file written before the change never stored the old default (true): it stays on.
+        assertTrue(pkmn.engine.save.Options.decodeLegacyAware(json, """{"textSpeed":2}""").expShare)
+        // Explicit choices are kept either way.
+        assertFalse(pkmn.engine.save.Options.decodeLegacyAware(json, """{"expShare":false}""").expShare)
+        assertTrue(pkmn.engine.save.Options.decodeLegacyAware(json, """{"expShare":true}""").expShare)
+    }
+
+    @Test
     fun `older saves without the new options still load`() {
         val legacy = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
             .decodeFromString(pkmn.engine.save.Options.serializer(), """{"textSpeed":1,"battleStyle":"set"}""")

@@ -13,7 +13,7 @@
     "gym 8: dragonspire_gym_2f",
     "hall of fame: league_champion"
   ],
-  "criticalPathHours": 11.1,
+  "criticalPathHours": 12.7,
   "withOptionalContentHours": 24.4,
   "postGameHours": 4.5,
   "legs": [
@@ -34,10 +34,12 @@
       "fullMinutes": 135,
       "trainersOnPath": 17,
       "expectedWildEncounters": 6,
-      "partyLevelOnArrival": 18,
+      "partyLevelOnArrival": 17,
       "bossAceLevel": 14,
       "grindMinutes": 0,
       "grindBattles": 0,
+      "partyLevelWithOptional": 24,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 23
     },
     {
@@ -55,10 +57,12 @@
       "fullMinutes": 147,
       "trainersOnPath": 24,
       "expectedWildEncounters": 10,
-      "partyLevelOnArrival": 26,
+      "partyLevelOnArrival": 23,
       "bossAceLevel": 21,
       "grindMinutes": 0,
       "grindBattles": 0,
+      "partyLevelWithOptional": 30,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 17
     },
     {
@@ -77,10 +81,12 @@
       "fullMinutes": 153,
       "trainersOnPath": 21,
       "expectedWildEncounters": 13,
-      "partyLevelOnArrival": 33,
+      "partyLevelOnArrival": 28,
       "bossAceLevel": 28,
       "grindMinutes": 0,
       "grindBattles": 0,
+      "partyLevelWithOptional": 36,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 23
     },
     {
@@ -98,10 +104,12 @@
       "fullMinutes": 136,
       "trainersOnPath": 20,
       "expectedWildEncounters": 16,
-      "partyLevelOnArrival": 40,
+      "partyLevelOnArrival": 33,
       "bossAceLevel": 34,
       "grindMinutes": 0,
       "grindBattles": 0,
+      "partyLevelWithOptional": 42,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 16
     },
     {
@@ -120,10 +128,12 @@
       "fullMinutes": 136,
       "trainersOnPath": 19,
       "expectedWildEncounters": 22,
-      "partyLevelOnArrival": 47,
+      "partyLevelOnArrival": 38,
       "bossAceLevel": 40,
       "grindMinutes": 0,
       "grindBattles": 0,
+      "partyLevelWithOptional": 48,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 12
     },
     {
@@ -136,14 +146,16 @@
         "ashfall_city",
         "ashfall_gym"
       ],
-      "criticalMinutes": 48,
+      "criticalMinutes": 56,
       "fullMinutes": 121,
       "trainersOnPath": 14,
       "expectedWildEncounters": 7,
-      "partyLevelOnArrival": 52,
+      "partyLevelOnArrival": 44,
       "bossAceLevel": 46,
-      "grindMinutes": 0,
-      "grindBattles": 0,
+      "grindMinutes": 8,
+      "grindBattles": 13,
+      "partyLevelWithOptional": 53,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 15
     },
     {
@@ -159,14 +171,16 @@
         "frostmere_town",
         "frostmere_gym"
       ],
-      "criticalMinutes": 82,
+      "criticalMinutes": 87,
       "fullMinutes": 146,
       "trainersOnPath": 28,
       "expectedWildEncounters": 27,
-      "partyLevelOnArrival": 60,
+      "partyLevelOnArrival": 50,
       "bossAceLevel": 52,
-      "grindMinutes": 0,
-      "grindBattles": 0,
+      "grindMinutes": 4,
+      "grindBattles": 7,
+      "partyLevelWithOptional": 58,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 13
     },
     {
@@ -180,14 +194,16 @@
         "dragonspire_gym",
         "dragonspire_gym_2f"
       ],
-      "criticalMinutes": 58,
+      "criticalMinutes": 94,
       "fullMinutes": 179,
       "trainersOnPath": 16,
       "expectedWildEncounters": 7,
-      "partyLevelOnArrival": 66,
+      "partyLevelOnArrival": 56,
       "bossAceLevel": 58,
-      "grindMinutes": 0,
-      "grindBattles": 0,
+      "grindMinutes": 37,
+      "grindBattles": 58,
+      "partyLevelWithOptional": 64,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 19
     },
     {
@@ -209,15 +225,319 @@
         "league_nox",
         "league_champion"
       ],
-      "criticalMinutes": 123,
+      "criticalMinutes": 162,
       "fullMinutes": 178,
       "trainersOnPath": 30,
       "expectedWildEncounters": 34,
-      "partyLevelOnArrival": 77,
+      "partyLevelOnArrival": 64,
       "bossAceLevel": 66,
-      "grindMinutes": 0,
-      "grindBattles": 0,
+      "grindMinutes": 39,
+      "grindBattles": 61,
+      "partyLevelWithOptional": 70,
+      "grindMinutesWithOptional": 0,
       "optionalMaps": 5
+    }
+  ],
+  "levelSensitivity": [
+    {
+      "id": "share_on_path",
+      "description": "Exp. Share on, trainer x1.5, critical path only",
+      "legs": [
+        {
+          "leg": "start -> gym 1",
+          "partyLevel": 18,
+          "bossAce": 14,
+          "gap": 4
+        },
+        {
+          "leg": "gym 1 -> gym 2",
+          "partyLevel": 26,
+          "bossAce": 21,
+          "gap": 5
+        },
+        {
+          "leg": "gym 2 -> gym 3",
+          "partyLevel": 33,
+          "bossAce": 28,
+          "gap": 5
+        },
+        {
+          "leg": "gym 3 -> gym 4",
+          "partyLevel": 40,
+          "bossAce": 34,
+          "gap": 6
+        },
+        {
+          "leg": "gym 4 -> gym 5",
+          "partyLevel": 47,
+          "bossAce": 40,
+          "gap": 7
+        },
+        {
+          "leg": "gym 5 -> gym 6",
+          "partyLevel": 52,
+          "bossAce": 46,
+          "gap": 6
+        },
+        {
+          "leg": "gym 6 -> gym 7",
+          "partyLevel": 60,
+          "bossAce": 52,
+          "gap": 8
+        },
+        {
+          "leg": "gym 7 -> gym 8",
+          "partyLevel": 66,
+          "bossAce": 58,
+          "gap": 8
+        },
+        {
+          "leg": "gym 8 -> hall of fame",
+          "partyLevel": 77,
+          "bossAce": 66,
+          "gap": 11
+        }
+      ]
+    },
+    {
+      "id": "share_on_full",
+      "description": "Exp. Share on, trainer x1.5, critical path + optional trainers",
+      "legs": [
+        {
+          "leg": "start -> gym 1",
+          "partyLevel": 22,
+          "bossAce": 14,
+          "gap": 8
+        },
+        {
+          "leg": "gym 1 -> gym 2",
+          "partyLevel": 31,
+          "bossAce": 21,
+          "gap": 10
+        },
+        {
+          "leg": "gym 2 -> gym 3",
+          "partyLevel": 39,
+          "bossAce": 28,
+          "gap": 11
+        },
+        {
+          "leg": "gym 3 -> gym 4",
+          "partyLevel": 47,
+          "bossAce": 34,
+          "gap": 13
+        },
+        {
+          "leg": "gym 4 -> gym 5",
+          "partyLevel": 56,
+          "bossAce": 40,
+          "gap": 16
+        },
+        {
+          "leg": "gym 5 -> gym 6",
+          "partyLevel": 63,
+          "bossAce": 46,
+          "gap": 17
+        },
+        {
+          "leg": "gym 6 -> gym 7",
+          "partyLevel": 71,
+          "bossAce": 52,
+          "gap": 19
+        },
+        {
+          "leg": "gym 7 -> gym 8",
+          "partyLevel": 80,
+          "bossAce": 58,
+          "gap": 22
+        },
+        {
+          "leg": "gym 8 -> hall of fame",
+          "partyLevel": 89,
+          "bossAce": 66,
+          "gap": 23
+        }
+      ]
+    },
+    {
+      "id": "no_bonus_full",
+      "description": "Exp. Share on, no trainer bonus, path + optional",
+      "legs": [
+        {
+          "leg": "start -> gym 1",
+          "partyLevel": 20,
+          "bossAce": 14,
+          "gap": 6
+        },
+        {
+          "leg": "gym 1 -> gym 2",
+          "partyLevel": 29,
+          "bossAce": 21,
+          "gap": 8
+        },
+        {
+          "leg": "gym 2 -> gym 3",
+          "partyLevel": 36,
+          "bossAce": 28,
+          "gap": 8
+        },
+        {
+          "leg": "gym 3 -> gym 4",
+          "partyLevel": 43,
+          "bossAce": 34,
+          "gap": 9
+        },
+        {
+          "leg": "gym 4 -> gym 5",
+          "partyLevel": 51,
+          "bossAce": 40,
+          "gap": 11
+        },
+        {
+          "leg": "gym 5 -> gym 6",
+          "partyLevel": 58,
+          "bossAce": 46,
+          "gap": 12
+        },
+        {
+          "leg": "gym 6 -> gym 7",
+          "partyLevel": 65,
+          "bossAce": 52,
+          "gap": 13
+        },
+        {
+          "leg": "gym 7 -> gym 8",
+          "partyLevel": 74,
+          "bossAce": 58,
+          "gap": 16
+        },
+        {
+          "leg": "gym 8 -> hall of fame",
+          "partyLevel": 82,
+          "bossAce": 66,
+          "gap": 16
+        }
+      ]
+    },
+    {
+      "id": "share_off_full",
+      "description": "Exp. Share off (default; participants only), trainer x1.5, path + optional",
+      "legs": [
+        {
+          "leg": "start -> gym 1",
+          "partyLevel": 20,
+          "bossAce": 14,
+          "gap": 6
+        },
+        {
+          "leg": "gym 1 -> gym 2",
+          "partyLevel": 27,
+          "bossAce": 21,
+          "gap": 6
+        },
+        {
+          "leg": "gym 2 -> gym 3",
+          "partyLevel": 34,
+          "bossAce": 28,
+          "gap": 6
+        },
+        {
+          "leg": "gym 3 -> gym 4",
+          "partyLevel": 39,
+          "bossAce": 34,
+          "gap": 5
+        },
+        {
+          "leg": "gym 4 -> gym 5",
+          "partyLevel": 46,
+          "bossAce": 40,
+          "gap": 6
+        },
+        {
+          "leg": "gym 5 -> gym 6",
+          "partyLevel": 51,
+          "bossAce": 46,
+          "gap": 5
+        },
+        {
+          "leg": "gym 6 -> gym 7",
+          "partyLevel": 56,
+          "bossAce": 52,
+          "gap": 4
+        },
+        {
+          "leg": "gym 7 -> gym 8",
+          "partyLevel": 63,
+          "bossAce": 58,
+          "gap": 5
+        },
+        {
+          "leg": "gym 8 -> hall of fame",
+          "partyLevel": 69,
+          "bossAce": 66,
+          "gap": 3
+        }
+      ]
+    },
+    {
+      "id": "share_off_path",
+      "description": "Exp. Share off (default), trainer x1.5, critical path only",
+      "legs": [
+        {
+          "leg": "start -> gym 1",
+          "partyLevel": 17,
+          "bossAce": 14,
+          "gap": 3
+        },
+        {
+          "leg": "gym 1 -> gym 2",
+          "partyLevel": 23,
+          "bossAce": 21,
+          "gap": 2
+        },
+        {
+          "leg": "gym 2 -> gym 3",
+          "partyLevel": 28,
+          "bossAce": 28,
+          "gap": 0
+        },
+        {
+          "leg": "gym 3 -> gym 4",
+          "partyLevel": 33,
+          "bossAce": 34,
+          "gap": -1
+        },
+        {
+          "leg": "gym 4 -> gym 5",
+          "partyLevel": 38,
+          "bossAce": 40,
+          "gap": -2
+        },
+        {
+          "leg": "gym 5 -> gym 6",
+          "partyLevel": 42,
+          "bossAce": 46,
+          "gap": -4
+        },
+        {
+          "leg": "gym 6 -> gym 7",
+          "partyLevel": 48,
+          "bossAce": 52,
+          "gap": -4
+        },
+        {
+          "leg": "gym 7 -> gym 8",
+          "partyLevel": 51,
+          "bossAce": 58,
+          "gap": -7
+        },
+        {
+          "leg": "gym 8 -> hall of fame",
+          "partyLevel": 59,
+          "bossAce": 66,
+          "gap": -7
+        }
+      ]
     }
   ],
   "constants": {
