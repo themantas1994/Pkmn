@@ -61,7 +61,7 @@ warp 4 7 -> hometown 6 9 down           # warp tile (door/stairs/mat/cave entran
 warp 4 7 -> @back                       # return to where the player entered this map from (shared interiors)
 npc girl 6 8 sprite=lass face=down move=wander text="Hi!"   # move: static | look | wander | path:udlr
 npc mom 3 4 sprite=mom script=home_mom hideif=some_flag showif=other_flag
-trainer route1_joey 4 10 sprite=youngster face=right sight=4   # trainer id = npc id unless trainer=<id>
+trainer route1_joey 4 10 sprite=youngster face=right sight=4   # (sight>0: challenges on sight, range = the screen; 0: never) trainer id = npc id unless trainer=<id>
 sign 3 4 text="ROUTE 1"                 # or script=<id>
 item potion1 8 9 potion 1               # visible item ball (id is local to the map; the pickup flag is item:<map>_<id>, globally unique)
 hidden ether1 12 3 ether                # hidden item (found by interacting; never on water, PC, TV, bookshelf, sign, NPC or obstacle tiles)

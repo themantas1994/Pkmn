@@ -4,7 +4,7 @@ Every core mechanic, its status, the ruleset it follows and the evidence. Machin
 
 Status: **tested** = implemented with the named automated tests; **implemented** = in code, only indirectly tested; **simplified** = deliberate simplification; **excluded** = out of scope; **open** = known gap.
 
-Totals: excluded 3, implemented 12, open 1, simplified 4, tested 48.
+Totals: excluded 3, implemented 12, open 1, simplified 4, tested 50.
 
 ## Identity and creation
 
@@ -99,6 +99,8 @@ Totals: excluded 3, implemented 12, open 1, simplified 4, tested 48.
 | Badges, gym order, field moves gated by badges | tested | Design | checkProgression; StrictReachTest |  |
 | Day/night, weekly events, time-dependent encounters and evolutions | tested | GSC-style clock | TimeAndEventsTest |  |
 | Healing at Pokémon Centers, blackout | tested | Gen IX | WorldTest (every script run on its yes/no paths) |  |
+| Trainer prize = class payout × highest trainer level (or `prize` override); defeat penalty = 4 × (1 + badges, max 8) × highest party level, capped at half the wallet; applied once per battle; none for scripted can-lose battles; wild wins pay nothing | tested | Crystalline policy (GSC halved the whole wallet, which dwarfed the 12–32/level prizes) | EconomyTest | Rewards and penalty scale with level; the badge factor is the only progression term |
+| Trainers spot the player at any distance while the trainer is on screen (camera rectangle) with an unobstructed, walkable straight line in its facing direction; `sight 0` never challenges | tested | Design | TrainerSightTest (viewport edge, walls, obstacles, terrain) | On-screen walking/battle start is not covered by unit tests (needs the LibGDX screen) |
 
 ## Saves
 

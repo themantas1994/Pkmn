@@ -647,7 +647,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
 
     private fun checkTrainerSight(): Boolean {
         val list = actors.values.filter { it.visible && it.npc?.trainer != null }.map { it.npc!! to (it.x to it.y) }
-        val npc = rules.spottingTrainer(map, player.x, player.y, list, { n -> actors[n.id]?.facing ?: Facing.parse(n.facing) }) { x, y ->
+        val npc = rules.spottingTrainer(map, player.x, player.y, list, { n -> actors[n.id]?.facing ?: Facing.parse(n.facing) },
+            inView = { x, y -> OverworldRules.inViewport(player.x, player.y, x, y, Renderer.W, Renderer.H) }) { x, y ->
             occupant(x, y) != null
         } ?: return false
         startTrainerEncounter(actors[npc.id]!!, approach = true)

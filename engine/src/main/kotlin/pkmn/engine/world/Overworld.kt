@@ -91,18 +91,22 @@ class OverworldRules(private val ctx: GameContext) {
         }.takeIf { (_, tx, ty) -> target.inBounds(tx, ty) }
     }
 
-    /** The first trainer that can see the player at (px, py): straight line of sight of `sight` tiles (inclusive) in its facing direction, nothing blocking between. Defeated trainers never spot. */
+    /**
+     * The first trainer that can see the player at (px, py): a straight line of sight in its facing direction with nothing blocking
+     * between. The only range limit is the screen: the trainer must be [inView] (rendered). Its approach tiles must be ones an NPC can
+     * walk on. Defeated trainers never spot, and `sight` 0 marks a trainer that never challenges on sight.
+     */
     fun spottingTrainer(map: MapData, px: Int, py: Int, npcs: List<Pair<NpcDef, Pair<Int, Int>>>, facingOf: (NpcDef) -> Facing,
-                        blocked: (Int, Int) -> Boolean): NpcDef? {
+                        inView: (Int, Int) -> Boolean = { _, _ -> true }, blocked: (Int, Int) -> Boolean): NpcDef? {
         for ((npc, pos) in npcs) {
             val trainer = npc.trainer ?: continue
-            if (trainer in ctx.state.defeatedTrainers || npc.sight <= 0) continue
+            if (trainer in ctx.state.defeatedTrainers || npc.sight <= 0 || !inView(pos.first, pos.second)) continue
             val f = facingOf(npc)
             var x = pos.first; var y = pos.second
-            for (i in 1..npc.sight) {
+            for (i in 1..maxOf(map.width, map.height)) {
                 x += f.dx; y += f.dy
                 if (x == px && y == py) return npc
-                if (sightBlockedAt(map, x, y) || blocked(x, y)) break
+                if (sightBlockedAt(map, x, y) || blocked(x, y) || !walkableTerrain(map, x, y)) break
             }
         }
         return null
@@ -145,6 +149,15 @@ class OverworldRules(private val ctx: GameContext) {
     }
 
     companion object {
+        /**
+         * True when tile (tx, ty) is at least partly on screen while the camera is centred on the player's tile (px, py): the same
+         * rectangle the overworld renderer draws (a [viewW] x [viewH] pixel view, 16 px tiles, camera = player centre).
+         */
+        fun inViewport(px: Int, py: Int, tx: Int, ty: Int, viewW: Int = 256, viewH: Int = 224): Boolean {
+            val camX = px * 16 + 8 - viewW / 2; val camY = py * 16 + 8 - viewH / 2
+            return tx * 16 + 16 > camX && tx * 16 < camX + viewW && ty * 16 + 16 > camY && ty * 16 < camY + viewH
+        }
+
         /** Flag persisted by the script commands `hide`/`show`. */
         fun hiddenFlag(mapId: String, npcId: String) = "hidden:$mapId:$npcId"
     }
