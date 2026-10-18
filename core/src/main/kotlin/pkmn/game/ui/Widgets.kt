@@ -11,9 +11,11 @@ import pkmn.game.screens.Screen
  * GSC-style dialogue box at the bottom of the screen: typewriter text, two lines per page,
  * A/B to advance, blinking arrow when more text follows. `\u000C` (from `\p` in scripts) forces a new box.
  */
-class TextBox(game: PkmnGame, text: String, private val autoClose: Boolean = false, val onDone: () -> Unit = {},
+class TextBox(game: PkmnGame, text: String, private val autoClose: Boolean = false,
               /** Optional extra drawing behind the box (e.g. the badge art in the badge award). */
-              private val decor: ((Renderer) -> Unit)? = null) : Screen(game) {
+              private val decor: ((Renderer) -> Unit)? = null,
+              /** Must stay the last parameter: `TextBox(game, "...") { ... }` binds the trailing lambda to it. */
+              val onDone: () -> Unit = {}) : Screen(game) {
     override val opaque = false
     private val pages: List<List<String>>
     private var page = 0
