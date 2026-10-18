@@ -1,38 +1,49 @@
 map tidewater_gym
 name "Port Tidewater Gym"
 location "Port Tidewater"
-music gym
+music gym_tide
 environment water
 indoor
 tags gym
 
+legend
+a gym_wall_tide
+e gym_floor_tide
+d dock_plank
+y dock_plank_v
+f float_platform
+P pillar_mooring
+C puzzle_wall_crate
+S statue_tide
+end
+
 layout
 ^^^^^^^^^^^^^^
 @w@@@@@@@@@@w@
-@GggggggggggG@
-@gggggggggggg@
-@gggggggggggg@
-@~~~~~~~~~~~~@
-@~~~~~~~~~~~~@
-@gggggggggggg@
-@gg~~gggg~~gz@
-@gg~~gggg~~gg@
-@gggggggggggg@
-@~~~~~~~~~~~~@
-@~~~~~~~~~~~~@
-@gggggggggggg@
-@gg~~gggg~~gg@
-@zg~~gggg~~gg@
-@gggggggggggg@
-@@@@@@RR@@@@@@
+aSCeeeyyeeeCSa
+aeeeeeyeeeeeea
+aCeeeeyyeeeeCa
+a~~~~~~~~~~~~a
+a~~~~~~~~~~~~a
+aeeeeeyyeeeeea
+aee~~eyyef~eza
+aeP~feyye~~Pea
+aeeeeeyyeeeeea
+a~~~~~~~~~~~~a
+a~~~~~~~~~~~~a
+aeeeeeyyeeeeea
+aeP~feyye~~Pea
+aze~~eyyef~eea
+adddedyydddeda
+aaaaaaRRaaaaaa
 end
 
 warp 6 17 -> port_tidewater 5 6 down
 warp 7 17 -> port_tidewater 5 6 down
-tileif p1_gym2_sw1 6 11 bridge_v
-tileif p1_gym2_sw1 6 12 bridge_v
-tileif p1_gym2_sw2 7 5 bridge_v
-tileif p1_gym2_sw2 7 6 bridge_v
+tileif p1_gym2_sw1 6 11 dock_plank_v
+tileif p1_gym2_sw1 6 12 dock_plank_v
+tileif p1_gym2_sw2 7 5 dock_plank_v
+tileif p1_gym2_sw2 7 6 dock_plank_v
 trigger 1 15 1 1 script=p1_gym2_sw1 unless=p1_gym2_sw1
 trigger 12 8 1 1 script=p1_gym2_sw2 unless=p1_gym2_sw2
 npc marina 7 3 sprite=leader2 face=down script=p1_marina

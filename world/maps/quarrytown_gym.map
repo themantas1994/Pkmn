@@ -2,39 +2,50 @@
 map quarrytown_gym
 name "Quarrytown Gym"
 location "Quarrytown"
-music gym
+music gym_stone
 environment building
 indoor
 tags gym
 
+legend
+a gym_wall_stone
+r rock_ore
+o rock_rubble
+L lamp_mine
+g gym_floor_stone
+h rail_h
+v rail_v
+Z puzzle_wall_stone
+end
+
 layout
-@@@@@@@@@@@@@@@
-@ggggGgggGgggg@
-@ggggggggggggg@
-@ggggggggggggg@
-@ggggggggggggg@
-@kkkZkkkkkkkkk@
-@ggggggkgggggg@
-@zgggggkgggggg@
-@ggggggkgggggg@
-@kkZkkkkkkkgkk@
-@ggggggggggggg@
-@gggggggggggzg@
-@ggggggggggggg@
-@kkkkkkZkkkkkk@
-@ggggggggggggg@
-@gzggggggggggg@
-@ggggGgggGgggg@
-@@@@@@@R@@@@@@@
+aaaaaaaaaaaaaaa
+aggggLgggLgggoa
+aggggggggggggga
+aggggggggggggga
+aogggggggggggoa
+arrrZorrrrorrra
+aggggggrgggggva
+azgggggrgggggva
+aggggggrgggggva
+aroZrrrorrrgora
+aogggggggggggga
+ahhhhhghhhhhzha
+aogggggggggggoa
+arrrorrZrorrrra
+ahhhhhhhhhhhhoa
+agzggggggggggga
+aogggLgggLgggoa
+aaaaaaaRaaaaaaa
 end
 
 warp 7 17 -> quarrytown 22 18 down
-tileif p2_qg_a 7 13 gym_floor
-tileif p2_qg_a 8 13 puzzle_wall
-tileif p2_qg_b 3 9 gym_floor
-tileif p2_qg_b 11 9 puzzle_wall
-tileif p2_qg_c 4 5 gym_floor
-tileif p2_qg_c 5 5 puzzle_wall
+tileif p2_qg_a 7 13 gym_floor_stone
+tileif p2_qg_a 8 13 puzzle_wall_stone
+tileif p2_qg_b 3 9 gym_floor_stone
+tileif p2_qg_b 11 9 puzzle_wall_stone
+tileif p2_qg_c 4 5 gym_floor_stone
+tileif p2_qg_c 5 5 puzzle_wall_stone
 trigger 2 15 1 1 script=p2_qgym_sw_a unless=p2_qg_a
 trigger 12 11 1 1 script=p2_qgym_sw_b
 trigger 1 7 1 1 script=p2_qgym_sw_c unless=p2_qg_c

@@ -98,6 +98,30 @@ The generator also provides `center_wall_m`, `mart_wall_m`, `gym_window`, the
 `town_floor` plaza paving, `rug_l` and `rug_r` (a 2-wide exit mat), `rug_mat`
 (a single warp mat) and `spinner_up`, `spinner_down`, `spinner_left` and `spinner_right`.
 
+### Gym themes (`art/gym_tiles.py`)
+
+Each gym has its own tile set (7-8 tiles, own palettes `gym_<theme>*` that carry the badge colours of
+`assets/gfx/badges`). They are appended after every older tile, so no existing index moves. Collision comes from the tile
+name only (`TileRules`): `gym_wall_*`, `puzzle_wall_*`, `statue_*`, `pillar_*`, `lamp_*`, `plant_*`, `bush_*`, `machine_*`,
+`rock_*` and `lava` are solid; `gym_floor_*`, `dock_plank*`, `float_platform`, `circuit_*` and `rail_*` are walkable floor.
+Sliding ice is still the single existing `ice` tile (`gym_floor_frost*` do not slide); water pools reuse `water`.
+
+| Gym | Tiles |
+|---|---|
+| 1 Sprout | `gym_floor_sprout`, `gym_floor_sprout_stones`, `gym_wall_hedge`, `puzzle_wall_hedge`, `bush_blossom`, `plant_sprout`, `statue_sprout` |
+| 2 Tide | `gym_floor_tide`, `gym_wall_tide`, `dock_plank`, `dock_plank_v`, `float_platform`, `pillar_mooring`, `puzzle_wall_crate`, `statue_tide` |
+| 3 Spark | `gym_floor_spark`, `circuit_panel`, `circuit_cable`, `gym_wall_spark`, `machine_generator`, `machine_coil`, `puzzle_wall_spark` |
+| 4 Stone | `gym_floor_stone`, `gym_wall_stone`, `rock_ore`, `rock_rubble`, `rail_h`, `rail_v`, `lamp_mine`, `puzzle_wall_stone` |
+| 5 Mist | `gym_floor_mist`, `gym_floor_mist_deep`, `gym_floor_mist_path`, `gym_wall_mist`, `statue_mist`, `plant_mist`, `puzzle_wall_mist` |
+| 6 Ember | `gym_floor_ember`, `gym_floor_ember_hot`, `gym_wall_ember`, `lava` (4 frames), `gym_floor_ember_crust`, `lamp_brazier`, `puzzle_wall_ember` |
+| 7 Frost | `gym_floor_frost`, `gym_floor_frost_cracked`, `gym_floor_frost_snow`, `gym_wall_frost`, `pillar_ice`, `statue_frost`, `puzzle_wall_frost` |
+| 8 Dusk | `gym_floor_dusk`, `gym_floor_dusk_rune`, `gym_wall_dusk`, `pillar_dusk`, `statue_dragon`, `lamp_dusk`, `puzzle_wall_dusk` |
+
+`build_all.py` checks that every set exists, has 5-8 tiles and that no two tiles of a set are identical;
+`GymTilesetTest` repeats that on the shipped PNG (index range, at most 4 colours per tile, distinct images).
+`art/previews/gym_themes_contact.png` shows one row per gym. The `lava` tile is the only animated one added (4 frames, the
+pattern drifts 4 px per frame like water). Gym maps do not use these tiles yet.
+
 ### Interiors
 
 Furniture tiles are opaque. Home furniture (`table`, `chair`, `bed_*`, `plant`,

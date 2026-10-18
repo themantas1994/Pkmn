@@ -1,40 +1,46 @@
 map brindle_gym
 name "Brindle City Gym"
 location "Brindle City"
-music gym
+music gym_sprout
 environment building
 indoor
 tags gym
 
 legend
-b bush
+b gym_wall_hedge
+B bush_blossom
+Z puzzle_wall_hedge
+g gym_floor_sprout
+s gym_floor_sprout_stones
+P plant_sprout
+G statue_sprout
 end
 
 layout
 ^^^^^^^^^^^^^^
 @w@@@@@@@@@@w@
-bGggggggggggGb
-bggggggggggggb
-bggggggggggggb
-bbbbbbbbbbbbbb
-bgggggbggggzgb
-bgbbbgbgbbbbgb
-bgbgggbgggbggb
-bgbgbbbbbgbgbb
-bggggggggggggb
-bbbbbbbbbbbbbb
-bzgggbgggggggb
-bbbbgbgbbbbbgb
-bggggbggggbggb
-bgbbbbGggGbgbb
-bggggggggggggb
-bbbbbbRRbbbbbb
+bGPgggsggggPGb
+bggggggggsgggB
+BPgsggggggggPb
+bbbBbbbZbbbBbb
+bgggggBggsgzgb
+bgbbbgbgbBbbsB
+Bgbgggbgggbggb
+bgbgbbbBbsbgbb
+bggsgggggggggb
+bBbbbBbZbBbbbB
+Bzgggbgggggggb
+bbbBgbgBbbbBsb
+bggggbsgggBggb
+bgbbbBGggGbgbB
+BggsggggggggPb
+bbbBbbRRbbbBbb
 end
 
 warp 6 17 -> brindle_city 14 6 down
 warp 7 17 -> brindle_city 14 6 down
-tileif p1_gym1_sw1 7 11 gym_floor
-tileif p1_gym1_sw2 7 5 gym_floor
+tileif p1_gym1_sw1 7 11 gym_floor_sprout
+tileif p1_gym1_sw2 7 5 gym_floor_sprout
 trigger 1 12 1 1 script=p1_gym1_sw1 unless=p1_gym1_sw1
 trigger 11 6 1 1 script=p1_gym1_sw2 unless=p1_gym1_sw2
 npc hazel 7 2 sprite=leader1 face=down script=p1_hazel

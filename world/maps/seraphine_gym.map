@@ -2,36 +2,48 @@
 map seraphine_gym
 name "Seraphine Gym"
 location "Seraphine Town"
-music gym
+music gym_mist
 environment building
 indoor
 tags gym
 
+legend
+@ gym_wall_mist
+g gym_floor_mist
+m gym_floor_mist_deep
+a gym_floor_mist_path
+G statue_mist
+P plant_mist
+Z puzzle_wall_mist
+z puzzle_switch
+R rug_mat
+end
+
 layout
 @@@@@@@@@@@@@@@
-@ggggGgggGgggg@
+@PgggGgggGgggP@
 @ggggggggggggg@
-@ggggggggggggg@
-@ggggggggggggg@
+@ggggggagggggg@
+@ggggggagggggg@
 @ZZZZZZZZZZZZZ@
-@ggggggggggggg@
-@gzgZggzggZggg@
-@gggZgggggZggg@
+@mmmmmmaaaaamm@
+@mzmGmmzmmGamm@
+@mmmPmmmmmPaam@
 @ZZZZZZZZZZZZZ@
-@ggggggggggggg@
-@gzgggggggggzg@
-@ggggggggggggg@
+@mmmmmmmmmmmam@
+@mzmmmmmmmmmzm@
+@maaaaaaaaaaam@
 @ZZZZZZZZZZZZZ@
-@ggggggggggggg@
-@gggggggggggzg@
-@ggggGgggGgggg@
+@maaaaaaaaaaam@
+@mmmmmmaaaaazm@
+@PmmmGmamGmmmP@
 @@@@@@@R@@@@@@@
 end
 
 warp 7 17 -> seraphine_town 7 22 down
-tileif p2_sg_a 2 13 gym_floor
-tileif p2_sg_b 12 9 gym_floor
-tileif p2_sg_c 7 5 gym_floor
+tileif p2_sg_a 2 13 gym_floor_mist_path
+tileif p2_sg_b 12 9 gym_floor_mist_path
+tileif p2_sg_c 7 5 gym_floor_mist_path
 trigger 12 15 1 1 script=p2_sgym_sw_a unless=p2_sg_a
 trigger 12 11 1 1 script=p2_sgym_sw_b unless=p2_sg_b
 trigger 2 11 1 1 script=p2_sgym_trap

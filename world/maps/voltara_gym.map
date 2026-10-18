@@ -2,34 +2,44 @@
 map voltara_gym
 name "Voltara Gym"
 location "Voltara City"
-music gym
+music gym_spark
 environment building
 indoor
 tags gym
 
+legend
+a gym_wall_spark
+Z puzzle_wall_spark
+g gym_floor_spark
+c circuit_cable
+l circuit_panel
+M machine_generator
+N machine_coil
+end
+
 layout
-@@@@@@@@@@@@@
-@GgggggggggG@
-@ggggggggggg@
-@ZZZZZZZZZZZ@
-@ggggggggggg@
-@gggGgggGggz@
-@ggggggggggg@
-@ZZZZZZZZZZZ@
-@ggggggggggg@
-@zggGgggGggg@
-@ggggggggggg@
-@ZZZZZZZZZZZ@
-@ggggggggggg@
-@gggggggggzg@
-@gggGgggGggg@
-@@@@@@R@@@@@@
+aaaaaaaaaaaaa
+aMgggggggggMa
+aglggglggglga
+aZZZZZZZZZZZa
+accccccccccca
+agggNgggNggza
+aglggglggglga
+aZZZZZZZZZZZa
+accccccccccca
+azggNgggNggga
+aglggglggglga
+aZZZZZZZZZZZa
+accccccccccca
+agggggggggzga
+aglgNglgNglga
+aaaaaaRaaaaaa
 end
 
 warp 6 15 -> voltara_city 13 7 down
-tileif p2_vg_1 3 11 gym_floor
-tileif p2_vg_2 9 7 gym_floor
-tileif p2_vg_3 6 3 gym_floor
+tileif p2_vg_1 3 11 gym_floor_spark
+tileif p2_vg_2 9 7 gym_floor_spark
+tileif p2_vg_3 6 3 gym_floor_spark
 trigger 10 13 1 1 script=p2_vgym_sw1 unless=p2_vg_1
 trigger 1 9 1 1 script=p2_vgym_sw2 unless=p2_vg_2
 trigger 11 5 1 1 script=p2_vgym_sw3 unless=p2_vg_3

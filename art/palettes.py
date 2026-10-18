@@ -83,6 +83,48 @@ TILE = {
     "ruins": pal("E8E0B0", "C0B078", "807048", "302818"),
     "league": pal("E8D8F8", "B090D8", "6848A0", "201040"),
     "dark": pal("606078", "404058", "282838", "101018"),
+    # themed gym tile sets (art/gym_tiles.py); every set carries its badge colours
+    # 1 Sprout: lawn, hedge, blossom, stepping stones, planter, leaf statue
+    "gym_sprout": pal("C8F8A0", "88D058", "489838", "183820"),
+    "gym_sprout_stones": pal("E8E0C0", "88D058", "B0A888", "305028"),
+    "gym_sprout_hedge": pal("98D858", "48A030", "287828", "102810"),
+    "gym_sprout_bloom": pal("F8F8F8", "F890B8", "48A030", "183820"),
+    "gym_sprout_pot": pal("88D058", "489838", "C08048", "183820"),
+    "gym_sprout_statue": pal("E8F8D0", "A8D890", "58B038", "205020"),
+    # 2 Tide: wet stone, wave wall, dock planks, raft on water, drop fountain
+    "gym_tide": pal("D8F0F8", "A8D8F0", "6098D0", "103878"),
+    "gym_tide_wall": pal("A8E0F8", "3078D8", "103878", "081840"),
+    "gym_tide_dock": pal("E8C890", "C09058", "885830", "402010"),
+    "gym_tide_float": pal("E8C890", "B88048", "3078D8", "103878"),
+    "gym_tide_statue": pal("D8F0F8", "A8E0F8", "3078D8", "103878"),
+    # 3 Spark: steel plates, live circuit traces, hazard-yellow machinery
+    "gym_spark": pal("B0B8D0", "707890", "384058", "101020"),
+    "gym_spark_live": pal("F8F098", "F0C020", "505870", "181828"),
+    "gym_spark_hazard": pal("F8F098", "F0C020", "384058", "101020"),
+    # 4 Stone: flagstones, mine wall, ore vein, lantern
+    "gym_stone": pal("E0D8C8", "B8A888", "786850", "282018"),
+    "gym_stone_wall": pal("B8A888", "786850", "504838", "201810"),
+    "gym_stone_ore": pal("E8F0F8", "988868", "4890D8", "282018"),
+    "gym_stone_lamp": pal("F8E8A0", "D89830", "786850", "282018"),
+    # 5 Mist: pale lavender slabs, fog, glow flowers, crystal statue
+    "gym_mist": pal("F0E8F8", "D0C0F0", "9880D0", "483878"),
+    "gym_mist_wall": pal("D0C0F0", "9880D0", "584890", "281848"),
+    "gym_mist_glow": pal("F8F8C0", "D0C0F0", "58A070", "483878"),
+    "gym_mist_statue": pal("F0E8F8", "D0B8F0", "8868C8", "281848"),
+    # 6 Ember: basalt, glowing cracks, lava, crust, brazier
+    "gym_ember": pal("786860", "504040", "302828", "181010"),
+    "gym_ember_hot": pal("F8D880", "F07020", "504040", "181010"),
+    "gym_ember_lava": pal("F8D880", "F89830", "E04018", "801008"),
+    "gym_ember_crust": pal("F89830", "E04018", "504040", "181010"),
+    # 7 Frost: polished ice tile, ice brick, crystal statue
+    "gym_frost": pal("F8F8F8", "D0E8F8", "90D0F0", "3868B0"),
+    "gym_frost_wall": pal("D0E8F8", "90D0F0", "3868B0", "102048"),
+    "gym_frost_statue": pal("F8F8F8", "B8E0F8", "68A8E0", "102048"),
+    # 8 Dusk: ancient violet slabs, gold runes, dragon scales, dragon statue
+    "gym_dusk": pal("6858A8", "403078", "281858", "080818"),
+    "gym_dusk_rune": pal("F8E8A0", "5040A0", "281858", "080818"),
+    "gym_dusk_wall": pal("8068C0", "5040A0", "281858", "080818"),
+    "gym_dusk_statue": pal("F8E8A0", "B09850", "403078", "080818"),
     # entrance tiles (warp doors that must look like where they lead)
     # forest path gap: tan path, light green, green, deep green
     "forest_gap": pal("E0C890", "98D068", "409048", "183020"),

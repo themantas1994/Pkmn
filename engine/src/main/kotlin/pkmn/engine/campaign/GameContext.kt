@@ -400,8 +400,21 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
     }
 
     /**
+     * Money lost on a defeat: 4 × (1 + badges) × the party's highest level, so it scales like the trainer prize
+     * (class payout × highest level, 12–32 per level) and never exceeds half the wallet (nor the wallet itself).
+     */
+    fun defeatPenalty(): Int {
+        val perLevel = 4 * (1 + state.badgeCount().coerceAtMost(8))
+        val level = state.party.maxOfOrNull { it.level } ?: 1
+        return (perLevel * level).coerceAtMost(state.money / 2).coerceAtLeast(0)
+    }
+
+    /** The battle whose result was last applied; a re-entered callback must not pay or charge twice. */
+    private var lastAppliedBattle: Battle? = null
+
+    /**
      * Applies the outcome of a battle to the game state. Returns messages to show. A loss in a [canLose] battle
-     * (scripted story fights) costs nothing and does not black out.
+     * (scripted story fights) costs nothing and does not black out. Applying the same battle twice is a no-op.
      */
     /** The capture recorded by the last [applyBattleResult] (the UI shows its Pokédex entry and nickname prompt). */
     var lastCapture: Acquisition? = null
@@ -410,9 +423,11 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
     fun applyBattleResult(b: Battle, trainerId: String?, canLose: Boolean = false): List<String> {
         lastCapture = null
         val msgs = ArrayList<String>()
+        val reapplied = b === lastAppliedBattle
+        if (reapplied && b.outcome != BattleOutcome.CAUGHT) return msgs
+        lastAppliedBattle = b
         when (b.outcome) {
-            BattleOutcome.WIN -> if (trainerId != null) {
-                state.defeatedTrainers.add(trainerId)
+            BattleOutcome.WIN -> if (trainerId != null && state.defeatedTrainers.add(trainerId)) {
                 val prize = prizeMoney(trainerId) * (if (state.party.any { it.heldItem == "amuletcoin" }) 2 else 1)
                 state.money = (state.money + prize).coerceAtMost(9_999_999)
                 msgs.add("${state.playerName} got ¥$prize for winning!")
@@ -425,7 +440,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
                 lastCapture = acquire(mon).also { if (it.where == null) msgs.add("There's no room left for ${mon.species(dex).name}! It was released.") }
             }
             BattleOutcome.LOSE, BattleOutcome.DRAW -> if (!canLose) {
-                val lost = (state.money / 2).coerceAtMost(state.money)
+                val lost = defeatPenalty()
                 state.money -= lost
                 msgs.add("${state.playerName} is out of usable Pokémon!")
                 if (lost > 0) msgs.add("${state.playerName} panicked and dropped ¥$lost...")
@@ -433,7 +448,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
             }
             else -> {}
         }
-        if (b.payDay > 0) { state.money += b.payDay; msgs.add("${state.playerName} picked up ¥${b.payDay}!") }
+        if (!reapplied && b.payDay > 0) { state.money += b.payDay; msgs.add("${state.playerName} picked up ¥${b.payDay}!") }
         return msgs
     }
 

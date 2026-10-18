@@ -3,49 +3,58 @@
 map dragonspire_gym
 name "Dragonspire Gym"
 location "Dragonspire City"
-music gym
+music gym_dusk
 environment building
 indoor
 tags gym powerspot
 
 legend
+@ gym_wall_dusk
+d gym_floor_dusk
+r gym_floor_dusk_rune
+G statue_dragon
+P pillar_dusk
+l lamp_dusk
 * void
+z puzzle_switch
+U stairs_in_up
+R rug_mat
 end
 
 layout
 @@@@@@@@@@@@@@@@@
-@GddddddUddddddG@
-@ddddddddddddddd@
-@ddddddddddddddd@
+@GddPddlUlddPddG@
+@dddddddrddddddd@
+@dddddddrdddrddd@
 @***************@
 @***************@
 @***************@
+@lddddP***Pdrddl@
+@dzrddd***ddddrz@
+@drdddr***rddddd@
 @dddddd***dddddd@
-@dzdddd***dddddz@
-@dddddd***dddddd@
-@dddddd***dddddd@
-@dddddd***dddddz@
+@dddrdP***Pdddrz@
 @***************@
 @***************@
 @***************@
-@ddddddddddddddd@
-@ddddddddddddddd@
-@dzddddddddddddd@
-@ddddGdddddGdddd@
+@lddrddddddddddl@
+@drddddddddddddd@
+@dzrddddrddddddd@
+@PdddGddrddGdddP@
 @@@@@@@@R@@@@@@@@
 end
 
 warp 8 19 -> dragonspire_city 17 7 down
 warp 8 1 -> dragonspire_gym_2f 8 15 up
-tileif p3b_dg_b1 4 12 bridge_v
-tileif p3b_dg_b1 4 13 bridge_v
-tileif p3b_dg_b1 4 14 bridge_v
-tileif p3b_dg_b2 7 9 bridge_h
-tileif p3b_dg_b2 8 9 bridge_h
-tileif p3b_dg_b2 9 9 bridge_h
-tileif p3b_dg_b3 12 4 bridge_v
-tileif p3b_dg_b3 12 5 bridge_v
-tileif p3b_dg_b3 12 6 bridge_v
+tileif p3b_dg_b1 4 12 gym_floor_dusk_rune
+tileif p3b_dg_b1 4 13 gym_floor_dusk_rune
+tileif p3b_dg_b1 4 14 gym_floor_dusk_rune
+tileif p3b_dg_b2 7 9 gym_floor_dusk_rune
+tileif p3b_dg_b2 8 9 gym_floor_dusk_rune
+tileif p3b_dg_b2 9 9 gym_floor_dusk_rune
+tileif p3b_dg_b3 12 4 gym_floor_dusk_rune
+tileif p3b_dg_b3 12 5 gym_floor_dusk_rune
+tileif p3b_dg_b3 12 6 gym_floor_dusk_rune
 trigger 2 17 1 1 script=p3b_dgym_sw1 unless=p3b_dg_b1
 trigger 2 8 1 1 script=p3b_dgym_sw2 unless=p3b_dg_b2
 trigger 15 8 1 1 script=p3b_dgym_sw3 unless=p3b_dg_b3

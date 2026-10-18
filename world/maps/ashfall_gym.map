@@ -1,28 +1,41 @@
 map ashfall_gym
 name "Ashfall Gym"
 location "Ashfall City"
-music gym
+music gym_ember
 environment building
 indoor
 tags gym
 
+legend
+@ gym_wall_ember
+^ gym_wall_ember
+w lamp_brazier
+g gym_floor_ember
+h gym_floor_ember_hot
+l lava
+G lamp_brazier
+Z puzzle_wall_ember
+z puzzle_switch
+R rug_mat
+end
+
 layout
 @^^^^^^^^^^^^^^@
 @@@w@@@@@@@@w@@@
-@ZGggggGZZZZZZZ@
-@ZggggggggggggZ@
-@ZggggggZgggggZ@
+@ZGhhhgGZZZZZZZ@
+@ZghhhggggggglZ@
+@ZgllllgZgggllZ@
 @ZZZZZZZZgggggZ@
-@ZZZZZZZZZZZZZZ@
-@ZZZZZZZZZZZZZZ@
-@zgggZZZZgggggZ@
-@ggggZZZZgggggZ@
-@ggggZZZZggggzZ@
-@ZZZZZZZZZZZZZZ@
-@ZZZZZZZZZZZZZZ@
-@ggggggggggggzg@
-@gggggggggggggg@
-@GggggggggggggG@
+@llllllllllllll@
+@llllllllllllll@
+@zgllllllgggllZ@
+@ghggllllgggllZ@
+@ghggllllggggzZ@
+@llllllllllllll@
+@llllllllllllll@
+@gggghhhhggggzg@
+@gglggggggggggg@
+@GllggggggggggG@
 @@@@@@@RR@@@@@@@
 end
 
@@ -37,11 +50,11 @@ trainer g6_beauty_cinder 11 3 sprite=beauty face=down sight=4 trainer=p3a_g6_bea
 trigger 13 13 1 1 script=p3a_ash_gym_s1 unless=p3a_ash_s1
 trigger 1 8 1 1 script=p3a_ash_gym_s2 unless=p3a_ash_s2
 trigger 13 10 1 1 script=p3a_ash_gym_s3 unless=p3a_ash_s3
-tileif p3a_ash_s1 2 11 gym_floor
-tileif p3a_ash_s1 2 12 gym_floor
-tileif p3a_ash_s2 5 9 gym_floor
-tileif p3a_ash_s2 6 9 gym_floor
-tileif p3a_ash_s2 7 9 gym_floor
-tileif p3a_ash_s2 8 9 gym_floor
-tileif p3a_ash_s3 11 6 gym_floor
-tileif p3a_ash_s3 11 7 gym_floor
+tileif p3a_ash_s1 2 11 gym_floor_ember_crust
+tileif p3a_ash_s1 2 12 gym_floor_ember_crust
+tileif p3a_ash_s2 5 9 gym_floor_ember_crust
+tileif p3a_ash_s2 6 9 gym_floor_ember_crust
+tileif p3a_ash_s2 7 9 gym_floor_ember_crust
+tileif p3a_ash_s2 8 9 gym_floor_ember_crust
+tileif p3a_ash_s3 11 6 gym_floor_ember_crust
+tileif p3a_ash_s3 11 7 gym_floor_ember_crust

@@ -61,7 +61,7 @@
       "fieldMoves": [],
       "blockedFieldMoves": [],
       "maps": 110,
-      "tiles": 20745,
+      "tiles": 20727,
       "obtainableSpecies": 550
     },
     {
@@ -71,7 +71,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 112,
-      "tiles": 21183,
+      "tiles": 21165,
       "obtainableSpecies": 555
     },
     {
@@ -83,7 +83,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 113,
-      "tiles": 21659,
+      "tiles": 21641,
       "obtainableSpecies": 556
     },
     {
@@ -96,7 +96,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 150,
-      "tiles": 31474,
+      "tiles": 31436,
       "obtainableSpecies": 640
     },
     {
@@ -110,7 +110,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 209,
-      "tiles": 51374,
+      "tiles": 51308,
       "obtainableSpecies": 733
     },
     {
@@ -125,7 +125,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 209,
-      "tiles": 51374,
+      "tiles": 51308,
       "obtainableSpecies": 733
     },
     {
@@ -140,7 +140,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 209,
-      "tiles": 51374,
+      "tiles": 51308,
       "obtainableSpecies": 733
     },
     {
@@ -156,7 +156,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 223,
-      "tiles": 54708,
+      "tiles": 54642,
       "obtainableSpecies": 735
     },
     {
@@ -172,7 +172,7 @@
       ],
       "blockedFieldMoves": [],
       "maps": 223,
-      "tiles": 54708,
+      "tiles": 54642,
       "obtainableSpecies": 735
     }
   ],
