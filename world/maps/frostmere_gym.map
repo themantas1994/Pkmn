@@ -1,7 +1,7 @@
 map frostmere_gym
 name "Frostmere Gym"
 location "Frostmere Town"
-music gym
+music gym_frost
 environment snow
 indoor
 tags gym powerspot

@@ -1,0 +1,17 @@
+; Tide Gym - rolling harbour swell in E major, 6/8. Original composition, CC0-1.0.
+#title Harbor Swell
+#tempo 104
+#time 6/8
+#key E major
+#inst 1 duty=2 env=11,-2 rel=-3 vib=16,14,5
+#inst 2 duty=1 env=7,-3 rel=-1
+#inst 3 wave=3 env=14,0
+#def Wm o4 c16 e16 g16 > c16 e16 g16 e16 c16 < g16 e16 c16 g16
+#def Wn o4 c16 d+16 g16 > c16 d+16 g16 d+16 c16 < g16 d+16 c16 g16
+#def Bs o2 c4. g4.
+#def Dr K8 H8 H8 R8 H8 H8
+
+A @1 o5 $ g+4. b4. | a4. > c+4. < | b4. > d+4. < | > e2. < | c+4. e4. | a8 g+8 a8 > c+4. < | b8 a8 g+8 f+4. | f+4 g+4 a4 | e8 g+8 b8 > e4. < | > c+8 < a8 e8 a4. | d+8 f+8 b8 > d+4. < | > c+4. < b4. | a4. > e4. < | > d+4. f+4. < | > e4. < b4. | g+2. | g+4. b4. | a4. > c+4. < | > d+4. < b4. | e2. |
+B @2 $ k4{Wm} | k9{Wm} | k11{Wm} | k4{Wm} | k1{Wn} | k9{Wm} | k11{Wm} | k11{Wm} | k4{Wm} | k9{Wm} | k11{Wm} | k1{Wn} | k9{Wm} | k11{Wm} | k4{Wm} | k4{Wm} | k4{Wm} | k9{Wm} | k11{Wm} | k4{Wm} | k0
+C @3 $ k4{Bs} | k9{Bs} | k11{Bs} | k4{Bs} | k1{Bs} | k9{Bs} | k11{Bs} | k11{Bs} | k4{Bs} | k9{Bs} | k11{Bs} | k1{Bs} | k9{Bs} | k11{Bs} | k4{Bs} | k4{Bs} | k4{Bs} | k9{Bs} | k11{Bs} | k4{Bs} | k0
+D v6 $ [{Dr}]20

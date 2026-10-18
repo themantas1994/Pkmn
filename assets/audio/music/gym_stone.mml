@@ -1,0 +1,16 @@
+; Stone Gym - slow, heavy mine-cart plod in F minor. Original composition, CC0-1.0.
+#title Deep Vein
+#tempo 96
+#time 4/4
+#key F minor
+#inst 1 duty=3 env=12,-1 rel=-2 vib=30,12,4
+#inst 2 duty=1 env=11,-4 rel=-1
+#inst 3 wave=6 env=14,0
+#def St o3 r4 c8 c8 r4 g8 g8
+#def Bs o2 c4. c8 r4 c8 c8
+#def Dr K8 r8 T8 r8 S8 r8 K8 M8
+
+A @1 o5 $ f2 f8 g8 a-4 | c4. d-8 c4 a-4 | d-4 f4 a-4 > d-4 < | c2 g4 e-4 | f4 g4 a-4 > c4 < | > d-4. c8 < a-4 f4 | b-4 d-4 f4 > d-4 < | > c2. < g4 | a-4. > c8 e-4 c4 < | > e-2 d-4 c4 < | > d-4. c8 < a-4 f4 | g2 e-4 g4 | f4 a-4 > c4 f4 < | > d-4 c4 < b-4 a-4 | g4 a-4 b-4 > c4 < | f2. r4 |
+B @2 $ k5{St} | k5{St} | k1{St} | k0{St} | k5{St} | k5{St} | k10{St} | k0{St} | k8{St} | k3{St} | k1{St} | k0{St} | k5{St} | k10{St} | k0{St} | k5{St} | k0
+C @3 $ k5{Bs} | k5{Bs} | k1{Bs} | k0{Bs} | k5{Bs} | k5{Bs} | k10{Bs} | k0{Bs} | k8{Bs} | k3{Bs} | k1{Bs} | k0{Bs} | k5{Bs} | k10{Bs} | k0{Bs} | k5{Bs} | k0
+D v10 $ [{Dr}]16

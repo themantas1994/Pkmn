@@ -1,0 +1,17 @@
+; Mist Gym - drifting echoes in A lydian. Original composition, CC0-1.0.
+#title Veiled Hollow
+#tempo 76
+#time 4/4
+#key A lydian, A major
+#inst 1 duty=2 env=9,-1 rel=-3 vib=20,16,4.5
+#inst 2 duty=1 env=5,-3 rel=-2 pan=r
+#inst 3 wave=4 env=10,0
+#def mm a2 e4 c+4 d+4 f+4 b2 a4. f+8 c+4 e4 g+2. b4 > d4. c+8 < b4 a4 e4 a4 > c+2 < g+4 b4 > e2 < > d+4. < b8 f+2 c+4 f+4 a4 > c+4 < > d4 < a4 f+4 d4 d+4 f+4 b4 a4
+#def Pd o3 c2 g2
+#def Dr X8 r8 H8 r8 R8 r8 H8 r8
+
+; B echoes A a dotted eighth late (and quieter); the tail rests keep every channel the same length
+A @1 o5 $ {mm} a2. r4
+B @2 o5 $ r8. {mm} a2. r16
+C @3 $ k9{Pd} | k11{Pd} | k6{Pd} | k4{Pd} | k2{Pd} | k9{Pd} | k4{Pd} | k11{Pd} | k6{Pd} | k2{Pd} | k11{Pd} | k9{Pd} | k0
+D v5 $ [{Dr}]12

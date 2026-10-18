@@ -2,7 +2,7 @@
 map seraphine_gym
 name "Seraphine Gym"
 location "Seraphine Town"
-music gym
+music gym_mist
 environment building
 indoor
 tags gym

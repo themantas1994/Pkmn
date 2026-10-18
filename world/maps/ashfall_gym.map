@@ -1,7 +1,7 @@
 map ashfall_gym
 name "Ashfall Gym"
 location "Ashfall City"
-music gym
+music gym_ember
 environment building
 indoor
 tags gym

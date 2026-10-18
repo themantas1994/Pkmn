@@ -3,7 +3,7 @@
 map dragonspire_gym
 name "Dragonspire Gym"
 location "Dragonspire City"
-music gym
+music gym_dusk
 environment building
 indoor
 tags gym powerspot

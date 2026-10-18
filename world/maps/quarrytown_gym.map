@@ -2,7 +2,7 @@
 map quarrytown_gym
 name "Quarrytown Gym"
 location "Quarrytown"
-music gym
+music gym_stone
 environment building
 indoor
 tags gym

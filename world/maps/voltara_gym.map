@@ -2,7 +2,7 @@
 map voltara_gym
 name "Voltara Gym"
 location "Voltara City"
-music gym
+music gym_spark
 environment building
 indoor
 tags gym

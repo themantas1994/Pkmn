@@ -11,6 +11,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import font  # noqa: E402
+import gym_tiles  # noqa: E402
 import pixlib  # noqa: E402
 
 GFX = pixlib.GFX
@@ -349,10 +350,24 @@ def battle_scene():
     return img
 
 
+def gym_themes_contact(ts):
+    """One row per gym: its themed tiles (animated lava at frame 0) on a 3x3 mock room strip."""
+    rows = list(gym_tiles.GYM_TILE_NAMES.items())
+    cw, rh = 40, 40
+    img = Image.new("RGBA", (8 * cw + 8, len(rows) * rh + 8), BG)
+    for r, (theme, names) in enumerate(rows):
+        for i, nm in enumerate(names):
+            x, y = 4 + i * cw + 4, 4 + r * rh + 2
+            img.paste(ts.tile(nm), (x, y))
+            img = label(img, nm[4:] if nm.startswith("gym_") else nm, x - 2, y + 19, cw=4)
+    return pixlib.scale(img, 3)
+
+
 def build():
     os.makedirs(OUT, exist_ok=True)
     ts = Tileset()
     pixlib.save_png(tiles_contact(ts), os.path.join(OUT, "tiles_contact.png"))
+    pixlib.save_png(gym_themes_contact(ts), os.path.join(OUT, "gym_themes_contact.png"))
     town = scene_town(ts)
     pixlib.save_png(pixlib.scale(town, 3), os.path.join(OUT, "scene_town_x3.png"))
     pixlib.save_png(pixlib.scale(scene_indoor(ts), 3), os.path.join(OUT, "scene_indoor_x3.png"))

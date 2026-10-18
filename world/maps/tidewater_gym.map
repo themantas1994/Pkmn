@@ -1,7 +1,7 @@
 map tidewater_gym
 name "Port Tidewater Gym"
 location "Port Tidewater"
-music gym
+music gym_tide
 environment water
 indoor
 tags gym
