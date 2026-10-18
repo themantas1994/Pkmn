@@ -31,6 +31,8 @@ class SynthAudio : GameAudio {
         if (!bank.play(speciesId, sfxVolume * CRY_GAIN)) playSfx("cry")
     }
 
+    override fun prefetchCry(speciesId: String) { cries?.prefetch(speciesId) }
+
     private val jingles = setOf("heal", "item_get", "level_up", "save")
     override var currentMusic: String? = null
         private set
@@ -61,7 +63,8 @@ class SynthAudio : GameAudio {
 }
 
 private class GdxCryVoice(private val sound: Sound) : CryVoice {
-    override fun play(volume: Float) { sound.play(volume) }
+    /** LibGDX returns -1 (desktop) or 0 (Android SoundPool, e.g. still loading) when no stream started. */
+    override fun play(volume: Float): Boolean = sound.play(volume) > 0L
     override fun stop() { sound.stop() }
     override fun dispose() { sound.dispose() }
 }
