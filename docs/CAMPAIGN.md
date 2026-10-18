@@ -159,10 +159,9 @@ Trade evolutions: the **Linking Cord** (`linkingcord`, official item) is sold in
 Evolution items appear progressively (stones from Part 1 mart/hidden items onward).
 
 ## Field moves
-Unlocked by badges and usable if any party Pokémon can learn the move (no HM slots):
+Unlocked by badges and always performed by God Bidoof (invisible, party-independent; no HM items or slots):
 Cut (badge 1), Flash/Rock Smash (badge 2), Strength (badge 3), Surf (badge 4), Fly (badge 5), Waterfall (badge 7).
-Map obstacles: `obstacle x y cut|smash|boulder flag=<unique>`; water needs Surf. Each part must ensure a Pokémon able
-to learn the required field move is obtainable before its first mandatory use (document in your part's notes).
+Map obstacles: `obstacle x y cut|smash|boulder flag=<unique>`; water needs Surf. Each field move is available once its badge is earned.
 
 ## Writing style
 GSC tone: short, warm, slightly humorous lines; ≤ 3 text boxes per NPC; signs give directions; no profanity.

@@ -134,8 +134,8 @@ class PartyScreen(
     }
 
     private fun fieldMovesFor(mon: Pokemon): List<String> = buildList {
-        if (mon.moves.any { it.id == "fly" } && ctx.canUseFieldMove(pkmn.engine.world.FieldMove.FLY)) add("FLY")
-        if (mon.moves.any { it.id == "flash" } && ctx.canUseFieldMove(pkmn.engine.world.FieldMove.FLASH)) add("FLASH")
+        if (ctx.canUseFieldMove(pkmn.engine.world.FieldMove.FLY)) add("FLY")
+        if (ctx.canUseFieldMove(pkmn.engine.world.FieldMove.FLASH)) add("FLASH")
         if (mon.moves.any { it.id == "teleport" }) add("TELEPORT")
         if (mon.moves.any { it.id == "dig" }) add("DIG")
         if (mon.moves.any { it.id == "softboiled" || it.id == "milkdrink" }) add("HEAL ALLY")
@@ -144,8 +144,8 @@ class PartyScreen(
     private fun useField(o: String) {
         val owScreen = ow ?: return
         when (o) {
-            "FLY" -> if (owScreen.baseMap.indoor) game.say("You can't fly indoors.") else { pop(); game.push(TownMapScreen(game, ctx, owScreen, flyMode = true) {}) }
-            "FLASH" -> if (owScreen.baseMap.dark) { owScreen.useFlash(); pop(); game.say("A blinding FLASH lights the area!") } else game.say("It's bright enough already.")
+            "FLY" -> if (owScreen.baseMap.indoor) game.say("You can't fly indoors.") else { pop(); game.say(ctx.bidoofLine(pkmn.engine.world.FieldMove.FLY)) { game.push(TownMapScreen(game, ctx, owScreen, flyMode = true) {}) } }
+            "FLASH" -> if (owScreen.baseMap.dark) { owScreen.useFlash(); pop(); game.say(ctx.bidoofLine(pkmn.engine.world.FieldMove.FLASH)) } else game.say("It's bright enough already.")
             "TELEPORT", "DIG" -> if (owScreen.baseMap.indoor && o == "TELEPORT") game.say("Can't use that here.") else {
                 pop()
                 val (m, x, y) = ctx.respawnPoint()

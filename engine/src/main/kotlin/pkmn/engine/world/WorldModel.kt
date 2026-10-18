@@ -24,7 +24,7 @@ enum class TileBehavior {
     HEAL_MACHINE, SAND, CAVE_FLOOR, BOOKSHELF, TV, PUZZLE_SWITCH,
 }
 
-/** Field abilities used outside battle. Unlocked by badges; usable when any party Pokémon can learn the move. */
+/** Field abilities used outside battle. Unlocked by badges; God Bidoof performs them, so no party Pokémon is needed. */
 enum class FieldMove(val moveId: String, val badgeRequired: Int) {
     CUT("cut", 1), FLASH("flash", 2), ROCK_SMASH("rocksmash", 2), STRENGTH("strength", 3), SURF("surf", 4), FLY("fly", 5), WATERFALL("waterfall", 7);
 }

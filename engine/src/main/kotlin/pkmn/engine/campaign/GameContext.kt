@@ -244,15 +244,10 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
 
     // ------------------------------------------------------------------ field moves
 
-    fun canUseFieldMove(fm: FieldMove): Boolean {
-        if (state.badgeCount() < fm.badgeRequired && fm.badgeRequired !in state.badges) return false
-        return fieldMoveUser(fm) != null
-    }
+    /** God Bidoof performs every unlocked field move, so no party Pokémon is needed; the badge is the unlock. */
+    fun canUseFieldMove(fm: FieldMove): Boolean = state.badgeCount() >= fm.badgeRequired || fm.badgeRequired in state.badges
 
-    /** The first party Pokémon able to learn (or knowing) the field move, used for the field animation/message. */
-    fun fieldMoveUser(fm: FieldMove): Pokemon? = state.party.firstOrNull { m ->
-        !m.isFainted && (m.moves.any { it.id == fm.moveId } || progression.canLearnMachine(m, fm.moveId))
-    }
+    fun bidoofLine(fm: FieldMove) = "God Bidoof answered your prayers and used ${fm.name.replace('_', ' ')}!"
 
     // ------------------------------------------------------------------ encounters
 

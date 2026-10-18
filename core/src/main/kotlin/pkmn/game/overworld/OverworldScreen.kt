@@ -573,10 +573,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         }
         if (o.kind == "boulder" && state.hasFlag("strength_on:${baseMap.id}")) { game.say("Boulders may now be pushed."); return }
         if (!ctx.canUseFieldMove(fm)) { game.say(msg); return }
-        val user = ctx.fieldMoveUser(fm)!!
         game.ask("$msg Want to use $verb?") { yes ->
             if (!yes) return@ask
-            game.say("${user.displayName(ctx.dex)} used $verb!") {
+            game.say(ctx.bidoofLine(fm)) {
                 if (o.kind == "boulder") state.setFlag("strength_on:${baseMap.id}")
                 else {
                     state.setFlag(o.flag)
@@ -594,10 +593,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     private fun offerSurf() {
         if (state.surfing) return
         if (!ctx.canUseFieldMove(FieldMove.SURF)) { if (!checkHidden()) game.say("The water is a deep blue colour..."); return }
-        val user = ctx.fieldMoveUser(FieldMove.SURF)!!
         game.ask("The water is calm. Want to SURF?") { yes ->
             if (!yes) return@ask
-            game.say("${user.displayName(ctx.dex)} used SURF!") {
+            game.say(ctx.bidoofLine(FieldMove.SURF)) {
                 state.surfing = true; state.biking = false
                 player.sprite = playerSprite()
                 game.audio.playMusic("ocean_surf")
@@ -611,11 +609,13 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (!state.surfing || !ctx.canUseFieldMove(FieldMove.WATERFALL)) { game.say("It's a large waterfall."); return }
         game.ask("Want to use WATERFALL?") { yes ->
             if (!yes) return@ask
-            // Climb until the tile above is no longer waterfall.
-            var y = player.y
-            while (map.inBounds(player.x, y - 1) && rules.behavior(map, player.x, y - 1) == TileBehavior.WATERFALL) y--
-            if (map.inBounds(player.x, y - 1)) y--
-            player.teleport(player.x, y); state.y = y
+            game.say(ctx.bidoofLine(FieldMove.WATERFALL)) {
+                // Climb until the tile above is no longer waterfall.
+                var y = player.y
+                while (map.inBounds(player.x, y - 1) && rules.behavior(map, player.x, y - 1) == TileBehavior.WATERFALL) y--
+                if (map.inBounds(player.x, y - 1)) y--
+                player.teleport(player.x, y); state.y = y
+            }
         }
     }
 
