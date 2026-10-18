@@ -15,7 +15,9 @@ Other sources:
 - Experience: [Serebii, experience](https://www.serebii.net/games/exp.shtml).
 - Sword/Shield battle style: [Hypertext, 2019](https://htxt.co.za/2019/11/pokemon-sword-shield-too-easy-change-battle-style-from-switch-to-set/).
 
-Bulbapedia was not reachable from the build machine, so nothing here relies on it unless it is marked unverified.
+- Obedience: [Bulbapedia, Obedience](https://bulbapedia.bulbagarden.net/wiki/Obedience), page wikitext read 2026-10-18 (row 19).
+
+Apart from the obedience row, Bulbapedia was not reachable from the build machine, so nothing else here relies on it unless it is marked unverified.
 
 | # | Mechanic | Before this change | Reference | Difference found | Intended behaviour | Pri | Status | Tests |
 |---|---|---|---|---|---|---|---|---|
@@ -37,6 +39,7 @@ Bulbapedia was not reachable from the build machine, so nothing here relies on i
 | 16 | Saves and resume | Autosave on pause; options persisted | GSC: manual save only. Modern games autosave | Design difference | Keep autosave (Android can kill the app). Battles are never saved mid-fight, so a reload never restores a fainted foe. Clock and events re-read on resume | M | Correct + **resume refresh added** | `TimeAndEventsTest` (save/load), `WorldTest` saves |
 | 17 | Android controls/layout | Touch pad, portrait/landscape | — | Not verified on a device | — | M | Not device-tested (see STATUS) | — |
 | 18 | Pacing and progression | 24 h estimate vs 30 h target | — | — | See `docs/PLAYTIME.md` | M | Reviewed | `:tools:estimatePlaytime` |
+| 19 | Obedience | Every Pokémon obeyed | Scarlet/Violet: cap 20 + 5 per badge, all obey with 8 badges; compares the met level (caught) or received level (outsiders). Disobedience outcomes follow the documented Gen III/IV check (Gen V+ undocumented) | Missing | Paldea caps and reference level; Gen III/IV check with GSC/Gen 3 battle text ("ignored orders!", "began to nap!", "won't obey!", "turned away!"...). Player Pokémon in wild and trainer battles. Details in `docs/MECHANICS.md#obedience` | M | **Fixed** | `ObedienceTest`, `ObedienceCampaignTest` (engine); `BattleFlowTest` (core) |
 
 ## Deliberate differences
 

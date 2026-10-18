@@ -1,6 +1,11 @@
 package pkmn.game
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.audio.Sound
+import pkmn.game.audio.CryBank
+import pkmn.game.audio.CryResolver
+import pkmn.game.audio.CryVoice
+import java.io.File
 import pkmn.game.audio.AudioEngine
 import pkmn.game.audio.Sfx
 
@@ -11,6 +16,21 @@ class SynthAudio : GameAudio {
         "door" to Sfx.DOOR_ENTER, "ledge" to Sfx.LEDGE_JUMP, "cut" to Sfx.HIT_NORMAL, "rock_smash" to Sfx.HIT_NORMAL,
         "cry" to Sfx.STATUS_INFLICTED, "encounter" to Sfx.TRAINER_SPOTTED, "trade" to Sfx.WARP,
     )
+    private var cries: CryBank? = null
+    private var sfxVolume = 1f
+
+    override fun configureCries(dirs: List<File>, baseOf: (String) -> String?) {
+        cries?.dispose()
+        cries = CryBank(CryResolver(dirs, baseOf), { f -> GdxCryVoice(Gdx.audio.newSound(Gdx.files.absolute(f.path))) },
+            { Gdx.app.log("PkmnCrystalline", it) })
+    }
+
+    override fun playCry(speciesId: String) {
+        val bank = cries
+        if (bank == null || engine.muted) { playSfx("cry"); return }
+        if (!bank.play(speciesId, sfxVolume * CRY_GAIN)) playSfx("cry")
+    }
+
     private val jingles = setOf("heal", "item_get", "level_up", "save")
     override var currentMusic: String? = null
         private set
@@ -29,8 +49,19 @@ class SynthAudio : GameAudio {
         engine.playSfx(sfx)
     }
 
-    override fun setVolumes(music: Float, sfx: Float) { engine.setMusicVolume(music); engine.setSfxVolume(sfx) }
-    override fun pause() = engine.pause()
+    override fun setVolumes(music: Float, sfx: Float) { sfxVolume = sfx.coerceIn(0f, 1f); engine.setMusicVolume(music); engine.setSfxVolume(sfx) }
+    override fun pause() { cries?.stop(); engine.pause() }
     override fun resume() = engine.resume()
-    override fun dispose() = engine.dispose()
+    override fun dispose() { cries?.dispose(); cries = null; engine.dispose() }
+
+    private companion object {
+        /** Recorded cries are mastered louder than the chiptune effects; this keeps them level with the other SFX. */
+        const val CRY_GAIN = 0.6f
+    }
+}
+
+private class GdxCryVoice(private val sound: Sound) : CryVoice {
+    override fun play(volume: Float) { sound.play(volume) }
+    override fun stop() { sound.stop() }
+    override fun dispose() { sound.dispose() }
 }

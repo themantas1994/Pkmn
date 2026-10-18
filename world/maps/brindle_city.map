@@ -1,7 +1,7 @@
 map brindle_city
 name "Brindle City"
 location "Brindle City"
-music city_early
+music city_big
 environment plain
 region 8 10
 fly 14 7

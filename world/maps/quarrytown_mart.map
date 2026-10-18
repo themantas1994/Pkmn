@@ -1,7 +1,7 @@
 map quarrytown_mart
 name "Poké Mart"
 location "Quarrytown"
-music pokemart
+music mart
 environment indoor
 indoor
 

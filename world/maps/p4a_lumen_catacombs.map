@@ -3,7 +3,7 @@
 map p4a_lumen_catacombs
 name "Lumen Catacombs"
 location "Lumen Village"
-music dungeon_ruins
+music ruins
 environment cave
 region 15 16
 encounters p4a_lumen_catacombs

@@ -18,6 +18,8 @@ sealed class ScriptRequest {
     data class FacePlayer(val npc: String?) : ScriptRequest() { override val blocking = false }
     data class Face(val target: String, val dir: Facing) : ScriptRequest() { override val blocking = false }
     data class Move(val target: String, val path: List<Facing>) : ScriptRequest()
+    /** Walk [target] (npc id or `player`) to tile (x, y) along a collision-respecting route; the host resumes at once when no route exists. */
+    data class WalkTo(val target: String, val x: Int, val y: Int) : ScriptRequest()
     data class Wait(val ms: Int) : ScriptRequest()
     data class TrainerBattle(val trainerId: String, val canLose: Boolean) : ScriptRequest() { override val setsResult = true }
     data class WildBattle(val mon: Pokemon, val canRun: Boolean, val music: String?) : ScriptRequest() { override val setsResult = true }
@@ -110,6 +112,7 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "face" -> ScriptRequest.Face(a[0], Facing.parse(a[1]))
             "playerface" -> ScriptRequest.Face("player", Facing.parse(a[0]))
             "move" -> ScriptRequest.Move(a[0], a.drop(1).flatMap { expandPath(it) })
+            "walkto" -> ScriptRequest.WalkTo(a[0], a[1].toInt(), a[2].toInt())
             "wait" -> ScriptRequest.Wait(a[0].toInt())
             "lock", "release" -> null
             "setflag" -> { st.setFlag(a[0]); null }
@@ -148,6 +151,7 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "giveegg" -> {
                 // Eggs are simplified: the Pokémon is received at level 1 and treated as hatched.
                 val mon = buildMon(listOf(a[0], "1") + a.drop(2))
+                mon.outsider = false // hatched by the player: met at level 1
                 val where = ctx.receivePokemon(mon)
                 result = if (where == null) 0 else 1
                 if (where != null && mon.uid in st.pendingNicknames) queued.add(ScriptRequest.Nickname(mon.uid))
@@ -238,7 +242,11 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
         opt(a, "tera")?.let { mon.teraType = it.replaceFirstChar { c -> c.uppercase() } }
         opt(a, "nick")?.let { mon.nickname = it }
         opt(a, "ball")?.let { mon.ball = toId(it) }
-        if (!wild) { mon.otName = ctx.state.playerName; mon.otId = ctx.state.trainerId }
+        if (!wild) {
+            mon.otName = ctx.state.playerName; mon.otId = ctx.state.trainerId
+            // Gifts, starters, fossils and trades are outsiders received at this level (badge obedience reference).
+            mon.outsider = true; mon.metLevel = level
+        }
         return mon
     }
 
@@ -285,6 +293,8 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             }
             "gimmick" -> st.hasFlag("unlock_${w[1]}")
             "visited" -> w[1] in st.visited
+            "playerx" -> cmp(st.x, w[1], w[2].toInt())
+            "playery" -> cmp(st.y, w[1], w[2].toInt())
             else -> error("unknown condition '${w[0]}'")
         }
     }

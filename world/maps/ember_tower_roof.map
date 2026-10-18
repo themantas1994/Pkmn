@@ -1,7 +1,7 @@
 map ember_tower_roof
 name "Ember Tower Roof"
 location "Ashfall City"
-music dungeon_tower
+music ruins
 environment plain
 indoor
 

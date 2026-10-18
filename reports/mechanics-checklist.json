@@ -8,10 +8,10 @@
     "open": "Known gap or unverified behaviour"
   },
   "counts": {
-    "tested": 46,
+    "tested": 48,
     "implemented": 12,
     "simplified": 4,
-    "excluded": 4,
+    "excluded": 3,
     "open": 1
   },
   "mechanics": [
@@ -361,11 +361,11 @@
     },
     {
       "area": "Experience and growth",
-      "mechanic": "Obedience",
-      "status": "excluded",
-      "ruleset": "—",
-      "evidence": "—",
-      "note": "All Pokémon obey. The capture badge penalty still uses Scarlet/Violet's obedience table"
+      "mechanic": "Badge obedience: Paldea level caps 20 + 5 per badge (0-7 badges), all obey with 8; reference level = met level (caught) or received level (gifts, trades, starters, fossils); Gen III/IV disobedience check (other move, nap, confusion self-hit, nothing); player Pokémon in wild and trainer battles only",
+      "status": "tested",
+      "ruleset": "Gen IX caps and reference level; Gen III/IV check (Bulbapedia, Obedience)",
+      "evidence": "ObedienceTest (caps for 0-8 badges at cap-1/cap/cap+1, formula, every outcome, Snore/Sleep Talk, charge/Bide skip, Vital Spirit/Insomnia/uproar/status, Encore/Rage, no-softlock fuzz); ObedienceCampaignTest (starter, gift, egg, trade, capture, evolution, Shedinja, badges mid-run); core BattleFlowTest",
+      "note": "Gen V+ disobedience formulas are undocumented, so the documented Gen III/IV one is used. Separate from the capture badge penalty table (docs/CAPTURE.md)"
     },
     {
       "area": "Evolution",
@@ -541,6 +541,14 @@
       "status": "tested",
       "ruleset": "—",
       "evidence": "AcquisitionTest migration",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "v2 -> v3 migration (obedience): outsider flag added as false; saved met levels kept; a missing met level becomes the current level; a met level above the current level is repaired",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "ObedienceCampaignTest migration and repair tests",
       "note": ""
     },
     {

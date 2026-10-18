@@ -2,7 +2,7 @@
 map mt_prism_3f
 name "Mt. Prism 3F"
 location "Mt. Prism"
-music dungeon_eclipse
+music cave
 environment cave
 region 22 7
 encounters p2_mt_prism_upper

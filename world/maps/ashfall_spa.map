@@ -1,7 +1,7 @@
 map ashfall_spa
 name "Ashfall Hot Spring Inn"
 location "Ashfall City"
-music town_mid
+music town_mountain
 environment indoor
 indoor
 

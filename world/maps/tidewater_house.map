@@ -1,7 +1,7 @@
 map tidewater_house
 name "Sailor's House"
 location "Port Tidewater"
-music city_port
+music town_coastal
 environment indoor
 indoor
 

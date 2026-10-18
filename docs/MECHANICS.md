@@ -4,7 +4,7 @@ Every core mechanic, its status, the ruleset it follows and the evidence. Machin
 
 Status: **tested** = implemented with the named automated tests; **implemented** = in code, only indirectly tested; **simplified** = deliberate simplification; **excluded** = out of scope; **open** = known gap.
 
-Totals: excluded 4, implemented 12, open 1, simplified 4, tested 46.
+Totals: excluded 3, implemented 12, open 1, simplified 4, tested 48.
 
 ## Identity and creation
 
@@ -63,7 +63,7 @@ Totals: excluded 4, implemented 12, open 1, simplified 4, tested 46.
 | Level caps on Challenge difficulty | implemented | Design | GameContext.levelCap |  |
 | Friendship: level-up, walking, vitamins, berries, fainting; friendship evolution at 160 | implemented | Gen VIII+ | Progression.evolutionTarget; EvolutionTest (Sylveon branch) |  |
 | Vitamins (+10 to 252), feathers (+1), EV berries (-10) | tested | Gen VIII+ | StatFormulaTest |  |
-| Obedience | excluded | — | — | All Pokémon obey. The capture badge penalty still uses Scarlet/Violet's obedience table |
+| Badge obedience: Paldea level caps 20 + 5 per badge (0-7 badges), all obey with 8; reference level = met level (caught) or received level (gifts, trades, starters, fossils); Gen III/IV disobedience check (other move, nap, confusion self-hit, nothing); player Pokémon in wild and trainer battles only | tested | Gen IX caps and reference level; Gen III/IV check (Bulbapedia, Obedience) | ObedienceTest (caps for 0-8 badges at cap-1/cap/cap+1, formula, every outcome, Snore/Sleep Talk, charge/Bide skip, Vital Spirit/Insomnia/uproar/status, Encore/Rage, no-softlock fuzz); ObedienceCampaignTest (starter, gift, egg, trade, capture, evolution, Shedinja, badges mid-run); core BattleFlowTest | Gen V+ disobedience formulas are undocumented, so the documented Gen III/IV one is used. Separate from the capture badge penalty table (docs/CAPTURE.md). Details: [Obedience](#obedience) |
 
 ## Evolution
 
@@ -106,4 +106,54 @@ Totals: excluded 4, implemented 12, open 1, simplified 4, tested 46.
 |---|---|---|---|---|
 | Atomic, checksummed, versioned saves with backup recovery | tested | — | WorldTest save round trip, corruption and tamper tests |  |
 | v1 -> v2 migration (Pokédex forms, nickname offers, unique ids); no rerolls on load | tested | — | AcquisitionTest migration |  |
+| v2 -> v3 migration (obedience): outsider flag added as false; saved met levels kept; a missing met level becomes the current level; a met level above the current level is repaired | tested | — | ObedienceCampaignTest migration and repair tests |  |
 | Interrupted capture resumes at the nickname prompt | tested | — | AcquisitionTest interruption |  |
+
+## Obedience
+
+Source: Bulbapedia, [Obedience](https://bulbapedia.bulbagarden.net/wiki/Obedience) (wikitext read 2026-10-18).
+Code: `engine/src/main/kotlin/pkmn/engine/battle/Obedience.kt`; the check runs in `Battle.runMoveAction`.
+
+**Reference level.** Since Generation IX the game compares the Pokémon's *met level* if the player caught it, or the
+level at which it was *received* if it is an outsider (gift, in-game trade, event), never its current level. This game
+creates every received Pokémon when the player receives it, so `Pokemon.metLevel` stores the right level in both cases;
+`Pokemon.outsider` records which case applies.
+
+| How the Pokémon was obtained | `outsider` | Reference level (`metLevel`) |
+|---|---|---|
+| Starter (received from the professor as a gift) | true | received level (5): always obeys |
+| `givemon` gift, fossil revival | true | received level |
+| In-game trade (`trade`) | true | received level |
+| Wild capture, including scripted and event encounters | false | level when caught |
+| Gift egg (`giveegg`, hatches immediately) | false | 1 |
+| Evolution, including Shedinja's split | unchanged | unchanged |
+
+**Level cap by badge count** (Paldea table; a Pokémon whose reference level is at or below the cap always obeys):
+
+| Badges | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+|---|---|---|---|---|---|---|---|---|---|
+| Highest obedient level | 20 | 25 | 30 | 35 | 40 | 45 | 50 | 55 | all obey |
+
+This is not the capture badge-penalty table (25-60 and 100, docs/CAPTURE.md), which comes from a different
+Scarlet/Violet rule.
+
+**Where it applies.** The player's Pokémon in battles that award experience: every wild and trainer battle. The game has
+no link or facility battles. With 8 badges (the end of the main story) the check is off.
+
+**Disobedience check** (Generation III/IV formula; Generation V+ formulas are not documented). L is the reference level,
+C the cap, and each R is a random integer 0-255 from the battle's seeded RNG. Integer division throughout.
+
+1. (L + C) × R1 / 256 < C: obeys.
+2. Otherwise it disobeys. If it is asleep and was told to use Snore or Sleep Talk: "X ignored orders while asleep!"
+3. (L + C) × R2 / 256 < C: "X ignored orders!" and it uses another move it can select (PP left, not disabled). PP is
+   spent on the move it uses. With no such move it does nothing.
+4. R3 < L − C: "X began to nap!" (sleep). Not if it already has a major status, an uproar is active, or its ability is
+   Vital Spirit or Insomnia; a blocked nap falls through to the next step, as in the Generation III code.
+5. R3 < 2 × (L − C): "X won't obey!" / "It hurt itself in its confusion!" (40-power typeless physical self-hit).
+6. Otherwise it does nothing: one of "X is loafing around!", "X won't obey!", "X turned away!",
+   "X pretended not to notice!".
+
+The check runs after the usual can-it-move checks (sleep, freeze, paralysis, flinch, confusion) and before PP is spent.
+It is skipped while the Pokémon is locked into a move: the second turn of a charging move, Bide, Outrage-style
+rampages, Rollout, Uproar and recharging. Disobeying ends Encore and Rage. A Z-Move that is not used is not spent.
+

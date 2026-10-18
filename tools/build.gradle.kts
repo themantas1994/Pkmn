@@ -42,6 +42,11 @@ registerTool("benchmark", "Measure engine performance (loading, battle turns, AI
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("auditCapture", "Capture chance of every wild encounter slot before/after the capture fix -> reports/capture.*", "capture")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
+registerTool("importCries", "Download official cries (PokeAPI/cries) into git-ignored assets-local/audio/cries for personal builds (-Pargs=\"--only=1-151\")", "cries")
+// Same, scoped and tolerant like the personal sprite pipeline; used by :android:assemblePersonalDebugWithSprites.
+val importCriesForApk = registerTool("importCriesForApk", "Cries for the personal APK (honours -Ppkmn.sprites.only and -Ppkmn.sprites.offline)", *listOfNotNull("cries", "--tolerate-failures",
+    (findProperty("pkmn.sprites.only") as String?)?.trim()?.takeIf { it.isNotEmpty() }?.let { "--only=$it" },
+    if ((findProperty("pkmn.sprites.offline") as String?)?.toBoolean() == true) "--offline" else null).toTypedArray())
 
 // Personal APK sprite pipeline (docs/ASSET_IMPORT.md). Options come from -P properties so one command drives it all:
 //   pkmn.sprites.only=1-151  pkmn.sprites.style=gbc|none  pkmn.sprites.from=<dir|zip>  pkmn.sprites.offline=true

@@ -303,6 +303,9 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
 
     // ------------------------------------------------------------------ battles
 
+    /** Badge obedience cap for the player's current badge count ([Obedience]); null once every Pokémon obeys. */
+    fun obedienceCap(): Int? = Obedience.levelCap(state.badgeCount())
+
     fun levelCap(): Int {
         if (state.options.difficulty < 2) return 100
         val next = content.info.badges.firstOrNull { it.number !in state.badges } ?: return 100
@@ -355,7 +358,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         val rules = BattleRules(
             allowedGimmicks = allowedGimmicks(map) + g.filter { it != Gimmick.DYNAMAX || map?.tags?.contains(content.info.dynamaxTag) == true },
             canRun = false, canCatch = false, isTrainerBattle = true, expShareAll = state.options.expShare, levelCap = levelCap(),
-            setMode = state.options.battleStyle == "set", playerOtId = state.trainerId,
+            setMode = state.options.battleStyle == "set", playerOtId = state.trainerId, obedienceCap = obedienceCap(),
         )
         for (m in foe.mons) markSeen(m.mon.speciesId)
         return Battle(dex, listOf(playerSide(), foe), rules, seed, environment = map?.environment ?: "plain", isNight = isNight())
@@ -383,7 +386,8 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
                          environment: String? = null, canCatch: Boolean = true): Battle {
         val foe = Side(1, "Wild", listOf(wild), Controller.WILD, dex)
         val rules = BattleRules(allowedGimmicks = allowedGimmicks(map), canRun = canRun, canCatch = canCatch, isTrainerBattle = false,
-            expShareAll = state.options.expShare, levelCap = levelCap(), playerOtId = state.trainerId, capture = captureRules())
+            expShareAll = state.options.expShare, levelCap = levelCap(), playerOtId = state.trainerId, capture = captureRules(),
+            obedienceCap = obedienceCap())
         markSeen(wild.speciesId)
         return Battle(dex, listOf(playerSide(), foe), rules, seed, environment = environment ?: map?.environment ?: "plain", isNight = isNight())
     }
@@ -416,7 +420,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
             BattleOutcome.CAUGHT -> b.caughtMon?.let { mon ->
                 if (state.locationOf(mon.uid) == null) {
                     mon.otName = state.playerName; mon.otId = state.trainerId
-                    mon.metLocation = state.map; mon.metLevel = mon.level
+                    mon.metLocation = state.map; mon.metLevel = mon.level; mon.outsider = false
                 }
                 lastCapture = acquire(mon).also { if (it.where == null) msgs.add("There's no room left for ${mon.species(dex).name}! It was released.") }
             }
@@ -465,6 +469,8 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         // Shedinja: Nincada leaves a Shedinja behind if there is a free party slot and a Poké Ball.
         if (oldSpecies == "nincada" && target == "ninjask" && state.party.size < 6 && state.removeItem("pokeball")) {
             val shed = factory.create("shedinja", mon.level, rng, moves = mon.moves.map { it.id })
+            // Shedinja keeps Nincada's origin (met level and outsider status), like any evolution.
+            shed.metLevel = mon.metLevel; shed.outsider = mon.outsider
             receivePokemon(shed, offerNickname = false)
         }
         val pending = ArrayList<String>()

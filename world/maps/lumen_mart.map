@@ -1,7 +1,7 @@
 map lumen_mart
 name "Poké Mart"
 location "Lumen Village"
-music pokemart
+music mart
 environment indoor
 indoor
 

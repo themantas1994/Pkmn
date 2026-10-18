@@ -2,7 +2,7 @@
 map p4a_lighthouse_top
 name "Lighthouse Lamp Room"
 location "Tidewater Cape"
-music town_mid
+music town_coastal
 environment building
 indoor
 

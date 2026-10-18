@@ -33,6 +33,12 @@ class OverworldRules(private val ctx: GameContext) {
 
     fun obstacleActive(o: ObstacleDef) = !ctx.state.hasFlag(o.flag)
 
+    /** The first step trigger covering (x, y) whose `if` / `unless` flag conditions hold. */
+    fun triggerAt(map: MapData, x: Int, y: Int): TriggerDef? = map.triggers.firstOrNull { t ->
+        x in t.x until t.x + t.w && y in t.y until t.y + t.h &&
+            (t.unlessFlag == null || !ctx.state.hasFlag(t.unlessFlag)) && (t.ifFlag == null || ctx.state.hasFlag(t.ifFlag))
+    }
+
     /**
      * Resolves a step from (x, y) facing [dir]. [occupied] reports NPCs/objects on a tile.
      */
@@ -85,7 +91,7 @@ class OverworldRules(private val ctx: GameContext) {
         }.takeIf { (_, tx, ty) -> target.inBounds(tx, ty) }
     }
 
-    /** Trainers that can see the player at (px, py): straight line of sight within range, no obstacles between. */
+    /** The first trainer that can see the player at (px, py): straight line of sight of `sight` tiles (inclusive) in its facing direction, nothing blocking between. Defeated trainers never spot. */
     fun spottingTrainer(map: MapData, px: Int, py: Int, npcs: List<Pair<NpcDef, Pair<Int, Int>>>, facingOf: (NpcDef) -> Facing,
                         blocked: (Int, Int) -> Boolean): NpcDef? {
         for ((npc, pos) in npcs) {
@@ -96,10 +102,31 @@ class OverworldRules(private val ctx: GameContext) {
             for (i in 1..npc.sight) {
                 x += f.dx; y += f.dy
                 if (x == px && y == py) return npc
-                if (!map.inBounds(x, y) || TileRules.isSolid(behavior(map, x, y)) || blocked(x, y)) break
+                if (sightBlockedAt(map, x, y) || blocked(x, y)) break
             }
         }
         return null
+    }
+
+    /** Terrain that stops a trainer's line of sight: out of bounds, solid tiles (walls, hedges, counters) and active obstacles (boulders, cut trees, rocks). */
+    fun sightBlockedAt(map: MapData, x: Int, y: Int): Boolean =
+        !map.inBounds(x, y) || TileRules.isSolid(behavior(map, x, y)) || map.obstacles.any { it.x == x && it.y == y && obstacleActive(it) }
+
+    /** Terrain an NPC (or a scripted player walk) may stand on: floor-like, no water, warp, ledge or ice, and no active obstacle. */
+    fun walkableTerrain(map: MapData, x: Int, y: Int): Boolean {
+        if (!map.inBounds(x, y)) return false
+        val b = behavior(map, x, y)
+        if (TileRules.isSolid(b) || b in setOf(TileBehavior.WATER, TileBehavior.WARP, TileBehavior.LEDGE_S, TileBehavior.LEDGE_E, TileBehavior.LEDGE_W, TileBehavior.ICE)) return false
+        return map.obstacles.none { it.x == x && it.y == y && obstacleActive(it) }
+    }
+
+    /**
+     * True when a defeated trainer that stands still or only looks around (movement `static` / `look`) is away from its home tile
+     * (after walking up to the player) and should walk back. Undefeated trainers and wanderers never need this.
+     */
+    fun trainerNeedsHome(n: NpcDef, x: Int, y: Int): Boolean {
+        val t = n.trainer ?: return false
+        return t in ctx.state.defeatedTrainers && (n.movement == "static" || n.movement == "look") && (x != n.x || y != n.y)
     }
 
     fun encounterMethod(map: MapData, x: Int, y: Int, surfing: Boolean): String? = when {

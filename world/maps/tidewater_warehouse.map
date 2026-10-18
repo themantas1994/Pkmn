@@ -1,7 +1,7 @@
 map tidewater_warehouse
 name "Harbor Warehouse"
 location "Port Tidewater"
-music team_eclipse
+music villain_hideout
 environment building
 indoor
 

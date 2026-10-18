@@ -1,7 +1,7 @@
 map frostmere_house
 name "Frostmere House"
 location "Frostmere Town"
-music town_mid
+music hometown
 environment indoor
 indoor
 

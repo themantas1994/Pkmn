@@ -1,7 +1,7 @@
 map lumen_researcher
 name "Ruins Researcher's House"
 location "Lumen Village"
-music town_mid
+music hometown
 environment indoor
 indoor
 

@@ -1,7 +1,7 @@
 map p4b_mistwood_cabin
 name "Ranger Cabin"
 location "Seraphine Town"
-music town_mid
+music hometown
 environment indoor
 indoor
 

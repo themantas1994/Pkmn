@@ -59,6 +59,8 @@ class Battle(
     var forcedRoll: Int? = null
     /** Forces critical hits on (true) or off (false) for deterministic tests. */
     var forcedCrit: Boolean? = null
+    /** Forces the next obedience rolls (each 0..255) for deterministic tests; consumed in order, then the RNG is used. */
+    val forcedObedienceRolls = ArrayDeque<Int>()
 
     private val choices = HashMap<Int, Choice>()
     private val pendingSwitches = HashSet<Int>()
@@ -748,11 +750,16 @@ class Battle(
             return
         }
         if (user.fainted) return
+        if (!locked && slot != null && moveId != "struggle" && !move.isZ && isMoveDisabled(user, moveId) && !user.isDynamaxed) {
+            message("${nm(user)} can't use ${base.name}!")
+            return
+        }
+        // Badge obedience: after the before-move checks, before PP is spent. Locked moves are never checked.
+        if (!locked && !obeys(user, base.id)) {
+            if (gimmick == Gimmick.ZMOVE && move.isZ) user.side.usedGimmicks.remove(Gimmick.ZMOVE)
+            return
+        }
         if (!locked && slot != null && moveId != "struggle" && !move.isZ) {
-            if (isMoveDisabled(user, moveId) && !user.isDynamaxed) {
-                message("${nm(user)} can't use ${base.name}!")
-                return
-            }
             var cost = 1
             val foe = user.side.foe.active
             if (foe != null && !foe.fainted && foe.ability == "pressure" && abilityActive(foe) && move.target != "self") cost = 2
@@ -770,6 +777,75 @@ class Battle(
         else if (move.isMax) user.lastMove = base.id
         lastMoveUsed = base.id
         user.mon.counters["use:${base.id}"] = (user.mon.counters["use:${base.id}"] ?: 0) + 1
+    }
+
+    /** Obedience roll 0..255: a forced test value if one is queued, else the battle RNG. */
+    private fun obedienceRoll(): Int = forcedObedienceRolls.removeFirstOrNull()?.coerceIn(0, 255) ?: rng.nextInt(256)
+
+    /**
+     * Badge obedience ([Obedience]) for the player's Pokémon about to use [moveId]. Returns true when it obeys; otherwise
+     * the disobedient action (another move, a nap, a self-hit or nothing) has been carried out and the turn is spent.
+     */
+    private fun obeys(user: BattleMon, moveId: String): Boolean {
+        val cap = rules.obedienceCap ?: return true
+        if (!rules.expEnabled || user.side.controller != Controller.PLAYER) return true
+        val level = Obedience.referenceLevel(user.mon)
+        if (level <= cap) return true
+        val asleepSleepMove = user.status == MajorStatus.SLEEP && dex.moveOrNull(moveId)?.sleepUsable == true
+        val canNap = user.status == null && activeMons().none { it.hasVolatile("uproar") } &&
+            !((user.ability == "vitalspirit" || user.ability == "insomnia") && abilityActive(user))
+        val outcome = Obedience.decide(level, cap, ::obedienceRoll, asleepSleepMove, canNap)
+        if (outcome == Obedience.Outcome.OBEY) return true
+        // Disobeying ends Encore (announced after the disobedience line) and Rage.
+        val encoreEnded = user.volatiles.remove("encore") != null
+        user.volatiles.remove("rage")
+        user.lastMoveFailed = true
+        val name = nm(user)
+        fun say(text: String) { message(text); if (encoreEnded) message("$name's encore ended!") }
+        fun loaf() = say(Obedience.LOAF_LINES[rng.nextInt(Obedience.LOAF_LINES.size)].replace("{name}", name))
+        when (outcome) {
+            Obedience.Outcome.IGNORE_ASLEEP -> say("$name ignored orders while asleep!")
+            Obedience.Outcome.OTHER_MOVE -> {
+                val others = user.moveSlots.filter { it.id != moveId && canSelectMove(user, it) && dex.moveOrNull(it.id) != null }
+                if (others.isEmpty()) loaf()
+                else {
+                    val slot = others[rng.nextInt(others.size)]
+                    say("$name ignored orders!")
+                    useOtherMove(user, slot)
+                }
+            }
+            Obedience.Outcome.NAP, Obedience.Outcome.SELF_HIT -> {
+                val napped = outcome == Obedience.Outcome.NAP && trySetStatus(user, MajorStatus.SLEEP, user, "disobedience", primary = false)
+                if (napped) { if (encoreEnded) message("$name's encore ended!") }
+                else { say("$name won't obey!"); confusionSelfHit(user) }
+            }
+            else -> loaf()
+        }
+        return false
+    }
+
+    /** A disobedient Pokémon uses [slot] instead of the ordered move: PP is spent on the move actually used. */
+    private fun useOtherMove(user: BattleMon, slot: MoveSlot) {
+        val base = dex.move(slot.id)
+        val move = if (user.isDynamaxed) Gimmicks.maxMoveFor(this, user, base) else ActiveMove(base)
+        var cost = 1
+        val foe = user.side.foe.active
+        if (foe != null && !foe.fainted && foe.ability == "pressure" && abilityActive(foe) && move.target != "self") cost = 2
+        slot.pp = max(0, slot.pp - cost)
+        useMove(MoveCtx(user, defaultTarget(user, move), move))
+        user.lastMove = base.id
+        lastMoveUsed = base.id
+        user.mon.counters["use:${base.id}"] = (user.mon.counters["use:${base.id}"] ?: 0) + 1
+    }
+
+    /** The confusion self-hit: a 40-power typeless physical hit on itself with the usual 85-100% roll. */
+    fun confusionSelfHit(m: BattleMon) {
+        val atk = applyBoost(m.rawStat(Stat.ATK), m.boost("atk"))
+        val def = applyBoost(m.rawStat(Stat.DEF), m.boost("def"))
+        var dmg = ((2 * m.level / 5 + 2) * 40 * atk / max(1, def)) / 50 + 2
+        dmg = dmg * (85 + rng.nextInt(16)) / 100
+        message("It hurt itself in its confusion!")
+        directDamage(m, max(1, dmg), m, "confusion")
     }
 
     fun defaultTarget(user: BattleMon, move: ActiveMove): BattleMon = when (move.target) {
@@ -1448,7 +1524,11 @@ class Battle(
             MajorStatus.PARALYSIS -> "${nm(target)} is paralyzed! It may be unable to move!"
             MajorStatus.POISON -> "${nm(target)} was poisoned!"
             MajorStatus.TOXIC -> "${nm(target)} was badly poisoned!"
-            MajorStatus.SLEEP -> if (sourceEffect == "rest") "${nm(target)} slept and became healthy!" else "${nm(target)} fell asleep!"
+            MajorStatus.SLEEP -> when (sourceEffect) {
+                "rest" -> "${nm(target)} slept and became healthy!"
+                "disobedience" -> "${nm(target)} began to nap!"
+                else -> "${nm(target)} fell asleep!"
+            }
             MajorStatus.FREEZE -> "${nm(target)} was frozen solid!"
         }
         events.add(BattleEvent.StatusChange(target.side.index, teamIndex(target), status.id, text)); log.add(text)

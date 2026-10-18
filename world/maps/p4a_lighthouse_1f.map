@@ -2,7 +2,7 @@
 map p4a_lighthouse_1f
 name "Tidewater Lighthouse"
 location "Tidewater Cape"
-music town_mid
+music town_coastal
 environment building
 indoor
 

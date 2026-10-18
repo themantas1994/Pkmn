@@ -155,6 +155,57 @@ own key, tempo and groove. `battle_rival` reuses the opening phrase of `rival_th
 
 Jingles (one-shots, 3.0–7.3 s): `jingle_heal`, `jingle_item`, `jingle_badge`, `jingle_levelup`, `jingle_caught`, `jingle_save`.
 
+## Map music inventory
+
+Every map `music` line (in `world/maps/*.map`) names one of the tracks above; `:tools:validateContent` fails with
+`music-missing` if a map, trainer or trainer class references an id without `assets/audio/music/<id>.mml`
+(`ContentValidator.silentMusicIds` is the explicit allow-list for intentional silence, empty today).
+
+| Map group | Track |
+|---|---|
+| Gym maps | `gym` |
+| Poké Centers | `pokecenter` |
+| Poké Marts, Voltara Dept. Store | `mart` |
+| Home towns and villages: Brindle (houses, bike shop, florist), Fernwick, Lumen Village, Seraphine, Frostmere houses, Hollis's Lodge, cabins and cottages (Angler, Berry, Ranger, Lineman's Hut) | `hometown` |
+| Mining and hill towns: Quarrytown, Ashfall houses/spa/glass workshop, Frostmere Town | `town_mountain` |
+| Seaside: Port Tidewater, Tidewater houses, Lighthouse, Sea Cottage | `town_coastal` |
+| Big cities: Brindle City, Ashfall City, Voltara City | `city_big` |
+| Voltara houses, Ridge Station | `city_night` |
+| Ruins and towers: Lumen Ruins, Mural Chamber, Catacombs, Lantern Tower, Ruins of Sol and Temple, Ember Tower | `ruins` |
+| Caves: Crystal Cavern, Mt. Prism | `cave` |
+| Hostile or industrial interiors: S.S. Driftwood, Power Plant, Harbor Warehouse | `villain_hideout` |
+| Route 11 (sea) | `ocean_surf` |
+| Route 12 (snow) | `route_late` |
+
+Other maps keep their existing tracks (`route_early`, `route_mid`, `route_late`, `forest`, `ocean_surf`, `league_hall`, `ruins`, `cave`, ...).
+
+### Evolution music
+
+`EvolutionScreen` plays `evolution` through `MusicLease`, which remembers the track that was playing and puts it back on
+every exit path (finish, cancel, stack reset). Back-to-back evolutions share one lease so the theme is not restarted, and the
+previous track is restored once afterwards (skipped if a script has started other music meanwhile).
+
+## Species cries
+
+The synthesised effects contain no recorded audio, and public builds still play the generic blip (`cry` is an alias of
+`Sfx.STATUS_INFLICTED`) for every species. In a **personal build** with locally imported official cries
+(`docs/ASSET_IMPORT.md`, "Cries") each species plays its own recording:
+
+```kotlin
+game.audio.playCry("charizardmegax")   // GameAudio API; NoAudio and tests keep the default (the generic blip)
+```
+
+* `CryResolver` looks for `<speciesId>.ogg` then `.mp3` in `<importedAssetsDir>/audio/cries` (desktop `assets-local/`, Android
+  `imported/`, where a personal APK unpacks its bundled cries), then repeats for the base species (form fallback).
+  `PkmnGame.attachDexToAssets` wires it up once the Dex has loaded.
+* `CryBank` plays one cry at a time (a new cry stops the previous one), keeps the last 12 decoded `Sound`s and releases them
+  in `dispose`. `SynthAudio` plays at `sfx volume * 0.6` (recordings are mastered louder than the chiptune effects), nothing
+  when muted or when SFX volume is 0, and stops the cry on `pause`.
+* A species without a file falls back to the generic blip. `CryBank.missCount` / `missedSpecies` count those, and the first miss
+  per species is logged (`no cry file for '<id>'`). The import coverage report does not count such species as covered.
+* Call sites: `ScriptRequest.Cry` (`ScriptHost`), the event encounter intro (`OverworldScreen`), and the wild appearance and
+  send-out in `BattleScreen`.
+
 ## Verification
 
 `./gradlew :core:test` runs every audio test. None of them needs an audio device.

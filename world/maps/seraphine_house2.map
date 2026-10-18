@@ -1,7 +1,7 @@
 map seraphine_house2
 name "Fairy Keeper's House"
 location "Seraphine Town"
-music town_mid
+music hometown
 environment indoor
 indoor
 

@@ -1,7 +1,7 @@
 map hollis_lodge
 name "Hollis's Lodge"
 location "Frostmere Town"
-music town_mid
+music hometown
 environment indoor
 indoor
 

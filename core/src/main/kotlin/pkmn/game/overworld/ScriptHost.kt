@@ -62,7 +62,18 @@ class ScriptHost(
 
     private fun handleBlocking(req: ScriptRequest) {
         when (req) {
-            is ScriptRequest.Say -> game.push(TextBox(game, req.text) { resume() })
+            is ScriptRequest.Say -> {
+                // The `badge N` command announces "<player> received the <Name> Badge!": show the badge art with it.
+                val badge = (1..8).firstOrNull { n -> req.text.contains("received the ${ctx.badgeName(n)}!") }?.let { game.assets.badge(it) }
+                val decor: ((pkmn.game.gfx.Renderer) -> Unit)? = badge?.let { art ->
+                    { r ->
+                        val x = (pkmn.game.gfx.Renderer.W - 48) / 2; val y = TextBox.BOX_Y - 64
+                        r.frame(x - 6, y - 6, 60, 60)
+                        r.draw(art, x.toFloat(), y.toFloat(), 48f, 48f)
+                    }
+                }
+                game.push(TextBox(game, req.text, onDone = { resume() }, decor = decor))
+            }
             is ScriptRequest.Ask -> game.push(TextBox(game, req.text) { game.push(YesNo(game, req.text) { yes -> resume(if (yes) 1 else 0) }) })
             is ScriptRequest.Choice -> {
                 val menu = Menu(game, req.options, 160, 40, onCancel = { resume(req.options.size - 1) }) { i -> resume(i) }
@@ -75,13 +86,20 @@ class ScriptHost(
                 a.path.addAll(req.path)
                 a.onPathDone = { resume() }
             }
+            is ScriptRequest.WalkTo -> {
+                val a = ow.actor(req.target)
+                val path = ow.planWalk(req.target, req.x, req.y)
+                if (a == null || path.isNullOrEmpty()) { resume(); return }
+                a.path.addAll(path)
+                a.onPathDone = { resume() }
+            }
             is ScriptRequest.Wait -> ow.wait(req.ms / 1000f) { resume() }
             is ScriptRequest.TrainerBattle -> ow.startTrainerBattle(req.trainerId, req.canLose) { win -> resume(if (win) 1 else 0) }
             is ScriptRequest.WildBattle -> ow.startWildBattle(req.mon, req.canRun, req.music) { outcome ->
                 resume(when (outcome) { BattleOutcome.CAUGHT -> 1; BattleOutcome.WIN -> 2; BattleOutcome.RAN, BattleOutcome.FOE_FLED -> 3; else -> 0 })
             }
             is ScriptRequest.Warp -> ow.warpTo(req.map, req.x, req.y, req.facing) { resume() }
-            is ScriptRequest.Cry -> { game.audio.playSfx("cry"); ow.wait(0.4f) { resume() } }
+            is ScriptRequest.Cry -> { game.audio.playCry(req.species); ow.wait(0.4f) { resume() } }
             is ScriptRequest.Fade -> if (req.out) ow.fadeOut { resume() } else ow.fadeIn { resume() }
             is ScriptRequest.Emote -> {
                 ow.actor(req.target)?.let { it.emote = when (req.emote) { "heart" -> "♥"; "music" -> "♪"; "dots" -> "…"; else -> req.emote }; it.emoteTimer = 0.9f }

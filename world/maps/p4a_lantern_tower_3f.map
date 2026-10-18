@@ -2,7 +2,7 @@
 map p4a_lantern_tower_3f
 name "Lantern Tower 3F"
 location "Brindle City"
-music dungeon_ruins
+music ruins
 environment building
 indoor
 

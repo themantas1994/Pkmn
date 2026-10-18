@@ -1,7 +1,7 @@
 map port_tidewater
 name "Port Tidewater"
 location "Port Tidewater"
-music city_port
+music town_coastal
 environment plain
 region 16 12
 fly 10 11

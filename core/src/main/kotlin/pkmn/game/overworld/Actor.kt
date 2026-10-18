@@ -19,6 +19,10 @@ class Actor(val id: String, var sprite: String, var x: Int, var y: Int, var faci
     val path = ArrayDeque<Facing>()
     var onPathDone: (() -> Unit)? = null
     var wanderTimer = 2f
+    /** Set while a displaced trainer walks back to its home tile: each step is checked against collisions and waits if blocked. */
+    var returningHome = false
+    var homeWait = 0f
+    var homeRetry = 0f
 
     val moving get() = progress < 1f
 

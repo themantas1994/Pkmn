@@ -12,10 +12,10 @@ Every number in this document was produced by the commands listed next to it. No
 | Presentation | Gold/Silver/Crystal-style battle flow with party Poké Ball indicators. Elapsed-time animation system for battle and overworld (skippable; speed and off settings) |
 | Time | Device clock and time zone through an injectable `GameClock`; morning/day/night lighting; time-dependent encounters; data-driven weekly events (Thursday-night Mistwood Clefable) |
 | Campaign | Complete from new game to the Hall of Fame, plus post-game: 223 maps, 684 trainers, 89 encounter tables, 451 scripts |
-| Saves | Atomic, checksummed, versioned (v2, with migration from v1), with backup/repair; corruption and migration tests pass |
+| Saves | Atomic, checksummed, versioned (v3, with migrations from v1 and v2), with backup/repair; corruption and migration tests pass |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
-| Tests | 148 engine, 44 core and 78 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
+| Tests | 173 engine, 45 core and 78 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
 | Learnsets and moves | Every species/form audited (`:tools:auditLearnsets`: 0 errors) and every move executed in battle (`MoveExecutionTest`: 0 unsupported); see [docs/LEARNSETS.md](docs/LEARNSETS.md), [reports/moves-audit.md](reports/moves-audit.md) |
 | Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
 
@@ -91,7 +91,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (148 + 44 + 78; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (173 + 45 + 78; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.
@@ -235,7 +235,7 @@ The model is a content sum, not a measurement of real players. It assumes a typi
 - **No idle animations for standing NPCs.** Gold/Silver/Crystal has none either. Event Pokémon bob.
 - **Visual-regression scenes are not in CI.** They need Xvfb; run `tools/visual/run_scenes.sh` locally.
 - **Pokémon sprites are placeholders in public builds.** Official sprites are only available through the local import path and the one-command personal APK (`./gradlew :android:assemblePersonalDebugWithSprites`; never share that APK). PokeAPI has no files for Zygarde-Mega and 379 icons, and the 4 Ogerpon Tera forms have no mapping, so they use the fallback. The styled sprites are an automated approximation, and some need hand touch-ups. Trainer, overworld and UI art is original and complete.
-- **Obedience is not implemented**: every Pokémon obeys. Breeding is out of scope (gift Eggs hatch at once). Wild Pokémon hold no items. See [docs/MECHANICS.md](docs/MECHANICS.md).
+- **Obedience uses the Generation III/IV disobedience formula** with Scarlet/Violet's badge caps and met-level rule, because the Generation V+ formulas are undocumented. Breeding is out of scope (gift Eggs hatch at once). Wild Pokémon hold no items. See [docs/MECHANICS.md](docs/MECHANICS.md).
 - **Singles only:** no double battles.
 - **Playtime is below target.** About 24 h to the Hall of Fame with optional content (estimate); see the Playtime section.
 - **Late-game difficulty depends on Exp. Share.** With it off (the new default) the model has exploring players 4–9 levels above gym aces. With it on, they are 16–23 levels above. Challenge difficulty still caps levels at the next leader's ace.

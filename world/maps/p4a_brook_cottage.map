@@ -2,7 +2,7 @@
 map p4a_brook_cottage
 name "Angler's Cottage"
 location "Brookside Trail"
-music town_small
+music hometown
 environment indoor
 indoor
 

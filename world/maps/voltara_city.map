@@ -2,7 +2,7 @@
 map voltara_city
 name "Voltara City"
 location "Voltara City"
-music town_city
+music city_big
 environment plain
 region 20 17
 fly 17 16

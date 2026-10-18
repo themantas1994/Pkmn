@@ -1,7 +1,7 @@
 map route12
 name "Route 12"
 location "Route 12"
-music route_snow
+music route_late
 environment snow
 weather snow
 region 6 2

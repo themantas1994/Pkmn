@@ -81,7 +81,13 @@ class Pokemon(
     var otName: String = "",
     var otId: Int = 0,
     var metLocation: String = "",
+    /**
+     * Level at which the player got this Pokémon: the met level of a capture, the received level of a gift, trade,
+     * fossil or starter (every received Pokémon is created on receipt). Evolution keeps it. Badge obedience compares it.
+     */
     var metLevel: Int = 1,
+    /** Received from someone else (gift, starter, fossil, in-game trade) rather than caught or hatched by the player. */
+    var outsider: Boolean = false,
     /** Unique id for this individual (used for party/box identity and evolution tracking). */
     var uid: Long = 0,
     /** Counters used by special evolution conditions (critical hits landed, specific move uses, ...). */

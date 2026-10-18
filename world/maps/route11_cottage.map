@@ -1,7 +1,7 @@
 map route11_cottage
 name "Sea Cottage"
 location "Route 11"
-music town_mid
+music town_coastal
 environment indoor
 indoor
 

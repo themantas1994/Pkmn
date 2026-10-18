@@ -1,7 +1,7 @@
 map route11
 name "Route 11"
 location "Route 11"
-music route_sea
+music ocean_surf
 environment water
 region 5 7
 encounters p3a_route11

@@ -328,9 +328,19 @@ class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val 
     private val oldName = mon.displayName(ctx.dex)
     private val oldSpecies = mon.speciesId
 
+    private var musicHeld = false
+
     override fun onEnter() {
-        game.audio.playMusic("evolution", 0)
+        game.evolutionMusic.acquire(game.audio); musicHeld = true
         push(TextBox(game, "What? $oldName is evolving!") { stage = 1; game.audio.playSfx("evolution_start") })
+    }
+
+    /** Every exit path (finish, cancel, resetTo) ends here; restores the previous music unless another evolution follows. */
+    override fun onExit() {
+        if (!musicHeld) return
+        musicHeld = false
+        game.evolutionMusic.release()
+        game.later { game.evolutionMusic.restoreIfIdle(game.audio) }
     }
 
     override fun update(dt: Float, input: InputState) {

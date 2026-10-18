@@ -1,7 +1,7 @@
 map fernwick_mart
 name "Poké Mart"
 location "Fernwick Town"
-music pokemart
+music mart
 environment indoor
 indoor
 

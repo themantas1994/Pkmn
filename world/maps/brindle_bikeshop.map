@@ -1,7 +1,7 @@
 map brindle_bikeshop
 name "Spokes Bike Shop"
 location "Brindle City"
-music city_early
+music hometown
 environment indoor
 indoor
 
