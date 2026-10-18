@@ -170,4 +170,32 @@ class BattleFlowTest {
         repeat(3) { assertEquals(BattleFlow.Phase.DONE, flow.settle()) }
         assertNull(flow.takeOutcome())
     }
+
+    @Test
+    fun `disobedient Pokemon show their messages and the battle still finishes`() {
+        // Met at level 70 with no badges (cap 20): most orders are ignored, yet every phase stays valid to the end.
+        val party = strongParty().onEach { it.metLevel = 70 }
+        val s0 = Side(0, "Player", party, Controller.PLAYER, dex)
+        val s1 = Side(1, "Rival", weakFoes(2), Controller.AI, dex, aiLevel = 1)
+        val b = Battle(dex, listOf(s0, s1), BattleRules(isTrainerBattle = true, setMode = true, obedienceCap = 20), seed = 5)
+        b.start()
+        val flow = BattleFlow(b)
+        val p = Presenter(flow)
+        flow.startPresenting()
+        var guard = 0
+        while (guard++ < 2000) {
+            p.drain()
+            when (val ph = flow.settle()) {
+                BattleFlow.Phase.CHOOSE_ACTION -> assertNull(flow.submit(Choice.UseMove(0)))
+                BattleFlow.Phase.FORCED_SWITCH -> assertNull(flow.forcedPick(flow.battle.player.mons.indexOfFirst { !it.fainted }))
+                BattleFlow.Phase.ENDING -> { assertNotNull(flow.takeOutcome()); break }
+                BattleFlow.Phase.PRESENTING -> {}
+                else -> fail("unexpected phase $ph")
+            }
+        }
+        assertNotEquals(BattleOutcome.ONGOING, b.outcome, "battle did not finish")
+        val lines = p.seen.filterIsInstance<BattleEvent.Message>().map { it.text }
+        val disobey = listOf("ignored orders", "won't obey", "turned away", "loafing around", "pretended not to notice", "began to nap")
+        assertTrue(lines.any { l -> disobey.any { it in l } }, "no disobedience message presented")
+    }
 }

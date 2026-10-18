@@ -2,8 +2,10 @@ package pkmn.engine.save
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import pkmn.engine.data.Dex
@@ -119,7 +121,11 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
          * 1: original release. 2: Pokédex form/shiny records, pending nickname offers and unique Pokémon ids
          * (new fields default to empty; [SaveValidator] rebuilds the form records from the Pokémon the player owns).
          */
-        const val CURRENT_VERSION = 2
+        /*
+         * 3: badge obedience. Every Pokémon records whether it is an outsider (gift/trade) next to its met level. Old
+         * Pokémon become outsider = false; a Pokémon saved without a met level gets its current level as the reference.
+         */
+        const val CURRENT_VERSION = 3
 
         /** Migration from version [from] to from+1 on the raw JSON payload. */
         fun migrate(from: Int, payload: JsonObject): JsonObject = when (from) {
@@ -128,8 +134,31 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
                 payload.forEach { (k, v) -> put(k, v) }
                 if ("options" !in payload) put("options", Json.encodeToJsonElement(Options.serializer(), Options()))
             }
+            // 2 -> 3: obedience fields on every party and PC Pokémon.
+            2 -> migrateObedience(payload)
             // 1 -> 2: the new fields have safe defaults; nothing to rewrite in the raw payload.
             else -> payload
+        }
+
+        /**
+         * Adds `outsider = false` to every stored Pokémon that lacks it and, if `metLevel` is missing, sets it to the
+         * Pokémon's current level. Met levels that were saved are kept: they have been recorded since the first save
+         * version (the level at capture, or the level at which a gift or trade was received).
+         */
+        private fun migrateObedience(payload: JsonObject): JsonObject {
+            fun fix(mon: JsonElement): JsonElement {
+                val o = mon as? JsonObject ?: return mon
+                val out = LinkedHashMap<String, JsonElement>(o)
+                if ("outsider" !in o) out["outsider"] = JsonPrimitive(false)
+                if ("metLevel" !in o) out["metLevel"] = o["level"] ?: JsonPrimitive(1)
+                return JsonObject(out)
+            }
+            val out = LinkedHashMap<String, JsonElement>(payload)
+            (payload["party"] as? JsonArray)?.let { party -> out["party"] = JsonArray(party.map(::fix)) }
+            (payload["boxes"] as? JsonArray)?.let { boxes ->
+                out["boxes"] = JsonArray(boxes.map { box -> (box as? JsonArray)?.let { JsonArray(it.map(::fix)) } ?: box })
+            }
+            return JsonObject(out)
         }
 
         fun sha256(text: String): String =
@@ -161,6 +190,11 @@ class SaveValidator(private val dex: Dex) {
                 mon.heldItem = null
             }
             mon.level = mon.level.coerceIn(1, 100)
+            // The obedience reference level can never exceed the current level (levels only go up).
+            if (mon.metLevel !in 1..mon.level) {
+                warnings.add("${mon.speciesId}: met level ${mon.metLevel} out of range; set to ${mon.metLevel.coerceIn(1, mon.level)}.")
+                mon.metLevel = mon.metLevel.coerceIn(1, mon.level)
+            }
             val max = mon.maxHp(dex)
             if (mon.hp > max) mon.hp = max
             if (mon.hp < 0) mon.hp = max

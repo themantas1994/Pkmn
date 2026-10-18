@@ -32,6 +32,11 @@ data class BattleRules(
     val playerOtId: Int = 0,
     /** Capture settings (badge penalty, low-level bonus, Pokédex for Repeat Ball and critical captures). */
     val capture: CaptureRules = CaptureRules(),
+    /**
+     * Badge obedience level cap for the player's Pokémon ([Obedience]); null = every Pokémon obeys (8 badges, or a
+     * battle without experience). Only checked when [expEnabled].
+     */
+    val obedienceCap: Int? = null,
 ) {
     companion object {
         val ALL_GIMMICKS = Gimmick.entries.toSet()

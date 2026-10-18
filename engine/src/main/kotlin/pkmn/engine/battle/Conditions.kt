@@ -104,12 +104,7 @@ object Conditions {
                 c.b.message("${c.b.nm(m)} is confused!")
                 if (c.b.rng.nextInt(3) != 0) return true
                 // 40 BP typeless physical self-hit.
-                val atk = c.b.applyBoost(m.rawStat(Stat.ATK), m.boost("atk"))
-                val def = c.b.applyBoost(m.rawStat(Stat.DEF), m.boost("def"))
-                var dmg = ((2 * m.level / 5 + 2) * 40 * atk / max(1, def)) / 50 + 2
-                dmg = dmg * (85 + c.b.rng.nextInt(16)) / 100
-                c.b.message("It hurt itself in its confusion!")
-                c.b.directDamage(m, max(1, dmg), m, "confusion")
+                c.b.confusionSelfHit(m)
                 return false
             }
         })

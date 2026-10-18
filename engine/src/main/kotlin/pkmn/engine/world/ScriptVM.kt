@@ -148,6 +148,7 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "giveegg" -> {
                 // Eggs are simplified: the Pokémon is received at level 1 and treated as hatched.
                 val mon = buildMon(listOf(a[0], "1") + a.drop(2))
+                mon.outsider = false // hatched by the player: met at level 1
                 val where = ctx.receivePokemon(mon)
                 result = if (where == null) 0 else 1
                 if (where != null && mon.uid in st.pendingNicknames) queued.add(ScriptRequest.Nickname(mon.uid))
@@ -238,7 +239,11 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
         opt(a, "tera")?.let { mon.teraType = it.replaceFirstChar { c -> c.uppercase() } }
         opt(a, "nick")?.let { mon.nickname = it }
         opt(a, "ball")?.let { mon.ball = toId(it) }
-        if (!wild) { mon.otName = ctx.state.playerName; mon.otId = ctx.state.trainerId }
+        if (!wild) {
+            mon.otName = ctx.state.playerName; mon.otId = ctx.state.trainerId
+            // Gifts, starters, fossils and trades are outsiders received at this level (badge obedience reference).
+            mon.outsider = true; mon.metLevel = level
+        }
         return mon
     }
 
