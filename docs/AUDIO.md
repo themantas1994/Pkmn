@@ -112,7 +112,7 @@ D $ [K8 H8 S8 H8]4
 
 ## Soundtrack
 
-34 looping tracks and 6 jingles, about 21.6 minutes of loop material in total. Each track has its
+42 looping tracks and 6 jingles, about 26.5 minutes of loop material in total. Each track has its
 own key, tempo and groove. `battle_rival` reuses the opening phrase of `rival_theme`, and
 `ending_credits` brings back the title melody.
 
@@ -135,6 +135,14 @@ own key, tempo and groove. `battle_rival` reuses the opening phrase of `rival_th
 | pokecenter | Eb major | 104 | 36.9 |
 | mart | F major | 120 | 32.0 |
 | gym | A minor march | 128 | 45.0 |
+| gym_sprout | G major / lydian | 112 | 34.3 |
+| gym_tide | E major, 6/8 | 104 | 34.6 |
+| gym_spark | E dorian | 164 | 35.1 |
+| gym_stone | F minor | 96 | 40.0 |
+| gym_mist | A lydian (echo) | 76 | 37.9 |
+| gym_ember | G phrygian | 152 | 37.9 |
+| gym_frost | Ab major | 108 | 35.6 |
+| gym_dusk | F# minor | 72 | 40.0 |
 | villain_hideout | D minor | 120 | 48.0 |
 | rival_theme | E minor | 152 | 37.9 |
 | battle_wild | A minor | 168 | 34.3 |
@@ -163,7 +171,7 @@ Every map `music` line (in `world/maps/*.map`) names one of the tracks above; `:
 
 | Map group | Track |
 |---|---|
-| Gym maps | `gym` |
+| Gym maps, one theme each | Brindle `gym_sprout`, Tidewater `gym_tide`, Voltara `gym_spark`, Quarrytown `gym_stone`, Seraphine `gym_mist`, Ashfall `gym_ember`, Frostmere `gym_frost`, Dragonspire (1F and 2F) `gym_dusk` |
 | Poké Centers | `pokecenter` |
 | Poké Marts, Voltara Dept. Store | `mart` |
 | Home towns and villages: Brindle (houses, bike shop, florist), Fernwick, Lumen Village, Seraphine, Frostmere houses, Hollis's Lodge, cabins and cottages (Angler, Berry, Ranger, Lineman's Hut) | `hometown` |
@@ -176,6 +184,9 @@ Every map `music` line (in `world/maps/*.map`) names one of the tracks above; `:
 | Hostile or industrial interiors: S.S. Driftwood, Power Plant, Harbor Warehouse | `villain_hideout` |
 | Route 11 (sea) | `ocean_surf` |
 | Route 12 (snow) | `route_late` |
+
+The generic `gym` track is no longer used by a gym map; it stays as the default for any future gym-tagged map. Gym leaders
+battle to `battle_gym_leader` (the `leader` trainer class music): there is no per-gym battle track mechanism.
 
 Other maps keep their existing tracks (`route_early`, `route_mid`, `route_late`, `forest`, `ocean_surf`, `league_hall`, `ruins`, `cave`, ...).
 

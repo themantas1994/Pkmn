@@ -29,7 +29,7 @@ class SoundtrackTest {
     private val expectedTracks = listOf(
         "title", "intro_professor", "hometown", "town_coastal", "town_mountain", "city_big", "city_night",
         "route_early", "route_mid", "route_late", "forest", "cave", "ocean_surf", "bike", "pokecenter", "mart",
-        "gym", "villain_hideout", "rival_theme", "battle_wild", "battle_trainer", "battle_gym_leader",
+        "gym", "gym_sprout", "gym_tide", "gym_spark", "gym_stone", "gym_mist", "gym_ember", "gym_frost", "gym_dusk", "villain_hideout", "rival_theme", "battle_wild", "battle_trainer", "battle_gym_leader",
         "battle_rival", "battle_villain_boss", "battle_legendary", "battle_elite_four", "battle_champion",
         "victory_wild", "victory_trainer", "victory_gym", "league_hall", "ruins", "ending_credits", "evolution",
     )

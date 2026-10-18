@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pixlib  # noqa: E402
 from pixlib import grid  # noqa: E402
 from palettes import TILE  # noqa: E402
+import gym_tiles  # noqa: E402
 
 COLUMNS = 16
 TS = 16
@@ -1648,6 +1649,9 @@ def build_tiles():
     add("tower_door", "tower", TOWER_DOOR)
     add("gate_door", "gate", GATE_DOOR)
     add("building_door", "building", BUILDING_DOOR)
+    # ---- themed gym tile sets (appended after everything else so existing indices never move)
+    for name, pal, frames in gym_tiles.gym_tiles():
+        add(name, pal, frames)
     return T
 
 

@@ -213,7 +213,7 @@ object TileRules {
     private val solidPrefixes = listOf(
         "tree", "rock", "wall", "roof", "center_", "mart_", "gym_wall", "gym_roof", "gym_statue", "mountain", "fence", "bush", "table", "chair_back",
         "bed", "plant", "statue", "cave_wall", "cave_rock", "puzzle_wall", "ruins_wall", "window", "gym_window", "mart_shelf", "boulder", "cut_tree",
-        "house_", "lab_", "machine", "tv", "pc", "bookshelf", "counter", "healing_machine", "sign", "pillar", "lamp", "cliff",
+        "house_", "lab_", "machine", "tv", "pc", "bookshelf", "counter", "healing_machine", "sign", "pillar", "lamp", "cliff", "lava",
     )
 
     fun behavior(name: String): TileBehavior = when {

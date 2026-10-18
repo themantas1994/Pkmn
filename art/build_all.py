@@ -14,6 +14,7 @@ import badges  # noqa: E402
 import balls  # noqa: E402
 import chars  # noqa: E402
 import font  # noqa: E402
+import gym_tiles  # noqa: E402
 import logo  # noqa: E402
 import objects  # noqa: E402
 import pixlib  # noqa: E402
@@ -78,8 +79,22 @@ def validate():
     for name, e in w["tiles"].items():
         for i in e.get("frames", [e["index"]]):
             assert 0 <= i < n, f"{name} index out of range"
-    for t in ANIMATED:
+    for t in ANIMATED + ["lava"]:
         assert len(w["tiles"][t]["frames"]) == 4
+    # themed gym tile sets: one non-empty set per gym, every tile present and pairwise distinct
+    assert len(gym_tiles.GYM_TILE_NAMES) == 8, "expected 8 themed gym tile sets"
+    with Image.open(os.path.join(G, "tiles", "world.png")) as sheet:
+        sheet = sheet.convert("RGBA")
+        for theme, names in gym_tiles.GYM_TILE_NAMES.items():
+            assert 5 <= len(names) <= 8, f"gym {theme}: {len(names)} tiles"
+            seen = {}
+            for name in names:
+                assert name in w["tiles"], f"gym {theme}: missing tile {name}"
+                for i in w["tiles"][name].get("frames", [w["tiles"][name]["index"]]):
+                    x, y = (i % 16) * 16, (i // 16) * 16
+                    key = sheet.crop((x, y, x + 16, y + 16)).tobytes()
+                    other = seen.setdefault(key, name)
+                    assert other == name or name == "lava", f"gym {theme}: {name} identical to {other}"
     for cid in CHAR_IDS:
         check_size(os.path.join(G, "chars", cid + ".png"), (48, 64))
         check_size(os.path.join(G, "trainers", cid + ".png"), (64, 64))

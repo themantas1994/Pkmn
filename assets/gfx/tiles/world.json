@@ -709,6 +709,245 @@
     "building_door": {
       "index": 196,
       "palette": "building"
+    },
+    "gym_floor_sprout": {
+      "index": 197,
+      "palette": "gym_sprout"
+    },
+    "gym_floor_sprout_stones": {
+      "index": 198,
+      "palette": "gym_sprout_stones"
+    },
+    "gym_wall_hedge": {
+      "index": 199,
+      "palette": "gym_sprout_hedge"
+    },
+    "puzzle_wall_hedge": {
+      "index": 200,
+      "palette": "gym_sprout_hedge"
+    },
+    "bush_blossom": {
+      "index": 201,
+      "palette": "gym_sprout_bloom"
+    },
+    "plant_sprout": {
+      "index": 202,
+      "palette": "gym_sprout_pot"
+    },
+    "statue_sprout": {
+      "index": 203,
+      "palette": "gym_sprout_statue"
+    },
+    "gym_floor_tide": {
+      "index": 204,
+      "palette": "gym_tide"
+    },
+    "gym_wall_tide": {
+      "index": 205,
+      "palette": "gym_tide_wall"
+    },
+    "dock_plank": {
+      "index": 206,
+      "palette": "gym_tide_dock"
+    },
+    "dock_plank_v": {
+      "index": 207,
+      "palette": "gym_tide_dock"
+    },
+    "float_platform": {
+      "index": 208,
+      "palette": "gym_tide_float"
+    },
+    "pillar_mooring": {
+      "index": 209,
+      "palette": "gym_tide_dock"
+    },
+    "puzzle_wall_crate": {
+      "index": 210,
+      "palette": "gym_tide_dock"
+    },
+    "statue_tide": {
+      "index": 211,
+      "palette": "gym_tide_statue"
+    },
+    "gym_floor_spark": {
+      "index": 212,
+      "palette": "gym_spark"
+    },
+    "circuit_panel": {
+      "index": 213,
+      "palette": "gym_spark_live"
+    },
+    "circuit_cable": {
+      "index": 214,
+      "palette": "gym_spark"
+    },
+    "gym_wall_spark": {
+      "index": 215,
+      "palette": "gym_spark_hazard"
+    },
+    "machine_generator": {
+      "index": 216,
+      "palette": "gym_spark_hazard"
+    },
+    "machine_coil": {
+      "index": 217,
+      "palette": "gym_spark_live"
+    },
+    "puzzle_wall_spark": {
+      "index": 218,
+      "palette": "gym_spark_live"
+    },
+    "gym_floor_stone": {
+      "index": 219,
+      "palette": "gym_stone"
+    },
+    "gym_wall_stone": {
+      "index": 220,
+      "palette": "gym_stone_wall"
+    },
+    "rock_ore": {
+      "index": 221,
+      "palette": "gym_stone_ore"
+    },
+    "rock_rubble": {
+      "index": 222,
+      "palette": "gym_stone"
+    },
+    "rail_h": {
+      "index": 223,
+      "palette": "gym_stone"
+    },
+    "rail_v": {
+      "index": 224,
+      "palette": "gym_stone"
+    },
+    "lamp_mine": {
+      "index": 225,
+      "palette": "gym_stone_lamp"
+    },
+    "puzzle_wall_stone": {
+      "index": 226,
+      "palette": "gym_stone_wall"
+    },
+    "gym_floor_mist": {
+      "index": 227,
+      "palette": "gym_mist"
+    },
+    "gym_floor_mist_deep": {
+      "index": 228,
+      "palette": "gym_mist"
+    },
+    "gym_floor_mist_path": {
+      "index": 229,
+      "palette": "gym_mist"
+    },
+    "gym_wall_mist": {
+      "index": 230,
+      "palette": "gym_mist_wall"
+    },
+    "statue_mist": {
+      "index": 231,
+      "palette": "gym_mist_statue"
+    },
+    "plant_mist": {
+      "index": 232,
+      "palette": "gym_mist_glow"
+    },
+    "puzzle_wall_mist": {
+      "index": 233,
+      "palette": "gym_mist_wall"
+    },
+    "gym_floor_ember": {
+      "index": 234,
+      "palette": "gym_ember"
+    },
+    "gym_floor_ember_hot": {
+      "index": 235,
+      "palette": "gym_ember_hot"
+    },
+    "gym_wall_ember": {
+      "index": 236,
+      "palette": "gym_ember_hot"
+    },
+    "lava": {
+      "index": 237,
+      "palette": "gym_ember_lava",
+      "frames": [
+        237,
+        238,
+        239,
+        240
+      ],
+      "frameMs": 250
+    },
+    "gym_floor_ember_crust": {
+      "index": 241,
+      "palette": "gym_ember_crust"
+    },
+    "lamp_brazier": {
+      "index": 242,
+      "palette": "gym_ember_hot"
+    },
+    "puzzle_wall_ember": {
+      "index": 243,
+      "palette": "gym_ember_hot"
+    },
+    "gym_floor_frost": {
+      "index": 244,
+      "palette": "gym_frost"
+    },
+    "gym_floor_frost_cracked": {
+      "index": 245,
+      "palette": "gym_frost"
+    },
+    "gym_floor_frost_snow": {
+      "index": 246,
+      "palette": "snow"
+    },
+    "gym_wall_frost": {
+      "index": 247,
+      "palette": "gym_frost_wall"
+    },
+    "pillar_ice": {
+      "index": 248,
+      "palette": "gym_frost_wall"
+    },
+    "statue_frost": {
+      "index": 249,
+      "palette": "gym_frost_statue"
+    },
+    "puzzle_wall_frost": {
+      "index": 250,
+      "palette": "gym_frost_wall"
+    },
+    "gym_floor_dusk": {
+      "index": 251,
+      "palette": "gym_dusk"
+    },
+    "gym_floor_dusk_rune": {
+      "index": 252,
+      "palette": "gym_dusk_rune"
+    },
+    "gym_wall_dusk": {
+      "index": 253,
+      "palette": "gym_dusk_wall"
+    },
+    "pillar_dusk": {
+      "index": 254,
+      "palette": "gym_dusk_wall"
+    },
+    "statue_dragon": {
+      "index": 255,
+      "palette": "gym_dusk_statue"
+    },
+    "lamp_dusk": {
+      "index": 256,
+      "palette": "gym_dusk_rune"
+    },
+    "puzzle_wall_dusk": {
+      "index": 257,
+      "palette": "gym_dusk_rune"
     }
   }
 }

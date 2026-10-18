@@ -1,0 +1,17 @@
+; Frost Gym - glittering bells over a slow glide in Ab major. Original composition, CC0-1.0.
+#title Crystal Rink
+#tempo 108
+#time 4/4
+#key Ab major
+#inst 1 duty=1 env=9,-6 rel=-1
+#inst 2 duty=2 env=11,-1 rel=-3 vib=20,10,5
+#inst 3 wave=0 env=14,-1
+#def Bm o5 c16 e16 g16 o6 c16 e16 o5 g16 e16 c16
+#def Bn o5 c16 d+16 g16 o6 c16 d+16 o5 g16 d+16 c16
+#def Bs o2 c4. g8 c4 g4
+#def Dr K4 H8 H8 S4 H8 H16 H16
+
+A @1 $ k8{Bm}{Bm} | k5{Bn}{Bn} | k1{Bm}{Bm} | k3{Bm}{Bm} | k8{Bm}{Bm} | k0{Bn}{Bn} | k1{Bm}{Bm} | k3{Bm}{Bm} | k5{Bn}{Bn} | k1{Bm}{Bm} | k10{Bn}{Bn} | k3{Bm}{Bm} | k1{Bm}{Bm} | k3{Bm}{Bm} | k8{Bm}{Bm} | k8{Bm}{Bm} | k0
+B @2 o5 $ e-2 c4 e-4 | f4 a-4 > c2 < | > d-4. c8 < a-4 f4 | g4. a-8 b-2 | a-4 > c4 e-4 c4 < | > e-4 d-4 c4 < g4 | a-4 f4 d-4 f4 | g4 b-4 > e-2 < | > c4. d-8 c4 < a-4 | f4 a-4 > d-2 < | b-4. d-8 f4 > d-4 < | > e-4 d-4 < b-4 g4 | a-4 > d-4 f4 d-4 < | > e-4. d8 c4 < b-4 | a-2. e-4 | a-2 r2 |
+C @3 $ k8{Bs} | k5{Bs} | k1{Bs} | k3{Bs} | k8{Bs} | k0{Bs} | k1{Bs} | k3{Bs} | k5{Bs} | k1{Bs} | k10{Bs} | k3{Bs} | k1{Bs} | k3{Bs} | k8{Bs} | k8{Bs} | k0
+D v6 $ [{Dr}]16
