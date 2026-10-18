@@ -1,7 +1,7 @@
 map frostmere_town
 name "Frostmere Town"
 location "Frostmere Town"
-music town_snow
+music town_mountain
 environment snow
 weather snow
 region 3 4

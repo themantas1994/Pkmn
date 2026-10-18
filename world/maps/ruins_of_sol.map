@@ -2,7 +2,7 @@
 map ruins_of_sol
 name "Ruins of Sol"
 location "Ruins of Sol"
-music dungeon_ruins
+music ruins
 environment grass
 region 28 11
 encounters p2_ruins_of_sol

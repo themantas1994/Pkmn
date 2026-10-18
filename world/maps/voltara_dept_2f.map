@@ -1,7 +1,7 @@
 map voltara_dept_2f
 name "Voltara Dept. Store 2F"
 location "Voltara City"
-music pokemart
+music mart
 environment indoor
 indoor
 

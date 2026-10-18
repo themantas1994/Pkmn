@@ -2,7 +2,7 @@
 map ruins_of_sol_temple
 name "Temple of Sol"
 location "Ruins of Sol"
-music dungeon_ruins
+music ruins
 environment indoor
 indoor
 

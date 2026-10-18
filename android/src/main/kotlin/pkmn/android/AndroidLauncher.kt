@@ -88,7 +88,9 @@ class AndroidLauncher : AndroidApplication() {
     private fun unpackBundledSprites() {
         val list = assets.list("imported") ?: return
         if (list.isEmpty()) return
-        @Suppress("DEPRECATION") val version = packageManager.getPackageInfo(packageName, 0).versionCode
+        // Keyed on the install time too: a rebuilt personal APK keeps versionCode but must refresh the unpacked files.
+        val info = packageManager.getPackageInfo(packageName, 0)
+        @Suppress("DEPRECATION") val version = "${info.versionCode}-${info.lastUpdateTime}"
         val marker = File(importedDir, ".bundled-$version")
         if (marker.exists()) return
         fun copy(path: String) {

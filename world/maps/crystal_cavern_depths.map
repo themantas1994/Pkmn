@@ -1,7 +1,7 @@
 map crystal_cavern_depths
 name "Crystal Cavern Depths"
 location "Crystal Cavern"
-music dungeon_cave
+music cave
 environment cave
 region 11 7
 encounters p3a_crystal_depths

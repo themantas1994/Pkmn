@@ -1,7 +1,7 @@
 map ashfall_city
 name "Ashfall City"
 location "Ashfall City"
-music city_mid
+music city_big
 environment plain
 region 12 4
 fly 16 16

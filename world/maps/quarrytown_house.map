@@ -1,7 +1,7 @@
 map quarrytown_house
 name "Miner's House"
 location "Quarrytown"
-music town_mid
+music town_mountain
 environment indoor
 indoor
 

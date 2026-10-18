@@ -2,7 +2,7 @@
 map voltara_powerplant
 name "Power Plant"
 location "Voltara City"
-music dungeon_eclipse
+music villain_hideout
 environment building
 indoor
 

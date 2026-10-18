@@ -2,7 +2,7 @@
 map quarrytown
 name "Quarrytown"
 location "Quarrytown"
-music town_mid
+music town_mountain
 environment plain
 region 26 11
 fly 14 12

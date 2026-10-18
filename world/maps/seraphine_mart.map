@@ -1,7 +1,7 @@
 map seraphine_mart
 name "Poké Mart"
 location "Seraphine Town"
-music pokemart
+music mart
 environment indoor
 indoor
 

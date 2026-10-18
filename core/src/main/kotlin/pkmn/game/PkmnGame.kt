@@ -1,5 +1,7 @@
 package pkmn.game
 
+import java.io.File
+import pkmn.engine.util.toId
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
@@ -121,6 +123,14 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         assets = Assets(platform.importedAssetsDir, dex)
         r = Renderer(batch, assets)
         old.dispose()
+        configureCries()
+    }
+
+    /** Cry files exist only in the local override directory (assets-local/audio/cries, Android imported/audio/cries). */
+    private fun configureCries() {
+        val d = dex ?: return
+        val dirs = listOfNotNull(platform.importedAssetsDir?.let { File(it, "audio/cries") })
+        audio.configureCries(dirs) { id -> d.speciesOrNull(id)?.baseSpecies?.let { toId(it) }?.takeIf { it != id } }
     }
 
     // ------------------------------------------------------------------ screen stack
@@ -129,6 +139,10 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     fun pop(s: Screen) { pending.add { if (stack.remove(s)) s.onExit() } }
     fun replace(old: Screen, new: Screen) { pending.add { val i = stack.indexOf(old); if (i >= 0) { stack[i] = new; old.onExit(); new.onEnter() } else { stack.add(new); new.onEnter() } } }
     fun resetTo(s: Screen) { pending.add { stack.toList().forEach { it.onExit() }; stack.clear(); stack.add(s); s.onEnter() } }
+    /** Runs [r] after everything currently queued (next pending batch). */
+    fun later(r: () -> Unit) { pending.add(r) }
+    /** Shared lease for the evolution theme, so consecutive evolutions keep it and the map music comes back once. */
+    val evolutionMusic = pkmn.game.audio.MusicLease("evolution")
     fun top(): Screen? = stack.lastOrNull()
     fun screens(): List<Screen> = stack
 

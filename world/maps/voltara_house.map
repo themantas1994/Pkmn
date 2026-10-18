@@ -1,7 +1,7 @@
 map voltara_house
 name "Tutor's House"
 location "Voltara City"
-music town_city
+music city_night
 environment indoor
 indoor
 

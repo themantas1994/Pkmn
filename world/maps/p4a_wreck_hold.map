@@ -2,7 +2,7 @@
 map p4a_wreck_hold
 name "S.S. Driftwood Hold"
 location "Tidewater Cape"
-music dungeon_eclipse
+music villain_hideout
 environment building
 indoor
 

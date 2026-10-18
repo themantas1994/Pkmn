@@ -29,6 +29,10 @@ interface GameAudio {
     fun playMusic(id: String, fadeMs: Int = 300) {}
     fun stopMusic(fadeMs: Int = 300) {}
     fun playSfx(id: String) {}
+    /** Tells the audio where local cry files live (never bundled in public builds) and how forms map to base species. */
+    fun configureCries(dirs: List<java.io.File>, baseOf: (String) -> String?) {}
+    /** Plays the cry of [speciesId] (a new cry cuts the previous one); falls back to the generic cry blip when there is no file. */
+    fun playCry(speciesId: String) = playSfx("cry")
     fun setVolumes(music: Float, sfx: Float) {}
     fun pause() {}
     fun resume() {}

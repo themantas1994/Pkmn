@@ -2,7 +2,7 @@
 map p4a_petal_cottage
 name "Berry Cottage"
 location "Petal Path"
-music town_small
+music hometown
 environment indoor
 indoor
 

@@ -2,7 +2,7 @@
 map p4a_ridge_station
 name "Ridge Station"
 location "Solar Ridge"
-music town_city
+music city_night
 environment building
 indoor
 

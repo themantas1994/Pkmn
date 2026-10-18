@@ -1,7 +1,7 @@
 map fernwick_town
 name "Fernwick Town"
 location "Fernwick Town"
-music town_small
+music hometown
 environment plain
 region 6 16
 fly 9 8

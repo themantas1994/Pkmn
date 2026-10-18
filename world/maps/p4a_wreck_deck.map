@@ -2,7 +2,7 @@
 map p4a_wreck_deck
 name "S.S. Driftwood"
 location "Tidewater Cape"
-music dungeon_eclipse
+music villain_hideout
 environment building
 indoor
 

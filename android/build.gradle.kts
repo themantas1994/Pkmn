@@ -91,11 +91,14 @@ val copyAndroidNatives by tasks.registering {
 }
 tasks.matching { it.name.contains("merge") && it.name.contains("JniLibFolders") }.configureEach { dependsOn(copyAndroidNatives) }
 
-// Only the live, styled set (assets-local/sprites/pokemon) is bundled. The raw cache (assets-local/sprites-raw) and the
+// Only the live sets (styled assets-local/sprites/pokemon and assets-local/audio/cries) are bundled. The raw cache (assets-local/sprites-raw) and the
 // scratch directory (assets-local/sprites-styled.tmp) live outside it, and reports/logs in sprites/ are excluded.
 val copyLocalAssets by tasks.registering(Sync::class) {
-    from(rootProject.file("assets-local/sprites")) { include("pokemon/**") }
-    into(localAssetsDir.map { it.dir("imported/sprites") })
+    from(rootProject.file("assets-local/sprites")) { include("pokemon/**"); into("sprites") }
+    // Official cries (personal builds only): the live set assets-local/audio/cries/<speciesId>.ogg. The raw cache
+    // (assets-local/audio/cries-raw) and the JSON logs are never bundled.
+    from(rootProject.file("assets-local/audio/cries")) { include("*.ogg", "*.mp3"); into("audio/cries") }
+    into(localAssetsDir.map { it.dir("imported") })
     doFirst {
         if (!rootProject.file("assets-local/sprites").isDirectory) throw GradleException("pkmn.bundleLocalAssets: assets-local/sprites does not exist")
         logger.warn("pkmn.bundleLocalAssets=true: this APK contains locally imported, non-redistributable sprites. Do not publish it.")
@@ -131,12 +134,15 @@ gradle.projectsEvaluated {
     // Fail on bad options before any download starts.
     project(":tools").tasks.matching { it.name == "importSpritesRaw" || it.name == "styleSprites" }.configureEach { mustRunAfter(checkPersonalSpritePrereqs) }
 }
-if (personalSpritesRequested) copyLocalAssets.configure { dependsOn(":tools:styleSprites") }
+// Cries are on by default for the personal build; -Ppkmn.cries=false skips them (sprites only).
+val personalCries = (findProperty("pkmn.cries") as String?)?.toBoolean() != false
+if (personalSpritesRequested) copyLocalAssets.configure { dependsOn(":tools:styleSprites"); if (personalCries) dependsOn(":tools:importCriesForApk") }
 
 tasks.register("assemblePersonalDebugWithSprites") {
     group = "pkmn"
     description = "Personal debug APK with official sprites: import (raw cache) -> style -> validate/coverage -> assembleDebug. Never publish the result."
     dependsOn(checkPersonalSpritePrereqs, ":tools:importSpritesRaw", ":tools:styleSprites", "assembleDebug")
+    if (personalCries) dependsOn(":tools:importCriesForApk")
     doLast {
         if (!bundleLocalAssets) throw GradleException("Local sprites were not bundled. Run the task by its full name " +
             "(:android:assemblePersonalDebugWithSprites) or add -Ppkmn.bundleLocalAssets=true.")
@@ -147,11 +153,13 @@ tasks.register("assemblePersonalDebugWithSprites") {
             z.entries().asSequence().map { it.name }.filter { it.startsWith("assets/imported/sprites/pokemon/") && it.endsWith(".png") }.toList()
         }
         if (bundled.isEmpty()) throw GradleException("The APK ${built.path} contains no assets/imported/sprites/pokemon/*.png: refusing to call it a personal sprite build.")
+        val cries = ZipFile(built).use { z -> z.entries().asSequence().count { it.name.startsWith("assets/imported/audio/cries/") && (it.name.endsWith(".ogg") || it.name.endsWith(".mp3")) } }
+        if (personalCries && cries == 0) throw GradleException("The APK ${built.path} contains no assets/imported/audio/cries/*.ogg|mp3. Run :tools:importCries, or pass -Ppkmn.cries=false for a build without cries.")
         val out = personalApkDir.get().asFile.also { it.mkdirs() }.resolve(personalApkName)
         built.copyTo(out, overwrite = true)
 
         println()
-        println("Personal APK with ${bundled.size} bundled sprite files:")
+        println("Personal APK with ${bundled.size} bundled sprite files and $cries cry files:")
         println("  ${out.absolutePath}")
         val coverage = rootProject.file("assets-local/sprites/COVERAGE.json")
         if (coverage.isFile) {
@@ -161,6 +169,6 @@ tasks.register("assemblePersonalDebugWithSprites") {
             println("  Details: ${coverage.absolutePath}")
         }
         println("Install: adb install -r \"${out.absolutePath}\"")
-        println("WARNING: this APK contains official sprites (c) Nintendo/Creatures/GAME FREAK. Personal use only; never share or publish it.")
+        println("WARNING: this APK contains official sprites and cries (c) Nintendo/Creatures/GAME FREAK. Personal use only; never share or publish it.")
     }
 }

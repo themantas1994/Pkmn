@@ -1,7 +1,7 @@
 map brindle_mart
 name "Poké Mart"
 location "Brindle City"
-music pokemart
+music mart
 environment indoor
 indoor
 

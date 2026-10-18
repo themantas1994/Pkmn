@@ -1,7 +1,7 @@
 map fernwick_house
 name "Fernwick House"
 location "Fernwick Town"
-music town_small
+music hometown
 environment indoor
 indoor
 

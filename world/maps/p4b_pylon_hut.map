@@ -1,7 +1,7 @@
 map p4b_pylon_hut
 name "Lineman's Hut"
 location "Route 7"
-music town_mid
+music hometown
 environment indoor
 indoor
 

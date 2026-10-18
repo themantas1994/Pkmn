@@ -21,6 +21,28 @@ class ContentValidatorTest {
         assertEquals(1025, content.species.count { it.formKind == FormKind.BASE })
     }
 
+    @Test
+    fun bundledMusicIdsAllHaveTracks() {
+        val issues = Issues()
+        ContentValidator(repo).validateMusic(File(repo, "assets"), issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun missingMusicTrackIsAnError() {
+        val dir = Files.createTempDirectory("music").toFile()
+        try {
+            File(dir, "audio/music").mkdirs(); File(dir, "maps").mkdirs()
+            File(dir, "audio/music/ok.mml").writeText("")
+            File(dir, "maps/a.json").writeText("""{"id":"a","music":"ok"}""")
+            File(dir, "maps/b.json").writeText("""{"id":"b","music":"nope"}""")
+            val issues = Issues()
+            ContentValidator(repo).validateMusic(dir, issues)
+            assertEquals(listOf("music-missing"), issues.errors.map { it.code })
+            assertEquals("b", issues.errors.single().subject)
+        } finally { dir.deleteRecursively() }
+    }
+
     private fun sp(id: String, num: Int, kind: FormKind = FormKind.BASE, base: String = id, abilities: Map<String, String> = mapOf("0" to "overgrow"),
                    types: List<String> = listOf("Grass"), evolutions: List<EvolutionData> = emptyList(), prevo: String? = null,
                    requiredItems: List<String> = emptyList(), canGigantamax: String? = null) =

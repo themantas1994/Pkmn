@@ -2,7 +2,7 @@
 map mt_prism_1f
 name "Mt. Prism 1F"
 location "Mt. Prism"
-music dungeon_cave
+music cave
 environment cave
 region 23 9
 encounters p2_mt_prism_lower

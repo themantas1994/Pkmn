@@ -1,7 +1,7 @@
 map tidewater_mart
 name "Poké Mart"
 location "Port Tidewater"
-music pokemart
+music mart
 environment indoor
 indoor
 

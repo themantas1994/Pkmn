@@ -1,7 +1,7 @@
 map ashfall_house
 name "Magma Elder's House"
 location "Ashfall City"
-music town_mid
+music town_mountain
 environment indoor
 indoor
 

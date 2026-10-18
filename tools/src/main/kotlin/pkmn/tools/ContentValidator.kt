@@ -46,6 +46,7 @@ class ContentValidator(private val root: File) {
         val content = Content.load(dataDir)
         val issues = validate(content, expectedBaseCount = content.manifest?.expectedSpeciesCount ?: 1025)
         validateProvenance(File(root, "data-src"), content.manifest, issues)
+        validateMusic(File(root, "assets"), issues)
         val evo = EvolutionAudit(content.dex).auditAll()
         for (r in evo.filter { !it.satisfiable }) issues.warn("evolution-unsatisfiable", "${r.from}->${r.evo.target}", r.reason ?: "",
             "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json.")
@@ -238,6 +239,31 @@ class ContentValidator(private val root: File) {
             if (ls == null || ls.levelUp.isEmpty()) issues.error("learnset-unresolved", sp.id, "no level-up learnset resolves via Dex.learnset")
         }
         return issues
+    }
+
+    // ------------------------------------------------------------------ music
+
+    /** Music ids that deliberately play silence. None today; add an id here to allow it. */
+    val silentMusicIds: Set<String> = emptySet()
+
+    /** Every `music` id in compiled maps, trainers and trainer classes must have `audio/music/<id>.mml`. */
+    fun validateMusic(assets: File, issues: Issues) {
+        val musicDir = File(assets, "audio/music")
+        fun scan(el: JsonElement, out: MutableSet<String>) {
+            when (el) {
+                is JsonObject -> el.forEach { (k, v) -> if (k == "music" && v is JsonPrimitive && v.isString) out += v.content else scan(v, out) }
+                is JsonArray -> el.forEach { scan(it, out) }
+                else -> {}
+            }
+        }
+        val files = (File(assets, "maps").listFiles { f -> f.extension == "json" }?.toList().orEmpty().sortedBy { it.name }) +
+            listOf("trainers.json", "trainer_classes.json").map { File(assets, "world/$it") }.filter { it.isFile }
+        for (f in files) {
+            val ids = sortedSetOf<String>()
+            scan(Json.parseToJsonElement(f.readText()), ids)
+            for (id in ids) if (id !in silentMusicIds && !File(musicDir, "$id.mml").isFile)
+                issues.error("music-missing", f.nameWithoutExtension, "music id '$id' has no assets/audio/music/$id.mml")
+        }
     }
 
     // ------------------------------------------------------------------ provenance

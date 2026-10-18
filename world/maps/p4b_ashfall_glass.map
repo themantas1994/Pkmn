@@ -1,7 +1,7 @@
 map p4b_ashfall_glass
 name "Glass Workshop"
 location "Ashfall City"
-music town_mid
+music town_mountain
 environment indoor
 indoor
 

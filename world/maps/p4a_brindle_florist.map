@@ -2,7 +2,7 @@
 map p4a_brindle_florist
 name "Flower Shop"
 location "Brindle City"
-music city_early
+music hometown
 environment indoor
 indoor
 

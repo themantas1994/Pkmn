@@ -2,7 +2,7 @@
 map lumen_ruins
 name "Lumen Ruins"
 location "Lumen Village"
-music dungeon_ruins
+music ruins
 environment cave
 region 15 16
 encounters p2_lumen_ruins

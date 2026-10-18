@@ -2,7 +2,7 @@
 map seraphine_town
 name "Seraphine Town"
 location "Seraphine Town"
-music town_mid
+music hometown
 environment grass
 weather fog
 region 20 5
