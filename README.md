@@ -1,6 +1,8 @@
-# Pokémon Crystalline
+# Pokémon Crystalline: an offline Gen 2-style Pokémon fan game for Android and desktop
 
-An offline, Android-first Pokémon RPG in the style of Gold/Silver/Crystal. It is written in Kotlin with LibGDX, and the desktop build is used for development.
+**Pokémon Crystalline** is a free, open-source, offline Pokémon fan RPG in the style of Pokémon Gold, Silver and Crystal, with all 1025 Pokémon, modern Gen IX battle rules and a complete original campaign. It is written in Kotlin with LibGDX, runs on **Android** (APK) and **desktop** (LWJGL3), and needs no internet connection to play.
+
+Keywords: Pokémon fan game, Pokémon Android game, offline Pokémon RPG, Gen 2 Pokémon engine, Kotlin LibGDX game, Pokémon battle engine, open-source Pokémon, Mega Evolution, Z-Moves, Dynamax, Terastallization, no HM slots.
 
 It is an original adventure in the region of **Tessera**:
 - 8 gyms, a rival and the villain team Eclipse.
@@ -21,6 +23,12 @@ It is an original adventure in the region of **Tessera**:
 - Every move, ability and held item is classified as implemented, data-driven or no effect needed (see [reports/COVERAGE.md](reports/COVERAGE.md)).
 - Deterministic, seeded battles, fuzz-tested over thousands of AI-vs-AI battles.
 
+**No HM slots: God Bidoof:**
+- An invisible, permanent helper called **God Bidoof** performs every unlocked field move, so no party slot is spent on HMs and no suitable Pokémon is needed.
+- Cut, Flash, Rock Smash, Strength, Surf, Fly and Waterfall each unlock independently with their gym badge (1, 2, 2, 3, 4, 5 and 7); the game has no HM items to find.
+- When you use one, the game says, for example, `God Bidoof answered your prayers and used CUT!`. Bidoof never joins your party or PC, and TMs are unaffected.
+- Details: [docs/CAMPAIGN.md](docs/CAMPAIGN.md#field-moves).
+
 **Campaign:**
 - Hand-authored world with GSC-style towns, routes, caves, gym puzzles, side quests, in-game trades and legendary encounters.
 - Maps are written as text and compiled; the scripting language is documented in [docs/SCRIPTING.md](docs/SCRIPTING.md).
@@ -28,7 +36,12 @@ It is an original adventure in the region of **Tessera**:
 **Presentation:**
 - 256×224 pixel-perfect framebuffer with an original GSC-style tileset, characters and UI.
 - Built-in chiptune synthesizer playing original MML music.
+- Eight themed gyms, each with its own tiles and original music.
 - Touch controls in portrait or landscape, keyboard on desktop, and Android gamepads (D-pad, A/B, Start/Select key events).
+
+**Difficulty and fairness:**
+- The whiteout penalty scales with level and badges, and trainers can spot you anywhere on screen.
+- Wild battles support RUN (fail, retry, escape); RUN is rejected in trainer battles.
 
 **Saves:**
 - Versioned and checksummed, written atomically (temp file, fsync, rename).
@@ -48,6 +61,27 @@ It is an original adventure in the region of **Tessera**:
 ```
 
 Full instructions, including Android signing and installation, are in [docs/BUILD.md](docs/BUILD.md).
+
+### Official sprites and cries (personal builds only)
+
+The repository ships original art and generated placeholder Pokémon sprites. To see official sprites and hear official cries in a build **for your own device**, import them into the git-ignored `assets-local/` folder (see [docs/ASSET_IMPORT.md](docs/ASSET_IMPORT.md)) and bake them into the APK:
+
+```sh
+./gradlew :android:assembleDebug -Ppkmn.bundleLocalAssets=true         # bundles existing assets-local/ sprites and cries
+./gradlew :android:assemblePersonalDebugWithSprites                    # download, style and bundle in one command
+```
+
+Such an APK contains non-redistributable files: install it yourself and never share or publish it.
+
+## Contributing
+
+Run the content gates and tests before opening a pull request (the same checks as CI):
+
+```sh
+./gradlew :tools:compileMaps :tools:checkProgression :tools:validateContent :tools:buildAssetManifest
+git diff --exit-code -- assets/        # assets/ is generated; change data-src/ or world/ and regenerate
+./gradlew :engine:test :core:test :tools:test
+```
 
 ## Documentation
 
