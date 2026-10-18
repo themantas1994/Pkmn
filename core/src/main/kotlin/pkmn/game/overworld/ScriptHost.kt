@@ -86,13 +86,20 @@ class ScriptHost(
                 a.path.addAll(req.path)
                 a.onPathDone = { resume() }
             }
+            is ScriptRequest.WalkTo -> {
+                val a = ow.actor(req.target)
+                val path = ow.planWalk(req.target, req.x, req.y)
+                if (a == null || path.isNullOrEmpty()) { resume(); return }
+                a.path.addAll(path)
+                a.onPathDone = { resume() }
+            }
             is ScriptRequest.Wait -> ow.wait(req.ms / 1000f) { resume() }
             is ScriptRequest.TrainerBattle -> ow.startTrainerBattle(req.trainerId, req.canLose) { win -> resume(if (win) 1 else 0) }
             is ScriptRequest.WildBattle -> ow.startWildBattle(req.mon, req.canRun, req.music) { outcome ->
                 resume(when (outcome) { BattleOutcome.CAUGHT -> 1; BattleOutcome.WIN -> 2; BattleOutcome.RAN, BattleOutcome.FOE_FLED -> 3; else -> 0 })
             }
             is ScriptRequest.Warp -> ow.warpTo(req.map, req.x, req.y, req.facing) { resume() }
-            is ScriptRequest.Cry -> { game.audio.playSfx("cry"); ow.wait(0.4f) { resume() } }
+            is ScriptRequest.Cry -> { game.audio.playCry(req.species); ow.wait(0.4f) { resume() } }
             is ScriptRequest.Fade -> if (req.out) ow.fadeOut { resume() } else ow.fadeIn { resume() }
             is ScriptRequest.Emote -> {
                 ow.actor(req.target)?.let { it.emote = when (req.emote) { "heart" -> "♥"; "music" -> "♪"; "dots" -> "…"; else -> req.emote }; it.emoteTimer = 0.9f }

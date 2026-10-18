@@ -104,6 +104,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if ("town" in newMap.tags || newMap.flyX >= 0) state.visited.add(newMap.id)
         if (!newMap.indoor && newMap.location != prevLocation) { popupText = newMap.location; popupTimer = 2.2f }
         if (!initial || newMap.onEnter != null) newMap.onEnter?.let { runScriptById(it, null) }
+        // A trainer may already see the player on the arrival tile (door, edge): challenge without waiting for the first step.
+        pendingTrainerCheck = true
     }
 
     private fun rulesWater(x: Int, y: Int) = TileRules.behavior(content.mapOrNull(state.map)?.tileAt(x, y) ?: "") == TileBehavior.WATER
@@ -185,7 +187,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (def !in ctx.activeEvents(baseMap.id)) { actors.remove(a.id); return }
         scriptBusy = true
         val mon = ctx.factory.create(def.species, def.level, ctx.rng, moves = def.moves.ifEmpty { null })
-        game.audio.playSfx("cry")
+        game.audio.playCry(def.species)
         game.say(*def.intro.map { ctx.format(it) }.toTypedArray()) {
             val now = ctx.now()
             startWildBattle(mon, canRun = true, music = def.music) { outcome ->
@@ -340,15 +342,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             val r = rules.step(map, player.x, player.y, player.facing, false) { x, y -> occupant(x, y) }
             if (r is StepResult.Walk) { player.startStep(player.facing, r.x, r.y, 8f); return }
         }
+        // Scripted walks (move/walkto) never fire step triggers, trainer sight or encounters: the running script owns the player.
+        if (scriptBusy) return
         // Step triggers.
-        for (t in map.triggers) {
-            if (player.x in t.x until t.x + t.w && player.y in t.y until t.y + t.h) {
-                val unless = t.unlessFlag; val onlyIf = t.ifFlag
-                if (unless != null && state.hasFlag(unless)) continue
-                if (onlyIf != null && !state.hasFlag(onlyIf)) continue
-                runScriptById(t.script, null); return
-            }
-        }
+        rules.triggerAt(map, player.x, player.y)?.let { runScriptById(it.script, null); return }
         if (checkTrainerSight()) return
         // Wild encounters.
         val method = rules.encounterMethod(map, player.x, player.y, state.surfing) ?: return
@@ -379,14 +376,34 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             if (actors[a.id] !== a) continue
             val done = a.update(dt)
             if (!a.moving && a.path.isNotEmpty()) {
-                val d = a.path.removeFirst()
-                a.startStep(d, a.x + d.dx, a.y + d.dy, 3.75f)
+                val d = a.path.first()
+                if (a.returningHome && !tileFree(a, a.x + d.dx, a.y + d.dy)) {
+                    // Something (the player, another NPC) is in the way: wait a moment, then give up and retry later; never teleport or push through.
+                    a.homeWait += dt
+                    if (a.homeWait > 1.5f) { a.path.clear(); a.returningHome = false; a.homeWait = 0f; a.homeRetry = 1.5f }
+                } else {
+                    a.homeWait = 0f
+                    a.path.removeFirst()
+                    a.startStep(d, a.x + d.dx, a.y + d.dy, 3.75f)
+                }
             } else if (done && a.path.isEmpty()) {
                 a.onPathDone?.let { cb -> a.onPathDone = null; cb() }
             } else if (!a.moving && a.path.isEmpty() && a.onPathDone != null) {
                 a.onPathDone?.let { cb -> a.onPathDone = null; cb() }
             }
-            if (!scriptBusy && !a.moving && a.path.isEmpty()) idleMove(a, dt)
+            if (a.returningHome && !a.moving && a.path.isEmpty()) {
+                a.returningHome = false
+                a.npc?.let { if (a.x == it.x && a.y == it.y) a.facing = Facing.parse(it.facing) }
+            }
+            if (!scriptBusy && !a.moving && a.path.isEmpty() && a.onPathDone == null && !a.returningHome) {
+                val n = a.npc
+                if (n != null && rules.trainerNeedsHome(n, a.x, a.y)) {
+                    // A defeated trainer that walked up to the player goes back to where the map put it (positions are never saved, so a
+                    // reload or map re-entry also starts from home). If no route is free it stays put and tries again later.
+                    a.homeRetry -= dt
+                    if (a.homeRetry <= 0f) { a.homeRetry = 2f; startReturnHome(a) }
+                } else idleMove(a, dt)
+            }
         }
         // Player path (scripted movement).
         if (!player.moving && player.path.isNotEmpty()) {
@@ -406,9 +423,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (a.wanderTimer > 0) return
         a.wanderTimer = 1.5f + ctx.rng.nextDouble().toFloat() * 2.5f
         val dir = Facing.entries[ctx.rng.nextInt(4)]
-        if (mv == "look") { a.facing = dir; return }
+        if (mv == "look") { a.facing = dir; if (a.npc.trainer != null) pendingTrainerCheck = true; return }
         if (mv == "wander") {
             a.facing = dir
+            if (a.npc.trainer != null) pendingTrainerCheck = true // a trainer that turns or walks into the player's line spots them at once
             val nx = a.x + dir.dx; val ny = a.y + dir.dy
             val home = a.npc
             if (kotlin.math.abs(nx - home.x) > 2 || kotlin.math.abs(ny - home.y) > 2) return
@@ -417,6 +435,29 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             if (map.triggers.any { nx in it.x until it.x + it.w && ny in it.y until it.y + it.h }) return
             a.startStep(dir, nx, ny, 3f)
         }
+    }
+
+    /** Whether [self] may enter (x, y): walkable terrain with no player, NPC or item ball on it (or arriving there). */
+    private fun tileFree(self: Actor, x: Int, y: Int): Boolean {
+        if (!rules.walkableTerrain(map, x, y)) return false
+        if (self !== player && ((player.x == x && player.y == y) || (player.moving && player.fromX == x && player.fromY == y))) return false
+        for (o in actors.values) if (o !== self && o.visible && ((o.x == x && o.y == y) || (o.moving && o.fromX == x && o.fromY == y))) return false
+        return map.items.none { !it.hidden && rules.itemVisible(map, it) && it.x == x && it.y == y }
+    }
+
+    /** Starts a collision-checked walk of [a] back to its home tile; false (and no movement) when no free route exists. */
+    private fun startReturnHome(a: Actor): Boolean {
+        val n = a.npc ?: return false
+        val path = Pathing.findPath(a.x, a.y, n.x, n.y) { x, y -> tileFree(a, x, y) }
+        if (path.isNullOrEmpty()) return false
+        a.path.clear(); a.path.addAll(path); a.returningHome = true
+        return true
+    }
+
+    /** Route for the script command `walkto`: null/empty when the actor is unknown, already there, or no free route exists. */
+    fun planWalk(targetId: String, x: Int, y: Int): List<Facing>? {
+        val a = actor(targetId) ?: return null
+        return Pathing.findPath(a.x, a.y, x, y) { px, py -> tileFree(a, px, py) }
     }
 
     // ================================================================= warps & transitions
@@ -795,8 +836,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                     r.draw(r.assets.character(o.kind)[0][0], o.x * 16f - camX + (16 - sz) / 2, o.y * 16f - camY + (16 - sz), sz, sz)
                 }
             }
-            // Actors sorted by y.
-            val all = (actors.values.filter { it.visible } + player).sortedBy { it.pixelY() }
+            // NPCs sorted by y, then the player on top of them (see drawOrder). WorldModel.overlay (a foreground layer) is not rendered.
+            val all = drawOrder(actors.values.filter { it.visible }, player)
             for (a in all) drawActor(r, a, camX, camY)
             // Tall grass hides the lower part of anyone standing in it (as in the Game Boy games).
             val grass = r.assets.tile("tall_grass").frame(game.timeMs)

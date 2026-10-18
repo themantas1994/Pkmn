@@ -48,7 +48,7 @@ object ScriptParser {
         "setrespawn" to 0, "call" to 1, "return" to 0, "quest" to 2, "pokedex" to 0, "movetutor" to 1, "moverelearner" to 0, "nickname" to 0,
         "weather" to 1, "tm" to 1, "trade" to 3, "credits" to 0, "halloffame" to 0, "settime" to 1, "evolve" to 0, "flash" to 0, "shake" to 0,
         "playerface" to 1, "sign" to 1, "nameinput" to 1, "unlock" to 1, "setmonflag" to 1, "teleport" to 0, "blackout" to 0, "save" to 0,
-        "special" to 1, "fly" to 0,
+        "special" to 1, "fly" to 0, "walkto" to 3,
     )
 
     fun parseFile(text: String, file: String): List<CompiledScript> {
@@ -138,7 +138,7 @@ object ScriptParser {
         if (words.firstOrNull() == "not") return Cond.Not(parseCond(words.drop(1), file, line))
         if (words.isEmpty()) throw ScriptError("empty condition", file, line)
         val known = setOf("flag", "result", "badges", "badge", "item", "money", "var", "party", "partysize", "time", "caught", "seen", "caughtcount",
-            "trainer", "gender", "field", "random", "quest", "gimmick", "visited", "true", "false", "hasmon")
+            "trainer", "gender", "field", "random", "quest", "gimmick", "visited", "true", "false", "hasmon", "playerx", "playery")
         if (words[0] !in known) throw ScriptError("unknown condition '${words[0]}'", file, line)
         return Cond.Atom(words)
     }

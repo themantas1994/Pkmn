@@ -38,6 +38,7 @@ Script ids are global; the compiler rejects duplicates and unknown references.
 | `quest X started|done`, `quest X step op N` | quests |
 | `gimmick mega|zmove|dynamax|tera` | gimmick unlocked |
 | `random N` | 1-in-N chance |
+| `playerx op N`, `playery op N` | player tile coordinates (ops as above) |
 
 ## Commands
 | command | effect |
@@ -47,6 +48,7 @@ Script ids are global; the compiler rejects duplicates and unknown references.
 | `choice "prompt" "A" "B" ...` | menu → `result` = index |
 | `faceplayer`, `face <npc|player> <dir>`, `playerface <dir>` | turn |
 | `move <npc|player> up2 left right3` | walk a path (blocks) |
+| `walkto <npc|player> x y` | walk to a tile by the shortest free route (walls, NPCs, items, warps, water and ledges avoided); continues at once if there is no route. Scripted walks do not fire step triggers or encounters |
 | `wait <ms>`, `emote <npc|player> !|?|heart|...` | timing / emote balloon |
 | `show <npc>` / `hide <npc>` | toggle NPC visibility (persist via `showif/hideif` flags) |
 | `setflag X`, `clearflag X`, `setvar X N`, `addvar X N` | state |

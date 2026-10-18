@@ -372,7 +372,7 @@ class BattleScreen(
         if (wildLead && atStart) {
             // GSC: the wild Pokémon slides in, then "Wild X appeared!".
             play(Clip("wild_slide", clipTime("wild_slide", 0.7f), onStart = { v.visible = true; v.scale = 1f }, onUpdate = { v.offX = -140f * (1f - Ease.outQuad(it)) }, onEnd = {
-                v.offX = 0f; v.hud = true; game.audio.playSfx("cry")
+                v.offX = 0f; v.hud = true; game.audio.playCry(e.speciesId)
             }))
             say(e.text)
             return
@@ -387,7 +387,7 @@ class BattleScreen(
         }, onEnd = { ball = null }))
         play(Clip("ball_pop", clipTime("ball_pop", 0.3f), essential = true, onStart = { v.visible = true; v.scale = 0f; v.whiten = 1f; if (anim.cosmetic) flashScreen = 0.12f }, onUpdate = { t ->
             v.scale = Ease.outQuad(t); v.whiten = 1f - t
-        }, onEnd = { v.scale = 1f; v.whiten = 0f; v.visible = true; v.hud = true; game.audio.playSfx("cry") }))
+        }, onEnd = { v.scale = 1f; v.whiten = 0f; v.visible = true; v.hud = true; game.audio.playCry(e.speciesId) }))
         steps.add(Step.WaitText)
     }
 
