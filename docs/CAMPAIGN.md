@@ -198,8 +198,8 @@ Old Rod (Hollowbrook fisherman), Bicycle (Brindle bike shop), Eevee L10 (Brindle
 Shellos L15 (pen pal, for showing a Wooper). Stone seller: `tidewater_stones` (Fire/Water/Thunder/Leaf/Moon/Everstone).
 
 **Deviations:** no real trade — the "trade" NPC (pen pal) gives a Shellos when a Wooper is in the party, since the
-`trade` host semantics are unspecified. campaign.json badge leaders/cities are still "TBD" (lead-owned): Gym 1 Hazel /
-Brindle City, Gym 2 Marina / Port Tidewater. Gym puzzles rely on runtime `tileif` + step triggers on `puzzle_switch`
+`trade` host semantics are unspecified. campaign.json lists all eight badges with their leaders and cities (Gym 1 Hazel / Brindle City, Gym 2 Marina /
+Port Tidewater, ...). Gym puzzles rely on runtime `tileif` + step triggers on `puzzle_switch`
 tiles (one-way switches). Ladders in Cobblecrest land on the ladder tile (GSC style).
 
 ## Part 2 notes (Route 5 → Seraphine Town)

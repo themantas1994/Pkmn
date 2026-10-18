@@ -169,7 +169,11 @@ class BagScreen(
             if (idx == list.size) r.text("CANCEL", 20, y)
             else {
                 val (id, qty) = list[idx]
-                r.text(ctx.itemName(id).uppercase().take(20), 20, y)
+                val ballIcon = if (dex.itemOrNull(id)?.isPokeball == true) r.assets.ball(id) else null
+                if (ballIcon != null) {
+                    r.draw(ballIcon, 20, y - 4)
+                    r.text(ctx.itemName(id).uppercase().take(18), 40, y)
+                } else r.text(ctx.itemName(id).uppercase().take(20), 20, y)
                 if (dex.itemOrNull(id)?.category != ItemCategory.KEY && !id.startsWith("tm:")) r.text("×${qty.toString().padStart(3)}", 204, y)
             }
             if (idx == cursor) r.cursor(10, y)

@@ -62,7 +62,18 @@ class ScriptHost(
 
     private fun handleBlocking(req: ScriptRequest) {
         when (req) {
-            is ScriptRequest.Say -> game.push(TextBox(game, req.text) { resume() })
+            is ScriptRequest.Say -> {
+                // The `badge N` command announces "<player> received the <Name> Badge!": show the badge art with it.
+                val badge = (1..8).firstOrNull { n -> req.text.contains("received the ${ctx.badgeName(n)}!") }?.let { game.assets.badge(it) }
+                val decor: ((pkmn.game.gfx.Renderer) -> Unit)? = badge?.let { art ->
+                    { r ->
+                        val x = (pkmn.game.gfx.Renderer.W - 48) / 2; val y = TextBox.BOX_Y - 64
+                        r.frame(x - 6, y - 6, 60, 60)
+                        r.draw(art, x.toFloat(), y.toFloat(), 48f, 48f)
+                    }
+                }
+                game.push(TextBox(game, req.text, onDone = { resume() }, decor = decor))
+            }
             is ScriptRequest.Ask -> game.push(TextBox(game, req.text) { game.push(YesNo(game, req.text) { yes -> resume(if (yes) 1 else 0) }) })
             is ScriptRequest.Choice -> {
                 val menu = Menu(game, req.options, 160, 40, onCancel = { resume(req.options.size - 1) }) { i -> resume(i) }

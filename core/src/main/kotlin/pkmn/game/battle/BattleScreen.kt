@@ -106,7 +106,7 @@ class BattleScreen(
     private var ended = false
     private var finishing = false
 
-    private class BallSprite(var x: Float, var y: Float, var open: Boolean = false, var wobble: Float = 0f, var stars: Float = 0f)
+    private class BallSprite(var x: Float, var y: Float, var open: Boolean = false, var wobble: Float = 0f, var stars: Float = 0f, val itemId: String? = null)
 
     override fun onEnter() {
         val music = musicOverride ?: trainer?.music ?: trainer?.let { ctx.content.trainerClasses[it.trainerClass]?.music } ?: if (trainerId != null) "battle_trainer" else "battle_wild"
@@ -439,7 +439,7 @@ class BattleScreen(
         val v = views[1]
         val (cx, cy) = sideCenter(1)
         steps.add(Step.WaitText)
-        play(Clip("catch_throw", clipTime("catch_throw", 0.55f), essential = true, onStart = { game.audio.playSfx("ball_throw"); ball = BallSprite(40f, 130f) }, onUpdate = { t ->
+        play(Clip("catch_throw", clipTime("catch_throw", 0.55f), essential = true, onStart = { game.audio.playSfx("ball_throw"); ball = BallSprite(40f, 130f, itemId = e.ball) }, onUpdate = { t ->
             ball?.let { it.x = 40f + (cx - 8 - 40f) * t; it.y = 130f + (cy + 4 - 130f) * t - 50f * Ease.pulse(t) }
         }))
         play(Clip("catch_absorb", clipTime("catch_absorb", 0.35f), onStart = { ball?.open = true }, onUpdate = { t -> v.scale = 1f - t; v.whiten = t }, onEnd = {
@@ -791,7 +791,7 @@ class BattleScreen(
     }
 
     private fun drawBall(r: Renderer, b: BallSprite) {
-        val icon = r.assets.ui("pokeball_icon")
+        val icon = r.assets.ball(b.itemId)
         val x = b.x + b.wobble; val y = b.y
         if (icon != null) r.draw(icon, x, y) else {
             r.rect(x, y, 8f, 4f, Palette.RED); r.rect(x, y + 4, 8f, 4f, Palette.WHITE); r.outline(x.toInt(), y.toInt(), 8, 8, Palette.TEXT)

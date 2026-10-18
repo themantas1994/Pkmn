@@ -10,6 +10,8 @@ import sys
 from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import badges  # noqa: E402
+import balls  # noqa: E402
 import chars  # noqa: E402
 import font  # noqa: E402
 import logo  # noqa: E402
@@ -90,6 +92,10 @@ def validate():
     check_size(os.path.join(G, "objects", "legendary_shadow.png"), (32, 32))
     for fn, size in UI_SIZES.items():
         check_size(os.path.join(G, "ui", fn), size)
+    for ball_id in balls.BALLS:
+        check_size(os.path.join(G, "balls", ball_id + ".png"), (16, 16))
+    for n in badges.BADGES:
+        check_size(os.path.join(G, "badges", f"badge_{n}.png"), (24, 24))
     for fnt, cw in (("pixel8", 8), ("pixel6", 6)):
         with open(os.path.join(pixlib.ASSETS, "fonts", fnt + ".json"), encoding="utf-8") as f:
             meta = json.load(f)
@@ -117,7 +123,7 @@ def validate():
 
 
 def main():
-    for mod in (font, tiles, chars, objects, trainers, ui, logo, regionmap):
+    for mod in (font, tiles, chars, objects, trainers, ui, balls, badges, logo, regionmap):
         mod.build()
     validate()
     if "--no-previews" not in sys.argv:

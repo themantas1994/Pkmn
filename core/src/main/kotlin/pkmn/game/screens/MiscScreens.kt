@@ -1,5 +1,6 @@
 package pkmn.game.screens
 
+import com.badlogic.gdx.graphics.Color
 import pkmn.engine.campaign.GameContext
 import pkmn.engine.mon.Pokemon
 import pkmn.engine.world.Facing
@@ -295,6 +296,8 @@ class QuestScreen(game: PkmnGame, private val ctx: GameContext) : Screen(game) {
     }
 }
 
+private val LOCKED_BADGE = Color(0.22f, 0.22f, 0.26f, 1f)
+
 class TrainerCardScreen(game: PkmnGame, private val ctx: GameContext) : Screen(game) {
     override fun update(dt: Float, input: InputState) { if (input.justPressed(Button.B) || input.justPressed(Button.A)) pop() }
     override fun onBack(): Boolean { pop(); return true }
@@ -312,8 +315,15 @@ class TrainerCardScreen(game: PkmnGame, private val ctx: GameContext) : Screen(g
         r.text("BADGES", 16, 112)
         for (i in 1..8) {
             val got = i in s.badges
-            r.rect(16 + (i - 1) * 28, 126, 22, 22, if (got) Palette.HIGHLIGHT else Palette.SHADE)
-            r.text(i.toString(), 24 + (i - 1) * 28, 132, if (got) Palette.TEXT else Palette.GREY)
+            val x = 16 + (i - 1) * 28
+            val art = r.assets.badge(i)
+            if (art != null) {
+                // Earned: full colour. Unearned: dark silhouette of the same shape.
+                if (got) r.draw(art, x - 1, 124) else r.tint(LOCKED_BADGE) { r.draw(art, x - 1, 124) }
+            } else {
+                r.rect(x, 126, 22, 22, if (got) Palette.HIGHLIGHT else Palette.SHADE)
+                r.text(i.toString(), x + 8, 132, if (got) Palette.TEXT else Palette.GREY)
+            }
         }
         ctx.content.info.badges.lastOrNull { it.number in s.badges }?.let { r.text("Latest: ${it.name} Badge", 16, 160) }
         r.assets.trainerPortrait(if (s.playerGender == "f") "player_f" else "player_m")?.let { r.draw(it, 176, 20) }
