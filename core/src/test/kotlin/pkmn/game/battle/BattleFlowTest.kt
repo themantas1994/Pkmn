@@ -161,6 +161,53 @@ class BattleFlowTest {
         assertTrue(sawPrompt)
     }
 
+    private fun slowVsFast(seed: Long, wild: Boolean = true): Battle {
+        val s0 = Side(0, "Player", listOf(mon("snorlax", 60, listOf("splash"))), Controller.PLAYER, dex)
+        val s1 = Side(1, if (wild) "Wild" else "Rival", listOf(mon("mewtwo", 30, listOf("tackle"))), if (wild) Controller.WILD else Controller.AI, dex, aiLevel = 1)
+        return Battle(dex, listOf(s0, s1), BattleRules(isTrainerBattle = !wild, canRun = wild), seed = seed).also { it.start() }
+    }
+
+    @Test
+    fun `RUN in a wild battle fails with a foe turn, returns control, and eventually escapes once`() {
+        var sawFailure = false
+        for (seed in 0L until 40L) {
+            val b = slowVsFast(seed)
+            val flow = BattleFlow(b)
+            flow.startPresenting(); flow.skipEvents()
+            var attempts = 0
+            var ends = 0
+            while (flow.settle() == BattleFlow.Phase.CHOOSE_ACTION && b.outcome == BattleOutcome.ONGOING && attempts < 30) {
+                val hp = b.player.mons[0].hp
+                assertNull(flow.submit(Choice.Run)); attempts++
+                while (true) { val e = flow.nextEvent() ?: break; if (e is BattleEvent.End) ends++ }
+                if (b.outcome == BattleOutcome.ONGOING) {
+                    sawFailure = true
+                    assertTrue(b.player.mons[0].hp < hp, "a failed escape gives the wild Pokémon its turn")
+                    assertEquals(BattleFlow.Phase.CHOOSE_ACTION, flow.settle(), "control returns to the player")
+                }
+            }
+            assertEquals(BattleOutcome.RAN, b.outcome, "seed $seed escaped within $attempts attempts")
+            assertEquals(BattleFlow.Phase.ENDING, flow.settle())
+            assertEquals(1, ends, "exactly one End event")
+            assertEquals(attempts, b.runAttempts)
+            assertEquals(BattleOutcome.RAN, flow.takeOutcome())
+            assertNull(flow.takeOutcome(), "outcome is reported once")
+        }
+        assertTrue(sawFailure, "scenario must exercise a failed attempt")
+    }
+
+    @Test
+    fun `RUN is rejected in a trainer battle and the battle stays ongoing`() {
+        val b = slowVsFast(1, wild = false)
+        val flow = BattleFlow(b)
+        flow.startPresenting(); flow.skipEvents()
+        assertEquals(BattleFlow.Phase.CHOOSE_ACTION, flow.settle())
+        assertNotNull(flow.submit(Choice.Run))
+        flow.resume()
+        assertEquals(BattleOutcome.ONGOING, b.outcome)
+        assertEquals(0, b.runAttempts)
+    }
+
     private fun Pokemon.copyForTest(): Pokemon = mon(speciesId, level, moves.map { it.id }).also { it.hp = it.maxHp(dex) }
 
     @Test
