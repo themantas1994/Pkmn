@@ -76,9 +76,6 @@ class ProgressionChecker(private val root: File) {
                 put("obtainableSpecies", s.species.size)
             })
         }
-        for (s in stages) for (fm in FieldMove.entries.filter { it.badgeRequired <= s.badges && it !in s.moves })
-            issues.warn("fieldmove.unlearnable", fm.name, "with ${s.badges} badges no obtainable Pokémon can learn ${fm.moveId}",
-                "progress is only blocked if a gym needs it (see gym.softlock)")
 
         val json = issues.toJson {
             put("model", "optimistic static reachability; script gates assumed passable once their flags are set")
