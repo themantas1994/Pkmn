@@ -6,24 +6,37 @@ environment snow
 indoor
 tags gym powerspot
 
+legend
+@ gym_wall_frost
+^ gym_wall_frost
+g gym_floor_frost
+s gym_floor_frost_snow
+k gym_floor_frost_cracked
+i ice
+Z pillar_ice
+S statue_frost
+G statue_frost
+R rug_mat
+end
+
 layout
 @^^^^^^^^^^^^^^@
-@@@@@@@@@@@@@@@@
-@gggggggggggggg@
-@ZZZZZZZZZZiZZZ@
+@@@@@@@@@kkk@@@@
+@ssssskkkssssss@
+@@@@@@@@@@@i@@@@
 @iiiiiiiiiiiiiZ@
-@iiiZiiiiiiiiii@
+@iiiSiiiiiiiiii@
 @iiiiiiiiiiiiii@
-@iiiiiigggiiiii@
+@iiiiiikkkiiiii@
 @Ziiiiiiiiiiiii@
-@iiiiiiiiiiiZii@
+@iiiiiiiiiiiSii@
 @iiiiiZiiiiiiii@
-@ggiiiiiiiiiigg@
-@iiiiiiiiiZiiii@
-@iiiZiiiiiiZiii@
+@kkiiiiiiiiiikk@
+@iiiiiiiiiSiiii@
+@iiiSiiiiiiZiii@
 @iiiiiiiiiiiiii@
-@GggggggggggggG@
-@gggggggggggggg@
+@GgggggkkgggggG@
+@ssssssssssssss@
 @@@@@@@RR@@@@@@@
 end
 

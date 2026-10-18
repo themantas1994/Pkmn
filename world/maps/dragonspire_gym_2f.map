@@ -8,41 +8,51 @@ indoor
 tags gym powerspot
 
 legend
+@ gym_wall_dusk
+d gym_floor_dusk
+r gym_floor_dusk_rune
+G statue_dragon
+P pillar_dusk
+l lamp_dusk
 * void
+z puzzle_switch
+U stairs_in_up
+R rug_mat
+D stairs_in_down
 end
 
 layout
 @@@@@@@@@@@@@@@@@
-@ddGdddddddddGdd@
-@ddddddddddddddd@
-@ddddddddddddddd@
+@ldGdPdddddPdGdl@
+@dddddrrrrrddddd@
+@lddddrrrrrddrdd@
 @***************@
 @***************@
-@zdddd*****ddddd@
-@ddddd*****ddddd@
-@ddddd*****ddddd@
-@ddddd*****ddddz@
+@zrddP*****ddrdd@
+@ddddd*****ddddl@
+@ddddr*****rdddd@
+@ldrdd*****Pddrz@
 @***************@
 @***************@
 @***************@
-@ddddddddddddddz@
-@zdddddddddddddd@
-@ddddddddddddddd@
-@dddddddDddddddd@
+@ddrddddrddddddz@
+@zrdddddrddddddd@
+@dddddddrddddddd@
+@PdddlddDddldddP@
 @@@@@@@@@@@@@@@@@
 end
 
 warp 8 16 -> dragonspire_gym 8 2 down
-tileif p3b_dg_b4 3 10 bridge_v
-tileif p3b_dg_b4 3 11 bridge_v
-tileif p3b_dg_b4 3 12 bridge_v
-tileif p3b_dg_b5 6 8 bridge_h
-tileif p3b_dg_b5 7 8 bridge_h
-tileif p3b_dg_b5 8 8 bridge_h
-tileif p3b_dg_b5 9 8 bridge_h
-tileif p3b_dg_b5 10 8 bridge_h
-tileif p3b_dg_b6 13 4 bridge_v
-tileif p3b_dg_b6 13 5 bridge_v
+tileif p3b_dg_b4 3 10 gym_floor_dusk_rune
+tileif p3b_dg_b4 3 11 gym_floor_dusk_rune
+tileif p3b_dg_b4 3 12 gym_floor_dusk_rune
+tileif p3b_dg_b5 6 8 gym_floor_dusk_rune
+tileif p3b_dg_b5 7 8 gym_floor_dusk_rune
+tileif p3b_dg_b5 8 8 gym_floor_dusk_rune
+tileif p3b_dg_b5 9 8 gym_floor_dusk_rune
+tileif p3b_dg_b5 10 8 gym_floor_dusk_rune
+tileif p3b_dg_b6 13 4 gym_floor_dusk_rune
+tileif p3b_dg_b6 13 5 gym_floor_dusk_rune
 trigger 1 14 1 1 script=p3b_dgym_sw4 unless=p3b_dg_b4
 trigger 1 6 1 1 script=p3b_dgym_sw5 unless=p3b_dg_b5
 trigger 15 9 1 1 script=p3b_dgym_sw6 unless=p3b_dg_b6
