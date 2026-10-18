@@ -10,7 +10,8 @@ import kotlin.test.assertTrue
 
 class CryBankTest {
     private class FakeVoice(val name: String, val events: MutableList<String>) : CryVoice {
-        override fun play(volume: Float) { events += "play:$name:$volume" }
+        var ready = true
+        override fun play(volume: Float): Boolean { events += "play:$name:$volume"; return ready }
         override fun stop() { events += "stop:$name" }
         override fun dispose() { events += "dispose:$name" }
     }
@@ -65,5 +66,26 @@ class CryBankTest {
         ids.forEach { bank.play(it, 1f) }
         assertEquals(3, events.count { it.startsWith("dispose:") })
         events.clear(); assertTrue(bank.play("s5", 0f)); assertTrue(events.none { it.startsWith("play:") })
+    }
+
+    @Test
+    fun voiceStillLoadingFallsBackInsteadOfCountingAsPlayedThenPlaysOnceReady() {
+        // Android's SoundPool loads asynchronously: play() right after newSound() returns no stream.
+        val events = ArrayList<String>(); val logs = ArrayList<String>()
+        val voices = HashMap<String, FakeVoice>()
+        val bank = CryBank(CryResolver(listOf(dirWith("pikachu"))), { f -> FakeVoice(f.nameWithoutExtension, events).also { it.ready = false; voices[f.nameWithoutExtension] = it } }, { logs += it })
+        assertFalse(bank.play("pikachu", 0.6f)) // caller uses the generic blip
+        assertEquals(0, bank.playCount); assertEquals(1, logs.size)
+        voices["pikachu"]!!.ready = true
+        assertTrue(bank.play("pikachu", 0.6f)); assertEquals(1, bank.playCount)
+    }
+
+    @Test
+    fun prefetchLoadsWithoutPlayingSoFirstRealPlayIsReady() {
+        val events = ArrayList<String>(); var loads = 0
+        val bank = CryBank(CryResolver(listOf(dirWith("a"))), { loads++; FakeVoice(it.nameWithoutExtension, events) })
+        bank.prefetch("a"); bank.prefetch("a"); bank.prefetch("missing")
+        assertEquals(1, loads); assertTrue(events.isEmpty()); assertEquals(0, bank.missCount) // not a gameplay miss
+        assertTrue(bank.play("a", 0.6f)); assertEquals(1, loads); assertEquals(listOf("play:a:0.6"), events)
     }
 }

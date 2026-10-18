@@ -4,7 +4,8 @@ import java.io.File
 
 /** One loaded cry that can be started, stopped and released. Backed by a LibGDX `Sound` in the game, fakes in tests. */
 interface CryVoice {
-    fun play(volume: Float)
+    /** Returns false if no stream started (e.g. the platform has not finished loading the sound yet). */
+    fun play(volume: Float): Boolean
     fun stop()
     fun dispose()
 }
@@ -38,7 +39,7 @@ class CryBank(
     private val resolver: CryResolver,
     private val load: (File) -> CryVoice?,
     private val log: (String) -> Unit = {},
-    private val maxCached: Int = 12,
+    private val maxCached: Int = 16,
 ) {
     private val cache = LinkedHashMap<File, CryVoice>(16, 0.75f, true)
     private var current: CryVoice? = null
@@ -50,25 +51,37 @@ class CryBank(
 
     /** Returns true if a real cry was started. [volume] is already scaled by the caller (SFX volume, mute). */
     fun play(speciesId: String, volume: Float): Boolean {
-        val file = resolver.resolve(speciesId)
-        val voice = file?.let { f ->
-            cache[f] ?: runCatching { load(f) }.onFailure { log("cry load failed for $speciesId: $it") }.getOrNull()?.also { v ->
-                cache[f] = v
-                while (cache.size > maxCached) {
-                    val eldest = cache.entries.first { it.value !== current && it.value !== v }
-                    cache.remove(eldest.key); eldest.value.dispose()
-                }
-            }
-        }
+        val voice = voiceFor(speciesId)
         if (voice == null) {
             if (misses.merge(speciesId, 1, Int::plus) == 1) log("no cry file for '$speciesId': using the generic cry")
             return false
         }
         if (current !== voice) current?.stop() else voice.stop()
         current = voice
-        if (volume > 0f) voice.play(volume.coerceIn(0f, 1f))
+        if (volume > 0f && !voice.play(volume.coerceIn(0f, 1f))) {
+            log("cry for '$speciesId' not ready to play: using the generic cry")
+            return false
+        }
         playCount++
         return true
+    }
+
+    /**
+     * Loads the cry ahead of time. Android decodes sounds asynchronously, so a cry loaded in the same call that plays
+     * it is silent; battles prefetch their Pokémon on entry so the first cry already plays.
+     */
+    fun prefetch(speciesId: String) { voiceFor(speciesId) }
+
+    private fun voiceFor(speciesId: String): CryVoice? {
+        val f = resolver.resolve(speciesId) ?: return null
+        cache[f]?.let { return it }
+        val v = runCatching { load(f) }.onFailure { log("cry load failed for $speciesId: $it") }.getOrNull() ?: return null
+        cache[f] = v
+        while (cache.size > maxCached) {
+            val eldest = cache.entries.first { it.value !== current && it.value !== v }
+            cache.remove(eldest.key); eldest.value.dispose()
+        }
+        return v
     }
 
     fun stop() { current?.stop(); current = null }

@@ -112,6 +112,7 @@ class BattleScreen(
         val music = musicOverride ?: trainer?.music ?: trainer?.let { ctx.content.trainerClasses[it.trainerClass]?.music } ?: if (trainerId != null) "battle_trainer" else "battle_wild"
         game.audio.playMusic(music, fadeMs = 0)
         for (s in 0..1) battle.sides[s].mons.forEachIndexed { i, m -> balls[s][i] = if (m.fainted) 2 else if (m.status != null) 1 else 0 }
+        for (side in battle.sides) side.mons.forEach { game.audio.prefetchCry(it.mon.speciesId) }
         battle.start()
         applyAnimOptions()
         intro()

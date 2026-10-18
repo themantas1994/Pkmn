@@ -33,6 +33,8 @@ interface GameAudio {
     fun configureCries(dirs: List<java.io.File>, baseOf: (String) -> String?) {}
     /** Plays the cry of [speciesId] (a new cry cuts the previous one); falls back to the generic cry blip when there is no file. */
     fun playCry(speciesId: String) = playSfx("cry")
+    /** Loads the cry ahead of [playCry]: Android sounds load asynchronously, so a cry played right after loading is silent. */
+    fun prefetchCry(speciesId: String) {}
     fun setVolumes(music: Float, sfx: Float) {}
     fun pause() {}
     fun resume() {}
