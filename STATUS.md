@@ -11,11 +11,11 @@ Every number in this document was produced by the commands listed next to it. No
 | Battle engine | Singles, Gen IX rules, all gimmicks; every move, ability and held item classified (0 unimplemented). Replacement phase after a faint; Shift/Set battle styles |
 | Presentation | Gold/Silver/Crystal-style battle flow with party Poké Ball indicators. Elapsed-time animation system for battle and overworld (skippable; speed and off settings) |
 | Time | Device clock and time zone through an injectable `GameClock`; morning/day/night lighting; time-dependent encounters; data-driven weekly events (Thursday-night Mistwood Clefable) |
-| Campaign | Complete from new game to the Hall of Fame, plus post-game: 223 maps, 684 trainers, 89 encounter tables, 451 scripts |
+| Campaign | Complete from new game to the Hall of Fame, plus post-game: 223 maps, 684 trainers, 89 encounter tables, 459 scripts |
 | Saves | Atomic, checksummed, versioned (v3, with migrations from v1 and v2), with backup/repair; corruption and migration tests pass |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
-| Tests | 173 engine, 45 core and 78 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
+| Tests | 302 engine, 89 core and 126 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
 | Learnsets and moves | Every species/form audited (`:tools:auditLearnsets`: 0 errors) and every move executed in battle (`MoveExecutionTest`: 0 unsupported); see [docs/LEARNSETS.md](docs/LEARNSETS.md), [reports/moves-audit.md](reports/moves-audit.md) |
 | Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
 
@@ -164,7 +164,7 @@ From `./gradlew :tools:validateContent`; details in [reports/COVERAGE.md](report
 
 **Asset manifest:** `./gradlew :tools:buildAssetManifest` lists every bundled file with its licence; it reports 0 errors.
 
-**World:** `./gradlew :tools:compileMaps` reports 223 maps, 684 trainers, 89 encounter tables, 451 scripts; 0 errors, 0 warnings. It validates every reference, tile name, sprite, shop and move-tutor list.
+**World:** `./gradlew :tools:compileMaps` reports 223 maps, 684 trainers, 89 encounter tables, 459 scripts; 0 errors, 0 warnings. It validates every reference, tile name, sprite, shop and move-tutor list.
 
 **Progression:** `./gradlew :tools:checkProgression` reports 0 errors and 0 warnings. It checks four things:
 - Every gym can be reached with the badges earned before it. A field move counts only with its badge and an obtainable Pokémon that can learn it.
@@ -181,7 +181,7 @@ Maps reachable with 0..8 badges: 110, 112, 113, 150, 209, 209, 209, 223, 223.
 | Metric | Value |
 |---|---|
 | Species/moves data load (all learnsets) | ~0.5 s |
-| World load (223 maps, 451 scripts) | ~0.14 s |
+| World load (223 maps, 459 scripts) | ~0.14 s |
 | Battle turn resolution | mean 0.22 ms, p95 0.79 ms |
 | AI decision | mean 0.09 ms, p95 0.35 ms |
 | Save (full party + 8 full boxes, 149 KB) | median 15 ms |
@@ -233,7 +233,7 @@ The model is a content sum, not a measurement of real players. It assumes a typi
 - **Android is untested on hardware or an emulator.** Touch layout, audio latency, the lifecycle (pause/resume autosave, clock refresh on resume) and gamepad mapping have not been verified on a device.
 - **The trainer-battle ×1.5 EXP bonus is unverified for Gen VII+.** No primary source was reachable, so the formula is unchanged (see docs/FIDELITY.md).
 - **No idle animations for standing NPCs.** Gold/Silver/Crystal has none either. Event Pokémon bob.
-- **Visual-regression scenes are not in CI.** They need Xvfb; run `tools/visual/run_scenes.sh` locally.
+- **Visual-regression scenes run in a separate CI job (`visual`, Xvfb)**, added in this remediation and not yet run on a GitHub runner; software-GL output could differ from the committed baselines in `docs/screenshots`. Run `tools/visual/run_scenes.sh` locally.
 - **Pokémon sprites are placeholders in public builds.** Official sprites are only available through the local import path and the one-command personal APK (`./gradlew :android:assemblePersonalDebugWithSprites`; never share that APK). PokeAPI has no files for Zygarde-Mega and 379 icons, and the 4 Ogerpon Tera forms have no mapping, so they use the fallback. The styled sprites are an automated approximation, and some need hand touch-ups. Trainer, overworld and UI art is original and complete.
 - **Obedience uses the Generation III/IV disobedience formula** with Scarlet/Violet's badge caps and met-level rule, because the Generation V+ formulas are undocumented. Breeding is out of scope (gift Eggs hatch at once). Wild Pokémon hold no items. See [docs/MECHANICS.md](docs/MECHANICS.md).
 - **Singles only:** no double battles.
