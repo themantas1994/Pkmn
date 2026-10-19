@@ -17,7 +17,7 @@ class LoadingScreen(game: PkmnGame) : Screen(game) {
     override fun update(dt: Float, input: InputState) {
         t += dt
         if (game.loadError != null) return
-        if (game.dex != null && game.content != null && t > 0.2f) {
+        if (game.dex != null && game.content != null && game.platform.assetsReady && t > 0.2f) {
             game.attachDexToAssets()
             val quick = game.quickstart
             if (quick != null) {

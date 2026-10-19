@@ -10,6 +10,11 @@ interface Platform {
     val saveDir: File
     /** Directory holding locally imported, non-redistributable assets (official sprites), or null. */
     val importedAssetsDir: File?
+    /**
+     * False while the launcher is still preparing [importedAssetsDir] in the background (Android unpacks a personal
+     * build's bundled sprites). The loading screen waits for it, so the game never reads a half-copied directory.
+     */
+    val assetsReady: Boolean get() = true
     /** Show the on-screen controls even without a touch screen (desktop phone preview). */
     val forceTouchControls: Boolean get() = false
     fun vibrate(ms: Int) {}
@@ -35,6 +40,8 @@ interface GameAudio {
     fun playCry(speciesId: String) = playSfx("cry")
     /** Loads the cry ahead of [playCry]: Android sounds load asynchronously, so a cry played right after loading is silent. */
     fun prefetchCry(speciesId: String) {}
+    /** Called once per rendered frame on the game thread (retries a cry whose sound was still loading). Must be cheap. */
+    fun update() {}
     fun setVolumes(music: Float, sfx: Float) {}
     fun pause() {}
     fun resume() {}

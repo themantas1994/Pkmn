@@ -35,14 +35,15 @@ jobs:
         run: ./gradlew :tools:checkStatus
       - name: Android lint
         run: ./gradlew :android:lintDebug
-      - name: Android APK and bundle
-        run: ./gradlew :android:assembleDebug :android:bundleRelease
+      # CI has no release keystore: the release bundle is built with the explicit debug-signing opt-in only to prove the
+      # release configuration compiles and contains no imported assets. It is NOT publishable and is not uploaded.
+      - name: Android debug APK and release-bundle smoke build (debug-signed, not publishable)
+        run: ./gradlew :android:assembleDebug :android:bundleRelease -Ppkmn.release.allowDebugSigning=true
       - uses: actions/upload-artifact@v4
         with:
           name: android
           path: |
             android/build/outputs/apk/debug/*.apk
-            android/build/outputs/bundle/release/*.aab
       - uses: actions/upload-artifact@v4
         if: always()
         with:

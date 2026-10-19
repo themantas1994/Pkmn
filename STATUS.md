@@ -6,7 +6,7 @@ Every number in this document was produced by the commands listed next to it. No
 
 | Area | State |
 |---|---|
-| Builds | Desktop (LWJGL3) and Android APK/AAB build reproducibly with `./gradlew`; release builds fall back to the debug key without a keystore |
+| Builds | Desktop (LWJGL3) and Android APK/AAB build reproducibly with `./gradlew`; release builds fail clearly without a signing key (explicit `-Ppkmn.release.allowDebugSigning=true` gives a non-publishable debug-signed build) |
 | Content data | 1025 species + 354 forms, 951 moves, 318 abilities, 839 items, imported from Showdown and PokeAPI and validated |
 | Battle engine | Singles, Gen IX rules, all gimmicks; every move, ability and held item classified (0 unimplemented). Replacement phase after a faint; Shift/Set battle styles |
 | Presentation | Gold/Silver/Crystal-style battle flow with party Poké Ball indicators. Elapsed-time animation system for battle and overworld (skippable; speed and off settings) |
@@ -73,7 +73,7 @@ Each fix below was reproduced first, then checked with tests and in the running 
 | Artifact | Command | Result |
 |---|---|---|
 | Debug APK | `./gradlew :android:assembleDebug` | `android-debug.apk`, ~7.3 MB |
-| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, ~5.2 MB (debug-key signed unless `release.keystore` is provided) |
+| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, ~5.2 MB (needs a release keystore, see docs/BUILD.md; `-Ppkmn.release.allowDebugSigning=true` for a non-publishable debug-signed build) |
 | App bundle | `./gradlew :android:bundleRelease` | `android-release.aab`, ~4.6 MB |
 | Desktop jar | `./gradlew :desktop:dist` | `pkmn-crystalline-desktop.jar` |
 

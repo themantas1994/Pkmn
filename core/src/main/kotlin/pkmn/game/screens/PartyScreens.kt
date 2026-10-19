@@ -326,6 +326,7 @@ object MoveLearnFlow {
 class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val mon: Pokemon, private val target: String,
                       /** Bag item (stone, Linking Cord) spent only when the evolution completes; a cancel keeps it. */
                       private val spendOnEvolve: String? = null, private val then: () -> Unit) : Screen(game) {
+    override val blocksAutosave get() = true
     private var t = 0f
     private var stage = 0 // 0 intro text, 1 animating, 2 done
     private var cancelled = false

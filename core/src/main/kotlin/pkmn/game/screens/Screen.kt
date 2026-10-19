@@ -10,6 +10,8 @@ abstract class Screen(val game: PkmnGame) {
     /** Called every frame only for the top screen. */
     abstract fun update(dt: Float, input: InputState)
     abstract fun draw(r: Renderer)
+    /** True while this screen holds state that must not be saved (a battle in progress, an evolution being applied). */
+    open val blocksAutosave: Boolean get() = false
     open fun onEnter() {}
     open fun onExit() {}
     /** Back/escape on Android while this screen is on top. Return true if handled. */

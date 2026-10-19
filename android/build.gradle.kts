@@ -8,13 +8,21 @@ plugins {
 val gdxVersion: String by project
 val natives: Configuration by configurations.creating
 
-// Personal builds only: -Ppkmn.bundleLocalAssets=true copies assets-local/sprites into the APK as assets/imported/.
+// Personal builds only: -Ppkmn.bundleLocalAssets=true copies assets-local/sprites and cries into the DEBUG APK as assets/imported/.
 // Such an APK contains non-redistributable files and must never be published (docs/ASSET_IMPORT.md).
-// The one-command pipeline (:android:assemblePersonalDebugWithSprites) switches it on by itself, only for that run;
-// assembleDebug, assembleRelease and bundleRelease never bundle local sprites unless the property is set explicitly.
+// The one-command pipeline (:android:assemblePersonalDebugWithSprites) switches it on by itself, only for that run.
+// Release variants never get the local assets: they are wired to the debug variant only, a release task combined with the
+// property fails fast, and every release artifact is scanned afterwards (verifyReleaseArtifacts).
 val personalSpritesRequested = gradle.startParameter.taskNames.any { it.contains("PersonalDebugWithSprites") }
 val bundleLocalAssets = personalSpritesRequested || (findProperty("pkmn.bundleLocalAssets") as String?)?.toBoolean() == true
 val localAssetsDir = layout.buildDirectory.dir("generated/localAssets")
+
+// Release signing (docs/BUILD.md "Release signing"). A release artifact is only produced with a real key, or with an
+// explicit opt-in (-Ppkmn.release.allowDebugSigning=true) that signs with the debug key and is never publishable (CI uses it
+// only to prove the release configuration builds). There is no silent fallback to the debug key.
+fun secret(prop: String, env: String): String? = (findProperty(prop) as String?)?.takeIf { it.isNotBlank() } ?: System.getenv(env)?.takeIf { it.isNotBlank() }
+val releaseKeystore: File? = (secret("pkmn.release.storeFile", "PKMN_KEYSTORE_FILE")?.let { rootProject.file(it) } ?: rootProject.file("release.keystore")).takeIf { it.isFile }
+val allowDebugSignedRelease = (findProperty("pkmn.release.allowDebugSigning") as String?)?.toBoolean() == true
 
 android {
     namespace = "pkmn.android"
@@ -33,28 +41,31 @@ android {
         java.srcDirs("src/main/kotlin")
         res.srcDirs("res")
         assets.srcDirs(rootProject.file("assets"))
-        if (bundleLocalAssets) assets.srcDir(localAssetsDir)
         jniLibs.srcDirs("libs")
     }
 
     signingConfigs {
-        // Release signing reads a local keystore that is never committed.
-        // Without one the release build falls back to the debug key so it stays installable.
-        val ks = rootProject.file("release.keystore")
-        if (ks.exists()) create("release") {
-            storeFile = ks
-            storePassword = System.getenv("PKMN_KEYSTORE_PASSWORD") ?: ""
-            keyAlias = System.getenv("PKMN_KEY_ALIAS") ?: "pkmn"
-            keyPassword = System.getenv("PKMN_KEY_PASSWORD") ?: ""
+        // The keystore and passwords come from Gradle properties or the environment and are never committed.
+        releaseKeystore?.let { ks ->
+            create("release") {
+                storeFile = ks
+                storePassword = secret("pkmn.release.storePassword", "PKMN_KEYSTORE_PASSWORD") ?: ""
+                keyAlias = secret("pkmn.release.keyAlias", "PKMN_KEY_ALIAS") ?: "pkmn"
+                keyPassword = secret("pkmn.release.keyPassword", "PKMN_KEY_PASSWORD") ?: ""
+            }
         }
     }
 
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
+            // No keystore: signingConfig stays unset and the guard below stops assemble/bundle/package with a clear message.
+            // Only the explicit opt-in signs with the debug key, for a non-publishable artifact.
+            signingConfig = signingConfigs.findByName("release") ?: if (allowDebugSignedRelease) signingConfigs.getByName("debug") else null
         }
     }
+    // Local official assets can only reach the debug variant.
+    sourceSets.getByName("debug").assets.srcDir(localAssetsDir)
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -104,7 +115,49 @@ val copyLocalAssets by tasks.registering(Sync::class) {
         logger.warn("pkmn.bundleLocalAssets=true: this APK contains locally imported, non-redistributable sprites. Do not publish it.")
     }
 }
-if (bundleLocalAssets) tasks.matching { it.name.contains("merge") && it.name.endsWith("Assets") }.configureEach { dependsOn(copyLocalAssets) }
+if (bundleLocalAssets) tasks.matching { it.name == "mergeDebugAssets" }.configureEach { dependsOn(copyLocalAssets) }
+else tasks.matching { it.name == "mergeDebugAssets" }.configureEach { doFirst { delete(localAssetsDir) } } // a stale copy must not ride along
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Release guards (AN-3, AN-4). Tasks named assemble/bundle/package/sign...Release produce a distributable artifact.
+// ---------------------------------------------------------------------------------------------------------------------
+fun producesReleaseArtifact(name: String) = Regex("(assemble|bundle|package|sign)\\w*Release(Bundle)?").matches(name)
+
+val checkReleaseConfiguration by tasks.registering {
+    group = "verification"
+    description = "Fails a release build that has no release signing key (unless -Ppkmn.release.allowDebugSigning=true) or that asks for local assets."
+    // Evaluated at execution time against the task graph, never during configuration of unrelated builds.
+    doLast {
+        if (bundleLocalAssets)
+            throw GradleException("Release build refused: pkmn.bundleLocalAssets / the personal sprite pipeline bundle non-redistributable official assets and are for debug builds only. Remove -Ppkmn.bundleLocalAssets=true.")
+        if (releaseKeystore == null && !allowDebugSignedRelease)
+            throw GradleException("Release signing is not configured, so no release artifact is built (it would otherwise be signed with the debug key).\n" +
+                "  Provide a keystore: put release.keystore in the repository root or pass -Ppkmn.release.storeFile=<path> (or PKMN_KEYSTORE_FILE),\n" +
+                "  plus PKMN_KEYSTORE_PASSWORD, PKMN_KEY_ALIAS and PKMN_KEY_PASSWORD (or -Ppkmn.release.storePassword/keyAlias/keyPassword). See docs/BUILD.md.\n" +
+                "  For a NON-publishable debug-signed build (CI, local smoke test): -Ppkmn.release.allowDebugSigning=true.")
+        if (releaseKeystore == null) logger.warn("pkmn.release.allowDebugSigning=true: this release artifact is signed with the DEBUG key and must never be published.")
+    }
+}
+tasks.matching { producesReleaseArtifact(it.name) }.configureEach { dependsOn(checkReleaseConfiguration) }
+
+// After the artifact exists: scan the APK/AAB for imported (official) assets. Same code the tools tests exercise with fixtures.
+val verifyReleaseArtifacts by tasks.registering(JavaExec::class) {
+    group = "verification"
+    description = "Fails if a release APK/AAB contains assets/imported/ (locally imported official sprites or cries)."
+    val toolsMain = project(":tools").extensions.getByType<SourceSetContainer>()["main"]
+    classpath = toolsMain.runtimeClasspath
+    mainClass.set("pkmn.tools.ToolsMainKt")
+    workingDir = rootProject.projectDir
+    dependsOn(":tools:classes")
+    val outDir = layout.buildDirectory.dir("outputs")
+    doFirst {
+        val found = outDir.get().asFile.walkTopDown().filter { f ->
+            f.isFile && ((f.extension == "aab" && f.parentFile.name == "release") || (f.extension == "apk" && f.parentFile.name == "release"))
+        }.toList()
+        args = listOf("release-guard") + found.map { it.absolutePath }
+    }
+}
+tasks.matching { it.name == "assembleRelease" || it.name == "bundleRelease" }.configureEach { finalizedBy(verifyReleaseArtifacts) }
 
 // ---------------------------------------------------------------------------------------------------------------------
 // One command: ./gradlew :android:assemblePersonalDebugWithSprites

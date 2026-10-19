@@ -34,6 +34,7 @@ class BattleScreen(
     private val musicOverride: String?,
     private val onEnd: (BattleOutcome) -> Unit,
 ) : Screen(game) {
+    override val blocksAutosave get() = true
     private val dex = ctx.dex
     private val ai = BattleAI()
     private val flow = BattleFlow(battle, ai)

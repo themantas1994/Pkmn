@@ -185,12 +185,78 @@ class CryImporter(private val root: File, args: List<String>, private val fetch:
 
         fun liveFile(dir: File, speciesId: String): File? = EXTENSIONS.map { File(dir, "$speciesId.$it") }.firstOrNull { it.isFile }
 
-        /** "ogg" for a complete Ogg stream, "mp3" for an MP3 stream (ID3 tag or frame sync), else null. */
+        /** "ogg" for a complete Ogg stream, "mp3" for a complete MP3 stream (valid frame chain to the end), else null. */
         fun audioKind(b: ByteArray): String? = when {
             isCompleteOgg(b) -> "ogg"
-            b.size >= 417 && ((b[0] == 'I'.code.toByte() && b[1] == 'D'.code.toByte() && b[2] == '3'.code.toByte()) ||
-                ((b[0].toInt() and 0xFF) == 0xFF && (b[1].toInt() and 0xE0) == 0xE0)) -> "mp3"
+            isCompleteMp3(b) -> "mp3"
             else -> null
+        }
+
+        private val MP3_RATES_V1 = arrayOf(
+            intArrayOf(32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448),
+            intArrayOf(32, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 384),
+            intArrayOf(32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320))
+        private val MP3_RATES_V2 = arrayOf(
+            intArrayOf(32, 48, 56, 64, 80, 96, 112, 128, 144, 160, 176, 192, 224, 256),
+            intArrayOf(8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160),
+            intArrayOf(8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160))
+        private val MP3_SAMPLE_RATES = arrayOf(intArrayOf(44100, 48000, 32000), intArrayOf(22050, 24000, 16000), intArrayOf(11025, 12000, 8000))
+
+        /** Length in bytes of the MPEG audio frame whose header starts at [o], or -1 if there is no valid header there. */
+        private fun mp3FrameLength(b: ByteArray, o: Int): Int {
+            if (o + 4 > b.size) return -1
+            val h1 = b[o + 1].toInt() and 0xFF; val h2 = b[o + 2].toInt() and 0xFF
+            if ((b[o].toInt() and 0xFF) != 0xFF || (h1 and 0xE0) != 0xE0) return -1
+            val versionBits = (h1 shr 3) and 3; val layerBits = (h1 shr 1) and 3
+            if (versionBits == 1 || layerBits == 0) return -1
+            val v1 = versionBits == 3; val layer = 4 - layerBits // 1..3
+            val rateIdx = h2 shr 4; val srIdx = (h2 shr 2) and 3
+            if (rateIdx == 0 || rateIdx == 15 || srIdx == 3) return -1 // free-format and reserved values are not supported
+            val kbps = (if (v1) MP3_RATES_V1 else MP3_RATES_V2)[layer - 1][rateIdx - 1]
+            val sr = MP3_SAMPLE_RATES[if (v1) 0 else if (versionBits == 2) 1 else 2][srIdx]
+            val pad = (h2 shr 1) and 1
+            return if (layer == 1) (12 * kbps * 1000 / sr + pad) * 4
+            else (if (layer == 3 && !v1) 72 else 144) * kbps * 1000 / sr + pad
+        }
+
+        /**
+         * True if [b] is an MP3 stream that is complete: an optional ID3v2 tag, then a chain of valid MPEG audio frames
+         * that ends exactly at the end of the data (a trailing ID3v1 tag is allowed). A download cut anywhere inside a
+         * frame fails the chain; a Xing/Info header, when present, additionally pins the frame count and byte size so a
+         * stream cut at a frame boundary is rejected too. No decoder is needed.
+         */
+        fun isCompleteMp3(b: ByteArray): Boolean {
+            var o = 0
+            if (b.size >= 10 && b[0] == 'I'.code.toByte() && b[1] == 'D'.code.toByte() && b[2] == '3'.code.toByte()) {
+                val size = ((b[6].toInt() and 0x7F) shl 21) or ((b[7].toInt() and 0x7F) shl 14) or ((b[8].toInt() and 0x7F) shl 7) or (b[9].toInt() and 0x7F)
+                o = 10 + size + (if ((b[5].toInt() and 0x10) != 0) 10 else 0)
+            }
+            var end = b.size
+            if (end - o >= 128 && b[end - 128] == 'T'.code.toByte() && b[end - 127] == 'A'.code.toByte() && b[end - 126] == 'G'.code.toByte()) end -= 128
+            val audioStart = o
+            var frames = 0
+            var xingFrames = -1L; var xingBytes = -1L
+            while (o < end) {
+                val len = mp3FrameLength(b, o)
+                if (len < 0 || o + len > end) return false
+                if (frames == 0) {
+                    for (p in o + 4..minOf(o + 4 + 40, end - 12)) {
+                        val tag = String(b, p, 4, Charsets.ISO_8859_1)
+                        if (tag != "Xing" && tag != "Info") continue
+                        fun u32(at: Int) = ((b[at].toLong() and 0xFF) shl 24) or ((b[at + 1].toLong() and 0xFF) shl 16) or ((b[at + 2].toLong() and 0xFF) shl 8) or (b[at + 3].toLong() and 0xFF)
+                        val flags = u32(p + 4); var q = p + 8
+                        if ((flags and 1L) != 0L && q + 4 <= end) { xingFrames = u32(q); q += 4 }
+                        if ((flags and 2L) != 0L && q + 4 <= end) { xingBytes = u32(q) }
+                        break
+                    }
+                }
+                frames++; o += len
+            }
+            if (frames == 0 || o != end) return false
+            // The Xing frame itself carries no audio, but encoders differ on whether the count includes it.
+            if (xingFrames > 0 && frames.toLong() != xingFrames && frames.toLong() - 1 != xingFrames) return false
+            if (xingBytes > 0 && (end - audioStart).toLong() < xingBytes) return false
+            return true
         }
 
         /**

@@ -159,6 +159,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             val id = eventActorId(e)
             if (actors.containsKey(id)) continue
             val npc = NpcDef(id, e.x, e.y, "@mon:${e.species}", e.facing)
+            game.audio.prefetchCry(e.species) // the player walks up to it first: the cry is loaded long before it plays
             actors[id] = Actor(id, npc.sprite, e.x, e.y, Facing.parse(e.facing), npc)
         }
     }

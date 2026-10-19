@@ -40,6 +40,8 @@ class InputState {
         val t = held[a]; held[a] = held[b]; held[b] = t
     }
 
+    // Keys.BACK is deliberately not polled for B: PkmnGame.handleBack() handles it once per press (Screen.onBack, falling
+    // back to a single B tap), otherwise one press would pop a screen and also press B on the screen below.
     private fun keyboard(b: Button): Boolean {
         val i = Gdx.input ?: return false
         return when (b) {
@@ -48,7 +50,7 @@ class InputState {
             Button.LEFT -> i.isKeyPressed(Keys.LEFT) || i.isKeyPressed(Keys.A) || i.isKeyPressed(Keys.DPAD_LEFT)
             Button.RIGHT -> i.isKeyPressed(Keys.RIGHT) || i.isKeyPressed(Keys.D) || i.isKeyPressed(Keys.DPAD_RIGHT)
             Button.A -> i.isKeyPressed(Keys.Z) || i.isKeyPressed(Keys.J) || i.isKeyPressed(Keys.SPACE) || i.isKeyPressed(Keys.BUTTON_A) || i.isKeyPressed(Keys.DPAD_CENTER)
-            Button.B -> i.isKeyPressed(Keys.X) || i.isKeyPressed(Keys.K) || i.isKeyPressed(Keys.BACKSPACE) || i.isKeyPressed(Keys.BACK) || i.isKeyPressed(Keys.ESCAPE) || i.isKeyPressed(Keys.BUTTON_B)
+            Button.B -> i.isKeyPressed(Keys.X) || i.isKeyPressed(Keys.K) || i.isKeyPressed(Keys.BACKSPACE) || i.isKeyPressed(Keys.ESCAPE) || i.isKeyPressed(Keys.BUTTON_B)
             Button.START -> i.isKeyPressed(Keys.ENTER) || i.isKeyPressed(Keys.BUTTON_START)
             Button.SELECT -> i.isKeyPressed(Keys.SHIFT_RIGHT) || i.isKeyPressed(Keys.TAB) || i.isKeyPressed(Keys.BUTTON_SELECT)
         }
@@ -75,7 +77,10 @@ class InputState {
  */
 class TouchControls : InputAdapter() {
     val dpad = Rectangle(); val a = Rectangle(); val b = Rectangle(); val start = Rectangle(); val select = Rectangle()
-    private val pointers = HashMap<Int, Pair<Float, Float>>()
+    // Fixed slots instead of a map of boxed pairs: touch events and isDown() run every frame and must not allocate.
+    private val ptrActive = BooleanArray(MAX_POINTERS)
+    private val ptrX = FloatArray(MAX_POINTERS)
+    private val ptrY = FloatArray(MAX_POINTERS)
     var enabled = true
     var hapticHook: (() -> Unit)? = null
 
@@ -101,7 +106,9 @@ class TouchControls : InputAdapter() {
 
     fun isDown(btn: Button): Boolean {
         if (!enabled) return false
-        for ((x, y) in pointers.values) {
+        for (i in 0 until MAX_POINTERS) {
+            if (!ptrActive[i]) continue
+            val x = ptrX[i]; val y = ptrY[i]
             when (btn) {
                 Button.A -> if (a.contains(x, y)) return true
                 Button.B -> if (b.contains(x, y)) return true
@@ -123,17 +130,31 @@ class TouchControls : InputAdapter() {
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val y = Gdx.graphics.height - screenY.toFloat()
-        pointers[pointer] = screenX.toFloat() to y
+        setPointer(pointer, screenX.toFloat(), y)
         if (enabled && (a.contains(screenX.toFloat(), y) || b.contains(screenX.toFloat(), y))) hapticHook?.invoke()
         return false
     }
 
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
-        pointers[pointer] = screenX.toFloat() to (Gdx.graphics.height - screenY.toFloat()); return false
+        setPointer(pointer, screenX.toFloat(), Gdx.graphics.height - screenY.toFloat()); return false
     }
 
-    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean { pointers.remove(pointer); return false }
+    override fun touchUp(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean { if (pointer in 0 until MAX_POINTERS) ptrActive[pointer] = false; return false }
+
+    /** Records a pointer at y-up coordinates [x], [y] (touch events, tests). */
+    fun setPointer(pointer: Int, x: Float, y: Float) {
+        if (pointer !in 0 until MAX_POINTERS) return
+        ptrActive[pointer] = true; ptrX[pointer] = x; ptrY[pointer] = y
+    }
+
+    /**
+     * Forgets every pointer. Called when the app is paused: Android does not deliver the touch-up of a finger that was
+     * down when the activity went to the background, which would leave a button held ("stuck") after resuming.
+     */
+    fun releaseAll() { ptrActive.fill(false) }
 
     /** Touch position mapped to game coordinates if it lies inside the game view (for tap-to-advance), else null. */
-    fun anyPointer() = pointers.isNotEmpty()
+    fun anyPointer(): Boolean { for (a in ptrActive) if (a) return true; return false }
+
+    private companion object { const val MAX_POINTERS = 10 }
 }

@@ -12,7 +12,8 @@ import pkmn.engine.util.Rng
  * with its National Dex number in the corner.
  */
 object PlaceholderSprites {
-    fun generate(speciesId: String, kind: String, dex: Dex?): Texture {
+    /** [retained] receives the pixmap, which the caller disposes with the texture (GL context loss safety). */
+    fun generate(speciesId: String, kind: String, dex: Dex?, retained: MutableList<Pixmap>): Texture {
         val sp = dex?.speciesOrNull(speciesId)
         val icon = kind == "icon"
         val grid = if (icon) 16 else 32
@@ -61,7 +62,7 @@ object PlaceholderSprites {
             for (ex in listOf(half - 2, half + 2)) p.fillRectangle(ex * scale, (ey + 1) * scale, scale, scale)
         }
         if (!icon) drawNumber(p, sp?.num ?: 0, 2, size - 9)
-        return Texture(p).also { it.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest); p.dispose() }
+        return managedTexture(p, retained).also { it.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest) }
     }
 
     private val digits = arrayOf("111101101101111", "010110010010111", "111001111100111", "111001111001111", "101101111001001",

@@ -11,6 +11,8 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.backends.android.AndroidApplication
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration
 import pkmn.engine.util.SpriteArchive
+import pkmn.game.BundledAssetSource
+import pkmn.game.BundledAssets
 import pkmn.game.PkmnGame
 import pkmn.game.Platform
 import pkmn.game.SynthAudio
@@ -18,11 +20,13 @@ import java.io.File
 
 class AndroidLauncher : AndroidApplication() {
     private var importDone: ((String) -> Unit)? = null
+    /** Set when the background unpack of bundled sprites has finished (successfully or not); the game waits for it. */
+    @Volatile private var assetsReady = false
+    @Volatile private var destroyed = false
     private val importedDir get() = File(filesDir, "imported")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        unpackBundledSprites()
         val config = AndroidApplicationConfiguration().apply {
             useAccelerometer = true
             useCompass = false
@@ -35,6 +39,7 @@ class AndroidLauncher : AndroidApplication() {
             override val saveDir: File = File(filesDir, "saves").apply { mkdirs() }
             /** Official sprites imported by the player (see docs/ASSET_IMPORT.md) live in app storage. */
             override val importedAssetsDir: File? get() = importedDir.takeIf { it.isDirectory }
+            override val assetsReady: Boolean get() = this@AndroidLauncher.assetsReady
             override val canImportAssets = true
             override fun importAssets(done: (message: String) -> Unit) {
                 importDone = done
@@ -55,6 +60,14 @@ class AndroidLauncher : AndroidApplication() {
             override fun exit() { moveTaskToBack(true) }
         }
         initialize(PkmnGame(platform) { SynthAudio() }, config)
+        // The copy can take seconds for a personal build: never on the UI thread. The game is already running but its
+        // loading screen waits for assetsReady, so nothing reads the sprite directory before it is complete.
+        unpackBundledSprites()
+    }
+
+    override fun onDestroy() {
+        destroyed = true
+        super.onDestroy()
     }
 
     @Deprecated("AndroidApplication is not a ComponentActivity, so the activity-result API is unavailable")
@@ -83,26 +96,29 @@ class AndroidLauncher : AndroidApplication() {
 
     /**
      * Personal builds made with -Ppkmn.bundleLocalAssets=true carry `assets/imported/`; copy it to app storage once
-     * per app version so the game reads it like an in-app import.
+     * per app version on a background thread (see [BundledAssets] for the failure and interruption rules).
+     * A failure is logged and the game starts with what is already on disk (placeholders at worst); the next start retries.
      */
     private fun unpackBundledSprites() {
-        val list = assets.list("imported") ?: return
-        if (list.isEmpty()) return
-        // Keyed on the install time too: a rebuilt personal APK keeps versionCode but must refresh the unpacked files.
-        val info = packageManager.getPackageInfo(packageName, 0)
-        @Suppress("DEPRECATION") val version = "${info.versionCode}-${info.lastUpdateTime}"
-        val marker = File(importedDir, ".bundled-$version")
-        if (marker.exists()) return
-        fun copy(path: String) {
-            val children = assets.list(path) ?: emptyArray()
-            if (children.isEmpty()) {
-                val out = File(filesDir, path)
-                out.parentFile?.mkdirs()
-                assets.open(path).use { input -> out.outputStream().use { input.copyTo(it) } }
-            } else children.forEach { copy("$path/$it") }
-        }
-        copy("imported")
-        marker.createNewFile()
+        Thread({
+            try {
+                // Keyed on the install time too: a rebuilt personal APK keeps versionCode but must refresh the unpacked files.
+                val info = packageManager.getPackageInfo(packageName, 0)
+                @Suppress("DEPRECATION") val version = "${info.versionCode}-${info.lastUpdateTime}"
+                val source = object : BundledAssetSource {
+                    override fun list(path: String) = (assets.list(path) ?: emptyArray()).toList()
+                    override fun open(path: String) = assets.open(path)
+                }
+                val outcome = BundledAssets.unpack(source, filesDir, version, cancelled = { destroyed },
+                    onRetry = { n, e -> android.util.Log.w("PkmnCrystalline", "unpacking bundled sprites failed (attempt $n), retrying: $e") })
+                if (outcome is BundledAssets.Outcome.Failed)
+                    android.util.Log.e("PkmnCrystalline", "could not unpack bundled sprites after ${outcome.attempts} attempts; will retry on the next start", outcome.error)
+            } catch (e: Throwable) {
+                android.util.Log.e("PkmnCrystalline", "unpacking bundled sprites crashed", e)
+            } finally {
+                assetsReady = true
+            }
+        }, "unpack-bundled-assets").apply { isDaemon = true }.start()
     }
 
     private companion object { const val REQUEST_IMPORT = 4201 }

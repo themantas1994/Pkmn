@@ -3,6 +3,7 @@ package pkmn.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
 import pkmn.game.audio.CryBank
+import pkmn.game.audio.CryOutcome
 import pkmn.game.audio.CryResolver
 import pkmn.game.audio.CryVoice
 import java.io.File
@@ -28,8 +29,21 @@ class SynthAudio : GameAudio {
     override fun playCry(speciesId: String) {
         val bank = cries
         if (bank == null || engine.muted) { playSfx("cry"); return }
-        if (!bank.play(speciesId, sfxVolume * CRY_GAIN)) playSfx("cry")
+        // A sound that is still loading (Android SoundPool) is retried from update() instead of being replaced by the blip.
+        when (bank.playOrDefer(speciesId, sfxVolume * CRY_GAIN, nowMs())) {
+            CryOutcome.FALLBACK -> playSfx("cry")
+            else -> {}
+        }
     }
+
+    /** Finishes a deferred cry; if its sound never became ready the generic blip plays instead. */
+    override fun update() {
+        val bank = cries ?: return
+        if (!bank.hasPending) return
+        if (bank.poll(nowMs()) == CryOutcome.FALLBACK) playSfx("cry")
+    }
+
+    private fun nowMs() = System.nanoTime() / 1_000_000L
 
     override fun prefetchCry(speciesId: String) { cries?.prefetch(speciesId) }
 
