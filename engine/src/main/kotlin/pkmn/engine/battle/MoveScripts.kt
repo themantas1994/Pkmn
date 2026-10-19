@@ -89,9 +89,9 @@ object MoveScripts {
                     val user = mc.user
                     val stall = user.volatiles["stall"]
                     if (!user.movedThisTurn) return false
-                    if (b.activeMons().all { it === user || it.movedThisTurn } && b.activeMons().size > 1 && user.side.foe.active?.movedThisTurn == true) {
-                        user.volatiles.remove("stall"); return false
-                    }
+                    // Fails when nobody else still moves or switches this turn (Showdown queue.willAct()), including when the
+                    // foe has already switched; this no longer depends on a stale flag of the Pokémon that switched in.
+                    if (!b.othersWillAct(user)) { user.volatiles.remove("stall"); return false }
                     if (stall != null && id != "maxguard") {
                         val chance = 1.0 / Math.pow(3.0, stall.counter.toDouble())
                         if (b.rng.nextDouble() >= chance) { user.volatiles.remove("stall"); return false }
@@ -170,7 +170,8 @@ object MoveScripts {
                     c.b.isSun(mc.user) -> "Fire"; c.b.isRain(mc.user) -> "Water"; c.b.isSand() -> "Rock"; c.b.isSnow() -> "Ice"; else -> "Normal"
                 }
             }
-            override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = if (b.weather() != null && b.weather() != "deltastream") bp * 2 else bp
+            // Doubled only when the type changed: an umbrella holder in sun or rain fires a 50-power Normal Weather Ball.
+            override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = if (b.weatherFor(mc.user).let { it != null && it != "deltastream" }) bp * 2 else bp
         })
         reg(object : MoveScript("terrainpulse") {
             override fun onModifyType(c: EffectCtx, mc: MoveCtx) {
@@ -195,14 +196,29 @@ object MoveScripts {
             when (pp) { 0 -> 200; 1 -> 80; 2 -> 60; 3 -> 50; else -> 40 }
         }
         bp("spitup") { _, mc, _ -> 100 * (mc.user.volatiles["stockpile"]?.counter ?: 0) }
+        // Fury Cutter: 40, 80, then 160 for consecutive successful uses (Showdown: a 2-turn volatile, multiplier capped at 4).
+        // A miss or failure resets it; so does a turn without it (the volatile expires) and switching out (volatiles cleared).
         bp("furycutter") { _, mc, _ -> 40 * (1 shl min(2, (mc.user.volatiles["furycutter"]?.counter ?: 0))) }
-        afterHit("furycutter") { b, mc -> val st = mc.user.volatiles.getOrPut("furycutter") { EffectState() }; st.counter++ }
+        reg(object : MoveScript("furycutter") {
+            override fun onAfterUse(b: Battle, mc: MoveCtx, hitAny: Boolean) {
+                if (!hitAny) { mc.user.volatiles.remove("furycutter"); return }
+                val st = mc.user.volatiles.getOrPut("furycutter") { EffectState() }
+                st.counter = min(2, st.counter + 1)
+                st.duration = 2
+            }
+        })
         reg(object : MoveScript("tripleaxel") { override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = 20 * (mc.hitIndex + 1) })
         reg(object : MoveScript("triplekick") { override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = 10 * (mc.hitIndex + 1) })
+        // Beat Up (Gen V+, Showdown): one hit per party member that is the user or healthy and status-free, in party
+        // order, chosen when the move starts; each hit has 5 + base Attack / 10 power.
+        fun beatUpMembers(mc: MoveCtx): List<BattleMon> {
+            @Suppress("UNCHECKED_CAST")
+            return mc.move.data2.getOrPut("beatup") { mc.user.side.mons.filter { it === mc.user || (!it.fainted && it.status == null) } } as List<BattleMon>
+        }
         reg(object : MoveScript("beatup") {
-            override fun hitCount(b: Battle, mc: MoveCtx) = mc.user.side.mons.count { !it.fainted && it.status == null }
+            override fun hitCount(b: Battle, mc: MoveCtx) = beatUpMembers(mc).size
             override fun basePower(b: Battle, mc: MoveCtx, bp: Int): Int {
-                val members = mc.user.side.mons.filter { !it.fainted && it.status == null }
+                val members = beatUpMembers(mc)
                 val m = members.getOrNull(mc.hitIndex) ?: mc.user
                 return m.species.baseStats.atk / 10 + 5
             }
@@ -227,8 +243,7 @@ object MoveScripts {
         for (id in listOf("collisioncourse", "electrodrift")) reg(object : MoveScript(id) {
             override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (mc.effectiveness > 1) mod.chain(5461.0 / 4096) }
         })
-        bp("solarbeam") { b, mc, p -> if (b.weather() != null && !b.isSun(mc.user) && b.weather() != "deltastream") p / 2 else p }
-        bp("solarblade") { b, mc, p -> if (b.weather() != null && !b.isSun(mc.user) && b.weather() != "deltastream") p / 2 else p }
+        // Solar Beam / Solar Blade power lives in MoveScriptsExtra (registered later, replacing any script here).
         bp("knockoff") { b, mc, p -> if (mc.target.item != null && b.canRemoveItem(mc.target, mc.target.item!!)) p * 3 / 2 else p }
         afterHitTarget("knockoff") { b, mc ->
             val item = b.takeItem(mc.target, mc.user)
@@ -365,13 +380,19 @@ object MoveScripts {
                 b.addVolatile(t, "curse", u, "curse") != null
             } else b.boost(u, mapOf("spe" to -1, "atk" to 1, "def" to 1), u, "curse")
         }
+        // Swallow (Showdown): heals 1/4, 1/2 or all HP for 1-3 stockpiles (rounded), and the stockpile ends even at full HP.
         status("swallow") { b, mc ->
             val n = mc.user.volatiles["stockpile"]?.counter ?: return@status false
             val frac = when (n) { 1 -> 0.25; 2 -> 0.5; else -> 1.0 }
-            b.heal(mc.user, (mc.user.baseMaxHp * frac).toInt(), "swallow")
-            b.removeVolatile(mc.user, "stockpile"); true
+            val u = mc.user
+            if (u.hp >= u.maxHp) b.message("${b.nm(u)}'s HP is full!")
+            else if (b.heal(u, max(1, Mod.pokeRound(u.baseMaxHp * frac)), "swallow") > 0) b.message("${b.nm(u)} had its HP restored.")
+            b.removeVolatile(u, "stockpile"); true
         }
-        afterHit("spitup") { b, mc -> b.removeVolatile(mc.user, "stockpile") }
+        // Spit Up spends the stockpile whenever it is used, even if it misses or is blocked (Showdown onAfterMove).
+        reg(object : MoveScript("spitup") {
+            override fun onAfterUse(b: Battle, mc: MoveCtx, hitAny: Boolean) { b.removeVolatile(mc.user, "stockpile") }
+        })
         failUnless("spitup") { _, mc -> mc.user.hasVolatile("stockpile") }
         status("haze") { b, _ -> for (m in b.activeMons()) m.boosts.fill(0); b.message("All stat changes were eliminated!"); true }
         afterHitTarget("clearsmog") { b, mc -> mc.target.boosts.fill(0); b.message("${b.nm(mc.target)}'s stat changes were removed!") }

@@ -38,6 +38,11 @@ abstract class Effect(val id: String, val kind: EffectKind) {
     open fun duration(b: Battle, target: BattleMon?, source: BattleMon?): Int = -1
     /** Order within the end-of-turn residual phase (lower runs first). */
     open val residualOrder: Int = 100
+    /**
+     * Order of [onBeforeMove] checks (higher runs first; Showdown onBeforeMovePriority): Grudge/Rage removal 100, Sky Drop
+     * 12, sleep/freeze 10, Truant 9, flinch 8, Gravity 6, Taunt 5, confusion 3, attraction 2, paralysis 1, others 0.
+     */
+    open val beforeMovePriority: Int = 0
 
     // ---- lifecycle
     open fun onStart(c: EffectCtx, source: BattleMon?) {}

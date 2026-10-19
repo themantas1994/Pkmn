@@ -260,7 +260,15 @@ object Abilities {
             }
             override fun onBasePower(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.move.hasSheerForce) mod.chain(1.3) }
         })
-        reg(object : A("adaptability") { override fun onModifyStab(c: EffectCtx, mc: MoveCtx, stab: Double) = if (stab == 1.5 && c.mon.terastallized == null) 2.0 else if (stab == 2.0 && c.mon.terastallized != null) 2.25 else stab })
+        // Showdown: moves of a type the user currently has get 2.0, or 2.25 when Tera STAB is already 2.0 (Tera type
+        // matching an original type). A Terastallized user's other original types keep 1.5; Stellar is unaffected.
+        reg(object : A("adaptability") {
+            override fun onModifyStab(c: EffectCtx, mc: MoveCtx, stab: Double) = when {
+                c.mon.terastallized == "Stellar" || mc.move.type == "???" || !c.mon.hasType(mc.move.type) -> stab
+                stab == 2.0 -> 2.25
+                else -> 2.0
+            }
+        })
         reg(object : A("tintedlens") { override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.effectiveness < 1) mod.chain(2.0) } })
         reg(object : A("sniper") { override fun onModifyDamage(c: EffectCtx, mc: MoveCtx, mod: Mod) { if (c.isUser(mc) && mc.crit) mod.chain(1.5) } })
         reg(object : A("superluck") { override fun onModifyCritRatio(c: EffectCtx, mc: MoveCtx, ratio: Int) = if (c.isUser(mc)) ratio + 1 else ratio })
@@ -820,6 +828,7 @@ object Abilities {
             override fun onSwitchOut(c: EffectCtx) { c.b.message("The effects of the neutralizing gas wore off!") }
         })
         reg(object : A("truant") {
+            override val beforeMovePriority = 9
             override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean {
                 if (c.state.flag) { c.state.flag = false; c.b.message("${c.b.nm(c.mon)} is loafing around!"); return false }
                 c.state.flag = true

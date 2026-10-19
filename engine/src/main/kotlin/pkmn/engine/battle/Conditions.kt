@@ -33,6 +33,7 @@ object Conditions {
             }
         })
         reg(object : Effect("par", EffectKind.STATUS) {
+            override val beforeMovePriority = 1
             override fun onModifySpe(c: EffectCtx, mon: BattleMon, mod: Mod) {
                 if (c.holder === mon && !(mon.ability == "quickfeet" && c.b.abilityActive(mon))) mod.chain(0.5)
             }
@@ -60,6 +61,7 @@ object Conditions {
             }
         })
         reg(object : Effect("slp", EffectKind.STATUS) {
+            override val beforeMovePriority = 10
             override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean {
                 val m = c.mon
                 val dec = if (m.ability == "earlybird" && c.b.abilityActive(m)) 2 else 1
@@ -73,6 +75,7 @@ object Conditions {
             }
         })
         reg(object : Effect("frz", EffectKind.STATUS) {
+            override val beforeMovePriority = 10
             override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean {
                 val m = c.mon
                 if (mc.move.hasFlag("defrost") || c.b.rng.nextInt(5) == 0) {
@@ -92,6 +95,7 @@ object Conditions {
 
     private fun registerVolatiles() {
         reg(object : Effect("confusion", EffectKind.VOLATILE) {
+            override val beforeMovePriority = 3
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 c.state.counter = 2 + c.b.rng.nextInt(4)
                 c.b.message(if (c.state.moveId == "lockedmove") "${c.b.nm(c.mon)} became confused due to fatigue!" else "${c.b.nm(c.mon)} became confused!")
@@ -109,6 +113,7 @@ object Conditions {
             }
         })
         reg(object : Effect("flinch", EffectKind.VOLATILE) {
+            override val beforeMovePriority = 8
             override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 1
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 if (c.mon.movedThisTurn || c.mon.isDynamaxed) c.mon.volatiles.remove("flinch")
@@ -120,6 +125,7 @@ object Conditions {
             }
         })
         reg(object : Effect("attract", EffectKind.VOLATILE) {
+            override val beforeMovePriority = 2
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 val m = c.mon
                 val ok = source != null && m.mon.gender != pkmn.engine.mon.Gender.NONE && source.mon.gender != pkmn.engine.mon.Gender.NONE && m.mon.gender != source.mon.gender
@@ -206,6 +212,7 @@ object Conditions {
             override fun onRestart(c: EffectCtx, source: BattleMon?): Boolean { c.b.message("${c.b.nm(c.mon)} already has a substitute!"); return false }
         })
         reg(object : Effect("taunt", EffectKind.VOLATILE) {
+            override val beforeMovePriority = 5
             override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = if (target?.movedThisTurn == true) 4 else 3
             override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)} fell for the taunt!") }
             override fun onEnd(c: EffectCtx) { c.b.message("${c.b.nm(c.mon)} shook off the taunt!") }
@@ -358,13 +365,16 @@ object Conditions {
             override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)} is hoping to take its attacker down with it!") }
             override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean { if (mc.move.id != "destinybond") c.mon.volatiles.remove("destinybond"); return true }
             override fun onFaint(c: EffectCtx, source: BattleMon?) {
-                if (source != null && !source.fainted && source.side !== c.mon.side && !source.isDynamaxed) {
+                // [source] is only set for a direct attack KO; a delayed Future Sight/Doom Desire hit does not count.
+                val futureMove = c.b.dex.moveOrNull(c.mon.lastHpLossEffect)?.hasFlag("futuremove") == true
+                if (source != null && !futureMove && !source.fainted && source.side !== c.mon.side && !source.isDynamaxed) {
                     c.b.message("${c.b.nm(c.mon)} took its attacker down with it!")
                     c.b.directDamage(source, source.hp, c.mon, "destinybond")
                 }
             }
         })
         reg(object : Effect("grudge", EffectKind.VOLATILE) {
+            override val beforeMovePriority = 100
             override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.message("${c.b.nm(c.mon)} wants its target to bear a grudge!") }
             override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean { if (mc.move.id != "grudge") c.mon.volatiles.remove("grudge"); return true }
             override fun onFaint(c: EffectCtx, source: BattleMon?) {
@@ -431,6 +441,7 @@ object Conditions {
         })
         // Target of Sky Drop: held in the air (cannot act, semi-invulnerable like Fly) while the carrier is charging.
         reg(object : Effect("skydropped", EffectKind.VOLATILE) {
+            override val beforeMovePriority = 12
             private fun carried(c: EffectCtx): Boolean {
                 val s = c.state.source ?: return false
                 return !s.fainted && s.side.active === s && s.volatiles["twoturnmove"]?.moveId == "skydrop"
@@ -464,6 +475,7 @@ object Conditions {
             override fun onModifyType(c: EffectCtx, mc: MoveCtx) { if (c.isUser(mc) && mc.move.id != "struggle") mc.move.type = "Electric" }
         })
         reg(object : Effect("rage", EffectKind.VOLATILE) {
+            override val beforeMovePriority = 100
             override fun onDamagingHit(c: EffectCtx, mc: MoveCtx, damage: Int) {
                 if (c.isTarget(mc) && mc.user !== c.mon && !c.mon.fainted) { c.b.message("${c.b.nm(c.mon)}'s rage is building!"); c.b.boost(c.mon, mapOf("atk" to 1), c.mon, "rage") }
             }
@@ -853,7 +865,7 @@ object Conditions {
                 mc.move.flags.remove("futuremove")
                 if (c.b.dex.typeChart.effectiveness(move.type, target.effectiveTypes()) == 0.0) { c.b.message("It doesn't affect ${c.b.nmL(target)}..."); return }
                 val dmg = c.b.calcDamage(mc) ?: return
-                c.b.directDamage(target, dmg, src, move.id)
+                c.b.directDamage(target, dmg, src, move.id, moveDamage = true)
             }
         })
     }
@@ -876,7 +888,7 @@ object Conditions {
                 }
                 override fun onEnd(c: EffectCtx) { c.b.events.add(BattleEvent.FieldChange("weather", null, end)); c.b.log.add(end) }
                 override fun onResidual(c: EffectCtx) {
-                    if (upkeep != null && c.state.duration != 1) c.b.message(upkeep)
+                    if (upkeep != null) c.b.message(upkeep)
                     body.residual(c)
                 }
                 override fun onModifyDef(c: EffectCtx, mc: MoveCtx, mod: Mod) = body.modDef(c, mc, mod)
@@ -935,7 +947,9 @@ object Conditions {
 
     private fun registerTerrain() {
         open class Terrain(id: String, val type: String, val start: String, val end: String) : Effect(id, EffectKind.TERRAIN) {
-            override val residualOrder = 2
+            // Grassy Terrain heals after Future Sight (3) and Wish (4), before Leftovers (Showdown onResidualOrder 5,
+            // sub-order 2; field effects come first in the residual list). Terrain ends after all residual effects.
+            override val residualOrder = 5
             override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 5
             override fun onStart(c: EffectCtx, source: BattleMon?) { c.b.events.add(BattleEvent.FieldChange("terrain", id, start)); c.b.log.add(start) }
             override fun onEnd(c: EffectCtx) { c.b.events.add(BattleEvent.FieldChange("terrain", null, end)); c.b.log.add(end) }
@@ -1002,16 +1016,25 @@ object Conditions {
             override fun onEnd(c: EffectCtx) { c.b.events.add(BattleEvent.FieldChange("pseudo", null, "The twisted dimensions returned to normal!")); c.b.log.add("dimensions normal") }
         })
         reg(object : Effect("gravity", EffectKind.PSEUDO_WEATHER) {
+            override val beforeMovePriority = 6
             override fun duration(b: Battle, target: BattleMon?, source: BattleMon?) = 5
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 c.b.message("Gravity intensified!")
-                for (m in c.b.activeMons()) { m.volatiles.remove("magnetrise"); m.volatiles.remove("telekinesis") }
+                // Showdown: Fly, Bounce and Sky Drop in progress are cancelled; Magnet Rise and Telekinesis end.
+                for (m in c.b.activeMons()) {
+                    var applies = false
+                    if (m.volatiles["twoturnmove"]?.moveId in setOf("fly", "bounce", "skydrop")) { m.volatiles.remove("twoturnmove"); applies = true }
+                    if (m.volatiles.remove("magnetrise") != null) applies = true
+                    if (m.volatiles.remove("telekinesis") != null) applies = true
+                    if (applies) c.b.message("${c.b.nm(m)} couldn't stay airborne because of gravity!")
+                }
             }
             override fun onEnd(c: EffectCtx) { c.b.message("Gravity returned to normal!") }
             override fun onModifyAccuracy(c: EffectCtx, mc: MoveCtx, mod: Mod) { mod.chain(5.0 / 3.0) }
+            // A field effect: it applies to every Pokémon (the engine calls these hooks for field effects too).
             override fun onDisableMove(c: EffectCtx, moveId: String) = c.b.dex.moveOrNull(moveId)?.hasFlag("gravity") == true
             override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean {
-                if (mc.move.hasFlag("gravity") && c.holder === mc.user) { c.b.message("${c.b.nm(mc.user)} can't use ${mc.move.name} because of gravity!"); return false }
+                if (mc.move.hasFlag("gravity") && !mc.move.isZ) { c.b.message("${c.b.nm(mc.user)} can't use ${mc.move.name} because of gravity!"); return false }
                 return true
             }
         })

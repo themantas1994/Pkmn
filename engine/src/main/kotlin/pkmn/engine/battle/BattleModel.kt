@@ -134,6 +134,13 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
     var forceSwitchFlag = false
     var lastDamage = 0
     var lastDamagedBy: DamageRecord? = null
+    /**
+     * Attacker credited if this Pokémon faints now: set by move damage, cleared by any indirect HP loss (poison, weather,
+     * hazards, recoil...), so only a direct attack KO triggers Moxie, Beast Boost, Destiny Bond or Grudge.
+     */
+    var koCredit: BattleMon? = null
+    /** Move or effect id of the last HP loss (see [koCredit]). */
+    var lastHpLossEffect: String? = null
     var timesAttacked = 0
     var statsRaisedThisTurn = false
     var statsLoweredThisTurn = false
@@ -293,6 +300,9 @@ class Mod {
     fun apply(base: Int): Int = pokeRound(base.toLong() * value / 4096.0)
 
     companion object {
+        /** Round half up (JavaScript Math.round): Showdown's recoil and Gen V+ drain amounts. */
+        fun roundHalfUp(x: Double): Int = Math.floor(x + 0.5).toInt()
+
         /** Round half down (official "pokeRound"). */
         fun pokeRound(x: Double): Int {
             val f = Math.floor(x)

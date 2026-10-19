@@ -171,7 +171,8 @@ class BattleCoreTest {
         assertEquals(MajorStatus.SLEEP, b.player.active!!.status)
         var turns = 0
         while (b.player.active!!.status == MajorStatus.SLEEP && turns < 5) { turn(b, Choice.UseMove(0), Choice.UseMove(1)); turns++ }
-        assertTrue(turns in 1..3, "sleep lasted $turns turns")
+        // 1-3 turns asleep, then it wakes (and moves) on the next turn: the loop counts the waking turn too.
+        assertTrue(turns in 2..4, "sleep lasted $turns turns")
     }
 
     @Test

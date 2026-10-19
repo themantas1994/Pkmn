@@ -54,6 +54,30 @@ Apart from the obedience row, Bulbapedia was not reachable from the build machin
 | Shift prompt text | One five-line box | Two boxes ("…is about to use X." / "Will ARI change POKéMON?") | Fits the 2-line Yes/No prompt at 256×224 |
 | Night period ownership | Weekday changes at midnight | Weekly events treat 00:00–03:59 as the previous evening ("Thursday night" = Thu 18:00 to Fri 03:59) | Matches what players mean by "Thursday night". Documented in `docs/EVENTS.md` |
 
+## Battle-engine audit (Gen IX rules)
+
+Reference: Pokémon Showdown's Gen IX simulator as described by the data in `data-src/showdown/` (move/ability flags, conditions, text) and the simulator rules named below. Tests: `engine` `MechanicsAuditTest`.
+
+| Rule | Engine behaviour |
+|---|---|
+| Fury Cutter | 40, 80, 160 (cap) for consecutive successful uses; a miss or failure, a turn without it, or switching out resets it |
+| KO credit | Only a direct attack KO (including Future Sight and Bide) credits the attacker: Moxie, Beast Boost, Destiny Bond, Grudge. Poison, weather, hazards, recoil and other indirect damage credit nobody. Destiny Bond ignores Future Sight KOs |
+| Weather length | A 5-turn weather acts at the end of turns 1–4 and ends at the end of turn 5 without acting (the duration is checked before the weather's residual). Terrain, rooms and screens act or last through turn 5 |
+| Sleep | 1–3 turns asleep (counter 2–4, the Pokémon wakes and moves at 0); Rest 2 turns |
+| Mold Breaker | Ignores every ability flagged `breakable`, including Disguise and Ice Face, Sturdy's endure, and Suction Cups and Guard Dog against Roar |
+| Ion Deluge / Plasma Fists | Normal moves are Electric for the rest of the turn, after -ate abilities |
+| Roar / Whirlwind (wild) | Ends a wild battle unless the target is anchored (Ingrain, Suction Cups, Guard Dog) or Dynamaxed. No level check (Gen III–IV only) |
+| Utility Umbrella | Moonlight/Synthesis/Morning Sun, Weather Ball and Solar Beam use the weather as the holder sees it |
+| Tera | Adaptability: 2.0 for the Tera type, 2.25 when it matches an original type, 1.5 for other original types, no effect for Stellar. Tera-type moves below 60 power are raised to 60, except priority, multi-hit and variable-power moves (listed at 0 or 150) |
+| Before-move order | Sky Drop, sleep/freeze, Truant, flinch, Gravity, Taunt, confusion, attraction, paralysis |
+| Rounding | Recoil and drain use Math.round (halves up), at least 1. Chloroblast costs half max HP |
+| Beat Up / Swallow / Spit Up | Beat Up always includes the user. Swallow rounds its heal and always spends the stockpile. Spit Up spends it even when blocked |
+| Protect | Fails when nobody else still moves or switches this turn, including when the foe switched (Showdown `queue.willAct()`) |
+| Residual order | Grassy Terrain heals after Future Sight and Wish, before Leftovers |
+| Gravity | Cancels Fly, Bounce and Sky Drop in progress, Magnet Rise and Telekinesis. Gravity-flagged moves cannot be selected or used |
+
+Not changed (unverified or out of scope): a wild Pokémon's Roar against the player drags in another party member instead of ending the battle. Disguise and Sturdy do not react to the confusion self-hit (Showdown treats it as a move). Big Root multiplies by 1.3 instead of 5324/4096. Stockpile removes the stages it counted, not the stages actually gained.
+
 ## Open or unverified
 
 - **Trainer-battle EXP bonus (×1.5).** The engine applies it, as Gens V–VI do (Serebii). Some sources say Gen VII+ removed it. No primary source was reachable, so the formula is unchanged. If removed, trainer EXP falls by a third, which bears on the late-game over-levelling.
