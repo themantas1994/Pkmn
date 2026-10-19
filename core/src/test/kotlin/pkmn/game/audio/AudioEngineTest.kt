@@ -101,6 +101,13 @@ class AudioEngineTest {
         assertTrue(peak(e, 40) > 500, "music resumes after the jingle")
     }
 
+    /** Polls [cond] until it holds or [timeoutMs] passes; condition-based so slow machines only take longer, never fail spuriously. */
+    private fun await(timeoutMs: Long = 10_000, cond: () -> Boolean): Boolean {
+        val end = System.nanoTime() + timeoutMs * 1_000_000
+        while (System.nanoTime() < end) { if (cond()) return true; Thread.sleep(5) }
+        return cond()
+    }
+
     @Test
     fun threadedEngineStreamsAndDisposes() {
         val written = AtomicLong()
@@ -112,15 +119,16 @@ class AudioEngineTest {
         }
         val e = AudioEngine({ songs[it] }, output = out, log = {})
         e.playMusic("a")
-        assertTrue(latch.await(5, TimeUnit.SECONDS))
+        assertTrue(latch.await(30, TimeUnit.SECONDS), "audio thread must stream PCM to the output")
         e.pause()
-        Thread.sleep(50)
+        // Paused: the write counter must settle (at most the block in flight) and then stay put.
+        var last = -1L
+        assertTrue(await { val w = written.get(); val settled = w == last; last = w; Thread.sleep(50); settled }, "paused engine should stop writing")
         val atPause = written.get()
         Thread.sleep(100)
-        assertTrue(written.get() - atPause <= 1024 * 2, "paused engine should stop writing")
+        assertEquals(atPause, written.get(), "paused engine kept writing")
         e.resume()
-        Thread.sleep(100)
-        assertTrue(written.get() > atPause)
+        assertTrue(await { written.get() > atPause }, "resumed engine should write again")
         e.dispose()
     }
 }

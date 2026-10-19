@@ -4,26 +4,37 @@ on:
   push:
   pull_request:
 
+# JDK policy: every module compiles to Java 17 bytecode (sourceCompatibility/jvmTarget 17) and the Android Gradle Plugin
+# needs JDK 17+. So the full pipeline runs on JDK 17, the minimum we support (and what local development uses), and a
+# second job runs the tests on JDK 21 to prove the 17-target code is also fine on a newer runtime. See docs/BUILD.md.
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 17
       - uses: gradle/actions/setup-gradle@v4
       - uses: android-actions/setup-android@v3
         with:
           packages: "platforms;android-35 build-tools;35.0.0"
       - name: Content gates
         run: ./gradlew :tools:compileMaps :tools:checkProgression :tools:validateContent :tools:buildAssetManifest
-      - name: Generated content is committed
-        run: git diff --exit-code -- assets/
+      - name: Generated content is committed (modified, deleted or untracked files under assets/)
+        run: scripts/check-generated-assets.sh
+      - name: Audits (entrances, items, learnsets)
+        run: ./gradlew :tools:auditEntrances :tools:auditItems :tools:auditLearnsets
       - name: Tests
         run: ./gradlew :engine:test :core:test :tools:test
+      - name: Move execution audit (needs the engine test results)
+        run: ./gradlew :tools:auditMoves
+      - name: STATUS.md numbers match the build outputs
+        run: ./gradlew :tools:checkStatus
+      - name: Android lint
+        run: ./gradlew :android:lintDebug
       - name: Android APK and bundle
         run: ./gradlew :android:assembleDebug :android:bundleRelease
       - uses: actions/upload-artifact@v4
@@ -37,3 +48,35 @@ jobs:
         with:
           name: reports
           path: reports/
+
+  jdk21:
+    # Forward compatibility: the Java 17 bytecode must also pass its tests on the current LTS runtime.
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew :engine:test :core:test :tools:test
+
+  visual:
+    # Real desktop game under Xvfb, compared with docs/screenshots (fails on a visual change, a missing or hung scene).
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: sudo apt-get update && sudo apt-get install -y xvfb libgl1-mesa-dri
+      - run: tools/visual/run_scenes.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-screenshots
+          path: build/screenshots/

@@ -6,8 +6,8 @@ import java.io.File
 
 /**
  * Checks that the campaign can be completed in badge order without softlocks:
- * * every gym leader is reachable with the badges earned before it (field moves need the badge AND an obtainable
- *   Pokémon that can learn the move),
+ * * every gym leader is reachable with the badges earned before it (field moves need only the badge: God Bidoof
+ *   performs them, no party Pokémon is required),
  * * the Hall of Fame is reachable with eight badges,
  * * every map, item and trainer is reachable by the end of the game,
  * * no reachable tile is a trap (a place from which no Pokémon Center or the start can be reached again).

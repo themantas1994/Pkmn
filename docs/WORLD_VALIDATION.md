@@ -114,7 +114,7 @@ are now solid there too.
 ### Model (`StrictReach`, `ItemAudit`)
 
 The old `ProgressionChecker` model is optimistic. The item audit runs a stricter graph search per badge stage (0..8) from
-`WorldAnalysis.stage` (field moves need the badge **and** an obtainable learner). It mirrors `OverworldRules.step` and
+`WorldAnalysis.stage` (field moves need only the badge: God Bidoof performs them, see `GameContext.canUseFieldMove`). It mirrors `OverworldRules.step` and
 `OverworldScreen.onPlayerArrive`/`interact`:
 
 * **Ice**: after arriving on ice the player keeps sliding in the same direction while the next step is a plain walk, and stops

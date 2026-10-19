@@ -39,6 +39,35 @@ class ContentValidatorTest {
         assertEquals(2, issues.errors.size)
     }
 
+    private fun map(id: String, npcs: List<pkmn.engine.world.NpcDef> = emptyList(), triggers: List<pkmn.engine.world.TriggerDef> = emptyList(),
+                    obstacles: List<pkmn.engine.world.ObstacleDef> = emptyList()) =
+        pkmn.engine.world.MapData(id = id, name = id, width = 1, height = 1, tilePalette = listOf("g"), ground = listOf(0), npcs = npcs, triggers = triggers, obstacles = obstacles)
+
+    @Test
+    fun bundledFlagsAreAllDefined() {
+        val w = WorldContent(DirectoryContentSource(File(repo, "assets")))
+        val issues = Issues()
+        ContentValidator(repo).validateFlags(w.scripts.values, w.index.maps.map { w.map(it) }, w.events.defs.mapNotNull { it.requiresFlag }, issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun undefinedFlagAndTypoAreErrorsButDynamicFlagsAreFine() {
+        val src = "script a\n  setflag got_badge\n  pokedex\n  unlock mega\nend\n" +
+            "script b\n  if flag got_badge and flag has_pokedex and flag unlock_mega and flag hall_of_fame_x\n    say \"x\"\n  end\n  if not flag got_bagde\n    say \"y\"\n  end\n  if flag cut_tree_1 or flag item:pot1 or flag hidden:m:npc\n    say \"z\"\n  end\nend\n"
+        val npc = pkmn.engine.world.NpcDef(id = "n", x = 0, y = 0, sprite = "s", hideIf = "got_bagde", showIf = "got_badge")
+        val trig = pkmn.engine.world.TriggerDef(x = 0, y = 0, script = "a", unlessFlag = "never_set")
+        val obs = pkmn.engine.world.ObstacleDef(0, 0, "cut", "cut_tree_1")
+        val issues = Issues()
+        ContentValidator(repo).validateFlags(pkmn.engine.world.ScriptParser.parseFile(src, "t.pks"), listOf(map("m", listOf(npc), listOf(trig), listOf(obs))), listOf("event_gate"), issues)
+        assertEquals(setOf("flag-undefined"), codes(issues))
+        val msgs = issues.errors.joinToString("\n") { "${it.subject}: ${it.message}" }
+        for (bad in listOf("hall_of_fame_x", "got_bagde", "never_set", "event_gate")) assertTrue("'$bad'" in msgs, "$bad not reported: $msgs")
+        assertTrue("did you mean 'got_badge'" in msgs, msgs)
+        assertTrue("'unlock_mega'" !in msgs && "'cut_tree_1'" !in msgs && "'item:pot1'" !in msgs && "'has_pokedex'" !in msgs, msgs)
+        assertEquals(5, issues.errors.size, msgs)
+    }
+
     @Test
     fun bundledMusicIdsAllHaveTracks() {
         val issues = Issues()

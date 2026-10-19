@@ -6,7 +6,7 @@ Everything builds offline once Gradle has fetched its dependencies. The game its
 
 | What | Version | Notes |
 |---|---|---|
-| JDK | 17 or newer (developed on 21) | `JAVA_HOME` or `java` on `PATH` |
+| JDK | 17 or newer; CI builds on 17 and also tests on 21 | `JAVA_HOME` or `java` on `PATH`. All modules compile to Java 17 bytecode (`jvmTarget`/`sourceCompatibility` 17) and AGP needs 17+, so 17 is the supported minimum; newer JDKs run the same bytecode |
 | Gradle | wrapper included (8.14.3) | always use `./gradlew` |
 | Android SDK | platform 35, build-tools 35.0.0 | only for the Android build; set `sdk.dir` in `local.properties` or `ANDROID_HOME` |
 
@@ -38,6 +38,10 @@ Generated content in `assets/` is committed, so a fresh clone builds without run
 ./gradlew :tools:benchmark           # engine performance -> reports/performance.json
 ./gradlew :tools:auditEntrances      # every warp vs its destination class -> reports/entrances.*
 ./gradlew :tools:auditItems          # strict item reachability per badge stage -> reports/items.*
+./gradlew :tools:statusCounts        # numbers STATUS.md quotes (world counts; test counts from the last test run)
+./gradlew :tools:checkStatus         # fail if STATUS.md world/test counts differ from those (CI runs it after the tests)
+scripts/check-generated-assets.sh    # fail if anything under assets/ is modified, deleted or untracked (CI guard)
+./gradlew :core:test -Pbenchmarks    # also run the opt-in machine-dependent timing benchmarks (skipped by default)
 tools/visual/run_scenes.sh           # capture visual-regression scenes under Xvfb and compare (see docs/SCREENSHOTS.md)
 ```
 

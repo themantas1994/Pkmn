@@ -461,7 +461,7 @@ Defects by code: stricter-than-optimistic 5
 | dragonspire_city | dragonspire_city_ds_hidden2 | dragonscale x1 | 1,22 | yes | grass | gated | 4 | 4 |
 | dragonspire_city | dragonspire_city_ds_maxrevive | maxrevive x1 | 2,24 |  | tall_grass | gated | 4 | 4 |
 | dragonspire_city | dragonspire_city_ds_dragonfang | dragonfang x1 | 33,24 |  | grass | gated | 4 | 4 |
-| dragonspire_gym_2f | dragonspire_gym_2f_dg2_hidden | dragonscale x1 | 15,3 | yes | dark_floor | gated | 4 | 4 |
+| dragonspire_gym_2f | dragonspire_gym_2f_dg2_hidden | dragonscale x1 | 15,3 | yes | gym_floor_dusk | gated | 4 | 4 |
 | dragonspire_shrine | dragonspire_shrine_dsh_hidden | dracoplate x1 | 9,8 | yes | ruins_floor | gated | 4 | 4 |
 | eclipse_atoll | eclipse_atoll_ea_hidden1 | cometshard x1 | 8,2 | yes | sand | gated | 4 | 4 |
 | eclipse_atoll | eclipse_atoll_ea_sunstone | sunstone x1 | 4,6 |  | sand | gated | 4 | 4 |
@@ -810,7 +810,7 @@ Defects by code: stricter-than-optimistic 5
 | quarrytown | quarrytown_p4b_quarry_pit | hardstone x1 | 28,7 | yes | sand | reachable | 0 | 0 |
 | quarrytown | quarrytown_quarry_nug | nugget x1 | 2,21 | yes | sand | reachable | 0 | 0 |
 | quarrytown | quarrytown_quarry_ether | ether x1 | 28,21 |  | sand | reachable | 0 | 0 |
-| quarrytown_gym | quarrytown_gym_qg_revive | revive x1 | 12,6 |  | gym_floor | reachable | 0 | 0 |
+| quarrytown_gym | quarrytown_gym_qg_revive | revive x1 | 12,6 |  | gym_floor_stone | reachable | 0 | 0 |
 | route1 | route1_r1_greatball | greatball x1 | 17,9 |  | tall_grass | gated | 1 | 1 |
 | route1 | route1_r1_berry | oranberry x1 | 2,10 | yes | grass | reachable | 0 | 0 |
 | route1 | route1_r1_potion | potion x1 | 1,19 |  | grass | reachable | 0 | 0 |
