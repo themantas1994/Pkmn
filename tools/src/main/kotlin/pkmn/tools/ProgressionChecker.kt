@@ -6,10 +6,11 @@ import java.io.File
 
 /**
  * Checks that the campaign can be completed in badge order without softlocks:
- * * every gym leader is reachable with the badges earned before it (field moves need the badge AND an obtainable
- *   Pokémon that can learn the move),
+ * * every gym leader is reachable with the badges earned before it (field moves need only the badge: God Bidoof
+ *   performs them, no party Pokémon is required),
  * * the Hall of Fame is reachable with eight badges,
  * * every map, item and trainer is reachable by the end of the game,
+ * * no sequence of Strength-boulder pushes permanently loses a route or reward (see [BoulderPuzzles]),
  * * no reachable tile is a trap (a place from which no Pokémon Center or the start can be reached again).
  * Writes reports/progression.json.
  */
@@ -64,6 +65,10 @@ class ProgressionChecker(private val root: File) {
         val trapped = (final.reach.nodes - canReturn).groupBy { it.map }
         for ((map, nodes) in trapped) issues.warn("trap", map, "${nodes.size} reachable tile(s) with no walking route back to a Pokémon Center " +
             "(e.g. ${nodes.first().x},${nodes.first().y})", "fine if a script, Escape Rope, Fly or a ferry leads out; otherwise a softlock")
+
+        // Strength boulders persist where they are pushed, so every boulder map is searched exhaustively for a push that loses a route or reward.
+        for (r in BoulderPuzzles(w.maps).analyzeAll()) for (sl in r.softlocks)
+            issues.error("boulder.softlock", r.map, "boulder pushes can permanently lose ${sl.lost.joinToString()} (e.g. ${sl.pushes.take(6).joinToString("; ")}); tag the map boulder_reset or reshape it")
 
         // Field moves per stage and who can learn them.
         val stageJson = buildJsonArray {

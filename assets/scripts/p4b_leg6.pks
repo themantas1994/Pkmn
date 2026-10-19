@@ -46,9 +46,23 @@ script p4b_apprentice_sora
   end
 end
 
+# The egg is flagged only once the party or a box has room for it; Kaen offers it again on the next visit otherwise.
+script p4b_kaen_egg
+  giveegg larvesta 1
+  if result yes
+    setflag p4b_kaen_egg
+    say "KAEN: Heat Wave scorches every foe at once. And that egg holds a Larvesta. Raise it to be a sun."
+  else
+    say "KAEN: Your party and your boxes are full. Make some room and speak to me again for the egg."
+  end
+end
+
 script p4b_kaen
   faceplayer
-  if quest p4b_trial_by_fire done
+  if quest p4b_trial_by_fire done and not flag p4b_kaen_egg
+    say "KAEN: You left without the egg from the crater's edge. Here, take it."
+    call p4b_kaen_egg
+  elif quest p4b_trial_by_fire done
     say "KAEN: Fire is patience, then a single breath. Remember that against Blaise."
   elif trainer p4b_trail_breather_ash and trainer p4b_trail_breather_blaze and trainer p4b_trail_breather_coal
     say "KAEN: So. You walked through my three students like wind through ash.\pI taught Blaise of Ashfall to breathe fire. Now let's see what you breathe!"
@@ -60,8 +74,7 @@ script p4b_kaen
       quest p4b_trial_by_fire done
       say "KAEN: Take my technique, and this. An egg from the crater's edge. It's warm, so it will hatch soon."
       tm heatwave
-      giveegg larvesta 1
-      say "KAEN: Heat Wave scorches every foe at once. And that egg holds a Larvesta. Raise it to be a sun."
+      call p4b_kaen_egg
     else
       say "KAEN: Your flame flickered. Rest, and come back hotter."
     end

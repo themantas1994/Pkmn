@@ -55,7 +55,11 @@ Script ids are global; the compiler rejects duplicates and unknown references.
 | `giveitem X [n]`, `takeitem X [n]` (result=1 if taken), `tm <move>` | items |
 | `givemoney N`, `takemoney N` (result=1 if paid) | money |
 | `givemon <species> <level> [shiny] [item=] [ability=0|1|H] [moves=a,b] [nature=] [ivs=N] [gmax] [tera=Type] [nick=]` | gift Pokémon (result 1/0) |
-| `giveegg <species> 1 [...]` | simplified egg (hatches immediately) |
+| `giveegg <species> 1 [...]` | simplified egg (hatches immediately; result 1/0 like `givemon`) |
+
+A Pokémon gift fails (result 0, nothing stored) when the party and every PC box are full. Test `result` right after `givemon`/`giveegg` and only
+then consume the fossil/item, set the completion flag or finish the quest; otherwise the reward is lost. `ContentValidator.validateGiftResults`
+(error `gift-result-unchecked`) enforces this. `giveitem` only fails at 999 of one item and is not checked by the validator.
 | `battle <trainer> [canlose]` | trainer battle → `result win/lose` (without canlose, a loss blacks out) |
 | `wildbattle <species> <level> [shiny] [norun] [ivs=N] [moves=] [item=] [music=]` | scripted wild/legendary battle → result caught/defeated/ran/lose |
 | `heal`, `healcenter` (also sets respawn point) | heal party |

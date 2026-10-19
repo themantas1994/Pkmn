@@ -60,7 +60,7 @@ tile 7 9 sign
 tile 7 28 sign
 tile 11 17 sign
 obstacle 9 18 cut flag=p1_cut_route2
-npc r2_cut_hint 10 20 sprite=hiker face=up text="That skinny tree blocks the shortcut north.\pWith the Sprout Badge, a Pokémon that knows Cut could clear it!"
+npc r2_cut_hint 10 20 sprite=hiker face=up text="That skinny tree blocks the shortcut north.\pWith the Sprout Badge, you could Cut it down!"
 npc rival 9 1 sprite=rival face=down script=p1_route2_rival hideif=p1_rival_route2
 trigger 8 2 4 1 script=p1_route2_rival unless=p1_rival_route2
 trainer route2_wade 4 32 sprite=bugcatcher face=right sight=4

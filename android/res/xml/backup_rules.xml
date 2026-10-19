@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Auto Backup for Android 11 and older (android:fullBackupContent). Decision (docs/BUILD.md "Backup"):
+  back up the player's saves and options only, nothing else.
+  - saves/ = filesDir/saves: save.json, save.json.bak and options.json. The in-flight save.json.tmp is excluded: the
+    loader prefers a complete .tmp over the main save, so a stale one restored from a backup could override newer progress.
+  - imported/ (official sprites and cries a player imported or a personal APK unpacked: non-redistributable) is NOT
+    included, so it never leaves the device through Google backup or a device transfer. With an <include> list nothing
+    else is backed up either; lint rejects an <exclude> outside the included paths, so there is none for imported/.
+  Caches (cache/, code_cache/) and no_backup/ are never backed up by the platform.
+-->
+<full-backup-content>
+    <include domain="file" path="saves" />
+    <exclude domain="file" path="saves/save.json.tmp" />
+</full-backup-content>

@@ -21,7 +21,11 @@ data class BattleRules(
     val canCatch: Boolean = true,
     val canUseItems: Boolean = true,
     val expEnabled: Boolean = true,
-    /** Party-wide experience (modern Exp. Share). */
+    /**
+     * Party-wide Exp. Share (the player option / bag switch): every healthy party member earns experience, participants
+     * the full amount and the others half. Off: participants only. The campaign passes [Options.expShare] (default off);
+     * this default only serves engine-level callers and tests.
+     */
     val expShareAll: Boolean = true,
     val levelCap: Int = 100,
     val isTrainerBattle: Boolean = false,
@@ -134,6 +138,13 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
     var forceSwitchFlag = false
     var lastDamage = 0
     var lastDamagedBy: DamageRecord? = null
+    /**
+     * Attacker credited if this Pokémon faints now: set by move damage, cleared by any indirect HP loss (poison, weather,
+     * hazards, recoil...), so only a direct attack KO triggers Moxie, Beast Boost, Destiny Bond or Grudge.
+     */
+    var koCredit: BattleMon? = null
+    /** Move or effect id of the last HP loss (see [koCredit]). */
+    var lastHpLossEffect: String? = null
     var timesAttacked = 0
     var statsRaisedThisTurn = false
     var statsLoweredThisTurn = false
@@ -293,6 +304,9 @@ class Mod {
     fun apply(base: Int): Int = pokeRound(base.toLong() * value / 4096.0)
 
     companion object {
+        /** Round half up (JavaScript Math.round): Showdown's recoil and Gen V+ drain amounts. */
+        fun roundHalfUp(x: Double): Int = Math.floor(x + 0.5).toInt()
+
         /** Round half down (official "pokeRound"). */
         fun pokeRound(x: Double): Int {
             val f = Math.floor(x)
@@ -322,7 +336,11 @@ sealed class Request {
         /** Non-null when the Pokémon is locked into an action (recharge, charge turn, rampage). */
         val lockedMove: String?,
     ) : Request()
-    data class SwitchIn(val forced: Boolean) : Request()
+    /**
+     * The side must send in a Pokémon now. [selfSwitch]: mid-turn replacement after its own U-turn, Baton Pass,
+     * Eject Button... (cannot be cancelled; the rest of the turn runs afterwards). Otherwise it replaces a fainted one.
+     */
+    data class SwitchIn(val forced: Boolean, val selfSwitch: Boolean = false) : Request()
     object Wait : Request()
 }
 

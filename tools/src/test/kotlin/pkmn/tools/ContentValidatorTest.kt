@@ -1,5 +1,6 @@
 package pkmn.tools
 
+import pkmn.engine.campaign.WorldContent
 import pkmn.engine.data.*
 import java.io.File
 import java.nio.file.Files
@@ -19,6 +20,91 @@ class ContentValidatorTest {
         ContentValidator(repo).validateProvenance(File(repo, "data-src"), content.manifest, issues)
         assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
         assertEquals(1025, content.species.count { it.formKind == FormKind.BASE })
+    }
+
+    @Test
+    fun bundledScriptsHandleBattleResultsCorrectly() {
+        val scripts = WorldContent(DirectoryContentSource(File(repo, "assets"))).scripts.values
+        val issues = Issues()
+        ContentValidator(repo).validateBattleScripts(scripts, issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun battleResultRuleFlagsMishandledBattles() {
+        val src = "script a\n  battle t canlose\n  badge 1\nend\nscript b\n  battle t\n  if result lose\n    say \"x\"\n  end\nend\nscript c\n  battle t canlose\n  if result win\n    badge 1\n  end\nend\n"
+        val issues = Issues()
+        ContentValidator(repo).validateBattleScripts(pkmn.engine.world.ScriptParser.parseFile(src, "t.pks"), issues)
+        assertEquals(setOf("battle-reward-unchecked", "battle-loss-unreachable"), codes(issues))
+        assertEquals(2, issues.errors.size)
+    }
+
+    @Test
+    fun bundledScriptsCheckGiftResultBeforeCompletion() {
+        val scripts = WorldContent(DirectoryContentSource(File(repo, "assets"))).scripts.values
+        val issues = Issues()
+        ContentValidator(repo).validateGiftResults(scripts, issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun giftResultRuleFlagsUncheckedGifts() {
+        val src = "script a\n  givemon rowlet 5\n  setflag got\nend\nscript b\n  takeitem x\n  giveegg togepi 1\n  if hasmon togepi\n    quest q done\n  end\nend\n" +
+            "script ok\n  givemon rowlet 5\n  if result yes\n    takeitem x\n    setflag got\n  end\nend\n"
+        val issues = Issues()
+        ContentValidator(repo).validateGiftResults(pkmn.engine.world.ScriptParser.parseFile(src, "t.pks"), issues)
+        assertEquals(setOf("gift-result-unchecked"), codes(issues))
+        assertEquals(listOf("a:3", "b:9"), issues.errors.map { it.subject })
+    }
+
+    @Test
+    fun bundledWorldTextHasNoObsoleteFieldMoveWording() {
+        val issues = Issues()
+        ContentValidator(repo).validateFieldMoveWording(File(repo, "world"), issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun fieldMoveWordingRuleFlagsPartyRequirements() {
+        val dir = Files.createTempDirectory("fmw").toFile()
+        try {
+            File(dir, "world/scripts").mkdirs()
+            File(dir, "world/scripts/t.pks").writeText(
+                "script a\n  say \"Bring a Pokemon that knows Flash.\"\n  say \"A Pokémon with Rock Smash can do it.\"\n  say \"Bring Flash.\"\n" +
+                    "  say \"The Sprout Badge lets you use Cut. God Bidoof does it.\"\n  # Pokémon that can learn Cut\nend\n")
+            val issues = Issues()
+            ContentValidator(repo).validateFieldMoveWording(File(dir, "world"), issues)
+            assertEquals(listOf("world/scripts/t.pks:2", "world/scripts/t.pks:3", "world/scripts/t.pks:4"), issues.errors.map { it.subject })
+        } finally { dir.deleteRecursively() }
+    }
+
+    private fun map(id: String, npcs: List<pkmn.engine.world.NpcDef> = emptyList(), triggers: List<pkmn.engine.world.TriggerDef> = emptyList(),
+                    obstacles: List<pkmn.engine.world.ObstacleDef> = emptyList()) =
+        pkmn.engine.world.MapData(id = id, name = id, width = 1, height = 1, tilePalette = listOf("g"), ground = listOf(0), npcs = npcs, triggers = triggers, obstacles = obstacles)
+
+    @Test
+    fun bundledFlagsAreAllDefined() {
+        val w = WorldContent(DirectoryContentSource(File(repo, "assets")))
+        val issues = Issues()
+        ContentValidator(repo).validateFlags(w.scripts.values, w.index.maps.map { w.map(it) }, w.events.defs.mapNotNull { it.requiresFlag }, issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun undefinedFlagAndTypoAreErrorsButDynamicFlagsAreFine() {
+        val src = "script a\n  setflag got_badge\n  pokedex\n  unlock mega\nend\n" +
+            "script b\n  if flag got_badge and flag has_pokedex and flag unlock_mega and flag hall_of_fame_x\n    say \"x\"\n  end\n  if not flag got_bagde\n    say \"y\"\n  end\n  if flag cut_tree_1 or flag item:pot1 or flag hidden:m:npc\n    say \"z\"\n  end\nend\n"
+        val npc = pkmn.engine.world.NpcDef(id = "n", x = 0, y = 0, sprite = "s", hideIf = "got_bagde", showIf = "got_badge")
+        val trig = pkmn.engine.world.TriggerDef(x = 0, y = 0, script = "a", unlessFlag = "never_set")
+        val obs = pkmn.engine.world.ObstacleDef(0, 0, "cut", "cut_tree_1")
+        val issues = Issues()
+        ContentValidator(repo).validateFlags(pkmn.engine.world.ScriptParser.parseFile(src, "t.pks"), listOf(map("m", listOf(npc), listOf(trig), listOf(obs))), listOf("event_gate"), issues)
+        assertEquals(setOf("flag-undefined"), codes(issues))
+        val msgs = issues.errors.joinToString("\n") { "${it.subject}: ${it.message}" }
+        for (bad in listOf("hall_of_fame_x", "got_bagde", "never_set", "event_gate")) assertTrue("'$bad'" in msgs, "$bad not reported: $msgs")
+        assertTrue("did you mean 'got_badge'" in msgs, msgs)
+        assertTrue("'unlock_mega'" !in msgs && "'cut_tree_1'" !in msgs && "'item:pot1'" !in msgs && "'has_pokedex'" !in msgs, msgs)
+        assertEquals(5, issues.errors.size, msgs)
     }
 
     @Test

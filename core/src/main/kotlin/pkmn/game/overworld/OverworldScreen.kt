@@ -6,6 +6,7 @@ import pkmn.engine.battle.BattleOutcome
 import pkmn.engine.campaign.GameContext
 import pkmn.engine.mon.MajorStatus
 import pkmn.engine.mon.Pokemon
+import pkmn.engine.save.SaveResult
 import pkmn.engine.world.*
 import pkmn.game.AutosaveAware
 import pkmn.game.PkmnGame
@@ -39,6 +40,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     val player = Actor("player", "player_m", 0, 0, Facing.DOWN)
     private val actors = LinkedHashMap<String, Actor>()
     private var scriptBusy = false
+    private val autosaveGate = AutosaveGate()
     private var lockInput = 0f
     private var turnGrace = 0f
     private var bumpCooldown = 0f
@@ -86,6 +88,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (viaWarp && ::baseMap.isInitialized && !baseMap.indoor) {
             state.backMap = baseMap.id; state.backX = player.x; state.backY = player.y
         }
+        // Boulder puzzles tagged boulder_reset start fresh on every entry from another map (a push can otherwise block the route for good).
+        if (!initial && "boulder_reset" in newMap.tags && (!::baseMap.isInitialized || baseMap.id != newMap.id))
+            state.vars.keys.removeAll { it.startsWith("pos:${newMap.id}:") }
         baseMap = newMap
         state.map = newMap.id; state.x = x; state.y = y
         facing?.let { player.facing = it; state.facing = it.name.lowercase() }
@@ -154,6 +159,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             val id = eventActorId(e)
             if (actors.containsKey(id)) continue
             val npc = NpcDef(id, e.x, e.y, "@mon:${e.species}", e.facing)
+            game.audio.prefetchCry(e.species) // the player walks up to it first: the cry is loaded long before it plays
             actors[id] = Actor(id, npc.sprite, e.x, e.y, Facing.parse(e.facing), npc)
         }
     }
@@ -320,6 +326,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val nx = bx + dir.dx; val ny = by + dir.dy
         if (!map.inBounds(nx, ny) || TileRules.isSolid(rules.behavior(map, nx, ny)) || rules.behavior(map, nx, ny) == TileBehavior.WATER ||
             occupant(nx, ny) != null || map.obstacles.any { it.x == nx && it.y == ny }) return false
+        // Never plug a door/ladder/stairs or a script trigger tile, and never wall the player into a pocket without a way out.
+        if (!BoulderRules.mayRestOn(map, nx, ny)) return false
+        val after = map.obstacles.filter { it.kind == "boulder" }.map { if (it === o) nx * 4096 + ny else it.x * 4096 + it.y }.toSet()
+        if (!BoulderRules.reachesExit(map, after, bx, by)) return false
         state.vars["pos:${baseMap.id}:${o.flag}"] = nx * 1000 + ny
         game.audio.playSfx("bump")
         refreshMap()
@@ -535,8 +545,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
 
     private fun pickUp(item: ItemPickup) {
         if (state.hasFlag("item:${item.id}")) return
+        // A full stack leaves the item where it lies (flag unset) so it can be picked up later.
+        if (!ctx.giveItem(item.item, item.qty).complete) { game.say("${state.playerName} can't carry any more ${ctx.itemName(item.item)}."); return }
         state.setFlag("item:${item.id}")
-        state.addItem(item.item, item.qty)
         game.audio.playSfx("item_get")
         if (!item.hidden) {
             // The ball pops and vanishes; the item is already in the bag (the animation is cosmetic only).
@@ -568,7 +579,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val (fm, verb, msg) = when (o.kind) {
             "cut_tree" -> Triple(FieldMove.CUT, "CUT", "This tree looks like it can be CUT down!")
             "rock_smash" -> Triple(FieldMove.ROCK_SMASH, "ROCK SMASH", "This rock looks breakable.")
-            "boulder" -> Triple(FieldMove.STRENGTH, "STRENGTH", "It's a big boulder. A POKéMON may be able to push it.")
+            "boulder" -> Triple(FieldMove.STRENGTH, "STRENGTH", "It's a big boulder. STRENGTH might move it.")
             else -> return
         }
         if (o.kind == "boulder" && state.hasFlag("strength_on:${baseMap.id}")) { game.say("Boulders may now be pushed."); return }
@@ -648,7 +659,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     private fun checkTrainerSight(): Boolean {
         val list = actors.values.filter { it.visible && it.npc?.trainer != null }.map { it.npc!! to (it.x to it.y) }
         val npc = rules.spottingTrainer(map, player.x, player.y, list, { n -> actors[n.id]?.facing ?: Facing.parse(n.facing) },
-            inView = { x, y -> OverworldRules.inViewport(player.x, player.y, x, y, Renderer.W, Renderer.H) }) { x, y ->
+            inView = { x, y -> OverworldRules.inViewport(player.x, player.y, x, y, Renderer.W, Renderer.H) }, surfing = state.surfing) { x, y ->
             occupant(x, y) != null
         } ?: return false
         startTrainerEncounter(actors[npc.id]!!, approach = true)
@@ -755,11 +766,14 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val s = content.scripts[id]
         if (s == null) { game.say("(Missing script: $id)") { then() }; return }
         scriptBusy = true
+        autosaveGate.scriptStarted()
         ScriptHost(game, this, ctx, ScriptVM(ctx, s, { content.scripts[it] }, npcId)) {
             scriptBusy = false
+            val saveNow = autosaveGate.scriptEnded()
             refreshMap()
             rebuildActorsKeepingPositions()
             pendingTrainerCheck = true
+            if (saveNow) autosave()
             then()
         }.step()
     }
@@ -787,16 +801,18 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     // ================================================================= saving
 
     override fun autosave() {
-        if (scriptBusy) return
+        if (!autosaveGate.request(scriptBusy)) return
         save()
     }
 
     fun save(): Boolean = try {
         state.map = baseMap.id; state.x = player.x; state.y = player.y; state.facing = player.facing.name.lowercase()
         ctx.syncRng()
-        game.saves.save(state)
-        stepsSinceSave = 0
-        true
+        when (val r = game.saves.save(state)) {
+            SaveResult.Saved -> { stepsSinceSave = 0; true }
+            // A newer game's save is on disk: it is never overwritten, so report failure.
+            is SaveResult.Refused -> { game.platform.log("Save refused: ${r.reason}"); false }
+        }
     } catch (e: Exception) { game.platform.log("Save failed: $e"); false }
 
     override fun onBack(): Boolean { if (!scriptBusy && !player.moving) push(StartMenu(game, this)); return true }

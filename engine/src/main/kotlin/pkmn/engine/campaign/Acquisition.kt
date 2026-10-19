@@ -46,4 +46,12 @@ data class Acquisition(
     val newForm: Boolean,
     /** The same individual (uid) was already stored: nothing was added or registered again. */
     val duplicate: Boolean = false,
-)
+) {
+    /** The Pokémon is stored (party or a box). False means every box was full and nothing was added or registered. */
+    val stored: Boolean get() = where != null
+    val inParty: Boolean get() = where == "party"
+    /** Sent straight to a PC box because the party was full. */
+    val inPc: Boolean get() = where?.startsWith("box:") == true
+    /** Party and PC were both full: the caller must keep the Pokémon pending (gift) or refuse the capture. */
+    val storageFull: Boolean get() = where == null
+}

@@ -6,7 +6,7 @@ trainer p2_r7_hiker_gus
   name "Gus"
   intro "These hills are made for climbing! And battling!"
   defeat "I've hit rock bottom."
-  after "Machop can push boulders with Strength. Handy in Mt. Prism, I hear."
+  after "Strength lets you push boulders. Handy in Mt. Prism, I hear."
   mon machop 26 moves=lowkick,lowsweep,focusenergy,seismictoss
   mon graveler 27 moves=rockthrow,bulldoze,rollout,selfdestruct
 end

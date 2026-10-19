@@ -144,7 +144,7 @@ class PartyScreen(
     private fun useField(o: String) {
         val owScreen = ow ?: return
         when (o) {
-            "FLY" -> if (owScreen.baseMap.indoor) game.say("You can't fly indoors.") else { pop(); game.say(ctx.bidoofLine(pkmn.engine.world.FieldMove.FLY)) { game.push(TownMapScreen(game, ctx, owScreen, flyMode = true) {}) } }
+            "FLY" -> if (owScreen.baseMap.indoor) game.say("You can't fly indoors.") else { pop(); game.push(TownMapScreen(game, ctx, owScreen, flyMode = true, flyAnnounce = ctx.bidoofLine(pkmn.engine.world.FieldMove.FLY)) {}) }
             "FLASH" -> if (owScreen.baseMap.dark) { owScreen.useFlash(); pop(); game.say(ctx.bidoofLine(pkmn.engine.world.FieldMove.FLASH)) } else game.say("It's bright enough already.")
             "TELEPORT", "DIG" -> if (owScreen.baseMap.indoor && o == "TELEPORT") game.say("Can't use that here.") else {
                 pop()
@@ -186,11 +186,13 @@ class PartyScreen(
                 "TAKE" -> {
                     val it = mon.heldItem
                     if (it == null) game.say("${mon.displayName(dex)} isn't holding anything.")
-                    else { ctx.state.addItem(it); mon.heldItem = null; game.say("Took the ${ctx.itemName(it)} from ${mon.displayName(dex)}.") }
+                    else if (ctx.state.addItem(it) < 1) game.say("The BAG has no room for the ${ctx.itemName(it)}.")
+                    else { mon.heldItem = null; game.say("Took the ${ctx.itemName(it)} from ${mon.displayName(dex)}.") }
                 }
                 "GIVE" -> push(BagScreen(game, ctx, BagScreen.Mode.GIVE, null) { item, _ ->
                     if (item == null) return@BagScreen
                     val old = mon.heldItem
+                    if (old != null && old != item && ctx.state.itemRoom(old) < 1) { game.say("The BAG has no room for the ${ctx.itemName(old)}."); return@BagScreen }
                     ctx.state.removeItem(item)
                     if (old != null) ctx.state.addItem(old)
                     mon.heldItem = item
@@ -321,7 +323,10 @@ object MoveLearnFlow {
 }
 
 /** Evolution sequence; B cancels while the animation runs (classic behaviour). */
-class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val mon: Pokemon, private val target: String, private val then: () -> Unit) : Screen(game) {
+class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val mon: Pokemon, private val target: String,
+                      /** Bag item (stone, Linking Cord) spent only when the evolution completes; a cancel keeps it. */
+                      private val spendOnEvolve: String? = null, private val then: () -> Unit) : Screen(game) {
+    override val blocksAutosave get() = true
     private var t = 0f
     private var stage = 0 // 0 intro text, 1 animating, 2 done
     private var cancelled = false
@@ -354,7 +359,7 @@ class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val 
         if (t >= 4.5f) {
             stage = 2
             val newSpecies = ctx.dexState(target) != pkmn.engine.campaign.DexState.CAUGHT
-            val pending = ctx.evolve(mon, target)
+            val pending = if (spendOnEvolve != null) ctx.completeItemEvolution(mon, target, spendOnEvolve) else ctx.evolve(mon, target)
             game.audio.playSfx("evolution_finish")
             val newName = ctx.dex.species(target).name
             game.say("Congratulations! Your $oldName evolved into $newName!") {

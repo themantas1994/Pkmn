@@ -29,6 +29,8 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
     private val textures = HashMap<String, Texture?>()
     private val missing = HashSet<String>()
     private val generated = ArrayList<Texture>()
+    /** Pixmaps behind [generated] textures: kept so they can be re-uploaded after a GL context loss (see [managedTexture]). */
+    private val retainedPixmaps = ArrayList<Pixmap>()
 
     val whitePixel: TextureRegion = TextureRegion(solidTexture(Color.WHITE))
     val font8: PixelFont = PixelFont.load("fonts/pixel8") ?: PixelFont.fallback(this)
@@ -129,7 +131,7 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
             if (kind.endsWith("shiny")) return@getOrPut pokemon(speciesId, kind.removeSuffix("-shiny"))
         }
         noteMissing("pokemon:$kind/$speciesId")
-        TextureRegion(PlaceholderSprites.generate(speciesId, kind, dex).also { generated.add(it) })
+        TextureRegion(PlaceholderSprites.generate(speciesId, kind, dex, retainedPixmaps).also { generated.add(it) })
     }
 
     fun hasOfficialSprites(): Boolean = importedDir?.let { File(it, "sprites/pokemon/front").isDirectory } == true
@@ -163,7 +165,7 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
 
     private fun solidTexture(c: Color): Texture {
         val p = Pixmap(1, 1, Pixmap.Format.RGBA8888); p.setColor(c); p.fill()
-        return Texture(p).also { p.dispose(); generated.add(it) }
+        return managedTexture(p, retainedPixmaps).also { generated.add(it) }
     }
 
     private fun generatedTile(name: String): Texture {
@@ -178,7 +180,7 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
         }
         p.setColor(c); p.fill()
         p.setColor(c.cpy().mul(0.8f, 0.8f, 0.8f, 1f)); p.drawRectangle(0, 0, 16, 16)
-        return Texture(p).also { p.dispose(); generated.add(it) }
+        return managedTexture(p, retainedPixmaps).also { generated.add(it) }
     }
 
     private fun generatedCharacter(id: String): Texture {
@@ -188,11 +190,13 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
         p.fillCircle(8, 9, 6)
         p.setColor(Color.valueOf("f8d8b0")); p.fillCircle(8, 5, 4)
         p.setColor(Color.BLACK); p.drawCircle(8, 5, 4)
-        return Texture(p).also { p.dispose(); generated.add(it) }
+        return managedTexture(p, retainedPixmaps).also { generated.add(it) }
     }
 
     fun dispose() {
         textures.values.forEach { it?.dispose() }
         generated.forEach { it.dispose() }
+        retainedPixmaps.forEach { it.dispose() }
+        retainedPixmaps.clear()
     }
 }

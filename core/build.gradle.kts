@@ -20,4 +20,6 @@ tasks.test {
     useJUnitPlatform()
     systemProperty("pkmn.assets", rootProject.file("assets").absolutePath)
     workingDir = rootProject.file("assets")
+    // Opt-in timing benchmarks: ./gradlew :core:test -Pbenchmarks (skipped by default; see ChipSynthBenchmarkTest)
+    if (project.hasProperty("benchmarks")) systemProperty("pkmn.benchmarks", "true")
 }

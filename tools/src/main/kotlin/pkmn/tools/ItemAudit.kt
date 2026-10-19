@@ -56,7 +56,7 @@ class ItemAudit(private val root: File, private val write: Boolean = true) {
     fun audit(w: WorldAnalysis): Result = audit(w, (0..8).map { s -> w.stage(s).moves }, (0..8).map { s -> w.stage(s).reach })
 
     /**
-     * [usableMoves] are the field moves usable at badge stages 0..8 (badge and an obtainable learner); [optimistic] is
+     * [usableMoves] are the field moves usable at badge stages 0..8 (badge only; God Bidoof is the learner); [optimistic] is
      * [WorldAnalysis]'s reach per stage, used only to report where the strict model is stricter.
      */
     fun audit(w: ReachWorld, usableMoves: List<Set<FieldMove>>, optimistic: List<WorldAnalysis.Reach>): Result {

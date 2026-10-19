@@ -53,6 +53,11 @@ class Battle(
     var moneyEarned = 0
     /** Accumulated Pay Day / Make It Rain coins. */
     var payDay = 0
+    /**
+     * Bag items (ids) the player's side actually spent: recorded when an item takes effect or a Poké Ball is thrown, never
+     * for a rejected or ineffective use. The caller settles them against the bag exactly once ([GameContext.settleBattleItems]).
+     */
+    val itemsUsed = ArrayList<String>()
     /** True while the AI previews damage; effects must not consume items or change state. */
     var previewing = false
     /** Forces the damage roll (85..100) for deterministic tests; null = random. */
@@ -137,7 +142,8 @@ class Battle(
         if (hasAbilityShield(mon)) return true
         if (mon.hasVolatile("gastroacid") && mon.ability !in unsuppressable) return false
         if (mon.ability != "neutralizinggas" && mon.ability !in unsuppressable && isNeutralizingGasActive()) return false
-        if (mc != null && mc.user !== mon && mc.move.ignoreAbility && mon.ability !in unsuppressable) {
+        // Mold Breaker-style moves ignore every "breakable" ability, including unsuppressable ones (Disguise, Ice Face).
+        if (mc != null && mc.user !== mon && mc.move.ignoreAbility) {
             val flags = dex.abilityOrNull(mon.ability)?.flags ?: emptySet()
             if ("breakable" in flags) return false
         }
@@ -153,8 +159,8 @@ class Battle(
     }
 
     /** Effects attached to a Pokémon, in dispatch order: status, volatiles, ability, item. */
-    fun monEffects(mon: BattleMon, mc: MoveCtx? = null, out: MutableList<EffectCtx>) {
-        if (mon.fainted && mc == null) return
+    fun monEffects(mon: BattleMon, mc: MoveCtx? = null, out: MutableList<EffectCtx>, includeFainted: Boolean = false) {
+        if (mon.fainted && mc == null && !includeFainted) return
         mon.status?.let { s -> Effects.condition(s.id)?.let { out.add(EffectCtx(this, it, mon, null, mon.statusState)) } }
         for ((id, st) in mon.volatiles.entries.toList()) Effects.condition(id)?.let { out.add(EffectCtx(this, it, mon, null, st)) }
         if (abilityActive(mon, mc)) Effects.ability(mon.ability)?.let { out.add(EffectCtx(this, it, mon, null, mon.abilityState)) }
@@ -183,12 +189,15 @@ class Battle(
         return out
     }
 
-    /** Effects relevant to something happening to [mon] (its own effects, its side, the field). */
-    fun targetHandlers(mon: BattleMon): List<EffectCtx> {
+    /**
+     * Effects relevant to something happening to [mon] (its own effects, its side, the field). With [mc], [mon]'s
+     * breakable ability is left out when the move ignores abilities (Mold Breaker).
+     */
+    fun targetHandlers(mon: BattleMon, mc: MoveCtx? = null): List<EffectCtx> {
         val out = ArrayList<EffectCtx>(12)
         fieldEffects(out)
         sideEffects(mon.side, out)
-        monEffects(mon, null, out)
+        if (mc == null || !mon.fainted) monEffects(mon, mc, out)
         return out
     }
 
@@ -263,6 +272,8 @@ class Battle(
 
     fun request(side: Side): Request {
         if (outcome != BattleOutcome.ONGOING) return Request.Wait
+        // Mid-turn: the player picks who comes in after its own U-turn/Baton Pass; everyone else waits.
+        selfSwitchSide?.let { return if (it == side.index) Request.SwitchIn(forced = true, selfSwitch = true) else Request.Wait }
         if (side.index in pendingSwitches) return if (side.index in replacementChoices) Request.Wait else Request.SwitchIn(true)
         // While another side is replacing a fainted Pokémon nobody picks a move; [advance] finishes the replacement first.
         if (pendingSwitches.isNotEmpty()) return Request.Wait
@@ -292,7 +303,8 @@ class Battle(
     }
 
     fun isMoveDisabled(mon: BattleMon, moveId: String): Boolean {
-        for (c in targetHandlers(mon)) if (c.holder === mon && c.effect.onDisableMove(c, moveId)) return true
+        // The Pokémon's own effects and field effects (Gravity).
+        for (c in targetHandlers(mon)) if ((c.holder === mon || (c.holder == null && c.side == null)) && c.effect.onDisableMove(c, moveId)) return true
         // Imprison: the foe that used it seals every move it also knows.
         val foe = mon.side.foe.active
         if (foe != null && !foe.fainted && foe.hasVolatile("imprison") && foe.moveSlots.any { it.id == moveId } && moveId != "struggle") return true
@@ -310,6 +322,15 @@ class Battle(
 
     fun choose(side: Side, choice: Choice): String? {
         if (outcome != BattleOutcome.ONGOING) return "Battle is over"
+        selfSwitchSide?.let { waiting ->
+            if (waiting != side.index) return "Waiting for the other side to send out a Pokémon"
+            if (choice !is Choice.Switch) return "Must switch"
+            val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
+            if (target.fainted || target === side.active) return "Cannot switch to that Pokémon"
+            selfSwitchChoice = choice.teamIndex
+            continueTurn()
+            return null
+        }
         if (side.index in pendingSwitches) {
             if (choice !is Choice.Switch) return "Must switch"
             val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
@@ -338,7 +359,15 @@ class Battle(
                 if (!canSwitchOut(active)) return "${active.name} can't be switched out!"
             }
             is Choice.Run -> if (!side.foe.isWild || !rules.canRun) return "No! There's no running from a trainer battle!"
-            is Choice.UseItem -> if (!rules.canUseItems) return "Items can't be used now"
+            is Choice.UseItem -> {
+                if (!rules.canUseItems) return "Items can't be used now"
+                val item = dex.itemOrNull(choice.itemId) ?: return "Unknown item"
+                if (!item.isPokeball) {
+                    if (!BagItemEffects.isUsableInBattle(item.id)) return "That can't be used in battle"
+                    val target = side.mons.getOrNull(choice.teamIndex) ?: side.active ?: return "Invalid Pokémon"
+                    if (!BagItemEffects.wouldWork(this, target, item.id, choice.moveIndex)) return "It won't have any effect."
+                }
+            }
             Choice.Pass -> {}
         }
         choices[side.index] = choice
@@ -348,6 +377,8 @@ class Battle(
     /** Fill in AI choices and run the turn once every side has chosen. Returns true if a turn was executed. */
     fun advance(ai: BattleAI = BattleAI()): Boolean {
         if (outcome != BattleOutcome.ONGOING) return false
+        // A suspended turn continues only once the player has picked its self-switch replacement ([choose]).
+        if (selfSwitchSide != null) return false
         // Replacement phase: fainted Pokémon are replaced before anyone picks a move for the next turn.
         if (pendingSwitches.isNotEmpty()) {
             for (s in sides) if (!s.isPlayer && s.index in pendingSwitches && s.index !in replacementChoices)
@@ -357,8 +388,13 @@ class Battle(
         }
         for (s in sides) if (!s.isPlayer) {
             if (!choices.containsKey(s.index)) {
-                val c = ai.chooseAction(this, s)
-                if (choose(s, c) != null) choose(s, Choice.UseMove(0))
+                // A rejected AI decision must never stall the turn: fall back to the first usable move, then to
+                // Pass (always accepted; it resolves to Struggle or the locked move).
+                if (choose(s, ai.chooseAction(this, s)) != null) {
+                    val a = s.active
+                    val slot = a?.moveSlots?.indexOfFirst { canSelectMove(a, it) }?.takeIf { it >= 0 } ?: 0
+                    if (choose(s, Choice.UseMove(slot)) != null) choose(s, Choice.Pass)
+                }
             }
         }
         if (choices.size < sides.count { it.active != null }) return false
@@ -422,29 +458,52 @@ class Battle(
             if (x.speed != y.speed) return@Comparator if (tr && x.kind == 4) x.speed.compareTo(y.speed) else y.speed.compareTo(x.speed)
             x.tie.compareTo(y.tie)
         })
-        for (a in ordered) {
-            if (outcome != BattleOutcome.ONGOING) break
-            if (a.side.active !== a.mon && a.kind != 2) continue
-            if (a.mon.fainted && a.kind != 2) continue
-            currentAction = a
-            when (val c = a.choice) {
-                Choice.Run -> attemptRun(a.side)
-                is Choice.UseItem -> useBagItem(a.side, c)
-                is Choice.Switch -> if (a.side.active?.fainted != true) {
-                    val target = a.side.mons[c.teamIndex]
-                    if (!target.fainted && target !== a.side.active) performSwitch(a.side, target, forced = false)
+        turnQueue = ordered
+        turnQueueIndex = 0
+        switchFlagCursor = -1
+        continueTurn()
+    }
+
+    /**
+     * Runs the turn queue from [turnQueueIndex]. Returns early (the turn stays suspended) when the player must choose
+     * the Pokémon that comes in after its own self-switch; [choose] resumes it, so every action and faint runs once.
+     */
+    private fun continueTurn() {
+        while (turnQueueIndex < turnQueue.size) {
+            val a = turnQueue[turnQueueIndex]
+            if (switchFlagCursor < 0) {
+                if (outcome != BattleOutcome.ONGOING) break
+                if ((a.side.active !== a.mon || a.mon.fainted) && a.kind != 2) { turnQueueIndex++; continue }
+                currentAction = a
+                when (val c = a.choice) {
+                    Choice.Run -> attemptRun(a.side)
+                    is Choice.UseItem -> useBagItem(a.side, c)
+                    is Choice.Switch -> if (a.side.active?.fainted != true) {
+                        val target = a.side.mons[c.teamIndex]
+                        if (!target.fainted && target !== a.side.active) performSwitch(a.side, target, forced = false)
+                    }
+                    is Choice.UseMove, Choice.Pass -> runMoveAction(a.mon, a.choice)
                 }
-                is Choice.UseMove, Choice.Pass -> runMoveAction(a.mon, a.choice)
+                checkFaints()
+                runUpdate()
+                checkFaints()
+                if (checkWin()) break
+                switchFlagCursor = 0
             }
-            checkFaints()
-            runUpdate()
-            checkFaints()
-            if (checkWin()) break
             // Self-switch moves (U-turn, Volt Switch) and forced switches (Roar) resolve immediately.
-            for (s in sides) resolveSwitchFlags(s)
+            while (switchFlagCursor < sides.size) {
+                if (!resolveSwitchFlags(sides[switchFlagCursor])) return
+                switchFlagCursor++
+            }
+            switchFlagCursor = -1
+            // A replacement knocked out by hazards faints now; it is replaced at the end of the turn.
+            checkFaints()
             if (checkWin()) break
+            turnQueueIndex++
         }
+        switchFlagCursor = -1
         currentAction = null
+        turnQueue = emptyList()
         for (s in sides) for (m in s.mons) m.volatiles.remove("pendingmove")
         if (outcome == BattleOutcome.ONGOING) {
             residualPhase()
@@ -455,6 +514,19 @@ class Battle(
     }
 
     private val beforeTurnMoves = ArrayList<Pair<BattleMon, String>>()
+    private var turnQueue: List<Action> = emptyList()
+    private var turnQueueIndex = 0
+    /** Next side whose switch flags are resolved after the current action; -1 while the action has not run yet. */
+    private var switchFlagCursor = -1
+    /** Side whose player must pick the Pokémon coming in after its self-switch; the turn is suspended meanwhile. */
+    private var selfSwitchSide: Int? = null
+    /** That pick, consumed by [resolveSwitchFlags] when the turn resumes. */
+    private var selfSwitchChoice: Int? = null
+
+    /** Whether another Pokémon still has a move or switch to perform this turn (Showdown queue.willAct(); Protect). */
+    fun othersWillAct(user: BattleMon): Boolean = turnQueue.drop(turnQueueIndex + 1).any {
+        it.mon !== user && (it.kind == 2 || it.kind == 4) && it.side.active === it.mon && !it.mon.fainted
+    }
 
     private fun resolveChosenMoveId(mon: BattleMon, choice: Choice): String {
         lockedMove(mon)?.let { return if (it == "recharge") "recharge" else it }
@@ -566,19 +638,23 @@ class Battle(
         afterReplacements()
     }
 
-    private fun resolveSwitchFlags(s: Side) {
-        val a = s.active ?: return
+    /** Returns false when the player must first choose the incoming Pokémon (see [Request.SwitchIn.selfSwitch]). */
+    private fun resolveSwitchFlags(s: Side): Boolean {
+        val a = s.active ?: return true
         if (a.switchFlag != null && !a.fainted) {
             val options = s.canSwitchTo()
-            val flag = a.switchFlag
-            a.switchFlag = null
             if (options.isNotEmpty()) {
-                val next = if (s.isPlayer) options.first() else BattleAI().chooseReplacementMon(this, s)
-                // The player's choice of replacement is simplified to the AI's pick for self-switching moves
-                // only when no UI is attached; the UI layer calls [selfSwitchTarget] beforehand.
-                val chosen = selfSwitchOverride.remove(s.index)?.let { s.mons[it] }?.takeIf { !it.fainted && it !== a } ?: next
+                val chosen = if (s.isPlayer) {
+                    // The player chooses (no cancelling once the move is done); the turn waits for [choose].
+                    val pick = selfSwitchChoice?.let { s.mons.getOrNull(it) }?.takeIf { it in options }
+                    if (pick == null) { selfSwitchSide = s.index; selfSwitchChoice = null; return false }
+                    pick
+                } else BattleAI().chooseReplacementMon(this, s)
+                selfSwitchSide = null; selfSwitchChoice = null
+                val flag = a.switchFlag
+                a.switchFlag = null
                 performSwitch(s, chosen, forced = false, batonPass = flag == "copyvolatile", shedTail = flag == "shedtail")
-            }
+            } else a.switchFlag = null
         }
         if (a.forceSwitchFlag) {
             a.forceSwitchFlag = false
@@ -587,10 +663,8 @@ class Battle(
                 performSwitch(s, options[rng.nextInt(options.size)], forced = true, isDrag = true)
             }
         }
+        return true
     }
-
-    /** UI hook: the team index the player wants to switch to after a self-switching move this turn. */
-    val selfSwitchOverride = HashMap<Int, Int>()
 
     // ================================================================= switching
 
@@ -617,6 +691,8 @@ class Battle(
         incoming.isStarted = true
         incoming.activeTurns = 0
         incoming.activeMoveActions = 0
+        // A Pokémon sent out mid-turn has not moved this turn (its flag may be stale from its last time on the field).
+        incoming.movedThisTurn = false
         applyIllusion(incoming)
         val text = when {
             isDrag -> "${nm(incoming)} was dragged out!"
@@ -744,7 +820,10 @@ class Battle(
         val target = defaultTarget(user, move)
         val mc = MoveCtx(user, target, move)
         // Before-move checks (sleep, freeze, paralysis, flinch, confusion, Taunt at execution...).
-        for (c in moveHandlers(mc)) if (c.holder === user && !c.effect.onBeforeMove(c, mc)) {
+        // The user's own effects and field effects (Gravity), in Showdown's onBeforeMovePriority order.
+        val beforeMove = moveHandlers(mc).filter { it.holder === user || (it.holder == null && it.side == null) }
+            .sortedByDescending { it.effect.beforeMovePriority }
+        for (c in beforeMove) if (!c.effect.onBeforeMove(c, mc)) {
             user.lastMoveFailed = true
             user.volatiles.remove("twoturnmove"); user.volatiles.remove("lockedmove"); user.volatiles.remove("rollout")
             return
@@ -865,6 +944,9 @@ class Battle(
         val script = Effects.move(move.id)
         // Modify type/move (abilities like Pixilate, items like plates for Judgment, Skill Link...).
         for (c in moveHandlers(mc)) if (c.holder === user || c.effect === script) { c.effect.onModifyType(c, mc) }
+        // Field-wide type changes have no holder (Ion Deluge, also set by Plasma Fists). They apply after the user's own
+        // (Showdown onModifyTypePriority -2, after the -ate abilities).
+        for (c in moveHandlers(mc)) if (c.holder == null && c.side == null && c.effect !== script) { c.effect.onModifyType(c, mc) }
         for (c in moveHandlers(mc)) if (c.holder === user || c.effect === script) { c.effect.onModifyMove(c, mc) }
         // Two-turn moves.
         if (move.hasFlag("charge") && !user.hasVolatile("twoturnmove") && calledBy == null) {
@@ -1170,7 +1252,8 @@ class Battle(
             // Drain.
             move.data.drain?.let { d ->
                 if (dealt > 0 && !user.fainted) {
-                    var amt = max(1, Mod.pokeRound(dealt.toDouble() * d[0] / d[1]))
+                    // Showdown (Gen V+): Math.round(damage * drain), at least 1.
+                    var amt = max(1, Mod.roundHalfUp(dealt.toDouble() * d[0] / d[1]))
                     if (user.item == "bigroot" && itemActive(user)) amt = Mod.pokeRound(amt * 1.3)
                     if (target.ability == "liquidooze" && abilityActive(target)) {
                         directDamage(user, amt, target, "liquidooze"); message("${nm(user)} sucked up the liquid ooze!")
@@ -1194,15 +1277,17 @@ class Battle(
                 if (s.boosts.isNotEmpty() && move.data2["selfBoostsHandled"] != true) boost(user, s.boosts, user, move.id)
                 s.volatileStatus?.let { addVolatile(user, it, user, move.id) }
             }
-            if (move.data.recoil != null && move.totalDamage > 0 && !(user.ability == "rockhead" && abilityActive(user)) && !(user.ability == "magicguard" && abilityActive(user))) {
+            // Showdown calcRecoilDamage: Math.round(damage * recoil), at least 1; Chloroblast costs half the user's max HP.
+            val chloroblast = move.id == "chloroblast"
+            if ((move.data.recoil != null || chloroblast) && move.totalDamage > 0 && !(user.ability == "rockhead" && abilityActive(user)) && !(user.ability == "magicguard" && abilityActive(user))) {
                 val r = move.data.recoil
-                val amt = max(1, Mod.pokeRound(move.totalDamage.toDouble() * r[0] / r[1]))
+                val amt = if (r == null) Mod.roundHalfUp(user.maxHp / 2.0) else max(1, Mod.roundHalfUp(move.totalDamage.toDouble() * r[0] / r[1]))
                 directDamage(user, amt, user, "recoil")
                 message("${nm(user)} was damaged by the recoil!")
                 user.mon.counters["recoil"] = (user.mon.counters["recoil"] ?: 0) + amt
             }
             if (move.data.struggleRecoil) {
-                directDamage(user, max(1, Mod.pokeRound(user.baseMaxHp / 4.0)), user, "recoil")
+                directDamage(user, max(1, Mod.roundHalfUp(user.baseMaxHp / 4.0)), user, "recoil")
                 message("${nm(user)} was damaged by the recoil!")
             }
             if (move.data.mindBlownRecoil && !(user.ability == "magicguard" && abilityActive(user))) {
@@ -1216,13 +1301,14 @@ class Battle(
         move.data.pseudoWeather?.let { addPseudoWeather(it, user) } // Plasma Fists: Ion Deluge
         for (c in moveHandlers(mc)) c.effect.onAfterMoveSecondary(c, mc)
         if (move.data.selfSwitch != null && !user.fainted && user.side.canSwitchTo().isNotEmpty()) user.switchFlag = move.data.selfSwitch
-        if (move.data.forceSwitch && !target.fainted && !mc.substituteHit && target.side.canSwitchTo().isNotEmpty() && canDrag(target)) target.forceSwitchFlag = true
+        if (move.data.forceSwitch && !target.fainted && !mc.substituteHit && target.side.canSwitchTo().isNotEmpty() && canDrag(target, mc)) target.forceSwitchFlag = true
         return true
     }
 
-    fun canDrag(mon: BattleMon): Boolean {
+    /** Whether [mon] can be forced out; with [mc], Mold Breaker ignores Suction Cups and Guard Dog (breakable). */
+    fun canDrag(mon: BattleMon, mc: MoveCtx? = null): Boolean {
         if (mon.isDynamaxed) return false
-        for (c in targetHandlers(mon)) if (!c.effect.onDragOut(c, mon)) return false
+        for (c in targetHandlers(mon, mc)) if (!c.effect.onDragOut(c, mon)) return false
         return true
     }
 
@@ -1270,9 +1356,10 @@ class Battle(
         val healFraction = m.heal ?: if (m.id in setOf("moonlight", "synthesis", "morningsun", "shoreup")) listOf(1, 2) else null
         healFraction?.let { h ->
             var frac = h[0].toDouble() / h[1]
-            if (m.id in setOf("moonlight", "synthesis", "morningsun")) frac = when {
-                isSun(user) -> 2.0 / 3
-                weather() != null && weather() != "deltastream" -> 0.25
+            // Weather as the user sees it: Utility Umbrella ignores sun and rain (Showdown effectiveWeather()).
+            if (m.id in setOf("moonlight", "synthesis", "morningsun")) frac = when (weatherFor(user)) {
+                "sunnyday", "desolateland" -> 2.0 / 3
+                "raindance", "primordialsea", "sandstorm", "hail", "snow", "snowscape" -> 0.25
                 else -> 0.5
             }
             if (m.id == "shoreup" && isSand()) frac = 2.0 / 3
@@ -1290,8 +1377,9 @@ class Battle(
         m.weather?.let { ok = setWeather(it, user) || ok }
         m.terrain?.let { ok = setTerrain(it, user) || ok }
         m.pseudoWeather?.let { ok = addPseudoWeather(it, user) || ok }
-        if (m.forceSwitch) {
-            if (target.side.canSwitchTo().isNotEmpty() && canDrag(target)) { target.forceSwitchFlag = true; ok = true }
+        // Ingrain, Suction Cups, Guard Dog and Dynamax block both the drag and the wild-battle escape.
+        if (m.forceSwitch && canDrag(target, mc)) {
+            if (target.side.canSwitchTo().isNotEmpty()) { target.forceSwitchFlag = true; ok = true }
             else if (target.side.isWild && rules.canRun && opponent.isWild) {
                 // Roar/Whirlwind end wild battles.
                 message("${nm(target)} fled!"); finish(BattleOutcome.FOE_FLED); ok = true
@@ -1321,6 +1409,13 @@ class Battle(
         val bpMod = Mod()
         for (c in moveHandlers(mc)) c.effect.onBasePower(c, mc, bpMod)
         bp = max(1, bpMod.apply(bp))
+        // Terastallization: a Tera-type move (any not yet boosted type for Stellar) below 60 power is raised to 60, except
+        // priority and multi-hit moves and variable-power moves whose listed power is 0 or 150 (Showdown getDamage).
+        user.terastallized?.let { tera ->
+            val teraMatch = if (tera == "Stellar") move.type !in user.stellarBoostedTypes else user.hasType(move.type)
+            if (teraMatch && bp < 60 && move.data.priority <= 0 && move.data.multihit == null && move.id !in TERA_FLOOR_EXEMPT &&
+                !move.isZ && !move.isMax) bp = 60
+        }
         // Critical hit.
         mc.crit = if (forPreview) false else rollCrit(mc)
         val physical = move.category == "Physical"
@@ -1429,7 +1524,8 @@ class Battle(
     private fun applyMoveDamage(mc: MoveCtx, damage: Int): Int {
         val target = mc.target
         var amount = min(damage, target.hp)
-        for (c in targetHandlers(target)) amount = c.effect.onDamage(c, target, amount, mc.user, mc.move.id, true)
+        // The target's ability is resolved against the move, so Mold Breaker ignores Sturdy and Disguise here.
+        for (c in targetHandlers(target, mc)) amount = c.effect.onDamage(c, target, amount, mc.user, mc.move.id, true)
         // Endure / False Swipe style survival.
         if (amount >= target.hp && (target.hasVolatile("endure") || mc.move.id in setOf("falseswipe", "holdback"))) {
             amount = target.hp - 1
@@ -1441,19 +1537,25 @@ class Battle(
         target.hurtThisTurn = true
         target.lastDamage = amount
         target.lastDamagedBy = DamageRecord(mc.user, amount, mc.move.category, turn)
+        if (amount > 0) { target.koCredit = mc.user; target.lastHpLossEffect = mc.move.id }
         target.mon.counters["hplost"] = (target.mon.counters["hplost"] ?: 0) + amount
         hpEvent(target, -amount, "move")
         return amount
     }
 
-    /** Indirect damage (recoil, weather, status, hazards...). Returns HP lost. */
-    fun directDamage(target: BattleMon, amount: Int, source: BattleMon?, effectId: String, silent: Boolean = false): Int {
+    /**
+     * Indirect damage (recoil, weather, status, hazards...). Returns HP lost. [moveDamage] marks damage that is still a
+     * move's attack (Future Sight, Bide), which keeps the KO credited to [source].
+     */
+    fun directDamage(target: BattleMon, amount: Int, source: BattleMon?, effectId: String, silent: Boolean = false, moveDamage: Boolean = false): Int {
         if (target.fainted || amount <= 0) return 0
         var amt = amount
         for (c in targetHandlers(target)) amt = c.effect.onDamage(c, target, amt, source, effectId, false)
         amt = amt.coerceIn(0, target.hp)
         if (amt == 0) return 0
         target.hp -= amt
+        target.koCredit = if (moveDamage && source !== target) source else null
+        target.lastHpLossEffect = effectId
         hpEvent(target, -amt, effectId)
         return amt
     }
@@ -1514,7 +1616,9 @@ class Battle(
         target.mon.status = status
         target.statusState = EffectState()
         if (status == MajorStatus.SLEEP) {
-            val turns = if (sourceEffect == "rest") 3 else 1 + rng.nextInt(3)
+            // The counter drops before each move attempt and the Pokémon wakes (and moves) at 0 (Showdown slp: 2-4,
+            // Rest 3): ordinary sleep lasts 1-3 turns asleep, Rest exactly 2.
+            val turns = if (sourceEffect == "rest") 3 else 2 + rng.nextInt(3)
             target.mon.sleepTurns = turns
             target.statusState.duration = turns
         }
@@ -1794,6 +1898,13 @@ class Battle(
     // ================================================================= residual
 
     private fun residualPhase() {
+        // Weather counts down first (Showdown: field residual order 1, duration checked before the callback). On its
+        // last turn it ends without buffeting or healing: weather set on turn 1 acts at the end of turns 1-4 and
+        // subsides at the end of turn 5. Terrain, rooms and screens still end after the residual effects.
+        if (field.weather != null && field.weatherState.duration > 0) {
+            field.weatherState.duration--
+            if (field.weatherState.duration == 0) clearWeather()
+        }
         val list = ArrayList<EffectCtx>()
         fieldEffects(list)
         for (s in sides) sideEffects(s, list)
@@ -1817,11 +1928,7 @@ class Battle(
     }
 
     private fun tickDurations() {
-        // Weather
-        if (field.weather != null && field.weatherState.duration > 0) {
-            field.weatherState.duration--
-            if (field.weatherState.duration == 0) clearWeather()
-        }
+        // Weather durations are counted at the start of [residualPhase].
         if (field.terrain != null && field.terrainState.duration > 0) {
             field.terrainState.duration--
             if (field.terrainState.duration == 0) clearTerrain()
@@ -1863,8 +1970,12 @@ class Battle(
             m.side.faintedThisTurn = true
             m.side.totalFainted++
             if (m.side.isPlayer) m.mon.friendship = max(0, m.mon.friendship - 1)
-            val killer = m.lastDamagedBy?.takeIf { it.turn == turn }?.source
-            for (c in targetHandlers(m)) if (c.holder === m) c.effect.onFaint(c, killer)
+            // Only a direct attack KO credits the attacker (Showdown: the fainting effect must be a Move).
+            val killer = m.koCredit?.takeIf { it !== m }
+            // The fainted Pokémon's own effects (Destiny Bond, Grudge, primal weather): its HP is already 0, so collect them
+            // explicitly (targetHandlers skips fainted Pokémon).
+            val own = ArrayList<EffectCtx>().also { monEffects(m, null, it, includeFainted = true) }
+            for (c in own) c.effect.onFaint(c, killer)
             if (killer != null && !killer.fainted && killer !== m) {
                 val mv = (currentAction as? Action)?.let { a -> if (a.mon === killer) dex.moveOrNull(killer.lastMove)?.let { ActiveMove(it) } else null }
                 for (c in targetHandlers(killer)) if (c.holder === killer) c.effect.onSourceFaint(c, m, mv)
@@ -2000,7 +2111,7 @@ class Battle(
         val target = side.mons.getOrNull(c.teamIndex) ?: side.active ?: return
         message("${if (side.isPlayer) "You" else side.name} used ${if (side.isPlayer) "the" else "a"} ${item.name}!".replace("You used", "${side.name} used"))
         val r = BagItemEffects.apply(this, target, item.id, c.moveIndex)
-        if (!r) message("But it had no effect...")
+        if (r) { if (side.isPlayer) itemsUsed.add(item.id) } else message("But it had no effect...")
     }
 
     private fun throwBall(side: Side, ball: ItemData) {
@@ -2011,6 +2122,7 @@ class Battle(
             message("The Trainer blocked the Ball! Don't be a thief!")
             return
         }
+        if (side.isPlayer) itemsUsed.add(ball.id)
         if (!rules.canCatch) {
             // Scripted encounters that must not be caught (the ball is knocked away, as with the Gen IX titans).
             message("The Pokémon knocked the Ball away!")
@@ -2085,5 +2197,9 @@ class Battle(
         /** Status moves whose type immunity is checked (Thunder Wave vs Ground, etc.). */
         /** Status moves normally ignore type immunity; these are the exceptions (Thunder Wave cannot affect Ground types). */
         val TYPE_CHECKED_STATUS = setOf("thunderwave")
+        /** Variable-power moves listed at 0 or 150 power (Showdown basePowerCallback), exempt from the Tera 60-power floor. */
+        val TERA_FLOOR_EXEMPT = setOf("beatup", "crushgrip", "dragonenergy", "electroball", "eruption", "flail", "frustration",
+            "grassknot", "gyroball", "hardpress", "heatcrash", "heavyslam", "lowkick", "pikapapow", "punishment", "return",
+            "reversal", "spitup", "trumpcard", "veeveevolley", "waterspout", "wringout")
     }
 }

@@ -245,12 +245,12 @@ object MoveScriptsExtra {
         reg(object : MoveScript("solarbeam") {
             override fun skipCharge(b: Battle, user: BattleMon) = b.isSun(user)
             override val chargeMessage = "{user} absorbed light!"
-            override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = if (b.weatherFor(mc.user) in setOf("raindance", "primordialsea", "sandstorm", "hail", "snowscape")) bp / 2 else bp
+            override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = if (b.weatherFor(mc.user) in setOf("raindance", "primordialsea", "sandstorm", "hail", "snow", "snowscape")) bp / 2 else bp
         })
         reg(object : MoveScript("solarblade") {
             override fun skipCharge(b: Battle, user: BattleMon) = b.isSun(user)
             override val chargeMessage = "{user} absorbed light!"
-            override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = if (b.weatherFor(mc.user) in setOf("raindance", "primordialsea", "sandstorm", "hail", "snowscape")) bp / 2 else bp
+            override fun basePower(b: Battle, mc: MoveCtx, bp: Int) = if (b.weatherFor(mc.user) in setOf("raindance", "primordialsea", "sandstorm", "hail", "snow", "snowscape")) bp / 2 else bp
         })
         reg(object : MoveScript("electroshot") {
             override fun skipCharge(b: Battle, user: BattleMon) = b.isRain(user)
@@ -483,7 +483,7 @@ object MoveScriptsExtra {
             b.message("${b.nm(u)} unleashed its energy!")
             val target = u.side.foe.active
             if (st.hp <= 0 || target == null || target.fainted) return@status false
-            b.directDamage(target, st.hp * 2, u, "bide")
+            b.directDamage(target, st.hp * 2, u, "bide", moveDamage = true)
             true
         }
     }

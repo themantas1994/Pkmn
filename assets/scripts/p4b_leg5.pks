@@ -93,10 +93,12 @@ script p4b_dig_carbink
   if flag p4b_dig_cleared
     say "The cage door hangs open. The Carbink inside sparkles and hops toward {player}!"
     givemon carbink 36 ability=H
-    if hasmon carbink
+    if result yes
       setflag p4b_got_carbink
       hide p4b_dig_carbink
       say "Carbink seems to want to come along!"
+    else
+      say "Your party and your boxes are full. Make some room, then come back for it."
     end
   else
     say "A Carbink, trapped in a humming cage wired to the siphon. It's too weak to sparkle."
@@ -143,8 +145,10 @@ script p4b_moon_shrine
   elif time night
     say "Under the moonlight, a circle of Clefairy dances around the shrine! One of them notices {player}..."
     wildbattle clefairy 36
-    setflag p4b_moon_clefairy
-    say "The other Clefairy scattered into the fog."
+    if result caught or result defeated
+      setflag p4b_moon_clefairy
+      say "The other Clefairy scattered into the fog."
+    end
   else
     say "A little stone shrine to the moon, worn smooth by time. The engraving reads: \"When the moon is high, the pink ones dance.\""
   end

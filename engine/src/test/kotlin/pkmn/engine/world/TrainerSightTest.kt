@@ -71,6 +71,23 @@ class TrainerSightTest {
     }
 
     @Test
+    fun `water between trainer and a surfing player does not block sight but walls and obstacles still do`() {
+        val ctx = newCtx()
+        val t = trainer("t", 1, 5, "right", 3)
+        fun surfSpot(m: MapData, px: Int = 6, surfing: Boolean = true) = OverworldRules(ctx).spottingTrainer(m, px, 5,
+            listOf(t to (t.x to t.y)), { Facing.parse(it.facing) }, surfing = surfing, blocked = { _, _ -> false })
+        val water = map((2..5).associate { (it to 5) to "water" })
+        assertEquals(t, surfSpot(water), "open water, surfing player")
+        assertNull(surfSpot(water, surfing = false), "walking player is unaffected")
+        // Trainer standing on a water tile itself.
+        val onWater = map(mapOf((1 to 5) to "water", (2 to 5) to "water"))
+        assertEquals(t, surfSpot(onWater))
+        assertNull(surfSpot(map((2..4).associate { (it to 5) to "water" } + mapOf((3 to 5) to "wall"))), "wall in the water")
+        assertNull(surfSpot(map((2..4).associate { (it to 5) to "water" }, obstacles = listOf(ObstacleDef(3, 5, "boulder", "f")))), "boulder")
+        assertNull(surfSpot(water, px = 6).let { surfSpot(map((2..5).associate { (it to 5) to "water" } + mapOf((4 to 5) to "bush"))) }, "hedge")
+    }
+
+    @Test
     fun `walls, hedges, obstacles and npcs block line of sight`() {
         val ctx = newCtx()
         val t = trainer("t", 1, 5, "right", 5)

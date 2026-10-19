@@ -218,18 +218,22 @@ script p4a_dojo_master
   elif trainer p4a_dj_master_kaito
     say "MASTER KAITO: Ready to take my student along now?"
     givemon tyrogue 15
-    if hasmon tyrogue
+    if result yes
       setflag p4a_dojo_gift
+    else
+      say "MASTER KAITO: Your party and your boxes are full. Make some room first."
     end
   else
     say "MASTER KAITO: A challenger! My students say you've got a fighting spirit. Show me!"
     battle p4a_dj_master_kaito
     say "MASTER KAITO: Ha ha! A fine battle. Take my youngest student with you. It needs to see the world."
     givemon tyrogue 15
-    if hasmon tyrogue
+    if result yes
       setflag p4a_dojo_gift
+      say "MASTER KAITO: Tyrogue becomes Hitmonlee, Hitmonchan or Hitmontop, depending on whether its Attack or Defense is stronger."
+    else
+      say "MASTER KAITO: Your party and your boxes are full. Make some room, then come and talk to me again."
     end
-    say "MASTER KAITO: Tyrogue becomes Hitmonlee, Hitmonchan or Hitmontop, depending on whether its Attack or Defense is stronger."
   end
 end
 

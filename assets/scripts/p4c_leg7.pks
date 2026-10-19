@@ -109,7 +109,7 @@ script p4c_r11_captain
     quest p4c_halcyon done
     say "MORREL: Liquidation, a sailor's move. And Leftovers; my old Lapras never sailed without some. Fair winds, friend!"
   elif flag p4c_halcyon_quest
-    say "MORREL: Tide Grotto is in the cliff of the southwest islet. My strongbox sank with the hold. Bring Flash, it's black as ink down there."
+    say "MORREL: Tide Grotto is in the cliff of the southwest islet. My strongbox sank with the hold. Use Flash, it's black as ink down there."
   else
     say "MORREL: Captain Morrel, retired. I skippered the S.S. Halcyon until she ran aground in Tide Grotto, forty years back.\pThe day of the Dark Noon, folk call it. The sun went out like a lamp."
     say "MORREL: My logbook was locked in the strongbox in the hold. If you're ever down there... I'd dearly love to read it again."

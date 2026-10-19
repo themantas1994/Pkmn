@@ -6,7 +6,7 @@ Everything builds offline once Gradle has fetched its dependencies. The game its
 
 | What | Version | Notes |
 |---|---|---|
-| JDK | 17 or newer (developed on 21) | `JAVA_HOME` or `java` on `PATH` |
+| JDK | 17 or newer; CI builds on 17 and also tests on 21 | `JAVA_HOME` or `java` on `PATH`. All modules compile to Java 17 bytecode (`jvmTarget`/`sourceCompatibility` 17) and AGP needs 17+, so 17 is the supported minimum; newer JDKs run the same bytecode |
 | Gradle | wrapper included (8.14.3) | always use `./gradlew` |
 | Android SDK | platform 35, build-tools 35.0.0 | only for the Android build; set `sdk.dir` in `local.properties` or `ANDROID_HOME` |
 
@@ -38,6 +38,10 @@ Generated content in `assets/` is committed, so a fresh clone builds without run
 ./gradlew :tools:benchmark           # engine performance -> reports/performance.json
 ./gradlew :tools:auditEntrances      # every warp vs its destination class -> reports/entrances.*
 ./gradlew :tools:auditItems          # strict item reachability per badge stage -> reports/items.*
+./gradlew :tools:statusCounts        # numbers STATUS.md quotes (world counts; test counts from the last test run)
+./gradlew :tools:checkStatus         # fail if STATUS.md world/test counts differ from those (CI runs it after the tests)
+scripts/check-generated-assets.sh    # fail if anything under assets/ is modified, deleted or untracked (CI guard)
+./gradlew :core:test -Pbenchmarks    # also run the opt-in machine-dependent timing benchmarks (skipped by default)
 tools/visual/run_scenes.sh           # capture visual-regression scenes under Xvfb and compare (see docs/SCREENSHOTS.md)
 ```
 
@@ -88,12 +92,29 @@ On a headless Linux machine, wrap the command in `xvfb-run -a -s "-screen 0 1280
 ./gradlew :android:assemblePersonalDebugWithSprites   # personal only: import + style sprites, then android/build/outputs/apk/personal/pkmn-crystalline-personal-debug.apk (never share it; see ASSET_IMPORT.md)
 ```
 
-**Release signing.** Put a keystore at `release.keystore` in the repository root (git-ignored) and export:
-- `PKMN_KEYSTORE_PASSWORD`
-- `PKMN_KEY_ALIAS` (default `pkmn`)
-- `PKMN_KEY_PASSWORD`
+**Release signing.** `assembleRelease` and `bundleRelease` need a real signing key and fail with an explanatory message
+otherwise (there is no silent fallback to the debug key). Debug builds are unaffected. Nothing secret is committed; configure it
+through the environment or `~/.gradle/gradle.properties`:
 
-Without a keystore, release builds are signed with the debug key, so they stay installable. Never publish those.
+| Setting (Gradle property / environment) | Meaning |
+|---|---|
+| `pkmn.release.storeFile` / `PKMN_KEYSTORE_FILE` | keystore path (default: `release.keystore` in the repository root, git-ignored) |
+| `pkmn.release.storePassword` / `PKMN_KEYSTORE_PASSWORD` | keystore password |
+| `pkmn.release.keyAlias` / `PKMN_KEY_ALIAS` | key alias (default `pkmn`) |
+| `pkmn.release.keyPassword` / `PKMN_KEY_PASSWORD` | key password |
+
+For a smoke test without a key (CI does this, as it has no keystore) pass `-Ppkmn.release.allowDebugSigning=true`: the artifact is
+signed with the debug key, a warning is printed, and it must never be published or uploaded as a release.
+Release APKs/AABs are also scanned after the build and the build fails if they contain `assets/imported/` (locally imported
+official sprites or cries); the local assets are only ever wired into the debug variant.
+
+**Backup.** `android/res/xml/backup_rules.xml` (Android 11 and older) and `data_extraction_rules.xml` (Android 12+, cloud backup and
+device transfer) back up `filesDir/saves` (the save, its `.bak` and `options.json`) and nothing else. Imported official
+sprites/cries (`filesDir/imported`) are not in the include list, so they never leave the device. The in-flight `save.json.tmp` is
+excluded: the loader tries `.tmp`, then the main save, then `.bak` (it does not compare timestamps), so a stale restored `.tmp`
+would override newer progress. Android restores a backup only onto a fresh install, so a restore cannot overwrite progress made
+on that install; a restore that brings a save from a newer game version is refused by `SaveManager` rather than overwritten.
+`AndroidReleaseGuardTest` parses the manifest and both XML files.
 
 **Install** on a device with USB debugging enabled:
 

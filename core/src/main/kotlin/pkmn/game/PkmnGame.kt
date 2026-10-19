@@ -87,7 +87,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         touch.hapticHook = { if (options.haptics) platform.vibrate(12) }
         Gdx.input.inputProcessor = InputMultiplexer(touch, object : InputAdapter() {
             override fun keyDown(keycode: Int): Boolean {
-                if (keycode == Input.Keys.BACK) { stack.lastOrNull()?.onBack(); return true }
+                if (keycode == Input.Keys.BACK) { handleBack(); return true }
                 return false
             }
         })
@@ -146,7 +146,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     fun top(): Screen? = stack.lastOrNull()
     fun screens(): List<Screen> = stack
 
-    private fun flushPending() { while (pending.isNotEmpty()) { val p = pending.toList(); pending.clear(); p.forEach { it() } } }
+    internal fun flushPending() { while (pending.isNotEmpty()) { val p = pending.toList(); pending.clear(); p.forEach { it() } } }
 
     // ------------------------------------------------------------------ loop
 
@@ -163,6 +163,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         input.update(dt)
         stack.lastOrNull()?.update(dt, input)
         flushPending()
+        audio.update()
 
         fbo.begin()
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
@@ -185,42 +186,50 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         frameCount++
     }
 
+    // Reused every frame: the touch overlay is drawn each frame on phones and must not allocate.
+    private val touchBase = Color(1f, 1f, 1f, 0.16f)
+    private val touchActive = Color(1f, 1f, 1f, 0.38f)
+    private val savedTransform = com.badlogic.gdx.math.Matrix4()
+    private val labelTransform = com.badlogic.gdx.math.Matrix4()
+
+    private fun touchColor(b: Button) = if (input.pressed(b)) touchActive else touchBase
+
     private fun drawTouchControls() {
         Gdx.gl.glEnable(GL20.GL_BLEND)
         shapes.projectionMatrix = screenCam.combined
         shapes.begin(ShapeRenderer.ShapeType.Filled)
-        val base = Color(1f, 1f, 1f, 0.16f)
-        val active = Color(1f, 1f, 1f, 0.38f)
-        fun col(b: Button) = if (input.pressed(b)) active else base
         val d = touch.dpad
         val t = d.width / 3
-        shapes.color = col(Button.UP); shapes.rect(d.x + t, d.y + 2 * t, t, t)
-        shapes.color = col(Button.DOWN); shapes.rect(d.x + t, d.y, t, t)
-        shapes.color = col(Button.LEFT); shapes.rect(d.x, d.y + t, t, t)
-        shapes.color = col(Button.RIGHT); shapes.rect(d.x + 2 * t, d.y + t, t, t)
-        shapes.color = base; shapes.rect(d.x + t, d.y + t, t, t)
-        shapes.color = col(Button.A); shapes.circle(touch.a.x + touch.a.width / 2, touch.a.y + touch.a.height / 2, touch.a.width / 2)
-        shapes.color = col(Button.B); shapes.circle(touch.b.x + touch.b.width / 2, touch.b.y + touch.b.height / 2, touch.b.width / 2)
-        shapes.color = col(Button.START); shapes.rect(touch.start.x, touch.start.y, touch.start.width, touch.start.height)
-        shapes.color = col(Button.SELECT); shapes.rect(touch.select.x, touch.select.y, touch.select.width, touch.select.height)
+        shapes.color = touchColor(Button.UP); shapes.rect(d.x + t, d.y + 2 * t, t, t)
+        shapes.color = touchColor(Button.DOWN); shapes.rect(d.x + t, d.y, t, t)
+        shapes.color = touchColor(Button.LEFT); shapes.rect(d.x, d.y + t, t, t)
+        shapes.color = touchColor(Button.RIGHT); shapes.rect(d.x + 2 * t, d.y + t, t, t)
+        shapes.color = touchBase; shapes.rect(d.x + t, d.y + t, t, t)
+        shapes.color = touchColor(Button.A); shapes.circle(touch.a.x + touch.a.width / 2, touch.a.y + touch.a.height / 2, touch.a.width / 2)
+        shapes.color = touchColor(Button.B); shapes.circle(touch.b.x + touch.b.width / 2, touch.b.y + touch.b.height / 2, touch.b.width / 2)
+        shapes.color = touchColor(Button.START); shapes.rect(touch.start.x, touch.start.y, touch.start.width, touch.start.height)
+        shapes.color = touchColor(Button.SELECT); shapes.rect(touch.select.x, touch.select.y, touch.select.width, touch.select.height)
         shapes.end()
         // Labels
         batch.begin()
-        val f = assets.font8
         val s = (touch.a.width / 24f).coerceAtLeast(1f)
-        fun label(txt: String, rect: Rectangle) {
-            val m = batch.transformMatrix.cpy()
-            // Long labels (START/SELECT) shrink to fit their button.
-            val ls = minOf(s, rect.width * 0.85f / f.width(txt))
-            batch.transformMatrix = m.cpy().translate(rect.x + rect.width / 2 - f.width(txt) * ls / 2, rect.y + rect.height / 2 + 4 * ls, 0f).scale(ls, ls, 1f)
-            // draw with y-up: reuse glyph regions directly
-            var cx = 0f
-            for (ch in txt) { glyphOf(ch)?.let { batch.setColor(1f, 1f, 1f, 0.7f); batch.draw(it, cx, -8f) }; cx += 8f }
-            batch.setColor(Color.WHITE)
-            batch.transformMatrix = m
-        }
-        label("A", touch.a); label("B", touch.b); label("START", touch.start); label("SELECT", touch.select)
+        touchLabel("A", touch.a, s); touchLabel("B", touch.b, s); touchLabel("START", touch.start, s); touchLabel("SELECT", touch.select, s)
         batch.end()
+    }
+
+    private fun touchLabel(txt: String, rect: Rectangle, s: Float) {
+        val f = assets.font8
+        savedTransform.set(batch.transformMatrix)
+        // Long labels (START/SELECT) shrink to fit their button.
+        val ls = minOf(s, rect.width * 0.85f / f.width(txt))
+        labelTransform.set(savedTransform).translate(rect.x + rect.width / 2 - f.width(txt) * ls / 2, rect.y + rect.height / 2 + 4 * ls, 0f).scale(ls, ls, 1f)
+        batch.transformMatrix = labelTransform // the setter flushes what was drawn with the old matrix, then copies this one
+        // draw with y-up: reuse glyph regions directly
+        var cx = 0f
+        batch.setColor(1f, 1f, 1f, 0.7f)
+        for (ch in txt) { glyphOf(ch)?.let { batch.draw(it, cx, -8f) }; cx += 8f }
+        batch.setColor(Color.WHITE)
+        batch.transformMatrix = savedTransform
     }
 
     private fun glyphOf(ch: Char): TextureRegion? = assets.font8.glyph(ch)
@@ -244,9 +253,22 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
 
     override fun pause() {
         audio.pause()
+        // A finger that is down when the app is backgrounded never delivers its touch-up: drop it or the button sticks.
+        touch.releaseAll()
+        input.clearAll()
         // Android may kill the process while backgrounded: autosave when it is safe to do so.
-        stack.lastOrNull()?.let { (it as? AutosaveAware)?.autosave() }
+        autosaveTarget(stack)?.autosave()
         saveOptions()
+    }
+
+    /**
+     * One Android BACK press = one action. The top screen's [Screen.onBack] decides; only when it does not handle the
+     * key does it count as a single B press (a tap lasting one frame). Keys.BACK is not polled by [InputState], so the
+     * press cannot also reach the screen underneath after this one pops itself.
+     */
+    internal fun handleBack() {
+        val top = stack.lastOrNull() ?: return
+        if (!top.onBack()) input.tap(Button.B)
     }
 
     override fun resume() {
@@ -304,3 +326,19 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
 
 /** Screens that can safely write an autosave when the app is backgrounded. */
 interface AutosaveAware { fun autosave() }
+
+/**
+ * Which screen, if any, should autosave when the app is paused. The overworld is usually *under* a menu, dialog or
+ * party screen when the player switches apps, so the search walks down from the top to the first [AutosaveAware]
+ * screen instead of looking only at the top. It returns null (no save) when a screen above it is in the middle of a
+ * transaction ([Screen.blocksAutosave]: a battle in progress, an evolution). The chosen screen still applies its own
+ * rules (the overworld defers while a script runs, see AutosaveGate), so a half-applied script outcome is never saved.
+ */
+fun autosaveTarget(stack: List<Screen>): AutosaveAware? {
+    for (i in stack.indices.reversed()) {
+        val s = stack[i]
+        if (s is AutosaveAware) return s
+        if (s.blocksAutosave) return null
+    }
+    return null
+}

@@ -245,4 +245,57 @@ class BattleFlowTest {
         val disobey = listOf("ignored orders", "won't obey", "turned away", "loafing around", "pretended not to notice", "began to nap")
         assertTrue(lines.any { l -> disobey.any { it in l } }, "no disobedience message presented")
     }
+
+    // ------------------------------------------------------------ self-switch (U-turn) and stuck-turn guards
+
+    /** Fast U-turn lead and two bench Pokémon against one slow foe. */
+    private fun uTurnFlow(wild: Boolean): BattleFlow {
+        val player = listOf(mon("jolteon", 50, listOf("uturn")), mon("snorlax", 50, listOf("tackle")), mon("vaporeon", 50, listOf("tackle")))
+        return BattleFlow(battle(player, listOf(mon("slowbro", 50, listOf("tackle"))), wild = wild))
+    }
+
+    @Test
+    fun `u-turn opens the party for the replacement, then the foe acts, in trainer and wild battles`() {
+        for (wild in listOf(false, true)) {
+            val flow = uTurnFlow(wild)
+            val b = flow.battle
+            flow.startPresenting(); flow.skipEvents()
+            assertEquals(BattleFlow.Phase.CHOOSE_ACTION, flow.settle())
+            assertNull(flow.submit(Choice.UseMove(0)))
+            flow.skipEvents()
+            // Never the wild "Use next POKéMON?" prompt: the switch is part of the move and cannot be cancelled.
+            assertEquals(BattleFlow.Phase.FORCED_SWITCH, flow.settle(), "wild=$wild")
+            repeat(5) { assertEquals(BattleFlow.Phase.FORCED_SWITCH, flow.settle(), "waiting for the pick is not a stuck state") }
+            assertNotNull(flow.forcedPick(0), "the U-turn user cannot come back in")
+            assertEquals(BattleFlow.Phase.FORCED_SWITCH, flow.phase)
+            val before = b.events.size
+            assertNull(flow.forcedPick(2))
+            assertEquals(BattleFlow.Phase.PRESENTING, flow.phase)
+            assertEquals("vaporeon", b.player.active!!.species.id)
+            val after = b.events.drop(before)
+            assertTrue(after.any { it is BattleEvent.MoveUsed && it.side == 1 }, "foe's action ran after the replacement (wild=$wild)")
+            flow.skipEvents()
+            assertEquals(BattleFlow.Phase.CHOOSE_ACTION, flow.settle())
+            assertEquals(1, b.turn)
+        }
+    }
+
+    /** An AI that always asks for something the engine rejects (move slot without PP, empty party slot). */
+    private class InvalidAI : BattleAI() {
+        override fun chooseAction(b: Battle, side: Side): Choice = Choice.Switch(5)
+    }
+
+    @Test
+    fun `an invalid AI decision never leaves the flow idle`() {
+        val foe = mon("rattata", 30, listOf("tackle", "growl")).also { it.moves[0].pp = 0 }
+        val flow = BattleFlow(battle(listOf(mon("snorlax", 50, listOf("splash"))), listOf(foe)), InvalidAI())
+        flow.startPresenting(); flow.skipEvents()
+        repeat(5) {
+            assertEquals(BattleFlow.Phase.CHOOSE_ACTION, flow.settle())
+            val turn = flow.battle.turn
+            assertNull(flow.submit(Choice.UseMove(0)))
+            flow.skipEvents()
+            assertEquals(turn + 1, flow.battle.turn, "the turn ran")
+        }
+    }
 }

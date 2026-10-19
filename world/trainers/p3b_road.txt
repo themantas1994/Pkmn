@@ -6,7 +6,7 @@ trainer p3b_r13_cooltrainer_abel
   name "Abel"
   intro "Route 13 just reopened and I've been waiting all week for a real opponent!"
   defeat "Worth the wait!"
-  after "Victory Road has a waterfall you'll have to climb. Bring a strong swimmer."
+  after "Victory Road has a waterfall you'll have to climb. Surf across and climb it with the Frost Badge."
   mon braviary 55
   mon conkeldurr 55
   mon starmie 56
@@ -105,7 +105,7 @@ trainer p3b_vr1_cooltrainer_lia
   name "Lia"
   intro "This cave has turned back hundreds of trainers. Will you be number hundred-and-one?"
   defeat "Guess not!"
-  after "If you can't climb the falls yet, you need a Pokémon that can learn Waterfall and seven Badges."
+  after "If you can't climb the falls yet, you need the Frost Badge to use Waterfall."
   mon slowbro 57
   mon roserade 57
   mon magmortar 57
@@ -116,7 +116,7 @@ trainer p3b_vr1_blackbelt_goro
   name "Goro"
   intro "HYAAH! Victory Road builds strong legs! And strong fists!"
   defeat "My fists are tired. My legs too."
-  after "I've climbed that waterfall barehanded. Don't try it. Use a Pokémon."
+  after "I've climbed that waterfall barehanded. Don't try it. Let God Bidoof do it."
   mon hariyama 57
   mon hitmonlee 57
   mon hitmontop 57
@@ -149,7 +149,7 @@ trainer p3b_vr2_hiker_crag
   name "Crag"
   intro "Boulders! Boulders everywhere! I love it!"
   defeat "I love it slightly less now."
-  after "Push the boulder in that gap east. Strength makes it easy."
+  after "Push the boulder in that gap east. Strength, from the Spark Badge, makes it easy."
   mon golem 57
   mon gigalith 58
   mon donphan 57

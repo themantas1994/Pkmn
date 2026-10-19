@@ -21,7 +21,7 @@ script p4c_lodge_agent
   else
     say "CALLOWAY: Agent Calloway, League security. You're the one who stopped Umbra? Then you've earned the right to hear this."
     say "CALLOWAY: Not every grunt went home. Three cells are still out there, with fragments of Umbra's lens.\pOne grunt on the Route 13 lake islet. One group under Victory Road. And their captain, Sable, somewhere past the Skyfall Grotto."
-    say "CALLOWAY: I'd go myself, but those places need Surf and Waterfall, and my Pokémon is a Furret. Can you help?"
+    say "CALLOWAY: I'd go myself, but those places need Surf and Waterfall, and I haven't earned the Badges for them. Can you help?"
     quest p4c_remnants start
   end
 end

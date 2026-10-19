@@ -72,7 +72,17 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
     private val queued = ArrayDeque<ScriptRequest>()
 
     /** Continues after a blocking request. Text boxes and animations keep the result of the last givemon/takeitem/ask… */
-    fun resume(value: Int = 0) { if (pending?.setsResult == true) result = value; pending = null; waiting = false }
+    fun resume(value: Int = 0) {
+        val req = pending
+        if (req?.setsResult == true) result = value
+        pending = null; waiting = false
+        // Losing a battle that is not `canlose` ends the script: the host has already blacked out, so no reward,
+        // badge, flag or follow-up dialogue may run (only `canlose` battles continue and branch on `result`).
+        if (req is ScriptRequest.TrainerBattle && !req.canLose && value == 0) abort()
+    }
+
+    /** Ends the script (all frames and queued requests dropped); the next [next] returns null. */
+    fun abort() { stack.clear(); queued.clear() }
 
     /** Runs until the next host request; returns null when the script has finished. */
     fun next(): ScriptRequest? {
@@ -122,10 +132,15 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "giveitem" -> {
                 val item = toId(a[0]); val qty = a.getOrNull(1)?.toIntOrNull() ?: 1
                 ctx.dex.item(item)
-                st.addItem(item, qty)
+                // All-or-nothing: result 1 when stored; 0 when the stack is full (the reward stays with the script to retry).
+                val grant = ctx.giveItem(item, qty)
                 val name = ctx.itemName(item)
-                ScriptRequest.Say(text(if (qty > 1) "{player} obtained $qty× $name!" else "{player} obtained ${article(name)} $name!"))
-                    .also { result = 1 }
+                result = if (grant.complete) 1 else 0
+                ScriptRequest.Say(text(when {
+                    !grant.complete -> "{player} has no room for $name in the BAG!"
+                    qty > 1 -> "{player} obtained $qty× $name!"
+                    else -> "{player} obtained ${article(name)} $name!"
+                }))
             }
             "tm" -> {
                 val move = toId(a[0])
@@ -135,7 +150,12 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
                 ScriptRequest.Say(text("{player} obtained a TM containing ${ctx.dex.move(move).name}!"))
             }
             "takeitem" -> { result = if (st.removeItem(toId(a[0]), a.getOrNull(1)?.toIntOrNull() ?: 1)) 1 else 0; null }
-            "givemoney" -> { st.money = (st.money + a[0].toInt()).coerceAtMost(9_999_999); ScriptRequest.Say(text("{player} received ¥${a[0]}!")) }
+            "givemoney" -> {
+                // Clamped to 0..9,999,999; a negative amount is a deduction and can never push the wallet below 0.
+                val n = a[0].toInt()
+                val moved = st.addMoney(n)
+                ScriptRequest.Say(text(if (n >= 0) "{player} received ¥$moved!" else "{player} paid ¥${-moved}."))
+            }
             "takemoney" -> { val n = a[0].toInt(); result = if (st.money >= n) { st.money -= n; 1 } else 0; null }
             "givemon" -> {
                 val mon = buildMon(a)

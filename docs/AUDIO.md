@@ -209,8 +209,12 @@ game.audio.playCry("charizardmegax")   // GameAudio API; NoAudio and tests keep 
 * `CryResolver` looks for `<speciesId>.ogg` then `.mp3` in `<importedAssetsDir>/audio/cries` (desktop `assets-local/`, Android
   `imported/`, where a personal APK unpacks its bundled cries), then repeats for the base species (form fallback).
   `PkmnGame.attachDexToAssets` wires it up once the Dex has loaded.
-* `CryBank` plays one cry at a time (a new cry stops the previous one), keeps the last 12 decoded `Sound`s and releases them
-  in `dispose`. `SynthAudio` plays at `sfx volume * 0.6` (recordings are mastered louder than the chiptune effects), nothing
+* `CryBank` plays one cry at a time, but a new cry cuts the previous one only once it is known to have started (an unloaded
+  replacement never silences a playing cry), keeps a small LRU of decoded `Sound`s (never evicting the playing or pending one),
+  releases them in `dispose`, and stops retrying a file whose load failed twice. Android decodes sounds asynchronously: battles
+  prefetch their Pokémon on entry and scheduled-event Pokémon are prefetched when they appear; any other cry (script `cry`,
+  event intro) whose sound is still loading is retried once per frame (`GameAudio.update`) for up to 600 ms before the generic
+  blip plays, so the render thread never blocks. `SynthAudio` plays at `sfx volume * 0.6` (recordings are mastered louder than the chiptune effects), nothing
   when muted or when SFX volume is 0, and stops the cry on `pause`.
 * A species without a file falls back to the generic blip. `CryBank.missCount` / `missedSpecies` count those, and the first miss
   per species is logged (`no cry file for '<id>'`). The import coverage report does not count such species as covered.

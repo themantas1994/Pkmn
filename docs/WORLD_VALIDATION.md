@@ -114,7 +114,7 @@ are now solid there too.
 ### Model (`StrictReach`, `ItemAudit`)
 
 The old `ProgressionChecker` model is optimistic. The item audit runs a stricter graph search per badge stage (0..8) from
-`WorldAnalysis.stage` (field moves need the badge **and** an obtainable learner). It mirrors `OverworldRules.step` and
+`WorldAnalysis.stage` (field moves need only the badge: God Bidoof performs them, see `GameContext.canUseFieldMove`). It mirrors `OverworldRules.step` and
 `OverworldScreen.onPlayerArrive`/`interact`:
 
 * **Ice**: after arriving on ice the player keeps sliding in the same direction while the next step is a plain walk, and stops
@@ -126,8 +126,13 @@ The old `ProgressionChecker` model is optimistic. The item audit runs a stricter
 * **Flag tiles** (`tileif`) count only once a script the player can reach sets the flag (`setflag`, and the implicit `halloffame`, `pokedex`, `unlock`); then both tile
   variants count. Script `warp`s (ferries, cutscenes) count when the script can be triggered.
 * **Obstacles** (cut, smash) need their move at that stage. **Boulders** can be pushed when the tile behind them is free floor and Strength is
-  usable. Approximation: the boulder is not moved, so a boulder pushed into a corridor never blocks later and a line of pushes is checked one
-  push at a time.
+  usable. Approximation in `StrictReach`/`WorldAnalysis`: the boulder is not moved. Boulder persistence is instead covered by `BoulderPuzzles`
+  (run by `checkProgression`, error `boulder.softlock`): an exhaustive search over boulder positions per map (a pushed boulder keeps its
+  place across map re-entry, there is no pull). The game never pushes a boulder onto a warp or trigger tile, and refuses a push after which
+  the player's region has no warp or connection to leave by (`BoulderRules`). With those rules the single-boulder maps cannot lose a route or
+  reward. The three two-boulder maps (`mt_prism_1f`, `mt_prism_2f`, `victory_road_2f`) could (e.g. both boulders jammed so a door or the
+  rest of the map is cut off), so they carry the tag `boulder_reset`: boulder positions are forgotten whenever the map is entered from another
+  map, so leaving and re-entering always restores the puzzle (positions still persist across a save/load inside the map).
 * **Water and ledges**: land to water needs Surf; surfing onto land lands; waterfalls need Surf and Waterfall; ledges are one-way. Warp tiles are never stood on (arriving fires the warp);
   `@back` returns to the door of a map the player entered from.
 * **Interaction**: a visible item is picked up by facing it from an orthogonally adjacent standable tile (also while surfing); the player can turn on the spot. A hidden item is

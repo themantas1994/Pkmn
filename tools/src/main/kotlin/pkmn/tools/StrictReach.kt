@@ -19,7 +19,7 @@ import pkmn.engine.world.Warp
  *   `npcsGone = true` every possibly-gone NPC is absent from the start (optimistic upper bound).
  * * **Flag tiles** (`tileif`) only count once the flag can have been set by a script the player can reach (fixpoint); before
  *   that only the ground tile applies. Afterwards both variants are allowed (the player may act before or after).
- * * **Obstacles** need the field move with its badge and an obtainable learner (the stage's usable moves).
+ * * **Obstacles** need the field move with its badge (God Bidoof performs it; the stage's unlocked moves).
  * * **Boulders** can be pushed in a direction if the tile behind them is free floor. Approximation: the boulder is not moved,
  *   so a boulder pushed into a corridor never blocks later and repeated pushes along a line are each checked in isolation.
  * * **Warp tiles** are never stood on (arriving fires the warp) except as a spawn point; walking into a wall from a warp tile

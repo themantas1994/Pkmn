@@ -5,6 +5,7 @@ location "Mt. Prism"
 music cave
 environment cave
 region 23 8
+tags boulder_reset
 encounters p2_mt_prism_upper
 
 layout

@@ -96,17 +96,26 @@ class ShopScreen(game: PkmnGame, private val ctx: GameContext, private val shopI
             if (i >= items.size) { mainMenu("Is there anything else?"); return@Menu }
             val id = items[i]
             val p = price(id)
-            val max = if (id.startsWith("tm:")) 1 else minOf(99, ctx.state.money / maxOf(1, p))
-            if (max <= 0) { game.say("You don't have enough money.") { buy() }; return@Menu }
+            val max = ctx.maxPurchase(id, p)
+            if (max <= 0) {
+                val why = when {
+                    id.startsWith("tm:") && ctx.state.itemCount(id) > 0 -> "You already have that TM."
+                    ctx.state.itemRoom(id) <= 0 -> "You have no room in the BAG for that."
+                    else -> "You don't have enough money."
+                }
+                game.say(why) { buy() }; return@Menu
+            }
             push(NumberPicker(game, max, { "×$it  ¥${it * p}" }) { n ->
                 if (n == null) { buy(); return@NumberPicker }
                 game.ask("${ctx.itemName(id)}, and you want $n. That will be ¥${n * p}. OK?") { yes ->
                     if (yes) {
-                        ctx.state.money -= n * p
-                        ctx.state.addItem(id, n)
-                        game.audio.playSfx("item_get")
-                        val bonus = if (id == "pokeball" && n >= 10) { ctx.state.addItem("premierball", n / 10); "\nHere, have ${n / 10} PREMIER BALL as a bonus!" } else ""
-                        game.say("Here you are! Thank you!$bonus") { buy() }
+                        val buyResult = ctx.buy(id, n, p)
+                        if (!buyResult.ok) game.say(buyResult.message) { buy() }
+                        else {
+                            game.audio.playSfx("item_get")
+                            val bonus = if (buyResult.bonus > 0) "\nHere, have ${buyResult.bonus} PREMIER BALL as a bonus!" else ""
+                            game.say("Here you are! Thank you!$bonus") { buy() }
+                        }
                     } else buy()
                 }
             })
@@ -121,10 +130,12 @@ class ShopScreen(game: PkmnGame, private val ctx: GameContext, private val shopI
             if (i >= items.size) { mainMenu("Is there anything else?"); return@Menu }
             val id = items[i]
             val p = price(id) / 2
-            push(NumberPicker(game, ctx.state.itemCount(id), { "×$it  ¥${it * p}" }) { n ->
+            val maxSell = ctx.maxSale(id, p)
+            if (maxSell <= 0) { game.say("You can't carry any more money.") { sell() }; return@Menu }
+            push(NumberPicker(game, maxSell, { "×$it  ¥${it * p}" }) { n ->
                 if (n == null) { sell(); return@NumberPicker }
-                ctx.state.removeItem(id, n); ctx.state.money += n * p
-                game.say("Sold for ¥${n * p}.") { sell() }
+                val sale = ctx.sell(id, n, p)
+                game.say(if (sale.ok) "Sold for ¥${sale.gained}." else sale.message) { sell() }
             })
         })
     }
@@ -154,10 +165,8 @@ class PcScreen(game: PkmnGame, private val ctx: GameContext, private val onClose
         push(PartyScreen(game, ctx, PartyScreen.Mode.CHOOSE, null, false, null, "Deposit which POKéMON?") { t ->
             if (t == null) { menu(); return@PartyScreen }
             val mon = ctx.state.party[t]
-            val box = ctx.state.boxes.firstOrNull { b -> b.any { it == null } }
-            if (box == null) { game.say("The PC is full!") { menu() }; return@PartyScreen }
-            box[box.indexOf(null)] = mon
-            ctx.state.party.removeAt(t)
+            val err = ctx.depositToPc(t)
+            if (err != null) { game.say(err) { menu() }; return@PartyScreen }
             game.say("Stored ${mon.displayName(ctx.dex)} in the PC.") { menu() }
         })
     }
@@ -216,7 +225,9 @@ class BoxScreen(game: PkmnGame, private val ctx: GameContext, private val op: Op
 }
 
 /** Region map; in fly mode lets the player choose a visited town. */
-class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow: OverworldScreen, private val flyMode: Boolean, private val onClose: () -> Unit) : Screen(game) {
+class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow: OverworldScreen, private val flyMode: Boolean,
+                    /** Shown only after a destination is chosen (God Bidoof's line); B-cancel never shows it. */ private val flyAnnounce: String? = null,
+                    private val onClose: () -> Unit) : Screen(game) {
     private val towns = ctx.content.index.maps.mapNotNull { ctx.content.mapOrNull(it) }.filter { it.flyX >= 0 && it.regionX >= 0 }
     private val visitedTowns get() = towns.filter { it.id in ctx.state.visited }
 
@@ -241,8 +252,8 @@ class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow
         if (flyMode && input.justPressed(Button.A) && list.isNotEmpty()) {
             val t = list[cursor]
             pop()
-            ctx.state.surfing = false
-            ow.warpTo(t.id, t.flyX, t.flyY, Facing.DOWN) { onClose() }
+            val go = { ctx.state.surfing = false; ow.warpTo(t.id, t.flyX, t.flyY, Facing.DOWN) { onClose() } }
+            if (flyAnnounce != null) game.say(flyAnnounce) { go() } else go()
         }
     }
     override fun onBack(): Boolean { pop(); onClose(); return true }

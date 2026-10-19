@@ -58,7 +58,7 @@ Totals: excluded 3, implemented 12, open 1, simplified 4, tested 50.
 | Trainer-battle x1.5 EXP | open | Gen VII+ unverified | — | Kept from Gen VI; no primary source reachable (see docs/FIDELITY.md) |
 | EXP and EVs for catching | tested | Gen VI+ | CaptureTest 12 |  |
 | EV awards once per defeated Pokémon; Macho Brace, Power items; level-100 Pokémon still gain EVs | tested | Gen VII+ | StatFormulaTest EV tests; BattleFlowTest |  |
-| Party-wide Exp. Share (option, off by default) | tested | Gen VI+ (option) | TimeAndEventsTest/options; PLAYTIME.md |  |
+| Party-wide Exp. Share (option or bag switch, off by default; participants full, benched half) | tested | Gen VI+ (option) | TimeAndEventsTest/options; PLAYTIME.md |  |
 | Level-up stat recalculation keeping damage; move learning; four-move replacement prompt | tested | Gen IX | StatFormulaTest level-up; MoveLearnFlow (UI) |  |
 | Level caps on Challenge difficulty | implemented | Design | GameContext.levelCap |  |
 | Friendship: level-up, walking, vitamins, berries, fainting; friendship evolution at 160 | implemented | Gen VIII+ | Progression.evolutionTarget; EvolutionTest (Sylveon branch) |  |
@@ -107,6 +107,11 @@ Totals: excluded 3, implemented 12, open 1, simplified 4, tested 50.
 | Mechanic | Status | Ruleset | Evidence | Note |
 |---|---|---|---|---|
 | Atomic, checksummed, versioned saves with backup recovery | tested | — | WorldTest save round trip, corruption and tamper tests |  |
+| Only a valid main save is rotated into the backup; a damaged main is moved aside as `.corrupt-*` | tested | — | SaveRecoveryTest rotation tests |  |
+| Crash recovery: a complete temp save (newest attempt), then main, then backup; partial or corrupt copies are never chosen; directory fsync where the platform allows | tested | — | SaveRecoveryTest interrupted-write table |  |
+| A save from a newer game version is reported unsupported, never renamed, downgraded to an older backup or overwritten (saving is refused) | tested | — | SaveRecoveryTest newer-version tests |  |
+| Unknown nature/gender/status/Mint values become Hardy/genderless/healthy/none with a warning; other type errors still fail | tested | — | SaveRecoveryTest enum tests |  |
+| v1, v2 and v3 golden fixtures in the historical schemas load through the migration chain | tested | — | SaveFixturesTest |  |
 | v1 -> v2 migration (Pokédex forms, nickname offers, unique ids); no rerolls on load | tested | — | AcquisitionTest migration |  |
 | v2 -> v3 migration (obedience): outsider flag added as false; saved met levels kept; a missing met level becomes the current level; a met level above the current level is repaired | tested | — | ObedienceCampaignTest migration and repair tests |  |
 | Interrupted capture resumes at the nickname prompt | tested | — | AcquisitionTest interruption |  |

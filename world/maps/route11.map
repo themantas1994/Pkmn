@@ -46,7 +46,7 @@ tile 24 9 sign
 sign 24 9 text="ROUTE 11\nNorthwest across the bay: Frostmere Town"
 tile 7 1 sign
 sign 7 1 text="ROUTE 11\nSouth: Coral Bay and Crystal Cavern"
-npc r11_sailor 30 5 sprite=sailor face=down text="Frostmere's across the bay. No bridge, so you'll need a Pokémon that can Surf!"
+npc r11_sailor 30 5 sprite=sailor face=down text="Frostmere's across the bay. No bridge, so you'll need to Surf!"
 trainer r11_fisher_hal 25 11 sprite=fisherman face=left sight=3 trainer=p3a_r11_fisher_hal
 trainer r11_swim_nami 19 8 sprite=swimmer_f face=down sight=4 trainer=p3a_r11_swim_nami
 trainer r11_swim_kai 13 10 sprite=swimmer_m face=right sight=4 trainer=p3a_r11_swim_kai

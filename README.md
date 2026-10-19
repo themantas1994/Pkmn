@@ -45,7 +45,8 @@ It is an original adventure in the region of **Tessera**:
 
 **Saves:**
 - Versioned and checksummed, written atomically (temp file, fsync, rename).
-- Backup rotation, migration and repair; corrupt files are preserved, never deleted.
+- Backup rotation, migration and repair; corrupt files are preserved, never deleted, and never replace a good backup.
+- An interrupted save recovers the newest complete copy; a save from a newer game version is left untouched.
 
 **Tooling:**
 - Map compiler with reference and tile validation.

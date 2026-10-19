@@ -156,8 +156,10 @@ It runs three steps in one Gradle invocation, then prints the absolute APK path 
    `android/build/outputs/apk/personal/pkmn-crystalline-personal-debug.apk`. The task fails if the APK contains no
    `assets/imported/sprites/pokemon/*.png`, so it never reports a sprite build that has no sprites.
 
-The task switches `pkmn.bundleLocalAssets` on by itself, for that run only. Plain `assembleDebug`, `assembleRelease`
-and `bundleRelease` still contain no local sprites unless you pass `-Ppkmn.bundleLocalAssets=true` yourself. Without an
+The task switches `pkmn.bundleLocalAssets` on by itself, for that run only. Plain `assembleDebug` contains no local sprites unless
+you pass `-Ppkmn.bundleLocalAssets=true` yourself. Release variants can never bundle them: the local assets are a source set of
+the debug variant only, `assembleRelease`/`bundleRelease` together with the property fail immediately, and every release APK/AAB is
+scanned afterwards for `assets/imported/` (`:android:verifyReleaseArtifacts`, `ReleaseArtifactGuard`). Without an
 Android SDK the `:android` module does not exist (see BUILD.md); `tools/build_personal_apk.sh` says so up front.
 
 | Property | Default | Meaning |

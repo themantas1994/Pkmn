@@ -37,9 +37,9 @@ end
 script p3b_vr1_hiker
   faceplayer
   if field waterfall
-    say "HIKER: See that waterfall? With your Badges and a strong swimmer, you can climb right up it!"
+    say "HIKER: See that waterfall? With your Badges you can climb right up it!"
   else
-    say "HIKER: The way up is that big waterfall. You need the Frost Badge and a Pokémon that can learn Waterfall.\pSeaking, Gyarados, Lapras... plenty of them can. There's a ledge on the east side if you need to come back down."
+    say "HIKER: The way up is that big waterfall. You need the Frost Badge to use Waterfall. No Pokémon needed, God Bidoof handles it!\pThere's a ledge on the east side if you need to come back down."
   end
 end
 

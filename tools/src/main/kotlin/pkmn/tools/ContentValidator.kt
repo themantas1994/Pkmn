@@ -3,7 +3,12 @@ package pkmn.tools
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.*
 import pkmn.engine.battle.Effects
+import pkmn.engine.campaign.WorldContent
 import pkmn.engine.data.*
+import pkmn.engine.world.CompiledScript
+import pkmn.engine.world.Cond
+import pkmn.engine.world.Instr
+import pkmn.engine.world.MapData
 import java.io.File
 
 /** All bundled content files, decoded as lists so duplicates remain visible (the [Dex] maps would hide them). */
@@ -34,6 +39,18 @@ class Content(
     }
 }
 
+internal object Levenshtein {
+    fun distance(a: String, b: String): Int {
+        var prev = IntArray(b.length + 1) { it }
+        for (i in 1..a.length) {
+            val cur = IntArray(b.length + 1); cur[0] = i
+            for (j in 1..b.length) cur[j] = minOf(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + if (a[i - 1] == b[j - 1]) 0 else 1)
+            prev = cur
+        }
+        return prev[b.length]
+    }
+}
+
 /**
  * Validates bundled content (assets/data) and provenance (data-src), then writes machine-readable reports to
  * reports/. Returns false (exit code 1) when any error is found.
@@ -47,6 +64,11 @@ class ContentValidator(private val root: File) {
         val issues = validate(content, expectedBaseCount = content.manifest?.expectedSpeciesCount ?: 1025)
         validateProvenance(File(root, "data-src"), content.manifest, issues)
         validateMusic(File(root, "assets"), issues)
+        val world = WorldContent(DirectoryContentSource(File(root, "assets")))
+        validateBattleScripts(world.scripts.values, issues)
+        validateGiftResults(world.scripts.values, issues)
+        validateFieldMoveWording(File(root, "world"), issues)
+        validateFlags(world.scripts.values, world.index.maps.map { world.map(it) }, world.events.defs.mapNotNull { it.requiresFlag }, issues)
         val evo = EvolutionAudit(content.dex).auditAll()
         for (r in evo.filter { !it.satisfiable }) issues.warn("evolution-unsatisfiable", "${r.from}->${r.evo.target}", r.reason ?: "",
             "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json.")
@@ -85,6 +107,124 @@ class ContentValidator(private val root: File) {
     }
 
     // ------------------------------------------------------------------ content checks
+
+    /**
+     * Scripted trainer battles: losing a battle that is not `canlose` ends the script (see ScriptVM.resume), so
+     * (1) testing for a loss after it is dead code, and (2) a `canlose` battle must test `result` before any
+     * reward command, otherwise the reward is granted whatever the outcome.
+     */
+    fun validateBattleScripts(scripts: Collection<CompiledScript>, issues: Issues) {
+        val rewards = setOf("badge", "tm", "giveitem", "givemoney", "givemon", "giveegg", "unlock")
+        fun atoms(c: Cond): List<List<String>> = when (c) {
+            is Cond.Atom -> listOf(c.words); is Cond.Not -> atoms(c.c); is Cond.And -> atoms(c.a) + atoms(c.b); is Cond.Or -> atoms(c.a) + atoms(c.b)
+        }
+        for (sc in scripts) {
+            var mode: String? = null // "strict" after a plain battle, "canlose" after a canlose one
+            var checked = false
+            for (ins in sc.code) when (ins) {
+                is Instr.Cmd -> when {
+                    ins.name == "battle" -> { mode = if ("canlose" in ins.args) "canlose" else "strict"; checked = false }
+                    ins.name == "wildbattle" -> mode = null
+                    mode == "canlose" && !checked && ins.name in rewards -> issues.error("battle-reward-unchecked", "${sc.id}:${ins.line}",
+                        "'${ins.name}' follows a canlose battle without testing 'result'; the reward would be granted after a loss")
+                }
+                is Instr.JumpIfNot -> {
+                    val res = atoms(ins.cond).filter { it.firstOrNull() == "result" }
+                    if (res.isNotEmpty()) checked = true
+                    if (mode == "strict" && res.any { it.getOrNull(1) in setOf("lose", "no", "0") })
+                        issues.error("battle-loss-unreachable", "${sc.id}:${ins.line}", "tests for a loss after a non-canlose battle, which ends the script on loss")
+                }
+                is Instr.Jump -> {}
+            }
+        }
+    }
+
+    /**
+     * Pokémon gifts can fail when the party and every PC box are full (`result` 0). A script must test `result` after
+     * `givemon`/`giveegg` before it consumes anything or records the gift as done (setflag, takeitem, quest, hide, badge),
+     * otherwise a full storage loses the reward for good.
+     */
+    fun validateGiftResults(scripts: Collection<CompiledScript>, issues: Issues) {
+        val completion = setOf("setflag", "takeitem", "quest", "hide", "badge", "takemoney", "unlock")
+        for (sc in scripts) {
+            var pending = false
+            for (ins in sc.code) when (ins) {
+                is Instr.Cmd -> when {
+                    ins.name == "givemon" || ins.name == "giveegg" -> pending = true
+                    pending && ins.name in completion -> {
+                        pending = false
+                        issues.error("gift-result-unchecked", "${sc.id}:${ins.line}",
+                            "'${ins.name}' follows givemon/giveegg without testing 'result'; a full party and PC would lose the gift")
+                    }
+                }
+                is Instr.JumpIfNot -> if (pending && ins.cond.let { c -> c is Cond.Atom && c.words.firstOrNull() == "result" }) pending = false
+                is Instr.Jump -> {}
+            }
+        }
+    }
+
+    /**
+     * Field moves are performed by God Bidoof once the badge is earned, so no text may ask for a party Pokémon that
+     * knows or can learn Cut, Strength, Flash, Surf, Waterfall, Rock Smash, Fly or Dive. Scans world/ text (comment lines skipped).
+     */
+    fun validateFieldMoveWording(worldDir: File, issues: Issues) {
+        val mv = "(?:cut|strength|flash|surf|waterfall|rock smash|fly|dive|whirlpool|rock climb)"
+        val obsolete = listOf(
+            Regex("pok[eé]mon (?:that|which|who) (?:knows?|can learn|could learn|learns?)\\b", RegexOption.IGNORE_CASE),
+            Regex("pok[eé]mon (?:with|knowing) $mv\\b", RegexOption.IGNORE_CASE),
+            Regex("(?:knows|learns?|can learn|could learn|teach(?:es)?) $mv\\b", RegexOption.IGNORE_CASE),
+            Regex("your pok[eé]mon (?:can|may|could) (?:use |$mv)", RegexOption.IGNORE_CASE),
+            Regex("bring (?:a |an |along )?$mv\\b", RegexOption.IGNORE_CASE),
+        )
+        worldDir.walkTopDown().filter { it.isFile && it.extension in setOf("pks", "txt", "map") && it.parentFile.name != "encounters" }.sorted().forEach { f ->
+            f.readLines().forEachIndexed { i, line ->
+                if (line.trimStart().startsWith("#")) return@forEachIndexed
+                obsolete.firstOrNull { it.containsMatchIn(line) }?.let { r ->
+                    issues.error("fieldmove-text-obsolete", "${f.relativeTo(worldDir.parentFile)}:${i + 1}",
+                        "text implies a party Pokémon is needed for a field move (matched '${r.find(line)!!.value}'); God Bidoof performs them once the badge is earned")
+                }
+            }
+        }
+    }
+
+    /**
+     * Flag hygiene: every flag that is *read* (script `flag` conditions, NPC hideif/showif, trigger if/unless, tileif, event
+     * requiresFlag) must be *defined* somewhere, otherwise it is a typo or dead gate that can never open (or never close).
+     * Defined = `setflag` in any script, flags the engine sets itself (pokedex, halloffame, `unlock`, item pickups, `hide`/`show`,
+     * obstacles, boulder bookkeeping, event catches), so those are dynamic-but-legitimate and never flagged.
+     */
+    fun validateFlags(scripts: Collection<CompiledScript>, maps: Collection<MapData>, eventFlags: Collection<String>, issues: Issues) {
+        fun atoms(c: Cond): List<List<String>> = when (c) {
+            is Cond.Atom -> listOf(c.words); is Cond.Not -> atoms(c.c); is Cond.And -> atoms(c.a) + atoms(c.b); is Cond.Or -> atoms(c.a) + atoms(c.b)
+        }
+        val defined = hashSetOf("has_pokedex", "hall_of_fame")
+        val dynamicPrefixes = listOf("unlock_", "hidden:", "item:", "strength_on:", "event:")
+        for (sc in scripts) for (ins in sc.code) if (ins is Instr.Cmd) when (ins.name) {
+            "setflag" -> defined += ins.args[0]
+            "halloffame" -> defined += "hall_of_fame"
+            "pokedex" -> defined += "has_pokedex"
+            "unlock" -> defined += "unlock_${ins.args[0]}"
+        }
+        for (m in maps) {
+            m.obstacles.forEach { defined += it.flag }
+            m.items.forEach { defined += "item:${it.id}" }
+        }
+        val reads = ArrayList<Pair<String, String>>() // flag to where
+        for (sc in scripts) for (ins in sc.code) if (ins is Instr.JumpIfNot)
+            atoms(ins.cond).filter { it.firstOrNull() == "flag" && it.size >= 2 }.forEach { reads += it[1] to "script ${sc.id}:${ins.line}" }
+        for (m in maps) {
+            m.npcs.forEach { n -> n.hideIf?.let { reads += it to "${m.id}:npc ${n.id} hideif" }; n.showIf?.let { reads += it to "${m.id}:npc ${n.id} showif" } }
+            m.triggers.forEach { t -> t.ifFlag?.let { reads += it to "${m.id}:trigger ${t.x},${t.y} if" }; t.unlessFlag?.let { reads += it to "${m.id}:trigger ${t.x},${t.y} unless" } }
+            m.flagTiles.forEach { reads += it.flag to "${m.id}:tileif ${it.x},${it.y}" }
+        }
+        eventFlags.forEach { reads += it to "events.json requiresFlag" }
+        fun nearest(f: String) = defined.filter { Levenshtein.distance(it, f) <= 2 }.minByOrNull { Levenshtein.distance(it, f) }
+        for ((flag, where) in reads.distinct().sortedBy { it.second }) {
+            if (flag in defined || dynamicPrefixes.any { flag.startsWith(it) }) continue
+            val hint = nearest(flag)?.let { " (did you mean '$it'?)" } ?: ""
+            issues.error("flag-undefined", where, "flag '$flag' is read but never set by any script, obstacle, pickup or engine rule$hint")
+        }
+    }
 
     fun validate(c: Content, expectedBaseCount: Int = 1025): Issues {
         val issues = Issues()

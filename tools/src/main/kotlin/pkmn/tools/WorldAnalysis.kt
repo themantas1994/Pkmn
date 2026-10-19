@@ -239,21 +239,22 @@ class WorldAnalysis(root: File) : ReachWorld {
         }
     }
 
+    companion object {
+        /** Mirror of `GameContext.canUseFieldMove` (named-badge rule) for a player holding badges 1..[badges], the order the campaign awards them. */
+        fun fieldMovesAt(badges: Int): Set<FieldMove> = FieldMove.entries.filter { badges >= it.badgeRequired }.toSet()
+    }
+
     data class Stage(val badges: Int, val moves: Set<FieldMove>, val reach: Reach, val species: Set<String>)
 
     /**
-     * Reachability with [badges] badges: field moves allowed by badges, restricted to those some obtainable Pokémon can
-     * learn (iterated to a fixpoint, since a field move can open the way to its own learners).
+     * Reachability with [badges] badges. Field moves follow the engine rule (`GameContext.canUseFieldMove`): God Bidoof
+     * performs every badge-unlocked field move, so no party Pokémon (and no obtainable learner) is required. [Stage.species]
+     * is informational only (what the player could catch by then).
      */
     fun stage(badges: Int): Stage {
-        var moves = FieldMove.entries.filter { it.badgeRequired <= badges }.toSet()
-        while (true) {
-            val reach = reach(moves)
-            val species = withEvolutions(reach.maps.flatMap { speciesOn(it) }.toSet())
-            val usable = moves.filter { fm -> species.any { canLearn(it, fm.moveId) } }.toSet()
-            if (usable == moves) return Stage(badges, moves, reach, species)
-            moves = usable
-        }
+        val moves = fieldMovesAt(badges)
+        val reach = reach(moves)
+        return Stage(badges, moves, reach, withEvolutions(reach.maps.flatMap { speciesOn(it) }.toSet()))
     }
 
     /** Shortest map-to-map route within a reach. */

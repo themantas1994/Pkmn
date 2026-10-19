@@ -39,6 +39,8 @@ registerTool("auditItems", "Strict item reachability audit per badge stage and p
 registerTool("auditLearnsets", "Learnset legality audit (importer vs raw Showdown, forms, world moves, TMs, tutors) -> reports/learnsets.*", "learnsets")
 registerTool("auditMoves", "Merge engine/build/reports/move-execution.json (run :engine:test --tests '*MoveExecutionTest*' first) with BattleCoverage -> reports/moves-audit.*", "moves")
 registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
+registerTool("statusCounts", "Print the numbers STATUS.md quotes (world counts, test counts from the last test run)", "status")
+registerTool("checkStatus", "Fail when STATUS.md world/test counts differ from the build outputs (run after :engine:test :core:test :tools:test)", "status", "--check")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("auditCapture", "Capture chance of every wild encounter slot before/after the capture fix -> reports/capture.*", "capture")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
