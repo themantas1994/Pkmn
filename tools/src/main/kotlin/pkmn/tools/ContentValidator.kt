@@ -66,6 +66,8 @@ class ContentValidator(private val root: File) {
         validateMusic(File(root, "assets"), issues)
         val world = WorldContent(DirectoryContentSource(File(root, "assets")))
         validateBattleScripts(world.scripts.values, issues)
+        validateGiftResults(world.scripts.values, issues)
+        validateFieldMoveWording(File(root, "world"), issues)
         validateFlags(world.scripts.values, world.index.maps.map { world.map(it) }, world.events.defs.mapNotNull { it.requiresFlag }, issues)
         val evo = EvolutionAudit(content.dex).auditAll()
         for (r in evo.filter { !it.satisfiable }) issues.warn("evolution-unsatisfiable", "${r.from}->${r.evo.target}", r.reason ?: "",
@@ -133,6 +135,54 @@ class ContentValidator(private val root: File) {
                         issues.error("battle-loss-unreachable", "${sc.id}:${ins.line}", "tests for a loss after a non-canlose battle, which ends the script on loss")
                 }
                 is Instr.Jump -> {}
+            }
+        }
+    }
+
+    /**
+     * Pokémon gifts can fail when the party and every PC box are full (`result` 0). A script must test `result` after
+     * `givemon`/`giveegg` before it consumes anything or records the gift as done (setflag, takeitem, quest, hide, badge),
+     * otherwise a full storage loses the reward for good.
+     */
+    fun validateGiftResults(scripts: Collection<CompiledScript>, issues: Issues) {
+        val completion = setOf("setflag", "takeitem", "quest", "hide", "badge", "takemoney", "unlock")
+        for (sc in scripts) {
+            var pending = false
+            for (ins in sc.code) when (ins) {
+                is Instr.Cmd -> when {
+                    ins.name == "givemon" || ins.name == "giveegg" -> pending = true
+                    pending && ins.name in completion -> {
+                        pending = false
+                        issues.error("gift-result-unchecked", "${sc.id}:${ins.line}",
+                            "'${ins.name}' follows givemon/giveegg without testing 'result'; a full party and PC would lose the gift")
+                    }
+                }
+                is Instr.JumpIfNot -> if (pending && ins.cond.let { c -> c is Cond.Atom && c.words.firstOrNull() == "result" }) pending = false
+                is Instr.Jump -> {}
+            }
+        }
+    }
+
+    /**
+     * Field moves are performed by God Bidoof once the badge is earned, so no text may ask for a party Pokémon that
+     * knows or can learn Cut, Strength, Flash, Surf, Waterfall, Rock Smash, Fly or Dive. Scans world/ text (comment lines skipped).
+     */
+    fun validateFieldMoveWording(worldDir: File, issues: Issues) {
+        val mv = "(?:cut|strength|flash|surf|waterfall|rock smash|fly|dive|whirlpool|rock climb)"
+        val obsolete = listOf(
+            Regex("pok[eé]mon (?:that|which|who) (?:knows?|can learn|could learn|learns?)\\b", RegexOption.IGNORE_CASE),
+            Regex("pok[eé]mon (?:with|knowing) $mv\\b", RegexOption.IGNORE_CASE),
+            Regex("(?:knows|learns?|can learn|could learn|teach(?:es)?) $mv\\b", RegexOption.IGNORE_CASE),
+            Regex("your pok[eé]mon (?:can|may|could) (?:use |$mv)", RegexOption.IGNORE_CASE),
+            Regex("bring (?:a |an |along )?$mv\\b", RegexOption.IGNORE_CASE),
+        )
+        worldDir.walkTopDown().filter { it.isFile && it.extension in setOf("pks", "txt", "map") && it.parentFile.name != "encounters" }.sorted().forEach { f ->
+            f.readLines().forEachIndexed { i, line ->
+                if (line.trimStart().startsWith("#")) return@forEachIndexed
+                obsolete.firstOrNull { it.containsMatchIn(line) }?.let { r ->
+                    issues.error("fieldmove-text-obsolete", "${f.relativeTo(worldDir.parentFile)}:${i + 1}",
+                        "text implies a party Pokémon is needed for a field move (matched '${r.find(line)!!.value}'); God Bidoof performs them once the badge is earned")
+                }
             }
         }
     }

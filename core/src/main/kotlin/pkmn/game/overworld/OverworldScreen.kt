@@ -88,6 +88,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         if (viaWarp && ::baseMap.isInitialized && !baseMap.indoor) {
             state.backMap = baseMap.id; state.backX = player.x; state.backY = player.y
         }
+        // Boulder puzzles tagged boulder_reset start fresh on every entry from another map (a push can otherwise block the route for good).
+        if (!initial && "boulder_reset" in newMap.tags && (!::baseMap.isInitialized || baseMap.id != newMap.id))
+            state.vars.keys.removeAll { it.startsWith("pos:${newMap.id}:") }
         baseMap = newMap
         state.map = newMap.id; state.x = x; state.y = y
         facing?.let { player.facing = it; state.facing = it.name.lowercase() }
@@ -322,6 +325,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val nx = bx + dir.dx; val ny = by + dir.dy
         if (!map.inBounds(nx, ny) || TileRules.isSolid(rules.behavior(map, nx, ny)) || rules.behavior(map, nx, ny) == TileBehavior.WATER ||
             occupant(nx, ny) != null || map.obstacles.any { it.x == nx && it.y == ny }) return false
+        // Never plug a door/ladder/stairs or a script trigger tile, and never wall the player into a pocket without a way out.
+        if (!BoulderRules.mayRestOn(map, nx, ny)) return false
+        val after = map.obstacles.filter { it.kind == "boulder" }.map { if (it === o) nx * 4096 + ny else it.x * 4096 + it.y }.toSet()
+        if (!BoulderRules.reachesExit(map, after, bx, by)) return false
         state.vars["pos:${baseMap.id}:${o.flag}"] = nx * 1000 + ny
         game.audio.playSfx("bump")
         refreshMap()
@@ -571,7 +578,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val (fm, verb, msg) = when (o.kind) {
             "cut_tree" -> Triple(FieldMove.CUT, "CUT", "This tree looks like it can be CUT down!")
             "rock_smash" -> Triple(FieldMove.ROCK_SMASH, "ROCK SMASH", "This rock looks breakable.")
-            "boulder" -> Triple(FieldMove.STRENGTH, "STRENGTH", "It's a big boulder. A POKéMON may be able to push it.")
+            "boulder" -> Triple(FieldMove.STRENGTH, "STRENGTH", "It's a big boulder. STRENGTH might move it.")
             else -> return
         }
         if (o.kind == "boulder" && state.hasFlag("strength_on:${baseMap.id}")) { game.say("Boulders may now be pushed."); return }

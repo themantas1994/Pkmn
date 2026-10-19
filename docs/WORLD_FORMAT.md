@@ -42,7 +42,7 @@ region 12 20                    # region map cell (8 px cells on the 256×224 re
 fly 9 12                        # fly landing tile (towns/cities only)
 encounters route1               # encounter table id (or none)
 onenter route1_enter            # script run on every entry
-tags powerspot fullmoon         # free-form tags (powerspot enables Dynamax; pokecenter; gym; ...)
+tags powerspot fullmoon         # free-form tags (powerspot enables Dynamax; pokecenter; gym; boulder_reset restarts Strength boulders on every entry; ...)
 connect north hometown 0        # seamless edge connection: direction, map, offset (tiles)
 
 legend                          # optional per-map overrides

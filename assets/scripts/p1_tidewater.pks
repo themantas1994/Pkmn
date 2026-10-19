@@ -83,7 +83,7 @@ end
 script p1_gym2_guide
   faceplayer
   if badge 2
-    say "The Tide Badge! Now your Pokémon can use Flash and Rock Smash outside of battle.\pThose cracked rocks in Cobblecrest Cave won't stop you now!"
+    say "The Tide Badge! Now you can use Flash and Rock Smash outside of battle.\pThose cracked rocks in Cobblecrest Cave won't stop you now!"
   else
     say "Yo, champ-in-the-making! The pools here are too deep to swim.\pStep on the floor switches to raise floating bridges. Marina waits at the far end!"
     say "Her Water types fear Electric and Grass moves. Good luck!"
@@ -99,7 +99,7 @@ script p1_marina
     say "MARINA: Here is the Tide Badge. You've earned it twice over."
     badge 2
     setflag p1_beat_marina
-    say "MARINA: It lets your Pokémon use Flash and Rock Smash outside of battle. And take this!"
+    say "MARINA: It lets you use Flash and Rock Smash outside of battle. And take this!"
     tm waterpulse
     say "MARINA: Water Pulse can confuse the target. Ride the waves, {player}!"
     quest p1_light_shards next

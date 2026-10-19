@@ -12,7 +12,7 @@ script p4b_bryn
     quest p4b_canary_lamp done
     say "BRYN: Stealth Rock. Sharp stones float around the foe's side, and every Pokémon they send out gets a nasty surprise."
   elif quest p4b_canary_lamp started
-    say "BRYN: The lamp should be in the deepest gallery, past the flooded level. Bring a Pokémon with Strength, and one that knows Flash."
+    say "BRYN: The lamp should be in the deepest gallery, past the flooded level. You'll need Strength and Flash, and the Badges that unlock them."
   else
     say "BRYN: Shaft No. 3. I worked it thirty years, until the day it caved in.\pNobody was hurt, thank the stones. But my partner Tam's lamp is still down in the vault, and Tam's long gone now.\pIf you're heading in, would you look for it? I'd like to keep something of his."
     quest p4b_canary_lamp start
@@ -24,7 +24,7 @@ script p4b_mine_explorer
   if flag p4b_found_lamp
     say "KID: You found a glowing lamp in the vault?! I knew it! Grandpa Bryn's stories are true!"
   else
-    say "KID: Grandpa Bryn says the No. 3 crew left a lamp burning when the shaft collapsed.\pThe ladder's in the north room, but it's so dark down there... Bring Flash, okay?"
+    say "KID: Grandpa Bryn says the No. 3 crew left a lamp burning when the shaft collapsed.\pThe ladder's in the north room, but it's so dark down there... Use Flash, okay?"
   end
 end
 
@@ -69,37 +69,65 @@ script p4b_fossil_aide
   faceplayer
   if item skullfossil
     say "AIDE: A Skull Fossil! The boss lets me run the small machine now. Here goes..."
-    takeitem skullfossil
     givemon cranidos 30
-    call p4b_fossil_aide_done
+    if result yes
+      takeitem skullfossil
+      call p4b_fossil_aide_done
+    else
+      call p4b_fossil_aide_full
+    end
   elif item armorfossil
     say "AIDE: An Armor Fossil! Stand back, the small machine gets a little smoky..."
-    takeitem armorfossil
     givemon shieldon 30
-    call p4b_fossil_aide_done
+    if result yes
+      takeitem armorfossil
+      call p4b_fossil_aide_done
+    else
+      call p4b_fossil_aide_full
+    end
   elif item domefossil
     say "AIDE: A Dome Fossil! These are my favorite. Here goes..."
-    takeitem domefossil
     givemon kabuto 30
-    call p4b_fossil_aide_done
+    if result yes
+      takeitem domefossil
+      call p4b_fossil_aide_done
+    else
+      call p4b_fossil_aide_full
+    end
   elif item helixfossil
     say "AIDE: A Helix Fossil! Some people worship these, you know. Here goes..."
-    takeitem helixfossil
     givemon omanyte 30
-    call p4b_fossil_aide_done
+    if result yes
+      takeitem helixfossil
+      call p4b_fossil_aide_done
+    else
+      call p4b_fossil_aide_full
+    end
   elif item clawfossil
     say "AIDE: A Claw Fossil! Sharp... Okay, into the machine..."
-    takeitem clawfossil
     givemon anorith 30
-    call p4b_fossil_aide_done
+    if result yes
+      takeitem clawfossil
+      call p4b_fossil_aide_done
+    else
+      call p4b_fossil_aide_full
+    end
   elif item rootfossil
     say "AIDE: A Root Fossil! It's like a plant and a Pokémon at once. Here goes..."
-    takeitem rootfossil
     givemon lileep 30
-    call p4b_fossil_aide_done
+    if result yes
+      takeitem rootfossil
+      call p4b_fossil_aide_done
+    else
+      call p4b_fossil_aide_full
+    end
   else
     say "AIDE: The boss handles Jaw, Sail and Old Amber. I can do Skull, Armor, Dome, Helix, Claw and Root fossils!\pThe old Quarrytown shaft and the gulch off Route 8 are full of fossils, they say."
   end
+end
+
+script p4b_fossil_aide_full
+  say "AIDE: Your party and your boxes are full! Make some room first, and bring the fossil back. It's safe with you."
 end
 
 script p4b_fossil_aide_done
@@ -122,7 +150,7 @@ script p4b_temple_scholar
     giveitem heatrock
     say "SCHOLAR: Solar Beam, the sacred technique of Sol. And a Heat Rock, so the harsh sunlight lasts a little longer. Thank you."
   else
-    say "SCHOLAR: The Warden can sense the sun in a person's heart. Mine's partly cloudy.\pBelow the southern ruins lie the catacombs, with four tablets nobody has read in full.\pIf you go down there, would you read them all for me? Bring Flash. The dead of Sol keep it dark."
+    say "SCHOLAR: The Warden can sense the sun in a person's heart. Mine's partly cloudy.\pBelow the southern ruins lie the catacombs, with four tablets nobody has read in full.\pIf you go down there, would you read them all for me? Use Flash. The dead of Sol keep it dark."
     if not quest p4b_sol_tablets started
       quest p4b_sol_tablets start
     end
@@ -214,10 +242,12 @@ script p4b_sol_altar
   if flag p4b_beat_sol_keeper
     say "A Poké Ball rests on the altar, warm as a sunbeam. Something inside is wagging its tail..."
     givemon growlithehisui 30
-    if hasmon growlithehisui
+    if result yes
       setflag p4b_got_sol_gift
       hide p4b_sol_altar
       say "An ancient temple guardian, Hisuian Growlithe, has chosen {player}!"
+    else
+      say "Your party and your boxes are full. Make some room, then return to the altar."
     end
   else
     say "A Poké Ball rests on the altar, but a strange warmth pushes your hand away. The Keeper is watching you."

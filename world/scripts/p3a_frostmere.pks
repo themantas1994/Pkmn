@@ -61,9 +61,13 @@ script p3a_fm_scarf_quest
   elif flag p3a_pip_home
     say "Pip came home, cold and happy! Oh, thank you!\pPlease, take this. My late husband's Snom laid it before winter."
     giveegg snom 1
-    giveitem expcandyl 2
-    setflag p3a_pip_reward
-    quest p3a_lost_pip done
+    if result yes
+      giveitem expcandyl 2
+      setflag p3a_pip_reward
+      quest p3a_lost_pip done
+    else
+      say "Oh, your party and your boxes are full. Make some room and come back, dear. The egg can wait."
+    end
   elif flag p3a_pip_quest
     say "Pip went to see the wild Snom on the frozen slope of Route 12. Please bring him home!"
   else

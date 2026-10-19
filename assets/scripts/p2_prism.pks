@@ -52,7 +52,7 @@ end
 script p2_seraphine_oldman
   faceplayer
   if badge 5
-    say "With the Mist Badge your Pokémon can Fly! Visit any town you've been to in a flash."
+    say "With the Mist Badge you can Fly! Visit any town you've been to in a flash."
   else
     say "The mist here never lifts. Elowen says it hides the shy Fairy Pokémon from the harsh sun.\pTeam Eclipse would love that, I suppose. Hmph."
   end
@@ -135,7 +135,7 @@ script p2_elowen
       say "ELOWEN: Your bond shines through even the thickest mist. The Mist Badge is yours."
       badge 5
       setflag p2_badge5
-      say "ELOWEN: With it, your Pokémon may Fly to any town you have visited."
+      say "ELOWEN: With it, you may Fly to any town you have visited."
       tm dazzlinggleam
       giveitem fairiumz
       say "ELOWEN: Dazzling Gleam, and a Fairium Z. With your Z-Ring, it becomes a Twinkle Tackle."

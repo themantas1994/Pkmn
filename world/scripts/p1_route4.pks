@@ -15,7 +15,7 @@ script p1_r4_hiker
     say "Heading into Cobblecrest Cave? Then take this TM. Every hiker should have one!"
     tm rocksmash
     setflag p1_got_rocksmash
-    say "Rock Smash breaks cracked rocks. You need the Tide Badge from Port Tidewater to use it outside of battle.\pGeodude and Machop can learn it. So can Rattata and Bidoof!"
+    say "Rock Smash breaks cracked rocks. You need the Tide Badge from Port Tidewater to use it outside of battle.\pNo Pokémon needed: God Bidoof does the smashing for you!"
     say "Oh, and my partner Dudley went exploring the cave's lower floor and hasn't come back. Keep an eye out?"
     quest p1_cave_hiker start
   end

@@ -15,7 +15,7 @@ end
 script p1_gym1_guide
   faceplayer
   if badge 1
-    say "Congratulations, champ-to-be! The Sprout Badge lets your Pokémon use Cut outside of battle.\pAny Pokémon that can learn Cut will do. Rattata and Bidoof from Route 1 can!"
+    say "Congratulations, champ-to-be! The Sprout Badge lets you use Cut outside of battle.\pNo Pokémon needed: God Bidoof will do the cutting for you!"
   else
     say "Yo! Future champ! This gym is a hedge maze.\pThe hedges won't budge for Cut in here. Find the floor switches instead!"
     say "Hazel uses Grass types. Fire, Flying, Bug and Poison moves work great!"
@@ -31,7 +31,7 @@ script p1_hazel
     say "HAZEL: Here, the Sprout Badge. Wear it with pride!"
     badge 1
     setflag p1_beat_hazel
-    say "HAZEL: With it, your Pokémon can use Cut outside of battle. And take this TM, too!"
+    say "HAZEL: With it, you can use Cut outside of battle. And take this TM, too!"
     tm bulletseed
     say "HAZEL: Bullet Seed fires a burst of seeds two to five times. Great for breaking through!\pPort Tidewater lies east, past Cobblecrest Cave. Marina, the next Gym Leader, is waiting."
     quest p1_light_shards next
@@ -43,9 +43,9 @@ script p1_bc_gardener
   if flag p1_cut_brindle
     say "You cut your way into my garden! Well, take whatever you found. I'm too old to bend down."
   elif badge 1
-    say "My little garden is blocked by a skinny tree.\pYou've got Hazel's badge? Then a Pokémon that knows Cut could clear it!"
+    say "My little garden is blocked by a skinny tree.\pYou've got Hazel's badge? Then you could Cut it down!"
   else
-    say "My little garden is sealed off by a skinny tree. There's something shiny in there...\pIf only someone had the Sprout Badge and a Pokémon that could Cut."
+    say "My little garden is sealed off by a skinny tree. There's something shiny in there...\pIf only someone had the Sprout Badge and could Cut it down."
   end
 end
 

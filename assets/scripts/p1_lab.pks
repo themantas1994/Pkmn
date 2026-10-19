@@ -94,14 +94,16 @@ script lab_ball_grass
     ask "PROF. LINDEN: Chikorita, the Leaf Pokémon. Will you take it?"
     if result yes
       givemon chikorita 5
-      setflag got_starter
-      setflag starter_grass
-      setflag took_ball_grass
-      hide ball_grass
-      say "{rival}: Then I'll take this one!"
-      setflag took_ball_fire
-      hide ball_fire
-      call lab_handoff
+      if result yes
+        setflag got_starter
+        setflag starter_grass
+        setflag took_ball_grass
+        hide ball_grass
+        say "{rival}: Then I'll take this one!"
+        setflag took_ball_fire
+        hide ball_fire
+        call lab_handoff
+      end
     end
   end
 end
@@ -114,14 +116,16 @@ script lab_ball_fire
     ask "PROF. LINDEN: Cyndaquil, the Fire Mouse Pokémon. Will you take it?"
     if result yes
       givemon cyndaquil 5
-      setflag got_starter
-      setflag starter_fire
-      setflag took_ball_fire
-      hide ball_fire
-      say "{rival}: Then I'll take this one!"
-      setflag took_ball_water
-      hide ball_water
-      call lab_handoff
+      if result yes
+        setflag got_starter
+        setflag starter_fire
+        setflag took_ball_fire
+        hide ball_fire
+        say "{rival}: Then I'll take this one!"
+        setflag took_ball_water
+        hide ball_water
+        call lab_handoff
+      end
     end
   end
 end
@@ -134,14 +138,16 @@ script lab_ball_water
     ask "PROF. LINDEN: Totodile, the Big Jaw Pokémon. Will you take it?"
     if result yes
       givemon totodile 5
-      setflag got_starter
-      setflag starter_water
-      setflag took_ball_water
-      hide ball_water
-      say "{rival}: Then I'll take this one!"
-      setflag took_ball_grass
-      hide ball_grass
-      call lab_handoff
+      if result yes
+        setflag got_starter
+        setflag starter_water
+        setflag took_ball_water
+        hide ball_water
+        say "{rival}: Then I'll take this one!"
+        setflag took_ball_grass
+        hide ball_grass
+        call lab_handoff
+      end
     end
   end
 end

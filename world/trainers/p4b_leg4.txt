@@ -403,7 +403,7 @@ trainer p4b_sol_hex_ione
   name "Ione"
   intro "The catacombs are calling... Can you hear them? No? Then hear THIS!"
   defeat "The calling stopped..."
-  after "The stairs down are in the southern ruins. Bring Flash. The dead of Sol hate visitors with torches. Kidding. Bring Flash."
+  after "The stairs down are in the southern ruins. Use Flash. The dead of Sol hate visitors with torches. Kidding. Use Flash."
   mon golett 31
   mon sableye 31
 end

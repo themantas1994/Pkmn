@@ -88,22 +88,39 @@ script p2_fossil_reviver
   faceplayer
   if item jawfossil
     say "REVIVER: A Jaw Fossil! Give me a moment..."
-    takeitem jawfossil
     givemon tyrunt 30
-    call p2_fossil_done
+    if result yes
+      takeitem jawfossil
+      call p2_fossil_done
+    else
+      call p2_fossil_full
+    end
   elif item sailfossil
     say "REVIVER: A Sail Fossil! Give me a moment..."
-    takeitem sailfossil
     givemon amaura 30
-    call p2_fossil_done
+    if result yes
+      takeitem sailfossil
+      call p2_fossil_done
+    else
+      call p2_fossil_full
+    end
   elif item oldamber
     say "REVIVER: Old Amber! There's DNA trapped inside. Give me a moment..."
-    takeitem oldamber
     givemon aerodactyl 30
-    call p2_fossil_done
+    if result yes
+      takeitem oldamber
+      call p2_fossil_done
+    else
+      call p2_fossil_full
+    end
   else
     say "REVIVER: Bring me fossils and I'll bring them back to life! Jaw, Sail, Old Amber... anything!"
   end
+end
+
+# The fossil is only handed over once the revived Pokémon has a place in the party or a PC box.
+script p2_fossil_full
+  say "REVIVER: Your party and your boxes are full! Make some room, then come back. I'll keep the machine warm."
 end
 
 script p2_fossil_done
@@ -154,7 +171,7 @@ script p2_garnet
       say "GARNET: You've got a backbone of granite. Take the Stone Badge!"
       badge 4
       setflag p2_badge4
-      say "GARNET: With it, your Pokémon can Surf outside of battle. Rivers and lakes are yours now."
+      say "GARNET: With it, you can Surf outside of battle. Rivers and lakes are yours now."
       tm rockslide
       say "GARNET: Rock Slide! Crushes the foe and might make 'em flinch."
       quest p2_story next

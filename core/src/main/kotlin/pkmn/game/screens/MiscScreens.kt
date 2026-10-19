@@ -225,7 +225,9 @@ class BoxScreen(game: PkmnGame, private val ctx: GameContext, private val op: Op
 }
 
 /** Region map; in fly mode lets the player choose a visited town. */
-class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow: OverworldScreen, private val flyMode: Boolean, private val onClose: () -> Unit) : Screen(game) {
+class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow: OverworldScreen, private val flyMode: Boolean,
+                    /** Shown only after a destination is chosen (God Bidoof's line); B-cancel never shows it. */ private val flyAnnounce: String? = null,
+                    private val onClose: () -> Unit) : Screen(game) {
     private val towns = ctx.content.index.maps.mapNotNull { ctx.content.mapOrNull(it) }.filter { it.flyX >= 0 && it.regionX >= 0 }
     private val visitedTowns get() = towns.filter { it.id in ctx.state.visited }
 
@@ -250,8 +252,8 @@ class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow
         if (flyMode && input.justPressed(Button.A) && list.isNotEmpty()) {
             val t = list[cursor]
             pop()
-            ctx.state.surfing = false
-            ow.warpTo(t.id, t.flyX, t.flyY, Facing.DOWN) { onClose() }
+            val go = { ctx.state.surfing = false; ow.warpTo(t.id, t.flyX, t.flyY, Facing.DOWN) { onClose() } }
+            if (flyAnnounce != null) game.say(flyAnnounce) { go() } else go()
         }
     }
     override fun onBack(): Boolean { pop(); onClose(); return true }

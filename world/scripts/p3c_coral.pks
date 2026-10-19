@@ -121,10 +121,12 @@ script p3c_nalu
 end
 
 script p3c_nalu_done
-  # givemon's result is overwritten by its message box, so check the Pokédex/party instead.
-  if hasmon rowlet or hasmon litten or hasmon popplio
+  # Called right after givemon: its result (1 stored, 0 no room) is still current. Nothing is flagged on 0, so the gift can be retried.
+  if result yes
     setflag p3c_nalu_gift
     say "NALU: It's already looking at you like you hung the moon. Take good care of it!"
+  else
+    say "NALU: Your party and your boxes are full, dear. Make some room and come back for the little one."
   end
 end
 

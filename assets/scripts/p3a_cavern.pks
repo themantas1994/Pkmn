@@ -131,12 +131,14 @@ script p3a_r11_lapras_lady
     quest p3a_lapras start
   elif item bigpearl
     say "That's a Big Pearl! Lapras is singing!"
-    takeitem bigpearl
     givemon lapras 40 moves=surf,icebeam,sing,bodyslam
     if result 1
+      takeitem bigpearl
       setflag p3a_got_lapras
       quest p3a_lapras done
       say "Please take good care of it. It can carry you across any sea!"
+    else
+      say "Your party and your boxes are full. Make some room, then come back. You keep the Big Pearl until then."
     end
   else
     say "Lapras is waiting for a Big Pearl. Try the tiny islet in the middle of the bay."

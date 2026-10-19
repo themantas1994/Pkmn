@@ -5,6 +5,7 @@ location "Victory Road"
 music cave
 environment cave
 region 15 3
+tags boulder_reset
 encounters p3b_victory_road
 
 legend

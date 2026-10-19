@@ -125,7 +125,7 @@ trainer p4a_gc_hiker_flint
   name "Flint"
   intro "I crack rocks for a living! Watch this!"
   defeat "Cracked... me."
-  after "Some rocks in here are cracked. A Pokémon with Rock Smash can break right through."
+  after "Some rocks in here are cracked. Rock Smash can break right through."
   mon roggenrola 22
   mon onix 23
 end

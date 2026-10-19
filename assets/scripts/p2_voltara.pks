@@ -178,7 +178,7 @@ script p2_volta
       say "VOLTA: What a finale! You've earned this."
       badge 3
       setflag p2_badge3
-      say "VOLTA: The Spark Badge lets your Pokémon use Strength outside of battle. Push those boulders!"
+      say "VOLTA: The Spark Badge lets you use Strength outside of battle. Push those boulders!"
       tm voltswitch
       say "VOLTA: That TM is Volt Switch. Hit hard, then switch out. Keep the audience guessing!"
       quest p2_story next

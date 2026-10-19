@@ -39,6 +39,45 @@ class ContentValidatorTest {
         assertEquals(2, issues.errors.size)
     }
 
+    @Test
+    fun bundledScriptsCheckGiftResultBeforeCompletion() {
+        val scripts = WorldContent(DirectoryContentSource(File(repo, "assets"))).scripts.values
+        val issues = Issues()
+        ContentValidator(repo).validateGiftResults(scripts, issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun giftResultRuleFlagsUncheckedGifts() {
+        val src = "script a\n  givemon rowlet 5\n  setflag got\nend\nscript b\n  takeitem x\n  giveegg togepi 1\n  if hasmon togepi\n    quest q done\n  end\nend\n" +
+            "script ok\n  givemon rowlet 5\n  if result yes\n    takeitem x\n    setflag got\n  end\nend\n"
+        val issues = Issues()
+        ContentValidator(repo).validateGiftResults(pkmn.engine.world.ScriptParser.parseFile(src, "t.pks"), issues)
+        assertEquals(setOf("gift-result-unchecked"), codes(issues))
+        assertEquals(listOf("a:3", "b:9"), issues.errors.map { it.subject })
+    }
+
+    @Test
+    fun bundledWorldTextHasNoObsoleteFieldMoveWording() {
+        val issues = Issues()
+        ContentValidator(repo).validateFieldMoveWording(File(repo, "world"), issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun fieldMoveWordingRuleFlagsPartyRequirements() {
+        val dir = Files.createTempDirectory("fmw").toFile()
+        try {
+            File(dir, "world/scripts").mkdirs()
+            File(dir, "world/scripts/t.pks").writeText(
+                "script a\n  say \"Bring a Pokemon that knows Flash.\"\n  say \"A Pokémon with Rock Smash can do it.\"\n  say \"Bring Flash.\"\n" +
+                    "  say \"The Sprout Badge lets you use Cut. God Bidoof does it.\"\n  # Pokémon that can learn Cut\nend\n")
+            val issues = Issues()
+            ContentValidator(repo).validateFieldMoveWording(File(dir, "world"), issues)
+            assertEquals(listOf("world/scripts/t.pks:2", "world/scripts/t.pks:3", "world/scripts/t.pks:4"), issues.errors.map { it.subject })
+        } finally { dir.deleteRecursively() }
+    }
+
     private fun map(id: String, npcs: List<pkmn.engine.world.NpcDef> = emptyList(), triggers: List<pkmn.engine.world.TriggerDef> = emptyList(),
                     obstacles: List<pkmn.engine.world.ObstacleDef> = emptyList()) =
         pkmn.engine.world.MapData(id = id, name = id, width = 1, height = 1, tilePalette = listOf("g"), ground = listOf(0), npcs = npcs, triggers = triggers, obstacles = obstacles)

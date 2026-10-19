@@ -38,7 +38,7 @@ trainer p4a_r4_blackbelt_koji
   name "Koji"
   intro "Hyah! I train by punching the ridge! Want to see?"
   defeat "My knuckles hurt more than my pride."
-  after "Machop and Makuhita both learn Rock Smash. The Tide Badge lets you use it outside battle!"
+  after "The Tide Badge lets you use Rock Smash outside battle!"
   mon makuhita 15
   mon machop 15
   mon mankey 14

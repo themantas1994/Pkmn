@@ -3,7 +3,7 @@
 
 # ---------------------------------------------------------------- Route 6 / Glimmer Cave
 script p4a_r6_cave_sign
-  say "GLIMMER CAVE\pDanger: no lights inside. Bring a Pokémon that knows Flash."
+  say "GLIMMER CAVE\pDanger: no lights inside. Use Flash."
 end
 
 script p4a_gc_sign
@@ -86,11 +86,15 @@ script p4a_engineer
     say "WATTS: The relay hums like new! If the plant ever goes dark again, Voltara will still have light."
   elif item machinepart
     say "WATTS: That's my Machine Part! You found it in Glimmer Cave? In the dark? Incredible!"
-    takeitem machinepart
     say "WATTS: Let me install it... There! The relay's back online."
     say "WATTS: Here, I've been raising this little one at the station. It's got more spark than I can handle!"
     givemon pawmi 20
-    quest p4a_machine_part done
+    if result yes
+      takeitem machinepart
+      quest p4a_machine_part done
+    else
+      say "WATTS: Oh, your party and boxes are full. Make some room and come back, the Machine Part can wait."
+    end
   else
     say "WATTS: I'm the engineer at Ridge Station. I dropped a Machine Part in Glimmer Cave, north of Route 6."
     say "WATTS: Without it, the solar relay can't send power down to Voltara. And it's pitch black in there!"

@@ -144,7 +144,7 @@ class PartyScreen(
     private fun useField(o: String) {
         val owScreen = ow ?: return
         when (o) {
-            "FLY" -> if (owScreen.baseMap.indoor) game.say("You can't fly indoors.") else { pop(); game.say(ctx.bidoofLine(pkmn.engine.world.FieldMove.FLY)) { game.push(TownMapScreen(game, ctx, owScreen, flyMode = true) {}) } }
+            "FLY" -> if (owScreen.baseMap.indoor) game.say("You can't fly indoors.") else { pop(); game.push(TownMapScreen(game, ctx, owScreen, flyMode = true, flyAnnounce = ctx.bidoofLine(pkmn.engine.world.FieldMove.FLY)) {}) }
             "FLASH" -> if (owScreen.baseMap.dark) { owScreen.useFlash(); pop(); game.say(ctx.bidoofLine(pkmn.engine.world.FieldMove.FLASH)) } else game.say("It's bright enough already.")
             "TELEPORT", "DIG" -> if (owScreen.baseMap.indoor && o == "TELEPORT") game.say("Can't use that here.") else {
                 pop()

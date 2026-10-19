@@ -36,7 +36,7 @@ trainer route3_boulder
   name "Clint"
   intro "Hah! The road east goes through Cobblecrest Cave. Think you're ready?"
   defeat "You're as tough as granite!"
-  after "Cobblecrest is full of cracked rocks. A Pokémon with Rock Smash could break them with the Tide Badge."
+  after "Cobblecrest is full of cracked rocks. Rock Smash can break them once you have the Tide Badge."
   mon geodude 13
   mon mudbray 14
 end
