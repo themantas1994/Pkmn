@@ -90,6 +90,9 @@ object BundledAssets {
                 Files.move(part.toPath(), out.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE)
             } catch (e: AtomicMoveNotSupportedException) {
                 Files.move(part.toPath(), out.toPath(), StandardCopyOption.REPLACE_EXISTING)
+            } catch (e: LinkageError) {
+                // java.nio.file is missing below Android API 26: replace with the classic File API.
+                if (!part.renameTo(out)) { part.copyTo(out, overwrite = true); part.delete() }
             }
         } catch (e: Throwable) {
             part.delete()

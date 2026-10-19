@@ -145,8 +145,10 @@ script p4b_moon_shrine
   elif time night
     say "Under the moonlight, a circle of Clefairy dances around the shrine! One of them notices {player}..."
     wildbattle clefairy 36
-    setflag p4b_moon_clefairy
-    say "The other Clefairy scattered into the fog."
+    if result caught or result defeated
+      setflag p4b_moon_clefairy
+      say "The other Clefairy scattered into the fog."
+    end
   else
     say "A little stone shrine to the moon, worn smooth by time. The engraving reads: \"When the moon is high, the pink ones dance.\""
   end
