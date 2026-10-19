@@ -96,6 +96,7 @@ class BagScreen(
                 "GIVE" -> push(PartyScreen(game, ctx, PartyScreen.Mode.CHOOSE, null, false, null, "Give to which POKéMON?") { t ->
                     val mon = t?.let { ctx.state.party[it] } ?: return@PartyScreen
                     val old = mon.heldItem
+                    if (old != null && old != id && ctx.state.itemRoom(old) < 1) { game.say("The BAG has no room for the ${ctx.itemName(old)}."); return@PartyScreen }
                     ctx.state.removeItem(id)
                     if (old != null) ctx.state.addItem(old)
                     mon.heldItem = id
@@ -139,7 +140,8 @@ class BagScreen(
             val evolveTo = r.evolveTo
             val teach = r.teach
             val afterMoves: () -> Unit = {
-                if (evolveTo != null) push(EvolutionScreen(game, ctx, mon, evolveTo) {})
+                // Stones and the Linking Cord are spent only if the evolution completes; B-cancel keeps the item.
+                if (evolveTo != null) push(EvolutionScreen(game, ctx, mon, evolveTo, spendOnEvolve = id.takeIf { r.consumeOnEvolve }) {})
             }
             when {
                 teach != null -> MoveLearnFlow.offer(game, ctx, mon, teach) {}

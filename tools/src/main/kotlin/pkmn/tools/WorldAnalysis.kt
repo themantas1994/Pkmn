@@ -240,7 +240,7 @@ class WorldAnalysis(root: File) : ReachWorld {
     }
 
     companion object {
-        /** Mirror of `GameContext.canUseFieldMove` for a player holding badges 1..[badges]. */
+        /** Mirror of `GameContext.canUseFieldMove` (named-badge rule) for a player holding badges 1..[badges], the order the campaign awards them. */
         fun fieldMovesAt(badges: Int): Set<FieldMove> = FieldMove.entries.filter { badges >= it.badgeRequired }.toSet()
     }
 

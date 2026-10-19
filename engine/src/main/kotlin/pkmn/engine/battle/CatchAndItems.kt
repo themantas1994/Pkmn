@@ -192,6 +192,29 @@ object BagItemEffects {
 
     val xItems = mapOf("xattack" to "atk", "xdefense" to "def", "xspatk" to "spa", "xspdef" to "spd", "xspeed" to "spe", "xaccuracy" to "accuracy")
 
+    /**
+     * Dry run of [apply] for choices that are cheap to check: whether the item would change [target] right now. Used to
+     * reject a use (and keep the item and the turn) such as a Potion at full HP or a Revive on a live Pokémon. Items
+     * whose effect depends on battle state (X items, Dire Hit...) pass here and are charged only if [apply] succeeds.
+     */
+    fun wouldWork(b: Battle, target: BattleMon, itemId: String, moveIndex: Int): Boolean {
+        healing[itemId]?.let { h ->
+            if (h.revive > 0) return target.fainted
+            if (target.fainted) return false
+            val amount = if (h.fraction > 0) (target.maxHp * h.fraction).toInt() else h.hp
+            return (amount > 0 && target.hp < target.maxHp) || (target.status != null && target.status in h.cures) ||
+                (h.cureConfusion && target.isActive && target.hasVolatile("confusion"))
+        }
+        when (itemId) {
+            "ether", "maxether", "leppaberry" -> {
+                val slot = target.moveSlots.getOrNull(moveIndex) ?: target.moveSlots.minByOrNull { it.pp } ?: return false
+                return slot.pp < slot.maxPp(b.dex)
+            }
+            "elixir", "maxelixir" -> return target.moveSlots.any { it.pp < it.maxPp(b.dex) }
+        }
+        return true
+    }
+
     /** Applies a bag item to a team member (active or benched). Returns false if it had no effect. */
     fun apply(b: Battle, target: BattleMon, itemId: String, moveIndex: Int): Boolean {
         healing[itemId]?.let { h ->

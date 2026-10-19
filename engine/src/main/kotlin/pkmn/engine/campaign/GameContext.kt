@@ -212,9 +212,111 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      */
     fun performTrade(index: Int, want: String, received: Pokemon): String? {
         require(index in tradeCandidates(want)) { "party slot $index is not a $want" }
-        state.party[index] = received
-        registerCaught(received)
+        state.party.removeAt(index)
+        // The received Pokémon belongs to another trainer: never one of ours, or it would lose the traded-Pokémon Exp.
+        // bonus ([Progression.expYield], 1.5x for any Pokémon whose OT id differs from the player's).
+        if (received.otName.isEmpty() || received.otId == state.trainerId) {
+            received.otName = received.otName.ifEmpty { "TRADER" }
+            received.otId = (state.trainerId + 1) and 0xFFFF
+        }
+        // The party has a free slot now, so acquire stores it there; move it into the slot of the Pokémon given away.
+        acquire(received, offerNickname = false)
+        state.party.removeAll { it === received }
+        state.party.add(index.coerceAtMost(state.party.size), received)
         return evolutionByItem(received, "linkingcord", null)
+    }
+
+    // ------------------------------------------------------------------ bag / shop / PC
+
+    /**
+     * Gives [qty] of [id]. By default all-or-nothing: if the stack cannot take the whole amount, nothing is added and
+     * [ItemGrant.accepted] is 0, so a gift or reward can stay pending (the caller keeps `leftover`). With
+     * [allOrNothing] false the part that fits is stored and the rest reported as [ItemGrant.leftover].
+     */
+    fun giveItem(id: String, qty: Int = 1, allOrNothing: Boolean = true): ItemGrant {
+        if (allOrNothing && qty > state.itemRoom(id) && !(id.startsWith("tm:") && state.itemCount(id) > 0)) return ItemGrant(id, qty, 0)
+        return ItemGrant(id, qty, state.addItem(id, qty))
+    }
+
+    /** Largest quantity of [id] the player can buy at [unitPrice] now (0 = cannot): money, bag room, 99 per purchase; a TM is bought once. */
+    fun maxPurchase(id: String, unitPrice: Int): Int {
+        if (id.startsWith("tm:") && state.itemCount(id) > 0) return 0
+        return minOf(99, state.money / maxOf(1, unitPrice), state.itemRoom(id).coerceAtLeast(0))
+    }
+
+    /**
+     * Buys [qty] of [id] for [unitPrice] each, atomically: either the whole quantity is paid for and stored, or nothing
+     * changes (never a charge for items the bag cannot take). 10+ Poké Balls add a free Premier Ball per ten, as far as it fits.
+     */
+    fun buy(id: String, qty: Int, unitPrice: Int): Purchase {
+        if (qty <= 0) return Purchase(false, 0, 0, 0, "Invalid quantity.")
+        if (id.startsWith("tm:") && state.itemCount(id) > 0) return Purchase(false, 0, 0, 0, "You already have that TM.")
+        if (qty > state.itemRoom(id)) return Purchase(false, 0, 0, 0, "You have no room for that many.")
+        val cost = qty.toLong() * unitPrice
+        if (cost > state.money) return Purchase(false, 0, 0, 0, "You don't have enough money.")
+        state.addMoney(-cost.toInt())
+        state.addItem(id, qty)
+        val bonus = if (id == "pokeball" && qty >= 10) state.addItem("premierball", qty / 10) else 0
+        return Purchase(true, qty, cost.toInt(), bonus, "")
+    }
+
+    /** Largest quantity of [id] that can be sold at [unitPrice] without the wallet passing its cap. */
+    fun maxSale(id: String, unitPrice: Int): Int {
+        val room = GameState.MAX_MONEY - state.money
+        val byMoney = if (unitPrice <= 0) state.itemCount(id) else room / unitPrice
+        return minOf(state.itemCount(id), byMoney)
+    }
+
+    /** Sells [qty] of [id] at [unitPrice] each (atomic; nothing changes when the wallet or the stack cannot take it). */
+    fun sell(id: String, qty: Int, unitPrice: Int): Sale {
+        if (qty <= 0 || qty > state.itemCount(id)) return Sale(false, 0, "You don't have that many.")
+        if (qty > maxSale(id, unitPrice)) return Sale(false, 0, "You can't carry that much money.")
+        state.removeItem(id, qty)
+        val gain = qty * unitPrice
+        state.addMoney(gain)
+        return Sale(true, gain, "")
+    }
+
+    /**
+     * Charges the bag for the items the player's side actually used in [b] (accepted effects and thrown balls), once.
+     * Rejected or ineffective uses were never recorded, so they cost nothing; calling it again is a no-op.
+     */
+    fun settleBattleItems(b: Battle): List<String> {
+        val used = b.itemsUsed.toList()
+        b.itemsUsed.clear()
+        for (id in used) state.removeItem(id)
+        return used
+    }
+
+    /** Whether the bag still holds an unspent [id] for this battle (items used earlier in it but not yet settled count). */
+    fun canSpendBattleItem(b: Battle, id: String): Boolean = state.itemCount(id) > b.itemsUsed.count { it == id }
+
+    /**
+     * Why party member [index] cannot be deposited into the PC, or null. The party must keep a Pokémon that can fight:
+     * the last one, or the last one that is not fainted, stays.
+     */
+    fun depositError(index: Int): String? {
+        val mon = state.party.getOrNull(index) ?: return "Invalid POKéMON."
+        if (state.party.size <= 1) return "You can't deposit your last POKéMON!"
+        val ableAfter = state.party.withIndex().any { (i, m) -> i != index && !m.isFainted }
+        if (!mon.isFainted && !ableAfter) return "You can't deposit your last healthy POKéMON!"
+        if (state.boxes.none { box -> box.any { it == null } }) return "The PC is full!"
+        return null
+    }
+
+    /** Moves party member [index] to the first free box slot. Returns an error message (nothing changed) or null. */
+    fun depositToPc(index: Int): String? {
+        depositError(index)?.let { return it }
+        val box = state.boxes.first { b -> b.any { it == null } }
+        box[box.indexOf(null)] = state.party.removeAt(index)
+        return null
+    }
+
+    /** Completes an item evolution (stone, Linking Cord): evolves and only then spends the item. Returns pending move prompts. */
+    fun completeItemEvolution(mon: Pokemon, target: String, item: String): List<String> {
+        val pending = evolve(mon, target)
+        state.removeItem(item)
+        return pending
     }
 
     fun healParty() { for (m in state.party) m.healFully(dex) }
@@ -244,8 +346,11 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
 
     // ------------------------------------------------------------------ field moves
 
-    /** God Bidoof performs every unlocked field move, so no party Pokémon is needed; the badge is the unlock. */
-    fun canUseFieldMove(fm: FieldMove): Boolean = state.badgeCount() >= fm.badgeRequired || fm.badgeRequired in state.badges
+    /** God Bidoof performs every unlocked field move, so no party Pokémon is needed; the badge is the unlock.
+     * Policy (docs/CAMPAIGN.md: "available once its badge is earned"): the NAMED badge is required, not a badge count, so
+     * holding other badges never substitutes for it. The campaign awards badges in order, so for a normal play-through
+     * this equals "n badges unlock the moves of badges 1..n" (the rule the tools' reachability analysis mirrors). */
+    fun canUseFieldMove(fm: FieldMove): Boolean = fm.badgeRequired in state.badges
 
     fun bidoofLine(fm: FieldMove) = "God Bidoof answered your prayers and used ${fm.name.replace('_', ' ')}!"
 
@@ -424,7 +529,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         when (b.outcome) {
             BattleOutcome.WIN -> if (trainerId != null && state.defeatedTrainers.add(trainerId)) {
                 val prize = prizeMoney(trainerId) * (if (state.party.any { it.heldItem == "amuletcoin" }) 2 else 1)
-                state.money = (state.money + prize).coerceAtMost(9_999_999)
+                state.addMoney(prize)
                 msgs.add("${state.playerName} got ¥$prize for winning!")
             }
             BattleOutcome.CAUGHT -> b.caughtMon?.let { mon ->
@@ -436,14 +541,15 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
             }
             BattleOutcome.LOSE, BattleOutcome.DRAW -> if (!canLose) {
                 val lost = defeatPenalty()
-                state.money -= lost
+                state.addMoney(-lost)
                 msgs.add("${state.playerName} is out of usable Pokémon!")
                 if (lost > 0) msgs.add("${state.playerName} panicked and dropped ¥$lost...")
                 msgs.add("${state.playerName} blacked out!")
             }
             else -> {}
         }
-        if (!reapplied && b.payDay > 0) { state.money += b.payDay; msgs.add("${state.playerName} picked up ¥${b.payDay}!") }
+        if (!reapplied && b.payDay > 0) { state.addMoney(b.payDay); msgs.add("${state.playerName} picked up ¥${b.payDay}!") }
+        settleBattleItems(b)
         return msgs
     }
 
@@ -452,7 +558,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      * on the spot, in which case only spin evolutions (Milcery) are considered.
      */
     fun pendingEvolutions(candidates: Collection<Int>, map: MapData?, spun: Boolean = false): List<Pair<Int, String>> {
-        val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = now().hour in 17..18, raining = map?.weather == "rain",
+        val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = state.options.realTimeClock && now().hour in 17..18, raining = map?.weather == "rain",
             party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain",
             spun = spun)
         return candidates.mapNotNull { i ->
@@ -506,3 +612,15 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         )
     }
 }
+
+/** Outcome of [GameContext.giveItem]: [accepted] of [requested] went into the bag; the rest is [leftover]. */
+data class ItemGrant(val item: String, val requested: Int, val accepted: Int) {
+    val leftover: Int get() = requested - accepted
+    val complete: Boolean get() = accepted >= requested
+}
+
+/** Outcome of [GameContext.buy]: on failure nothing was charged or stored and [message] says why. */
+data class Purchase(val ok: Boolean, val qty: Int, val cost: Int, val bonus: Int, val message: String)
+
+/** Outcome of [GameContext.sell]. */
+data class Sale(val ok: Boolean, val gained: Int, val message: String)

@@ -53,6 +53,11 @@ class Battle(
     var moneyEarned = 0
     /** Accumulated Pay Day / Make It Rain coins. */
     var payDay = 0
+    /**
+     * Bag items (ids) the player's side actually spent: recorded when an item takes effect or a Poké Ball is thrown, never
+     * for a rejected or ineffective use. The caller settles them against the bag exactly once ([GameContext.settleBattleItems]).
+     */
+    val itemsUsed = ArrayList<String>()
     /** True while the AI previews damage; effects must not consume items or change state. */
     var previewing = false
     /** Forces the damage roll (85..100) for deterministic tests; null = random. */
@@ -354,7 +359,15 @@ class Battle(
                 if (!canSwitchOut(active)) return "${active.name} can't be switched out!"
             }
             is Choice.Run -> if (!side.foe.isWild || !rules.canRun) return "No! There's no running from a trainer battle!"
-            is Choice.UseItem -> if (!rules.canUseItems) return "Items can't be used now"
+            is Choice.UseItem -> {
+                if (!rules.canUseItems) return "Items can't be used now"
+                val item = dex.itemOrNull(choice.itemId) ?: return "Unknown item"
+                if (!item.isPokeball) {
+                    if (!BagItemEffects.isUsableInBattle(item.id)) return "That can't be used in battle"
+                    val target = side.mons.getOrNull(choice.teamIndex) ?: side.active ?: return "Invalid Pokémon"
+                    if (!BagItemEffects.wouldWork(this, target, item.id, choice.moveIndex)) return "It won't have any effect."
+                }
+            }
             Choice.Pass -> {}
         }
         choices[side.index] = choice
@@ -2098,7 +2111,7 @@ class Battle(
         val target = side.mons.getOrNull(c.teamIndex) ?: side.active ?: return
         message("${if (side.isPlayer) "You" else side.name} used ${if (side.isPlayer) "the" else "a"} ${item.name}!".replace("You used", "${side.name} used"))
         val r = BagItemEffects.apply(this, target, item.id, c.moveIndex)
-        if (!r) message("But it had no effect...")
+        if (r) { if (side.isPlayer) itemsUsed.add(item.id) } else message("But it had no effect...")
     }
 
     private fun throwBall(side: Side, ball: ItemData) {
@@ -2109,6 +2122,7 @@ class Battle(
             message("The Trainer blocked the Ball! Don't be a thief!")
             return
         }
+        if (side.isPlayer) itemsUsed.add(ball.id)
         if (!rules.canCatch) {
             // Scripted encounters that must not be caught (the ball is knocked away, as with the Gen IX titans).
             message("The Pokémon knocked the Ball away!")

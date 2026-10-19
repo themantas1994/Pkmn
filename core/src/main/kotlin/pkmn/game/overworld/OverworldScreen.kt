@@ -537,8 +537,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
 
     private fun pickUp(item: ItemPickup) {
         if (state.hasFlag("item:${item.id}")) return
+        // A full stack leaves the item where it lies (flag unset) so it can be picked up later.
+        if (!ctx.giveItem(item.item, item.qty).complete) { game.say("${state.playerName} can't carry any more ${ctx.itemName(item.item)}."); return }
         state.setFlag("item:${item.id}")
-        state.addItem(item.item, item.qty)
         game.audio.playSfx("item_get")
         if (!item.hidden) {
             // The ball pops and vanishes; the item is already in the bag (the animation is cosmetic only).

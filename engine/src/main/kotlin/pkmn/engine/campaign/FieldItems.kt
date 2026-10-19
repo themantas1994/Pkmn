@@ -17,6 +17,11 @@ data class FieldItemResult(
     val newMoves: List<String> = emptyList(),
     /** TM move to teach. */
     val teach: String? = null,
+    /**
+     * Evolution items (stones, Linking Cord) are spent only when the evolution actually completes: the caller passes
+     * [evolveTo] on to the evolution screen and calls [GameContext.completeItemEvolution]; a cancelled evolution keeps the item.
+     */
+    val consumeOnEvolve: Boolean = false,
 )
 
 /** Rules for items used from the bag in the overworld. */
@@ -107,7 +112,8 @@ class FieldItems(private val ctx: GameContext) {
                 return FieldItemResult(true, "${dex.move(slot.id).name}'s PP increased.")
             }
             "rarecandy" -> {
-                if (mon.level >= 100 || mon.isFainted) return FieldItemResult(false, "It won't have any effect.")
+                // Never past the level cap (Challenge difficulty: the next leader's ace level), nor 100.
+                if (mon.level >= 100 || mon.level >= ctx.levelCap() || mon.isFainted) return FieldItemResult(false, "It won't have any effect.")
                 val needed = mon.species(dex).growthRate.expForLevel(mon.level + 1) - mon.exp
                 val ups = ctx.progression.addExp(mon, needed)
                 mon.friendship = minOf(255, mon.friendship + 3)
@@ -117,7 +123,7 @@ class FieldItems(private val ctx: GameContext) {
             }
             "linkingcord" -> {
                 val target = ctx.evolutionByItem(mon, "linkingcord", null) ?: return FieldItemResult(false, "It won't have any effect.")
-                return FieldItemResult(true, "", evolveTo = target)
+                return FieldItemResult(true, "", consumed = false, evolveTo = target, consumeOnEvolve = true)
             }
             "abilitycapsule" -> {
                 val sp = mon.species(dex)
@@ -145,7 +151,7 @@ class FieldItems(private val ctx: GameContext) {
             return FieldItemResult(true, "$name's stats may have changed due to the effects of the ${dex.itemOrNull(item)?.name ?: "mint"}!")
         }
         // Evolution stones and other use-item evolutions.
-        ctx.evolutionByItem(mon, item, null)?.let { return FieldItemResult(true, "", evolveTo = it) }
+        ctx.evolutionByItem(mon, item, null)?.let { return FieldItemResult(true, "", consumed = false, evolveTo = it, consumeOnEvolve = true) }
         return FieldItemResult(false, "It won't have any effect.", consumed = false)
     }
 

@@ -584,7 +584,9 @@ class BattleScreen(
             if (dex.itemOrNull(item)?.isPokeball == true && ctx.storageFull()) {
                 flow.resume(); say("The PC BOXES are full!\nYou can't catch any more POKéMON."); return@BagScreen
             }
-            ctx.state.removeItem(item)
+            if (!ctx.canSpendBattleItem(battle, item)) { flow.resume(); say("You don't have any left!"); return@BagScreen }
+            // The item is charged only if the battle accepts it and it takes effect ([GameContext.settleBattleItems]);
+            // a rejected choice ("It won't have any effect.") leaves the bag untouched.
             submit(Choice.UseItem(item, target ?: battle.player.mons.indexOf(battle.player.active)))
         })
     }
@@ -592,6 +594,7 @@ class BattleScreen(
     private fun submit(c: Choice) {
         menu = Menu.NONE
         val err = flow.submit(c)
+        ctx.settleBattleItems(battle)
         gimmickArmed = null
         if (err != null) { flow.resume(); say(err) }
     }

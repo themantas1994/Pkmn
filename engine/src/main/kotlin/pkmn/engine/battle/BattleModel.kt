@@ -21,7 +21,11 @@ data class BattleRules(
     val canCatch: Boolean = true,
     val canUseItems: Boolean = true,
     val expEnabled: Boolean = true,
-    /** Party-wide experience (modern Exp. Share). */
+    /**
+     * Party-wide Exp. Share (the player option / bag switch): every healthy party member earns experience, participants
+     * the full amount and the others half. Off: participants only. The campaign passes [Options.expShare] (default off);
+     * this default only serves engine-level callers and tests.
+     */
     val expShareAll: Boolean = true,
     val levelCap: Int = 100,
     val isTrainerBattle: Boolean = false,

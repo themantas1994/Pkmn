@@ -118,8 +118,27 @@ class GameState(
     fun clearFlag(f: String) { flags.remove(f) }
     fun itemCount(id: String) = bag[id] ?: 0
 
-    fun addItem(id: String, qty: Int = 1) {
-        bag[id] = ((bag[id] ?: 0) + qty).coerceAtMost(999)
+    /** How many more of [id] the bag accepts: stacks hold at most [MAX_STACK]; a TM (reusable) is owned once. */
+    fun itemRoom(id: String): Int = (if (id.startsWith("tm:")) 1 else MAX_STACK) - itemCount(id)
+
+    /**
+     * Adds up to [qty] of [id] and returns the amount actually stored (the rest is NOT added, so callers can keep the
+     * remainder pending or refuse the transaction instead of silently losing it). Non-positive quantities add nothing.
+     * A TM is reusable, so a second copy of an owned TM is never stored and counts as accepted (nothing is lost).
+     */
+    fun addItem(id: String, qty: Int = 1): Int {
+        if (qty <= 0) return 0
+        if (id.startsWith("tm:") && itemCount(id) > 0) return qty
+        val accepted = minOf(qty, itemRoom(id).coerceAtLeast(0))
+        if (accepted > 0) bag[id] = itemCount(id) + accepted
+        return accepted
+    }
+
+    /** Adds [amount] yen (negative deducts) and keeps the wallet within 0..[MAX_MONEY]. Returns the real change. */
+    fun addMoney(amount: Int): Int {
+        val before = money
+        money = (before.toLong() + amount).coerceIn(0L, MAX_MONEY.toLong()).toInt()
+        return money - before
     }
 
     fun removeItem(id: String, qty: Int = 1): Boolean {
@@ -140,6 +159,11 @@ class GameState(
     }
 
     fun badgeCount() = badges.size
+
+    companion object {
+        const val MAX_STACK = 999
+        const val MAX_MONEY = 9_999_999
+    }
 
     /** Every Pokémon the player owns, party first, then boxes in order. */
     fun ownedPokemon(): List<Pokemon> = party + boxes.flatMap { it.filterNotNull() }

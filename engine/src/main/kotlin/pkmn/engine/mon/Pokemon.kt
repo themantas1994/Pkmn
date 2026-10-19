@@ -207,7 +207,8 @@ class Progression(private val dex: Dex) {
 
     data class LevelUpResult(val newLevel: Int, val newMoves: List<String>, val statsBefore: Map<Stat, Int>, val statsAfter: Map<Stat, Int>)
 
-    /** Gen 5+/7+ scaled experience formula. [participants] splits nothing (modern Exp. Share gives everyone full exp). */
+    /** Gen 5+/7+ scaled experience formula. The caller decides who earns it: participants always get this amount;
+     * with the party-wide Exp. Share option, benched members get half of it ([Battle.awardExp]). Nothing is split here. */
     fun expYield(defeated: Pokemon, victorLevel: Int, trainerBattle: Boolean, luckyEgg: Boolean = false, traded: Boolean = false): Int {
         val sp = defeated.species(dex)
         val b = sp.baseExp.toDouble()

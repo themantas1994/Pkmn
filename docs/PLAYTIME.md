@@ -29,8 +29,10 @@ Party level minus the boss's ace level, gyms 1 to 8 and then the Champion:
 ## What changed
 
 1. **Exp. Share defaults to off for new players** (`Options.expShare`).
-   - This matches GSC, where the Exp. Share is a single held item.
-   - The option and the bag toggle remain.
+   - With it off, only Pokémon that took part in the battle earn experience, as in GSC without the held Exp. Share.
+   - The option and the bag toggle remain. The Exp. Share key item (Fernwick aide's gift) is a switch for the same
+     option, not a held item. On, every healthy party member earns experience: participants in full, the others half
+     (`Battle.awardExp`); the estimator's `shareFactor` models exactly that.
    - **Existing players are not affected.** Options files written before this change never stored the old default, and `Options.decodeLegacyAware` treats a missing field as the old "on". Options files now always store every field. Tests: `TimeAndEventsTest > exp share default changes only for new players`.
 2. **The estimator models what a player does.**
    - The critical-path estimate grinds a party that only did the critical path.

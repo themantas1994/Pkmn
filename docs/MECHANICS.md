@@ -58,7 +58,7 @@ Totals: excluded 3, implemented 12, open 1, simplified 4, tested 50.
 | Trainer-battle x1.5 EXP | open | Gen VII+ unverified | — | Kept from Gen VI; no primary source reachable (see docs/FIDELITY.md) |
 | EXP and EVs for catching | tested | Gen VI+ | CaptureTest 12 |  |
 | EV awards once per defeated Pokémon; Macho Brace, Power items; level-100 Pokémon still gain EVs | tested | Gen VII+ | StatFormulaTest EV tests; BattleFlowTest |  |
-| Party-wide Exp. Share (option, off by default) | tested | Gen VI+ (option) | TimeAndEventsTest/options; PLAYTIME.md |  |
+| Party-wide Exp. Share (option or bag switch, off by default; participants full, benched half) | tested | Gen VI+ (option) | TimeAndEventsTest/options; PLAYTIME.md |  |
 | Level-up stat recalculation keeping damage; move learning; four-move replacement prompt | tested | Gen IX | StatFormulaTest level-up; MoveLearnFlow (UI) |  |
 | Level caps on Challenge difficulty | implemented | Design | GameContext.levelCap |  |
 | Friendship: level-up, walking, vitamins, berries, fainting; friendship evolution at 160 | implemented | Gen VIII+ | Progression.evolutionTarget; EvolutionTest (Sylveon branch) |  |

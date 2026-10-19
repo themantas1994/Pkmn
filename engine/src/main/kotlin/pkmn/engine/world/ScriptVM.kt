@@ -132,10 +132,15 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "giveitem" -> {
                 val item = toId(a[0]); val qty = a.getOrNull(1)?.toIntOrNull() ?: 1
                 ctx.dex.item(item)
-                st.addItem(item, qty)
+                // All-or-nothing: result 1 when stored; 0 when the stack is full (the reward stays with the script to retry).
+                val grant = ctx.giveItem(item, qty)
                 val name = ctx.itemName(item)
-                ScriptRequest.Say(text(if (qty > 1) "{player} obtained $qty× $name!" else "{player} obtained ${article(name)} $name!"))
-                    .also { result = 1 }
+                result = if (grant.complete) 1 else 0
+                ScriptRequest.Say(text(when {
+                    !grant.complete -> "{player} has no room for $name in the BAG!"
+                    qty > 1 -> "{player} obtained $qty× $name!"
+                    else -> "{player} obtained ${article(name)} $name!"
+                }))
             }
             "tm" -> {
                 val move = toId(a[0])
@@ -145,7 +150,12 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
                 ScriptRequest.Say(text("{player} obtained a TM containing ${ctx.dex.move(move).name}!"))
             }
             "takeitem" -> { result = if (st.removeItem(toId(a[0]), a.getOrNull(1)?.toIntOrNull() ?: 1)) 1 else 0; null }
-            "givemoney" -> { st.money = (st.money + a[0].toInt()).coerceAtMost(9_999_999); ScriptRequest.Say(text("{player} received ¥${a[0]}!")) }
+            "givemoney" -> {
+                // Clamped to 0..9,999,999; a negative amount is a deduction and can never push the wallet below 0.
+                val n = a[0].toInt()
+                val moved = st.addMoney(n)
+                ScriptRequest.Say(text(if (n >= 0) "{player} received ¥$moved!" else "{player} paid ¥${-moved}."))
+            }
             "takemoney" -> { val n = a[0].toInt(); result = if (st.money >= n) { st.money -= n; 1 } else 0; null }
             "givemon" -> {
                 val mon = buildMon(a)
