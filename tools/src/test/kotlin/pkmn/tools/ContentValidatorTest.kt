@@ -1,5 +1,6 @@
 package pkmn.tools
 
+import pkmn.engine.campaign.WorldContent
 import pkmn.engine.data.*
 import java.io.File
 import java.nio.file.Files
@@ -19,6 +20,23 @@ class ContentValidatorTest {
         ContentValidator(repo).validateProvenance(File(repo, "data-src"), content.manifest, issues)
         assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
         assertEquals(1025, content.species.count { it.formKind == FormKind.BASE })
+    }
+
+    @Test
+    fun bundledScriptsHandleBattleResultsCorrectly() {
+        val scripts = WorldContent(DirectoryContentSource(File(repo, "assets"))).scripts.values
+        val issues = Issues()
+        ContentValidator(repo).validateBattleScripts(scripts, issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.code} ${it.subject}: ${it.message}" })
+    }
+
+    @Test
+    fun battleResultRuleFlagsMishandledBattles() {
+        val src = "script a\n  battle t canlose\n  badge 1\nend\nscript b\n  battle t\n  if result lose\n    say \"x\"\n  end\nend\nscript c\n  battle t canlose\n  if result win\n    badge 1\n  end\nend\n"
+        val issues = Issues()
+        ContentValidator(repo).validateBattleScripts(pkmn.engine.world.ScriptParser.parseFile(src, "t.pks"), issues)
+        assertEquals(setOf("battle-reward-unchecked", "battle-loss-unreachable"), codes(issues))
+        assertEquals(2, issues.errors.size)
     }
 
     @Test

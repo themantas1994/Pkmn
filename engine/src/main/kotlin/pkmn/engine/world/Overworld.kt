@@ -94,10 +94,10 @@ class OverworldRules(private val ctx: GameContext) {
     /**
      * The first trainer that can see the player at (px, py): a straight line of sight in its facing direction with nothing blocking
      * between. The only range limit is the screen: the trainer must be [inView] (rendered). Its approach tiles must be ones an NPC can
-     * walk on. Defeated trainers never spot, and `sight` 0 marks a trainer that never challenges on sight.
+     * walk on, except that water does not break the line to a [surfing] player (the trainer spots across open water). Defeated trainers never spot, and `sight` 0 marks a trainer that never challenges on sight.
      */
     fun spottingTrainer(map: MapData, px: Int, py: Int, npcs: List<Pair<NpcDef, Pair<Int, Int>>>, facingOf: (NpcDef) -> Facing,
-                        inView: (Int, Int) -> Boolean = { _, _ -> true }, blocked: (Int, Int) -> Boolean): NpcDef? {
+                        inView: (Int, Int) -> Boolean = { _, _ -> true }, surfing: Boolean = false, blocked: (Int, Int) -> Boolean): NpcDef? {
         for ((npc, pos) in npcs) {
             val trainer = npc.trainer ?: continue
             if (trainer in ctx.state.defeatedTrainers || npc.sight <= 0 || !inView(pos.first, pos.second)) continue
@@ -106,7 +106,8 @@ class OverworldRules(private val ctx: GameContext) {
             for (i in 1..maxOf(map.width, map.height)) {
                 x += f.dx; y += f.dy
                 if (x == px && y == py) return npc
-                if (sightBlockedAt(map, x, y) || blocked(x, y) || !walkableTerrain(map, x, y)) break
+                if (sightBlockedAt(map, x, y) || blocked(x, y)) break
+                if (!walkableTerrain(map, x, y) && !(surfing && behavior(map, x, y) == TileBehavior.WATER)) break
             }
         }
         return null

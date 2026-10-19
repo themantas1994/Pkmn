@@ -72,7 +72,17 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
     private val queued = ArrayDeque<ScriptRequest>()
 
     /** Continues after a blocking request. Text boxes and animations keep the result of the last givemon/takeitem/ask… */
-    fun resume(value: Int = 0) { if (pending?.setsResult == true) result = value; pending = null; waiting = false }
+    fun resume(value: Int = 0) {
+        val req = pending
+        if (req?.setsResult == true) result = value
+        pending = null; waiting = false
+        // Losing a battle that is not `canlose` ends the script: the host has already blacked out, so no reward,
+        // badge, flag or follow-up dialogue may run (only `canlose` battles continue and branch on `result`).
+        if (req is ScriptRequest.TrainerBattle && !req.canLose && value == 0) abort()
+    }
+
+    /** Ends the script (all frames and queued requests dropped); the next [next] returns null. */
+    fun abort() { stack.clear(); queued.clear() }
 
     /** Runs until the next host request; returns null when the script has finished. */
     fun next(): ScriptRequest? {

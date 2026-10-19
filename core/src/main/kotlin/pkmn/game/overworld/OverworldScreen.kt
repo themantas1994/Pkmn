@@ -39,6 +39,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     val player = Actor("player", "player_m", 0, 0, Facing.DOWN)
     private val actors = LinkedHashMap<String, Actor>()
     private var scriptBusy = false
+    private val autosaveGate = AutosaveGate()
     private var lockInput = 0f
     private var turnGrace = 0f
     private var bumpCooldown = 0f
@@ -648,7 +649,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     private fun checkTrainerSight(): Boolean {
         val list = actors.values.filter { it.visible && it.npc?.trainer != null }.map { it.npc!! to (it.x to it.y) }
         val npc = rules.spottingTrainer(map, player.x, player.y, list, { n -> actors[n.id]?.facing ?: Facing.parse(n.facing) },
-            inView = { x, y -> OverworldRules.inViewport(player.x, player.y, x, y, Renderer.W, Renderer.H) }) { x, y ->
+            inView = { x, y -> OverworldRules.inViewport(player.x, player.y, x, y, Renderer.W, Renderer.H) }, surfing = state.surfing) { x, y ->
             occupant(x, y) != null
         } ?: return false
         startTrainerEncounter(actors[npc.id]!!, approach = true)
@@ -755,11 +756,14 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val s = content.scripts[id]
         if (s == null) { game.say("(Missing script: $id)") { then() }; return }
         scriptBusy = true
+        autosaveGate.scriptStarted()
         ScriptHost(game, this, ctx, ScriptVM(ctx, s, { content.scripts[it] }, npcId)) {
             scriptBusy = false
+            val saveNow = autosaveGate.scriptEnded()
             refreshMap()
             rebuildActorsKeepingPositions()
             pendingTrainerCheck = true
+            if (saveNow) autosave()
             then()
         }.step()
     }
@@ -787,7 +791,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     // ================================================================= saving
 
     override fun autosave() {
-        if (scriptBusy) return
+        if (!autosaveGate.request(scriptBusy)) return
         save()
     }
 

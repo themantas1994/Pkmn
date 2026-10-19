@@ -3,7 +3,11 @@ package pkmn.tools
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.*
 import pkmn.engine.battle.Effects
+import pkmn.engine.campaign.WorldContent
 import pkmn.engine.data.*
+import pkmn.engine.world.CompiledScript
+import pkmn.engine.world.Cond
+import pkmn.engine.world.Instr
 import java.io.File
 
 /** All bundled content files, decoded as lists so duplicates remain visible (the [Dex] maps would hide them). */
@@ -47,6 +51,7 @@ class ContentValidator(private val root: File) {
         val issues = validate(content, expectedBaseCount = content.manifest?.expectedSpeciesCount ?: 1025)
         validateProvenance(File(root, "data-src"), content.manifest, issues)
         validateMusic(File(root, "assets"), issues)
+        validateBattleScripts(WorldContent(DirectoryContentSource(File(root, "assets"))).scripts.values, issues)
         val evo = EvolutionAudit(content.dex).auditAll()
         for (r in evo.filter { !it.satisfiable }) issues.warn("evolution-unsatisfiable", "${r.from}->${r.evo.target}", r.reason ?: "",
             "The data entry mirrors the official games and all its references are valid; the gap is in what pkmn.engine.mon.Progression can trigger, not in the content. Listed in coverage-evolutions.json.")
@@ -85,6 +90,37 @@ class ContentValidator(private val root: File) {
     }
 
     // ------------------------------------------------------------------ content checks
+
+    /**
+     * Scripted trainer battles: losing a battle that is not `canlose` ends the script (see ScriptVM.resume), so
+     * (1) testing for a loss after it is dead code, and (2) a `canlose` battle must test `result` before any
+     * reward command, otherwise the reward is granted whatever the outcome.
+     */
+    fun validateBattleScripts(scripts: Collection<CompiledScript>, issues: Issues) {
+        val rewards = setOf("badge", "tm", "giveitem", "givemoney", "givemon", "giveegg", "unlock")
+        fun atoms(c: Cond): List<List<String>> = when (c) {
+            is Cond.Atom -> listOf(c.words); is Cond.Not -> atoms(c.c); is Cond.And -> atoms(c.a) + atoms(c.b); is Cond.Or -> atoms(c.a) + atoms(c.b)
+        }
+        for (sc in scripts) {
+            var mode: String? = null // "strict" after a plain battle, "canlose" after a canlose one
+            var checked = false
+            for (ins in sc.code) when (ins) {
+                is Instr.Cmd -> when {
+                    ins.name == "battle" -> { mode = if ("canlose" in ins.args) "canlose" else "strict"; checked = false }
+                    ins.name == "wildbattle" -> mode = null
+                    mode == "canlose" && !checked && ins.name in rewards -> issues.error("battle-reward-unchecked", "${sc.id}:${ins.line}",
+                        "'${ins.name}' follows a canlose battle without testing 'result'; the reward would be granted after a loss")
+                }
+                is Instr.JumpIfNot -> {
+                    val res = atoms(ins.cond).filter { it.firstOrNull() == "result" }
+                    if (res.isNotEmpty()) checked = true
+                    if (mode == "strict" && res.any { it.getOrNull(1) in setOf("lose", "no", "0") })
+                        issues.error("battle-loss-unreachable", "${sc.id}:${ins.line}", "tests for a loss after a non-canlose battle, which ends the script on loss")
+                }
+                is Instr.Jump -> {}
+            }
+        }
+    }
 
     fun validate(c: Content, expectedBaseCount: Int = 1025): Issues {
         val issues = Issues()
