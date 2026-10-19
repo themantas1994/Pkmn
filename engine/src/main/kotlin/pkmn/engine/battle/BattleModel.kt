@@ -332,7 +332,11 @@ sealed class Request {
         /** Non-null when the Pokémon is locked into an action (recharge, charge turn, rampage). */
         val lockedMove: String?,
     ) : Request()
-    data class SwitchIn(val forced: Boolean) : Request()
+    /**
+     * The side must send in a Pokémon now. [selfSwitch]: mid-turn replacement after its own U-turn, Baton Pass,
+     * Eject Button... (cannot be cancelled; the rest of the turn runs afterwards). Otherwise it replaces a fainted one.
+     */
+    data class SwitchIn(val forced: Boolean, val selfSwitch: Boolean = false) : Request()
     object Wait : Request()
 }
 

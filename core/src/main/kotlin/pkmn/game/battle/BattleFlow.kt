@@ -10,6 +10,7 @@ import pkmn.engine.battle.*
  * INTRO -> PRESENTING --(events drained, animations idle)--> settle()
  *   settle(): outcome decided            -> ENDING -> DONE (exactly once)
  *             player must replace        -> FORCED_SWITCH (trainer) | NEXT_MON_PROMPT (wild: "Use next Pokémon?")
+ *             player's U-turn/Baton Pass -> FORCED_SWITCH (mid-turn; the pick resumes the turn)
  *             foe must replace, Shift on -> SHIFT_PROMPT -> (YES) SHIFT_PARTY -> PRESENTING (cancel = NO)
  *                                                      -> (NO)  PRESENTING (foe sends out)
  *             foe must replace, Set      -> PRESENTING (foe sends out)
@@ -50,6 +51,8 @@ class BattleFlow(val battle: Battle, private val ai: BattleAI = BattleAI()) {
         val before = battle.events.size
         val req = battle.request(battle.player)
         phase = when {
+            // U-turn/Baton Pass: the party opens at once (no "Use next Pokémon?", no cancelling); the turn then resumes.
+            req is Request.SwitchIn && req.selfSwitch -> Phase.FORCED_SWITCH
             req is Request.SwitchIn -> if (battle.opponent.isWild && battle.rules.canRun && !fleeFailed) Phase.NEXT_MON_PROMPT else Phase.FORCED_SWITCH
             battle.needsReplacement(battle.opponent) && battle.shiftAvailable() -> { battle.plannedReplacement(battle.opponent, ai); Phase.SHIFT_PROMPT }
             req is Request.Move && req.lockedMove != null -> { submit(Choice.UseMove(0)); Phase.PRESENTING }

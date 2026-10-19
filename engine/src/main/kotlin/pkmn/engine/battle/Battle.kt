@@ -267,6 +267,8 @@ class Battle(
 
     fun request(side: Side): Request {
         if (outcome != BattleOutcome.ONGOING) return Request.Wait
+        // Mid-turn: the player picks who comes in after its own U-turn/Baton Pass; everyone else waits.
+        selfSwitchSide?.let { return if (it == side.index) Request.SwitchIn(forced = true, selfSwitch = true) else Request.Wait }
         if (side.index in pendingSwitches) return if (side.index in replacementChoices) Request.Wait else Request.SwitchIn(true)
         // While another side is replacing a fainted Pokémon nobody picks a move; [advance] finishes the replacement first.
         if (pendingSwitches.isNotEmpty()) return Request.Wait
@@ -315,6 +317,15 @@ class Battle(
 
     fun choose(side: Side, choice: Choice): String? {
         if (outcome != BattleOutcome.ONGOING) return "Battle is over"
+        selfSwitchSide?.let { waiting ->
+            if (waiting != side.index) return "Waiting for the other side to send out a Pokémon"
+            if (choice !is Choice.Switch) return "Must switch"
+            val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
+            if (target.fainted || target === side.active) return "Cannot switch to that Pokémon"
+            selfSwitchChoice = choice.teamIndex
+            continueTurn()
+            return null
+        }
         if (side.index in pendingSwitches) {
             if (choice !is Choice.Switch) return "Must switch"
             val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
@@ -353,6 +364,8 @@ class Battle(
     /** Fill in AI choices and run the turn once every side has chosen. Returns true if a turn was executed. */
     fun advance(ai: BattleAI = BattleAI()): Boolean {
         if (outcome != BattleOutcome.ONGOING) return false
+        // A suspended turn continues only once the player has picked its self-switch replacement ([choose]).
+        if (selfSwitchSide != null) return false
         // Replacement phase: fainted Pokémon are replaced before anyone picks a move for the next turn.
         if (pendingSwitches.isNotEmpty()) {
             for (s in sides) if (!s.isPlayer && s.index in pendingSwitches && s.index !in replacementChoices)
@@ -362,8 +375,13 @@ class Battle(
         }
         for (s in sides) if (!s.isPlayer) {
             if (!choices.containsKey(s.index)) {
-                val c = ai.chooseAction(this, s)
-                if (choose(s, c) != null) choose(s, Choice.UseMove(0))
+                // A rejected AI decision must never stall the turn: fall back to the first usable move, then to
+                // Pass (always accepted; it resolves to Struggle or the locked move).
+                if (choose(s, ai.chooseAction(this, s)) != null) {
+                    val a = s.active
+                    val slot = a?.moveSlots?.indexOfFirst { canSelectMove(a, it) }?.takeIf { it >= 0 } ?: 0
+                    if (choose(s, Choice.UseMove(slot)) != null) choose(s, Choice.Pass)
+                }
             }
         }
         if (choices.size < sides.count { it.active != null }) return false
@@ -428,29 +446,49 @@ class Battle(
             x.tie.compareTo(y.tie)
         })
         turnQueue = ordered
-        for ((i, a) in ordered.withIndex()) {
-            turnQueueIndex = i
-            if (outcome != BattleOutcome.ONGOING) break
-            if (a.side.active !== a.mon && a.kind != 2) continue
-            if (a.mon.fainted && a.kind != 2) continue
-            currentAction = a
-            when (val c = a.choice) {
-                Choice.Run -> attemptRun(a.side)
-                is Choice.UseItem -> useBagItem(a.side, c)
-                is Choice.Switch -> if (a.side.active?.fainted != true) {
-                    val target = a.side.mons[c.teamIndex]
-                    if (!target.fainted && target !== a.side.active) performSwitch(a.side, target, forced = false)
+        turnQueueIndex = 0
+        switchFlagCursor = -1
+        continueTurn()
+    }
+
+    /**
+     * Runs the turn queue from [turnQueueIndex]. Returns early (the turn stays suspended) when the player must choose
+     * the Pokémon that comes in after its own self-switch; [choose] resumes it, so every action and faint runs once.
+     */
+    private fun continueTurn() {
+        while (turnQueueIndex < turnQueue.size) {
+            val a = turnQueue[turnQueueIndex]
+            if (switchFlagCursor < 0) {
+                if (outcome != BattleOutcome.ONGOING) break
+                if ((a.side.active !== a.mon || a.mon.fainted) && a.kind != 2) { turnQueueIndex++; continue }
+                currentAction = a
+                when (val c = a.choice) {
+                    Choice.Run -> attemptRun(a.side)
+                    is Choice.UseItem -> useBagItem(a.side, c)
+                    is Choice.Switch -> if (a.side.active?.fainted != true) {
+                        val target = a.side.mons[c.teamIndex]
+                        if (!target.fainted && target !== a.side.active) performSwitch(a.side, target, forced = false)
+                    }
+                    is Choice.UseMove, Choice.Pass -> runMoveAction(a.mon, a.choice)
                 }
-                is Choice.UseMove, Choice.Pass -> runMoveAction(a.mon, a.choice)
+                checkFaints()
+                runUpdate()
+                checkFaints()
+                if (checkWin()) break
+                switchFlagCursor = 0
             }
-            checkFaints()
-            runUpdate()
-            checkFaints()
-            if (checkWin()) break
             // Self-switch moves (U-turn, Volt Switch) and forced switches (Roar) resolve immediately.
-            for (s in sides) resolveSwitchFlags(s)
+            while (switchFlagCursor < sides.size) {
+                if (!resolveSwitchFlags(sides[switchFlagCursor])) return
+                switchFlagCursor++
+            }
+            switchFlagCursor = -1
+            // A replacement knocked out by hazards faints now; it is replaced at the end of the turn.
+            checkFaints()
             if (checkWin()) break
+            turnQueueIndex++
         }
+        switchFlagCursor = -1
         currentAction = null
         turnQueue = emptyList()
         for (s in sides) for (m in s.mons) m.volatiles.remove("pendingmove")
@@ -465,6 +503,12 @@ class Battle(
     private val beforeTurnMoves = ArrayList<Pair<BattleMon, String>>()
     private var turnQueue: List<Action> = emptyList()
     private var turnQueueIndex = 0
+    /** Next side whose switch flags are resolved after the current action; -1 while the action has not run yet. */
+    private var switchFlagCursor = -1
+    /** Side whose player must pick the Pokémon coming in after its self-switch; the turn is suspended meanwhile. */
+    private var selfSwitchSide: Int? = null
+    /** That pick, consumed by [resolveSwitchFlags] when the turn resumes. */
+    private var selfSwitchChoice: Int? = null
 
     /** Whether another Pokémon still has a move or switch to perform this turn (Showdown queue.willAct(); Protect). */
     fun othersWillAct(user: BattleMon): Boolean = turnQueue.drop(turnQueueIndex + 1).any {
@@ -581,19 +625,23 @@ class Battle(
         afterReplacements()
     }
 
-    private fun resolveSwitchFlags(s: Side) {
-        val a = s.active ?: return
+    /** Returns false when the player must first choose the incoming Pokémon (see [Request.SwitchIn.selfSwitch]). */
+    private fun resolveSwitchFlags(s: Side): Boolean {
+        val a = s.active ?: return true
         if (a.switchFlag != null && !a.fainted) {
             val options = s.canSwitchTo()
-            val flag = a.switchFlag
-            a.switchFlag = null
             if (options.isNotEmpty()) {
-                val next = if (s.isPlayer) options.first() else BattleAI().chooseReplacementMon(this, s)
-                // The player's choice of replacement is simplified to the AI's pick for self-switching moves
-                // only when no UI is attached; the UI layer calls [selfSwitchTarget] beforehand.
-                val chosen = selfSwitchOverride.remove(s.index)?.let { s.mons[it] }?.takeIf { !it.fainted && it !== a } ?: next
+                val chosen = if (s.isPlayer) {
+                    // The player chooses (no cancelling once the move is done); the turn waits for [choose].
+                    val pick = selfSwitchChoice?.let { s.mons.getOrNull(it) }?.takeIf { it in options }
+                    if (pick == null) { selfSwitchSide = s.index; selfSwitchChoice = null; return false }
+                    pick
+                } else BattleAI().chooseReplacementMon(this, s)
+                selfSwitchSide = null; selfSwitchChoice = null
+                val flag = a.switchFlag
+                a.switchFlag = null
                 performSwitch(s, chosen, forced = false, batonPass = flag == "copyvolatile", shedTail = flag == "shedtail")
-            }
+            } else a.switchFlag = null
         }
         if (a.forceSwitchFlag) {
             a.forceSwitchFlag = false
@@ -602,10 +650,8 @@ class Battle(
                 performSwitch(s, options[rng.nextInt(options.size)], forced = true, isDrag = true)
             }
         }
+        return true
     }
-
-    /** UI hook: the team index the player wants to switch to after a self-switching move this turn. */
-    val selfSwitchOverride = HashMap<Int, Int>()
 
     // ================================================================= switching
 
