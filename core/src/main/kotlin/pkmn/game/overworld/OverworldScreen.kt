@@ -6,6 +6,7 @@ import pkmn.engine.battle.BattleOutcome
 import pkmn.engine.campaign.GameContext
 import pkmn.engine.mon.MajorStatus
 import pkmn.engine.mon.Pokemon
+import pkmn.engine.save.SaveResult
 import pkmn.engine.world.*
 import pkmn.game.AutosaveAware
 import pkmn.game.PkmnGame
@@ -798,9 +799,11 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     fun save(): Boolean = try {
         state.map = baseMap.id; state.x = player.x; state.y = player.y; state.facing = player.facing.name.lowercase()
         ctx.syncRng()
-        game.saves.save(state)
-        stepsSinceSave = 0
-        true
+        when (val r = game.saves.save(state)) {
+            SaveResult.Saved -> { stepsSinceSave = 0; true }
+            // A newer game's save is on disk: it is never overwritten, so report failure.
+            is SaveResult.Refused -> { game.platform.log("Save refused: ${r.reason}"); false }
+        }
     } catch (e: Exception) { game.platform.log("Save failed: $e"); false }
 
     override fun onBack(): Boolean { if (!scriptBusy && !player.moving) push(StartMenu(game, this)); return true }

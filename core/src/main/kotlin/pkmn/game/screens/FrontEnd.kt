@@ -81,6 +81,7 @@ class TitleScreen(game: PkmnGame) : Screen(game) {
             }
             is LoadResult.Failed -> game.say("The save file could not be loaded.\n${res.reason}",
                 if (res.preservedFiles.isNotEmpty()) "The damaged files were kept as ${res.preservedFiles.joinToString()} so nothing is lost." else "No file was deleted.") { menuOpen = false }
+            is LoadResult.Unsupported -> game.say(res.reason) { menuOpen = false }
             LoadResult.NoSave -> { menuOpen = false }
         }
     }

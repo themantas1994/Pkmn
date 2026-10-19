@@ -4,11 +4,17 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonObject
 import pkmn.engine.data.Dex
+import pkmn.engine.mon.Gender
+import pkmn.engine.mon.MajorStatus
+import pkmn.engine.mon.Nature
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
@@ -16,7 +22,7 @@ import java.security.MessageDigest
 /** On-disk envelope: version + checksum of the payload so corruption and truncation are detected. */
 @Serializable
 data class SaveEnvelope(
-    val format: String = "pkmn-crystalline-save",
+    val format: String = SaveManager.FORMAT,
     val version: Int,
     val savedAt: Long,
     val sha256: String,
@@ -26,17 +32,37 @@ data class SaveEnvelope(
 sealed class LoadResult {
     data class Ok(val state: GameState, val fromBackup: Boolean, val migratedFrom: Int?, val warnings: List<String>) : LoadResult()
     object NoSave : LoadResult()
-    /** Neither the main save nor the backup could be read. The files are preserved (renamed with .corrupt). */
+    /** No main, temporary or backup copy could be read. The main and backup files are preserved (renamed with .corrupt). */
     data class Failed(val reason: String, val preservedFiles: List<String>) : LoadResult()
+    /**
+     * A copy of the save was written by a newer game version ([version] > [SaveManager.CURRENT_VERSION]). Nothing is
+     * loaded (an older copy would be a downgrade), no file is renamed or changed, and [SaveManager.save] refuses to
+     * write until the game is updated.
+     */
+    data class Unsupported(val version: Int, val reason: String) : LoadResult()
+}
+
+sealed class SaveResult {
+    object Saved : SaveResult()
+    /** Nothing was written: a copy from a newer game version exists and would have been overwritten. */
+    data class Refused(val reason: String) : SaveResult()
 }
 
 /**
  * Versioned, atomic, checksummed save storage.
  *
- * Write protocol: serialise -> write `save.json.tmp` -> fsync -> rotate current `save.json` to `save.json.bak`
- * -> rename tmp to `save.json`. A crash at any point leaves either the old or the new save intact.
- * Loading verifies the checksum, falls back to the backup, migrates old versions, and validates content
- * against the [Dex] (unknown species/moves/items are repaired or reported, never silently dropped).
+ * Write protocol: serialise -> write `save.json.tmp` -> fsync -> verify -> rotate `save.json` to `save.json.bak`
+ * (only if it is a valid save; a damaged one is moved aside as `.corrupt-*` so it never replaces the backup) ->
+ * rename tmp to `save.json` -> fsync the directory where the platform supports it.
+ *
+ * Recovery: a complete, checksummed tmp is always the most recent save attempt (every successful save renames it
+ * away), and the main save is always newer than the backup, so loading tries tmp, then main, then backup and takes
+ * the first copy that verifies and decodes. A crash at any point therefore yields the newest complete state; a
+ * partial or corrupt copy is never chosen. If any copy is from a newer game version the result is
+ * [LoadResult.Unsupported] and nothing is touched.
+ *
+ * Loading migrates old versions and validates content against the [Dex] (unknown species/moves/items are repaired
+ * or reported, never silently dropped).
  */
 class SaveManager(private val dir: File, private val dex: Dex? = null, private val slot: String = "save") {
     private val main get() = File(dir, "$slot.json")
@@ -45,11 +71,23 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
 
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true; explicitNulls = false }
 
-    fun exists() = main.exists() || backup.exists()
+    /** What a file on disk holds. A newer-version file is never classed as corrupt. */
+    private sealed class Copy {
+        object Missing : Copy()
+        object Corrupt : Copy()
+        data class Newer(val version: Int) : Copy()
+        data class Valid(val env: SaveEnvelope) : Copy()
+    }
+
+    fun exists() = main.exists() || backup.exists() || inspect(tmp).let { it is Copy.Valid || it is Copy.Newer }
 
     @Synchronized
-    fun save(state: GameState) {
+    fun save(state: GameState): SaveResult {
         dir.mkdirs()
+        val mainCopy = inspect(main)
+        newestUnsupported(listOf(mainCopy, inspect(tmp), inspect(backup)))?.let { v ->
+            return SaveResult.Refused("A save from a newer game version (v$v) exists; update the game to keep playing it.")
+        }
         val payload = json.encodeToJsonElement(GameState.serializer(), state)
         val payloadText = json.encodeToString(JsonElement.serializer(), payload)
         val env = SaveEnvelope(version = CURRENT_VERSION, savedAt = System.currentTimeMillis(), sha256 = sha256(payloadText), payload = payload)
@@ -60,63 +98,112 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
             out.fd.sync()
         }
         // Verify what we wrote before replacing the good save.
-        check(readEnvelope(tmp) != null) { "Save verification failed" }
+        check(inspect(tmp) is Copy.Valid) { "Save verification failed" }
         if (main.exists()) {
-            if (backup.exists()) backup.delete()
-            if (!main.renameTo(backup)) main.copyTo(backup, overwrite = true)
+            // Only a save that would load may become the backup; a damaged main is kept aside instead.
+            if (mainCopy is Copy.Valid && decodes(mainCopy.env)) replace(main, backup)
+            else replace(main, File(dir, main.name + ".corrupt-" + System.currentTimeMillis()))
         }
-        if (!tmp.renameTo(main)) {
-            tmp.copyTo(main, overwrite = true)
-            tmp.delete()
-        }
+        replace(tmp, main)
+        syncDir()
+        return SaveResult.Saved
     }
 
     @Synchronized
     fun load(): LoadResult {
-        if (!main.exists() && !backup.exists()) {
-            // A leftover tmp means a crash during the very first save; try it.
-            if (tmp.exists()) readEnvelope(tmp)?.let { env -> return decode(env, fromBackup = true) }
-            return LoadResult.NoSave
+        val copies = listOf(tmp, main, backup).map { it to inspect(it) }
+        newestUnsupported(copies.map { it.second })?.let { v ->
+            return LoadResult.Unsupported(v, "This save was made by a newer version of the game (save format v$v). Update the game to continue; the save was not changed.")
         }
-        readEnvelope(main)?.let { env ->
-            val r = decode(env, fromBackup = false)
-            if (r is LoadResult.Ok) return r
+        for ((f, c) in copies) {
+            if (c !is Copy.Valid) continue
+            val r = decode(c.env, fromBackup = f == backup) as? LoadResult.Ok ?: continue
+            return when (f) {
+                tmp -> r.copy(warnings = r.warnings + "The last save was interrupted; it was recovered from the temporary save file.")
+                backup -> r.copy(warnings = r.warnings + "Main save was missing or unreadable; restored the backup.")
+                else -> r
+            }
         }
-        readEnvelope(backup)?.let { env ->
-            val r = decode(env, fromBackup = true)
-            if (r is LoadResult.Ok) return r.copy(warnings = r.warnings + "Main save was unreadable; restored the backup.")
-        }
+        // A leftover tmp on its own is an interrupted first save, not lost progress.
+        if (!main.exists() && !backup.exists()) return LoadResult.NoSave
         val preserved = ArrayList<String>()
         for (f in listOf(main, backup)) if (f.exists()) {
             val dest = File(dir, f.name + ".corrupt-" + System.currentTimeMillis())
             if (f.renameTo(dest)) preserved.add(dest.name)
         }
-        return LoadResult.Failed("Save data is corrupted or from an unsupported version.", preserved)
+        return LoadResult.Failed("Save data is corrupted.", preserved)
     }
 
-    private fun readEnvelope(f: File): SaveEnvelope? = try {
-        if (!f.exists() || f.length() == 0L) null else {
-            val env = json.decodeFromString(SaveEnvelope.serializer(), f.readText(Charsets.UTF_8))
-            val text = json.encodeToString(JsonElement.serializer(), env.payload)
-            if (env.format != "pkmn-crystalline-save" || sha256(text) != env.sha256) null else env
-        }
-    } catch (e: Exception) { null }
+    private fun newestUnsupported(copies: List<Copy>): Int? = copies.filterIsInstance<Copy.Newer>().maxOfOrNull { it.version }
 
-    private fun decode(env: SaveEnvelope, fromBackup: Boolean): LoadResult {
-        if (env.version > CURRENT_VERSION) return LoadResult.Failed("Save is from a newer game version (v${env.version}).", emptyList())
-        return try {
-            var payload = env.payload.jsonObject
-            var v = env.version
-            while (v < CURRENT_VERSION) { payload = migrate(v, payload); v++ }
-            val state = json.decodeFromJsonElement(GameState.serializer(), payload)
-            val warnings = dex?.let { SaveValidator(it).repair(state) } ?: emptyList()
-            LoadResult.Ok(state, fromBackup, if (env.version != CURRENT_VERSION) env.version else null, warnings)
-        } catch (e: Exception) {
-            LoadResult.Failed("Could not decode save: ${e.message}", emptyList())
+    /**
+     * Classifies a file. The version is read before the checksum is checked so a file from a newer game (which may
+     * use a different payload or checksum scheme) is reported as [Copy.Newer], never as corrupt.
+     */
+    private fun inspect(f: File): Copy = try {
+        if (!f.exists()) Copy.Missing
+        else if (f.length() == 0L) Copy.Corrupt
+        else {
+            val root = json.parseToJsonElement(f.readText(Charsets.UTF_8)).jsonObject
+            val format = (root["format"] as? JsonPrimitive)?.contentOrNull ?: FORMAT
+            val version = (root["version"] as? JsonPrimitive)?.intOrNull
+            when {
+                format != FORMAT || version == null -> Copy.Corrupt
+                version > CURRENT_VERSION -> Copy.Newer(version)
+                else -> {
+                    val env = json.decodeFromJsonElement(SaveEnvelope.serializer(), root)
+                    val text = json.encodeToString(JsonElement.serializer(), env.payload)
+                    if (env.payload is JsonObject && sha256(text) == env.sha256) Copy.Valid(env) else Copy.Corrupt
+                }
+            }
         }
+    } catch (e: Exception) { Copy.Corrupt }
+
+    private fun decodes(env: SaveEnvelope): Boolean = try { decodeState(env, ArrayList()); true } catch (e: Exception) { false }
+
+    private fun decodeState(env: SaveEnvelope, warnings: MutableList<String>): GameState {
+        var payload = env.payload.jsonObject
+        var v = env.version
+        while (v < CURRENT_VERSION) { payload = migrate(v, payload); v++ }
+        return json.decodeFromJsonElement(GameState.serializer(), coerceUnknownEnums(payload, warnings))
+    }
+
+    private fun decode(env: SaveEnvelope, fromBackup: Boolean): LoadResult = try {
+        val warnings = ArrayList<String>()
+        val state = decodeState(env, warnings)
+        dex?.let { warnings += SaveValidator(it).repair(state) }
+        LoadResult.Ok(state, fromBackup, if (env.version != CURRENT_VERSION) env.version else null, warnings)
+    } catch (e: Exception) {
+        LoadResult.Failed("Could not decode save: ${e.message}", emptyList())
+    }
+
+    /** Atomically replaces [dst] with [src] (rename; falls back to a copy where rename cannot replace, e.g. Windows). */
+    private fun replace(src: File, dst: File) {
+        if (src.renameTo(dst)) return
+        try {
+            java.nio.file.Files.move(src.toPath(), dst.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING, java.nio.file.StandardCopyOption.ATOMIC_MOVE)
+            return
+        } catch (e: Exception) {
+        } catch (e: LinkageError) {} // java.nio.file is missing below Android API 26
+        src.copyTo(dst, overwrite = true)
+        FileOutputStream(dst, true).use { it.fd.sync() }
+        src.delete()
+    }
+
+    /**
+     * Makes the renames durable by fsyncing the directory. Not every platform can open a directory (Windows, some
+     * Android versions); there the rename is already as durable as the platform allows, so failure is ignored.
+     */
+    private fun syncDir() {
+        try {
+            java.nio.channels.FileChannel.open(dir.toPath(), java.nio.file.StandardOpenOption.READ).use { it.force(true) }
+        } catch (e: Exception) {
+        } catch (e: LinkageError) {}
     }
 
     companion object {
+        const val FORMAT = "pkmn-crystalline-save"
+
         /**
          * 1: original release. 2: Pokédex form/shiny records, pending nickname offers and unique Pokémon ids
          * (new fields default to empty; [SaveValidator] rebuilds the form records from the Pokémon the player owns).
@@ -151,6 +238,46 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
                 val out = LinkedHashMap<String, JsonElement>(o)
                 if ("outsider" !in o) out["outsider"] = JsonPrimitive(false)
                 if ("metLevel" !in o) out["metLevel"] = o["level"] ?: JsonPrimitive(1)
+                return JsonObject(out)
+            }
+            val out = LinkedHashMap<String, JsonElement>(payload)
+            (payload["party"] as? JsonArray)?.let { party -> out["party"] = JsonArray(party.map(::fix)) }
+            (payload["boxes"] as? JsonArray)?.let { boxes ->
+                out["boxes"] = JsonArray(boxes.map { box -> (box as? JsonArray)?.let { JsonArray(it.map(::fix)) } ?: box })
+            }
+            return JsonObject(out)
+        }
+
+        /**
+         * Enum values this version does not know (a newer game, a hand-edited file) are coerced to a neutral value with
+         * a warning instead of failing the whole save: nature -> Hardy (no stat change), gender -> genderless, status ->
+         * healthy (with its sleep counter cleared), Mint nature -> none (the original nature applies again). Every other
+         * field keeps strict decoding, because guessing a level, species or count could create invalid game state.
+         * Names are matched case-insensitively.
+         */
+        fun coerceUnknownEnums(payload: JsonObject, warnings: MutableList<String>): JsonObject {
+            fun known(v: JsonElement?, names: Collection<String>): String? =
+                (v as? JsonPrimitive)?.takeIf { it.isString }?.content?.let { s -> names.firstOrNull { it.equals(s, ignoreCase = true) } }
+            val natures = Nature.entries.map { it.name }
+            val genders = Gender.entries.map { it.name }
+            val statuses = MajorStatus.entries.map { it.name }
+            fun fix(mon: JsonElement): JsonElement {
+                val o = mon as? JsonObject ?: return mon
+                val out = LinkedHashMap<String, JsonElement>(o)
+                val who = (o["nickname"] as? JsonPrimitive)?.contentOrNull ?: (o["speciesId"] as? JsonPrimitive)?.contentOrNull ?: "?"
+                fun coerce(key: String, names: List<String>, default: String?, label: String) {
+                    val v = o[key] ?: return
+                    if (v is JsonNull && default == null) return
+                    val name = known(v, names)
+                    if (name != null) { out[key] = JsonPrimitive(name); return }
+                    warnings.add("$who: unknown $label $v replaced with ${default?.lowercase() ?: "none"}.")
+                    if (default == null) out.remove(key) else out[key] = JsonPrimitive(default)
+                    if (key == "status") out["sleepTurns"] = JsonPrimitive(0)
+                }
+                coerce("nature", natures, Nature.HARDY.name, "nature")
+                coerce("gender", genders, Gender.NONE.name, "gender")
+                coerce("status", statuses, null, "status")
+                coerce("mintNature", natures, null, "Mint nature")
                 return JsonObject(out)
             }
             val out = LinkedHashMap<String, JsonElement>(payload)
