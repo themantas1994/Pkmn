@@ -5,6 +5,7 @@ option textSpeed 3
 option battleStyle shift
 option animSpeed 0
 option battleAnimations true
+badges 8
 party mewtwo:100:psystrike rayquaza:100:dragonascent pikachu:50:thunderbolt
 trainer p3b_champion_celeste_tera
 wait 80

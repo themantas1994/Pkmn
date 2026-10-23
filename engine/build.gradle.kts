@@ -18,6 +18,8 @@ tasks.test {
     // Tests read the bundled content from the shared assets directory.
     systemProperty("pkmn.assets", rootProject.file("assets").absolutePath)
     maxHeapSize = "2g"
+    // MoveExecutionTest writes this report as a side effect; :tools:auditMoves reads it, so a build-cache hit must restore it.
+    outputs.file(layout.buildDirectory.file("reports/move-execution.json"))
     System.getProperty("fuzz.battles")?.let { systemProperty("fuzz.battles", it) }
     testLogging { showStandardStreams = System.getProperty("showOutput") != null; events("failed"); exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL }
 }

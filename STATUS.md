@@ -15,7 +15,7 @@ Every number in this document was produced by the commands listed next to it. No
 | Saves | Atomic, checksummed, versioned (v3, with migrations from v1 and v2), with backup/repair; corruption and migration tests pass |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
-| Tests | 302 engine, 89 core and 126 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
+| Tests | 302 engine, 95 core and 126 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
 | Learnsets and moves | Every species/form audited (`:tools:auditLearnsets`: 0 errors) and every move executed in battle (`MoveExecutionTest`: 0 unsupported); see [docs/LEARNSETS.md](docs/LEARNSETS.md), [reports/moves-audit.md](reports/moves-audit.md) |
 | Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
 

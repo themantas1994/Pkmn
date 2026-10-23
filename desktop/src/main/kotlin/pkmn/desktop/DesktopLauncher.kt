@@ -126,6 +126,9 @@ class Automation(script: List<String>, private val shots: File) {
                     }
                     continue
                 }
+                // Level-100 scene parties only obey with enough badges (Obedience), so scenes grant them explicitly.
+                "badges" -> { g.session?.state?.let { st -> st.badges.clear(); st.badges.addAll(1..parts[1].toInt()) }; continue }
+                "flag" -> { g.session?.state?.setFlag(parts[1]); continue }
                 "item" -> { g.session?.state?.addItem(parts[1], parts.getOrNull(2)?.toInt() ?: 1); continue }
                 "trainer" -> { overworld(g)?.startTrainerBattle(parts[1], canLose = true) {}; return }
                 "wild" -> {
