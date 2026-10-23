@@ -94,7 +94,10 @@ class BattleScreen(
     private var moveCursor = 0
     private var gimmickArmed: Gimmick? = null
     private var menu = Menu.NONE
-    private enum class Menu { NONE, ACTION, MOVES }
+    private enum class Menu { NONE, ACTION, GIMMICKS, MOVES }
+    private var gimmickCursor = 0
+    /** True when the armed gimmick was chosen from the GIMMICK list (B returns there) rather than the SELECT shortcut. */
+    private var fromGimmickMenu = false
 
     // Effects
     private var pendingSE = 1.0
@@ -200,6 +203,7 @@ class BattleScreen(
 
         when (menu) {
             Menu.ACTION -> { updateActionMenu(input); return }
+            Menu.GIMMICKS -> { updateGimmickMenu(input); return }
             Menu.MOVES -> { updateMoveMenu(input); return }
             Menu.NONE -> {}
         }
@@ -497,24 +501,42 @@ class BattleScreen(
     // ================================================================= menus
 
     private fun updateActionMenu(input: InputState) {
-        if (input.justPressed(Button.UP) || input.justPressed(Button.DOWN)) { cursor = cursor xor 2; game.audio.playSfx("menu_move") }
-        if (input.justPressed(Button.LEFT) || input.justPressed(Button.RIGHT)) { cursor = cursor xor 1; game.audio.playSfx("menu_move") }
+        val count = BattleMenus.actions(availableGimmicks().isNotEmpty()).size
+        if (cursor >= count) cursor = count - 1
+        for (b in listOf(Button.UP, Button.DOWN, Button.LEFT, Button.RIGHT)) if (input.justPressed(b)) {
+            val n = BattleMenus.navigate(cursor, b, count)
+            if (n != cursor) { cursor = n; game.audio.playSfx("menu_move") }
+        }
         if (!input.justPressed(Button.A)) return
         game.audio.playSfx("menu_select")
         when (cursor) {
-            0 -> { menu = Menu.MOVES; gimmickArmed = null }
+            0 -> { menu = Menu.MOVES; gimmickArmed = null; fromGimmickMenu = false }
             1 -> { menu = Menu.NONE; openParty() }
             2 -> { menu = Menu.NONE; openBag() }
             3 -> {
                 if (!battle.opponent.isWild) { menu = Menu.NONE; flow.resume(); say("No! There's no running from a trainer battle!") }
                 else submit(Choice.Run)
             }
+            4 -> { menu = Menu.GIMMICKS; gimmickCursor = 0; gimmickArmed = null; fromGimmickMenu = false }
         }
     }
 
     private fun availableGimmicks(): List<Gimmick> {
-        val req = battle.request(battle.player) as? Request.Move ?: return emptyList()
-        return req.gimmicks.toList().sortedBy { it.ordinal }
+        return BattleMenus.gimmicks(battle.request(battle.player))
+    }
+
+    private fun updateGimmickMenu(input: InputState) {
+        val g = availableGimmicks()
+        if (g.isEmpty()) { menu = Menu.ACTION; return }
+        if (input.repeat(Button.UP)) { gimmickCursor = (gimmickCursor - 1 + g.size) % g.size; game.audio.playSfx("menu_move") }
+        if (input.repeat(Button.DOWN)) { gimmickCursor = (gimmickCursor + 1) % g.size; game.audio.playSfx("menu_move") }
+        if (input.justPressed(Button.B)) { menu = Menu.ACTION; game.audio.playSfx("menu_cancel"); return }
+        if (input.justPressed(Button.A)) {
+            gimmickArmed = g[gimmickCursor.coerceIn(0, g.size - 1)]
+            fromGimmickMenu = true
+            menu = Menu.MOVES
+            game.audio.playSfx("menu_select")
+        }
     }
 
     private fun updateMoveMenu(input: InputState) {
@@ -527,10 +549,15 @@ class BattleScreen(
             if (g.isNotEmpty()) {
                 val i = g.indexOf(gimmickArmed)
                 gimmickArmed = if (i + 1 < g.size) g[i + 1] else null
+                fromGimmickMenu = false
                 game.audio.playSfx("menu_select")
             }
         }
-        if (input.justPressed(Button.B)) { menu = Menu.ACTION; game.audio.playSfx("menu_cancel"); return }
+        if (input.justPressed(Button.B)) {
+            // Backs out to the gimmick list when a gimmick was picked there, otherwise to the action menu.
+            menu = if (gimmickArmed != null && availableGimmicks().isNotEmpty() && fromGimmickMenu) Menu.GIMMICKS else Menu.ACTION
+            gimmickArmed = null; game.audio.playSfx("menu_cancel"); return
+        }
         if (input.justPressed(Button.A)) {
             val req = battle.request(battle.player) as? Request.Move ?: return
             val anyUsable = req.usableMoves.any { it }
@@ -628,7 +655,7 @@ class BattleScreen(
         "anim=${anim.currentName} prompt=$promptOpen menu=$menu text=${text?.take(20)} read=$textRead outcome=${battle.outcome}"
 
     override fun onBack(): Boolean {
-        if (menu == Menu.MOVES) menu = Menu.ACTION
+        if (menu == Menu.MOVES || menu == Menu.GIMMICKS) { menu = if (menu == Menu.MOVES && gimmickArmed != null && fromGimmickMenu) Menu.GIMMICKS else Menu.ACTION; gimmickArmed = null }
         else if (anim.busy) anim.skipAll()
         return true
     }
@@ -665,6 +692,7 @@ class BattleScreen(
         r.frame(0, 160, Renderer.W, 64, alt = true)
         when (menu) {
             Menu.ACTION -> drawActionMenu(r)
+            Menu.GIMMICKS -> drawGimmickMenu(r)
             Menu.MOVES -> drawMoveMenu(r)
             Menu.NONE -> text?.let { t ->
                 val lines = r.assets.font8.wrap(t, 29)
@@ -817,11 +845,21 @@ class BattleScreen(
         if (r.textWidth("$name do?") <= 96) { r.text("What will", 12, 176); r.text("$name do?", 12, 192) }
         else { r.text("What will", 12, 170); r.text(name, 12, 184); r.text("do?", 12, 198) }
         r.frame(112, 160, 144, 64)
-        val labels = listOf("FIGHT", "PKMN", "PACK", "RUN")
+        val labels = BattleMenus.actions(availableGimmicks().isNotEmpty())
+        // Three rows when GIMMICK is present, so the 144x64 frame keeps its two-column layout.
+        val rowH = if (labels.size > 4) 14 else 18; val y0 = if (labels.size > 4) 172 else 178
         labels.forEachIndexed { i, s ->
-            val x = 136 + (i % 2) * 64; val y = 178 + (i / 2) * 18
+            val x = (if (labels.size > 4) 128 else 136) + (i % 2) * 64; val y = y0 + (i / 2) * rowH
             r.text(s, x, y)
             if (i == cursor) r.cursor(x - 10, y)
+        }
+    }
+
+    private fun drawGimmickMenu(r: Renderer) {
+        r.frame(0, 160, 160, 64)
+        availableGimmicks().forEachIndexed { i, g ->
+            r.text(gimmickLabel(g), 18, 168 + i * 13)
+            if (i == gimmickCursor) r.cursor(8, 168 + i * 13)
         }
     }
 
