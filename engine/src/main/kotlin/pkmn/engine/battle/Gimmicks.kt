@@ -215,7 +215,8 @@ object Gimmicks {
         val before = mon.species.id
         if (base == "terapagos" && type == "Stellar") b.formeChange(mon, "terapagosstellar", "battle", null)
         if (base == "ogerpon") {
-            val teraForme = b.dex.speciesOrNull(mon.species.id + "tera")
+            // The Teal Mask is plain "ogerpon", whose Tera forme is "ogerpontealtera" rather than "ogerpontera".
+            val teraForme = b.dex.speciesOrNull(if (mon.species.id == "ogerpon") "ogerpontealtera" else mon.species.id + "tera")
             if (teraForme != null) b.formeChange(mon, teraForme.id, "battle", null)
         }
         // A Tera forme's Ability (Embody Aspect, Teraform Zero) activates immediately.

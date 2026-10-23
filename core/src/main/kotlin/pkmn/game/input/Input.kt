@@ -17,28 +17,33 @@ class InputState {
     private val held = FloatArray(Button.entries.size)
     private val injected = BooleanArray(Button.entries.size)
     private val pulse = BooleanArray(Button.entries.size)
+    /** Keyboard/touch state of each physical control, before the left-handed swap (drives the touch overlay). */
+    private val raw = BooleanArray(Button.entries.size)
     private val repeatFire = BooleanArray(Button.entries.size)
     var touch: TouchControls? = null
     /** Swaps A and B (left-handed option). */
     var swapAB = false
 
     fun update(dt: Float) {
+        for (b in Button.entries) raw[b.ordinal] = keyboard(b) || (touch?.isDown(b) ?: false)
         for (b in Button.entries) {
             val i = b.ordinal
             prev[i] = down[i]
-            down[i] = keyboard(b) || (touch?.isDown(b) ?: false) || injected[i] || pulse[i]
+            down[i] = raw[physical(b).ordinal] || injected[i] || pulse[i]
             pulse[i] = false
             if (down[i]) held[i] += dt else held[i] = 0f
             repeatFire[i] = justPressed(b) || (down[i] && held[i] > 0.35f && ((held[i] - 0.35f) % 0.09f) < dt)
         }
-        if (swapAB) { swap(Button.A.ordinal, Button.B.ordinal) }
     }
 
-    private fun swap(a: Int, b: Int) {
-        fun s(arr: BooleanArray) { val t = arr[a]; arr[a] = arr[b]; arr[b] = t }
-        s(down); s(prev); s(repeatFire)
-        val t = held[a]; held[a] = held[b]; held[b] = t
-    }
+    /**
+     * The physical key or touch control that drives logical [b]. Only these two sources are swapped (left-handed
+     * option); [inject] and [tap] are logical, so BACK stays a B press. All stored state is logical and never swapped.
+     */
+    private fun physical(b: Button) = if (!swapAB) b else when (b) { Button.A -> Button.B; Button.B -> Button.A; else -> b }
+
+    /** Whether the physical control drawn as [b] is down, for the touch overlay highlight. */
+    fun controlPressed(b: Button) = raw[b.ordinal]
 
     // Keys.BACK is deliberately not polled for B: PkmnGame.handleBack() handles it once per press (Screen.onBack, falling
     // back to a single B tap), otherwise one press would pop a screen and also press B on the screen below.

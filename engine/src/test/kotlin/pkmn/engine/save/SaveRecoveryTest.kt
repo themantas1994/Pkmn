@@ -231,4 +231,16 @@ class SaveRecoveryTest {
         assertIs<LoadResult.Failed>(f)
         assertEquals(2, f.preservedFiles.size)
     }
+
+    @Test
+    fun `exists agrees with load for a lone temp file whose payload cannot be decoded`() {
+        val d = tempDir()
+        val bad = buildJsonObject {
+            put("party", kotlinx.serialization.json.buildJsonArray { add(buildJsonObject { put("bad", 1) }) })
+        }
+        File(d, "save.json.tmp").writeText(envelope(SaveManager.CURRENT_VERSION, bad))
+        val m = mgr(d)
+        assertEquals(m.exists(), m.load() !is LoadResult.NoSave)
+        assertFalse(m.exists())
+    }
 }

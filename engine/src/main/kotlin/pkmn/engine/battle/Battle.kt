@@ -808,9 +808,9 @@ class Battle(
         val slot = user.moveSlot(moveId)
         val base = dex.moveOrNull(moveId) ?: dex.move("struggle")
         var move = ActiveMove(base)
-        if (gimmick == Gimmick.ZMOVE) {
+        if (gimmick == Gimmick.ZMOVE && !locked) {
             val z = Gimmicks.zMoveFor(this, user, base)
-            if (z != null) { move = z; user.side.usedGimmicks.add(Gimmick.ZMOVE) }
+            if (z != null) move = z
         } else if (user.isDynamaxed && base.id != "struggle") {
             move = Gimmicks.maxMoveFor(this, user, base)
         }
@@ -834,10 +834,9 @@ class Battle(
             return
         }
         // Badge obedience: after the before-move checks, before PP is spent. Locked moves are never checked.
-        if (!locked && !obeys(user, base.id)) {
-            if (gimmick == Gimmick.ZMOVE && move.isZ) user.side.usedGimmicks.remove(Gimmick.ZMOVE)
-            return
-        }
+        if (!locked && !obeys(user, base.id)) return
+        // The Z-Power is spent only once the move actually goes ahead (sleep, flinch, disobedience etc. keep it).
+        if (move.isZ) user.side.usedGimmicks.add(Gimmick.ZMOVE)
         if (!locked && slot != null && moveId != "struggle" && !move.isZ) {
             var cost = 1
             val foe = user.side.foe.active
@@ -2157,7 +2156,7 @@ class Battle(
         return when (g) {
             Gimmick.MEGA -> Gimmicks.megaTarget(this, mon) != null
             Gimmick.ULTRA_BURST -> Gimmicks.ultraBurstTarget(this, mon) != null
-            Gimmick.ZMOVE -> mon.moveSlots.any { Gimmicks.zMoveFor(this, mon, dex.move(it.id)) != null && it.pp > 0 }
+            Gimmick.ZMOVE -> lockedMove(mon) == null && mon.moveSlots.any { Gimmicks.zMoveFor(this, mon, dex.move(it.id)) != null && it.pp > 0 }
             Gimmick.DYNAMAX -> !mon.isDynamaxed && !mon.species.cannotDynamax && mon.species.formKind != FormKind.MEGA && mon.species.formKind != FormKind.PRIMAL && mon.terastallized == null
             Gimmick.TERA -> mon.terastallized == null && !mon.isDynamaxed && mon.mon.teraType != null && mon.species.formKind != FormKind.MEGA
         }
@@ -2183,6 +2182,9 @@ class Battle(
         val sp = dex.species(speciesId)
         if (mon.preTransformSpecies == null && kind != "permanent") mon.preTransformSpecies = mon.species
         mon.setSpecies(sp, changeAbility)
+        // A forme that survives switching keeps its own Ability too, or the switch-out reset would hand back the old one.
+        // A transformed Pokémon's own Ability is not the copied forme's, so it keeps the one it had (Ditto's Limber/Imposter).
+        if (changeAbility && !mon.transformed && sp.id in PERSISTENT_BATTLE_FORMES) mon.baseAbility = mon.ability
         events.add(BattleEvent.FormeChange(mon.side.index, teamIndex(mon), sp.id, kind, text ?: ""))
         if (text != null) log.add(text)
     }
@@ -2192,7 +2194,9 @@ class Battle(
             "perishsong", "gastroacid", "embargo", "healblock", "confusion", "powertrick", "lockon", "telekinesis")
         /** Battle-only formes that persist on switching (they revert only at the end of battle). */
         val PERSISTENT_BATTLE_FORMES = setOf("palafinhero", "minior", "zygardecomplete", "necrozmaultra", "terapagosterastal", "terapagosstellar",
-            "greninjaash", "greninjabond", "mimikyubusted", "mimikyubustedtotem", "cramorantgulping", "cramorantgorging", "eiscuenoice", "morpekohangry")
+            "greninjaash", "greninjabond", "mimikyubusted", "mimikyubustedtotem", "cramorantgulping", "cramorantgorging", "eiscuenoice", "morpekohangry",
+            // Terastallization is permanent for the battle, so the Tera formes stay with it.
+            "ogerpontealtera", "ogerponwellspringtera", "ogerponhearthflametera", "ogerponcornerstonetera")
         val PERSISTENT_OUT_OF_BATTLE_CHANGES = emptySet<String>()
         /** Status moves whose type immunity is checked (Thunder Wave vs Ground, etc.). */
         /** Status moves normally ignore type immunity; these are the exceptions (Thunder Wave cannot affect Ground types). */

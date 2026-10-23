@@ -542,6 +542,7 @@ class BattleScreen(
     private fun updateMoveMenu(input: InputState) {
         val active = battle.player.active ?: return
         val slots = active.moveSlots
+        moveCursor = BattleMenus.clampCursor(moveCursor, slots.size)
         if (input.repeat(Button.UP)) { moveCursor = (moveCursor - 1 + slots.size) % slots.size; game.audio.playSfx("menu_move") }
         if (input.repeat(Button.DOWN)) { moveCursor = (moveCursor + 1) % slots.size; game.audio.playSfx("menu_move") }
         if (input.justPressed(Button.SELECT)) {
