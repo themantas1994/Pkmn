@@ -14,7 +14,9 @@ import javax.imageio.ImageIO
  *  - `assets/manifest/assets.json`: every bundled (redistributable) asset;
  *  - `assets-local/manifest/assets.json`: every locally imported asset (same schema). Kept out of `assets/` so the
  *    committed manifest never depends on, or names, files that may not be redistributed;
- *  - `reports/asset-validation.json`: errors and warnings. Returns false when there are errors.
+ *  - `reports/asset-validation.json`: errors and warnings for `assets/` only (tracked, machine-independent).
+ *  - `assets-local/manifest/validation.json`: errors and warnings for `assets-local/` (git-ignored).
+ * Returns false when either has errors.
  *
  * Attribution comes from `assets/ATTRIBUTION.json` (globs relative to the repository root).
  */
@@ -43,7 +45,8 @@ class AssetManifestTool(private val root: File) {
         }
     }
 
-    class Scan(val bundled: List<AssetEntry>, val local: List<AssetEntry>, val issues: Issues)
+    /** [issues] covers `assets/` only; [localIssues] covers `assets-local/` and never reaches a tracked report. */
+    class Scan(val bundled: List<AssetEntry>, val local: List<AssetEntry>, val issues: Issues, val localIssues: Issues)
 
     fun run(): Boolean {
         val scan = scan()
@@ -52,14 +55,17 @@ class AssetManifestTool(private val root: File) {
         writeJson(File(root, "reports/asset-validation.json"), scan.issues.toJson {
             put("generatedBy", "pkmn.tools.AssetManifestTool")
             put("bundledAssets", scan.bundled.size)
-            put("localAssets", scan.local.size)
             put("bundledByCategory", countBy(scan.bundled.map { it.category }))
+        })
+        if (File(root, "assets-local").isDirectory) writeJson(File(root, "assets-local/manifest/validation.json"), scan.localIssues.toJson {
+            put("generatedBy", "pkmn.tools.AssetManifestTool")
+            put("localAssets", scan.local.size)
             put("localByCategory", countBy(scan.local.map { it.category }))
         })
         println("Asset manifest: ${scan.bundled.size} bundled, ${scan.local.size} local asset(s); " +
-            "${scan.issues.errors.size} error(s), ${scan.issues.warnings.size} warning(s)")
-        scan.issues.errors.take(40).forEach { println("  ERROR [${it.code}] ${it.subject}: ${it.message}") }
-        return scan.issues.ok
+            "${scan.issues.errors.size + scan.localIssues.errors.size} error(s), ${scan.issues.warnings.size + scan.localIssues.warnings.size} warning(s)")
+        (scan.issues.errors + scan.localIssues.errors).take(40).forEach { println("  ERROR [${it.code}] ${it.subject}: ${it.message}") }
+        return scan.issues.ok && scan.localIssues.ok
     }
 
     private fun manifestJson(entries: List<AssetEntry>, rootName: String) = buildJsonObject {
@@ -76,9 +82,10 @@ class AssetManifestTool(private val root: File) {
         val speciesIds = loadSpeciesIds()
         val bundled = scanRoot(File(root, "assets"), "assets", attributions, speciesIds, issues,
             exclude = setOf("data", "manifest"), excludeFiles = setOf("ATTRIBUTION.json"))
-        val local = scanRoot(File(root, "assets-local"), "assets-local", attributions, speciesIds, issues,
+        val localIssues = Issues()
+        val local = scanRoot(File(root, "assets-local"), "assets-local", attributions, speciesIds, localIssues,
             exclude = setOf("manifest"), excludeFiles = emptySet())
-        return Scan(bundled, local, issues)
+        return Scan(bundled, local, issues, localIssues)
     }
 
     private fun loadAttributions(issues: Issues): List<Attribution> {
