@@ -18,9 +18,14 @@ jobs:
           distribution: temurin
           java-version: 17
       - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - uses: android-actions/setup-android@v3
         with:
           packages: "platforms;android-35 build-tools;35.0.0"
+      - name: Regenerate art (pinned numpy/Pillow, deterministic)
+        run: ./gradlew :tools:buildArt
       - name: Content gates
         run: ./gradlew :tools:compileMaps :tools:checkProgression :tools:validateContent :tools:buildAssetManifest
       - name: Generated content is committed (modified, deleted or untracked files under assets/)

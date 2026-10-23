@@ -33,6 +33,7 @@ registerTool("importData", "Convert data-src/ raw datasets into assets/data/*.js
 registerTool("compileMaps", "Compile maps/*.map sources into assets/maps/*.json", "maps")
 registerTool("validateContent", "Validate all content and write reports/*.json", "validate")
 registerTool("buildAssetManifest", "Scan assets and write the asset manifest", "manifest")
+tasks.named("buildAssetManifest") { mustRunAfter("buildArt") } // the manifest hashes the generated art
 registerTool("checkProgression", "Check badge-order reachability, softlocks and orphaned content", "progression")
 registerTool("auditEntrances", "Audit every warp: entrance tile vs destination class, traversal, reverse transition -> reports/entrances.*", "entrances")
 registerTool("auditItems", "Strict item reachability audit per badge stage and placement defects -> reports/items.*", "items")
@@ -61,8 +62,34 @@ val importSpritesRaw = registerTool("importSpritesRaw", "Download/import Pokémo
 val styleSprites = registerTool("styleSprites", "Raw cache -> styled live set assets-local/sprites (-Ppkmn.sprites.style=gbc|none), atomic swap, STYLE_REPORT.json + COVERAGE.json", *spriteStyleArgs.toTypedArray())
 styleSprites { mustRunAfter(importSpritesRaw) }
 
+// Art generators (art/*.py): run in a venv built from the pinned art/requirements.txt so the PNG bytes are reproducible.
+// Override the interpreter with -Ppkmn.art.python=/path/to/python (it must already have the pinned packages). Linux/macOS.
+val artVenvDir = layout.buildDirectory.dir("art-venv")
+val artVenv = tasks.register<Exec>("artVenv") {
+    group = "pkmn"
+    description = "Create build/art-venv with the packages pinned in art/requirements.txt"
+    val requirements = rootProject.file("art/requirements.txt")
+    inputs.file(requirements)
+    outputs.dir(artVenvDir)
+    commandLine("sh", "-c", "rm -rf \"\$0\" && python3 -m venv \"\$0\" && \"\$0/bin/python\" -m pip install -q --disable-pip-version-check -r \"\$1\"",
+        artVenvDir.get().asFile.path, requirements.path)
+}
+val artPython: Provider<String> = provider {
+    (findProperty("pkmn.art.python") as String?)?.trim()?.takeIf { it.isNotEmpty() } ?: artVenvDir.get().file("bin/python").asFile.path
+}
+tasks.register<Exec>("buildArt") {
+    group = "pkmn"
+    description = "Regenerate assets/gfx and assets/fonts from art/*.py (deterministic; a second run must leave git status clean)"
+    if (findProperty("pkmn.art.python") == null) dependsOn(artVenv)
+    workingDir = rootProject.projectDir
+    inputs.dir(rootProject.file("art")).withPropertyName("artSources")
+    outputs.upToDateWhen { false }
+    doFirst { commandLine(artPython.get(), "-I", "art/build_all.py", "--no-previews") }
+}
+
 tasks.test {
     useJUnitPlatform()
     systemProperty("pkmn.assets", rootProject.file("assets").absolutePath)
+    systemProperty("pkmn.art.python", artPython.get())
     workingDir = rootProject.projectDir
 }
