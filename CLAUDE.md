@@ -20,3 +20,20 @@ Current state and every measured number: `STATUS.md`. Mechanics detail: `docs/`.
 2. Tests: `./gradlew :engine:test :core:test :tools:test`
 3. Android build: `./gradlew :android:assembleDebug` (`:android:bundleRelease` before a release)
 4. UI changes: check on the emulator with the Android QA plugin and attach a screenshot.
+
+## After every PR push: wait for CI and report (mandatory)
+Applies to every `pkm/*` PR an agent pushes or updates, including follow-up pushes. Never merge (no `gh pr merge`,
+no `--auto`, no merge API/MCP tool), never force-push, never touch branch protection or secrets.
+1. After the push and PR create/update, wait for the checks of the pushed commit. Checks register a few seconds after
+   the push, so first wait until at least one exists:
+   `until [ "$(gh pr checks "$PR" --json name --jq length)" -gt 0 ]; do sleep 5; done` (give up after ~60s and report).
+2. Block on them with a bound: `timeout 1500 gh pr checks "$PR" --watch --interval 20; echo "exit=$?"`.
+   Exit 0 = all passed, 1 = a check failed, 8 = still pending, 124 = timeout.
+3. Post one result comment on the PR (`gh pr comment`) and one on the issue: overall pass/fail, failing job names, run
+   URL (`gh pr checks "$PR" --json name,bucket,link`), and a failure excerpt of at most ~30 lines from
+   `gh run view <run-id> --log-failed`. No full logs, no secrets.
+4. Fail: set the issue back to `in_progress`, say in the comment that it returns to the developer, and fix and push
+   again (then repeat this section). Pass: continue with the normal handoff (set the issue to review for QA).
+5. Timeout: CI typically takes 3-4 minutes (172-216 s on recent PRs). The adapter run timeout is 1800 s, so the wait
+   is bounded at 1500 s to leave time to comment. On exit 124 do not call the result a pass: comment with the run URL and "CI still
+   running", then set the issue to `blocked` naming the CEO as unblock owner (to check the result). Never poll again.
