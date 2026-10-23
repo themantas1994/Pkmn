@@ -1,0 +1,4 @@
+# Pinned so art/build_all.py writes byte-identical PNGs on every machine (Pillow's wheels bundle their own zlib).
+# Change a pin only together with a regenerated, committed assets/ (./gradlew :tools:buildArt).
+numpy==2.3.4
+pillow==12.0.0

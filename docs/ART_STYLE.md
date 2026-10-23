@@ -9,10 +9,15 @@ tile or sprite, crisp pixels, no anti-aliasing and no gradients.
 ## Regenerating
 
 ```
+./gradlew :tools:buildArt            # canonical: pinned venv (art/requirements.txt), writes assets/gfx and assets/fonts
 python3 -I art/build_all.py          # build everything, validate, render previews
 python3 -I art/build_all.py --no-previews
 python3 -I art/tiles.py              # any single generator also runs on its own
 ```
+
+CI runs `:tools:buildArt` before the content gates and fails if `assets/` drifts, so
+commit regenerated art. Use the pinned numpy/Pillow (a different Pillow can change PNG bytes);
+`-Ppkmn.art.python=<python>` selects another interpreter that already has them.
 
 The build is deterministic: running it twice gives byte-identical PNGs. Any
 randomness uses a fixed seed. `build_all.py` checks that every required file
