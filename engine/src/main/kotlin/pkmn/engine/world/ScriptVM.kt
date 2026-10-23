@@ -78,7 +78,8 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
         pending = null; waiting = false
         // Losing a battle that is not `canlose` ends the script: the host has already blacked out, so no reward,
         // badge, flag or follow-up dialogue may run (only `canlose` battles continue and branch on `result`).
-        if (req is ScriptRequest.TrainerBattle && !req.canLose && value == 0) abort()
+        // A lost wild battle (result 0; caught/defeated/ran are 1/2/3) blacks the player out the same way.
+        if (value == 0 && ((req is ScriptRequest.TrainerBattle && !req.canLose) || req is ScriptRequest.WildBattle)) abort()
     }
 
     /** Ends the script (all frames and queued requests dropped); the next [next] returns null. */
@@ -146,8 +147,8 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
                 val move = toId(a[0])
                 ctx.dex.move(move)
                 val key = "tm:$move"
-                if (st.itemCount(key) == 0) st.addItem(key, 1)
-                ScriptRequest.Say(text("{player} obtained a TM containing ${ctx.dex.move(move).name}!"))
+                if (st.itemCount(key) > 0) null
+                else { st.addItem(key, 1); ScriptRequest.Say(text("{player} obtained a TM containing ${ctx.dex.move(move).name}!")) }
             }
             "takeitem" -> { result = if (st.removeItem(toId(a[0]), a.getOrNull(1)?.toIntOrNull() ?: 1)) 1 else 0; null }
             "givemoney" -> {

@@ -11,6 +11,9 @@ object BattleMenus {
     /** Gimmicks the current request offers, in a stable order. Primal Reversion is automatic and never listed. */
     fun gimmicks(req: Request): List<Gimmick> = (req as? Request.Move)?.gimmicks?.sortedBy { it.ordinal } ?: emptyList()
 
+    /** Keeps a list cursor inside [count] entries; the move cursor outlives a switch to a Pokémon with fewer moves. */
+    fun clampCursor(cursor: Int, count: Int): Int = cursor.coerceIn(0, maxOf(count - 1, 0))
+
     /** New cursor after pressing [dir]; stays inside the [count] entries laid out in two columns. */
     fun navigate(cursor: Int, dir: Button, count: Int): Int {
         val rows = (count + 1) / 2

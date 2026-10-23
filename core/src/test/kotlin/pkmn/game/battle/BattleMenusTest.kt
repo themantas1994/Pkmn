@@ -78,4 +78,12 @@ class BattleMenusTest {
             assertEquals("charizard", flow.battle.player.active!!.species.id)
         }
     }
+
+    @Test
+    fun `move cursor from a larger move list is clamped for a smaller one`() {
+        assertEquals(1, BattleMenus.clampCursor(3, 2))
+        assertEquals(0, BattleMenus.clampCursor(3, 1))
+        assertEquals(2, BattleMenus.clampCursor(2, 4))
+        assertEquals(0, BattleMenus.clampCursor(5, 0))
+    }
 }

@@ -96,7 +96,9 @@ class ScriptHost(
             is ScriptRequest.Wait -> ow.wait(req.ms / 1000f) { resume() }
             is ScriptRequest.TrainerBattle -> ow.startTrainerBattle(req.trainerId, req.canLose) { win -> resume(if (win) 1 else 0) }
             is ScriptRequest.WildBattle -> ow.startWildBattle(req.mon, req.canRun, req.music) { outcome ->
-                resume(when (outcome) { BattleOutcome.CAUGHT -> 1; BattleOutcome.WIN -> 2; BattleOutcome.RAN, BattleOutcome.FOE_FLED -> 3; else -> 0 })
+                // startWildBattle reports RAN without a fight when no Pokémon can battle; that is not an escape for the script.
+                val noFighters = ctx.state.party.none { !it.isFainted }
+                resume(when (outcome) { BattleOutcome.CAUGHT -> 1; BattleOutcome.WIN -> 2; BattleOutcome.RAN -> if (noFighters) 0 else 3; BattleOutcome.FOE_FLED -> 3; else -> 0 })
             }
             is ScriptRequest.Warp -> ow.warpTo(req.map, req.x, req.y, req.facing) { resume() }
             is ScriptRequest.Cry -> { game.audio.playCry(req.species); ow.wait(0.4f) { resume() } }

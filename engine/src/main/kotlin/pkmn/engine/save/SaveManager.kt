@@ -79,7 +79,7 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
         data class Valid(val env: SaveEnvelope) : Copy()
     }
 
-    fun exists() = main.exists() || backup.exists() || inspect(tmp).let { it is Copy.Valid || it is Copy.Newer }
+    fun exists() = main.exists() || backup.exists() || inspect(tmp).let { (it is Copy.Valid && decodes(it.env)) || it is Copy.Newer }
 
     @Synchronized
     fun save(state: GameState): SaveResult {

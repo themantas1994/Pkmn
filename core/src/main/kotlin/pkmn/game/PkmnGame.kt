@@ -192,7 +192,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     private val savedTransform = com.badlogic.gdx.math.Matrix4()
     private val labelTransform = com.badlogic.gdx.math.Matrix4()
 
-    private fun touchColor(b: Button) = if (input.pressed(b)) touchActive else touchBase
+    private fun touchColor(b: Button) = if (input.controlPressed(b)) touchActive else touchBase
 
     private fun drawTouchControls() {
         Gdx.gl.glEnable(GL20.GL_BLEND)

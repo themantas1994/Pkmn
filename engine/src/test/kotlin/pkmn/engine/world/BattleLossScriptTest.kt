@@ -69,4 +69,33 @@ class BattleLossScriptTest {
         assertEquals(listOf("lost", "after"), seen)
         assertTrue(reqs.isNotEmpty())
     }
+
+    private fun says(wildResult: Int): List<String> {
+        val src = ScriptParser.parseFile("script t\n  wildbattle mrmime 37\n  if result lose\n    say \"lost\"\n  end\n  say \"after\"\nend\n", "t.pks").single()
+        val vm = ScriptVM(newCtx(), src, { content.scripts[it] })
+        val out = ArrayList<String>()
+        while (true) {
+            val r = vm.next() ?: break
+            if (r is ScriptRequest.Say) out.add(r.text)
+            if (r.blocking) vm.resume(if (r is ScriptRequest.WildBattle) wildResult else 1)
+        }
+        return out
+    }
+
+    @Test
+    fun `losing a wild battle ends the script after the blackout`() {
+        assertEquals(emptyList(), says(0))
+    }
+
+    @Test
+    fun `wild battles that were won or escaped still continue`() {
+        for (result in listOf(1, 2, 3)) assertEquals(listOf("after"), says(result), "result $result")
+    }
+
+    @Test
+    fun `tm command stays silent when the TM is already owned`() {
+        val src = ScriptParser.parseFile("script t\n  tm thunderbolt\n  tm thunderbolt\nend\n", "t.pks").single()
+        val said = play(newCtx(), src, 1).filterIsInstance<ScriptRequest.Say>()
+        assertEquals(1, said.size)
+    }
 }
