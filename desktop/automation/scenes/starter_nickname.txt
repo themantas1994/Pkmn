@@ -2,6 +2,7 @@
 wait 240
 clock 2026-10-15T12:00
 option textSpeed 3
+flag lab_intro_done
 warp lab 7 4 up
 wait 60
 press A
