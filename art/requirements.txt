@@ -1,4 +1,4 @@
-# Pinned so art/build_all.py writes byte-identical PNGs on every machine (Pillow's wheels bundle their own zlib).
+# Pinned so art/build_all.py renders identical pixels everywhere. PNG bytes are written by art/pixlib.py (stored deflate), independent of any zlib build.
 # Change a pin only together with a regenerated, committed assets/ (./gradlew :tools:buildArt).
 numpy==2.3.4
 pillow==12.0.0
