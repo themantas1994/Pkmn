@@ -1,0 +1,14 @@
+#! args: --portrait
+# Portrait window with touch controls: overworld and pause menu.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+flag has_pokedex
+party pikachu:20:thunderbolt
+warp fernwick_town 9 8 down
+wait 60
+shot portrait_overworld
+press START
+wait 20
+shot portrait_menu
+quit
