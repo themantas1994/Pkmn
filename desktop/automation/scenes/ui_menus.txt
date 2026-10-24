@@ -1,0 +1,55 @@
+# Pause-menu screens: dex, party, bag, town map, options. Cursor position persists in the start menu, so each step moves one row down.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+flag has_pokedex
+badges 2
+party pikachu:20:thunderbolt/quickattack charmander:14:ember bulbasaur:12:vinewhip
+item potion 5
+item pokeball 10
+item antidote 2
+item super-potion 3
+warp fernwick_town 9 8 down
+wait 60
+press START
+wait 20
+press A
+wait 40
+shot ui_dex
+press B
+wait 20
+press DOWN
+wait 10
+press A
+wait 40
+shot ui_party
+press B
+wait 20
+press DOWN
+wait 10
+press A
+wait 40
+press RIGHT
+wait 10
+shot ui_bag
+press B
+wait 20
+press DOWN
+wait 10
+press A
+wait 40
+shot ui_townmap
+press B
+wait 20
+press DOWN
+wait 10
+press DOWN
+wait 10
+press DOWN
+wait 10
+press DOWN
+wait 10
+press A
+wait 40
+shot ui_options
+quit
