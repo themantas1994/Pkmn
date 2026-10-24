@@ -40,6 +40,8 @@ Generated content in `assets/` is committed, so a fresh clone builds without run
 ./gradlew :tools:auditItems          # strict item reachability per badge stage -> reports/items.*
 ./gradlew :tools:statusCounts        # numbers STATUS.md quotes (world counts; test counts from the last test run)
 ./gradlew :tools:checkStatus         # fail if STATUS.md world/test counts differ from those (CI runs it after the tests)
+                                     # both refuse test runs whose skips differ from CI's: run :tools:artVenv before the
+                                     # tests (else ArtBuildDeterminismTest is skipped, CI runs it) and don't pass -Pbenchmarks
 scripts/check-generated-assets.sh    # fail if anything under assets/ is modified, deleted or untracked (CI guard)
 ./gradlew :core:test -Pbenchmarks    # also run the opt-in machine-dependent timing benchmarks (skipped by default)
 tools/visual/run_scenes.sh           # capture visual-regression scenes under Xvfb and compare (see docs/SCREENSHOTS.md)
