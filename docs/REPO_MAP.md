@@ -15,7 +15,7 @@
 | `docs/` | formats and mechanics: `WORLD_FORMAT`, `SCRIPTING`, `EVENTS`, `MECHANICS`, `BUILD`, `CAPTURE`, `LEARNSETS` |
 | `tools/visual/run_scenes.sh` | desktop screenshot scenes compared with `docs/screenshots` (CI `visual` job) |
 
-Task cheat sheet: `scripts/gates.sh [content|test|android|all]` runs the CI gates, logs to
+Task cheat sheet: `scripts/gates.sh [content|test [module]|android|all]` runs the CI gates, logs to
 `build/gates/*.log` and prints one line per step. Other audits: `:tools:auditEntrances`,
 `:tools:auditItems`, `:tools:auditLearnsets`, `:tools:auditMoves`, `:tools:checkStatus`,
 `:tools:statusCounts`.
