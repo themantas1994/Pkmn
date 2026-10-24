@@ -35,6 +35,8 @@ registerTool("validateContent", "Validate all content and write reports/*.json",
 registerTool("buildAssetManifest", "Scan assets and write the asset manifest", "manifest")
 tasks.named("buildAssetManifest") { mustRunAfter("buildArt") } // the manifest hashes the generated art
 registerTool("checkProgression", "Check badge-order reachability, softlocks and orphaned content", "progression")
+// compileMaps regenerates assets/maps and assets/world; readers must not overlap it.
+for (n in listOf("validateContent", "buildAssetManifest", "checkProgression")) tasks.named(n) { mustRunAfter("compileMaps") }
 registerTool("auditEntrances", "Audit every warp: entrance tile vs destination class, traversal, reverse transition -> reports/entrances.*", "entrances")
 registerTool("auditItems", "Strict item reachability audit per badge stage and placement defects -> reports/items.*", "items")
 registerTool("auditLearnsets", "Learnset legality audit (importer vs raw Showdown, forms, world moves, TMs, tutors) -> reports/learnsets.*", "learnsets")
@@ -42,6 +44,7 @@ registerTool("auditMoves", "Merge engine/build/reports/move-execution.json (run 
 registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
 registerTool("statusCounts", "Print the numbers STATUS.md quotes (world counts, test counts from the last test run)", "status")
 registerTool("checkStatus", "Fail when STATUS.md world/test counts differ from the build outputs (run after :engine:test :core:test :tools:test)", "status", "--check")
+registerTool("apkBudget", "Fail when a built release APK (<=12 MB), debug APK (<=16 MB), release AAB (<=11 MB) or assets/gfx (<=5 MB) exceeds its budget; -Pargs=--require also fails when an artifact was not built", "apk-budget")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("auditCapture", "Capture chance of every wild encounter slot before/after the capture fix -> reports/capture.*", "capture")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
