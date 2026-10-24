@@ -1,0 +1,6 @@
+#! no-quickstart
+# Title screen, before any game exists. Anchored to the screen opening: its blink phase counts from there, not from process start.
+waittop TitleScreen 1800
+wait 62
+shot ui_title
+quit
