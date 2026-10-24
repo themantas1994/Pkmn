@@ -42,6 +42,7 @@ registerTool("auditMoves", "Merge engine/build/reports/move-execution.json (run 
 registerTool("benchmark", "Measure engine performance (loading, battle turns, AI, save/load)", "perf")
 registerTool("statusCounts", "Print the numbers STATUS.md quotes (world counts, test counts from the last test run)", "status")
 registerTool("checkStatus", "Fail when STATUS.md world/test counts differ from the build outputs (run after :engine:test :core:test :tools:test)", "status", "--check")
+registerTool("apkBudget", "Fail when a built release APK (<=12 MB), debug APK (<=16 MB), release AAB (<=11 MB) or assets/gfx (<=5 MB) exceeds its budget; -Pargs=--require also fails when an artifact was not built", "apk-budget")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
 registerTool("spriteCoverage", "Species used by encounters, trainers, scripts, gifts and events per art tier -> reports/sprite-coverage.json", "sprite-coverage")
 registerTool("auditCapture", "Capture chance of every wild encounter slot before/after the capture fix -> reports/capture.*", "capture")

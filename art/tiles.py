@@ -853,15 +853,19 @@ def floor_wood():
 
 
 def floor_tile():
+    # polished 8x8 slabs: grout, a glint on each slab's upper-left and a shaded lower-right corner
     a = full(0)
     a[7, :] = 1
     a[15, :] = 1
     a[:, 7] = 1
     a[:, 15] = 1
-    a[7, 7] = 2
-    a[15, 15] = 2
-    a[15, 7] = 2
-    a[7, 15] = 2
+    for x0 in (0, 8):
+        for y0 in (0, 8):
+            a[y0 + 5:y0 + 7, x0 + 5:x0 + 7] = 1
+            a[y0 + 1, x0 + 1:x0 + 3] = 1
+            a[y0 + 2, x0 + 1] = 1
+    for p in ((7, 7), (15, 15), (15, 7), (7, 15)):
+        a[p[1], p[0]] = 2
     return a
 
 
