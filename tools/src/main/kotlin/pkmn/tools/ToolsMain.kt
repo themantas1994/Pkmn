@@ -8,7 +8,7 @@ const val EXIT_OK = 0
 const val EXIT_FAILED = 1
 const val EXIT_USAGE = 2
 
-private const val USAGE = "usage: tools <import|validate|status [--check]|capture|learnsets|moves|maps|manifest|playtime|progression|entrances|items|perf|screenshots <actual> <baseline> [--update]|sprites [--only=1-151] [--force] [--from=<dir|zip>] [--dest=<dir>] ...|sprites-style [--style=gbc|none] [--strict]|cries [--only=1-151] [--force] ...|release-guard <apk|aab>...|apk-budget [--require]>"
+private const val USAGE = "usage: tools <import|validate|status [--check]|capture|learnsets|moves|maps|manifest|playtime|progression|entrances|items|perf|screenshots <actual> <baseline> [--update]|sprites [--only=1-151] [--force] [--from=<dir|zip>] [--dest=<dir>] ...|sprites-style [--style=gbc|none] [--strict]|cries [--only=1-151] [--force] ...|release-guard <apk|aab>...|sprite-coverage|apk-budget [--require]>"
 
 /**
  * Runs one tool command and returns its process exit code. Never calls exitProcess, so tests can drive it;
@@ -41,6 +41,7 @@ fun runTool(args: Array<String>): Int {
             "sprites" -> SpriteImporter(root, rest).run()
             "cries" -> CryImporter(root, rest).run()
             "release-guard" -> ReleaseArtifactGuard.run(rest.filter { !it.startsWith("--") }.map { File(it).absoluteFile })
+            "sprite-coverage" -> SpriteCoverage(root, write).run()
             "apk-budget" -> ApkBudget.run(root, requireAll = "--require" in args)
             "sprites-style" -> SpriteStylePipeline(root, rest).run()
             else -> { println(USAGE); return EXIT_USAGE }

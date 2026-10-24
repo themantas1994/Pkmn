@@ -1,0 +1,7935 @@
+{
+  "generatedBy": "./gradlew :tools:spriteCoverage",
+  "statusRule": "original = bundled assets/sprites/pokemon/{front,back,icon}/<id>.png all exist; partial = some; fallback = none (procedural placeholder). assets-local/ is ignored.",
+  "tierRules": {
+    "1": "starters and their lines; Part 1 wild tables (no pN_ prefix); Part 1 rival (rival_*); gym 1-2 (gym1_*, gym2_*, p1_leader_*)",
+    "2": "leader, elite and champion teams; wild tables of Routes 5-9 (p2_route5-8, p3a_route9)",
+    "3": "every other species used by wild tables, trainers, gifts, eggs, static battles or events",
+    "4": "species never used (counted only)"
+  },
+  "usedSpecies": 708,
+  "unusedSpecies": 671,
+  "tiers": {
+    "1": {
+      "species": 111,
+      "original": 0,
+      "partial": 0,
+      "fallback": 111,
+      "complete": false
+    },
+    "2": {
+      "species": 129,
+      "original": 0,
+      "partial": 0,
+      "fallback": 129,
+      "complete": false
+    },
+    "3": {
+      "species": 468,
+      "original": 0,
+      "partial": 0,
+      "fallback": 468,
+      "complete": false
+    },
+    "4": {
+      "species": 671
+    }
+  },
+  "species": [
+    {
+      "id": "aron",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_b1f",
+        "wild:p2_mt_prism_lower",
+        "wild:p4a_cobblecrest_b2f",
+        "trainer:ccb_hiker_ned",
+        "trainer:p4a_cc2_hiker_rocco"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "arrokuda",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route17",
+        "trainer:gym2_pearl"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "bayleef",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_port_chikorita",
+        "trainer:p2_rival_plant_bayleef",
+        "starter-line:bayleef"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "bellsprout",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:gym1_rosa",
+        "trainer:p4a_lt_sage_toru",
+        "trainer:p4a_lt_sage_gaku",
+        "trainer:p4a_lt_sage_masa",
+        "trainer:p4a_lt_sage_edmund"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "bidoof",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "trainer:route1_tim",
+        "trainer:p4a_pip_1"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "budew",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:ww_fern",
+        "trainer:p4a_ww_lass_hana",
+        "trainer:p4a_pp_beauty_lily"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "buizel",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p2_route8",
+        "wild:p4a_seabreeze_cove",
+        "trainer:p1_leader_marina",
+        "trainer:p4a_sb_swimmer_dylan"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "buneary",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "trainer:route3_hank"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "bunnelby",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "trainer:route2_ollie"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "caterpie",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "wild:whisperwood",
+        "trainer:route1_tim",
+        "trainer:route2_wade",
+        "trainer:ww_doug"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "chewtle",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_orchard",
+        "trainer:gym2_otis",
+        "trainer:p4a_or_fisher_lou"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "chikorita",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_lab_chikorita",
+        "trainer:rival_r2_chikorita",
+        "gift:p1_lab.pks:96",
+        "starter-line:chikorita"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "cottonee",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "wild:p4b_mistwood",
+        "trainer:p1_leader_hazel"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "croconaw",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_port_totodile",
+        "trainer:p2_rival_plant_croconaw",
+        "starter-line:croconaw"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "cutiefly",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "wild:p4a_petal_path",
+        "wild:p4b_mistwood",
+        "trainer:ww_ezra",
+        "trainer:p4a_ww_lass_hana"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "cyndaquil",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_lab_cyndaquil",
+        "trainer:rival_r2_cyndaquil",
+        "gift:p1_lab.pks:118",
+        "starter-line:cyndaquil"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "diglett",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:p4a_root_hollow",
+        "trainer:p4a_rh_hiker_doyle"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "doduo",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "trainer:p4a_r3_youngster_lex"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "drilbur",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_b1f",
+        "wild:p2_route8",
+        "trainer:ccb_hiker_ned",
+        "trainer:p2_r8_cooltrainer_sol"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "drowzee",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "trainer:ccb_psychic_ida",
+        "trainer:p4a_ccb_psychic_noor"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "dunsparce",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_b1f"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "dwebble",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:p2_route7",
+        "wild:p3a_route10",
+        "wild:p4a_cape_grotto",
+        "wild:p4a_cobblecrest_b2f"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "ekans",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "electrike",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "wild:p2_route6",
+        "wild:p4b_pylon_ridge",
+        "trainer:route4_skye",
+        "trainer:p2_r6_youngster_cal"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "feraligatr",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_rival_prism_feraligatr",
+        "trainer:p3a_rival_ashfall_feraligatr",
+        "trainer:p3b_rival_vr_feraligatr",
+        "trainer:p3c_rival_feraligatr",
+        "starter-line:feraligatr"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "finizen",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:port_tidewater",
+        "wild:p3a_route11",
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "finneon",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p2_route5",
+        "wild:p3a_route11",
+        "wild:p4b_prism_grotto",
+        "trainer:p4a_cp_fisher_bo"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "flabebe",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "wild:p2_route5",
+        "wild:p4a_petal_path",
+        "trainer:route3_june",
+        "trainer:p2_r5_lass_tessa"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "fletchling",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "trainer:route2_cora",
+        "trainer:p4a_mg_ranger_cole"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "frogadier",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:p1_leader_marina"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "gastly",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_port_cyndaquil",
+        "trainer:rival_port_totodile",
+        "trainer:rival_port_chikorita"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "geodude",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:cobblecrest_b1f",
+        "wild:p2_route7",
+        "wild:p2_route8",
+        "trainer:route3_boulder"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "goldeen",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:fernwick_town",
+        "wild:route2",
+        "wild:p2_route6",
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower"
+      ],
+      "sourceCount": 29
+    },
+    {
+      "id": "growlithe",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "hoothoot",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "wild:route2",
+        "wild:whisperwood",
+        "wild:p4a_brook_trail",
+        "wild:p4a_petal_path"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "hoppip",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "trainer:gym1_lily",
+        "trainer:route3_june",
+        "trainer:p4a_lt_sage_toru"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "horsea",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:port_tidewater",
+        "wild:p3a_route11"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "kakuna",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:ww_doug"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "krabby",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:port_tidewater",
+        "wild:p3b_route13",
+        "wild:p4a_cape_grotto",
+        "wild:p4a_seabreeze_cove"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "kricketot",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "trainer:route2_rick",
+        "trainer:p4a_r2_bug_kip",
+        "trainer:p4a_bf_bug_leo"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "ledyba",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "wild:p4a_petal_path",
+        "wild:p4a_orchard",
+        "trainer:route2_wade",
+        "trainer:p4a_r2_bug_kip"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "lillipup",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "trainer:p4a_r1_youngster_sam"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "lotad",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_brook_grotto",
+        "wild:p4a_petal_path",
+        "wild:p4a_brook_falls",
+        "wild:p4a_orchard"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "machop",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p2_route7",
+        "trainer:route3_kenji",
+        "trainer:route4_rex",
+        "trainer:tw_sailor_ray"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "magikarp",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:hometown",
+        "wild:route1",
+        "wild:fernwick_town",
+        "wild:route2",
+        "wild:route4"
+      ],
+      "sourceCount": 47
+    },
+    {
+      "id": "makuhita",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "trainer:route4_rex",
+        "trainer:p4a_r4_blackbelt_koji",
+        "trainer:p4a_dj_blackbelt_haru"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "mankey",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "trainer:route3_kenji",
+        "trainer:p4a_r4_blackbelt_koji",
+        "trainer:p4a_dj_sailor_fitz"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "marill",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p2_seraphine",
+        "wild:p2_town_ponds",
+        "wild:p4a_brook_grotto",
+        "wild:p4b_mistwood"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "meganium",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_rival_prism_meganium",
+        "trainer:p3a_rival_ashfall_meganium",
+        "trainer:p3b_rival_vr_meganium",
+        "trainer:p3c_rival_meganium",
+        "starter-line:meganium"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "meowth",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "wild:route4",
+        "wild:p4a_tidewater_cape",
+        "wild:p4a_seabreeze_cove",
+        "trainer:p4a_wr_gentleman_hale"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "metapod",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "morelull",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "wild:p4b_mistwood"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "murkrow",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "wild:p2_route6",
+        "wild:p2_ruins_of_sol",
+        "wild:p3a_route9",
+        "wild:p3a_route10"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "nickit",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "nidoranf",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "trainer:p4a_r2_lass_nora"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "nidoranm",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "trainer:route2_ben"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "nincada",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p2_route5",
+        "trainer:p4a_rh_bug_ike",
+        "trainer:p4a_r3_bug_clint",
+        "trainer:p4a_r5_kid_milo"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "noibat",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_b1f",
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower",
+        "wild:p2_mt_prism_upper",
+        "wild:p3c_tempest_cave"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "nosepass",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p2_route7",
+        "wild:p4a_glimmer_cave",
+        "wild:p4a_ridge_grotto",
+        "wild:p4b_old_mine"
+      ],
+      "sourceCount": 13
+    },
+    {
+      "id": "oddish",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "wild:whisperwood",
+        "wild:p4a_orchard",
+        "trainer:gym1_rosa",
+        "trainer:route2_cora"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "onix",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:cobblecrest_b1f",
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower",
+        "wild:p4b_old_mine"
+      ],
+      "sourceCount": 16
+    },
+    {
+      "id": "paras",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "wild:p4a_root_hollow",
+        "trainer:ww_tad",
+        "trainer:p4a_rh_bug_ike",
+        "trainer:p4a_rh_bug_moss"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "patrat",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "trainer:route2_ollie"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "pelipper",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:port_tidewater",
+        "wild:p2_route5",
+        "wild:p3a_route11",
+        "wild:p3c_coral_town",
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 19
+    },
+    {
+      "id": "phanpy",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "trainer:route4_moe",
+        "trainer:p4a_r4_pokefan_greta"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "pichu",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "pidgeotto",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_port_cyndaquil",
+        "trainer:rival_port_totodile",
+        "trainer:rival_port_chikorita",
+        "trainer:p2_rival_plant_quilava",
+        "trainer:p2_rival_plant_croconaw"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "pidgey",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "trainer:route1_mia",
+        "trainer:rival_r2_cyndaquil",
+        "trainer:rival_r2_totodile",
+        "trainer:rival_r2_chikorita"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "pidove",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "trainer:route2_ana",
+        "trainer:p4a_r2_lass_nora"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "pikachu",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "wild:p2_route6",
+        "trainer:p2_r6_kid_tobi",
+        "trainer:p4a_dot_1"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "pineco",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:p4a_ww_youngster_jay"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "poliwag",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:hometown",
+        "wild:route1",
+        "wild:p2_route6",
+        "wild:p2_town_ponds",
+        "wild:p4a_brook_trail"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "psyduck",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p2_town_ponds",
+        "wild:p3a_route9",
+        "wild:p4b_ashen_trail",
+        "wild:p4b_steam_grotto"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "quilava",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_port_cyndaquil",
+        "trainer:p2_rival_plant_quilava",
+        "starter-line:quilava"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "rattata",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "wild:p4c_wreck",
+        "trainer:route1_joey"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "remoraid",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:port_tidewater",
+        "wild:p2_route5",
+        "wild:p3a_route11",
+        "wild:p3c_cinder_isle",
+        "wild:p4a_tidewater_cape"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "roggenrola",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:cobblecrest_b1f",
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower",
+        "wild:p3a_crystal_cavern"
+      ],
+      "sourceCount": 14
+    },
+    {
+      "id": "rolycoly",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_b1f",
+        "wild:p2_route8",
+        "wild:p4a_cobblecrest_b2f",
+        "wild:p4b_old_mine",
+        "trainer:p2_r8_youngster_flint"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "sableye",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_b1f",
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower",
+        "wild:p2_mt_prism_upper",
+        "wild:p3a_route9"
+      ],
+      "sourceCount": 28
+    },
+    {
+      "id": "sandshrew",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "wild:p2_route7",
+        "trainer:p2_r7_pokefan_dot"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "scatterbug",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:route2_rick",
+        "trainer:p4a_ww_bug_remy"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "seedot",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:gym1_basil",
+        "trainer:ww_fern"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "sentret",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "trainer:route1_mia",
+        "trainer:p4a_r1_kid_lucy"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "sewaddle",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:ww_ezra"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "shellder",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p2_route5",
+        "wild:p3a_route11",
+        "wild:p3c_route17",
+        "wild:p4a_cape_grotto"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "shellos",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p4c_tide_grotto",
+        "trainer:gym2_nell",
+        "gift:p1_tidewater.pks:151"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "shinx",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "trainer:route3_tess"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "shroomish",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:ww_tad",
+        "trainer:p4a_ww_youngster_jay"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "shuckle",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:cobblecrest_b1f",
+        "wild:p3a_route10",
+        "wild:p3b_victory_road"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "skiddo",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p2_route5",
+        "wild:p3a_route10",
+        "wild:p4b_prism_foothills",
+        "trainer:p1_leader_hazel"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "skwovet",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route2",
+        "wild:p4a_orchard",
+        "trainer:route2_ana",
+        "trainer:p4a_mg_youngster_bo",
+        "trainer:p4a_or_youngster_rob"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "slowpoke",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p3a_route11",
+        "wild:p4b_steam_grotto"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "smoliv",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove_glade",
+        "trainer:p1_leader_hazel",
+        "trainer:p4a_gl_lass_fay"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "spearow",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "wild:route4",
+        "trainer:route3_dale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "spinarak",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "wild:whisperwood",
+        "wild:p4a_mossgrove",
+        "wild:p4a_orchard",
+        "trainer:p4a_r2_bug_kip"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "staryu",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:port_tidewater",
+        "wild:p2_route5",
+        "wild:p3c_eclipse_atoll",
+        "wild:p4a_seabreeze_cove",
+        "trainer:p4a_sb_fisher_wally"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "sunkern",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "trainer:gym1_lily",
+        "trainer:p4a_lt_sage_edmund"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "tentacool",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:port_tidewater",
+        "wild:p2_route5",
+        "wild:p3a_route11",
+        "wild:p4a_tidewater_cape"
+      ],
+      "sourceCount": 16
+    },
+    {
+      "id": "totodile",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:rival_lab_totodile",
+        "trainer:rival_r2_totodile",
+        "gift:p1_lab.pks:140",
+        "starter-line:totodile"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "tympole",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:fernwick_town",
+        "wild:p2_route6",
+        "wild:p3a_route10",
+        "wild:p4a_solar_ridge",
+        "wild:p4a_voltmire_marsh"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "typhlosion",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_rival_prism_typhlosion",
+        "trainer:p3a_rival_ashfall_typhlosion",
+        "trainer:p3b_rival_vr_typhlosion",
+        "trainer:p3c_rival_typhlosion",
+        "starter-line:typhlosion"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "typhlosionhisui",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "starter-line:typhlosionhisui"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "venonat",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "wild:p2_route5",
+        "wild:p4a_voltmire_marsh",
+        "wild:p4b_mistwood",
+        "trainer:p2_r5_bug_otto"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "weedle",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:whisperwood",
+        "trainer:route2_wade",
+        "trainer:ww_doug"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "wingull",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:port_tidewater",
+        "wild:p2_route5",
+        "wild:p3a_route11",
+        "wild:p3c_coral_town"
+      ],
+      "sourceCount": 19
+    },
+    {
+      "id": "woobat",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:p2_mt_prism_lower",
+        "wild:p2_mt_prism_upper",
+        "wild:p3a_crystal_cavern",
+        "wild:p4a_brook_grotto"
+      ],
+      "sourceCount": 15
+    },
+    {
+      "id": "wooloo",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "wooper",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route4",
+        "wild:p2_route6",
+        "wild:p4a_brook_falls",
+        "wild:p4b_strata_gulch",
+        "trainer:route4_coco"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "wurmple",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route1",
+        "trainer:p4a_bt_bug_nils",
+        "trainer:p4a_bf_bug_leo"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "yungoos",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:route3",
+        "trainer:p4a_r3_youngster_lex"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "zubat",
+      "tier": 1,
+      "status": "fallback",
+      "sources": [
+        "wild:cobblecrest_1f",
+        "wild:cobblecrest_b1f",
+        "wild:p4a_brook_grotto",
+        "wild:p4a_root_hollow",
+        "wild:p4a_cape_grotto"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "aegislash",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_morrow",
+        "trainer:p3c_ea_ace_dusk",
+        "trainer:p3c_bt_tycoon",
+        "trainer:p4c_rt_veteran_cort"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "aerodactyl",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_leader_garnet",
+        "trainer:p3b_vr1_cooltrainer_bren",
+        "trainer:p3c_rm_garnet",
+        "trainer:p4b_cdepth_maniac_vey",
+        "trainer:p4c_vr1_ace_lorne"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "alakazam",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_sibyl",
+        "trainer:p3c_rm_sibyl",
+        "trainer:p3c_sg_ace_vega",
+        "trainer:p4b_cal_psychic_auri",
+        "trainer:p4c_sg_veteran_ilse"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "ampharos",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_dg_cooltrainer_mei",
+        "trainer:p3c_rm_volta",
+        "trainer:p4a_dot_4"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "arcanine",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_leader_blaise",
+        "trainer:p3a_et_sage_ilo",
+        "trainer:p3b_up_cooltrainer_dax",
+        "trainer:p3c_rm_blaise",
+        "trainer:p3c_ci_ace_ember"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "azumarill",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "wild:p3b_umbral_pass",
+        "wild:p4a_brook_grotto",
+        "wild:p4b_mistwood",
+        "wild:p4b_prism_foothills"
+      ],
+      "sourceCount": 13
+    },
+    {
+      "id": "barboach",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p2_mt_prism_lower",
+        "wild:p3a_route9",
+        "wild:p3a_route10",
+        "wild:p3b_victory_road"
+      ],
+      "sourceCount": 21
+    },
+    {
+      "id": "barraskewda",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "wild:p3c_route17",
+        "wild:p4c_tide_grotto",
+        "trainer:p3b_r13_fisher_old",
+        "trainer:p3c_rm_marina"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "basculin",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p4c_skyfall_grotto",
+        "wild:p4c_skyfall_basin",
+        "trainer:p2_r8_fisher_moss"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "baxcalibur",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_isolde",
+        "trainer:p4c_gh_cool_jasper",
+        "trainer:p4c_ff_cool_halvard",
+        "trainer:p4c_ffd_cool_ingrid"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "bonsly",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "trainer:p2_r8_lass_gem",
+        "trainer:p4b_mine1_lass_tamsin"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "breloom",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr2_veteran_osk",
+        "trainer:p3c_rm_hazel",
+        "trainer:p3c_bt_a1",
+        "trainer:p4b_depths_ranger_corin",
+        "trainer:p4c_r13_cool_orla"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "bronzong",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_depths",
+        "wild:p3b_prism_summit",
+        "trainer:p2_sol_sage_ra",
+        "trainer:p2_mp2_scientist_quill",
+        "trainer:p3a_cc_psychic_lux"
+      ],
+      "sourceCount": 19
+    },
+    {
+      "id": "chandelure",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_et_sage_ren",
+        "trainer:p3b_elite_morrow",
+        "trainer:p3b_r13_cooltrainer_ysa",
+        "trainer:p3c_rm_blaise",
+        "trainer:p3c_rm_morrow"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "charizard",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_blaise",
+        "trainer:p3c_ci_ace_ember",
+        "static:p3c_legends.pks:446"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "cloyster",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route17",
+        "trainer:p3a_r11_swim_pearl",
+        "trainer:p3a_leader_isolde",
+        "trainer:p3c_r17_swimmer_iris",
+        "trainer:p4c_r12_fisher_ike"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "corviknight",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_ferrum",
+        "trainer:p3c_rm_ferrum",
+        "trainer:p4c_r12_bird_cyra",
+        "trainer:p4c_sb_bird_tamsin",
+        "static:p3c_legends.pks:454"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "croagunk",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p4a_voltmire_marsh",
+        "trainer:p2_r6_cooltrainer_jin",
+        "trainer:p2_pp_grunt5",
+        "trainer:p4a_r6_cooltrainer_lena"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "decidueye",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_hazel",
+        "trainer:p4c_sb_ranger_eskil"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "dragapult",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_morrow",
+        "trainer:p3c_rm_ryuga",
+        "trainer:p3c_rm_morrow",
+        "trainer:p3c_bt_tycoon",
+        "trainer:p4c_vd1_tamer_kenrick"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "dragonite",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_skyfall_basin",
+        "trainer:p3b_leader_ryuga",
+        "trainer:p3b_vr2_tamer_drake",
+        "trainer:p3c_rm_ryuga",
+        "trainer:p3c_rival_typhlosion"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "druddigon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p3b_victory_road",
+        "wild:p4c_roost_trail",
+        "wild:p4c_skyfall_basin",
+        "wild:p4c_vr_deep"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "dusknoir",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_morrow",
+        "trainer:p3b_admin_vesper",
+        "trainer:p3c_rm_morrow",
+        "trainer:p3c_sp_sage_oro",
+        "trainer:p4c_dr_sage_aldric"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "eelektrik",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_vg_beauty_watt",
+        "trainer:p2_leader_volta"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "electivire",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p3b_vr3_cooltrainer_zed",
+        "trainer:p3c_rm_volta",
+        "trainer:p4c_vr1_ace_lorne"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "espeon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_sibyl",
+        "trainer:p3b_vr1_psychic_ena",
+        "trainer:p3c_rm_sibyl",
+        "trainer:p3c_ea_psychic_sol",
+        "trainer:p3c_ea_ace_dawn"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "excadrill",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "wild:p4c_vr_deep",
+        "trainer:p3b_elite_ferrum",
+        "trainer:p3b_r13_veteran_hale",
+        "trainer:p3c_rm_ferrum"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "feebas",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p3b_victory_road"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "flaaffy",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p4b_pylon_ridge",
+        "trainer:p2_r6_youngster_cal",
+        "trainer:p2_vg_beauty_watt",
+        "trainer:p4a_r6_cooltrainer_lena"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "floatzel",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "trainer:p3a_r11_swim_reed",
+        "trainer:p4b_grotto_diver_kenji",
+        "trainer:p4b_steam_swim_kai",
+        "trainer:p4c_tg_swim_kelp"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "froslass",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_rime_hollow",
+        "trainer:p3a_g7_skier_noelle",
+        "trainer:p3a_leader_isolde",
+        "trainer:p3b_vr2_beauty_rue",
+        "trainer:p3c_rm_isolde"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "garchomp",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_champion_celeste_mega",
+        "trainer:p3b_champion_celeste_zmove",
+        "trainer:p3b_champion_celeste_tera",
+        "trainer:p3b_vr3_cooltrainer_nova",
+        "trainer:p3b_rival_vr_typhlosion"
+      ],
+      "sourceCount": 16
+    },
+    {
+      "id": "gardevoir",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_champion_celeste_mega",
+        "trainer:p3b_champion_celeste_zmove",
+        "trainer:p3b_champion_celeste_tera",
+        "trainer:p3b_r13_veteran_hale",
+        "trainer:p3b_vr3_cooltrainer_nova"
+      ],
+      "sourceCount": 15
+    },
+    {
+      "id": "garganacl",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_depths",
+        "wild:p3c_magma_vent",
+        "trainer:p3a_ccd_sci_facet",
+        "trainer:p3c_rm_garnet",
+        "trainer:p3c_mv_hiker_basalt"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "gengar",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_rival_prism_typhlosion",
+        "trainer:p2_rival_prism_feraligatr",
+        "trainer:p2_rival_prism_meganium",
+        "trainer:p3a_rival_ashfall_typhlosion",
+        "trainer:p3a_rival_ashfall_feraligatr"
+      ],
+      "sourceCount": 17
+    },
+    {
+      "id": "gigalith",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_prism_summit",
+        "wild:p3b_victory_road",
+        "trainer:p3a_r12_hiker_bjorn",
+        "trainer:p3a_ccd_cool_prism",
+        "trainer:p3b_vr2_hiker_crag"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "girafarig",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "wild:p4b_prism_foothills",
+        "wild:p4c_skyfall_basin",
+        "trainer:p2_r7_cooltrainer_mae",
+        "trainer:p2_r7_psychic_lux"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "gligar",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "wild:p3a_route9",
+        "wild:p4b_strata_gulch",
+        "wild:p4b_prism_foothills",
+        "trainer:p2_r7_ranger_finn"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "glimmora",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_depths",
+        "wild:p3c_magma_vent",
+        "wild:p4c_geode_hollow",
+        "trainer:p3a_ccd_cool_prism",
+        "trainer:p3b_champion_celeste_mega"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "golbat",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower",
+        "wild:p2_mt_prism_upper",
+        "wild:p3a_crystal_cavern"
+      ],
+      "sourceCount": 24
+    },
+    {
+      "id": "golduck",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_lower",
+        "wild:p3a_route9",
+        "wild:p3a_route10",
+        "wild:p3b_umbral_pass",
+        "wild:p3b_prism_summit"
+      ],
+      "sourceCount": 20
+    },
+    {
+      "id": "granbull",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "trainer:p2_sg_gentleman_puff",
+        "trainer:p2_leader_elowen",
+        "trainer:p3c_rm_elowen",
+        "trainer:p3c_bt_a5"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "grimmsnarl",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_nox",
+        "trainer:p3c_rm_elowen"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "grumpig",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "trainer:p3a_r9_psychic_omar",
+        "trainer:p4b_mp2_psychic_orin"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "gyarados",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower",
+        "wild:p2_town_ponds",
+        "wild:p3a_route11",
+        "wild:p3b_dragonspire"
+      ],
+      "sourceCount": 32
+    },
+    {
+      "id": "hatterene",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_sibyl",
+        "trainer:p3c_rm_elowen",
+        "trainer:p3c_rm_sibyl",
+        "trainer:p3c_bt_b6",
+        "trainer:p4c_gh_psychic_iolite"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "haxorus",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_leader_ryuga",
+        "trainer:p3b_vr2_tamer_drake",
+        "trainer:p3c_rm_ryuga",
+        "trainer:p3c_sp_ace_ryu",
+        "trainer:p4c_dr_tamer_rhea"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "helioptile",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "wild:p2_ruins_of_sol",
+        "wild:p3c_tempest_isle",
+        "wild:p4a_solar_ridge",
+        "trainer:p2_vg_cooltrainer_zap"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "herdier",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "trainer:route3_hank",
+        "trainer:p2_r5_youngster_ned",
+        "trainer:p4a_r5_kid_milo"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "hippopotas",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "wild:p3a_route10",
+        "trainer:p2_r7_ranger_finn",
+        "trainer:p2_r7_pokefan_dot",
+        "trainer:p4b_gcave_ace_soren"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "honchkrow",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_roost_trail",
+        "trainer:p2_mp3_grunt_e",
+        "trainer:p2_rival_prism_typhlosion",
+        "trainer:p2_rival_prism_feraligatr",
+        "trainer:p2_rival_prism_meganium"
+      ],
+      "sourceCount": 23
+    },
+    {
+      "id": "houndoom",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "wild:p3c_cinder_isle",
+        "trainer:p3a_leader_blaise",
+        "trainer:p3a_et_sage_ilo",
+        "trainer:p3b_ps2_grunt_a"
+      ],
+      "sourceCount": 14
+    },
+    {
+      "id": "houndour",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "wild:p3a_route10",
+        "wild:p4b_ashen_trail",
+        "wild:p4b_ashfall_caldera"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "hydreigon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_nox",
+        "trainer:p3c_rm_ryuga",
+        "trainer:p3c_rm_nox",
+        "trainer:p3c_sg_ace_altair",
+        "trainer:p3c_bt_c3"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "jolteon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr2_cooltrainer_vale",
+        "trainer:p3c_rm_volta",
+        "trainer:p4c_vr3_ace_brigid"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "joltik",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "wild:p4b_pylon_ridge",
+        "trainer:p2_r6_scientist_vale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "kangaskhan",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "trainer:p4b_steam_gent_horace"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "kingambit",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_boss_umbra",
+        "trainer:p3c_rm_ferrum",
+        "trainer:p3c_bt_c2",
+        "trainer:p4c_gh_cool_jasper",
+        "trainer:p4c_vd1_cool_sasha"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "kingdra",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route17",
+        "wild:p3c_route16",
+        "wild:p3c_silent_grotto",
+        "trainer:p3b_leader_ryuga",
+        "trainer:p3c_rm_marina"
+      ],
+      "sourceCount": 15
+    },
+    {
+      "id": "kricketune",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "trainer:p2_r5_bug_otto",
+        "trainer:p4a_r3_bug_clint"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "krookodile",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_nox",
+        "trainer:p3b_vr2_veteran_osk",
+        "trainer:p3b_ps1_grunt_c",
+        "trainer:p3c_rm_nox",
+        "trainer:p4b_trail_ace_veda"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "lapras",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "wild:p3c_route17",
+        "trainer:p3a_leader_isolde",
+        "trainer:p3b_r13_swimmer_nell",
+        "trainer:p3c_rm_isolde"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "larvitar",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p4b_old_mine_deep"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "ledian",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "trainer:p2_r5_bug_otto",
+        "trainer:p4a_or_bug_ned"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "lombre",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p2_seraphine",
+        "wild:p4b_mistwood"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "lucario",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_vr_deep",
+        "trainer:p3a_r9_cool_brigid",
+        "trainer:p3a_rival_ashfall_typhlosion",
+        "trainer:p3a_rival_ashfall_feraligatr",
+        "trainer:p3a_rival_ashfall_meganium"
+      ],
+      "sourceCount": 16
+    },
+    {
+      "id": "lumineon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "wild:p2_seraphine",
+        "wild:p3a_route11",
+        "wild:p3c_eclipse_atoll",
+        "wild:p4b_prism_grotto"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "luxio",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "trainer:p2_r6_cooltrainer_jin",
+        "trainer:p2_vg_cooltrainer_zap",
+        "trainer:p2_leader_volta",
+        "trainer:p4a_r6_cooltrainer_lena"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "lycanroc",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "trainer:p3b_up_ranger_cass",
+        "trainer:p3c_rm_garnet",
+        "trainer:p3c_r14_hiker_tum",
+        "trainer:p4b_r7_ranger_dex"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "magcargo",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "wild:p3c_magma_vent",
+        "wild:p4b_cinder_hollow_deep",
+        "trainer:p3a_r9_kindler_ash",
+        "trainer:p3a_leader_blaise"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "magnemite",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "trainer:p2_lr_scientist_kurt",
+        "trainer:p2_r6_scientist_vale",
+        "trainer:p2_vg_scientist_ohm",
+        "trainer:p4a_gc_scientist_ohm"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "magneton",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_eclipse_workshop",
+        "trainer:p2_r7_scientist_bolt",
+        "trainer:p2_mp2_scientist_quill",
+        "trainer:p2_rival_prism_typhlosion",
+        "trainer:p2_rival_prism_feraligatr"
+      ],
+      "sourceCount": 15
+    },
+    {
+      "id": "magnezone",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_cave",
+        "trainer:p3b_elite_ferrum",
+        "trainer:p3b_rival_vr_typhlosion",
+        "trainer:p3b_rival_vr_feraligatr",
+        "trainer:p3b_rival_vr_meganium"
+      ],
+      "sourceCount": 18
+    },
+    {
+      "id": "mamoswine",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_frozen_falls",
+        "trainer:p3a_leader_isolde",
+        "trainer:p3a_r12_cool_vera",
+        "trainer:p3b_vr2_cooltrainer_vale",
+        "trainer:p3c_rm_isolde"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "metagross",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_ferrum",
+        "trainer:p3b_vr1_psychic_ena",
+        "trainer:p3c_rm_ferrum",
+        "trainer:p3c_ea_ace_dawn",
+        "trainer:p3c_sg_ace_altair"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "milotic",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "wild:p3c_route15",
+        "trainer:p3b_champion_celeste_mega",
+        "trainer:p3b_champion_celeste_zmove",
+        "trainer:p3b_champion_celeste_tera"
+      ],
+      "sourceCount": 15
+    },
+    {
+      "id": "mimikyu",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3b_elite_morrow",
+        "trainer:p3c_rm_morrow"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "mudbray",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p3a_route10",
+        "trainer:route3_boulder"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "nacli",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p3a_crystal_cavern",
+        "wild:p4b_strata_gulch",
+        "wild:p4c_geode_hollow",
+        "trainer:p2_r8_lass_gem"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "naclstack",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_geode_hollow",
+        "trainer:p2_qg_cooltrainer_ruby",
+        "trainer:p2_leader_garnet"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "ninetalesalola",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_isolde",
+        "trainer:p3c_r15_beauty_mahina",
+        "trainer:p4c_rh1_skier_sigrid",
+        "trainer:p4c_ff_skier_maren"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "noctowl",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "wild:p3a_route9",
+        "wild:p3b_route13",
+        "wild:p4b_prism_foothills",
+        "wild:p4b_ashfall_caldera"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "numel",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "wild:p4b_cinder_hollow",
+        "wild:p4b_ashen_trail",
+        "wild:p4b_steam_grotto"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "pawmo",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "trainer:p2_r7_blackbelt_ken",
+        "trainer:p2_vg_youngster_amp",
+        "trainer:p4a_sr_youngster_pete"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "poliwhirl",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p2_town_ponds",
+        "wild:p3b_dragonspire",
+        "wild:p3b_umbral_pass",
+        "wild:p3b_route13"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "ponyta",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "wild:p3a_route9",
+        "wild:p3a_route10",
+        "wild:p4b_prism_foothills",
+        "wild:p4b_ashen_trail"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "raichu",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_leader_volta",
+        "trainer:p4a_dot_2",
+        "trainer:p4a_dot_3",
+        "trainer:p4a_dot_4",
+        "trainer:p4b_ridge_ace_marco"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "rapidash",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "wild:p4b_ashen_trail",
+        "wild:p4b_ashfall_caldera",
+        "trainer:p3a_g6_kindler_rex",
+        "trainer:p3a_leader_blaise"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "reuniclus",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_sibyl",
+        "trainer:p3c_rm_sibyl",
+        "trainer:p3c_bt_b4",
+        "trainer:p4c_rt_psychic_nim",
+        "trainer:p4c_vd1_psychic_seren"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "rhydon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "wild:p3c_silent_grotto",
+        "trainer:p2_qg_hiker_basalt",
+        "trainer:p2_leader_garnet",
+        "trainer:p3a_r10_hiker_flint"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "rhyhorn",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "wild:p3a_route10",
+        "trainer:p2_lr_hiker_dale",
+        "trainer:p2_r7_ranger_finn",
+        "trainer:p4a_sr_hiker_crag"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "rhyperior",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r12_hiker_bjorn",
+        "trainer:p3b_vr1_veteran_rook",
+        "trainer:p3c_rm_garnet",
+        "trainer:p3c_mv_hiker_basalt",
+        "trainer:p4c_ff_hiker_ulla"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "rillaboom",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_hazel"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "rotomwash",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_volta",
+        "trainer:p3c_bt_b1",
+        "trainer:p3c_bt_tycoon",
+        "trainer:p4c_wh_sci_tamsin",
+        "trainer:p4c_ws_chief_halloran"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "salazzle",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "wild:p3c_cinder_isle",
+        "trainer:p3a_g6_cool_sol",
+        "trainer:p3a_leader_blaise",
+        "trainer:p3c_ci_ace_pele"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "sandile",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p3a_route10",
+        "wild:p4b_strata_gulch",
+        "wild:p4b_ashen_trail",
+        "trainer:p2_r8_ranger_ivy"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "seaking",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p2_mt_prism_lower",
+        "wild:p3a_route9",
+        "wild:p3b_dragonspire",
+        "wild:p3b_prism_summit"
+      ],
+      "sourceCount": 15
+    },
+    {
+      "id": "seviper",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "trainer:p3b_up_grunt_b",
+        "trainer:p4b_dig_grunt_b"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "skarmory",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "wild:p3b_umbral_pass",
+        "wild:p3c_pillar_isle",
+        "wild:p4b_strata_gulch",
+        "wild:p4b_ashfall_caldera"
+      ],
+      "sourceCount": 15
+    },
+    {
+      "id": "skeledirge",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_blaise"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "skiploom",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "trainer:p2_r5_lass_tessa",
+        "trainer:p4a_r5_picnic_ada",
+        "trainer:p4a_sr_beauty_selene"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "slowking",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_sibyl",
+        "trainer:p3c_rm_sibyl",
+        "trainer:p3c_tc_psychic_vey",
+        "trainer:p4b_cal_psychic_auri",
+        "trainer:p4c_wc_gent_aldous"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "slugma",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "wild:p4b_cinder_hollow",
+        "wild:p4b_steam_grotto",
+        "trainer:p3a_r9_kindler_ash",
+        "trainer:p4b_ch1_kindler_ignis"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "slurpuff",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_leader_elowen"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "spinda",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "trainer:route4_coco",
+        "trainer:p3a_r9_pokefan_gale",
+        "trainer:p4a_r4_pokefan_greta"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "spoink",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "stunky",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route5",
+        "wild:p4a_voltmire_marsh",
+        "trainer:p2_pp_grunt1",
+        "trainer:p2_pp_grunt5",
+        "trainer:p4a_vm_pokefan_ola"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "sudowoodo",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_qg_blackbelt_shale",
+        "trainer:p2_leader_garnet",
+        "trainer:p4a_teo_3",
+        "trainer:p4a_teo_4",
+        "trainer:p4b_fh_hiker_gorm"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "swablu",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "wild:p3a_route9",
+        "wild:p3c_pillar_isle",
+        "wild:p4c_roost_trail",
+        "wild:p4c_skyfall_basin"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "swampert",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr1_veteran_rook",
+        "trainer:p3c_rm_marina",
+        "trainer:p4c_vd2_veteran_marisol"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "sylveon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r12_cool_vera",
+        "trainer:p3b_vr2_cooltrainer_vale",
+        "trainer:p3c_rm_elowen",
+        "trainer:p3c_bt_a2",
+        "trainer:p4b_mist_beauty_vivi"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "taurospaldeacombat",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "trainer:p2_r8_blackbelt_tora"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "togekiss",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_leader_elowen",
+        "trainer:p3b_r13_cooltrainer_ysa",
+        "trainer:p3c_rm_elowen",
+        "trainer:p3c_rm_celeste",
+        "trainer:p3c_ea_ace_dawn"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "torkoal",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "wild:p3c_cinder_isle",
+        "wild:p4b_cinder_hollow",
+        "wild:p4b_ashfall_caldera",
+        "wild:p4b_steam_grotto"
+      ],
+      "sourceCount": 13
+    },
+    {
+      "id": "toxapex",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route15",
+        "trainer:p3b_ps1_grunt_d",
+        "trainer:p3c_rm_marina",
+        "trainer:p3c_r15_swimmer_loa",
+        "trainer:p3c_r16_swimmer_lani"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "toxtricity",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr3_cooltrainer_nova",
+        "trainer:p3c_rm_volta",
+        "trainer:p4b_ridge_worker_rook"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "trapinch",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route8",
+        "wild:p3a_route9",
+        "wild:p4b_strata_gulch"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "tsareena",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_rm_hazel",
+        "trainer:p3c_r14_ace_mara",
+        "trainer:p3c_r14_beauty_lei"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "tyranitar",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r9_cool_brigid",
+        "trainer:p3b_elite_nox",
+        "trainer:p3b_vr1_cooltrainer_bren",
+        "trainer:p3c_rm_garnet",
+        "trainer:p3c_rm_nox"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "umbreon",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_elite_nox",
+        "trainer:p3c_rm_nox",
+        "trainer:p3c_ea_ace_dusk"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "venusaur",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_rm_hazel",
+        "trainer:p3c_bt_b3"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "volcarona",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "trainer:p3b_champion_celeste_mega",
+        "trainer:p3b_champion_celeste_zmove",
+        "trainer:p3b_champion_celeste_tera",
+        "trainer:p3b_vr3_veteran_mara"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "voltorb",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "trainer:p2_r6_scientist_vale",
+        "trainer:p2_vg_scientist_ohm",
+        "trainer:p4a_gc_scientist_ohm",
+        "trainer:p4a_sr_scientist_volt"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "voltorbhisui",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route7",
+        "trainer:p2_r7_scientist_bolt"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "weavile",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "wild:p4c_frozen_falls",
+        "trainer:p3a_leader_isolde",
+        "trainer:p3b_boss_umbra",
+        "trainer:p3c_rm_isolde"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "whimsicott",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_sg_cooltrainer_fae",
+        "trainer:p3a_r9_lass_wren",
+        "trainer:p3c_rm_hazel",
+        "trainer:p4b_depths_ace_seren"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "whiscash",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p2_mt_prism_lower",
+        "wild:p3a_route9",
+        "wild:p3a_route10",
+        "wild:p3b_dragonspire"
+      ],
+      "sourceCount": 16
+    },
+    {
+      "id": "wooperpaldea",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_route6",
+        "wild:p4a_voltmire_marsh",
+        "trainer:p4a_vm_pokefan_ola"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "zangoose",
+      "tier": 2,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route9",
+        "trainer:p3a_r9_pokefan_gale"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "abomasnow",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_rh1_skier_sigrid",
+        "trainer:p4c_ff_skier_maren"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "abra",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_lumen_catacombs"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "absol",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_ruins_of_sol",
+        "wild:p3a_route12",
+        "wild:p4c_skyfall_basin",
+        "trainer:p2_sol_ranger_kai",
+        "trainer:p3a_r12_ranger_sky"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "aggron",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "wild:p3c_seafloor_cavern",
+        "wild:p4c_vr_deep",
+        "trainer:p3b_vr2_veteran_osk",
+        "trainer:p3c_sc_ace_coral"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "aipom",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_orchard"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "alcremie",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_depths_gent_basil"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "alomomola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route15",
+        "trainer:p3c_r15_swimmer_kana"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "altaria",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p3c_pillar_isle",
+        "wild:p3c_sky_pillar",
+        "wild:p4c_roost_trail",
+        "wild:p4c_skyfall_basin"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "amaura",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p2_mid.pks:100"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "annihilape",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_vd1_black_jiro"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "anorith",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_gcave_maniac_quinn",
+        "gift:p4b_leg4.pks:108"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "appletun",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_dg_tamer_ivo"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "applin",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove_glade",
+        "wild:p4a_orchard",
+        "trainer:p4a_or_pokefan_milo",
+        "trainer:p4a_or_gentleman_basil"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "araquanid",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_prism_grotto",
+        "trainer:p3c_r15_ace_nalani",
+        "trainer:p4b_grotto_diver_tess",
+        "trainer:p4c_r11_swim_ondine",
+        "trainer:p4c_sb_swim_coralyn"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "arbok",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_ps1_grunt_c"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "arcaninehisui",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_sol_keeper_ilia"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "archaludon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_r16_ace_kahu"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "archen",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_mine3_maniac_rudd"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "arctibax",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_frozen_falls",
+        "trainer:p4c_ff_ranger_kiri"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "armarouge",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "articuno",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:10"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "audino",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_r10_pokefan_bert"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "avalugg",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_rime_hollow",
+        "trainer:p3a_g7_boarder_rime",
+        "trainer:p4c_rh2_boarder_soren",
+        "trainer:p4c_r12_hiker_runa"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "axew",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_prism_foothills",
+        "wild:p4c_roost_trail"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "azurill",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_grotto",
+        "wild:p4a_brook_falls",
+        "trainer:p4a_bf_lass_erin"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "bagon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_prism_foothills",
+        "wild:p4c_roost_trail"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "baltoy",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "trainer:p2_lr_sage_ono",
+        "trainer:p4a_lc_sage_rin"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "banette",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_sky_pillar",
+        "wild:p4c_wreck",
+        "wild:p4c_wreck_hold",
+        "trainer:p3b_ps2_grunt_b",
+        "trainer:p3b_admin_vesper"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "barbaracle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r11_fisher_moss"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "basculegion",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_skyfall_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "beartic",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_frozen_falls",
+        "trainer:p3a_g7_boarder_axel",
+        "trainer:p4c_rh2_boarder_soren",
+        "trainer:p4c_ff_hiker_ulla"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "beheeyem",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_cc_psychic_lux",
+        "trainer:p4c_ew_sci_obscura"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "beldum",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_glimmer_cave_b1f"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "bellossom",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_depths_beauty_lumi"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "bergmite",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_rime_hollow",
+        "wild:p4c_frozen_falls",
+        "trainer:p4c_r12_hiker_runa"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "bewear",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_steam_gent_horace"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "bibarel",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_pip_2",
+        "trainer:p4a_pip_3",
+        "trainer:p4a_pip_4"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "binacle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_tidewater_cape",
+        "wild:p4a_cape_grotto",
+        "wild:p4c_tide_grotto",
+        "trainer:p4a_cp_sailor_gale",
+        "trainer:p4a_cg_hiker_reef"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "bisharp",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r10_cool_marcus",
+        "trainer:p3b_ps2_grunt_a",
+        "trainer:p4c_rem_captain_sable"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "blastoise",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_vr1_ace_lorne"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "blaziken",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr3_cooltrainer_zed",
+        "trainer:p4b_kaen_master"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "blipbug",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "trainer:p4a_mg_bug_arlo"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "blissey",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_sg_ace_vega",
+        "trainer:p3c_bt_c3",
+        "trainer:p3c_bt_tycoon"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "blitzle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_solar_ridge"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "boldore",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_lower",
+        "wild:p2_mt_prism_upper",
+        "wild:p3a_crystal_cavern",
+        "wild:p3b_prism_summit",
+        "wild:p3c_tempest_cave"
+      ],
+      "sourceCount": 23
+    },
+    {
+      "id": "boltund",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_ridge_youngster_kip"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "bouffalant",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p4c_skyfall_basin"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "bounsweet",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_orchard",
+        "trainer:route3_june",
+        "trainer:p4a_r3_lass_wendy",
+        "trainer:p4a_or_lass_cherry",
+        "trainer:p4a_or_kid_pip"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "braviary",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "wild:p3b_route13",
+        "wild:p4c_roost_trail",
+        "trainer:p3a_r10_ranger_tali",
+        "trainer:p3a_r12_ranger_sky"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "bronzor",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "wild:p2_ruins_of_sol",
+        "wild:p3a_crystal_cavern",
+        "wild:p4b_sol_catacombs",
+        "trainer:p2_lr_sage_ono"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "bruxish",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_coral_town",
+        "wild:p3c_eclipse_atoll",
+        "wild:p4c_tide_grotto",
+        "trainer:p3c_r14_swimmer_ana",
+        "trainer:p3c_ti_psychic_orin"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "bulbasaur",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p2_lumen.pks:71"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "burmy",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "trainer:p4a_mg_bug_arlo"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "butterfree",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_depths_bug_alder"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "cacnea",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashen_trail"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "cacturne",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashen_trail",
+        "trainer:p3b_ps1_grunt_b",
+        "trainer:p3b_ps3_grunt_c",
+        "trainer:p4c_el_grunt_e"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "camerupt",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "wild:p4b_cinder_hollow_deep",
+        "wild:p4b_ashfall_caldera",
+        "trainer:p3a_r9_hiker_doran",
+        "trainer:p3c_ci_hiker_magnus"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "capsakid",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashen_trail"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "carbink",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_lower",
+        "wild:p2_mt_prism_upper",
+        "wild:p3a_crystal_cavern",
+        "wild:p3a_crystal_depths",
+        "wild:p3b_prism_summit"
+      ],
+      "sourceCount": 17
+    },
+    {
+      "id": "carkol",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_magma_vent",
+        "wild:p4b_old_mine",
+        "wild:p4b_old_mine_deep",
+        "wild:p4b_cinder_hollow",
+        "trainer:p2_r8_youngster_flint"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "carracosta",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_wh_diver_finn"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "carvanha",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_wreck_hold"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "centiskorch",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "wild:p4b_cinder_hollow_deep",
+        "trainer:p4b_ch2_ace_ember",
+        "trainer:p4b_ch3_kindler_ash2"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "ceruledge",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "cetitan",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_g7_boarder_rime",
+        "trainer:p4c_ffd_cool_ingrid"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "cetoddle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "chansey",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "charjabug",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "charmander",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p2_lumen.pks:77"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "cherubi",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4a_orchard",
+        "trainer:p4a_mg_lass_ivy",
+        "trainer:p4a_gl_lass_fay"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "chimecho",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_cat_psychic_sela",
+        "trainer:p4b_mp2_psychic_orin"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "chinchou",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_cavern",
+        "wild:p3b_umbral_pass",
+        "wild:p3c_tower_isle",
+        "wild:p3c_tempest_isle",
+        "wild:p4a_glimmer_cave_b1f"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "chingling",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_glimmer_cave",
+        "wild:p4a_glimmer_cave_b1f",
+        "wild:p4b_sol_catacombs",
+        "wild:p4b_prism_grotto",
+        "wild:p4b_crystal_depths"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "clamperl",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_tidewater_cape",
+        "wild:p4a_cape_grotto",
+        "wild:p4a_seabreeze_cove",
+        "trainer:p4a_cp_fisher_bo",
+        "trainer:p4a_sb_beauty_shelly"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "clauncher",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_route16",
+        "wild:p4c_tide_grotto"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "clawitzer",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "wild:p4c_tide_grotto",
+        "trainer:p4c_wh_beauty_nerissa"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "claydol",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_prism_summit",
+        "wild:p3c_sky_pillar",
+        "trainer:p2_mp1_psychic_vera",
+        "trainer:p3b_vr3_sage_onn",
+        "trainer:p3b_up_psychic_lune"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "clefable",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_bt_b2",
+        "trainer:p4c_r10_pokefan_bert",
+        "trainer:p4c_rt_cool_maeve",
+        "event:mistwood_moon_dancer"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "clefairy",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_mistwood",
+        "trainer:p4b_mist_fairy_bryony",
+        "trainer:p4b_depths_fairy_lark",
+        "static:p4b_leg5.pks:147"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "clobbopus",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_dj_master_kaito"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "coalossal",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_magma_vent",
+        "wild:p4b_cinder_hollow_deep",
+        "trainer:p3c_ci_hiker_magnus",
+        "trainer:p4b_ch1_hiker_basil",
+        "trainer:p4b_ch2_hiker_rocco"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "cofagrigus",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_wc_medium_mireille"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "combee",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4a_petal_path",
+        "wild:p4a_orchard",
+        "trainer:p4a_mg_bug_arlo"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "comfey",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_r14_ranger_kai",
+        "trainer:p3c_r14_beauty_lei",
+        "trainer:p4b_mist_fairy_thistle"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "conkeldurr",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_r13_cooltrainer_abel",
+        "trainer:p3c_bt_a3",
+        "trainer:p4c_wc_sailor_quill",
+        "trainer:p4c_ff_black_haldor",
+        "trainer:p4c_vd1_veteran_aurel"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "copperajah",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r10_cool_marcus"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "corphish",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p4a_seabreeze_cove",
+        "trainer:p4a_sb_fisher_merle"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "corsola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_coral_town",
+        "wild:p3c_route15",
+        "wild:p3c_eclipse_atoll",
+        "wild:p4c_tide_grotto",
+        "trainer:p3c_r15_swimmer_kana"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "crabominable",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_r14_blackbelt_koa",
+        "trainer:p4c_rh1_boarder_lars",
+        "trainer:p4c_ff_ranger_kiri"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "crabrawler",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p4a_seabreeze_cove",
+        "trainer:p4a_dj_sailor_nash",
+        "trainer:p4a_wr_sailor_crane",
+        "trainer:p4a_sb_sailor_barney"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "cramorant",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route15",
+        "trainer:p3c_r15_swimmer_keoni",
+        "trainer:p4c_tg_fisher_wade"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "cranidos",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p4b_leg4.pks:72"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "crawdaunt",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_r11_fisher_gus"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "crobat",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_depths",
+        "wild:p3b_umbral_pass",
+        "wild:p3b_prism_summit",
+        "wild:p3b_victory_road",
+        "wild:p3c_tempest_cave"
+      ],
+      "sourceCount": 14
+    },
+    {
+      "id": "crustle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_qg_hiker_basalt",
+        "trainer:p4c_cc_hiker_garn"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "cryogonal",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_rime_hollow",
+        "trainer:p4c_rh2_psychic_aurora"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "cubchoo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_frozen_falls"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "cubone",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_strata_gulch",
+        "trainer:p4b_mine1_maniac_ostin",
+        "trainer:p4b_gulch_maniac_harlan"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "cufant",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_lower",
+        "wild:p3a_route10",
+        "trainer:p4b_gcave_lass_wynne"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "dachsbun",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_sg_gentleman_puff"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "darmanitan",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_ch1_breather_vulk",
+        "trainer:p4b_trail_breather_blaze"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "darumaka",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_cinder_hollow",
+        "wild:p4b_cinder_hollow_deep"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "dedenne",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p4a_dot_2",
+        "trainer:p4a_dot_3",
+        "trainer:p4a_dot_4"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "deerling",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4b_mistwood",
+        "wild:p4b_prism_foothills",
+        "trainer:p4a_mg_ranger_cole"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "deino",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_upper",
+        "wild:p4b_crystal_depths",
+        "wild:p4c_roost_trail"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "delibird",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "trainer:p3a_r12_skier_hanna"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "dewgong",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "wild:p3c_route17",
+        "trainer:p3a_r12_skier_hanna",
+        "trainer:p3b_r13_swimmer_nell",
+        "trainer:p3c_r17_swimmer_noe"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "dewpider",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_prism_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "dhelmise",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_eclipse_atoll",
+        "trainer:p3c_r15_sailor_hale",
+        "static:p4c_leg7.pks:139"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "diggersby",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_gh_hiker_marlstone"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "diglettalola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_old_mine",
+        "trainer:p4b_gulch_worker_moss"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "ditto",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "dondozo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_sg_fisher_tobin"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "donphan",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "trainer:p3b_vr2_hiker_crag",
+        "trainer:p4c_rt_hiker_brann"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "doublade",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_cat_sage_amon"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "dragalge",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route15",
+        "trainer:p3b_dg_tamer_ren",
+        "trainer:p3b_r13_tamer_garm",
+        "trainer:p3c_r15_fisher_mako",
+        "trainer:p4c_rt_tamer_isha"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "dragonair",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p3c_sky_pillar",
+        "wild:p4c_skyfall_grotto",
+        "wild:p4c_skyfall_basin",
+        "trainer:p3b_up_tamer_wyn"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "drampa",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_pillar_isle"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "drapion",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_mp3_grunt_d",
+        "trainer:p2_admin_corvin",
+        "trainer:p3a_cc_grunt_c",
+        "trainer:p3b_ps2_grunt_c",
+        "trainer:p3b_admin_corvin"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "dratini",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p4c_skyfall_grotto"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "drifblim",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p4b_dig_grunt_d"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "drifloon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_wreck"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "ducklett",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_cp_beauty_odette"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "dugtrio",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_r8_hiker_ulric"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "dugtrioalola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_old_mine_deep",
+        "trainer:p4b_gulch_worker_moss"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "duraludon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:458"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "durant",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_old_mine",
+        "wild:p4b_old_mine_deep",
+        "wild:p4b_cinder_hollow",
+        "wild:p4b_cinder_hollow_deep",
+        "wild:p4c_vr_deep"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "dusclops",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_prism_summit",
+        "wild:p3c_sky_pillar",
+        "trainer:p4b_cat_hex_mora"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "duskull",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_wr_psychic_esme"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "eelektross",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "eevee",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p1_brindle.pks:91"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "eiscue",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "trainer:p3c_r17_swimmer_mele",
+        "trainer:p4c_rh2_boarder_soren"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "electabuzz",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_ridge_ace_marco"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "electrode",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "elekid",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_gc2_scientist_amp"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "elgyem",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "trainer:p2_lr_psychic_iris",
+        "trainer:p4a_lc_scientist_tao"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "emboar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_kaen_master"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "emolga",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p4a_dot_1",
+        "trainer:p4a_dot_2",
+        "trainer:p4a_dot_3",
+        "trainer:p4a_dot_4"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "entei",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:127"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "espathra",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_gh_psychic_iolite"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "espurr",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_lumen_catacombs",
+        "trainer:p4a_rh_psychic_lena",
+        "trainer:p4a_cc2_psychic_ora"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "eternatus",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:425"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "exeggutoralola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_r14_ace_drake"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "farigiraf",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "trainer:p4c_vd1_psychic_seren"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "fearow",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_prism_foothills",
+        "trainer:p3a_r9_bird_kelsey",
+        "trainer:p4b_fh_bird_ayla"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "ferrothorn",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_bt_c3"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "fidough",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "flapple",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_dg_tamer_ivo"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "flareon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_g6_beauty_cinder",
+        "trainer:p4b_trail_breather_blaze"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "fletchinder",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashfall_caldera"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "floette",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_r5_pokefan_rhea",
+        "trainer:p2_r6_beauty_lila",
+        "trainer:p2_sg_beauty_aria"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "florges",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r10_lass_ivy",
+        "trainer:p3b_r13_beauty_iris",
+        "trainer:p4b_mist_gent_aurel"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "flygon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "trainer:p3b_dg_tamer_kaz",
+        "trainer:p3c_sp_ace_ryu",
+        "trainer:p3c_bt_a2",
+        "trainer:p4c_rt_tamer_isha"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "fomantis",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4b_mistwood",
+        "trainer:p4a_mg_youngster_bo"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "foongus",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4a_root_hollow",
+        "wild:p4b_mistwood",
+        "trainer:p4a_rh_bug_ike"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "fraxure",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "trainer:p3b_dg_tamer_kaz",
+        "trainer:p3b_up_tamer_wyn",
+        "trainer:p4b_fh_ace_mirela",
+        "trainer:p4c_rt_tamer_vey"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "frigibax",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_frozen_falls"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "frillish",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route15",
+        "wild:p4c_wreck_hold",
+        "trainer:p4c_wh_diver_finn"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "frosmoth",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_g7_skier_noelle",
+        "trainer:p3c_r17_swimmer_mele",
+        "trainer:p4c_ffd_boarder_kale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "furret",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_pip_3",
+        "trainer:p4a_pip_4",
+        "trainer:p4a_lh_gentleman_ward",
+        "trainer:p4a_wr_gentleman_hale",
+        "trainer:p4a_or_gentleman_basil"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "gabite",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "wild:p3b_victory_road",
+        "wild:p3c_silent_grotto",
+        "trainer:p2_mp2_cooltrainer_rin",
+        "trainer:p4b_cdepth_ace_ines"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "gallade",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_ps2_psychic_mor",
+        "trainer:p4b_fh_psychic_odo",
+        "trainer:p4c_up_cool_selka",
+        "trainer:p4c_vd2_sage_ondrej",
+        "trainer:p4c_vr1_ace_lorne"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "galvantula",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_cave",
+        "trainer:p3c_tc_ace_selka",
+        "trainer:p4b_depths_bug_alder"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "gastrodon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_sg_veteran_ilse"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "gible",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_upper",
+        "wild:p4b_crystal_depths",
+        "wild:p4c_roost_trail"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "gimmighoul",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_sol_catacombs"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "glaceon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r12_cool_vera"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "glalie",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_rime_hollow",
+        "wild:p4c_frozen_falls",
+        "trainer:p3a_g7_boarder_axel",
+        "trainer:p3a_r12_boarder_jett",
+        "trainer:p4c_rh2_cool_astrid"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "glimmet",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_upper",
+        "wild:p3a_crystal_cavern",
+        "wild:p4b_prism_grotto",
+        "wild:p4b_crystal_depths",
+        "wild:p4c_geode_hollow"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "gogoat",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r10_ranger_tali",
+        "trainer:p4b_fh_ace_mirela"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "golem",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "trainer:p3a_r10_hiker_flint",
+        "trainer:p3b_vr2_hiker_crag",
+        "trainer:p3b_up_hiker_basalt",
+        "trainer:p4a_teo_4"
+      ],
+      "sourceCount": 13
+    },
+    {
+      "id": "golemalola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_r14_hiker_tum",
+        "trainer:p3c_tc_hiker_rocco"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "golett",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "wild:p3a_route10",
+        "wild:p4c_wreck",
+        "wild:p4c_wreck_hold",
+        "trainer:p2_lr_hiker_dale"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "golisopod",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route16",
+        "trainer:p3c_r15_ace_nalani",
+        "trainer:p3c_r16_swimmer_tavi",
+        "trainer:p4c_tg_ranger_coralie",
+        "trainer:p4c_tg_swim_kelp"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "golurk",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_vr_deep",
+        "trainer:p3a_r10_cool_marcus"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "goodra",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_cave",
+        "trainer:p3b_dg_veteran_sora",
+        "trainer:p3c_ti_ace_rhea",
+        "trainer:p4c_rt_cool_maeve",
+        "trainer:p4c_dr_hermit_sorin"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "gorebyss",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r11_swim_pearl"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "gossifleur",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "gothita",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_lumen_catacombs",
+        "trainer:p4a_lc_psychic_sol"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "gothitelle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_admin_vesper",
+        "trainer:p4c_rh2_psychic_aurora"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "gourgeist",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "graveler",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_lower",
+        "trainer:p2_r7_hiker_gus",
+        "trainer:p2_r8_hiker_rocco",
+        "trainer:p2_mp1_hiker_brock",
+        "trainer:p3a_r9_hiker_doran"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "graveleralola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_upper"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "greavard",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_sol_catacombs"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "greedent",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_or_youngster_rob",
+        "trainer:p4b_gulch_lass_pia"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "grimer",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_pp_grunt3"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "grimeralola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_mp1_grunt_a",
+        "trainer:p2_admin_corvin"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "groudon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:199"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "grovyle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_r8_ace_juno"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "growlithehisui",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p4b_leg4.pks:244"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "gumshoos",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_r14_ranger_kai"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "gurdurr",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_old_mine_deep",
+        "trainer:p4b_mine1_worker_gil",
+        "trainer:p4b_mine2_worker_hal",
+        "trainer:p4b_gcave_worker_bert"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "hakamoo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto",
+        "trainer:p3b_dg_veteran_sora",
+        "trainer:p4c_dr_tamer_rhea"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "hariyama",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "trainer:p3a_r10_black_kenji",
+        "trainer:p3b_vr1_blackbelt_goro",
+        "trainer:p3c_r14_blackbelt_koa",
+        "trainer:p4a_dj_master_kaito"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "hatenna",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "hattrem",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "trainer:p2_sg_psychic_nyx",
+        "trainer:p4b_depths_psychic_nima"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "haunter",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_rival_plant_quilava",
+        "trainer:p2_rival_plant_croconaw",
+        "trainer:p2_rival_plant_bayleef"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "hawlucha",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "wild:p3c_pillar_isle",
+        "trainer:p3c_ti_blackbelt_hoku",
+        "trainer:p3c_bt_a3",
+        "trainer:p4c_r13_black_petra"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "heatmor",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_magma_vent",
+        "wild:p4b_cinder_hollow",
+        "wild:p4b_cinder_hollow_deep",
+        "trainer:p3c_mv_scientist_vulca",
+        "trainer:p4b_ch1_scientist_caro"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "heliolisk",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p3c_ti_ranger_tasi",
+        "trainer:p4b_ridge_ace_marco",
+        "trainer:p4b_sol_picnicker_lia"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "heracross",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "wild:p4c_skyfall_basin",
+        "trainer:p3b_vr3_cooltrainer_zed",
+        "trainer:p4c_sb_veteran_gregor"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "hippowdon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_vr_deep",
+        "trainer:p3b_r13_cooltrainer_ysa",
+        "trainer:p4b_trail_ace_veda",
+        "trainer:p4c_vr3_veteran_garrick"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "hitmonchan",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r12_black_tor",
+        "trainer:p4b_fh_blackbelt_ryo"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "hitmonlee",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r12_black_tor",
+        "trainer:p3b_vr1_blackbelt_goro",
+        "trainer:p4b_fh_blackbelt_ryo"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "hitmontop",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr1_blackbelt_goro",
+        "trainer:p4c_vd1_black_jiro"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "honedge",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_sol_catacombs",
+        "trainer:p4b_cat_sage_amon"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "hooh",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3a_legends.pks:7"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "illumise",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4a_petal_path",
+        "wild:p4a_orchard",
+        "trainer:p4a_mg_bug_tomas"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "impidimp",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_mistwood"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "incineroar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_ci_blackbelt_ignis"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "infernape",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_g6_black_pyre",
+        "trainer:p3c_ci_blackbelt_ignis"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "jellicent",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route15",
+        "wild:p4c_wreck_hold",
+        "trainer:p3c_r15_swimmer_loa",
+        "trainer:p3c_r16_swimmer_iolana",
+        "trainer:p4c_wc_medium_mireille"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "jigglypuff",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_mistwood",
+        "trainer:p4b_mist_fairy_bryony"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "jynx",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_rh2_cool_astrid"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "kabuto",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_mine3_maniac_rudd",
+        "gift:p4b_leg4.pks:90"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "kadabra",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto",
+        "trainer:p2_r7_psychic_lux",
+        "trainer:p2_sol_psychic_luna"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "kilowattrel",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_ridge_bird_cyra"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "kingler",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "trainer:p3a_r11_fisher_hal",
+        "trainer:p3c_r15_sailor_hale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "kirlia",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "trainer:p2_sg_psychic_nyx",
+        "trainer:p4a_gc_psychic_vera",
+        "trainer:p4a_gc2_psychic_luna",
+        "trainer:p4a_gc_psychic_orin"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "klang",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_old_mine_deep",
+        "trainer:p4b_mine3_ace_opal",
+        "trainer:p4b_ridge_scientist_vale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "klawf",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_cobblecrest_b2f",
+        "wild:p4b_old_mine",
+        "wild:p4b_old_mine_deep",
+        "wild:p4b_strata_gulch",
+        "trainer:p4a_gc2_hiker_quinn"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "klefki",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_depths",
+        "trainer:p3a_ccd_cool_prism",
+        "trainer:p4b_depths_ace_rowen",
+        "trainer:p4c_gh_beauty_opaline"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "klink",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_glimmer_cave",
+        "wild:p4a_glimmer_cave_b1f",
+        "trainer:p2_vg_scientist_ohm",
+        "trainer:p4a_gc2_scientist_amp"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "klinklang",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_cc_sci_beryl",
+        "trainer:p4c_ew_sci_lumen",
+        "trainer:p4c_rem_sci_depths"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "koffing",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_eclipse_workshop",
+        "trainer:p1_ww_grunt2",
+        "trainer:p1_wh_grunt_b",
+        "trainer:p1_wh_grunt_boss",
+        "trainer:p2_pp_grunt2"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "kommoo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_r13_tamer_garm",
+        "trainer:p3c_r14_ace_drake",
+        "trainer:p3c_bt_b5",
+        "trainer:p4c_ffd_cool_ingrid",
+        "trainer:p4c_vd1_tamer_kenrick"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "krokorok",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashen_trail",
+        "trainer:p2_r8_ranger_ivy",
+        "trainer:p2_sol_ranger_kai"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "kyogre",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:173"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "lairon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_upper",
+        "wild:p3b_victory_road",
+        "wild:p3c_seafloor_cavern",
+        "wild:p4b_prism_grotto",
+        "wild:p4b_crystal_depths"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "lampent",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_cinder_hollow_deep",
+        "trainer:p4b_ch2_hex_cinda"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "lanturn",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_cavern",
+        "wild:p3b_umbral_pass",
+        "wild:p3b_victory_road",
+        "wild:p3c_coral_town",
+        "wild:p3c_tower_isle"
+      ],
+      "sourceCount": 20
+    },
+    {
+      "id": "larvesta",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "gift:p4b_leg6.pks:51"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "lechonk",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_petal_path",
+        "trainer:p4a_pp_kid_tess",
+        "trainer:p4a_r5_picnic_ada"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "liepard",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_up_grunt_a",
+        "trainer:p3b_ps3_grunt_a",
+        "trainer:p4b_mp3_grunt_g",
+        "trainer:p4b_dig_grunt_b",
+        "trainer:p4c_ew_grunt_b"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "lileep",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_gcave_maniac_quinn",
+        "gift:p4b_leg4.pks:117"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "lilligant",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r10_lass_ivy",
+        "trainer:p4b_depths_beauty_lumi",
+        "trainer:p4b_trail_beauty_rosa"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "litleo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashen_trail",
+        "wild:p4b_ashfall_caldera",
+        "trainer:route3_tess"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "litten",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p3c_coral.pks:112"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "litwick",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "wild:p4b_cinder_hollow"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "lopunny",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_r13_beauty_iris",
+        "trainer:p4b_r9_beauty_saffi"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "lugia",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:96"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "lunala",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:310"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "lunatone",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_ruins_of_sol",
+        "wild:p3b_prism_summit",
+        "trainer:p2_sol_psychic_luna",
+        "trainer:p3b_vr3_sage_onn",
+        "trainer:p3c_ea_psychic_luna"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "lurantis",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_r14_ranger_kai",
+        "trainer:p4b_mist_ranger_hale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "luvdisc",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_coral_town",
+        "wild:p3c_route15",
+        "wild:p4c_tide_grotto",
+        "wild:p4c_wreck_hold"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "luxray",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p3c_ti_ranger_tasi"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "lycanrocmidnight",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "machamp",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "trainer:p3a_r10_black_kenji",
+        "trainer:p3b_vr1_cooltrainer_bren",
+        "trainer:p3c_r17_sailor_bram",
+        "trainer:p3c_r15_sailor_hale"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "machoke",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "trainer:p2_r7_blackbelt_ken",
+        "trainer:p2_qg_blackbelt_shale",
+        "trainer:p2_mp1_blackbelt_jun",
+        "trainer:p3a_r11_sailor_brine"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "magmar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_cinder_hollow_deep",
+        "wild:p4b_ashfall_caldera",
+        "trainer:p4b_r9_kindler_pyra",
+        "trainer:p4b_ch1_breather_vulk",
+        "trainer:p4b_ch2_scientist_magna"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "magmortar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_magma_vent",
+        "trainer:p3b_vr1_cooltrainer_lia",
+        "trainer:p3c_ci_scientist_ash",
+        "trainer:p3c_mv_scientist_vulca",
+        "trainer:p4b_ch3_breather_kiln"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "mandibuzz",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashfall_caldera",
+        "trainer:p3b_ps2_grunt_c",
+        "trainer:p4c_rem_captain_sable"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "manectric",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_r7_cooltrainer_mae"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "mantine",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_coral_town",
+        "wild:p3c_route14",
+        "wild:p3c_cinder_isle",
+        "wild:p3c_route15"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "mantyke",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "mareanie",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route15",
+        "wild:p4c_tide_grotto"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "mareep",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_solar_ridge",
+        "wild:p4b_pylon_ridge",
+        "trainer:p4a_sr_beauty_selene"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "marowak",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "wild:p4b_strata_gulch",
+        "trainer:p4b_gulch_maniac_harlan"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "marowakalola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "masquerain",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_voltmire_marsh",
+        "wild:p4b_prism_grotto",
+        "trainer:p4a_vm_bug_gnat",
+        "trainer:p4b_grotto_diver_lorna"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "mawile",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_lower",
+        "wild:p2_mt_prism_upper",
+        "wild:p3a_crystal_cavern",
+        "wild:p3b_prism_summit",
+        "wild:p3c_seafloor_cavern"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "medicham",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_mp1_blackbelt_jun"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "meditite",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_mt_prism_lower"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "meowstic",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_ps2_psychic_mor",
+        "trainer:p4b_mist_psychic_wren"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "metang",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_prism_summit",
+        "wild:p3c_silent_grotto"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "mewtwo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:400"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "mienfoo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:ccb_blackbelt_sho",
+        "trainer:p4a_cc2_blackbelt_jun",
+        "trainer:p4a_dj_blackbelt_sora"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "mienshao",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "mightyena",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p4b_prism_foothills",
+        "wild:p4c_skyfall_basin",
+        "trainer:p1_wh_grunt_boss",
+        "trainer:p2_mp2_grunt_b"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "milcery",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "minccino",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_orchard"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "minior",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_glimmer_cave",
+        "wild:p4a_ridge_grotto",
+        "wild:p4b_prism_grotto",
+        "wild:p4b_crystal_depths",
+        "trainer:p4b_grotto_lass_gemma"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "minun",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_solar_ridge",
+        "wild:p4b_pylon_ridge",
+        "trainer:p4a_sr_lass_juno",
+        "trainer:p4a_sr_kid_sunny",
+        "trainer:p4b_ridge_lass_dina"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "misdreavus",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_sol_catacombs",
+        "wild:p4b_prism_grotto",
+        "wild:p4b_prism_foothills",
+        "trainer:p4a_wr_psychic_esme",
+        "trainer:p4b_cat_hex_mora"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "mismagius",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_admin_vesper",
+        "trainer:p3c_ea_psychic_luna",
+        "trainer:p4b_ch2_hex_cinda",
+        "trainer:p4b_ch3_hex_ember",
+        "trainer:p4c_wc_medium_mireille"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "moltres",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:42"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "monferno",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_g6_black_pyre"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "morgrem",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "trainer:p4b_mist_fairy_thistle",
+        "trainer:p4b_depths_ace_rowen"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "mrmime",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_wc_gent_aldous",
+        "static:p4b_leg5.pks:159"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "mudsdale",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_r8_cooltrainer_sol",
+        "trainer:p3a_r10_ranger_tali",
+        "trainer:p3c_r14_hiker_tum",
+        "trainer:p4b_fh_hiker_gorm",
+        "trainer:p4b_cal_ranger_teal"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "muk",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_ps1_grunt_b"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "mukalola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_mp3_grunt_f",
+        "trainer:p3b_admin_corvin",
+        "trainer:p4c_ew_grunt_c"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "munna",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_lumen_catacombs",
+        "trainer:p4a_lc_psychic_sol"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "musharna",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_ea_psychic_luna"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "natu",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "trainer:ccb_psychic_ida",
+        "trainer:p2_lr_psychic_iris",
+        "trainer:p4a_lt_sage_gaku"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "necrozma",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3b_summit.pks:100",
+        "static:p3c_legends.pks:329"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "ninetales",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "trainer:p3a_g6_beauty_cinder",
+        "trainer:p3a_et_sage_ren",
+        "trainer:p3b_vr3_veteran_mara",
+        "trainer:p3c_bt_a6"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "noivern",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p3c_tempest_cave",
+        "wild:p4c_roost_trail",
+        "trainer:p3b_dg_cooltrainer_mei",
+        "trainer:p3b_vr2_tamer_drake"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "nuzleaf",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:route4_skye",
+        "trainer:p4a_r4_cooltrainer_maya"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "nymble",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "trainer:p4a_mg_kid_wren"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "obstagoon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_ps3_grunt_b",
+        "trainer:p3b_boss_umbra"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "octillery",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_route17",
+        "wild:p3c_cinder_isle",
+        "trainer:p3a_r11_fisher_hal",
+        "trainer:p3c_r17_fisher_ulu"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "omanyte",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_mine3_maniac_rudd",
+        "gift:p4b_leg4.pks:99"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "oranguru",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_ti_psychic_orin"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "oricoriopau",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_r14_beauty_lei"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "orthworm",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_old_mine_deep"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "overqwil",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_wh_diver_finn"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "pachirisu",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_tidewater_cape",
+        "trainer:p4a_lh_lass_mira",
+        "trainer:p4b_r7_lass_tilly"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "palafin",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3a_r11_swim_coral",
+        "trainer:p3c_r16_ace_kahu"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "palpitoad",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route10",
+        "wild:p4a_voltmire_marsh",
+        "trainer:p4b_gcave_ace_soren"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "pancham",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_gc_blackbelt_ryo"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "pansear",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashen_trail"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "parasect",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_mine2_lass_corra"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "passimian",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_r14_blackbelt_koa"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "pawmi",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_solar_ridge",
+        "wild:p4b_pylon_ridge",
+        "trainer:p4a_sr_kid_sunny",
+        "gift:p4a_leg3.pks:91"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "pawniard",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route10"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "perrserker",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_wc_gent_aldous"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "persian",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_bt_a5"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "persianalola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "petilil",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4b_mistwood",
+        "trainer:p4a_mg_lass_ivy",
+        "trainer:p4a_or_beauty_celia"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "phantump",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4a_root_hollow",
+        "wild:p4b_mistwood",
+        "trainer:p4a_gl_ranger_holt"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "pidgeot",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_rival_prism_typhlosion",
+        "trainer:p2_rival_prism_feraligatr",
+        "trainer:p2_rival_prism_meganium",
+        "trainer:p3a_rival_ashfall_typhlosion",
+        "trainer:p3a_rival_ashfall_feraligatr"
+      ],
+      "sourceCount": 14
+    },
+    {
+      "id": "pikipek",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "piloswine",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_rime_hollow",
+        "wild:p4c_frozen_falls",
+        "trainer:p3a_g7_boarder_axel"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "pinsir",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "wild:p4c_skyfall_basin"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "plusle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_solar_ridge",
+        "trainer:p4a_sr_lass_juno",
+        "trainer:p4b_ridge_lass_dina"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "politoed",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "trainer:p4c_r11_fisher_gus"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "poliwrath",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_wc_sailor_quill"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "ponytagalar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_ruins_of_sol",
+        "wild:p2_seraphine"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "poochyena",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_brook_falls",
+        "trainer:p1_ww_grunt1",
+        "trainer:p1_wh_grunt_b",
+        "trainer:p2_pp_grunt4"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "popplio",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p3c_coral.pks:115"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "porygon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_lr_scientist_kurt"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "porygon2",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_ps1_scientist_hex",
+        "trainer:p4b_ridge_scientist_vale",
+        "trainer:p4b_dig_sci_nyle",
+        "trainer:p4c_cc_sci_beryl"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "porygonz",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_bt_b4",
+        "trainer:p4c_wh_sci_tamsin",
+        "trainer:p4c_ew_sci_lumen",
+        "trainer:p4c_ws_chief_halloran",
+        "trainer:p4c_rem_sci_depths"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "primarina",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_r14_ace_mara",
+        "trainer:p3c_r15_ace_nalani",
+        "trainer:p3c_r15_beauty_mahina",
+        "trainer:p3c_r16_swimmer_moana",
+        "trainer:p3c_bt_c2"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "prinplup",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_r8_ace_juno"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "probopass",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_cc_hiker_opal",
+        "trainer:p4b_grotto_hiker_flint",
+        "trainer:p4c_wc_hunter_brack"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "pupitar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "purrloin",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p1_ww_grunt2",
+        "trainer:p1_wh_grunt_a"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "pyroar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_trail_breather_ash",
+        "trainer:p4b_tun_breather_sol"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "pyukumuku",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "wild:p4c_wreck_hold",
+        "trainer:p3c_r14_swimmer_ana",
+        "trainer:p4c_tg_ranger_coralie"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "quagsire",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route10",
+        "wild:p3b_route13",
+        "wild:p4b_old_mine",
+        "wild:p4b_strata_gulch",
+        "wild:p4b_ashen_trail"
+      ],
+      "sourceCount": 9
+    },
+    {
+      "id": "qwilfish",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_tower_isle",
+        "trainer:p4c_r11_fisher_gus"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "raichualola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_ti_ace_rhea"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "raikou",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:114"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "ralts",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_grotto",
+        "trainer:p4a_rh_psychic_lena"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "raticate",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_pip_2",
+        "trainer:p4a_pip_3",
+        "trainer:p4a_pip_4"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "raticatealola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "rayquaza",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:256"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "relicanth",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_cinder_isle",
+        "wild:p3c_route16",
+        "wild:p3c_seafloor_cavern",
+        "wild:p4c_tide_grotto"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "ribombee",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_r14_ace_mara",
+        "trainer:p4b_mist_bug_moth"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "rockruff",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_cobblecrest_b2f",
+        "wild:p4b_strata_gulch",
+        "wild:p4b_prism_grotto",
+        "trainer:p4a_cc2_hiker_rocco",
+        "trainer:p4a_cc2_youngster_dax"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "roserade",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr1_cooltrainer_lia",
+        "trainer:p3c_bt_a6",
+        "trainer:p4b_cal_ace_lyra",
+        "trainer:p4c_sb_cool_nadia"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "rotom",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p3b_ps1_scientist_hex",
+        "trainer:p3c_ci_scientist_ash",
+        "trainer:p4b_cdepth_scientist_lux"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "rotomheat",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_tun_scientist_inga",
+        "trainer:p4c_ew_sci_obscura",
+        "trainer:p4c_rem_sci_depths"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "rowlet",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p3c_coral.pks:109"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "rufflet",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route10",
+        "wild:p3a_route12",
+        "wild:p4b_prism_foothills",
+        "wild:p4c_roost_trail",
+        "trainer:p4b_fh_bird_ayla"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "salamence",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_dg_tamer_ivo",
+        "trainer:p3c_sp_ace_ryu",
+        "trainer:p3c_bt_b3",
+        "trainer:p4c_rt_veteran_cort",
+        "trainer:p4c_r13_cool_orla"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "salandit",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "trainer:p3a_g6_cool_sol"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "sandaconda",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_trail_ace_veda"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "sandslash",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "trainer:p3a_r9_hiker_doran",
+        "trainer:p3b_up_ranger_cass",
+        "trainer:p4b_r7_ranger_dex",
+        "trainer:p4b_mine2_maniac_pell"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "sandslashalola",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_rh1_hiker_tove",
+        "trainer:p4c_r12_skier_britt"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "sandygast",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_seabreeze_cove",
+        "trainer:p4a_sb_swimmer_coral"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "sawk",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_gulch_blackbelt_oren"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "sawsbuck",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p4c_skyfall_basin",
+        "trainer:p4b_mist_ranger_hale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "scizor",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_vr1_veteran_rook",
+        "trainer:p3c_bt_b1",
+        "trainer:p3c_bt_tycoon",
+        "trainer:p4c_sg_veteran_ilse",
+        "trainer:p4c_vr3_veteran_garrick"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "scovillain",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_kaen_master"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "scrafty",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_up_grunt_b",
+        "trainer:p4b_dig_grunt_e",
+        "trainer:p4b_ch2_ace_ember",
+        "trainer:p4c_ew_grunt_a"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "seadra",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3b_dragonspire"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "sealeo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route17",
+        "wild:p4c_frozen_falls",
+        "trainer:p3a_g7_skier_frida",
+        "trainer:p3c_r17_swimmer_noe",
+        "trainer:p4c_ff_swim_tarn"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "seel",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_frozen_falls"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "seismitoad",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_r11_swim_marlo"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "sharpedo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_tower_isle",
+        "wild:p3c_route16",
+        "trainer:p3a_r11_swim_reed",
+        "trainer:p3b_ps1_grunt_d"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "shelgon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_sky_pillar",
+        "trainer:p3b_dg_tamer_ren",
+        "trainer:p4b_fh_hiker_bo",
+        "trainer:p4c_rt_tamer_vey"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "shieldon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p4b_leg4.pks:81"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "shiinotic",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p4b_mine2_lass_corra",
+        "trainer:p4b_mist_ranger_hale"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "shuppet",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_wreck",
+        "trainer:p4a_wr_psychic_esme"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "sigilyph",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "wild:p2_ruins_of_sol",
+        "trainer:p4b_cat_maniac_tobin",
+        "trainer:p4c_dr_sage_aldric"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "silicobra",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_strata_gulch",
+        "trainer:p4b_gulch_hiker_wynn"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "simisear",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_trail_breather_ash"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "sinistea",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_lumen_catacombs",
+        "wild:p4b_sol_catacombs",
+        "trainer:p4a_lc_sage_rin",
+        "trainer:p4b_cat_hex_mora"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "sizzlipede",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_cobblecrest_b2f",
+        "wild:p4b_cinder_hollow",
+        "wild:p4b_cinder_hollow_deep",
+        "trainer:p4a_cc2_hiker_dunn"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "skitty",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_petal_path",
+        "wild:p4a_brook_falls",
+        "wild:p4a_orchard",
+        "trainer:route4_ivy"
+      ],
+      "sourceCount": 11
+    },
+    {
+      "id": "skorupi",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4b_ashen_trail"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "skrelp",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_tidewater_cape",
+        "trainer:p4a_cp_swimmer_nami"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "skuntank",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_mp2_grunt_c",
+        "trainer:p2_admin_corvin",
+        "trainer:p2_pp_captain",
+        "trainer:p3a_cc_grunt_a",
+        "trainer:p3b_up_grunt_a"
+      ],
+      "sourceCount": 8
+    },
+    {
+      "id": "sliggoo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p3c_tempest_isle",
+        "trainer:p3b_dg_tamer_kaz"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "slowbro",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto",
+        "wild:p4b_steam_grotto",
+        "trainer:p3b_vr1_cooltrainer_lia",
+        "trainer:p4b_steam_swim_mina",
+        "trainer:p4c_rt_psychic_nim"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "smoochum",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_rime_hollow"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "sneasel",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_rime_hollow",
+        "wild:p4c_frozen_falls",
+        "wild:p4c_roost_trail",
+        "trainer:p2_pp_grunt6"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "snom",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "gift:p3a_frostmere.pks:63"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "snorlax",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3c_bt_a5",
+        "static:p3c_legends.pks:450",
+        "static:p4c_leg7.pks:63"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "snorunt",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_rime_hollow",
+        "wild:p4c_frozen_falls"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "snover",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "snubbull",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "trainer:p2_sg_lass_pixie"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "solgaleo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:296"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "solosis",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_lumen_catacombs",
+        "wild:p4b_sol_catacombs",
+        "trainer:p4a_gc2_psychic_luna"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "solrock",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_ruins_of_sol",
+        "wild:p3b_prism_summit",
+        "trainer:p2_sol_sage_ra",
+        "trainer:p3b_vr3_sage_onn",
+        "trainer:p3c_ea_psychic_sol"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "spewpa",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_ww_bug_remy",
+        "trainer:p4a_or_bug_ned"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "spheal",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p3c_route17",
+        "wild:p4c_rime_hollow",
+        "wild:p4c_frozen_falls"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "spritzee",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "trainer:p2_sg_beauty_aria"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "squawkabilly",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_tidewater_cape",
+        "trainer:p4a_cp_pokefan_wren"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "squirtle",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p2_lumen.pks:83"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "staraptor",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r12_bird_alba",
+        "trainer:p4c_rt_bird_osric",
+        "trainer:p4c_sb_bird_tamsin"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "staravia",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:route4_skye",
+        "trainer:p4a_sr_cooltrainer_dex"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "starmie",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_eclipse_atoll",
+        "trainer:p3a_r11_swim_nami",
+        "trainer:p3b_r13_cooltrainer_abel",
+        "trainer:p3c_tc_psychic_vey",
+        "trainer:p3c_r16_swimmer_iolana"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "steelix",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_victory_road",
+        "wild:p4c_vr_deep",
+        "trainer:p3a_r12_hiker_bjorn",
+        "trainer:p3b_up_hiker_basalt",
+        "trainer:p4a_teo_3"
+      ],
+      "sourceCount": 12
+    },
+    {
+      "id": "steenee",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "stunfisk",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "wild:p4a_voltmire_marsh",
+        "trainer:p4a_vm_scientist_eel",
+        "trainer:p4a_vm_lass_reed"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "suicune",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:140"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "sunflora",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_sol_keeper_ilia"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "surskit",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_petal_path",
+        "wild:p4a_brook_falls",
+        "trainer:p4a_bt_bug_nils",
+        "trainer:p4a_bf_bug_leo"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "swanna",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p4c_r12_bird_cyra"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "swellow",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r9_bird_kelsey",
+        "trainer:p4b_ridge_bird_cyra"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "swinub",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12",
+        "wild:p4c_rime_hollow"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "swirlix",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "trainer:p2_sg_lass_pixie"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "swoobat",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_skyfall_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "tadbulb",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_solar_ridge",
+        "wild:p4b_pylon_ridge",
+        "trainer:p4a_sr_scientist_volt"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "taillow",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_brook_falls",
+        "wild:p4a_tidewater_cape",
+        "trainer:p4a_bt_lass_petra",
+        "trainer:p4a_bf_youngster_tobias"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "talonflame",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_et_sage_ren",
+        "trainer:p4b_cal_ace_lyra",
+        "trainer:p4c_dr_bird_wren"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "tandemaus",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_petal_path",
+        "wild:p4a_orchard",
+        "trainer:p4a_pp_kid_tess",
+        "trainer:p4a_or_pokefan_milo",
+        "trainer:p4a_or_kid_pip"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "tangrowth",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4c_vr3_ace_brigid"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "tarountula",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "trainer:p4a_mg_kid_wren",
+        "trainer:p4a_rh_bug_moss"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "tauros",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "wild:p4c_skyfall_basin",
+        "trainer:p3b_r13_ranger_tov",
+        "trainer:p4c_up_ranger_oskar",
+        "trainer:p4c_sb_ranger_eskil"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "teddiursa",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_gulch_lass_pia"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "tentacruel",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_tower_isle",
+        "wild:p3c_cinder_isle",
+        "wild:p3c_route15",
+        "trainer:p4c_tg_swim_reef"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "terapagos",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3a_legends.pks:19"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "throh",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_gc2_blackbelt_taro",
+        "trainer:p4b_gulch_blackbelt_oren"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "timburr",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_cobblecrest_b2f",
+        "wild:p4b_old_mine",
+        "trainer:route3_kenji",
+        "trainer:ccb_blackbelt_sho",
+        "trainer:p4a_cc2_blackbelt_jun"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "tinkatink",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_cavern"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "tinkaton",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_crystal_depths",
+        "trainer:p3a_ccd_sci_facet",
+        "trainer:p4c_gh_beauty_opaline"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "tinkatuff",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_geode_hollow",
+        "trainer:p4b_gcave_lass_wynne"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "togedemaru",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "wild:p4a_ridge_grotto",
+        "trainer:p4a_dot_3",
+        "trainer:p4a_dot_4"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "togepi",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_seraphine",
+        "gift:p2_prism.pks:87"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "togetic",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_mist_fairy_bryony",
+        "trainer:p4b_depths_ace_rowen"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "toucannon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14",
+        "trainer:p3c_r14_ace_drake"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "toxicroak",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_cc_grunt_d",
+        "trainer:p3b_up_cooltrainer_dax",
+        "trainer:p3b_ps3_grunt_a",
+        "trainer:p3b_admin_corvin",
+        "trainer:p3c_ti_blackbelt_hoku"
+      ],
+      "sourceCount": 10
+    },
+    {
+      "id": "trevenant",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_depths_ranger_corin"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "trumbeak",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "turtonator",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_cinder_isle",
+        "trainer:p3c_ci_ace_pele"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "tynamo",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_glimmer_cave",
+        "wild:p4a_glimmer_cave_b1f",
+        "wild:p4a_voltmire_marsh",
+        "trainer:p4a_gc_scientist_ohm",
+        "trainer:p4a_vm_scientist_eel"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "tyrantrum",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_dg_veteran_sora",
+        "trainer:p4c_vd1_tamer_kenrick"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "tyrogue",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_cc2_blackbelt_jun",
+        "gift:p4a_leg2.pks:220",
+        "gift:p4a_leg2.pks:230"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "tyrunt",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "gift:p2_mid.pks:91"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "unown",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_lumen_ruins",
+        "wild:p4a_lumen_catacombs",
+        "trainer:p4a_lc_scientist_tao"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "ursaring",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_umbral_pass",
+        "wild:p3b_route13",
+        "trainer:p3b_r13_ranger_tov",
+        "trainer:p4c_up_ranger_oskar"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "vanillish",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_rime_hollow"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "vanillite",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route12"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "vanilluxe",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_g7_skier_frida",
+        "trainer:p4c_ff_skier_maren"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "vaporeon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3a_r9_cool_brigid",
+        "trainer:p3b_vr2_beauty_rue",
+        "trainer:p4b_steam_beauty_coralie",
+        "trainer:p4c_tg_swim_lagoon",
+        "trainer:p4c_sb_swim_coralyn"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "venomoth",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_mist_bug_moth"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "vibrava",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_r8_cooltrainer_sol",
+        "trainer:p4b_gulch_ace_rhea"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "vikavolt",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p3c_ti_ace_rhea"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "vivillon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_mist_bug_moth"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "volbeat",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_mossgrove",
+        "wild:p4a_mossgrove_glade",
+        "wild:p4a_petal_path",
+        "wild:p4a_orchard",
+        "trainer:p4a_mg_bug_tomas"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "vullaby",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route10",
+        "wild:p4b_prism_foothills",
+        "wild:p4b_ashen_trail",
+        "wild:p4b_ashfall_caldera"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "wailmer",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11",
+        "wild:p3c_route16",
+        "trainer:p3a_r11_swim_kai"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "wailord",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route16",
+        "wild:p3c_pillar_isle",
+        "trainer:p3a_r11_swim_kai",
+        "trainer:p3c_r15_swimmer_keoni",
+        "trainer:p3c_r16_swimmer_lani"
+      ],
+      "sourceCount": 6
+    },
+    {
+      "id": "walrein",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route17",
+        "wild:p3c_seafloor_cavern",
+        "wild:p4c_frozen_falls",
+        "trainer:p3a_r12_boarder_jett",
+        "trainer:p3c_r17_swimmer_finn"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "wattrel",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_tidewater_cape",
+        "wild:p4a_solar_ridge",
+        "wild:p4b_pylon_ridge",
+        "trainer:p4a_cp_pokefan_wren"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "weepinbell",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4a_lt_sage_edmund",
+        "trainer:p4a_lt_elder_rowan"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "weezing",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4c_eclipse_workshop",
+        "trainer:p3b_ps2_grunt_c",
+        "trainer:p4b_dig_grunt_c"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "weezinggalar",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p3b_ps1_grunt_a",
+        "trainer:p3b_ps3_grunt_c",
+        "trainer:p4c_el_grunt_e"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "whismur",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_grotto",
+        "wild:p4a_root_hollow",
+        "trainer:p4a_rh_hiker_mort"
+      ],
+      "sourceCount": 3
+    },
+    {
+      "id": "wigglytuff",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p4b_depths_fairy_lark",
+        "trainer:p4c_r10_pokefan_bert"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "wiglett",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3a_route11"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "wimpod",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_route16",
+        "wild:p4a_cape_grotto"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "wishiwashi",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_coral_town",
+        "wild:p3c_route14"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "wobbuffet",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_silent_grotto"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "wyrdeer",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "xatu",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "trainer:p2_mp1_psychic_vera",
+        "trainer:p3a_r9_psychic_omar",
+        "trainer:p3b_up_psychic_lune",
+        "trainer:p3c_tc_psychic_vey",
+        "trainer:p3c_bt_a4"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "yamask",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p2_ruins_of_sol",
+        "wild:p4b_sol_catacombs"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "yamper",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_tidewater_cape",
+        "wild:p4a_solar_ridge",
+        "wild:p4b_pylon_ridge",
+        "trainer:p4a_cp_youngster_nico",
+        "trainer:p4a_lh_youngster_tom"
+      ],
+      "sourceCount": 7
+    },
+    {
+      "id": "zapdos",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "static:p3c_legends.pks:26"
+      ],
+      "sourceCount": 1
+    },
+    {
+      "id": "zebstrika",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3c_tempest_isle",
+        "trainer:p3c_ti_ranger_tasi"
+      ],
+      "sourceCount": 2
+    },
+    {
+      "id": "zigzagoon",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p4a_brook_trail",
+        "wild:p4a_brook_falls",
+        "trainer:route3_dale",
+        "trainer:p4a_bt_youngster_dino",
+        "trainer:p4a_bf_youngster_tobias"
+      ],
+      "sourceCount": 5
+    },
+    {
+      "id": "zoroark",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_route13",
+        "trainer:p3b_ps2_grunt_b",
+        "trainer:p4c_el_grunt_d",
+        "trainer:p4c_rem_captain_sable"
+      ],
+      "sourceCount": 4
+    },
+    {
+      "id": "zweilous",
+      "tier": 3,
+      "status": "fallback",
+      "sources": [
+        "wild:p3b_dragonspire",
+        "wild:p3b_umbral_pass",
+        "wild:p3c_silent_grotto",
+        "wild:p4c_roost_trail",
+        "wild:p4c_skyfall_basin"
+      ],
+      "sourceCount": 6
+    }
+  ]
+}
