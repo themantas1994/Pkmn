@@ -44,36 +44,48 @@ class BattleAnimData(
     }
 }
 
+/** Four-colour effect ramp for a type, derived as in docs/ART_STYLE.md: highlight 75% and light 40% towards white, dark = main x 0.5. */
+class TypeRamp(val highlight: Color, val light: Color, val main: Color, val dark: Color) {
+    companion object {
+        private fun q(v: Float) = (Math.rint(Math.round(v * 255.0) / 8.0).toFloat() * 8f / 255f).coerceIn(0f, 1f)
+        private fun mix(c: Color, k: Float) = Color(q(c.r + (248f / 255f - c.r) * k), q(c.g + (248f / 255f - c.g) * k), q(c.b + (248f / 255f - c.b) * k), 1f)
+        fun of(main: Color) = TypeRamp(mix(main, 0.75f), mix(main, 0.4f), main, Color(q(main.r * 0.5f), q(main.g * 0.5f), q(main.b * 0.5f), 1f))
+    }
+}
+
 /** A running move effect: a procedural pixel-particle pattern between the user and the target. */
 class MoveFx(val style: String, val color: Color, val fromX: Float, val fromY: Float, val toX: Float, val toY: Float) {
     var t = 0f
+    val ramp = TypeRamp.of(color)
 
     fun draw(r: Renderer) {
-        val c = color
-        val light = c.cpy().lerp(Color.WHITE, 0.5f)
+        val c = ramp.main
+        val light = ramp.light
+        val hi = ramp.highlight
+        val dark = ramp.dark
         fun dot(x: Float, y: Float, s: Float = 2f, col: Color = c) = r.rect(x - s / 2, y - s / 2, s, s, col)
         val (x, y) = toX to toY
         when (style) {
             "impact" -> {
                 val rad = 4 + 14 * t
-                for (i in 0 until 8) { val a = i * Math.PI / 4; dot(x + (cos(a) * rad).toFloat(), y + (sin(a) * rad).toFloat(), 3f, if (i % 2 == 0) c else Palette.TEXT) }
-                if (t < 0.4f) dot(x, y, 8f * (1 - t), Color.WHITE)
+                for (i in 0 until 8) { val a = i * Math.PI / 4; dot(x + (cos(a) * rad).toFloat(), y + (sin(a) * rad).toFloat(), 3f, if (i % 2 == 0) c else dark) }
+                if (t < 0.4f) dot(x, y, 8f * (1 - t), hi)
             }
             "slash" -> for (k in 0 until 3) {
                 val len = (28 * (t * 1.6f - k * 0.2f).coerceIn(0f, 1f)).toInt()
-                for (i in 0 until len step 2) dot(x - 14 + i + k * 5, y - 14 + i, 2f, if (k == 1) light else Palette.TEXT)
+                for (i in 0 until len step 2) dot(x - 14 + i + k * 5, y - 14 + i, 2f, if (k == 1) light else dark)
             }
             "burst" -> for (i in 0 until 14) {
                 val a = i * 2 * Math.PI / 14 + t * 2
                 val rad = 22 * t + (i % 3) * 2
-                dot(x + (cos(a) * rad).toFloat(), y + (sin(a) * rad * 0.8).toFloat(), if (i % 2 == 0) 4f else 3f, if (i % 3 == 0) Palette.HP_YELLOW else c)
+                dot(x + (cos(a) * rad).toFloat(), y + (sin(a) * rad * 0.8).toFloat(), if (i % 2 == 0) 4f else 3f, if (i % 3 == 0) hi else c)
             }
             "bolt" -> {
                 var px = x; var py = y - 50f
                 val segs = (8 * minOf(1f, t * 1.6f)).toInt()
                 for (s in 0 until segs) {
                     val nx = x + (if (s % 2 == 0) 8f else -8f); val ny = py + 7f
-                    for (i in 0..6) dot(px + (nx - px) * i / 6, py + (ny - py) * i / 6, 2f, if ((s + i) % 3 == 0) Color.WHITE else c)
+                    for (i in 0..6) dot(px + (nx - px) * i / 6, py + (ny - py) * i / 6, 2f, if ((s + i) % 3 == 0) hi else c)
                     px = nx; py = ny
                 }
                 if (t > 0.6f) for (i in 0 until 6) { val a = i * Math.PI / 3; dot(x + (cos(a) * 12 * t).toFloat(), y + (sin(a) * 12 * t).toFloat(), 3f, c) }
@@ -94,10 +106,10 @@ class MoveFx(val style: String, val color: Color, val fromX: Float, val fromY: F
                 val bx = fromX + (toX - fromX) * f + if (style == "leaves") wob * 2 else 0f
                 val by = fromY + (toY - fromY) * f + if (style == "bubbles") wob else 0f
                 when (style) {
-                    "bubbles" -> { r.outline((bx - 3).toInt(), (by - 3).toInt(), 6, 6, c); dot(bx - 1, by - 1, 1f, Color.WHITE) }
+                    "bubbles" -> { r.outline((bx - 3).toInt(), (by - 3).toInt(), 6, 6, dark); dot(bx, by, 4f, light); dot(bx - 1, by - 1, 1f, hi) }
                     "shards" -> { dot(bx, by, 3f, light); dot(bx + 2, by - 2, 2f, c) }
-                    "leaves" -> { dot(bx, by, 4f, c); dot(bx + 2, by + 1, 2f, Palette.TEXT) }
-                    else -> { dot(bx, by - (1 - f) * 20, 5f, c); dot(bx + 1, by - (1 - f) * 20 + 1, 2f, Palette.TEXT) }
+                    "leaves" -> { dot(bx, by, 4f, c); dot(bx + 2, by + 1, 2f, dark) }
+                    else -> { dot(bx, by - (1 - f) * 20, 5f, c); dot(bx + 1, by - (1 - f) * 20 + 1, 2f, dark) }
                 }
             }
             "quake" -> for (i in 0 until 10) {
@@ -120,8 +132,8 @@ class MoveFx(val style: String, val color: Color, val fromX: Float, val fromY: F
                 val sx = x + (cos(a) * rad).toFloat()
                 val sy = y + (sin(a) * rad * 0.8).toFloat() - if (style == "heal") t * 16 else 0f
                 val col = if (style == "heal") Palette.HP_GREEN else c
-                dot(sx, sy, 2f, col); dot(sx - 2, sy, 1f, Color.WHITE); dot(sx + 2, sy, 1f, Color.WHITE)
-                dot(sx, sy - 2, 1f, Color.WHITE); dot(sx, sy + 2, 1f, Color.WHITE)
+                dot(sx, sy, 2f, col); dot(sx - 2, sy, 1f, hi); dot(sx + 2, sy, 1f, hi)
+                dot(sx, sy - 2, 1f, hi); dot(sx, sy + 2, 1f, hi)
             }
             "wave" -> {
                 val top = y + 24 - 50 * minOf(1f, t * 1.3f)
