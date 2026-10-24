@@ -98,6 +98,8 @@ class ContentValidator(private val root: File) {
             )
         }
         for ((name, json) in reports) writeJson(File(reportsDir, name), json)
+        if (File(root, "assets-local").isDirectory)
+            writeJson(File(root, "assets-local/manifest/coverage-sprites.json"), SpriteLayout.availability(root, content.dex, includeLocal = true))
         File(reportsDir, "COVERAGE.md").writeText(CoverageMarkdown.render(reports))
 
         println("Content validation: ${issues.errors.size} error(s), ${issues.warnings.size} warning(s). Reports written to ${reportsDir.path}")
@@ -446,7 +448,7 @@ class ContentValidator(private val root: File) {
             Csv.read(File(root, "data-src/pokeapi/pokemon_species.csv")).mapNotNull { r -> r["id"]?.toIntOrNull()?.let { it to r["capture_rate"] } }
                 .filter { !it.second.isNullOrBlank() }.map { it.first }.toSet()
         }.getOrDefault(emptySet())
-        val sprites = SpriteLayout.availability(root, dex)
+        val sprites = SpriteLayout.availability(root, dex, includeLocal = false)
         return buildJsonObject {
             put("speciesEntries", c.species.size)
             put("baseSpecies", base.size)
