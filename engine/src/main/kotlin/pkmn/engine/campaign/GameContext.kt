@@ -1,5 +1,6 @@
 package pkmn.engine.campaign
 
+import java.time.LocalTime
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import pkmn.engine.battle.*
@@ -117,6 +118,9 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
 
     /** Lighting phase for the overworld tint (adds a dusk hour; follows the same option). */
     fun lightPhase(): LightPhase = if (!state.options.realTimeClock) LightPhase.DAY else LightPhase.of(now().toLocalTime())
+
+    /** Smoothly interpolated overworld tint for the current minute (flat white when the real-time clock is off). */
+    fun lightTint(): LightTint.Rgb = if (!state.options.realTimeClock) LightTint.at(LocalTime.NOON) else LightTint.at(now().toLocalTime())
 
     /** Scheduled world events active on [mapId] right now (re-evaluated on every call; nothing is cached). */
     fun activeEvents(mapId: String): List<WorldEventDef> = content.events.activeOn(mapId, state, now())
