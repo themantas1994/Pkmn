@@ -35,6 +35,8 @@ registerTool("validateContent", "Validate all content and write reports/*.json",
 registerTool("buildAssetManifest", "Scan assets and write the asset manifest", "manifest")
 tasks.named("buildAssetManifest") { mustRunAfter("buildArt") } // the manifest hashes the generated art
 registerTool("checkProgression", "Check badge-order reachability, softlocks and orphaned content", "progression")
+// compileMaps regenerates assets/maps and assets/world; readers must not overlap it.
+for (n in listOf("validateContent", "buildAssetManifest", "checkProgression")) tasks.named(n) { mustRunAfter("compileMaps") }
 registerTool("auditEntrances", "Audit every warp: entrance tile vs destination class, traversal, reverse transition -> reports/entrances.*", "entrances")
 registerTool("auditItems", "Strict item reachability audit per badge stage and placement defects -> reports/items.*", "items")
 registerTool("auditLearnsets", "Learnset legality audit (importer vs raw Showdown, forms, world moves, TMs, tutors) -> reports/learnsets.*", "learnsets")
