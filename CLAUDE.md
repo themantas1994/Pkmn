@@ -21,6 +21,10 @@ Current state and every measured number: `STATUS.md`. Mechanics detail: `docs/`.
 3. Android build: `./gradlew :android:assembleDebug` (`:android:bundleRelease` before a release)
 4. UI changes: check on the emulator with the Android QA plugin and attach a screenshot.
 
+## Shortcuts
+Repo layout: `docs/REPO_MAP.md` (don't scan the tree). Gates with quiet output: `scripts/gates.sh [content|test|android|all]`
+or `/gates`; pre-PR checklist: `/pr-prep`.
+
 ## After every PR push: wait for CI and report (mandatory)
 Applies to every `pkm/*` PR an agent pushes or updates, including follow-up pushes. Never merge (no `gh pr merge`,
 no `--auto`, no merge API/MCP tool), never force-push, never touch branch protection or secrets.
