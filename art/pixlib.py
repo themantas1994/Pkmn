@@ -7,6 +7,8 @@ characters can be mapped with a dict (e.g. semantic sprite templates).
 """
 import json
 import os
+import struct
+import zlib
 
 import numpy as np
 from PIL import Image
@@ -120,12 +122,29 @@ def to_rgba(a, palette, alpha=255):
     return Image.fromarray(rgba, "RGBA")
 
 
+def _chunk(tag, data):
+    body = tag + data
+    return struct.pack(">I", len(data)) + body + struct.pack(">I", zlib.crc32(body) & 0xFFFFFFFF)
+
+
 def save_png(img, path):
+    """Write RGBA PNG with stored (uncompressed) deflate blocks so the bytes never depend on a zlib build."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    # strip metadata for deterministic output
-    img = img.copy()
-    img.info = {}
-    img.save(path, format="PNG", optimize=True)
+    img = img.convert("RGBA")
+    w, h = img.size
+    raw = img.tobytes()
+    stride = w * 4
+    scan = b"".join(b"\x00" + raw[y * stride:(y + 1) * stride] for y in range(h))
+    blocks = [b"\x78\x01"]
+    for i in range(0, max(len(scan), 1), 65535):
+        part = scan[i:i + 65535]
+        final = 1 if i + 65535 >= len(scan) else 0
+        blocks.append(struct.pack("<BHH", final, len(part), len(part) ^ 0xFFFF) + part)
+    blocks.append(struct.pack(">I", zlib.adler32(scan) & 0xFFFFFFFF))
+    png = (b"\x89PNG\r\n\x1a\n" + _chunk(b"IHDR", struct.pack(">IIBBBBB", w, h, 8, 6, 0, 0, 0))
+           + _chunk(b"IDAT", b"".join(blocks)) + _chunk(b"IEND", b""))
+    with open(path, "wb") as f:
+        f.write(png)
 
 
 def save_json(obj, path):

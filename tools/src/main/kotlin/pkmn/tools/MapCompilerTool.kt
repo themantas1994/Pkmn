@@ -37,6 +37,14 @@ class MapCompilerTool(private val root: File) {
     /** Bag key for a map item: `tm:<move>` keeps its prefix (TMs are stored per move), everything else is an item id. */
     private fun itemKey(s: String) = if (s.lowercase().startsWith("tm:")) "tm:" + toId(s.substringAfter(':')) else toId(s)
 
+    private fun writeAtomic(target: File, text: String) = writeAtomic(target, text.toByteArray())
+
+    private fun writeAtomic(target: File, bytes: ByteArray) {
+        val tmp = File(target.parentFile, target.name + ".tmp")
+        tmp.writeBytes(bytes)
+        java.nio.file.Files.move(tmp.toPath(), target.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING, java.nio.file.StandardCopyOption.ATOMIC_MOVE)
+    }
+
     fun run(): Boolean {
         val dex = Dex.loadDefault()
         val tileNames = loadTileNames()
@@ -56,8 +64,9 @@ class MapCompilerTool(private val root: File) {
 
         if (errors.isEmpty()) {
             outMaps.mkdirs(); outWorld.mkdirs(); outScripts.mkdirs()
-            outMaps.listFiles()?.forEach { if (it.extension == "json") it.delete() }
-            for (m in maps) File(outMaps, "${m.id}.json").writeText(json.encodeToString(MapData.serializer(), m))
+            for (m in maps) writeAtomic(File(outMaps, "${m.id}.json"), json.encodeToString(MapData.serializer(), m))
+            val mapNames = maps.map { "${it.id}.json" }.toSet()
+            outMaps.listFiles()?.forEach { if (it.extension == "json" && it.name !in mapNames) it.delete() }
             File(outWorld, "trainers.json").writeText(json.encodeToString(ListSerializer(TrainerDef.serializer()), trainers))
             File(outWorld, "trainer_classes.json").writeText(json.encodeToString(ListSerializer(TrainerClass.serializer()), classes))
             File(outWorld, "encounters.json").writeText(json.encodeToString(ListSerializer(EncounterTable.serializer()), encounters))
@@ -73,10 +82,11 @@ class MapCompilerTool(private val root: File) {
                 maps = maps.map { it.id },
             )
             File(outWorld, "index.json").writeText(json.encodeToString(WorldIndex.serializer(), index))
-            outScripts.listFiles()?.forEach { it.delete() }
             val scriptFiles = (File(world, "scripts").listFiles { f -> f.extension == "pks" } ?: emptyArray()).sortedBy { it.name }
-            for (f in scriptFiles) f.copyTo(File(outScripts, f.name), overwrite = true)
-            File(outScripts, "index.txt").writeText(scriptFiles.joinToString("\n") { it.name })
+            for (f in scriptFiles) writeAtomic(File(outScripts, f.name), f.readBytes())
+            writeAtomic(File(outScripts, "index.txt"), scriptFiles.joinToString("\n") { it.name })
+            val scriptNames = scriptFiles.map { it.name }.toSet() + "index.txt"
+            outScripts.listFiles()?.forEach { if (it.name !in scriptNames) it.delete() }
         }
         File(root, "reports").mkdirs()
         File(root, "reports/world-compile.json").writeText(Json { prettyPrint = true }.encodeToString(

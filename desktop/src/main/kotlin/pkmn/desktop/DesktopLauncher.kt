@@ -33,7 +33,7 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
  *   --shots=<dir>        where screenshots go
  *   --mute               no audio
  *   --scale=N            window scale (default 3)
- *   --portrait           phone-like portrait window with touch controls
+ *   --portrait           phone-like portrait window with touch controls (540x1080, or --size=WxH)
  *   --quickstart[=NAME]  skip title/intro and start a new game (debugging)
  *   --fixedstep          every frame advances 1/60 s regardless of real time (reproducible screenshots)
  */
@@ -49,7 +49,10 @@ fun main(args: Array<String>) {
     val scale = opts["scale"]?.toIntOrNull() ?: 3
     val config = Lwjgl3ApplicationConfiguration().apply {
         setTitle("Pokémon Crystalline")
-        if (opts["portrait"] == "true") setWindowedMode(540, 1080) else setWindowedMode(256 * scale, 224 * scale)
+        if (opts["portrait"] == "true") {
+            val (pw, ph) = (opts["size"] ?: "540x1080").split('x').map { it.toInt() }
+            setWindowedMode(pw, ph)
+        } else setWindowedMode(256 * scale, 224 * scale)
         setForegroundFPS(60)
         useVsync(true)
         if (opts.containsKey("script")) setIdleFPS(60)

@@ -4,14 +4,15 @@ import java.io.File
 import java.nio.file.Files
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class StatusCheckTest {
     private val repo = File(System.getProperty("pkmn.assets")).parentFile
 
-    private fun xml(dir: File, tests: Int, skipped: Int = 0, failures: Int = 0) {
+    private fun xml(dir: File, tests: Int, skipped: Int = 0, failures: Int = 0, name: String = "x") {
         dir.mkdirs()
-        File(dir, "TEST-x.xml").writeText("""<?xml version="1.0"?><testsuite name="x" tests="$tests" skipped="$skipped" failures="$failures" errors="0"/>""")
+        File(dir, "TEST-$name.xml").writeText("""<?xml version="1.0"?><testsuite name="$name" tests="$tests" skipped="$skipped" failures="$failures" errors="0"/>""")
     }
 
     @Test
@@ -39,9 +40,35 @@ class StatusCheckTest {
             assertEquals(StatusCheck.Tests(10, 4, 5), sc.tests())
             val w = sc.world()
             val world = "${w.maps} maps, ${w.trainers} trainers, ${w.encounterTables} encounter tables, ${w.scripts} scripts"
-            assertEquals(emptyList(), StatusCheck(tmp, "$world; 10 engine, 4 core and 5 tool tests").check())
-            val bad = StatusCheck(tmp, "$world; 10 engine, 5 core and 5 tool tests").check()
+            xml(File(tmp, "core/build/test-results/test"), 5)
+            assertEquals(StatusCheck.Tests(10, 5, 5), sc.tests())
+            assertEquals(emptyList(), StatusCheck(tmp, "$world; 10 engine, 5 core and 5 tool tests").check())
+            val bad = StatusCheck(tmp, "$world; 10 engine, 4 core and 5 tool tests").check()
             assertTrue(bad.single().contains("test counts"), bad.toString())
+        } finally { tmp.deleteRecursively() }
+    }
+
+    /** Counts must be CI's: ArtBuildDeterminismTest skipped (no art venv) or a benchmark run (-Pbenchmarks) differs from CI. */
+    @Test
+    fun runsWhoseSkipsDifferFromCiAreRejected() {
+        val tmp = Files.createTempDirectory("status").toFile()
+        try {
+            for (d in listOf("world", "maps", "scripts")) File(repo, "assets/$d").copyRecursively(File(tmp, "assets/$d"))
+            xml(File(tmp, "engine/build/test-results/test"), 10)
+            xml(File(tmp, "core/build/test-results/test"), 5)
+            xml(File(tmp, "core/build/test-results/test"), 1, skipped = 1, name = "pkmn.game.audio.ChipSynthBenchmarkTest")
+            val sc = StatusCheck(tmp)
+            assertEquals(emptyList(), sc.notLikeCi(), "the opt-in benchmark is skipped on CI too")
+            xml(File(tmp, "tools/build/test-results/test"), 7, skipped = 1, name = "pkmn.tools.ArtBuildDeterminismTest")
+            assertEquals(listOf("tools: pkmn.tools.ArtBuildDeterminismTest (1 skipped)"), sc.notLikeCi())
+            val w = sc.world()
+            val world = "${w.maps} maps, ${w.trainers} trainers, ${w.encounterTables} encounter tables, ${w.scripts} scripts"
+            val problems = StatusCheck(tmp, "$world; 10 engine, 5 core and 6 tool tests").check()
+            assertTrue(problems.single().contains("ArtBuildDeterminismTest"), problems.toString())
+            assertFalse(sc.run(check = false), "statusCounts must not print numbers to copy while tests were skipped")
+            xml(File(tmp, "tools/build/test-results/test"), 7, name = "pkmn.tools.ArtBuildDeterminismTest")
+            xml(File(tmp, "core/build/test-results/test"), 1, name = "pkmn.game.audio.ChipSynthBenchmarkTest")
+            assertEquals(listOf("core: pkmn.game.audio.ChipSynthBenchmarkTest (1 ran, CI skips it)"), sc.notLikeCi())
         } finally { tmp.deleteRecursively() }
     }
 }

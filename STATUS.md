@@ -72,9 +72,9 @@ Each fix below was reproduced first, then checked with tests and in the running 
 
 | Artifact | Command | Result |
 |---|---|---|
-| Debug APK | `./gradlew :android:assembleDebug` | `android-debug.apk`, ~7.3 MB |
-| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, ~5.2 MB (needs a release keystore, see docs/BUILD.md; `-Ppkmn.release.allowDebugSigning=true` for a non-publishable debug-signed build) |
-| App bundle | `./gradlew :android:bundleRelease` | `android-release.aab`, ~4.6 MB |
+| Debug APK | `./gradlew :android:assembleDebug` | `android-debug.apk`, 9.73 MB (budget <= 16 MB, `./gradlew :tools:apkBudget`) |
+| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, 7.54 MB (budget <= 12 MB) (needs a release keystore, see docs/BUILD.md; `-Ppkmn.release.allowDebugSigning=true` for a non-publishable debug-signed build) |
+| App bundle | `./gradlew :android:bundleRelease` | `android-release.aab`, 4.94 MB (budget <= 11 MB; `assets/gfx` 2.22 MB of 5 MB) |
 | Desktop jar | `./gradlew :desktop:dist` | `pkmn-crystalline-desktop.jar` |
 
 - **APK metadata** (`aapt2 dump badging`): package `io.github.pkmncrystalline`, minSdk 24, targetSdk 35.
