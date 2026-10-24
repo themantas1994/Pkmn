@@ -15,7 +15,7 @@ Every number in this document was produced by the commands listed next to it. No
 | Saves | Atomic, checksummed, versioned (v3, with migrations from v1 and v2), with backup/repair; corruption and migration tests pass |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
-| Tests | 313 engine, 102 core and 126 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
+| Tests | 318 engine, 102 core and 133 tool tests, all passing; CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
 | Learnsets and moves | Every species/form audited (`:tools:auditLearnsets`: 0 errors) and every move executed in battle (`MoveExecutionTest`: 0 unsupported); see [docs/LEARNSETS.md](docs/LEARNSETS.md), [reports/moves-audit.md](reports/moves-audit.md) |
 | Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
 
@@ -72,9 +72,9 @@ Each fix below was reproduced first, then checked with tests and in the running 
 
 | Artifact | Command | Result |
 |---|---|---|
-| Debug APK | `./gradlew :android:assembleDebug` | `android-debug.apk`, ~7.3 MB |
-| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, ~5.2 MB (needs a release keystore, see docs/BUILD.md; `-Ppkmn.release.allowDebugSigning=true` for a non-publishable debug-signed build) |
-| App bundle | `./gradlew :android:bundleRelease` | `android-release.aab`, ~4.6 MB |
+| Debug APK | `./gradlew :android:assembleDebug` | `android-debug.apk`, 9.73 MB (budget <= 16 MB, `./gradlew :tools:apkBudget`) |
+| Release APK | `./gradlew :android:assembleRelease` | `android-release.apk`, 7.54 MB (budget <= 12 MB) (needs a release keystore, see docs/BUILD.md; `-Ppkmn.release.allowDebugSigning=true` for a non-publishable debug-signed build) |
+| App bundle | `./gradlew :android:bundleRelease` | `android-release.aab`, 4.94 MB (budget <= 11 MB; `assets/gfx` 2.22 MB of 5 MB) |
 | Desktop jar | `./gradlew :desktop:dist` | `pkmn-crystalline-desktop.jar` |
 
 - **APK metadata** (`aapt2 dump badging`): package `io.github.pkmncrystalline`, minSdk 24, targetSdk 35.

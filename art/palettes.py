@@ -191,5 +191,121 @@ TYPE_COLOURS = {
     "steel": "B8B8D0", "fairy": "E898B0", "stellar": "40A8C8",
 }
 
+# --------------------------------------------------------------------------
+# Battle backdrops: one entry per environment, day colours (lightest -> darkest).
+# slots: sky = back wall / horizon, ground = floor, platform = the two mon platforms.
+# Night variants come from night_variant(); rules and checks: docs/ART_STYLE.md, art/style_check.py.
+# --------------------------------------------------------------------------
+BATTLE_ENV = {
+    "grass": {
+        "sky": pal("F0F8F8","C8E8F8","98D0F0","68A8E0"),
+        "ground": pal("F8F0C0","98D068","409048","183020"),
+        "platform": pal("E0F0A0","98D068","58A048","285830"),
+    },
+    "tall_grass": {
+        "sky": pal("F0F8F8","C8E8F8","98D0F0","68A8E0"),
+        "ground": pal("D8F098","68B848","307838","102818"),
+        "platform": pal("C8E888","68B848","388040","183820"),
+    },
+    "forest": {
+        "sky": pal("C8E0C0","90C090","58A068","286040"),
+        "ground": pal("A8D070","509840","286830","102818"),
+        "platform": pal("98C868","58A040","307030","102010"),
+    },
+    "cave": {
+        "sky": pal("E0C090","B89060","906038","281810"),
+        "ground": pal("E0C090","B08858","906038","281810"),
+        "platform": pal("D0B080","B88850","906038","281810"),
+    },
+    "water": {
+        "sky": pal("F8F8F8","C8E8F8","98D0F0","6098D0"),
+        "ground": pal("E0F0F8","B8E0F8","4890E8","182860"),
+        "platform": pal("E8F0F8","98C8E8","5088C8","183060"),
+    },
+    "snow": {
+        "sky": pal("F8F8F8","E0E8F8","B8D0F0","8098D0"),
+        "ground": pal("F8F8F8","D8E8F8","98B8E8","283868"),
+        "platform": pal("F8F8F8","C8D8F0","88A8D8","384880"),
+    },
+    "sand": {
+        "sky": pal("F8F0D8","F8E0A8","F0C880","D8A060"),
+        "ground": pal("F8F0C0","F0D898","C8A060","583820"),
+        "platform": pal("F0E0A8","D8B878","B08850","583820"),
+    },
+    "indoor": {
+        "sky": pal("F8F0E0","E8E0C8","C0B098","383028"),
+        "ground": pal("F8E0B0","D8B078","A07040","402818"),
+        "platform": pal("E8D098","C09860","906838","402818"),
+    },
+    "building": {
+        "sky": pal("F8F8F0","E8E0C8","C0B8A0","383028"),
+        "ground": pal("F8F8F8","D8E0E8","A0B0C0","404858"),
+        "platform": pal("E8F0F8","B8C8D8","8898B0","404858"),
+    },
+    "league": {
+        "sky": pal("E8D8F8","B090D8","8060B8","201040"),
+        "ground": pal("F0E8F8","C8B0E8","9070C8","301860"),
+        "platform": pal("E0D0F8","A888D8","7858B0","301860"),
+    },
+    "gym_sprout": {
+        "sky": pal("C8F8A0","88D058","489838","183820"),
+        "ground": pal("E8F8C8","88D058","489838","183820"),
+        "platform": pal("C8F0A0","70C048","409030","183820"),
+    },
+    "gym_tide": {
+        "sky": pal("D8F0F8","A8D8F0","6098D0","103878"),
+        "ground": pal("E8F0F8","A8D8F0","6098D0","103878"),
+        "platform": pal("E8C890","C09058","906038","402010"),
+    },
+    "gym_spark": {
+        "sky": pal("C8D0E0","98A0B8","687090","101020"),
+        "ground": pal("F8F098","F0C020","A09040","383018"),
+        "platform": pal("B0B8D0","8890A8","687090","101020"),
+    },
+    "gym_stone": {
+        "sky": pal("E0D8C8","B8A888","907860","282018"),
+        "ground": pal("E8E0D0","C8B898","A08868","282018"),
+        "platform": pal("D0C0A0","A89070","806850","282018"),
+    },
+    "gym_mist": {
+        "sky": pal("F0E8F8","D0C0F0","9880D0","483878"),
+        "ground": pal("F0E8F8","D0C0F0","9880D0","483878"),
+        "platform": pal("E0D0F8","B8A0E8","8868C8","483878"),
+    },
+    "gym_ember": {
+        "sky": pal("D8B8A8","B08070","885850","181010"),
+        "ground": pal("F8D880","F89830","C06020","301810"),
+        "platform": pal("E0A860","C07038","905028","301810"),
+    },
+    "gym_frost": {
+        "sky": pal("F8F8F8","D0E8F8","90D0F0","3868B0"),
+        "ground": pal("F8F8F8","D0E8F8","90D0F0","3868B0"),
+        "platform": pal("E8F8F8","B8E0F8","78B8E8","3868B0"),
+    },
+    "gym_dusk": {
+        "sky": pal("A898E8","8070C8","6050A8","281858"),
+        "ground": pal("B0A0E8","8068C8","6048A8","281858"),
+        "platform": pal("F8E8A0","C0A860","907838","281858"),
+    },
+}
+
+NIGHT_MUL = (0.72, 0.76, 0.95)  # same multiplier BattleScreen applies to its night backdrop
+
+
+def night_variant(p):
+    return tuple(tuple(min(248, round(ch * NIGHT_MUL[i] / 8) * 8) for i, ch in enumerate(c)) for c in p)
+
+
+def _mix(a, b, t):
+    return tuple(round((a[i] + (b[i] - a[i]) * t) / 8) * 8 for i in range(3))
+
+
+def type_ramp(type_hex):
+    """Effect/sprite starter ramp for a type: [highlight, light, main, dark], lightest first."""
+    main = _c(type_hex)
+    dark = tuple(round(ch * 0.5 / 8) * 8 for ch in main)
+    return (_mix(main, (248, 248, 248), 0.75), _mix(main, (248, 248, 248), 0.4), main, dark)
+
+
 if __name__ == "__main__":
     print(len(TILE), "tile palettes;", len(ROLE), "role colours")

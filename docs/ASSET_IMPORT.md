@@ -318,7 +318,11 @@ scans `assets-local/` if that exists. It writes:
 
 - `assets/manifest/assets.json`: bundled assets only, so the committed manifest never names local files.
 - `assets-local/manifest/assets.json`: local assets, in the same schema.
-- `reports/asset-validation.json`: errors and warnings. The task fails if there are any errors.
+- `reports/asset-validation.json`: errors and warnings for `assets/` only, so the tracked report is the same on every machine.
+- `assets-local/manifest/validation.json`: errors and warnings for `assets-local/` (git-ignored).
+
+The task fails if either has errors. `:tools:validateContent` likewise keeps the tracked sprite coverage in `reports/` to bundled files and writes
+the bundled-plus-local numbers to `assets-local/manifest/coverage-sprites.json`.
 
 Each entry has: `id` (path without extension; a sheet descriptor gets `<stem>.sheet`), `path`, `format`, `sizeBytes`,
 `width`/`height` (images, read with `javax.imageio`), `category`, `frames` (when a sheet descriptor declares them),

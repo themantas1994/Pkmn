@@ -27,9 +27,9 @@ object CoverageMarkdown {
             table("Forms by kind", s.o("formsByKind"))
             table("Base species by generation", s.o("baseSpeciesByGeneration"))
             s.o("sprites")?.let { sp ->
-                appendLine("| Sprite kind | base species with sprite | missing | forms with sprite | bundled files | local files |")
-                appendLine("|---|---|---|---|---|---|")
-                for ((k, v) in sp) if (v is JsonObject) appendLine("| $k | ${v.p("baseSpeciesWithSprite")} | ${v.p("baseSpeciesMissing")} | ${v.p("formsWithSprite")} | ${v.p("bundledFiles")} | ${v.p("localFiles")} |")
+                appendLine("| Sprite kind | base species with bundled sprite | missing | forms with sprite | bundled files |")
+                appendLine("|---|---|---|---|---|")
+                for ((k, v) in sp) if (v is JsonObject) appendLine("| $k | ${v.p("baseSpeciesWithSprite")} | ${v.p("baseSpeciesMissing")} | ${v.p("formsWithSprite")} | ${v.p("bundledFiles")} |")
                 appendLine()
             }
         }
