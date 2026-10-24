@@ -22,7 +22,7 @@ class StatusCheckTest {
         assertEquals(emptyList(), StatusCheck(repo, "World: $phrase.").check().filter { "world" in it })
         val bad = StatusCheck(repo, "World: ${w.maps + 1} maps, ${w.trainers} trainers, ${w.encounterTables} encounter tables, ${w.scripts} scripts").check()
         assertTrue(bad.any { "world counts" in it }, bad.toString())
-        assertTrue(StatusCheck(repo, "nothing here").check().any { "no '<n> maps" in it })
+        assertEquals(emptyList(), StatusCheck(repo, "nothing pinned here").check())
     }
 
     @Test

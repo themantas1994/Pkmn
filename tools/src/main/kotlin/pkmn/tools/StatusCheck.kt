@@ -7,8 +7,8 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 /**
  * Computes the numbers STATUS.md quotes from the build outputs and, with `--check`, compares them with the document.
- * STATUS.md stays the only place the numbers are written down: this tool derives its expectations from the repo
- * (compiled world, JUnit result XML) and only *reads* the document, by fixed phrase patterns.
+ * The counts are no longer pinned in STATUS.md (every PR bumping them conflicted with every other PR); `status` prints
+ * them. If the document does quote a phrase below, it must still match, so a stale pinned number fails CI.
  *
  *  * world: "N maps, N trainers, N encounter tables, N scripts"  (from assets/)
  *  * tests: "N engine, N core and N tool tests"                  (from <module>/build/test-results/test (JUnit XML); skipped tests excluded)
@@ -46,7 +46,6 @@ class StatusCheck(private val root: File, private val statusText: String? = null
         val status = statusText ?: File(root, "STATUS.md").readText()
         val problems = ArrayList<String>()
         val wm = Regex("""(\d+) maps, (\d+) trainers, (\d+) encounter tables, (\d+) scripts""").findAll(status).toList()
-        if (wm.isEmpty()) problems += "STATUS.md has no '<n> maps, <n> trainers, <n> encounter tables, <n> scripts' phrase"
         val w = world()
         for (m in wm) {
             val got = World(m.groupValues[1].toInt(), m.groupValues[2].toInt(), m.groupValues[3].toInt(), m.groupValues[4].toInt())
@@ -55,7 +54,6 @@ class StatusCheck(private val root: File, private val statusText: String? = null
         val t = tests()
         if (t != null) {
             val tm = Regex("""(\d+) engine, (\d+) core and (\d+) tool tests""").findAll(status).toList()
-            if (tm.isEmpty()) problems += "STATUS.md has no '<n> engine, <n> core and <n> tool tests' phrase"
             for (m in tm) {
                 val got = Tests(m.groupValues[1].toInt(), m.groupValues[2].toInt(), m.groupValues[3].toInt())
                 if (got != t) problems += "STATUS.md test counts $got differ from the last test run $t"
