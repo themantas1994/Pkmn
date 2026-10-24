@@ -46,6 +46,7 @@ registerTool("statusCounts", "Print the numbers STATUS.md quotes (world counts, 
 registerTool("checkStatus", "Fail when STATUS.md world/test counts differ from the build outputs (run after :engine:test :core:test :tools:test)", "status", "--check")
 registerTool("apkBudget", "Fail when a built release APK (<=12 MB), debug APK (<=16 MB), release AAB (<=11 MB) or assets/gfx (<=5 MB) exceeds its budget; -Pargs=--require also fails when an artifact was not built", "apk-budget")
 registerTool("estimatePlaytime", "Estimate campaign playtime from content", "playtime")
+registerTool("spriteCoverage", "Species used by encounters, trainers, scripts, gifts and events per art tier -> reports/sprite-coverage.json", "sprite-coverage")
 registerTool("auditCapture", "Capture chance of every wild encounter slot before/after the capture fix -> reports/capture.*", "capture")
 registerTool("importSprites", "Import Pokémon sprites into git-ignored assets-local/ for personal builds (-Pargs=\"--only=1-151\")", "sprites")
 registerTool("importCries", "Download official cries (PokeAPI/cries) into git-ignored assets-local/audio/cries for personal builds (-Pargs=\"--only=1-151\")", "cries")
@@ -94,5 +95,13 @@ tasks.test {
     useJUnitPlatform()
     systemProperty("pkmn.assets", rootProject.file("assets").absolutePath)
     systemProperty("pkmn.art.python", artPython.get())
+    // ArtBuildDeterminismTest is skipped without that interpreter: make its presence an input, or a cached run that skipped
+    // it is reused after :tools:artVenv and the tool test count differs from CI's (see StatusCheck).
+    inputs.property("artPythonPresent", provider { File(artPython.get()).isFile })
     workingDir = rootProject.projectDir
+    // AssetOverrideRegressionTest reads these sources; without declaring them a change would leave the test UP-TO-DATE.
+    inputs.files(rootProject.files(
+        "core/src/main/kotlin/pkmn/game/gfx/Assets.kt", "core/src/main/kotlin/pkmn/game/PkmnGame.kt", "core/src/main/kotlin/pkmn/game/audio/CryBank.kt",
+        "desktop/src/main/kotlin/pkmn/desktop/DesktopLauncher.kt", "android/build.gradle.kts", ".gitignore",
+    )).withPropertyName("overrideContractSources").withPathSensitivity(PathSensitivity.RELATIVE)
 }
