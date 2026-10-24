@@ -99,12 +99,12 @@ script p3a_cc_quartz_aide
     giveitem rarecandy
     setflag p3a_carbink_done
     quest p3a_carbink done
-  elif flag hall_of_fame
-    say "AIDE: The Champion! The sealed crystal to the south has started to glow. Quartz thinks something lives down there."
   elif not flag p3a_carbink_asked
     say "AIDE: I've never seen a Carbink up close. They hide among the crystals in this cave.\pIf you catch one, would you show me?"
     setflag p3a_carbink_asked
     quest p3a_carbink start
+  elif flag hall_of_fame
+    say "AIDE: The Champion! The sealed crystal to the south has started to glow. Quartz thinks something lives down there."
   elif flag p3a_carbink_done
     say "AIDE: These crystals hum when a Pokémon Terastallizes nearby. Isn't that amazing?"
   else
