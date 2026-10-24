@@ -94,5 +94,8 @@ tasks.test {
     useJUnitPlatform()
     systemProperty("pkmn.assets", rootProject.file("assets").absolutePath)
     systemProperty("pkmn.art.python", artPython.get())
+    // ArtBuildDeterminismTest is skipped without that interpreter: make its presence an input, or a cached run that skipped
+    // it is reused after :tools:artVenv and the tool test count differs from CI's (see StatusCheck).
+    inputs.property("artPythonPresent", provider { File(artPython.get()).isFile })
     workingDir = rootProject.projectDir
 }
