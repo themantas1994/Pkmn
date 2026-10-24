@@ -20,3 +20,7 @@ Current state and every measured number: `STATUS.md`. Mechanics detail: `docs/`.
 2. Tests: `./gradlew :engine:test :core:test :tools:test`
 3. Android build: `./gradlew :android:assembleDebug` (`:android:bundleRelease` before a release)
 4. UI changes: check on the emulator with the Android QA plugin and attach a screenshot.
+
+## Shortcuts
+Repo layout: `docs/REPO_MAP.md` (don't scan the tree). Gates with quiet output: `scripts/gates.sh [content|test|android|all]`
+or `/gates`; pre-PR checklist: `/pr-prep`.
