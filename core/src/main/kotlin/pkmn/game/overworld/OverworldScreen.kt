@@ -824,7 +824,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         val camY = player.pixelY().let { if (player.jumping) (player.fromY + (player.y - player.fromY) * player.progress) * 16f else it } + 8 - Renderer.H / 2
         r.rect(0, 0, Renderer.W, Renderer.H, if (baseMap.indoor || baseMap.environment == "cave") Palette.BLACK else Color.valueOf("306830"))
         val outdoor = !baseMap.indoor && baseMap.environment != "cave"
-        val light = if (outdoor) lightTint(ctx.lightPhase()) else Color.WHITE
+        val light = if (outdoor) ctx.lightTint().let { Color(it.r, it.g, it.b, 1f) } else Color.WHITE
         r.tint(light) {
             drawMap(r, map, 0, 0, camX, camY, border = true)
             for (c in map.connections) {
@@ -952,14 +952,6 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             val t = (game.timeMs % 1000) / 1000f
             for (i in 0 until 3) r.rect(px + (i * 9 + t * 6) % w, py + (i * 7) % h, 2f, 2f, Palette.HIGHLIGHT)
         }
-    }
-
-    /** Multiplicative lighting per phase: keeps pixel art crisp and readable (no blur, no washed-out overlay). */
-    private fun lightTint(p: LightPhase): Color = when (p) {
-        LightPhase.MORNING -> Color(1f, 0.96f, 0.88f, 1f)
-        LightPhase.DAY -> Color.WHITE
-        LightPhase.EVENING -> Color(1f, 0.84f, 0.72f, 1f)
-        LightPhase.NIGHT -> Color(0.58f, 0.62f, 0.86f, 1f)
     }
 
     private val warmLight = Color(1f, 0.86f, 0.45f, 0.9f)
