@@ -259,7 +259,7 @@ Gym 6 Blaise (lava stepping stones: switches `p3a_ash_s1..3`), badge 6, `tm over
 ace Mega Houndoom L46 → `p3a_beat_blaise`. Route 10's cavern entrance is guarded until `p3a_beat_blaise`. Team Eclipse
 grunts mine the cavern; the two in b1 block the west tunnel (hidden by `p3a_got_teraorb`). Quartz (after both grunts
 are beaten) gives `teraorb` + `unlock tera` → `p3a_got_teraorb`, then exchanges 3 `<type>terashard` for a Tera Type change
-via `special set_tera_type <Type>` (**engine hook needed**: pick a party member, set its Tera Type). A camp nurse in b1
+via `special set_tera_type <Type>` (pick a party member, set its Tera Type). A camp nurse in b1
 heals. Route 11 needs Surf (badge 4 / Part 2 surfers). Frostmere Gym door is sealed (trigger) until Hollis gives
 `dynamaxband` + `unlock dynamax` (`p3a_got_dynamaxband`). Gym 7 Isolde (ice-sliding floor, solver-verified), badge 7,
 `tm blizzard` (+ `iciumz`), ace Gigantamax Lapras L52 with `gimmicks dynamax` → `p3a_beat_isolde`. `frostmere_town` and
@@ -613,6 +613,4 @@ Mareep, Plusle/Minun, Blitzle, Pawmi, Tadbulb, Minior, Beldum (rare), Sandygast,
 | 3: Gym 2 → Gym 3 | 50 / 83 | 61 / 153 |
 Whole game after merging E1+E2+E3: critical 11.1 h, with optional content 24.4 h.
 
-**Notes for the lead:** inline `text="…"` on npc/sign lines is tokenized by `ScriptParser.tokenize`, so the compiled
-text is only the first word (e.g. route1's hint NPC compiles to `"See`). All E1 dialogue therefore uses `script=`;
-existing inline-text NPCs/signs across the game need either a tokenizer fix or conversion.
+**Note:** inline `text="…"` on npc/sign lines now compiles to the full multi-word text (fixed in 2a087fd).
