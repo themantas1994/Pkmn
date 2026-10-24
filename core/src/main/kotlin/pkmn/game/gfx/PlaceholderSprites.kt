@@ -4,11 +4,10 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import pkmn.engine.data.Dex
-import pkmn.engine.util.Rng
 
 /**
  * Procedural stand-in sprites for species whose official art has not been imported (see docs/ASSET_IMPORT.md).
- * They are deliberately recognisable as placeholders: a symmetric pixel creature in the species' type colours
+ * They are deliberately recognisable as placeholders: a pixel silhouette of the species' body plan (see [Silhouettes]) in its type colours
  * with its National Dex number in the corner.
  */
 object PlaceholderSprites {
@@ -20,26 +19,13 @@ object PlaceholderSprites {
         val scale = if (icon) 2 else 3
         val size = grid * scale
         val p = Pixmap(size, size, Pixmap.Format.RGBA8888)
-        val rng = Rng((sp?.baseSpecies ?: speciesId).hashCode().toLong())
         val c1 = Palette.type(sp?.types?.getOrNull(0) ?: "Normal")
         val c2 = Palette.type(sp?.types?.getOrNull(1) ?: sp?.types?.getOrNull(0) ?: "Normal").cpy().lerp(Color.WHITE, 0.35f)
         val outline = c1.cpy().mul(0.35f, 0.35f, 0.35f, 1f)
-        // Random symmetric mask grown from the centre.
         val half = grid / 2
-        val mask = Array(grid) { BooleanArray(grid) }
-        val cx = half; val cy = grid / 2 + 2
-        val rx = grid * (0.25 + rng.nextDouble() * 0.15); val ry = grid * (0.28 + rng.nextDouble() * 0.12)
-        for (y in 0 until grid) for (x in 0 until half) {
-            val dx = (x - cx + 0.5) / rx; val dy = (y - cy + 0.5) / ry
-            val d = dx * dx + dy * dy
-            mask[y][x] = d < 1.0 && rng.nextInt(100) > 8 || d < 0.6
-        }
-        // Ears / limbs.
-        repeat(2 + rng.nextInt(3)) {
-            val lx = half - 2 - rng.nextInt(half - 3); val ly = rng.nextInt(grid - 4)
-            for (k in 0 until 2 + rng.nextInt(4)) if (ly + k < grid) mask[ly + k][lx] = true
-        }
-        for (y in 0 until grid) for (x in 0 until half) mask[y][grid - 1 - x] = mask[y][x]
+        val mask = Silhouettes.mask(Silhouettes.classify(sp), grid, sp?.heightm ?: 1.0)
+        val cy = grid / 2 + 2
+        val ry = grid * 0.3
         val back = kind.startsWith("back")
         for (y in 0 until grid) for (x in 0 until grid) {
             if (!mask[y][x]) continue
