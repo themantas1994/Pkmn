@@ -65,3 +65,5 @@ tile 14 2 sign
 sign 14 2 text="NORTH: MISTWOOD\nDo not wander off the path in thick fog."
 npc p4b_rowan 13 4 sprite=beauty face=right script=p4b_rowan
 hidden p4b_sera_tinymush 27 7 tinymushroom
+# PKM-77 Kai's Notebook: the honest spar
+npc p5b_st_kai 12 13 sprite=rival face=down script=p5b_st_kai

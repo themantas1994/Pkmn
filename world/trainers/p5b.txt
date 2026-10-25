@@ -1,0 +1,92 @@
+# Side-quest chain B (PKM-77): Kai's Notebook. The spar (Seraphine, L38-40) and the capstone (Victory Road side room, L56-58) are
+# kept at or below the gym caps (40 / 58) so the chain adds almost no EXP. Rival variants follow the starter flags like p3b_rival_vr_*.
+
+trainer p5b_spar_typhlosion
+  class rival
+  name "{rival}"
+  ai 2
+  intro "An honest spar. No tricks, no gimmicks, just us."
+  defeat "Heh. You read the field better than I do."
+  after "Again some day. Honest, like this."
+  mon pidgeot 38 moves=hurricane,heatwave,uturn,roost
+  mon gengar 38 moves=shadowball,sludgebomb,thunderbolt,hypnosis
+  mon lucario 39 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon typhlosion 40 moves=eruption,flamethrower,focusblast,earthquake
+end
+
+trainer p5b_spar_feraligatr
+  class rival
+  name "{rival}"
+  ai 2
+  intro "An honest spar. No tricks, no gimmicks, just us."
+  defeat "Heh. You read the field better than I do."
+  after "Again some day. Honest, like this."
+  mon pidgeot 38 moves=hurricane,heatwave,uturn,roost
+  mon gengar 38 moves=shadowball,sludgebomb,thunderbolt,hypnosis
+  mon lucario 39 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon feraligatr 40 moves=waterfall,crunch,icepunch,dragondance
+end
+
+trainer p5b_spar_meganium
+  class rival
+  name "{rival}"
+  ai 2
+  intro "An honest spar. No tricks, no gimmicks, just us."
+  defeat "Heh. You read the field better than I do."
+  after "Again some day. Honest, like this."
+  mon pidgeot 38 moves=hurricane,heatwave,uturn,roost
+  mon gengar 38 moves=shadowball,sludgebomb,thunderbolt,hypnosis
+  mon lucario 39 moves=aurasphere,flashcannon,darkpulse,nastyplot
+  mon meganium 40 moves=energyball,earthquake,dragontail,synthesis
+end
+
+trainer p5b_cap_typhlosion
+  class rival
+  name "{rival}"
+  ai 3
+  intro "Last page of the notebook. Everything I've learned since Hollowbrook, right here."
+  defeat "...Yeah. That's the page I was missing."
+  after "Thanks for reading it all."
+  gimmicks tera
+  items fullrestore=1 hyperpotion=1
+  prize 5000
+  mon pidgeot 56 moves=hurricane,heatwave,uturn,roost
+  mon gengar 56 moves=shadowball,sludgebomb,focusblast,dazzlinggleam
+  mon lucario 57 moves=aurasphere,flashcannon,darkpulse,swordsdance
+  mon garchomp 57 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon typhlosion 58 moves=eruption,flamethrower,focusblast,extrasensory tera=Fire
+end
+
+trainer p5b_cap_feraligatr
+  class rival
+  name "{rival}"
+  ai 3
+  intro "Last page of the notebook. Everything I've learned since Hollowbrook, right here."
+  defeat "...Yeah. That's the page I was missing."
+  after "Thanks for reading it all."
+  gimmicks tera
+  items fullrestore=1 hyperpotion=1
+  prize 5000
+  mon pidgeot 56 moves=hurricane,heatwave,uturn,roost
+  mon gengar 56 moves=shadowball,sludgebomb,focusblast,dazzlinggleam
+  mon lucario 57 moves=aurasphere,flashcannon,darkpulse,swordsdance
+  mon garchomp 57 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon feraligatr 58 moves=waterfall,crunch,icepunch,dragondance tera=Water
+end
+
+trainer p5b_cap_meganium
+  class rival
+  name "{rival}"
+  ai 3
+  intro "Last page of the notebook. Everything I've learned since Hollowbrook, right here."
+  defeat "...Yeah. That's the page I was missing."
+  after "Thanks for reading it all."
+  gimmicks tera
+  items fullrestore=1 hyperpotion=1
+  prize 5000
+  mon pidgeot 56 moves=hurricane,heatwave,uturn,roost
+  mon gengar 56 moves=shadowball,sludgebomb,focusblast,dazzlinggleam
+  mon lucario 57 moves=aurasphere,flashcannon,darkpulse,swordsdance
+  mon garchomp 57 moves=earthquake,dragonclaw,stoneedge,swordsdance
+  mon meganium 58 moves=energyball,earthquake,dragontail,synthesis tera=Grass
+end

@@ -1,0 +1,12 @@
+# Side-quest chain B (PKM-77, design PKM-51): Kai's Notebook. Step N is the entry the player is working on; the last step completes the quest.
+
+quest p5b_kai_notebook "Kai's Notebook"
+  desc "Your rival left torn pages of his notebook across Tessera. Each one points to the next town, and to what he was thinking when he wrote it."
+  step "Entry 1: a page says Kai hid a cache on Route 3, behind a Cut tree in the far west corner."
+  step "Entry 2: win over the three judges of the Port Tidewater cooking contest (badge 2)."
+  step "Entry 3: put the glitching terminals in the Voltara Mira Lab back in the right order (badge 3)."
+  step "Entry 4: reset the three mine-cart rails in Quarrytown in the order the carts run (badge 4)."
+  step "Entry 5: spar with Kai in Seraphine Town (badge 5)."
+  step "Entry 6: find Kai in Frostmere Town and read his apology (badge 7)."
+  step "Capstone: meet Kai in the Victory Road side room (badge 8)."
+end

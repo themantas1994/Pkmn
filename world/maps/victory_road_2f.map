@@ -58,3 +58,6 @@ hidden vr2_hidden2 9 13 bignugget
 # --- Expansion E3: ladder down to the Victory Road Depths (optional side branch)
 tile 5 21 cave_ladder
 warp 5 21 -> p4c_vr_deep_b1 4 2 right
+# PKM-77 Kai's Notebook: ladder to the side room
+tile 25 2 cave_ladder
+warp 25 2 -> p5b_vr_alcove 9 11 up
