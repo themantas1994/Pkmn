@@ -34,6 +34,8 @@ data class Options(
     /** Battle animation speed: 0 normal, 1 fast, 2 fastest. Nonessential animations are skipped when [battleAnimations] is off. */
     var animSpeed: Int = 0,
     var showTouchControls: Boolean = true,
+    /** "AUTO" (FILL on phones where integer scaling would use < 85% of the width), "CRISP" (integer) or "FILL" (sharp bilinear). */
+    var displayMode: String = "AUTO",
 ) {
     companion object {
         /**

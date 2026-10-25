@@ -1,0 +1,18 @@
+# Environments: cave, rain, snow, gym interior.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+party pikachu:20:thunderbolt
+warp cobblecrest_1f 24 15 up
+wait 60
+shot env_cave
+warp tempest_isle 13 6 up
+wait 60
+shot env_rain
+warp route12 5 5 down
+wait 60
+shot env_snow
+warp ashfall_gym 7 8 up
+wait 180
+shot env_gym
+quit

@@ -53,6 +53,21 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     private lateinit var gameCam: OrthographicCamera
     private lateinit var shapes: ShapeRenderer
     private val gameRect = Rectangle()
+    private var sharpFactor = 0
+    private var sharpFbo: FrameBuffer? = null
+    private var sharpRegion: TextureRegion? = null
+    private val sharpCam = OrthographicCamera()
+
+    private fun ensureSharpBuffer(k: Int) {
+        val cur = sharpFbo
+        if (cur != null && cur.width == Renderer.W * k) return
+        cur?.dispose()
+        val sb = FrameBuffer(Pixmap.Format.RGBA8888, Renderer.W * k, Renderer.H * k, false)
+        sb.colorBufferTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
+        sharpFbo = sb
+        sharpRegion = TextureRegion(sb.colorBufferTexture).also { it.flip(false, true) }
+        sharpCam.setToOrtho(false, sb.width.toFloat(), sb.height.toFloat())
+    }
     private val stack = ArrayList<Screen>()
     private val pending = ArrayList<() -> Unit>()
 
@@ -178,9 +193,24 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         Gdx.gl.glClearColor(0.07f, 0.07f, 0.09f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         batch.projectionMatrix = screenCam.combined
-        batch.begin()
-        batch.draw(fboRegion, gameRect.x, gameRect.y, gameRect.width, gameRect.height)
-        batch.end()
+        if (sharpFactor > 0) {
+            // Sharp bilinear: nearest-neighbour integer prescale, then a bilinear resample to the exact size.
+            val sb = sharpFbo!!
+            sb.begin()
+            batch.projectionMatrix = sharpCam.combined
+            batch.begin()
+            batch.draw(fboRegion, 0f, 0f, sb.width.toFloat(), sb.height.toFloat())
+            batch.end()
+            sb.end()
+            batch.projectionMatrix = screenCam.combined
+            batch.begin()
+            batch.draw(sharpRegion!!, gameRect.x, gameRect.y, gameRect.width, gameRect.height)
+            batch.end()
+        } else {
+            batch.begin()
+            batch.draw(fboRegion, gameRect.x, gameRect.y, gameRect.width, gameRect.height)
+            batch.end()
+        }
         if (touch.enabled) drawTouchControls()
         frameNanos[(frameCount % FRAME_SAMPLES).toInt()] = System.nanoTime() - frameStart
         frameCount++
@@ -241,13 +271,10 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         val showTouch = options.showTouchControls &&
             (platform.isMobile || platform.forceTouchControls || Gdx.input.isPeripheralAvailable(com.badlogic.gdx.Input.Peripheral.MultitouchScreen))
         touch.enabled = showTouch
-        // Integer scale that fits; in portrait leave room for controls below.
-        val availH = if (portrait && showTouch) (height * 0.58f).toInt() else height
-        val scale = maxOf(1, minOf(width / Renderer.W, availH / Renderer.H))
-        val gw = Renderer.W * scale; val gh = Renderer.H * scale
-        val gx = (width - gw) / 2f
-        val gy = if (portrait && showTouch) height - gh - (height * 0.03f) else (height - gh) / 2f
-        gameRect.set(gx, gy, gw.toFloat(), gh.toFloat())
+        val l = DisplayLayout.compute(width, height, showTouch, options.displayMode, platform.isMobile)
+        gameRect.set(l.x, l.y, l.w, l.h)
+        sharpFactor = l.prescale
+        if (l.prescale > 0) ensureSharpBuffer(l.prescale)
         touch.layout(width, height, gameRect, options.controlScale)
     }
 
@@ -288,6 +315,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         batch.dispose()
         shapes.dispose()
         fbo.dispose()
+        sharpFbo?.dispose()
     }
 
     // ------------------------------------------------------------------ options

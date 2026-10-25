@@ -1,0 +1,46 @@
+# Type-coloured move effects, captured part-way through the animation (electric, fire, water, ground).
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+option animSpeed 0
+option battleAnimations true
+party pikachu:15:thunderbolt/flamethrower/surf/earthquake
+wild snorlax 30
+waitstate menu=ACTION 3000
+press A
+wait 8
+press A
+waitstate anim=move:thunderbolt 600
+wait 14
+shot fx_electric
+wait 400
+waitstate menu=ACTION 3000
+press A
+wait 8
+press DOWN
+wait 8
+press A
+waitstate anim=move:flamethrower 600
+wait 14
+shot fx_fire
+wait 400
+waitstate menu=ACTION 3000
+press A
+wait 8
+press DOWN
+wait 8
+press A
+waitstate anim=move:surf 600
+wait 14
+shot fx_water
+wait 400
+waitstate menu=ACTION 3000
+press A
+wait 8
+press DOWN
+wait 8
+press A
+waitstate anim=move:earthquake 600
+wait 14
+shot fx_ground
+quit

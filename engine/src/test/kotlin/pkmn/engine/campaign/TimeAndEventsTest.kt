@@ -35,6 +35,21 @@ class TimeAndEventsTest {
     }
 
     @Test
+    fun `light tint changes at most 4 of 255 per channel between consecutive minutes`() {
+        fun ch(v: Float) = Math.round(v * 255)
+        var prev = LightTint.at(LocalTime.of(23, 59))
+        for (m in 0 until 24 * 60) {
+            val cur = LightTint.at(LocalTime.of(m / 60, m % 60))
+            for ((a, b) in listOf(prev.r to cur.r, prev.g to cur.g, prev.b to cur.b))
+                assertTrue(Math.abs(ch(a) - ch(b)) <= 4, "jump at ${m / 60}:${m % 60}")
+            prev = cur
+        }
+        val noon = LightTint.at(LocalTime.NOON)
+        assertEquals(1f, noon.r); assertEquals(1f, noon.g); assertEquals(1f, noon.b)
+        assertEquals(0.58f, LightTint.at(LocalTime.of(2, 0)).r)
+    }
+
+    @Test
     fun `game time uses the local zone of the injected clock`() {
         val ctx = newCtx()
         val instant = Instant.parse("2026-10-15T12:00:00Z") // noon UTC

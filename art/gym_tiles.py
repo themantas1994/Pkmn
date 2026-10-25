@@ -213,10 +213,13 @@ FIG_DRAGON = [
 
 # ------------------------------------------------------------------ SPROUT
 def sprout_floor():
+    # mown-lawn stripes: every other 8 px column is lighter, joined by a 50% checker seam
     a = F(1)
+    a[:, 8:15] = 0
+    for y in range(16):
+        a[y, 7 if y % 2 else 15] = 0
     for x, y in ((2, 2), (10, 5), (5, 10), (12, 12)):
         px(a, [(x, y), (x + 2, y), (x + 1, y + 1)], 2)
-    px(a, [(6, 1), (14, 3), (1, 9), (9, 14), (8, 8), (13, 7), (3, 6)], 0)
     px(a, [(8, 12), (9, 12), (8, 13)], 3)
     return a
 
