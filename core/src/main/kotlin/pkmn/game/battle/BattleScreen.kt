@@ -677,6 +677,12 @@ class BattleScreen(
 
     // ================================================================= drawing
 
+    /** Optional per-environment backdrop art; null keeps the flat-colour look. "fishing" shares the water backdrop. */
+    private val backdrop: TextureRegion? by lazy {
+        val env = if (battle.environment == "fishing") "water" else battle.environment
+        game.assets.texture("gfx/battle/bg_$env.png", quiet = true)?.takeIf { it.width == Renderer.W && it.height == 160 }?.let { TextureRegion(it) }
+    }
+
     override fun draw(r: Renderer) {
         val bg = when (battle.environment) {
             "cave" -> Color.valueOf("c8b8a0"); "water" -> Color.valueOf("b8d0f0"); "snow" -> Color.valueOf("e8f0f8")
@@ -686,10 +692,17 @@ class BattleScreen(
         // Outdoor battles at night use a dimmer backdrop (the overworld clock decided isNight when the battle began).
         if (battle.isNight && battle.environment !in setOf("cave", "indoor", "building")) bg.mul(0.72f, 0.76f, 0.95f, 1f)
         r.rect(0, 0, Renderer.W, Renderer.H, Palette.WINDOW)
-        r.rect(0, 0, Renderer.W, 160, bg)
-        val ground = bg.cpy().mul(0.85f, 0.85f, 0.82f, 1f)
-        ellipse(r, 196 + sx.toInt(), 86, 52, 9, ground)
-        ellipse(r, 64 + sx.toInt(), 152, 60, 9, ground)
+        val image = backdrop
+        if (image != null) {
+            // Art backdrop (gfx/battle/bg_<environment>.png, 256x160); the night dimming below applies to it as well.
+            val tint = if (battle.isNight && battle.environment !in setOf("cave", "indoor", "building")) Color(0.72f, 0.76f, 0.95f, 1f) else Color.WHITE
+            r.tint(tint) { r.draw(image, 0f, 0f) }
+        } else {
+            r.rect(0, 0, Renderer.W, 160, bg)
+            val ground = bg.cpy().mul(0.85f, 0.85f, 0.82f, 1f)
+            ellipse(r, 196 + sx.toInt(), 86, 52, 9, ground)
+            ellipse(r, 64 + sx.toInt(), 152, 60, 9, ground)
+        }
 
         if (trainer != null && portrait > 0f) {
             val p = r.assets.trainerPortrait(trainer.portrait ?: ctx.content.trainerClasses[trainer.trainerClass]?.portrait)
