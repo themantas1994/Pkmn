@@ -764,12 +764,21 @@ class BattleScreen(
         val visibleH = h - dropped
         if (visibleH <= 0f) return
         val region = if (v.drop > 0f) TextureRegion(tex, 0, 0, tex.regionWidth, (tex.regionHeight * (1f - v.drop)).toInt().coerceAtLeast(1)) else tex
+        val statusFx = anim.cosmetic && StatusFx.hasEffect(v.status)
         val tint = when {
             v.dynamax -> Color(1f, 0.55f, 0.6f, 1f)
             v.tera != null -> Palette.type(v.tera!!).cpy().lerp(Color.WHITE, 0.55f)
             else -> Color.WHITE
-        }.let { if (v.alpha < 1f) it.cpy().apply { a = v.alpha.coerceIn(0f, 1f) } else it }
+        }.let { if (statusFx) it.cpy().mul(StatusFx.tint(v.status, game.timeMs)) else it }
+            .let { if (v.alpha < 1f) it.cpy().apply { a = v.alpha.coerceIn(0f, 1f) } else it }
         r.tint(tint) { r.draw(region, left, top, w, visibleH) }
+        if (statusFx && v.alpha >= 1f && v.drop == 0f) {
+            for (p in StatusFx.sparks(v.status, game.timeMs)) r.rect((left + p.x * w).toInt(), (top + p.y * h).toInt(), p.size, p.size, p.color)
+            if (StatusFx.showsZ(v.status)) {
+                val p = StatusFx.sparks(v.status, game.timeMs).firstOrNull()
+                if (p != null) r.text("Z", (left + p.x * w).toInt() + 3, (top + p.y * h).toInt() - 4, Color.WHITE, small = true)
+            }
+        }
         if (v.whiten > 0.01f) {
             // Additive pass brightens the sprite toward white (send-out, recall, transformations).
             r.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE)
