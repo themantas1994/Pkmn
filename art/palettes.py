@@ -191,5 +191,89 @@ TYPE_COLOURS = {
     "steel": "B8B8D0", "fairy": "E898B0", "stellar": "40A8C8",
 }
 
+# --------------------------------------------------------------------------
+# 16-slot palette model (docs/gba-graphics-spec.md section 2, phase P1)
+# --------------------------------------------------------------------------
+# Slot 0 is transparent, slots 1-15 hold up to 15 colours. Slot convention: 1 outline (darkest), 2-3 shadow,
+# 4-8 base ramp, 9-12 highlight ramp, 13-15 accent. The 4-colour palettes above are a subset of this model
+# (see to16), so no tile or sprite pixel changes.
+SLOTS = 16
+
+# Time-of-day multipliers: must match OverworldScreen.lightTint (core). Order is (r, g, b).
+PHASES = ("morning", "day", "evening", "night")
+TINT = {
+    "morning": (1.0, 0.96, 0.88),
+    "day": (1.0, 1.0, 1.0),
+    "evening": (1.0, 0.84, 0.72),
+    "night": (0.58, 0.62, 0.86),
+}
+
+# Tint groups. Only "world" (outdoor tiles) is tinted; "lit" glows at night; interiors, caves, special areas
+# (gyms, ruins, league, dark) and UI are never tinted.
+UNTINTED_GROUPS = ("interior", "cave", "special", "ui", "lit")
+_INTERIOR = {"floor_wood", "floor_tile", "carpet", "wall_in", "window_in", "furniture", "tv", "bed", "tech",
+             "plant", "heal", "mart_shelf", "rug"}
+_CAVE = {"cave", "cave_water"}
+_SPECIAL = {"gym", "puzzle", "ruins", "league", "dark"}
+_LIT = set()  # window / lamp palettes once split out of the wall palettes (P5)
+
+
+def tint_group(name):
+    """Tint group of a named tile palette."""
+    if name in _LIT:
+        return "lit"
+    if name in _INTERIOR:
+        return "interior"
+    if name in _CAVE:
+        return "cave"
+    if name in _SPECIAL or name.startswith("gym_"):
+        return "special"
+    return "world"
+
+
+def tint_rgb(c, phase):
+    """Multiply one colour by the phase tint and snap to 15-bit (channels multiples of 8)."""
+    return tuple(min(248, int(round(v * m / 8.0)) * 8) for v, m in zip(c, TINT[phase]))
+
+
+class Palette16:
+    """16 slots: slot 0 transparent (None), slots 1-15 opaque colours or None (unused)."""
+
+    def __init__(self, slots, group="world", name=""):
+        slots = tuple(slots)
+        assert len(slots) == SLOTS, f"{name}: palette needs {SLOTS} slots, got {len(slots)}"
+        assert slots[0] is None, f"{name}: slot 0 must be transparent"
+        for c in slots[1:]:
+            assert c is None or all(0 <= v <= 255 and v % 8 == 0 for v in c), f"{name}: bad colour {c}"
+        self.slots, self.group, self.name = slots, group, name
+
+    def colours(self):
+        return [c for c in self.slots[1:] if c is not None]
+
+    def tinted(self, phase):
+        """Palette for a time of day. Untinted groups return themselves.
+
+        The outline slot (1) never ends up lighter than slot 2 at night.
+        """
+        assert phase in TINT, phase
+        if self.group in UNTINTED_GROUPS or phase == "day":
+            return self
+        out = [None if c is None else tint_rgb(c, phase) for c in self.slots]
+        if phase == "night" and out[1] is not None and out[2] is not None and sum(out[1]) > sum(out[2]):
+            out[1] = out[2]
+        return Palette16(out, self.group, self.name)
+
+
+def to16(p4, group="world", name=""):
+    """Embed a 4-colour palette (lightest -> darkest) into the 16-slot model: darkest -> 1 (outline),
+    then 2 (shadow), 4 (base), 9 (highlight)."""
+    slots = [None] * SLOTS
+    slots[1], slots[2], slots[4], slots[9] = p4[3], p4[2], p4[1], p4[0]
+    return Palette16(slots, group, name)
+
+
+PALETTES16 = {n: to16(p, tint_group(n), n) for n, p in TILE.items()}
+
+
 if __name__ == "__main__":
     print(len(TILE), "tile palettes;", len(ROLE), "role colours")

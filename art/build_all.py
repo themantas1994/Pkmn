@@ -7,6 +7,7 @@ import json
 import os
 import sys
 
+import numpy as np
 from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -17,6 +18,7 @@ import font  # noqa: E402
 import gym_tiles  # noqa: E402
 import logo  # noqa: E402
 import objects  # noqa: E402
+import palettes  # noqa: E402
 import pixlib  # noqa: E402
 import previews  # noqa: E402
 import regionmap  # noqa: E402
@@ -65,6 +67,60 @@ def check_size(path, size):
     assert os.path.exists(path), f"missing {path}"
     with Image.open(path) as im:
         assert im.size == size, f"{path}: {im.size} != {size}"
+
+
+def assert_15bit(im, what):
+    """All opaque channels are multiples of 8 (15-bit colour)."""
+    a = np.asarray(im.convert("RGBA")).reshape(-1, 4)
+    a = a[a[:, 3] > 0][:, :3]
+    assert not (a % 8).any(), f"{what}: channels must be multiples of 8"
+
+
+def validate_tile_palettes():
+    """Every 16x16 world tile uses <= 15 colours and its colours fit one declared palette (PALETTES16)."""
+    declared = [set(p.colours()) for p in palettes.PALETTES16.values()]
+    with Image.open(os.path.join(G, "tiles", "world.png")) as sheet:
+        sheet = sheet.convert("RGBA")
+        assert_15bit(sheet, "tiles/world.png")
+        bad = []
+        for ty in range(sheet.height // 16):
+            for tx in range(16):
+                tile = sheet.crop((tx * 16, ty * 16, tx * 16 + 16, ty * 16 + 16))
+                a = np.asarray(tile).reshape(-1, 4)
+                cols = {tuple(int(v) for v in p[:3]) for p in a if p[3] > 0}
+                if not cols:
+                    continue
+                assert len(cols) <= palettes.SLOTS - 1, f"tile {tx},{ty} uses {len(cols)} colours"
+                if not any(cols <= d for d in declared):
+                    bad.append((tx, ty))
+        assert not bad, f"{len(bad)} tiles match no declared palette, first: {bad[:5]}"
+
+
+def validate_tint():
+    """tinted() for morning/evening/night reproduces docs/screenshots/town_*.png within +-8 per channel.
+
+    The screenshots also contain the map-name banner, actors, animated water and night window lights, which are
+    not palette-tinted; those 16x16 cells are excluded, and at least 70% of the frame must still be compared.
+    """
+    shots = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs", "screenshots")
+    day = np.asarray(Image.open(os.path.join(shots, "town_day.png")).convert("RGB"))
+    colours = {tuple(int(v) for v in c) for c in day.reshape(-1, 3)}
+    for phase in ("morning", "evening", "night"):
+        got = np.asarray(Image.open(os.path.join(shots, f"town_{phase}.png")).convert("RGB")).astype(int)
+        lut = {c: palettes.tint_rgb(c, phase) for c in colours}
+        exp = np.array([lut[tuple(int(v) for v in c)] for c in day.reshape(-1, 3)]).reshape(day.shape)
+        bad = (np.abs(got - exp).max(axis=2) > 8)
+        cells = bad.reshape(day.shape[0] // 16, 16, day.shape[1] // 16, 16).any(axis=(1, 3))
+        assert 1 - cells.mean() >= 0.70, f"tint {phase}: only {1 - cells.mean():.0%} of cells within +-8"
+        assert bad.mean() <= 0.08, f"tint {phase}: {bad.mean():.1%} of pixels off by more than 8"
+    # interiors, caves, special areas and UI are never tinted; the night outline never lightens past slot 2
+    for name, p in palettes.PALETTES16.items():
+        for phase in palettes.PHASES:
+            t = p.tinted(phase)
+            if p.group in palettes.UNTINTED_GROUPS:
+                assert t is p, f"{name} ({p.group}) must not be tinted"
+            assert len(t.colours()) <= palettes.SLOTS - 1
+    print("tint OK:", len(palettes.PALETTES16), "palettes x", len(palettes.PHASES), "phases")
 
 
 def validate():
@@ -118,7 +174,7 @@ def validate():
         check_size(os.path.join(pixlib.ASSETS, "fonts", fnt + ".png"), (16 * cw, rows * 8))
         for ch in "éÉ♂♀…’“”×▶▼★♪":
             assert ch in meta["chars"]
-    # every sprite frame: <= 4 opaque colours
+    # every sprite frame: <= 15 opaque colours + transparent (16-slot palette), 15-bit channels
     for folder in ("chars", "trainers", "objects"):
         d = os.path.join(G, folder)
         for fn in os.listdir(d):
@@ -129,7 +185,10 @@ def validate():
                         h = 16 if folder == "chars" else im.height
                         wdt = 16 if folder == "chars" else im.width
                         c = pixlib.colours_used(im.crop((x, y, x + wdt, y + h)))
-                        assert c <= 4, f"{folder}/{fn} frame {x},{y} uses {c} colours"
+                        assert c <= palettes.SLOTS - 1, f"{folder}/{fn} frame {x},{y} uses {c} colours"
+                assert_15bit(im, f"{folder}/{fn}")
+    validate_tile_palettes()
+    validate_tint()
     for jf in ("hp_bar.json", "exp_bar.json", "type_icons.json", "region_map.json",
                "status_icons.json", "ball_icons.json", "gimmick_icons.json"):
         with open(os.path.join(G, "ui", jf), encoding="utf-8") as f:
