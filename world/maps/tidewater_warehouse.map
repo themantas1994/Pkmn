@@ -27,3 +27,7 @@ trainer wh_grunt_a 9 4 sprite=grunt_f face=left sight=4 trainer=p1_wh_grunt_a hi
 trainer wh_grunt_b 2 7 sprite=grunt_m face=right sight=5 trainer=p1_wh_grunt_b hideif=p1_heist_foiled
 item wh_greatball 11 2 greatball
 hidden wh_crate 0 8 fullheal
+# PKM-76 Umbra Files doc 2: two switches open the crate
+npc p5c_wh_switch_a 11 3 sprite=sign script=p5c_wh_switch_a
+npc p5c_wh_switch_b 0 4 sprite=sign script=p5c_wh_switch_b
+npc p5c_wh_crate 11 6 sprite=sign script=p5c_wh_crate
