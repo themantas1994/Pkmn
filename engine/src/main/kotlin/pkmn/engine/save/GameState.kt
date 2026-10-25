@@ -34,6 +34,8 @@ data class Options(
     /** Battle animation speed: 0 normal, 1 fast, 2 fastest. Nonessential animations are skipped when [battleAnimations] is off. */
     var animSpeed: Int = 0,
     var showTouchControls: Boolean = true,
+    /** Screen scaling: "auto" (sharp on mobile, integer on desktop), "integer" or "sharp". */
+    var scaling: String = "auto",
 ) {
     companion object {
         /**

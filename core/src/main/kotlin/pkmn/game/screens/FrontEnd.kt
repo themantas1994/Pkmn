@@ -243,6 +243,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
         "VIBRATION" to { if (o.haptics) "ON" else "OFF" },
         "REDUCE MOTION" to { if (o.reduceMotion) "ON" else "OFF" },
         "ANIM SPEED" to { listOf("NORMAL", "FAST", "FASTEST")[o.animSpeed.coerceIn(0, 2)] },
+        "SCALING" to { when (o.scaling) { "integer" -> "PIXEL"; "sharp" -> "SHARP"; else -> "AUTO" } },
     ) + (if (game.platform.canImportAssets) listOf("IMPORT SPRITES" to { "PRESS A" }) else emptyList())
 
     private fun change(i: Int, d: Int) {
@@ -262,6 +263,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
             12 -> o.haptics = !o.haptics
             13 -> o.reduceMotion = !o.reduceMotion
             14 -> o.animSpeed = (o.animSpeed + d + 3) % 3
+            15 -> o.scaling = SCALING_CHOICES[(SCALING_CHOICES.indexOf(o.scaling).coerceAtLeast(0) + d + 3) % 3]
             IMPORT_ROW -> { if (d > 0) importSprites(); return }
         }
         game.applyOptions()
@@ -275,7 +277,7 @@ class OptionsScreen(game: PkmnGame, private val onClose: () -> Unit) : Screen(ga
         if (input.justPressed(Button.B) || input.justPressed(Button.START)) close()
     }
 
-    private companion object { const val IMPORT_ROW = 15 }
+    private companion object { const val IMPORT_ROW = 16; val SCALING_CHOICES = listOf("auto", "integer", "sharp") }
 
     private fun importSprites() {
         game.platform.importAssets { msg ->

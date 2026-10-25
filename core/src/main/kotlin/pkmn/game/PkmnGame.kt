@@ -26,6 +26,9 @@ import pkmn.engine.save.Options
 import pkmn.engine.save.SaveManager
 import pkmn.game.gfx.Assets
 import pkmn.game.gfx.Renderer
+import pkmn.game.gfx.ScalingMode
+import pkmn.game.gfx.ScreenScaling
+import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import pkmn.game.input.Button
 import pkmn.game.input.InputState
 import pkmn.game.input.TouchControls
@@ -53,6 +56,11 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     private lateinit var gameCam: OrthographicCamera
     private lateinit var shapes: ShapeRenderer
     private val gameRect = Rectangle()
+    private var sharpShader: ShaderProgram? = null
+    private var sharpScale = 1f
+    /** Effective scaling after the option, the platform default and shader availability. */
+    var scalingMode = ScalingMode.INTEGER
+        private set
     private val stack = ArrayList<Screen>()
     private val pending = ArrayList<() -> Unit>()
 
@@ -179,7 +187,15 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         batch.projectionMatrix = screenCam.combined
         batch.begin()
+        val sharp = if (scalingMode == ScalingMode.SHARP) sharpShader else null
+        if (sharp != null) {
+            batch.shader = sharp
+            sharp.bind()
+            sharp.setUniformf("u_texSize", Renderer.W.toFloat(), Renderer.H.toFloat())
+            sharp.setUniformf("u_scale", sharpScale)
+        }
         batch.draw(fboRegion, gameRect.x, gameRect.y, gameRect.width, gameRect.height)
+        if (sharp != null) { batch.flush(); batch.shader = null }
         batch.end()
         if (touch.enabled) drawTouchControls()
         frameNanos[(frameCount % FRAME_SAMPLES).toInt()] = System.nanoTime() - frameStart
@@ -241,13 +257,20 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         val showTouch = options.showTouchControls &&
             (platform.isMobile || platform.forceTouchControls || Gdx.input.isPeripheralAvailable(com.badlogic.gdx.Input.Peripheral.MultitouchScreen))
         touch.enabled = showTouch
-        // Integer scale that fits; in portrait leave room for controls below.
+        // Scale that fits (whole number, or fractional for SHARP); in portrait leave room for controls below.
         val availH = if (portrait && showTouch) (height * 0.58f).toInt() else height
-        val scale = maxOf(1, minOf(width / Renderer.W, availH / Renderer.H))
+        var mode = ScalingMode.resolve(options.scaling, platform.isMobile)
+        if (mode == ScalingMode.SHARP && sharpShader == null) sharpShader = ScreenScaling.createShader()
+        if (mode == ScalingMode.SHARP && sharpShader == null) mode = ScalingMode.INTEGER // GLES shader rejected
+        scalingMode = mode
+        val filter = if (mode == ScalingMode.SHARP) Texture.TextureFilter.Linear else Texture.TextureFilter.Nearest
+        fbo.colorBufferTexture.setFilter(filter, filter) // SHARP's shader snaps UVs and relies on linear blending
+        val scale = ScreenScaling.scale(mode, width, availH, Renderer.W, Renderer.H)
+        sharpScale = scale
         val gw = Renderer.W * scale; val gh = Renderer.H * scale
         val gx = (width - gw) / 2f
         val gy = if (portrait && showTouch) height - gh - (height * 0.03f) else (height - gh) / 2f
-        gameRect.set(gx, gy, gw.toFloat(), gh.toFloat())
+        gameRect.set(gx, gy, gw, gh)
         touch.layout(width, height, gameRect, options.controlScale)
     }
 
@@ -288,6 +311,7 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         batch.dispose()
         shapes.dispose()
         fbo.dispose()
+        sharpShader?.dispose()
     }
 
     // ------------------------------------------------------------------ options
