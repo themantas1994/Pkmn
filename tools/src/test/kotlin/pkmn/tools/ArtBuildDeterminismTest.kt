@@ -34,6 +34,7 @@ class ArtBuildDeterminismTest {
         try {
             File(repo, "art").copyRecursively(File(tmp, "art"))
             File(repo, "assets").copyRecursively(File(tmp, "assets"))
+            File(repo, "docs/screenshots").copyRecursively(File(tmp, "docs/screenshots")) // validate_tint compares against them
             val committed = snapshot(tmp)
             assertTrue(committed.isNotEmpty(), "no art outputs found")
             build(tmp)
