@@ -24,3 +24,5 @@ warp 5 9 -> voltara_city 30 13 down
 npc mira 4 2 sprite=scientist face=down script=p2_mira
 npc mira_aide 1 6 sprite=scientist face=right script=p2_mira_aide
 npc mira_ball 7 3 sprite=pokeball_overworld script=p2_mira_ball hideif=p2_got_mira_gift
+# PKM-75 Linden Field Notes vol. 2
+npc p5a_contact 7 6 sprite=scientist face=left script=p5a_voltara_contact

@@ -1,0 +1,12 @@
+# Side-quest chain A (PKM-75, design PKM-51): the Linden Field Notes. Volume N is quest step N-1 and unlocks with N+1 badges.
+
+quest p5a_linden_notes "The Linden Field Notes"
+  desc "Prof. Linden studies how people and Pokémon live together. He mails field notes, one volume per badge pair, and asks you to observe what he cannot."
+  step "Vol. 1, Bond observation: show Linden's contact in Brindle City's Pokémon Center a bonded starter."
+  step "Vol. 2, Night sighting: photograph a Joltik at night with the trail camera on Route 7, then report to Mira's lab in Voltara City."
+  step "Vol. 3, Fossil lineage: revive a fossil in Quarrytown and show it to Linden's contact in Lumen Village."
+  step "Vol. 4, Mist behaviour: take Mistwood fog readings in the morning, by day and at night, then report to the Fairy Keeper in Seraphine Town."
+  step "Vol. 5, Thermal study: set three sensors around Ashfall by day, read them after dark and report to the Magma Elder's house."
+  step "Vol. 6, Cold-weather behaviour: log all three markers along Route 12 and report to the house in Frostmere Town."
+  step "Vol. 7, Final thesis: defend the thesis at the Collector's House in Dragonspire City."
+end

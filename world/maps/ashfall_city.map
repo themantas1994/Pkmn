@@ -67,3 +67,5 @@ tile 0 15 path
 building house 9 16 -> p4b_ashfall_glass 3 5 up
 npc p4b_ash_ranger 2 13 sprite=ranger face=right text="West of here is the Ashen Trail. Master Kaen trains Fire Breathers out there. Bring Burn Heals!"
 hidden p4b_ash_hidden 24 25 hpup
+# PKM-75 Linden Field Notes vol. 5: sensor
+npc p5a_sensor 13 11 sprite=sign script=p5a_sensor_city
