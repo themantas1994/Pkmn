@@ -726,8 +726,8 @@ class BattleScreen(
         if (!anim.cosmetic) return
         val (cx, cy) = sideCenter(n.side)
         val label = if (n.crit) "-${n.amount}!" else "-${n.amount}"
-        val rise = Ease.outQuad(n.t.coerceIn(0f, 1f)) * 14f
-        r.text(label, cx.toInt() - r.textWidth(label) / 2, (cy - 30f - rise).toInt(), if (n.crit) Color(1f, 0.85f, 0.1f, 1f) else Palette.TEXT)
+        val rise = Ease.outQuad(n.t.coerceIn(0f, 1f)) * 8f
+        r.text(label, cx.toInt() - r.textWidth(label) / 2, (cy - 24f - rise).toInt().coerceAtLeast(14), if (n.crit) Color(0.95f, 0.5f, 0f, 1f) else Palette.TEXT)
     }
 
     private fun ellipse(r: Renderer, cx: Int, cy: Int, rx: Int, ry: Int, c: Color) {

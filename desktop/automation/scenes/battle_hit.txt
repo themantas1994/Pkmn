@@ -1,0 +1,16 @@
+# Damage flash and floating damage number on a normal hit.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+option animSpeed 0
+option battleAnimations true
+party pikachu:15:thunderbolt/flamethrower/surf/earthquake
+wild snorlax 30
+waitstate menu=ACTION 3000
+press A
+wait 8
+press A
+waitstate anim=hit_blink 2000
+wait 6
+shot battle_hit
+quit
