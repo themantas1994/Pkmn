@@ -61,6 +61,7 @@ class BattleScreen(
         var offY = 0f
         var scale = 1f
         var drop = 0f
+        var alpha = 1f
         var whiten = 0f
         var blink = false
         var exp = 0f
@@ -277,8 +278,12 @@ class BattleScreen(
                 val v = views[e.side]
                 steps.add(Step.WaitText)
                 doNow { game.audio.playSfx("faint") }
-                play(Clip("faint", clipTime("faint", 0.45f), essential = true, onUpdate = { v.drop = Ease.inQuad(it) }, onEnd = {
-                    v.visible = false; v.hud = false; v.drop = 0f
+                // Sink, slide away from the centre (player left, foe right) and fade out before the faint message.
+                val dir = if (e.side == 0) -1f else 1f
+                play(Clip("faint", clipTime("faint", 0.45f), essential = true, onUpdate = { t ->
+                    v.drop = Ease.inQuad(t); v.offX = dir * 24f * Ease.inQuad(t); v.alpha = 1f - t
+                }, onEnd = {
+                    v.visible = false; v.hud = false; v.drop = 0f; v.offX = 0f; v.alpha = 1f
                 }))
                 // Gold/Silver/Crystal: the wild victory theme starts as soon as the wild Pokémon faints.
                 if (e.side == 1 && battle.opponent.isWild) doNow { game.audio.playMusic("victory_wild", 0) }
@@ -372,7 +377,7 @@ class BattleScreen(
         doNow {
             v.teamIndex = e.teamIndex; v.species = e.speciesId; v.name = bm.shownName; v.level = bm.illusion?.level ?: bm.level
             v.maxHp = e.maxHp; v.hp = e.hp.toFloat(); v.status = bm.mon.status?.id
-            v.dynamax = false; v.tera = null; v.drop = 0f; v.whiten = 0f; v.offX = 0f; v.offY = 0f
+            v.dynamax = false; v.tera = null; v.drop = 0f; v.alpha = 1f; v.whiten = 0f; v.offX = 0f; v.offY = 0f
             v.gender = when (bm.mon.gender) { pkmn.engine.mon.Gender.MALE -> "♂"; pkmn.engine.mon.Gender.FEMALE -> "♀"; else -> "" }
             if (e.side == 0) v.exp = expFraction(bm)
             appeared[e.side] = true
@@ -763,7 +768,7 @@ class BattleScreen(
             v.dynamax -> Color(1f, 0.55f, 0.6f, 1f)
             v.tera != null -> Palette.type(v.tera!!).cpy().lerp(Color.WHITE, 0.55f)
             else -> Color.WHITE
-        }
+        }.let { if (v.alpha < 1f) it.cpy().apply { a = v.alpha.coerceIn(0f, 1f) } else it }
         r.tint(tint) { r.draw(region, left, top, w, visibleH) }
         if (v.whiten > 0.01f) {
             // Additive pass brightens the sprite toward white (send-out, recall, transformations).
