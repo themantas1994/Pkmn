@@ -104,6 +104,8 @@ class BattleScreen(
     private var fx: MoveFx? = null
     private var ball: BallSprite? = null
     private var flashScreen = 0f
+    private class DamageNumber(val side: Int, val amount: Int, val crit: Boolean, var t: Float = 0f)
+    private var damageNumber: DamageNumber? = null
     private var shake = 0f
     private var portrait = 0f // 0 hidden right, 1 fully in
     private var showBalls = true
@@ -429,7 +431,18 @@ class BattleScreen(
         val isAttack = e.delta < 0 && e.cause == "move"
         if (isAttack) {
             doNow { game.audio.playSfx(when { se > 1 -> "hit_super_effective"; se < 1 -> "hit_not_very_effective"; else -> "hit_normal" }) }
-            play(Clip("hit_blink", clipTime("hit_blink", 0.32f), onUpdate = { t -> v.blink = (t * 6).toInt() % 2 == 0 && t < 1f }, onEnd = { v.blink = false }))
+            val crit = HitFx.critFollows(battle.events, flow.cursor)
+            val strength = HitFx.flashStrength(kotlin.math.abs(e.delta).toFloat() / maxOf(1, e.maxHp), crit)
+            val number = DamageNumber(e.side, -e.delta, crit)
+            if (crit) doNow { if (anim.cosmetic) { flashScreen = 0.2f; shake = 0.2f } }
+            play(Clip("hit_blink", clipTime("hit_blink", 0.32f), onStart = { damageNumber = number }, onUpdate = { t ->
+                v.blink = (t * 6).toInt() % 2 == 0 && t < 1f
+                number.t = t
+            }, onEnd = { v.blink = false }))
+            if (anim.cosmetic) {
+                // White-out pulse after the blink, then fade back; the number floats up during the HP drain.
+                play(Clip("hit_flash", clipTime("hit_flash", if (crit) 0.3f else 0.18f), onUpdate = { t -> v.whiten = strength * Ease.pulse(t) }, onEnd = { v.whiten = 0f }))
+            }
         }
         var from = 0f
         val frac = kotlin.math.abs(e.delta).toFloat() / maxOf(1, e.maxHp)
@@ -438,6 +451,7 @@ class BattleScreen(
             if (v.teamIndex == e.teamIndex) { from = v.hp; v.maxHp = e.maxHp }
         }, onUpdate = { t -> if (v.teamIndex == e.teamIndex) v.hp = from + (e.hp - from) * t }, onEnd = {
             if (v.teamIndex == e.teamIndex) { v.hp = e.hp.toFloat(); v.maxHp = e.maxHp }
+            damageNumber = null
         }))
     }
 
@@ -684,6 +698,7 @@ class BattleScreen(
         drawMon(r, 1, 148f + sx, 0f)
         drawMon(r, 0, 16f + sx, 64f)
         fx?.draw(r)
+        damageNumber?.let { drawDamageNumber(r, it) }
         ball?.let { drawBall(r, it) }
         if (views[1].hud) drawFoeHud(r)
         if (views[0].hud) drawPlayerHud(r)
@@ -705,6 +720,14 @@ class BattleScreen(
                 }
             }
         }
+    }
+
+    private fun drawDamageNumber(r: Renderer, n: DamageNumber) {
+        if (!anim.cosmetic) return
+        val (cx, cy) = sideCenter(n.side)
+        val label = if (n.crit) "-${n.amount}!" else "-${n.amount}"
+        val rise = Ease.outQuad(n.t.coerceIn(0f, 1f)) * 8f
+        r.text(label, cx.toInt() - r.textWidth(label) / 2, (cy - 24f - rise).toInt().coerceAtLeast(14), if (n.crit) Color(0.95f, 0.5f, 0f, 1f) else Palette.TEXT)
     }
 
     private fun ellipse(r: Renderer, cx: Int, cy: Int, rx: Int, ry: Int, c: Color) {
