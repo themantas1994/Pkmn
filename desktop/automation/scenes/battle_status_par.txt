@@ -1,0 +1,12 @@
+# Persistent status effect on the player's battler (par); party spec 4th field sets the status.
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+option animSpeed 0
+option battleAnimations true
+party pikachu:40:thunderbolt/flamethrower/surf/earthquake:par
+wild rattata 2
+waitstate menu=ACTION 3000
+wait 20
+shot battle_status_par
+quit
