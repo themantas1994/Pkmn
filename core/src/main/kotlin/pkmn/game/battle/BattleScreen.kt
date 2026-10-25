@@ -678,18 +678,27 @@ class BattleScreen(
     // ================================================================= drawing
 
     override fun draw(r: Renderer) {
-        val bg = when (battle.environment) {
-            "cave" -> Color.valueOf("c8b8a0"); "water" -> Color.valueOf("b8d0f0"); "snow" -> Color.valueOf("e8f0f8")
-            "sand" -> Color.valueOf("f0e0b0"); "indoor", "building" -> Color.valueOf("e0d8d0"); else -> Color.valueOf("e8f0d8")
-        }
         val sx = if (shake > 0) ((game.timeMs / 40) % 3 - 1) * 2f else 0f
-        // Outdoor battles at night use a dimmer backdrop (the overworld clock decided isNight when the battle began).
-        if (battle.isNight && battle.environment !in setOf("cave", "indoor", "building")) bg.mul(0.72f, 0.76f, 0.95f, 1f)
+        val id = BattleBackdrop.idFor(battle.environment)
+        // Outdoor battles at night use the night palette swap (the overworld clock decided isNight when the battle began).
+        val night = battle.isNight && BattleBackdrop.dimmedAtNight(id)
+        val tint = if (night) BattleBackdrop.nightTint() else Color.WHITE
         r.rect(0, 0, Renderer.W, Renderer.H, Palette.WINDOW)
-        r.rect(0, 0, Renderer.W, 160, bg)
-        val ground = bg.cpy().mul(0.85f, 0.85f, 0.82f, 1f)
-        ellipse(r, 196 + sx.toInt(), 86, 52, 9, ground)
-        ellipse(r, 64 + sx.toInt(), 152, 60, 9, ground)
+        val bgTex = r.assets.region("gfx/battle/bg_$id.png")
+        if (bgTex != null) {
+            r.tint(tint) {
+                r.draw(bgTex, 0, 0)
+                r.assets.region("gfx/battle/platform_foe_$id.png")?.let { r.draw(it, 140 + sx.toInt(), 76) }
+                r.assets.region("gfx/battle/platform_player_$id.png")?.let { r.draw(it, sx.toInt(), 142) }
+            }
+        } else {
+            val bg = Color.valueOf("e8f0d8")
+            if (night) bg.mul(tint)
+            r.rect(0, 0, Renderer.W, 160, bg)
+            val ground = bg.cpy().mul(0.85f, 0.85f, 0.82f, 1f)
+            ellipse(r, 196 + sx.toInt(), 86, 52, 9, ground)
+            ellipse(r, 64 + sx.toInt(), 152, 60, 9, ground)
+        }
 
         if (trainer != null && portrait > 0f) {
             val p = r.assets.trainerPortrait(trainer.portrait ?: ctx.content.trainerClasses[trainer.trainerClass]?.portrait)
@@ -778,6 +787,14 @@ class BattleScreen(
         r.rect(x.toFloat(), y.toFloat(), w * f, 3f, c)
     }
 
+    /** HUD box (GBA spec section 5): light fill, dark outline, 1 px shade along the lower and right edges. */
+    private fun hudPanel(r: Renderer, x: Int, y: Int, w: Int, h: Int) {
+        r.rect(x, y, w, h, Palette.WHITE)
+        r.rect(x + 1, y + h - 3, w - 2, 2, Palette.SHADE)
+        r.rect(x + w - 3, y + 1, 2, h - 2, Palette.SHADE)
+        r.outline(x, y, w, h, Palette.TEXT)
+    }
+
     private fun statusTag(r: Renderer, s: String?, x: Int, y: Int) {
         if (s == null) return
         val label = when (s) { "brn" -> "BRN"; "par" -> "PAR"; "psn", "tox" -> "PSN"; "slp" -> "SLP"; "frz" -> "FRZ"; else -> s.uppercase() }
@@ -786,11 +803,11 @@ class BattleScreen(
 
     private fun drawFoeHud(r: Renderer) {
         val v = views[1]
+        hudPanel(r, 4, 4, 120, 36)
         r.text(v.name.take(12), 8, 8)
         r.text("${v.gender}:L${v.level}", 24, 18)
         statusTag(r, v.status, 80, 18)
         hpBar(r, 32, 30, 80, v.hp, v.maxHp)
-        r.rect(8, 36, 112, 1, Palette.TEXT)
         if (battle.opponent.isWild && v.species != null) {
             val base = dex.speciesOrNull(v.species!!)?.baseSpecies
             if (base != null && base in ctx.state.caught) r.text("●", 108, 8, Palette.RED, small = true)
@@ -799,6 +816,7 @@ class BattleScreen(
 
     private fun drawPlayerHud(r: Renderer) {
         val v = views[0]
+        hudPanel(r, 132, 92, 121, 56)
         r.text(v.name.take(12), 136, 96)
         r.text("${v.gender}:L${v.level}", 152, 106)
         statusTag(r, v.status, 208, 106)
@@ -807,8 +825,6 @@ class BattleScreen(
         r.text("EXP", 136, 140, small = true)
         r.rect(158, 141, 82, 4, Palette.TEXT)
         r.rect(159f, 142f, 80 * v.exp.coerceIn(0f, 1f), 2f, Palette.EXP_BLUE)
-        r.rect(248, 96, 1, 52, Palette.TEXT)
-        r.rect(136, 148, 113, 1, Palette.TEXT)
     }
 
     /**

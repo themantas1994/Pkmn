@@ -12,6 +12,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import badges  # noqa: E402
+import battle  # noqa: E402
 import balls  # noqa: E402
 import chars  # noqa: E402
 import font  # noqa: E402
@@ -187,6 +188,16 @@ def validate():
                         c = pixlib.colours_used(im.crop((x, y, x + wdt, y + h)))
                         assert c <= palettes.SLOTS - 1, f"{folder}/{fn} frame {x},{y} uses {c} colours"
                 assert_15bit(im, f"{folder}/{fn}")
+    for env in battle.ENVS:
+        check_size(os.path.join(G, "battle", f"bg_{env}.png"), (battle.W, battle.H))
+        check_size(os.path.join(G, "battle", f"platform_foe_{env}.png"), (112, 24))
+        check_size(os.path.join(G, "battle", f"platform_player_{env}.png"), (128, 24))
+    for fn in os.listdir(os.path.join(G, "battle")):
+        with Image.open(os.path.join(G, "battle", fn)) as im:
+            im = im.convert("RGBA")
+            used = pixlib.colours_used(im)
+            assert used <= (8 if fn.startswith("bg_") else 4), f"battle/{fn} uses {used} colours"
+            assert_15bit(im, f"battle/{fn}")
     validate_tile_palettes()
     validate_tint()
     for jf in ("hp_bar.json", "exp_bar.json", "type_icons.json", "region_map.json",
@@ -197,7 +208,7 @@ def validate():
 
 
 def main():
-    for mod in (font, tiles, chars, objects, trainers, ui, balls, badges, logo, regionmap):
+    for mod in (font, tiles, chars, objects, trainers, ui, battle, balls, badges, logo, regionmap):
         mod.build()
     validate()
     if "--no-previews" not in sys.argv:
