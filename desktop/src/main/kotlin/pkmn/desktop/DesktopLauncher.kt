@@ -126,7 +126,7 @@ class Automation(script: List<String>, private val shots: File) {
                         val f = spec.split(':')
                         val moves = f.getOrNull(2)?.split('/')
                         ctx.state.party.add(ctx.factory.create(f[0], f.getOrNull(1)?.toInt() ?: 50, ctx.rng, moves = moves)
-                            .also { m -> f.getOrNull(3)?.let { m.status = pkmn.engine.mon.MajorStatus.byId(it) } })
+                            .also { m -> f.getOrNull(3)?.let { id -> m.status = pkmn.engine.mon.MajorStatus.byId(id) ?: error("unknown status '$id' in party spec") } })
                     }
                     continue
                 }

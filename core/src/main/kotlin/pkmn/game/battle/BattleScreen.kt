@@ -773,11 +773,9 @@ class BattleScreen(
             .let { if (v.alpha < 1f) it.cpy().apply { a = v.alpha.coerceIn(0f, 1f) } else it }
         r.tint(tint) { r.draw(region, left, top, w, visibleH) }
         if (statusFx && v.alpha >= 1f && v.drop == 0f) {
-            for (p in StatusFx.sparks(v.status, game.timeMs)) r.rect((left + p.x * w).toInt(), (top + p.y * h).toInt(), p.size, p.size, p.color)
-            if (StatusFx.showsZ(v.status)) {
-                val p = StatusFx.sparks(v.status, game.timeMs).firstOrNull()
-                if (p != null) r.text("Z", (left + p.x * w).toInt() + 3, (top + p.y * h).toInt() - 4, Color.WHITE, small = true)
-            }
+            val sparks = StatusFx.sparks(v.status, game.timeMs)
+            for (p in sparks) r.rect((left + p.x * w).toInt(), (top + p.y * h).toInt(), p.size, p.size, p.color)
+            if (StatusFx.showsZ(v.status)) sparks.firstOrNull()?.let { p -> r.text("Z", (left + p.x * w).toInt() + 3, (top + p.y * h).toInt() - 4, Color.WHITE, small = true) }
         }
         if (v.whiten > 0.01f) {
             // Additive pass brightens the sprite toward white (send-out, recall, transformations).
