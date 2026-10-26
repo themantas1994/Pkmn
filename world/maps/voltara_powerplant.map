@@ -44,3 +44,9 @@ item electriumz 18 6 electriumz
 item hyperpotion 1 9 hyperpotion
 item fullheal 18 13 fullheal
 hidden ultraball 4 2 ultraball
+# PKM-76 Umbra Files doc 3: key-card lockers, then the safe
+npc p5c_pp_guard 1 7 sprite=scientist face=right script=p5c_pp_guard
+npc p5c_pp_locker_a 1 14 sprite=sign script=p5c_pp_locker_a
+npc p5c_pp_locker_b 10 12 sprite=sign script=p5c_pp_locker_b
+npc p5c_pp_locker_c 17 12 sprite=sign script=p5c_pp_locker_c
+npc p5c_pp_safe 18 16 sprite=sign script=p5c_pp_safe

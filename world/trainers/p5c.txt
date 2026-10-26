@@ -1,0 +1,41 @@
+# Side-quest chain C (PKM-76): three ex-Eclipse veterans guard Umbra's letter in the Eclipse Lens Lab. Rematch-style teams
+# (existing species only), kept at or below the Gym 8 cap (58) so the gauntlet adds almost no EXP.
+
+trainer p5c_ex_vesper
+  class admin
+  name "Vesper"
+  ai 3
+  intro "Umbra's letter? I have seen you reading it already, child. Prove that you deserve to turn the page."
+  defeat "Another future I did not see..."
+  after "Go on. Corvin is next, and he is in a much worse mood than I am."
+  items hyperpotion=1
+  mon mismagius 56 moves=shadowball,dazzlinggleam,mysticalfire,nastyplot
+  mon gothitelle 56 moves=psychic,shadowball,thunderbolt,calmmind
+  mon dusknoir 57 moves=shadowpunch,icepunch,earthquake,willowisp
+end
+
+trainer p5c_ex_corvin
+  class admin
+  name "Corvin"
+  ai 3
+  intro "Light, dark, it never matters to you. Fine. One more lesson."
+  defeat "Hmph. I should stop being surprised."
+  after "Halloran is still polishing a lens nobody needs. Be gentle. Or don't."
+  items hyperpotion=1
+  mon drapion 56 moves=crosspoison,crunch,knockoff,bugbite
+  mon skuntank 56 moves=poisonjab,suckerpunch,flamethrower,screech
+  mon grimeralola 57 moves=poisonjab,crunch,knockoff,shadowsneak
+  mon honchkrow 57 moves=bravebird,suckerpunch,nightslash,heatwave
+end
+
+trainer p5c_ex_halloran
+  class p3b_eclipse_sci
+  name "Chief Halloran"
+  ai 2
+  intro "Umbra said to guard the letter with my life. I settled for my second-best lens cloth."
+  defeat "My lens... my letter... my pride."
+  after "Read it. Then tell me if the eclipse was worth three years of my life."
+  mon magnezone 56 moves=flashcannon,thunderbolt,bodypress,voltswitch
+  mon bronzong 56 moves=gyroball,psychic,earthquake,trickroom
+  mon metagross 57 moves=meteormash,zenheadbutt,earthquake,bulletpunch
+end
