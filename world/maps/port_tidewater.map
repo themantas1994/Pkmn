@@ -76,3 +76,7 @@ npc p4a_tw_trader 5 23 sprite=sailor face=right script=p4a_tw_trader
 building house_big 8 18 -> p4a_riptide_dojo 5 8 up
 tile 13 21 sign
 sign 13 21 script=p4a_tw_dojo_sign
+# PKM-77 Kai's Notebook: three cooking-contest judges
+npc p5b_judge_1 14 6 sprite=gentleman face=down script=p5b_judge_1
+npc p5b_judge_2 16 7 sprite=beauty face=left script=p5b_judge_2
+npc p5b_judge_3 14 8 sprite=sailor face=right script=p5b_judge_3

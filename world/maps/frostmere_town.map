@@ -64,3 +64,5 @@ tile 24 1 sign
 sign 24 1 text="RIME HOLLOW\nIsolde's training cave. The floors are solid ice!"
 npc p4c_fm_margit 8 3 sprite=oldwoman face=down script=p4c_fm_margit
 npc p4c_fm_aurora_kid 21 3 sprite=youngster move=wander text="When the lights dance over Rime Hollow, Grandpa says the Power Spot is breathing. I think it's just pretty."
+# PKM-77 Kai's Notebook: the apology
+npc p5b_fm_kai 24 12 sprite=rival face=left script=p5b_fm_kai
