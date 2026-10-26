@@ -18,3 +18,5 @@ warp 3 5 -> ashfall_city 5 20 down
 warp 4 5 -> ashfall_city 5 20 down
 npc elder 5 3 sprite=oldman face=left script=p3a_ash_magma_elder
 npc grandkid 1 4 sprite=kid face=right script=p3a_ash_charcoal_kid
+# PKM-75 Linden Field Notes vol. 5
+npc p5a_contact 6 2 sprite=scientist face=down script=p5a_ashfall_contact
