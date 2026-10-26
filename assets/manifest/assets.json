@@ -6855,7 +6855,7 @@
       "id": "scripts/p5c_eclipse",
       "path": "assets/scripts/p5c_eclipse.pks",
       "format": "pks",
-      "sizeBytes": 14229,
+      "sizeBytes": 13844,
       "category": "other",
       "source": "Original event scripts copied from world/scripts/ by ./gradlew :tools:compileMaps",
       "license": "CC0-1.0",
