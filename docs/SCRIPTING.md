@@ -30,6 +30,7 @@ Script ids are global; the compiler rejects duplicates and unknown references.
 | `item X` or `item X >= N` | bag contents |
 | `money >= N`, `var X op N` | numbers (ops: `>= <= > < == !=`) |
 | `party has X`, `hasmon X`, `partysize op N` | party / PC |
+| `friendship X op N` | true if any party Pokémon of species X (or its base species) has friendship `op N` |
 | `time morning|day|night` | real-time clock |
 | `caught X`, `seen X`, `caughtcount op N` | Pokédex |
 | `trainer X` | trainer defeated |

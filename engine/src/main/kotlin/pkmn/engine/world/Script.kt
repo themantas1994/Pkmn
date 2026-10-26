@@ -138,7 +138,7 @@ object ScriptParser {
         if (words.firstOrNull() == "not") return Cond.Not(parseCond(words.drop(1), file, line))
         if (words.isEmpty()) throw ScriptError("empty condition", file, line)
         val known = setOf("flag", "result", "badges", "badge", "item", "money", "var", "party", "partysize", "time", "caught", "seen", "caughtcount",
-            "trainer", "gender", "field", "random", "quest", "gimmick", "visited", "true", "false", "hasmon", "playerx", "playery")
+            "trainer", "gender", "field", "random", "quest", "gimmick", "visited", "true", "false", "hasmon", "friendship", "playerx", "playery")
         if (words[0] !in known) throw ScriptError("unknown condition '${words[0]}'", file, line)
         return Cond.Atom(words)
     }

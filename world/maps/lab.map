@@ -31,3 +31,5 @@ npc ball_water 8 3 sprite=pokeball_overworld script=lab_ball_water hideif=took_b
 # Intro done but no starter yet: the exit is closed. After the starter the rival challenge runs once.
 trigger 0 8 10 1 script=lab_need_starter if=lab_intro_done unless=got_starter
 trigger 0 8 10 1 script=lab_rival_challenge if=got_starter unless=rival_battled
+# PKM-75 Linden Field Notes: field aide
+npc p5a_aide 7 6 sprite=scientist face=left script=p5a_lab_aide

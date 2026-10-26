@@ -21,6 +21,7 @@ script lab_enter
   elif not flag got_pokedex
     call lab_handoff
   end
+  call p5a_mail
 end
 
 script lab_intro
@@ -63,6 +64,8 @@ script lab_professor
     say "PROF. LINDEN: Please choose one of the three Pokémon on the table, {player}."
   elif not flag got_pokedex
     call lab_handoff_talk
+  elif flag p5a_researchers_pin
+    call p5a_professor_thanks
   else
     say "PROF. LINDEN: How is the Pokédex coming along? Every Pokémon you meet is recorded automatically."
   end

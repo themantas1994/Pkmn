@@ -29,3 +29,5 @@ npc p5b_term_a 1 4 sprite=sign script=p5b_term_a
 npc p5b_term_b 8 4 sprite=sign script=p5b_term_b
 npc p5b_term_c 5 8 sprite=sign script=p5b_term_c
 npc p5b_term_log 6 6 sprite=sign script=p5b_term_log
+# PKM-75 Linden Field Notes vol. 2
+npc p5a_contact 7 6 sprite=scientist face=left script=p5a_voltara_contact

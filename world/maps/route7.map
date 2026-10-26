@@ -65,3 +65,5 @@ tile 12 0 path
 tile 13 0 path
 tile 12 1 path
 tile 13 1 path
+# PKM-75 Linden Field Notes vol. 2: trail camera
+npc p5a_camera 12 9 sprite=sign script=p5a_r7_camera
