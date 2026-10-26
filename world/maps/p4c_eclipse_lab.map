@@ -35,3 +35,8 @@ trainer p4c_el_grunt_e 16 7 sprite=grunt_m face=left sight=4
 sign 2 5 text="Whiteboard: \"Lens #1 - Prism Summit. Lens #2 - backup. Lens #3 - ???\" Someone has drawn a sad face under #3."
 item el_ppup 18 11 ppup
 item el_xspatk 1 11 xspatk 2
+# PKM-76 Umbra Files doc 8: three ex-admins and Umbra's letter
+npc p5c_lab_vesper 6 9 sprite=admin face=right script=p5c_lab_vesper showif=p5c_gauntlet_open
+npc p5c_lab_corvin 9 7 sprite=admin face=down script=p5c_lab_corvin showif=p5c_gauntlet_open
+npc p5c_lab_halloran 12 9 sprite=scientist face=left script=p5c_lab_halloran showif=p5c_gauntlet_open
+npc p5c_lab_letter 15 2 sprite=sign script=p5c_lab_letter
