@@ -18,7 +18,9 @@ object StatusFx {
 
     private fun key(status: String?) = if (status == "tox") "psn" else status
 
-    fun hasEffect(status: String?) = key(status) in setOf("psn", "brn", "par", "slp", "frz")
+    private val WITH_EFFECT = setOf("psn", "brn", "par", "slp", "frz")
+
+    fun hasEffect(status: String?) = key(status) in WITH_EFFECT
 
     /** Multiplicative sprite tint at [ms]; white (no change) for no status. */
     fun tint(status: String?, ms: Long): Color {

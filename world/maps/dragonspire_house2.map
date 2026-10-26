@@ -19,3 +19,5 @@ warp 4 5 -> dragonspire_city 32 9 down
 
 npc dh2_trader 5 3 sprite=sailor face=left script=p3b_trader
 npc dh2_collector 1 2 sprite=beauty face=down script=p3b_scale_collector
+# PKM-75 Linden Field Notes vol. 7
+npc p5a_contact 6 2 sprite=scientist face=down script=p5a_thesis_contact

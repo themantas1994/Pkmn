@@ -28,3 +28,5 @@ npc c_trainer 7 5 sprite=hiker face=left text="Hazel's Grass Pokémon hate fire 
 npc researcher 1 6 sprite=scientist face=right script=p1_mushroom_researcher
 # Expansion E1: Prof. Linden's aide (catch-count rewards).
 npc p4a_dex_aide_1 2 4 sprite=scientist face=right script=p4a_dex_aide_1
+# PKM-75 Linden Field Notes vol. 1
+npc p5a_contact 6 6 sprite=scientist face=up script=p5a_brindle_contact

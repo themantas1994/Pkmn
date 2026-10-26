@@ -17,3 +17,5 @@ end
 warp 3 5 -> lumen_village 6 14 down
 warp 4 5 -> lumen_village 6 14 down
 npc researcher 5 3 sprite=scientist face=left script=p2_lumen_researcher
+# PKM-75 Linden Field Notes vol. 3
+npc p5a_contact 1 3 sprite=scientist face=right script=p5a_lumen_contact

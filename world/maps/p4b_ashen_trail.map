@@ -58,3 +58,5 @@ item p4b_trail_cookie 38 22 lavacookie
 item p4b_trail_restore 15 25 fullrestore
 hidden p4b_trail_sand 37 9 softsand
 hidden p4b_trail_heat 2 21 heatrock
+# PKM-75 Linden Field Notes vol. 5: sensor
+npc p5a_sensor 12 9 sprite=sign script=p5a_sensor_trail

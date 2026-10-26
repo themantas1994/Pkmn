@@ -17,3 +17,5 @@ end
 warp 3 5 -> seraphine_town 26 13 down
 warp 4 5 -> seraphine_town 26 13 down
 npc keeper 2 2 sprite=oldwoman face=down script=p2_seraphine_keeper
+# PKM-75 Linden Field Notes vol. 4
+npc p5a_contact 6 3 sprite=scientist face=left script=p5a_seraphine_contact

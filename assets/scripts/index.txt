@@ -35,4 +35,5 @@ p4b_leg6.pks
 p4c_leg7.pks
 p4c_leg8.pks
 p4c_leg9.pks
+p5a_linden.pks
 p5c_eclipse.pks

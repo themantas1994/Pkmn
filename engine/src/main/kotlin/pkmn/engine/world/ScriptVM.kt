@@ -299,6 +299,7 @@ class ScriptVM(private val ctx: GameContext, script: CompiledScript, private val
             "var" -> cmp(st.vars[w[1]] ?: 0, w[2], w[3].toInt())
             "party" -> when (w[1]) { "has" -> st.party.any { it.speciesId == toId(w[2]) || it.species(ctx.dex).baseSpecies == toId(w[2]) }; else -> false }
             "hasmon" -> st.party.any { it.speciesId == toId(w[1]) } || st.boxes.any { b -> b.any { it?.speciesId == toId(w[1]) } }
+            "friendship" -> st.party.any { (it.speciesId == toId(w[1]) || it.species(ctx.dex).baseSpecies == toId(w[1])) && cmp(it.friendship, w[2], w[3].toInt()) }
             "partysize" -> cmp(st.party.size, w[1], w[2].toInt())
             "time" -> ctx.timeOfDay() == w[1]
             "caught" -> toId(w[1]) in st.caught
