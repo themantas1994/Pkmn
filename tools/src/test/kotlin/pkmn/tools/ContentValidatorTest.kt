@@ -129,6 +129,52 @@ class ContentValidatorTest {
         } finally { dir.deleteRecursively() }
     }
 
+    @Test
+    fun bundledCharSheetsAreValid() {
+        val issues = Issues()
+        ContentValidator(repo).validateCharSheets(File(repo, "assets"), issues)
+        assertEquals(emptyList(), issues.errors.map { "${it.subject}: ${it.message}" })
+    }
+
+    private fun charSheet(dir: File, name: String, w: Int, h: Int, paint: (java.awt.image.BufferedImage) -> Unit) {
+        val img = java.awt.image.BufferedImage(w, h, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+        paint(img)
+        File(dir, "gfx/chars").mkdirs()
+        javax.imageio.ImageIO.write(img, "png", File(dir, "gfx/chars/$name.png"))
+    }
+
+    private fun feetEverywhere(img: java.awt.image.BufferedImage) {
+        val cw = img.width / 3; val ch = img.height / 3
+        for (r in 0 until 3) for (c in 0 until 3) { img.setRGB(c * cw + 4, r * ch + 8, -0x1000000); img.setRGB(c * cw + 4, r * ch + ch - 1, -0x1000000) }
+    }
+
+    @Test
+    fun wrongSizeCharSheetIsAnError() {
+        val dir = Files.createTempDirectory("chars").toFile()
+        try {
+            charSheet(dir, "old", 48, 64) { feetEverywhere(it) }
+            charSheet(dir, "p_bike", 48, 96) { feetEverywhere(it) }
+            charSheet(dir, "good", 48, 96) { feetEverywhere(it) }
+            charSheet(dir, "p_surf", 96, 96) { feetEverywhere(it) }
+            val issues = Issues()
+            ContentValidator(repo).validateCharSheets(dir, issues)
+            assertEquals(setOf("old", "p_bike"), issues.errors.filter { it.code == "char-sheet-size" }.map { it.subject }.toSet())
+            assertEquals(2, issues.errors.size, issues.errors.toString())
+        } finally { dir.deleteRecursively() }
+    }
+
+    @Test
+    fun charSheetFeetOffTileAndPopAreErrors() {
+        val dir = Files.createTempDirectory("chars").toFile()
+        try {
+            charSheet(dir, "floaty", 48, 96) { feetEverywhere(it); it.setRGB(4, 31, 0) }   // frame 0,0 loses its last row
+            charSheet(dir, "pops", 48, 96) { feetEverywhere(it); it.setRGB(20, 2, -0x1000000) }   // frame 0,1 grows 6 px taller
+            val issues = Issues()
+            ContentValidator(repo).validateCharSheets(dir, issues)
+            assertEquals(listOf("char-sheet-feet" to "floaty", "char-sheet-pop" to "pops"), issues.errors.map { it.code to it.subject })
+        } finally { dir.deleteRecursively() }
+    }
+
     private fun sp(id: String, num: Int, kind: FormKind = FormKind.BASE, base: String = id, abilities: Map<String, String> = mapOf("0" to "overgrow"),
                    types: List<String> = listOf("Grass"), evolutions: List<EvolutionData> = emptyList(), prevo: String? = null,
                    requiredItems: List<String> = emptyList(), canGigantamax: String? = null) =

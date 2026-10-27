@@ -34,7 +34,7 @@ a battle scene and the region map at ×2.
 |---|---|
 | Logical screen | 256×224 px. Scale by whole numbers with nearest-neighbour filtering only. |
 | Tile size | Map tiles (metatiles) are 16×16, built from four 8×8 tiles. `world.png` is the 8×8 tile sheet, 32 columns wide. |
-| Character frame | 16×16. Each sheet is 48×64: rows down/up/left/right, columns stand/stepA/stepB. |
+| Character frame | 16×32 (head overlaps the tile above, feet on the last row). Each walk/run sheet is 48×96: rows down/up/left, columns stand/stepA/stepB; right = left mirrored at draw time. Bike/surf: 32×32 frames, 96×96 sheets. |
 | Trainer portrait | 64×64 with a transparent background. The figure is cropped at the bottom edge. |
 | Animation | 4 frames at 250 ms each (`frameMs` in `world.json`). Water drifts 4 px per frame, so it loops in 4 frames. |
 | Walk cycle | stand → stepA → stand → stepB. Down and up step frames also dip 1 px. |
@@ -426,11 +426,11 @@ Indoor walls use two rows: `wall_in_top` (ceiling trim) above `wall_in`
 ## Characters: `assets/gfx/chars/<id>.png`
 
 The sprites use a paper-doll system in `art/chars.py`. A head template (hair or
-hat style, rows 0-12), a body template (`std`, `skirt` or `robe`, rows 10-13) and
-a legs template (rows 14-15) are combined. Template letters (`h` hair, `a` hat,
+hat style, 13 rows, placed at row 10 of the 32-row cell), a body template (`std`, `skirt` or `robe`, 4 rows stretched
+to 8) and a legs template (2 rows stretched to 4) are combined. Template letters (`h` hair, `a` hat,
 `o` outer top, `c` inner top, `d` pants/skirt, `l` legs, `b` beard) map to
-palette slots per character in the `CHARACTERS` table. Right-facing frames are
-mirrored left-facing ones. Dark hair gets 2-3 white shine pixels.
+palette slots per character in the `CHARACTERS` table. The sheet has no right-facing row:
+the game flips the left row (`Assets.character`). Dark hair gets 2-3 white shine pixels.
 
 To add a character, add a row to `CHARACTERS` with a role colour, head style, body,
 letter mapping and accessories (`glasses`, `beard`, `moustache`, `headband`,
@@ -439,8 +439,10 @@ letter mapping and accessories (`glasses`, `beard`, `moustache`, `headband`,
 `HEADS` in `chars.py` and a matching branch in `hair_masks()`/`hat_masks()` in
 `trainers.py`.
 
-Bike and surf sheets use the same 48×64 layout. The surf creature is an original
-pale sea-beast with role-coloured spots.
+`player_m`/`player_f` also have `_run` (48×96, same layout; steps dip 2 px and lean), `_bike` and `_surf`
+(96×96, 32×32 frames, 3 directions x 3 frames). The surf creature is an original pale sea-beast with
+role-coloured spots. `:tools:validateContent` rejects wrong-size sheets, frames whose feet are not on the cell's last
+row, and frame-top jumps over 2 px within a direction (`ContentValidator.validateCharSheets`).
 
 Objects (`assets/gfx/objects/`) are 16×16 single frames. `legendary_shadow.png`
 is 32×32, a generic winged silhouette for scripted legendary events.

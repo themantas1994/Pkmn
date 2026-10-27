@@ -1,0 +1,29 @@
+# Victory Road side room (PKM-77, chain B): where Kai finishes his notebook. Entered by the ladder in Victory Road 2F.
+map p5b_vr_alcove
+name "Victory Road Alcove"
+location "Victory Road"
+music cave
+environment cave
+region 15 3
+
+layout
+YYYYYYYYYYYYYYYYYYYY
+WWWWWWWWWWWWWWWWWWWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWffkfffffffffffkfWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWffkfffffffffffkfWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWffffffffffffffffWW
+WWWWWWWWWWWWWWWWWWWW
+WWWWWWWWWWWWWWWWWWWW
+end
+
+tile 9 12 cave_ladder
+warp 9 12 -> victory_road_2f 25 3 down
+npc p5b_kai_cap 9 5 sprite=rival face=down script=p5b_kai_cap

@@ -29,6 +29,7 @@ class MapCompilerTool(private val root: File) {
     private val outWorld = File(root, "assets/world")
     private val outScripts = File(root, "assets/scripts")
     private val json = Json { prettyPrint = false; encodeDefaults = false; explicitNulls = false }
+    private val autotiles by lazy { Autotile.load(File(world, "autotiles.json")) }
     val errors = ArrayList<String>()
     val warnings = ArrayList<String>()
 
@@ -277,11 +278,17 @@ class MapCompilerTool(private val root: File) {
             val ch = layout[y].getOrElse(x) { ' ' }
             legend[ch] ?: throw CompileError("unknown legend char '$ch' at $x,$y", 0)
         } }
-        // Water autotiling: "water@auto" picks shoreline variants based on neighbours.
-        // Neighbours are read from a snapshot so tiles converted earlier in the pass still count as water.
+        // Autotiling: a family's auto tile (water@auto) picks its variant from the 8-neighbour mask (world/autotiles.json).
+        // Neighbours are read from a snapshot so tiles converted earlier in the pass still count as members.
         val source = grid.map { it.toList() }
-        val isWater = { x: Int, y: Int -> x !in 0 until width || y !in 0 until height || source[y][x].startsWith("water@auto") || source[y][x] == "water" }
-        for (y in 0 until height) for (x in 0 until width) if (source[y][x] == "water@auto") grid[y][x] = waterVariant(isWater, x, y, tileNames)
+        for (fam in autotiles) {
+            val isMember = { x: Int, y: Int -> x !in 0 until width || y !in 0 until height || fam.isMember(source[y][x]) }
+            for (y in 0 until height) for (x in 0 until width) if (source[y][x] == fam.auto) {
+                val pick = fam.resolve(Autotile.mask(isMember, x, y))
+                if (tileNames != null && pick !in tileNames) errors.add("${f.name}: autotile '${fam.name}' needs tile '$pick' at $x,$y")
+                grid[y][x] = pick
+            }
+        }
         for (s in stamps) for ((ry, row) in s.prefab.rows.withIndex()) for ((rx, tile) in row.withIndex()) {
             if (tile == "_") continue
             val x = s.x + rx; val y = s.y + ry
@@ -307,18 +314,6 @@ class MapCompilerTool(private val root: File) {
         return MapData(id, name, width, height, "world", palette, ground, emptyList(), music, environment, weather, indoor, dark,
             regionX, regionY, location.ifEmpty { name }, flyX, flyY, connections, warps, npcs, signs, items, triggers, obstacles,
             flagTiles, encounters, onEnter, tags, zoneClass)
-    }
-
-    private fun waterVariant(isWater: (Int, Int) -> Boolean, x: Int, y: Int, names: Set<String>?): String {
-        val n = isWater(x, y - 1); val s = isWater(x, y + 1); val w = isWater(x - 1, y); val e = isWater(x + 1, y)
-        val pick = when {
-            !n && !w -> "water_nw"; !n && !e -> "water_ne"; !s && !w -> "water_sw"; !s && !e -> "water_se"
-            !n -> "water_n"; !s -> "water_s"; !w -> "water_w"; !e -> "water_e"
-            !isWater(x - 1, y - 1) -> "water_inw"; !isWater(x + 1, y - 1) -> "water_ine"
-            !isWater(x - 1, y + 1) -> "water_isw"; !isWater(x + 1, y + 1) -> "water_ise"
-            else -> "water"
-        }
-        return if (names == null || pick in names) pick else "water"
     }
 
     // ------------------------------------------------------------------ trainers

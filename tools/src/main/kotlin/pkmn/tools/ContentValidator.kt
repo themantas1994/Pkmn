@@ -10,6 +10,7 @@ import pkmn.engine.world.Cond
 import pkmn.engine.world.Instr
 import pkmn.engine.world.MapData
 import java.io.File
+import javax.imageio.ImageIO
 
 /** All bundled content files, decoded as lists so duplicates remain visible (the [Dex] maps would hide them). */
 class Content(
@@ -64,6 +65,7 @@ class ContentValidator(private val root: File) {
         val issues = validate(content, expectedBaseCount = content.manifest?.expectedSpeciesCount ?: 1025)
         validateProvenance(File(root, "data-src"), content.manifest, issues)
         validateMusic(File(root, "assets"), issues)
+        validateCharSheets(File(root, "assets"), issues)
         val world = WorldContent(DirectoryContentSource(File(root, "assets")))
         validateBattleScripts(world.scripts.values, issues)
         validateGiftResults(world.scripts.values, issues)
@@ -405,6 +407,39 @@ class ContentValidator(private val root: File) {
             scan(Json.parseToJsonElement(f.readText()), ids)
             for (id in ids) if (id !in silentMusicIds && !File(musicDir, "$id.mml").isFile)
                 issues.error("music-missing", f.nameWithoutExtension, "music id '$id' has no assets/audio/music/$id.mml")
+        }
+    }
+
+    /**
+     * Overworld character sheets (`assets/gfx/chars`, docs/gba-graphics-spec.md §3.1): walk/run sheets are 48x96 (3x3 cells of
+     * 16x32), `*_bike` / `*_surf` sheets are 96x96 (3x3 cells of 32x32). Every frame must stand on the tile (lowest opaque
+     * row is the cell's last row) and within one direction the frame tops may differ by at most 2 px (no one-frame pop).
+     */
+    fun validateCharSheets(assets: File, issues: Issues) {
+        val files = File(assets, "gfx/chars").listFiles { f -> f.extension == "png" }?.sortedBy { it.name } ?: return
+        for (f in files) {
+            val id = f.nameWithoutExtension
+            val wide = id.endsWith("_bike") || id.endsWith("_surf")
+            val (w, h) = if (wide) 96 to 96 else 48 to 96
+            val img = ImageIO.read(f)
+            if (img == null) { issues.error("char-sheet-unreadable", id, "cannot decode gfx/chars/$id.png"); continue }
+            if (img.width != w || img.height != h) {
+                issues.error("char-sheet-size", id, "gfx/chars/$id.png is ${img.width}x${img.height}, expected ${w}x$h (${if (wide) "32x32" else "16x32"} cells, 3 columns x 3 rows)")
+                continue
+            }
+            val cw = w / 3; val ch = h / 3
+            for (row in 0 until 3) {
+                val tops = ArrayList<Int>()
+                for (col in 0 until 3) {
+                    val rowsUsed = (0 until ch).filter { y -> (0 until cw).any { x -> (img.getRGB(col * cw + x, row * ch + y) ushr 24) != 0 } }
+                    if (rowsUsed.isEmpty()) { issues.error("char-sheet-empty-frame", id, "frame row $row col $col is empty"); continue }
+                    if (rowsUsed.last() != ch - 1)
+                        issues.error("char-sheet-feet", id, "frame row $row col $col: lowest opaque row is ${rowsUsed.last()}, feet must be on row ${ch - 1} to align to the tile")
+                    tops += rowsUsed.first()
+                }
+                if (tops.isNotEmpty() && tops.max() - tops.min() > 2)
+                    issues.error("char-sheet-pop", id, "row $row: frame tops ${tops} differ by more than 2 px (walk loop would pop)")
+            }
         }
     }
 

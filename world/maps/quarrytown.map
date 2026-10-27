@@ -62,3 +62,8 @@ tile 23 1 sign
 sign 23 1 text="SHAFT No. 3 - CLOSED\nTalk to old Bryn before you go poking around."
 npc p4b_bryn 27 1 sprite=oldman face=left script=p4b_bryn
 hidden p4b_quarry_pit 28 7 hardstone
+# PKM-77 Kai's Notebook: mine-cart rails
+npc p5b_qt_foreman 12 12 sprite=hiker face=down script=p5b_qt_foreman
+npc p5b_rail_1 6 6 sprite=sign script=p5b_rail_1
+npc p5b_rail_2 24 17 sprite=sign script=p5b_rail_2
+npc p5b_rail_3 4 21 sprite=sign script=p5b_rail_3

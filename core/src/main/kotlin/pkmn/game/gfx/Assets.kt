@@ -107,10 +107,19 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
 
     private val charFrames = HashMap<String, Array<Array<TextureRegion>>>()
 
-    /** Character sheet frames [direction][frame]; directions down, up, left, right; frames stand, stepA, stepB. */
+    /**
+     * Character sheet frames [direction][frame]; directions down, up, left, right; frames stand, stepA, stepB.
+     * Sheet formats (art/chars.py): 48x96 = 3x3 cells of 16x32 and 96x96 = 3x3 cells of 32x32 (rows down, up, left; the
+     * right row is the left row mirrored here); legacy 48x64 = 4x3 cells of 16x16; anything else is a single 16x16 object.
+     */
     fun character(id: String): Array<Array<TextureRegion>> = charFrames.getOrPut(id) {
         val t = texture("gfx/chars/$id.png") ?: texture("gfx/objects/$id.png")
-        if (t != null && t.width >= 48 && t.height >= 64) {
+        if (t != null && t.width % 3 == 0 && t.height == 96 && (t.width == 48 || t.width == 96)) {
+            val cw = t.width / 3
+            val rows = Array(3) { d -> Array(3) { f -> TextureRegion(t, f * cw, d * 32, cw, 32) } }
+            val right = Array(3) { f -> TextureRegion(rows[2][f]).also { it.flip(true, false) } }
+            arrayOf(rows[0], rows[1], rows[2], right)
+        } else if (t != null && t.width >= 48 && t.height >= 64) {
             Array(4) { d -> Array(3) { f -> TextureRegion(t, f * 16, d * 16, 16, 16) } }
         } else if (t != null) {
             val r = TextureRegion(t, 0, 0, minOf(16, t.width), minOf(16, t.height))

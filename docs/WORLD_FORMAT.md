@@ -11,6 +11,10 @@ Coordinates are tile coordinates, `x` to the right, `y` downward, origin at the 
 Default character → tile-name mapping shared by all maps (`<char> <tile>` per line). Maps may override it.
 Tile names come from `assets/gfx/tiles/world.json`. The special tile `water@auto` is autotiled into
 `water`, `water_n/s/e/w`, outer corners `water_ne/nw/se/sw` and inner corners `water_ine/inw/ise/isw`.
+Autotile families are declared in `world/autotiles.json` (`auto` tile, `members`, `center`, `edge`, `outer`, `inner` tile names).
+The compiler computes an 8-neighbour mask (diagonals count only when both adjacent orthogonals are members; 47 distinct masks,
+`tools/.../Autotile.kt`) and replaces the family's `auto` tile with the resolved tile; a resolved tile missing from the sheet is a
+compile error. Families: `water` (`water@auto`, in the legend as `~`) and `path` (`path@auto`, not yet in the legend).
 
 ## `world/prefabs.txt`
 Available prefabs: `house`, `house_blue`, `house_big`, `lab`, `center` (Pokémon Center, door at 2,2),

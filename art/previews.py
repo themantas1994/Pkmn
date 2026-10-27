@@ -161,11 +161,20 @@ def char_frame(cid, row, col, folder="chars"):
     if not os.path.exists(p):
         return None
     im = Image.open(p).convert("RGBA")
+    if folder == "chars" and im.height == 96:
+        # 3 rows (down, up, left) of 16x32 / 32x32 cells; row 3 (right) is the left row mirrored
+        cw, ch = im.width // 3, im.height // 3
+        fr = im.crop((col * cw, min(row, 2) * ch, col * cw + cw, min(row, 2) * ch + ch))
+        return fr.transpose(Image.FLIP_LEFT_RIGHT) if row == 3 else fr
     return im.crop((col * 16, row * 16, col * 16 + 16, row * 16 + 16))
 
 
 def put(img, spr, x, y):
+    """y is the top of a 16x16 sprite lifted 4 px; taller frames stand on the tile instead"""
     if spr is not None:
+        if spr.height > 16:
+            y += 20 - spr.height
+            x -= (spr.width - 16) // 2
         img.alpha_composite(spr, (x, y))
 
 
@@ -272,17 +281,21 @@ def chars_contact():
     ids = sorted(f[:-4] for f in os.listdir(folder) if f.endswith(".png"))
     if not ids:
         return None
-    cols, cw, ch = 4, 128, 70
+    cols, cw, ch = 3, 224, 104
     rows = (len(ids) + cols - 1) // cols
     img = Image.new("RGBA", (cols * cw, rows * ch), BG)
     for i, cid in enumerate(ids):
         x, y = (i % cols) * cw + 2, (i // cols) * ch + 2
         sheet = Image.open(os.path.join(folder, cid + ".png")).convert("RGBA")
         img.alpha_composite(sheet, (x, y))
-        img = label(img, cid[:12], x + 50, y + 2)
-        # standing poses in all four directions to the right
+        img = label(img, cid[:12], x + sheet.width + 4, y + 2)
+        # standing poses in all four directions to the right (right = left mirrored)
+        fw, fh = sheet.width // 3, sheet.height // 3
         for d in range(4):
-            img.alpha_composite(sheet.crop((0, d * 16, 16, d * 16 + 16)), (x + 52 + (d % 2) * 18, y + 14 + (d // 2) * 18))
+            pose = sheet.crop((0, min(d, 2) * fh, fw, min(d, 2) * fh + fh))
+            if d == 3:
+                pose = pose.transpose(Image.FLIP_LEFT_RIGHT)
+            img.alpha_composite(pose, (x + sheet.width + 4 + (d % 2) * (fw + 2), y + 14 + (d // 2) * (fh + 2)))
     return pixlib.scale(img, 2)
 
 

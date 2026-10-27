@@ -1,0 +1,26 @@
+# The Whisperwood hideout (PKM-76, chain C): a clearing where a defector from Team Eclipse keeps the Umbra Files.
+map p5c_hideout
+name "Defector's Hideout"
+location "Whisperwood"
+music forest
+environment grass
+
+layout
+TTTTTTTTTTTTTT
+TTT........TTT
+TT..........TT
+TT.rr....rr.TT
+TT..........TT
+TT....FF....TT
+TT..........TT
+TTT........TTT
+TTTTTT..TTTTTT
+TTTTTTNNTTTTTT
+end
+
+warp 6 9 -> whisperwood 5 4 down
+warp 7 9 -> whisperwood 5 4 down
+npc p5c_desk 10 2 sprite=sign script=p5c_desk
+npc p5c_rook 6 4 sprite=grunt_m face=down script=p5c_rook
+npc p5c_archivist 3 2 sprite=scientist face=right script=p5c_archivist
+npc p5c_vendor 9 4 sprite=grunt_f face=left script=p5c_vendor

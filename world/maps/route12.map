@@ -63,3 +63,7 @@ npc p4c_r12_climber 38 10 sprite=hiker face=up text="See that frozen waterfall? 
 item p4c_r12_avalanche 28 1 tm:avalanche
 hidden p4c_r12_hidden_candy 28 2 rarecandy
 hidden p4c_r12_hidden_pearl 22 9 bigpearl
+# PKM-75 Linden Field Notes vol. 6: route markers
+npc p5a_marker_1 14 12 sprite=sign script=p5a_marker_1
+npc p5a_marker_2 30 12 sprite=sign script=p5a_marker_2
+npc p5a_marker_3 46 12 sprite=sign script=p5a_marker_3

@@ -75,3 +75,5 @@ item p4b_mist_islet 18 20 shinystone
 hidden p4b_mist_sweet 28 4 sachet
 hidden p4b_mist_cream 4 35 whippeddream
 hidden p4b_mist_star 22 25 stardust
+# PKM-75 Linden Field Notes vol. 4: fog logger
+npc p5a_mist_post 21 10 sprite=sign script=p5a_mist_post

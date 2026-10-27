@@ -1,0 +1,2 @@
+# Side-quest chain C (PKM-76): the ex-Eclipse shop in the Whisperwood hideout, open once The Umbra Files are filed.
+shop p5c_ex_eclipse hyperpotion fullheal revive maxrepel escaperope ultraball tm:darkpulse=9000 tm:suckerpunch=7000

@@ -1,0 +1,16 @@
+# Faint animation: the foe slides out and fades (captured mid-clip).
+wait 240
+clock 2026-10-15T12:00
+option textSpeed 3
+option animSpeed 0
+option battleAnimations true
+party pikachu:40:flamethrower/surf/earthquake/thunderbolt
+wild rattata 2
+waitstate menu=ACTION 3000
+press A
+wait 8
+press A
+waitstate anim=faint 4000
+wait 6
+shot battle_faint
+quit

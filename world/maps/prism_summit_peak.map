@@ -32,3 +32,5 @@ npc pk_grunt2 12 6 sprite=grunt_f face=down text="Shh! Lord Umbra is concentrati
 npc necrozma 10 3 sprite=legendary_shadow face=down script=p3b_necrozma showif=p3b_beat_umbra hideif=p3b_necrozma_done
 trigger 1 9 19 1 script=p3b_umbra unless=p3b_beat_umbra
 hidden pk_hidden 18 1 starpiece
+# PKM-76 Umbra Files doc 7: left behind at the lens
+npc p5c_pk_page 10 10 sprite=sign script=p5c_pk_page showif=p3b_beat_umbra

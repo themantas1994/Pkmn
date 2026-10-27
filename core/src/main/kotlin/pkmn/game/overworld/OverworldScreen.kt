@@ -933,17 +933,26 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         when (c.direction) { "north" -> ty < 0; "south" -> ty >= m.height; "west" -> tx < 0; else -> tx >= m.width }
     }
 
+    /** First opaque row of a 16x32 character cell (`HEAD_TOP` in art/chars.py): emotes sit above the head, not the cell. */
+    private val TALL_HEAD_TOP = 10
+
     private fun drawActor(r: Renderer, a: Actor, camX: Float, camY: Float) {
         if (a.sprite.startsWith("@mon:")) { drawEventMon(r, a, camX, camY); return }
-        val frames = r.assets.character(a.sprite)
+        val running = a === player && a.moving && a.tilesPerSecond > 6f && (a.sprite == "player_m" || a.sprite == "player_f")
+        val frames = r.assets.character(if (running) a.sprite + "_run" else a.sprite)
         val dirRow = when (a.facing) { Facing.DOWN -> 0; Facing.UP -> 1; Facing.LEFT -> 2; Facing.RIGHT -> 3 }
-        val px = a.pixelX() - camX
-        val py = a.pixelY() - camY - 4
-        if (a.jumping) r.rect(px + 3, (a.fromY + (a.y - a.fromY) * a.progress) * 16f - camY + 12, 10f, 3f, Color(0f, 0f, 0f, 0.35f))
-        r.draw(frames[dirRow][a.frame()], px, py)
+        val region = frames[dirRow][a.frame()]
+        // Tall sheets (16x32 / 32x32) stand on the tile: bottom edge on the tile's bottom edge, centred horizontally, head overlapping the tile above.
+        // Legacy 16x16 sheets and objects keep their old 4 px lift.
+        val tall = region.regionHeight > 16
+        val px = a.pixelX() - camX - (region.regionWidth - 16) / 2
+        val py = if (tall) a.pixelY() - camY + 16 - region.regionHeight else a.pixelY() - camY - 4
+        val headTop = if (tall) py + TALL_HEAD_TOP else py
+        if (a.jumping) r.rect(a.pixelX() - camX + 3, (a.fromY + (a.y - a.fromY) * a.progress) * 16f - camY + 12, 10f, 3f, Color(0f, 0f, 0f, 0.35f))
+        r.draw(region, px, py)
         a.emote?.let {
-            r.frame(px.toInt() - 1, py.toInt() - 18, 18, 16)
-            r.text(it, px.toInt() + 5, py.toInt() - 14)
+            r.frame(px.toInt() - 1 + (region.regionWidth - 16) / 2, headTop.toInt() - 18, 18, 16)
+            r.text(it, px.toInt() + 5 + (region.regionWidth - 16) / 2, headTop.toInt() - 14)
         }
     }
 

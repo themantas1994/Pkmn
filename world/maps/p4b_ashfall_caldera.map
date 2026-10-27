@@ -56,3 +56,5 @@ item p4b_cal_islet 19 14 rarecandy
 item p4b_cal_revive 32 21 maxrevive
 hidden p4b_cal_star 4 28 starpiece
 hidden p4b_cal_feather 9 9 prettyfeather
+# PKM-76 Umbra Files doc 5: the heat vent
+npc p5c_cal_vent 30 9 sprite=sign script=p5c_cal_vent
