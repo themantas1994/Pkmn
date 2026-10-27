@@ -53,3 +53,7 @@ obstacle 12 1 cut flag=p4a_cut_orchard
 trainer p4a_r3_lass_wendy 34 14 sprite=lass face=left sight=4
 trainer p4a_r3_youngster_lex 9 3 sprite=youngster face=right sight=4
 trainer p4a_r3_bug_clint 10 18 sprite=bugcatcher face=left sight=5
+# PKM-77 Kai's Notebook: a cache sealed in a nook behind a Cut tree
+tile 1 2 tree
+obstacle 2 1 cut flag=p5b_cut_cache
+npc p5b_cache 1 1 sprite=itemball script=p5b_cache hideif=p5b_cache_taken

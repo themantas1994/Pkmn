@@ -1,0 +1,15 @@
+# Side-quest chain C (PKM-76, design PKM-51): the Umbra Files. Quest step N is "Document N+1" until step 7; steps 8 and 9 are the epilogue and the archive.
+
+quest p5c_umbra_files "The Umbra Files"
+  desc "A grunt who left Team Eclipse is hiding in Whisperwood. He wants the truth about Umbra's eclipse written down before it is forgotten."
+  step "Document 1: read the defector's notes on the desk in his Whisperwood hideout."
+  step "Document 2: open the crate in the Harbor Warehouse in Port Tidewater (two switches)."
+  step "Document 3: find the key-card in the Voltara Power Plant and open the safe."
+  step "Document 4: search the boulder room on Mt. Prism 2F (Strength)."
+  step "Document 5: reach the heat vent in Ashfall Caldera with a fire-resistant Pokémon in your party."
+  step "Document 6: climb the frozen waterfall in Frozen Falls on Route 12 (Waterfall)."
+  step "Document 7: search the Prism Summit peak, where Umbra made his stand."
+  step "Document 8: beat the three ex-admins guarding Umbra's letter in the Eclipse Lens Lab."
+  step "Epilogue: read Umbra's letter with the defector in Whisperwood."
+  step "File the eight documents with the archivist in the hideout."
+end

@@ -1,0 +1,13 @@
+# Side-quest chain A (PKM-75): the rival researcher who ends the Linden Field Notes (Gym 8 cap 58; party kept under it).
+
+trainer p5a_orrel
+  class scientist
+  name "Dr. Orrel"
+  ai 2
+  intro "Bonds are anecdotes. Data wins arguments, and so do battles!"
+  defeat "...Fine. The data holds."
+  after "Hmph. I'll cite your thesis. Don't let it go to your head."
+  mon magnezone 54
+  mon alakazam 54
+  mon porygon2 55
+end

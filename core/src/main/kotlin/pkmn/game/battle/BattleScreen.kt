@@ -61,6 +61,7 @@ class BattleScreen(
         var offY = 0f
         var scale = 1f
         var drop = 0f
+        var alpha = 1f
         var whiten = 0f
         var blink = false
         var exp = 0f
@@ -277,8 +278,12 @@ class BattleScreen(
                 val v = views[e.side]
                 steps.add(Step.WaitText)
                 doNow { game.audio.playSfx("faint") }
-                play(Clip("faint", clipTime("faint", 0.45f), essential = true, onUpdate = { v.drop = Ease.inQuad(it) }, onEnd = {
-                    v.visible = false; v.hud = false; v.drop = 0f
+                // Sink, slide away from the centre (player left, foe right) and fade out before the faint message.
+                val dir = if (e.side == 0) -1f else 1f
+                play(Clip("faint", clipTime("faint", 0.45f), essential = true, onUpdate = { t ->
+                    v.drop = Ease.inQuad(t); v.offX = dir * 24f * Ease.inQuad(t); v.alpha = 1f - t
+                }, onEnd = {
+                    v.visible = false; v.hud = false; v.drop = 0f; v.offX = 0f; v.alpha = 1f
                 }))
                 // Gold/Silver/Crystal: the wild victory theme starts as soon as the wild Pokémon faints.
                 if (e.side == 1 && battle.opponent.isWild) doNow { game.audio.playMusic("victory_wild", 0) }
@@ -372,7 +377,7 @@ class BattleScreen(
         doNow {
             v.teamIndex = e.teamIndex; v.species = e.speciesId; v.name = bm.shownName; v.level = bm.illusion?.level ?: bm.level
             v.maxHp = e.maxHp; v.hp = e.hp.toFloat(); v.status = bm.mon.status?.id
-            v.dynamax = false; v.tera = null; v.drop = 0f; v.whiten = 0f; v.offX = 0f; v.offY = 0f
+            v.dynamax = false; v.tera = null; v.drop = 0f; v.alpha = 1f; v.whiten = 0f; v.offX = 0f; v.offY = 0f
             v.gender = when (bm.mon.gender) { pkmn.engine.mon.Gender.MALE -> "♂"; pkmn.engine.mon.Gender.FEMALE -> "♀"; else -> "" }
             if (e.side == 0) v.exp = expFraction(bm)
             appeared[e.side] = true
@@ -678,18 +683,27 @@ class BattleScreen(
     // ================================================================= drawing
 
     override fun draw(r: Renderer) {
-        val bg = when (battle.environment) {
-            "cave" -> Color.valueOf("c8b8a0"); "water" -> Color.valueOf("b8d0f0"); "snow" -> Color.valueOf("e8f0f8")
-            "sand" -> Color.valueOf("f0e0b0"); "indoor", "building" -> Color.valueOf("e0d8d0"); else -> Color.valueOf("e8f0d8")
-        }
         val sx = if (shake > 0) ((game.timeMs / 40) % 3 - 1) * 2f else 0f
-        // Outdoor battles at night use a dimmer backdrop (the overworld clock decided isNight when the battle began).
-        if (battle.isNight && battle.environment !in setOf("cave", "indoor", "building")) bg.mul(0.72f, 0.76f, 0.95f, 1f)
+        val id = BattleBackdrop.idFor(battle.environment)
+        // Outdoor battles at night use the night palette swap (the overworld clock decided isNight when the battle began).
+        val night = battle.isNight && BattleBackdrop.dimmedAtNight(id)
+        val tint = if (night) BattleBackdrop.nightTint() else Color.WHITE
         r.rect(0, 0, Renderer.W, Renderer.H, Palette.WINDOW)
-        r.rect(0, 0, Renderer.W, 160, bg)
-        val ground = bg.cpy().mul(0.85f, 0.85f, 0.82f, 1f)
-        ellipse(r, 196 + sx.toInt(), 86, 52, 9, ground)
-        ellipse(r, 64 + sx.toInt(), 152, 60, 9, ground)
+        val bgTex = r.assets.region("gfx/battle/bg_$id.png")
+        if (bgTex != null) {
+            r.tint(tint) {
+                r.draw(bgTex, 0, 0)
+                r.assets.region("gfx/battle/platform_foe_$id.png")?.let { r.draw(it, 140 + sx.toInt(), 76) }
+                r.assets.region("gfx/battle/platform_player_$id.png")?.let { r.draw(it, sx.toInt(), 142) }
+            }
+        } else {
+            val bg = Color.valueOf("e8f0d8")
+            if (night) bg.mul(tint)
+            r.rect(0, 0, Renderer.W, 160, bg)
+            val ground = bg.cpy().mul(0.85f, 0.85f, 0.82f, 1f)
+            ellipse(r, 196 + sx.toInt(), 86, 52, 9, ground)
+            ellipse(r, 64 + sx.toInt(), 152, 60, 9, ground)
+        }
 
         if (trainer != null && portrait > 0f) {
             val p = r.assets.trainerPortrait(trainer.portrait ?: ctx.content.trainerClasses[trainer.trainerClass]?.portrait)
@@ -750,12 +764,19 @@ class BattleScreen(
         val visibleH = h - dropped
         if (visibleH <= 0f) return
         val region = if (v.drop > 0f) TextureRegion(tex, 0, 0, tex.regionWidth, (tex.regionHeight * (1f - v.drop)).toInt().coerceAtLeast(1)) else tex
+        val statusFx = anim.cosmetic && StatusFx.hasEffect(v.status)
         val tint = when {
             v.dynamax -> Color(1f, 0.55f, 0.6f, 1f)
             v.tera != null -> Palette.type(v.tera!!).cpy().lerp(Color.WHITE, 0.55f)
             else -> Color.WHITE
-        }
+        }.let { if (statusFx) it.cpy().mul(StatusFx.tint(v.status, game.timeMs)) else it }
+            .let { if (v.alpha < 1f) it.cpy().apply { a = v.alpha.coerceIn(0f, 1f) } else it }
         r.tint(tint) { r.draw(region, left, top, w, visibleH) }
+        if (statusFx && v.alpha >= 1f && v.drop == 0f) {
+            val sparks = StatusFx.sparks(v.status, game.timeMs)
+            for (p in sparks) r.rect((left + p.x * w).toInt(), (top + p.y * h).toInt(), p.size, p.size, p.color)
+            if (StatusFx.showsZ(v.status)) sparks.firstOrNull()?.let { p -> r.text("Z", (left + p.x * w).toInt() + 3, (top + p.y * h).toInt() - 4, Color.WHITE, small = true) }
+        }
         if (v.whiten > 0.01f) {
             // Additive pass brightens the sprite toward white (send-out, recall, transformations).
             r.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE)
@@ -778,6 +799,14 @@ class BattleScreen(
         r.rect(x.toFloat(), y.toFloat(), w * f, 3f, c)
     }
 
+    /** HUD box (GBA spec section 5): light fill, dark outline, 1 px shade along the lower and right edges. */
+    private fun hudPanel(r: Renderer, x: Int, y: Int, w: Int, h: Int) {
+        r.rect(x, y, w, h, Palette.WHITE)
+        r.rect(x + 1, y + h - 3, w - 2, 2, Palette.SHADE)
+        r.rect(x + w - 3, y + 1, 2, h - 2, Palette.SHADE)
+        r.outline(x, y, w, h, Palette.TEXT)
+    }
+
     private fun statusTag(r: Renderer, s: String?, x: Int, y: Int) {
         if (s == null) return
         val label = when (s) { "brn" -> "BRN"; "par" -> "PAR"; "psn", "tox" -> "PSN"; "slp" -> "SLP"; "frz" -> "FRZ"; else -> s.uppercase() }
@@ -786,11 +815,11 @@ class BattleScreen(
 
     private fun drawFoeHud(r: Renderer) {
         val v = views[1]
+        hudPanel(r, 4, 4, 120, 36)
         r.text(v.name.take(12), 8, 8)
         r.text("${v.gender}:L${v.level}", 24, 18)
         statusTag(r, v.status, 80, 18)
         hpBar(r, 32, 30, 80, v.hp, v.maxHp)
-        r.rect(8, 36, 112, 1, Palette.TEXT)
         if (battle.opponent.isWild && v.species != null) {
             val base = dex.speciesOrNull(v.species!!)?.baseSpecies
             if (base != null && base in ctx.state.caught) r.text("●", 108, 8, Palette.RED, small = true)
@@ -799,6 +828,7 @@ class BattleScreen(
 
     private fun drawPlayerHud(r: Renderer) {
         val v = views[0]
+        hudPanel(r, 132, 92, 121, 56)
         r.text(v.name.take(12), 136, 96)
         r.text("${v.gender}:L${v.level}", 152, 106)
         statusTag(r, v.status, 208, 106)
@@ -807,8 +837,6 @@ class BattleScreen(
         r.text("EXP", 136, 140, small = true)
         r.rect(158, 141, 82, 4, Palette.TEXT)
         r.rect(159f, 142f, 80 * v.exp.coerceIn(0f, 1f), 2f, Palette.EXP_BLUE)
-        r.rect(248, 96, 1, 52, Palette.TEXT)
-        r.rect(136, 148, 113, 1, Palette.TEXT)
     }
 
     /**

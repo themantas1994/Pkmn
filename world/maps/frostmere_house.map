@@ -18,3 +18,5 @@ warp 3 5 -> frostmere_town 17 5 down
 warp 4 5 -> frostmere_town 17 5 down
 npc fh_grandpa 5 3 sprite=oldman face=left script=p3a_fm_grandpa
 npc fh_girl 1 4 sprite=lass face=right script=p3a_fm_trade_girl
+# PKM-75 Linden Field Notes vol. 6
+npc p5a_contact 6 2 sprite=scientist face=down script=p5a_frostmere_contact

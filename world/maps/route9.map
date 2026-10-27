@@ -66,3 +66,5 @@ item p4b_r9_charcoal 21 17 charcoal
 hidden p4b_r9_ember 3 6 fireterashard
 tile 14 18 cave_entrance
 warp 14 18 -> p4b_steam_grotto 15 2 down
+# PKM-75 Linden Field Notes vol. 5: sensor
+npc p5a_sensor 30 12 sprite=sign script=p5a_sensor_route9

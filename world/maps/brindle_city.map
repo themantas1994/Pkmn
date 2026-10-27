@@ -65,3 +65,5 @@ tile 24 5 sign
 stamp p4a_lighthouse 8 15 -> p4a_lantern_tower_1f 5 8 up
 tile 12 18 sign
 sign 12 18 script=p4a_bc_tower_sign
+# PKM-77 Kai's Notebook: the first page
+npc p5b_page 13 4 sprite=itemball script=p5b_page

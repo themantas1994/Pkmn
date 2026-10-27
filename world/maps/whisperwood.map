@@ -67,3 +67,7 @@ hidden ww_bigmushroom 2 4 bigmushroom
 trainer p4a_ww_bug_remy 25 23 sprite=bugcatcher face=left sight=2
 trainer p4a_ww_lass_hana 10 24 sprite=lass face=up sight=3
 trainer p4a_ww_youngster_jay 25 7 sprite=youngster face=left sight=4
+# PKM-76 Umbra Files: the defector and the way into his hideout
+tile 4 4 forest_entrance
+warp 4 4 -> p5c_hideout 6 8 up
+npc p5c_defector 6 4 sprite=grunt_m face=left script=p5c_defector showif=p1_heist_foiled hideif=p5c_defector_in

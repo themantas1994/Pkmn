@@ -55,3 +55,5 @@ hidden ff_hidden_candy 2 18 rarecandy
 tile 3 2 cave_ladder
 warp 3 2 -> p4c_frozen_falls_depths 4 2 right
 trainer p4c_ff_black_haldor 25 18 sprite=blackbelt face=left sight=3
+# PKM-76 Umbra Files doc 6: above the frozen waterfall
+npc p5c_ff_page 13 2 sprite=sign script=p5c_ff_page
