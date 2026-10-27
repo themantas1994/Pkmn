@@ -16,7 +16,6 @@ from pixlib import grid  # noqa: E402
 from palettes import TILE  # noqa: E402
 import gym_tiles  # noqa: E402
 
-COLUMNS = 16
 TS = 16
 FRAME_MS = 250
 
@@ -1701,34 +1700,104 @@ def town_floor():
 
 
 # =========================================================================
+# 8x8 tile sheet + metatile table (docs/gba-graphics-spec.md section 4)
+# =========================================================================
+HALF = TS // 2
+SHEET_COLUMNS = 32          # 8x8 tiles per sheet row (256 px)
+FLIP_H = 0x400              # flip flags are OR-ed into a tile index, as in GBA tilemap entries
+FLIP_V = 0x800
+INDEX_MASK = 0x3FF
+EMPTY = -1                  # a top-layer cell with no tile
+# Quadrant order of a metatile's four 8x8 cells: top-left, top-right, bottom-left, bottom-right.
+QUADS = [(0, 0), (HALF, 0), (0, HALF), (HALF, HALF)]
+METATILE_TYPES = ("normal", "covered", "split")
+
+
+def _flipped(tile, flags):
+    if flags & FLIP_H:
+        tile = tile[:, ::-1]
+    if flags & FLIP_V:
+        tile = tile[::-1, :]
+    return tile
+
+
+class TileSheet:
+    """Deduplicating store of 8x8 RGBA tiles; an identical tile (also mirrored) is stored once."""
+
+    def __init__(self):
+        self.tiles = []
+        self._seen = {}
+
+    def add(self, tile):
+        for flags in (0, FLIP_H, FLIP_V, FLIP_H | FLIP_V):
+            hit = self._seen.get(_flipped(tile, flags).tobytes())
+            if hit is not None:
+                # tile == flip(stored) <=> stored == flip(tile) for these self-inverse flips
+                return hit | flags
+        idx = len(self.tiles)
+        self.tiles.append(tile)
+        self._seen[tile.tobytes()] = idx
+        return idx
+
+    def image(self):
+        from PIL import Image
+        rows = max(1, (len(self.tiles) + SHEET_COLUMNS - 1) // SHEET_COLUMNS)
+        sheet = np.zeros((rows * HALF, SHEET_COLUMNS * HALF, 4), dtype=np.uint8)
+        for i, t in enumerate(self.tiles):
+            x, y = (i % SHEET_COLUMNS) * HALF, (i // SHEET_COLUMNS) * HALF
+            sheet[y:y + HALF, x:x + HALF] = t
+        return Image.fromarray(sheet, "RGBA")
+
+
+def split_quads(rgba):
+    """16x16 RGBA array -> four 8x8 arrays in QUADS order."""
+    return [rgba[y:y + HALF, x:x + HALF] for x, y in QUADS]
+
+
+def compose(sheet_arr, cells):
+    """Rebuild a 16x16 RGBA layer from four tile references (EMPTY cells stay transparent)."""
+    out = np.zeros((TS, TS, 4), dtype=np.uint8)
+    for (x, y), ref in zip(QUADS, cells):
+        if ref == EMPTY:
+            continue
+        i = ref & INDEX_MASK
+        sx, sy = (i % SHEET_COLUMNS) * HALF, (i // SHEET_COLUMNS) * HALF
+        out[y:y + HALF, x:x + HALF] = _flipped(sheet_arr[sy:sy + HALF, sx:sx + HALF], ref & (FLIP_H | FLIP_V))
+    return out
+
+
 def build():
     tiles = build_tiles()
-    n_frames = sum(len(f) for _, _, f in tiles)
-    rows = (n_frames + COLUMNS - 1) // COLUMNS
-    from PIL import Image
-    sheet = Image.new("RGBA", (COLUMNS * TS, rows * TS), (0, 0, 0, 0))
-    meta = {"tileSize": TS, "columns": COLUMNS, "tiles": {}}
-    idx = 0
+    sheet = TileSheet()
+    meta = {"tileSize": HALF, "metatileSize": TS, "columns": SHEET_COLUMNS, "metatiles": {}}
+    sources = {}
     for name, pal, frames in tiles:
-        assert name not in meta["tiles"], f"duplicate tile {name}"
-        ids = []
+        assert name not in meta["metatiles"], f"duplicate tile {name}"
+        refs = []
         for fr in frames:
             img = pixlib.to_rgba(fr, TILE[pal])
             assert pixlib.colours_used(img) <= 4
-            sheet.paste(img, ((idx % COLUMNS) * TS, (idx // COLUMNS) * TS))
-            ids.append(idx)
-            idx += 1
-        entry = {"index": ids[0], "palette": pal}
-        if len(ids) > 1:
-            entry["frames"] = ids
+            arr = np.asarray(img.convert("RGBA")).copy()
+            sources[(name, len(refs))] = arr
+            refs.append([sheet.add(q) for q in split_quads(arr)])
+        # Existing art is single-layer: it is the ground layer; "top" (objects/overhang cells) is left empty.
+        entry = {"ground": refs[0], "type": "normal", "palette": pal}
+        if len(refs) > 1:
+            entry["frames"] = refs
             entry["frameMs"] = FRAME_MS
-        meta["tiles"][name] = entry
+        meta["metatiles"][name] = entry
     out = os.path.join(pixlib.GFX, "tiles")
-    pixlib.save_png(sheet, os.path.join(out, "world.png"))
+    img = sheet.image()
+    # The 8x8 sheet must reproduce every source metatile frame exactly.
+    arr = np.asarray(img)
+    for name, entry in meta["metatiles"].items():
+        for k, cells in enumerate(entry.get("frames", [entry["ground"]])):
+            assert (compose(arr, cells) == sources[(name, k)]).all(), f"{name} frame {k} does not round-trip"
+    pixlib.save_png(img, os.path.join(out, "world.png"))
     pixlib.save_json(meta, os.path.join(out, "world.json"))
-    return sheet, meta
+    return img, meta
 
 
 if __name__ == "__main__":
     s, m = build()
-    print("tiles:", len(m["tiles"]), "sheet:", s.size)
+    print("metatiles:", len(m["metatiles"]), "sheet:", s.size)

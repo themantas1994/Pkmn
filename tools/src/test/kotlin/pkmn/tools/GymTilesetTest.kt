@@ -29,18 +29,23 @@ class GymTilesetTest {
     @Test fun everyGymHasADistinctInRangeTileSet() {
         val meta = Json.parseToJsonElement(File(assets, "gfx/tiles/world.json").readText()).jsonObject
         val columns = meta["columns"]!!.jsonPrimitive.int
-        assertEquals(16, columns)
+        assertEquals(8, meta["tileSize"]!!.jsonPrimitive.int)
         val sheet = ImageIO.read(File(assets, "gfx/tiles/world.png"))
-        val rows = sheet.height / 16
-        val tiles = meta["tiles"]!!.jsonObject
-        fun frames(name: String): List<Int> {
+        val tileCount = (sheet.height / 8) * columns
+        val tiles = meta["metatiles"]!!.jsonObject
+        /** The four 8x8 tile references of each animation frame of a metatile's ground layer. */
+        fun frames(name: String): List<List<Int>> {
             val e = tiles[name]!!.jsonObject
-            return e["frames"]?.jsonArray?.map { it.jsonPrimitive.int } ?: listOf(e["index"]!!.jsonPrimitive.int)
+            return (e["frames"]?.jsonArray ?: listOf(e["ground"]!!)).map { f -> f.jsonArray.map { it.jsonPrimitive.int } }
         }
-        fun pixels(i: Int): List<Int> {
-            val x = (i % columns) * 16
-            val y = (i / columns) * 16
-            return (0 until 256).map { sheet.getRGB(x + it % 16, y + it / 16) }
+        /** Composes the 16x16 pixels of one frame: cells are TL, TR, BL, BR; 0x400 / 0x800 flip horizontally / vertically. */
+        fun pixels(cells: List<Int>): List<Int> = (0 until 256).map { p ->
+            val x = p % 16; val y = p / 16
+            val ref = cells[(y / 8) * 2 + x / 8]
+            val i = ref and 0x3FF
+            val fx = if (ref and 0x400 != 0) 7 - x % 8 else x % 8
+            val fy = if (ref and 0x800 != 0) 7 - y % 8 else y % 8
+            sheet.getRGB((i % columns) * 8 + fx, (i / columns) * 8 + fy)
         }
         assertEquals(8, themes.size)
         val everyPixelsByTile = HashMap<List<Int>, String>()
@@ -48,7 +53,7 @@ class GymTilesetTest {
             assertTrue(names.size in 5..8, "$theme: ${names.size} tiles")
             for (n in names) {
                 assertTrue(n in tiles, "$theme: tile $n missing from world.json")
-                for (i in frames(n)) assertTrue(i in 0 until rows * columns, "$theme/$n index $i out of range (sheet has ${rows * columns})")
+                for (f in frames(n)) for (ref in f) assertTrue((ref and 0x3FF) in 0 until tileCount, "$theme/$n tile $ref out of range (sheet has $tileCount)")
                 val px = pixels(frames(n).first())
                 val colours = px.toSet()
                 assertTrue(colours.size <= 4, "$theme/$n uses ${colours.size} colours")

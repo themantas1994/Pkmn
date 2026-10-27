@@ -6,12 +6,6 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.int
-import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import pkmn.engine.data.Dex
 import pkmn.engine.util.toId
 import java.io.File
@@ -19,6 +13,18 @@ import java.io.File
 /** Animated or static tile from the world tileset. */
 class TileGfx(val frames: Array<TextureRegion>, val frameMs: Int) {
     fun frame(timeMs: Long): TextureRegion = if (frames.size == 1) frames[0] else frames[((timeMs / frameMs) % frames.size).toInt()]
+}
+
+/**
+ * A map tile: [bottom] and [top] are its two layers; [type] says which of ground / objects / overhang each one is
+ * (see [MetatileType]). Existing single-layer art has no [top].
+ */
+class Metatile(val type: MetatileType, val bottom: TileGfx, val top: TileGfx?) {
+    fun layer(l: MapLayer): TileGfx? = when (l) {
+        type.bottom -> bottom
+        type.top -> top
+        else -> null
+    }
 }
 
 /**
@@ -44,24 +50,53 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
 
     // ------------------------------------------------------------------ tiles
 
-    private val tileset: Texture? = texture("gfx/tiles/world.png")
+    private val metatiles = HashMap<String, Metatile>()
     private val tiles = HashMap<String, TileGfx>()
     private val tileFallback = HashMap<String, TileGfx>()
 
-    init {
-        val meta = file("gfx/tiles/world.json")
-        if (tileset != null && meta != null) {
-            val root = Json.parseToJsonElement(meta.readString()).jsonObject
-            val size = root["tileSize"]?.jsonPrimitive?.int ?: 16
-            val cols = root["columns"]?.jsonPrimitive?.int ?: (tileset.width / size)
-            fun reg(i: Int) = TextureRegion(tileset, (i % cols) * size, (i / cols) * size, size, size)
-            for ((name, v) in root["tiles"]!!.jsonObject) {
-                val o = v.jsonObject
-                val frames = o["frames"]?.jsonArray?.map { it.jsonPrimitive.int } ?: listOf(o["index"]!!.jsonPrimitive.int)
-                tiles[name] = TileGfx(frames.map { reg(it) }.toTypedArray(), o["frameMs"]?.jsonPrimitive?.intOrNull ?: 250)
-            }
+    init { loadMetatiles() }
+
+    /**
+     * Reads the 8x8 tile sheet and the metatile table, and bakes every distinct 16x16 layer into one atlas so a map
+     * tile is still one draw per layer. Flipped and shared 8x8 tiles are resolved here (see [MetatileTable.compose]).
+     */
+    private fun loadMetatiles() {
+        val png = file("gfx/tiles/world.png") ?: return
+        val meta = file("gfx/tiles/world.json") ?: return
+        val table = MetatileTable.parse(meta.readString())
+        val src = Pixmap(png).let { p -> if (p.format == Pixmap.Format.RGBA8888) p else Pixmap(p.width, p.height, Pixmap.Format.RGBA8888).also { it.drawPixmap(p, 0, 0); p.dispose() } }
+        val sheet = IntArray(src.width * src.height) { src.getPixel(it % src.width, it / src.width) }
+        val sheetWidth = src.width
+        src.dispose()
+        val size = table.metatileSize
+        val unique = LinkedHashMap<String, IntArray>()
+        fun key(cells: IntArray) = cells.joinToString(",")
+        for (d in table.metatiles.values) {
+            d.bottomFrames.forEach { unique.getOrPut(key(it)) { it } }
+            d.top?.let { unique.getOrPut(key(it)) { it } }
+        }
+        val cols = 16
+        val atlas = Pixmap(cols * size, ((unique.size + cols - 1) / cols).coerceAtLeast(1) * size, Pixmap.Format.RGBA8888)
+        atlas.blending = Pixmap.Blending.None
+        val slots = HashMap<String, Int>()
+        for ((k, cells) in unique) {
+            val slot = slots.size
+            slots[k] = slot
+            val px = MetatileTable.compose(sheet, sheetWidth, table.columns, table.tileSize, cells)
+            for (i in px.indices) atlas.drawPixel((slot % cols) * size + i % size, (slot / cols) * size + i / size, px[i])
+        }
+        val texture = managedTexture(atlas, retainedPixmaps).also { generated.add(it); it.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest) }
+        fun region(cells: IntArray): TextureRegion { val slot = slots.getValue(key(cells)); return TextureRegion(texture, (slot % cols) * size, (slot / cols) * size, size, size) }
+        for ((name, d) in table.metatiles) {
+            val ground = TileGfx(d.bottomFrames.map { region(it) }.toTypedArray(), d.frameMs)
+            val top = d.top?.let { TileGfx(arrayOf(region(it)), d.frameMs) }
+            metatiles[name] = Metatile(d.type, ground, top)
+            tiles[name] = ground
         }
     }
+
+    /** The layered metatile for a map tile name, or a flat ground-only fallback tile when the name is unknown. */
+    fun metatile(name: String): Metatile = metatiles[name] ?: metatiles[name.substringBefore('@')] ?: Metatile(MetatileType.NORMAL, tile(name), null)
 
     fun tile(name: String): TileGfx = tiles[name] ?: tiles[name.substringBefore('@')] ?: tileFallback.getOrPut(name) {
         noteMissing("tile:$name")

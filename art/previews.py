@@ -7,12 +7,14 @@ import json
 import os
 import sys
 
+import numpy as np
 from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import font  # noqa: E402
 import gym_tiles  # noqa: E402
 import pixlib  # noqa: E402
+import tiles  # noqa: E402
 
 GFX = pixlib.GFX
 OUT = pixlib.PREVIEWS
@@ -25,13 +27,15 @@ class Tileset:
         self.img = Image.open(os.path.join(GFX, "tiles", "world.png")).convert("RGBA")
         with open(os.path.join(GFX, "tiles", "world.json"), encoding="utf-8") as f:
             self.meta = json.load(f)
-        self.cols = self.meta["columns"]
+        self.arr = np.asarray(self.img)
 
     def tile(self, name, frame=0):
-        e = self.meta["tiles"][name]
-        idx = e.get("frames", [e["index"]])[frame % len(e.get("frames", [e["index"]]))]
-        x, y = (idx % self.cols) * 16, (idx // self.cols) * 16
-        return self.img.crop((x, y, x + 16, y + 16))
+        e = self.meta["metatiles"][name]
+        cells = e.get("frames", [e["ground"]])
+        out = Image.fromarray(tiles.compose(self.arr, cells[frame % len(cells)]), "RGBA")
+        if "top" in e:
+            out.alpha_composite(Image.fromarray(tiles.compose(self.arr, e["top"]), "RGBA"))
+        return out
 
 
 def label(img, text, x, y, cw=6, colour=INK):
@@ -250,7 +254,7 @@ def nine_slice(src, w, h, c=8):
 
 
 def tiles_contact(ts):
-    names = list(ts.meta["tiles"].keys())
+    names = list(ts.meta["metatiles"].keys())
     cols, cw, ch = 8, 124, 20
     rows = (len(names) + cols - 1) // cols
     img = Image.new("RGBA", (cols * cw, rows * ch + 4), BG)
