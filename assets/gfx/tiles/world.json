@@ -21,994 +21,934 @@
         4
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "grass_alt": {
       "ground": [
-        4,
         5,
         6,
-        7
+        7,
+        8
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "tall_grass": {
       "ground": [
-        8,
         9,
         10,
-        11
+        11,
+        12
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "flowers": {
       "ground": [
-        12,
-        1025,
         13,
-        14
+        14,
+        15,
+        16
       ],
       "type": "normal",
       "palette": "flowers",
       "frames": [
         [
-          12,
-          1025,
           13,
-          14
-        ],
-        [
+          14,
           15,
-          1025,
-          13,
           16
         ],
         [
-          12,
-          1025,
-          13,
-          14
+          17,
+          14,
+          15,
+          18
         ],
         [
-          17,
-          1025,
           13,
-          1040
+          14,
+          15,
+          16
+        ],
+        [
+          19,
+          14,
+          15,
+          1042
         ]
       ],
       "frameMs": 250
     },
     "path": {
       "ground": [
-        18,
-        19,
         20,
-        21
+        21,
+        22,
+        23
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_edge_n": {
       "ground": [
+        24,
+        25,
         22,
-        23,
-        20,
-        21
+        23
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_edge_s": {
       "ground": [
-        18,
-        19,
-        24,
-        25
+        20,
+        21,
+        26,
+        27
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_edge_e": {
       "ground": [
-        18,
-        26,
         20,
-        27
+        28,
+        22,
+        29
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_edge_w": {
       "ground": [
-        28,
-        19,
-        29,
-        21
+        30,
+        21,
+        31,
+        23
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_corner_ne": {
       "ground": [
+        24,
+        32,
         22,
-        30,
-        20,
-        27
+        29
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_corner_nw": {
       "ground": [
+        33,
+        25,
         31,
-        23,
-        29,
-        21
+        23
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_corner_se": {
       "ground": [
-        18,
+        20,
+        28,
         26,
-        24,
-        32
+        34
       ],
       "type": "normal",
       "palette": "path"
     },
     "path_corner_sw": {
       "ground": [
-        28,
-        19,
-        33,
-        25
+        30,
+        21,
+        35,
+        27
       ],
       "type": "normal",
       "palette": "path"
     },
     "sand": {
       "ground": [
-        34,
-        35,
         36,
-        37
+        37,
+        38,
+        39
       ],
       "type": "normal",
       "palette": "sand"
     },
     "town_floor": {
       "ground": [
-        38,
-        39,
-        39,
-        38
+        40,
+        41,
+        41,
+        40
       ],
       "type": "normal",
       "palette": "town"
     },
     "tree": {
       "ground": [
-        40,
-        41,
         42,
-        43
+        43,
+        44,
+        45
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "tree_top": {
       "ground": [
-        44,
-        45,
         46,
-        47
+        47,
+        48,
+        49
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "tree_bottom": {
       "ground": [
-        48,
-        49,
         50,
-        1074
+        51,
+        52,
+        53
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "bush": {
       "ground": [
-        51,
-        52,
-        53,
-        54
+        54,
+        55,
+        56,
+        57
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "cut_tree": {
       "ground": [
-        55,
-        56,
-        57,
-        58
+        58,
+        59,
+        60,
+        61
       ],
       "type": "normal",
-      "palette": "outdoor"
+      "palette": "route16"
     },
     "rock": {
       "ground": [
-        59,
-        60,
-        61,
-        62
+        62,
+        63,
+        64,
+        65
       ],
       "type": "normal",
       "palette": "rocky"
     },
     "boulder": {
       "ground": [
-        63,
-        64,
-        65,
-        66
+        66,
+        67,
+        68,
+        69
       ],
       "type": "normal",
       "palette": "rocky"
     },
     "ledge_s": {
       "ground": [
-        67,
-        68,
-        69,
-        69
+        70,
+        71,
+        72,
+        72
       ],
       "type": "normal",
       "palette": "outdoor"
     },
     "ledge_e": {
       "ground": [
-        1,
-        70,
-        3,
-        70
+        1038,
+        73,
+        74,
+        73
       ],
       "type": "normal",
       "palette": "outdoor"
     },
     "ledge_w": {
       "ground": [
-        3142,
-        2,
-        3142,
-        4
+        3145,
+        75,
+        3145,
+        76
       ],
       "type": "normal",
       "palette": "outdoor"
     },
     "fence_h": {
       "ground": [
-        71,
-        72,
-        73,
-        74
+        77,
+        78,
+        79,
+        80
       ],
       "type": "normal",
       "palette": "fence"
     },
     "fence_v": {
       "ground": [
-        75,
-        76,
-        77,
-        78
+        81,
+        82,
+        83,
+        84
       ],
       "type": "normal",
       "palette": "fence"
     },
     "sign": {
       "ground": [
-        79,
-        80,
-        81,
-        82
+        85,
+        86,
+        87,
+        88
       ],
       "type": "normal",
       "palette": "fence"
     },
     "water": {
       "ground": [
-        83,
-        84,
-        84,
-        85
+        89,
+        90,
+        90,
+        91
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          83,
-          84,
-          84,
-          85
-        ],
-        [
-          86,
-          87,
-          88,
-          89
-        ],
-        [
-          84,
-          83,
-          85,
-          84
-        ],
-        [
-          87,
-          86,
           89,
-          88
+          90,
+          90,
+          91
+        ],
+        [
+          92,
+          93,
+          94,
+          95
+        ],
+        [
+          90,
+          89,
+          91,
+          90
+        ],
+        [
+          93,
+          92,
+          95,
+          94
         ]
       ],
       "frameMs": 250
     },
     "water_n": {
       "ground": [
+        96,
+        97,
         90,
-        91,
-        84,
-        85
+        91
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
+          96,
+          97,
           90,
-          91,
-          84,
-          85
+          91
         ],
         [
-          90,
-          91,
-          88,
-          89
+          96,
+          97,
+          94,
+          95
         ],
         [
-          90,
+          96,
+          97,
           91,
-          85,
-          84
+          90
         ],
         [
-          90,
-          91,
-          89,
-          88
+          96,
+          97,
+          95,
+          94
         ]
       ],
       "frameMs": 250
     },
     "water_s": {
       "ground": [
-        83,
-        84,
-        2139,
-        92
+        89,
+        90,
+        2145,
+        98
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          83,
-          84,
-          2139,
-          92
+          89,
+          90,
+          2145,
+          98
         ],
         [
-          86,
-          87,
+          92,
           93,
-          94
+          99,
+          100
         ],
         [
-          84,
-          83,
-          95,
-          3162
+          90,
+          89,
+          101,
+          3168
         ],
         [
-          87,
-          86,
-          96,
-          97
+          93,
+          92,
+          102,
+          103
         ]
       ],
       "frameMs": 250
     },
     "water_e": {
       "ground": [
-        83,
-        98,
-        84,
-        99
+        89,
+        104,
+        90,
+        105
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          83,
-          98,
-          84,
-          99
-        ],
-        [
-          86,
-          100,
-          88,
-          101
-        ],
-        [
-          84,
-          102,
-          85,
-          103
-        ],
-        [
-          87,
-          104,
           89,
+          104,
+          90,
           105
+        ],
+        [
+          92,
+          106,
+          94,
+          107
+        ],
+        [
+          90,
+          108,
+          91,
+          109
+        ],
+        [
+          93,
+          110,
+          95,
+          111
         ]
       ],
       "frameMs": 250
     },
     "water_w": {
       "ground": [
-        3173,
-        84,
-        1128,
-        85
+        3179,
+        90,
+        1134,
+        91
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          3173,
-          84,
-          1128,
-          85
+          3179,
+          90,
+          1134,
+          91
         ],
         [
-          106,
-          87,
-          1128,
-          89
+          112,
+          93,
+          1134,
+          95
         ],
         [
-          3173,
-          83,
-          1128,
-          84
+          3179,
+          89,
+          1134,
+          90
         ],
         [
-          3173,
-          86,
-          107,
-          88
+          3179,
+          92,
+          113,
+          94
         ]
       ],
       "frameMs": 250
     },
     "water_ne": {
       "ground": [
+        96,
+        114,
         90,
-        108,
-        84,
-        99
+        105
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
+          96,
+          114,
           90,
-          108,
-          84,
-          99
-        ],
-        [
-          90,
-          108,
-          88,
-          101
-        ],
-        [
-          90,
-          108,
-          85,
-          103
-        ],
-        [
-          90,
-          108,
-          89,
           105
+        ],
+        [
+          96,
+          114,
+          94,
+          107
+        ],
+        [
+          96,
+          114,
+          91,
+          109
+        ],
+        [
+          96,
+          114,
+          95,
+          111
         ]
       ],
       "frameMs": 250
     },
     "water_nw": {
       "ground": [
-        109,
-        91,
-        1128,
-        85
+        115,
+        97,
+        1134,
+        91
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          109,
-          91,
-          1128,
-          85
+          115,
+          97,
+          1134,
+          91
         ],
         [
-          109,
-          91,
-          1128,
-          89
+          115,
+          97,
+          1134,
+          95
         ],
         [
-          109,
-          91,
-          1128,
-          84
+          115,
+          97,
+          1134,
+          90
         ],
         [
-          109,
-          91,
-          107,
-          88
+          115,
+          97,
+          113,
+          94
         ]
       ],
       "frameMs": 250
     },
     "water_se": {
       "ground": [
-        83,
-        98,
-        2139,
-        110
+        89,
+        104,
+        2145,
+        116
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          83,
-          98,
-          2139,
-          110
-        ],
-        [
-          86,
-          100,
-          93,
-          3181
-        ],
-        [
-          84,
-          102,
-          95,
-          3181
-        ],
-        [
-          87,
+          89,
           104,
-          96,
-          111
+          2145,
+          116
+        ],
+        [
+          92,
+          106,
+          99,
+          3187
+        ],
+        [
+          90,
+          108,
+          101,
+          3187
+        ],
+        [
+          93,
+          110,
+          102,
+          117
         ]
       ],
       "frameMs": 250
     },
     "water_sw": {
       "ground": [
-        3173,
-        84,
-        3180,
-        92
+        3179,
+        90,
+        3186,
+        98
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          3173,
-          84,
-          3180,
-          92
+          3179,
+          90,
+          3186,
+          98
         ],
         [
-          106,
-          87,
-          3180,
-          94
-        ],
-        [
-          3173,
-          83,
-          3180,
-          3162
-        ],
-        [
-          3173,
-          86,
           112,
-          97
+          93,
+          3186,
+          100
+        ],
+        [
+          3179,
+          89,
+          3186,
+          3168
+        ],
+        [
+          3179,
+          92,
+          118,
+          103
         ]
       ],
       "frameMs": 250
     },
     "water_ine": {
       "ground": [
-        83,
-        113,
-        84,
-        85
+        89,
+        119,
+        90,
+        91
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          83,
-          113,
-          84,
-          85
-        ],
-        [
-          86,
-          114,
-          88,
-          89
-        ],
-        [
-          84,
-          115,
-          85,
-          84
-        ],
-        [
-          87,
-          116,
           89,
-          88
+          119,
+          90,
+          91
+        ],
+        [
+          92,
+          120,
+          94,
+          95
+        ],
+        [
+          90,
+          121,
+          91,
+          90
+        ],
+        [
+          93,
+          122,
+          95,
+          94
         ]
       ],
       "frameMs": 250
     },
     "water_inw": {
       "ground": [
-        117,
-        84,
-        84,
-        85
+        123,
+        90,
+        90,
+        91
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          117,
-          84,
-          84,
-          85
+          123,
+          90,
+          90,
+          91
         ],
         [
-          118,
-          87,
-          88,
-          89
+          124,
+          93,
+          94,
+          95
         ],
         [
-          119,
-          83,
-          85,
-          84
-        ],
-        [
-          117,
-          86,
+          125,
           89,
-          88
+          91,
+          90
+        ],
+        [
+          123,
+          92,
+          95,
+          94
         ]
       ],
       "frameMs": 250
     },
     "water_ise": {
       "ground": [
-        83,
-        84,
-        84,
-        120
+        89,
+        90,
+        90,
+        126
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          83,
-          84,
-          84,
-          120
-        ],
-        [
-          86,
-          87,
-          88,
-          121
-        ],
-        [
-          84,
-          83,
-          85,
-          122
-        ],
-        [
-          87,
-          86,
           89,
-          123
+          90,
+          90,
+          126
+        ],
+        [
+          92,
+          93,
+          94,
+          127
+        ],
+        [
+          90,
+          89,
+          91,
+          128
+        ],
+        [
+          93,
+          92,
+          95,
+          129
         ]
       ],
       "frameMs": 250
     },
     "water_isw": {
       "ground": [
-        83,
-        84,
-        3188,
-        85
+        89,
+        90,
+        3194,
+        91
       ],
       "type": "normal",
       "palette": "water",
       "frames": [
         [
-          83,
-          84,
-          3188,
-          85
+          89,
+          90,
+          3194,
+          91
         ],
         [
-          86,
-          87,
-          124,
-          89
+          92,
+          93,
+          130,
+          95
         ],
         [
-          84,
-          83,
-          125,
-          84
+          90,
+          89,
+          131,
+          90
         ],
         [
-          87,
-          86,
-          126,
-          88
+          93,
+          92,
+          132,
+          94
         ]
       ],
       "frameMs": 250
     },
     "waterfall": {
       "ground": [
-        127,
-        128,
-        129,
-        130
+        133,
+        134,
+        135,
+        136
       ],
       "type": "normal",
       "palette": "waterfall",
       "frames": [
         [
-          127,
-          128,
-          129,
-          130
+          133,
+          134,
+          135,
+          136
         ],
         [
-          131,
-          132,
+          137,
+          138,
+          139,
+          140
+        ],
+        [
+          135,
+          136,
           133,
           134
         ],
         [
-          129,
-          130,
-          127,
-          128
-        ],
-        [
-          133,
-          134,
-          131,
-          132
+          139,
+          140,
+          137,
+          138
         ]
       ],
       "frameMs": 250
     },
     "bridge_h": {
       "ground": [
-        135,
-        135,
-        136,
-        136
+        141,
+        141,
+        142,
+        142
       ],
       "type": "normal",
       "palette": "bridge"
     },
     "bridge_v": {
       "ground": [
-        137,
-        138,
-        137,
-        138
+        143,
+        144,
+        143,
+        144
       ],
       "type": "normal",
       "palette": "bridge"
     },
     "stairs_up": {
       "ground": [
-        139,
-        1163,
-        140,
-        1164
+        145,
+        1169,
+        146,
+        1170
       ],
       "type": "normal",
       "palette": "mountain"
     },
     "stairs_down": {
       "ground": [
-        141,
-        1165,
-        142,
-        1166
+        147,
+        1171,
+        148,
+        1172
       ],
       "type": "normal",
       "palette": "mountain"
     },
     "cave_entrance": {
       "ground": [
-        143,
-        144,
-        145,
-        146
+        149,
+        150,
+        151,
+        152
       ],
       "type": "normal",
       "palette": "mountain"
     },
     "mountain_wall": {
       "ground": [
-        147,
-        148,
-        149,
-        150
+        153,
+        154,
+        155,
+        156
       ],
       "type": "normal",
       "palette": "mountain"
     },
     "mountain_top": {
       "ground": [
-        151,
-        152,
-        153,
-        154
+        157,
+        158,
+        159,
+        160
       ],
       "type": "normal",
       "palette": "mountain"
     },
     "snow": {
       "ground": [
-        155,
-        156,
-        157,
-        158
+        161,
+        162,
+        163,
+        164
       ],
       "type": "normal",
       "palette": "snow"
     },
     "ice": {
       "ground": [
-        159,
-        160,
-        161,
-        162
+        165,
+        166,
+        167,
+        168
       ],
       "type": "normal",
       "palette": "ice"
     },
     "roof_l": {
       "ground": [
-        163,
-        164,
-        163,
-        164
+        169,
+        170,
+        169,
+        170
       ],
       "type": "normal",
       "palette": "roof_red"
     },
     "roof_m": {
       "ground": [
-        164,
-        164,
-        164,
-        164
+        170,
+        170,
+        170,
+        170
       ],
       "type": "normal",
       "palette": "roof_red"
     },
     "roof_r": {
-      "ground": [
-        164,
-        165,
-        164,
-        165
-      ],
-      "type": "normal",
-      "palette": "roof_red"
-    },
-    "roof_l_top": {
-      "ground": [
-        166,
-        167,
-        163,
-        164
-      ],
-      "type": "normal",
-      "palette": "roof_red"
-    },
-    "roof_m_top": {
-      "ground": [
-        167,
-        167,
-        164,
-        164
-      ],
-      "type": "normal",
-      "palette": "roof_red"
-    },
-    "roof_r_top": {
-      "ground": [
-        167,
-        168,
-        164,
-        165
-      ],
-      "type": "normal",
-      "palette": "roof_red"
-    },
-    "roof2_l": {
-      "ground": [
-        169,
-        170,
-        169,
-        170
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "roof2_m": {
-      "ground": [
-        170,
-        170,
-        170,
-        170
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "roof2_r": {
       "ground": [
         170,
         171,
@@ -1016,9 +956,9 @@
         171
       ],
       "type": "normal",
-      "palette": "roof_blue"
+      "palette": "roof_red"
     },
-    "roof2_l_top": {
+    "roof_l_top": {
       "ground": [
         172,
         173,
@@ -1026,9 +966,9 @@
         170
       ],
       "type": "normal",
-      "palette": "roof_blue"
+      "palette": "roof_red"
     },
-    "roof2_m_top": {
+    "roof_m_top": {
       "ground": [
         173,
         173,
@@ -1036,9 +976,9 @@
         170
       ],
       "type": "normal",
-      "palette": "roof_blue"
+      "palette": "roof_red"
     },
-    "roof2_r_top": {
+    "roof_r_top": {
       "ground": [
         173,
         174,
@@ -1046,19 +986,19 @@
         171
       ],
       "type": "normal",
+      "palette": "roof_red"
+    },
+    "roof2_l": {
+      "ground": [
+        175,
+        176,
+        175,
+        176
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
-    "center_roof_l": {
-      "ground": [
-        175,
-        176,
-        175,
-        176
-      ],
-      "type": "normal",
-      "palette": "roof_center"
-    },
-    "center_roof_m": {
+    "roof2_m": {
       "ground": [
         176,
         176,
@@ -1066,9 +1006,9 @@
         176
       ],
       "type": "normal",
-      "palette": "roof_center"
+      "palette": "roof_blue"
     },
-    "center_roof_r": {
+    "roof2_r": {
       "ground": [
         176,
         177,
@@ -1076,9 +1016,9 @@
         177
       ],
       "type": "normal",
-      "palette": "roof_center"
+      "palette": "roof_blue"
     },
-    "center_roof_l_top": {
+    "roof2_l_top": {
       "ground": [
         178,
         179,
@@ -1086,9 +1026,9 @@
         176
       ],
       "type": "normal",
-      "palette": "roof_center"
+      "palette": "roof_blue"
     },
-    "center_roof_m_top": {
+    "roof2_m_top": {
       "ground": [
         179,
         179,
@@ -1096,9 +1036,9 @@
         176
       ],
       "type": "normal",
-      "palette": "roof_center"
+      "palette": "roof_blue"
     },
-    "center_roof_r_top": {
+    "roof2_r_top": {
       "ground": [
         179,
         180,
@@ -1106,79 +1046,19 @@
         177
       ],
       "type": "normal",
+      "palette": "roof_blue"
+    },
+    "center_roof_l": {
+      "ground": [
+        181,
+        182,
+        181,
+        182
+      ],
+      "type": "normal",
       "palette": "roof_center"
     },
-    "mart_roof_l": {
-      "ground": [
-        169,
-        170,
-        169,
-        170
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "mart_roof_m": {
-      "ground": [
-        170,
-        170,
-        170,
-        170
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "mart_roof_r": {
-      "ground": [
-        170,
-        171,
-        170,
-        171
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "mart_roof_l_top": {
-      "ground": [
-        172,
-        173,
-        169,
-        170
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "mart_roof_m_top": {
-      "ground": [
-        173,
-        173,
-        170,
-        170
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "mart_roof_r_top": {
-      "ground": [
-        173,
-        174,
-        170,
-        171
-      ],
-      "type": "normal",
-      "palette": "roof_blue"
-    },
-    "gym_roof_l": {
-      "ground": [
-        181,
-        182,
-        181,
-        182
-      ],
-      "type": "normal",
-      "palette": "roof_gym"
-    },
-    "gym_roof_m": {
+    "center_roof_m": {
       "ground": [
         182,
         182,
@@ -1186,9 +1066,9 @@
         182
       ],
       "type": "normal",
-      "palette": "roof_gym"
+      "palette": "roof_center"
     },
-    "gym_roof_r": {
+    "center_roof_r": {
       "ground": [
         182,
         183,
@@ -1196,9 +1076,9 @@
         183
       ],
       "type": "normal",
-      "palette": "roof_gym"
+      "palette": "roof_center"
     },
-    "gym_roof_l_top": {
+    "center_roof_l_top": {
       "ground": [
         184,
         185,
@@ -1206,9 +1086,9 @@
         182
       ],
       "type": "normal",
-      "palette": "roof_gym"
+      "palette": "roof_center"
     },
-    "gym_roof_m_top": {
+    "center_roof_m_top": {
       "ground": [
         185,
         185,
@@ -1216,9 +1096,9 @@
         182
       ],
       "type": "normal",
-      "palette": "roof_gym"
+      "palette": "roof_center"
     },
-    "gym_roof_r_top": {
+    "center_roof_r_top": {
       "ground": [
         185,
         186,
@@ -1226,39 +1106,129 @@
         183
       ],
       "type": "normal",
-      "palette": "roof_gym"
+      "palette": "roof_center"
     },
-    "wall_l": {
+    "mart_roof_l": {
+      "ground": [
+        175,
+        176,
+        175,
+        176
+      ],
+      "type": "normal",
+      "palette": "roof_blue"
+    },
+    "mart_roof_m": {
+      "ground": [
+        176,
+        176,
+        176,
+        176
+      ],
+      "type": "normal",
+      "palette": "roof_blue"
+    },
+    "mart_roof_r": {
+      "ground": [
+        176,
+        177,
+        176,
+        177
+      ],
+      "type": "normal",
+      "palette": "roof_blue"
+    },
+    "mart_roof_l_top": {
+      "ground": [
+        178,
+        179,
+        175,
+        176
+      ],
+      "type": "normal",
+      "palette": "roof_blue"
+    },
+    "mart_roof_m_top": {
+      "ground": [
+        179,
+        179,
+        176,
+        176
+      ],
+      "type": "normal",
+      "palette": "roof_blue"
+    },
+    "mart_roof_r_top": {
+      "ground": [
+        179,
+        180,
+        176,
+        177
+      ],
+      "type": "normal",
+      "palette": "roof_blue"
+    },
+    "gym_roof_l": {
       "ground": [
         187,
         188,
+        187,
+        188
+      ],
+      "type": "normal",
+      "palette": "roof_gym"
+    },
+    "gym_roof_m": {
+      "ground": [
+        188,
+        188,
+        188,
+        188
+      ],
+      "type": "normal",
+      "palette": "roof_gym"
+    },
+    "gym_roof_r": {
+      "ground": [
+        188,
         189,
-        190
+        188,
+        189
       ],
       "type": "normal",
-      "palette": "wall"
+      "palette": "roof_gym"
     },
-    "wall_m": {
+    "gym_roof_l_top": {
       "ground": [
-        188,
-        188,
         190,
-        190
-      ],
-      "type": "normal",
-      "palette": "wall"
-    },
-    "wall_r": {
-      "ground": [
-        188,
         191,
-        190,
-        192
+        187,
+        188
       ],
       "type": "normal",
-      "palette": "wall"
+      "palette": "roof_gym"
     },
-    "wall_window": {
+    "gym_roof_m_top": {
+      "ground": [
+        191,
+        191,
+        188,
+        188
+      ],
+      "type": "normal",
+      "palette": "roof_gym"
+    },
+    "gym_roof_r_top": {
+      "ground": [
+        191,
+        192,
+        188,
+        189
+      ],
+      "type": "normal",
+      "palette": "roof_gym"
+    },
+    "wall_l": {
       "ground": [
         193,
         194,
@@ -1266,19 +1236,29 @@
         196
       ],
       "type": "normal",
-      "palette": "wall_window"
+      "palette": "wall"
     },
-    "door": {
+    "wall_m": {
       "ground": [
-        197,
-        1221,
-        198,
-        1222
+        194,
+        194,
+        196,
+        196
       ],
       "type": "normal",
-      "palette": "door"
+      "palette": "wall"
     },
-    "center_sign": {
+    "wall_r": {
+      "ground": [
+        194,
+        197,
+        196,
+        198
+      ],
+      "type": "normal",
+      "palette": "wall"
+    },
+    "wall_window": {
       "ground": [
         199,
         200,
@@ -1286,139 +1266,129 @@
         202
       ],
       "type": "normal",
+      "palette": "wall_window"
+    },
+    "door": {
+      "ground": [
+        203,
+        1227,
+        204,
+        1228
+      ],
+      "type": "normal",
+      "palette": "door"
+    },
+    "center_sign": {
+      "ground": [
+        205,
+        206,
+        207,
+        208
+      ],
+      "type": "normal",
       "palette": "sign_center"
     },
     "center_wall_l": {
       "ground": [
-        187,
-        188,
-        189,
-        190
+        193,
+        194,
+        195,
+        196
       ],
       "type": "normal",
       "palette": "wall"
     },
     "center_wall_m": {
       "ground": [
-        188,
-        188,
-        190,
-        190
+        194,
+        194,
+        196,
+        196
       ],
       "type": "normal",
       "palette": "wall"
     },
     "center_wall_r": {
       "ground": [
-        188,
-        191,
-        190,
-        192
+        194,
+        197,
+        196,
+        198
       ],
       "type": "normal",
       "palette": "wall"
     },
     "center_door": {
       "ground": [
-        203,
-        204,
-        205,
-        1229
+        209,
+        210,
+        211,
+        1235
       ],
       "type": "normal",
       "palette": "glass_door"
     },
     "mart_sign": {
       "ground": [
-        206,
-        207,
-        208,
-        209
+        212,
+        213,
+        214,
+        215
       ],
       "type": "normal",
       "palette": "sign_mart"
     },
     "mart_wall_l": {
       "ground": [
-        187,
-        188,
-        189,
-        190
+        193,
+        194,
+        195,
+        196
       ],
       "type": "normal",
       "palette": "wall"
     },
     "mart_wall_m": {
       "ground": [
-        188,
-        188,
-        190,
-        190
+        194,
+        194,
+        196,
+        196
       ],
       "type": "normal",
       "palette": "wall"
     },
     "mart_wall_r": {
       "ground": [
-        188,
-        191,
-        190,
-        192
+        194,
+        197,
+        196,
+        198
       ],
       "type": "normal",
       "palette": "wall"
     },
     "mart_door": {
       "ground": [
-        203,
-        204,
-        205,
-        1229
+        209,
+        210,
+        211,
+        1235
       ],
       "type": "normal",
       "palette": "glass_door"
     },
     "gym_sign": {
       "ground": [
-        210,
-        211,
-        212,
-        1236
+        216,
+        217,
+        218,
+        1242
       ],
       "type": "normal",
       "palette": "sign_gym"
     },
     "gym_wall_l": {
-      "ground": [
-        213,
-        214,
-        215,
-        216
-      ],
-      "type": "normal",
-      "palette": "gym_wall"
-    },
-    "gym_wall_m": {
-      "ground": [
-        214,
-        214,
-        216,
-        216
-      ],
-      "type": "normal",
-      "palette": "gym_wall"
-    },
-    "gym_wall_r": {
-      "ground": [
-        214,
-        217,
-        216,
-        218
-      ],
-      "type": "normal",
-      "palette": "gym_wall"
-    },
-    "gym_window": {
       "ground": [
         219,
         220,
@@ -1428,594 +1398,604 @@
       "type": "normal",
       "palette": "gym_wall"
     },
+    "gym_wall_m": {
+      "ground": [
+        220,
+        220,
+        222,
+        222
+      ],
+      "type": "normal",
+      "palette": "gym_wall"
+    },
+    "gym_wall_r": {
+      "ground": [
+        220,
+        223,
+        222,
+        224
+      ],
+      "type": "normal",
+      "palette": "gym_wall"
+    },
+    "gym_window": {
+      "ground": [
+        225,
+        226,
+        227,
+        228
+      ],
+      "type": "normal",
+      "palette": "gym_wall"
+    },
     "gym_door": {
       "ground": [
-        203,
-        204,
-        205,
-        1229
+        209,
+        210,
+        211,
+        1235
       ],
       "type": "normal",
       "palette": "glass_door"
     },
     "floor_wood": {
       "ground": [
-        223,
-        224,
-        1247,
-        225
+        229,
+        230,
+        1253,
+        231
       ],
       "type": "normal",
       "palette": "floor_wood"
     },
     "floor_tile": {
       "ground": [
-        226,
-        226,
-        226,
-        226
+        232,
+        232,
+        232,
+        232
       ],
       "type": "normal",
       "palette": "floor_tile"
     },
     "floor_carpet": {
       "ground": [
-        227,
-        227,
-        227,
-        228
+        233,
+        233,
+        233,
+        234
       ],
       "type": "normal",
       "palette": "carpet"
     },
     "wall_in": {
       "ground": [
-        229,
-        229,
-        230,
-        230
+        235,
+        235,
+        236,
+        236
       ],
       "type": "normal",
       "palette": "wall_in"
     },
     "wall_in_top": {
       "ground": [
-        231,
-        231,
-        229,
-        229
+        237,
+        237,
+        235,
+        235
       ],
       "type": "normal",
       "palette": "wall_in"
     },
     "window_in": {
       "ground": [
-        232,
-        233,
-        234,
-        1258
+        238,
+        239,
+        240,
+        1264
       ],
       "type": "normal",
       "palette": "window_in"
     },
     "counter": {
       "ground": [
-        235,
-        236,
-        237,
-        238
+        241,
+        242,
+        243,
+        244
       ],
       "type": "normal",
       "palette": "furniture"
     },
     "pc": {
       "ground": [
-        239,
-        240,
-        241,
-        242
+        245,
+        246,
+        247,
+        248
       ],
       "type": "normal",
       "palette": "tech"
     },
     "bookshelf": {
       "ground": [
-        243,
-        244,
-        245,
-        246
+        249,
+        250,
+        251,
+        252
       ],
       "type": "normal",
       "palette": "furniture"
     },
     "table": {
       "ground": [
-        247,
-        248,
-        249,
-        250
+        253,
+        254,
+        255,
+        256
       ],
       "type": "normal",
       "palette": "furniture"
     },
     "chair": {
       "ground": [
-        251,
-        252,
-        253,
-        254
+        257,
+        258,
+        259,
+        260
       ],
       "type": "normal",
       "palette": "furniture"
     },
     "bed_top": {
       "ground": [
-        255,
-        1279,
-        256,
-        1280
+        261,
+        1285,
+        262,
+        1286
       ],
       "type": "normal",
       "palette": "bed"
     },
     "bed_bottom": {
       "ground": [
-        257,
-        1281,
-        258,
-        1282
+        263,
+        1287,
+        264,
+        1288
       ],
       "type": "normal",
       "palette": "bed"
     },
     "plant": {
       "ground": [
-        259,
-        260,
-        261,
-        262
+        265,
+        266,
+        267,
+        268
       ],
       "type": "normal",
       "palette": "plant"
     },
     "tv": {
       "ground": [
-        263,
-        264,
-        265,
-        266
+        269,
+        270,
+        271,
+        272
       ],
       "type": "normal",
       "palette": "tv"
     },
     "rug_l": {
       "ground": [
-        267,
-        268,
-        269,
-        270
+        273,
+        274,
+        275,
+        276
       ],
       "type": "normal",
       "palette": "rug"
     },
     "rug_r": {
       "ground": [
-        268,
-        271,
-        270,
-        272
+        274,
+        277,
+        276,
+        278
       ],
       "type": "normal",
       "palette": "rug"
     },
     "rug_mat": {
       "ground": [
-        267,
-        271,
-        269,
-        272
+        273,
+        277,
+        275,
+        278
       ],
       "type": "normal",
       "palette": "rug"
     },
     "stairs_in_up": {
       "ground": [
-        273,
-        1297,
-        273,
-        1297
+        279,
+        1303,
+        279,
+        1303
       ],
       "type": "normal",
       "palette": "floor_wood"
     },
     "stairs_in_down": {
       "ground": [
-        274,
-        1298,
-        275,
-        1299
+        280,
+        1304,
+        281,
+        1305
       ],
       "type": "normal",
       "palette": "floor_wood"
     },
     "healing_machine": {
       "ground": [
-        276,
-        277,
-        278,
-        279
+        282,
+        283,
+        284,
+        285
       ],
       "type": "normal",
       "palette": "heal"
     },
     "mart_shelf": {
       "ground": [
-        280,
-        281,
-        282,
-        283
+        286,
+        287,
+        288,
+        289
       ],
       "type": "normal",
       "palette": "mart_shelf"
     },
     "cave_floor": {
       "ground": [
-        284,
-        285,
-        286,
-        287
+        290,
+        291,
+        292,
+        293
       ],
       "type": "normal",
       "palette": "cave"
     },
     "cave_wall": {
       "ground": [
-        288,
-        289,
-        290,
-        291
+        294,
+        295,
+        296,
+        297
       ],
       "type": "normal",
       "palette": "cave"
     },
     "cave_wall_top": {
       "ground": [
-        292,
-        293,
-        294,
-        295
+        298,
+        299,
+        300,
+        301
       ],
       "type": "normal",
       "palette": "cave"
     },
     "cave_rock": {
       "ground": [
-        296,
-        297,
-        298,
-        299
+        302,
+        303,
+        304,
+        305
       ],
       "type": "normal",
       "palette": "cave"
     },
     "cave_ladder": {
       "ground": [
-        300,
-        301,
-        302,
-        303
+        306,
+        307,
+        308,
+        309
       ],
       "type": "normal",
       "palette": "cave"
     },
     "cave_water": {
       "ground": [
-        304,
-        305,
-        305,
-        306
+        310,
+        311,
+        311,
+        312
       ],
       "type": "normal",
       "palette": "cave_water",
       "frames": [
         [
-          304,
-          305,
-          305,
-          306
-        ],
-        [
-          307,
-          308,
-          309,
-          310
-        ],
-        [
-          305,
-          304,
-          306,
-          305
-        ],
-        [
-          308,
-          307,
           310,
-          309
+          311,
+          311,
+          312
+        ],
+        [
+          313,
+          314,
+          315,
+          316
+        ],
+        [
+          311,
+          310,
+          312,
+          311
+        ],
+        [
+          314,
+          313,
+          316,
+          315
         ]
       ],
       "frameMs": 250
     },
     "gym_floor": {
       "ground": [
-        311,
-        312,
-        313,
-        314
+        317,
+        318,
+        319,
+        320
       ],
       "type": "normal",
       "palette": "gym"
     },
     "gym_statue": {
       "ground": [
-        315,
-        316,
-        317,
-        318
+        321,
+        322,
+        323,
+        324
       ],
       "type": "normal",
       "palette": "gym"
     },
     "puzzle_switch": {
       "ground": [
-        319,
-        320,
-        321,
-        322
+        325,
+        326,
+        327,
+        328
       ],
       "type": "normal",
       "palette": "puzzle"
     },
     "puzzle_wall": {
       "ground": [
-        323,
-        324,
-        325,
-        326
+        329,
+        330,
+        331,
+        332
       ],
       "type": "normal",
       "palette": "puzzle"
     },
     "spinner_up": {
       "ground": [
-        327,
-        328,
-        329,
-        330
+        333,
+        334,
+        335,
+        336
       ],
       "type": "normal",
       "palette": "puzzle"
     },
     "spinner_down": {
       "ground": [
-        331,
-        332,
-        333,
-        334
+        337,
+        338,
+        339,
+        340
       ],
       "type": "normal",
       "palette": "puzzle"
     },
     "spinner_left": {
       "ground": [
-        327,
-        335,
         333,
-        336
+        341,
+        339,
+        342
       ],
       "type": "normal",
       "palette": "puzzle"
     },
     "spinner_right": {
       "ground": [
-        337,
-        328,
-        338,
-        334
+        343,
+        334,
+        344,
+        340
       ],
       "type": "normal",
       "palette": "puzzle"
     },
     "ruins_floor": {
       "ground": [
-        339,
-        340,
-        341,
-        339
+        345,
+        346,
+        347,
+        345
       ],
       "type": "normal",
       "palette": "ruins"
     },
     "ruins_wall": {
       "ground": [
-        342,
-        343,
-        344,
-        345
+        348,
+        349,
+        350,
+        351
       ],
       "type": "normal",
       "palette": "ruins"
     },
     "league_floor": {
       "ground": [
-        346,
-        347,
-        348,
-        349
+        352,
+        353,
+        354,
+        355
       ],
       "type": "normal",
       "palette": "league"
     },
     "dark_floor": {
       "ground": [
-        350,
-        351,
-        352,
-        353
+        356,
+        357,
+        358,
+        359
       ],
       "type": "normal",
       "palette": "dark"
     },
     "forest_entrance": {
       "ground": [
-        354,
-        355,
-        356,
-        357
+        360,
+        361,
+        362,
+        363
       ],
       "type": "normal",
       "palette": "forest_gap"
     },
     "ruins_entrance": {
       "ground": [
-        358,
-        359,
-        360,
-        361
+        364,
+        365,
+        366,
+        367
       ],
       "type": "normal",
       "palette": "ruins"
     },
     "mine_entrance": {
       "ground": [
-        362,
-        363,
-        364,
-        365
+        368,
+        369,
+        370,
+        371
       ],
       "type": "normal",
       "palette": "cave"
     },
     "tower_door": {
       "ground": [
-        366,
-        367,
-        368,
-        369
+        372,
+        373,
+        374,
+        375
       ],
       "type": "normal",
       "palette": "tower"
     },
     "gate_door": {
       "ground": [
-        370,
-        1394,
-        371,
-        1395
+        376,
+        1400,
+        377,
+        1401
       ],
       "type": "normal",
       "palette": "gate"
     },
     "building_door": {
       "ground": [
-        372,
-        1396,
-        373,
-        1397
+        378,
+        1402,
+        379,
+        1403
       ],
       "type": "normal",
       "palette": "building"
     },
     "gym_floor_sprout": {
       "ground": [
-        374,
-        375,
-        376,
-        377
+        380,
+        381,
+        382,
+        383
       ],
       "type": "normal",
       "palette": "gym_sprout"
     },
     "gym_floor_sprout_stones": {
       "ground": [
-        378,
-        379,
-        380,
-        381
+        384,
+        385,
+        386,
+        387
       ],
       "type": "normal",
       "palette": "gym_sprout_stones"
     },
     "gym_wall_hedge": {
       "ground": [
-        382,
-        383,
-        384,
-        384
+        388,
+        389,
+        390,
+        390
       ],
       "type": "normal",
       "palette": "gym_sprout_hedge"
     },
     "puzzle_wall_hedge": {
       "ground": [
-        385,
-        386,
-        387,
-        388
+        391,
+        392,
+        393,
+        394
       ],
       "type": "normal",
       "palette": "gym_sprout_hedge"
     },
     "bush_blossom": {
       "ground": [
-        389,
-        390,
-        391,
-        392
+        395,
+        396,
+        397,
+        398
       ],
       "type": "normal",
       "palette": "gym_sprout_bloom"
     },
     "plant_sprout": {
       "ground": [
-        393,
-        394,
-        395,
-        396
+        399,
+        400,
+        401,
+        402
       ],
       "type": "normal",
       "palette": "gym_sprout_pot"
     },
     "statue_sprout": {
       "ground": [
-        397,
-        398,
-        399,
-        400
+        403,
+        404,
+        405,
+        406
       ],
       "type": "normal",
       "palette": "gym_sprout_statue"
     },
     "gym_floor_tide": {
-      "ground": [
-        401,
-        402,
-        403,
-        404
-      ],
-      "type": "normal",
-      "palette": "gym_tide"
-    },
-    "gym_wall_tide": {
-      "ground": [
-        405,
-        405,
-        406,
-        406
-      ],
-      "type": "normal",
-      "palette": "gym_tide_wall"
-    },
-    "dock_plank": {
       "ground": [
         407,
         408,
@@ -2023,89 +2003,89 @@
         410
       ],
       "type": "normal",
+      "palette": "gym_tide"
+    },
+    "gym_wall_tide": {
+      "ground": [
+        411,
+        411,
+        412,
+        412
+      ],
+      "type": "normal",
+      "palette": "gym_tide_wall"
+    },
+    "dock_plank": {
+      "ground": [
+        413,
+        414,
+        415,
+        416
+      ],
+      "type": "normal",
       "palette": "gym_tide_dock"
     },
     "dock_plank_v": {
       "ground": [
-        411,
-        412,
-        413,
-        414
+        417,
+        418,
+        419,
+        420
       ],
       "type": "normal",
       "palette": "gym_tide_dock"
     },
     "float_platform": {
       "ground": [
-        415,
-        416,
-        417,
-        418
+        421,
+        422,
+        423,
+        424
       ],
       "type": "normal",
       "palette": "gym_tide_float"
     },
     "pillar_mooring": {
       "ground": [
-        419,
-        420,
-        421,
-        422
+        425,
+        426,
+        427,
+        428
       ],
       "type": "normal",
       "palette": "gym_tide_dock"
     },
     "puzzle_wall_crate": {
       "ground": [
-        423,
-        424,
-        425,
-        426
+        429,
+        430,
+        431,
+        432
       ],
       "type": "normal",
       "palette": "gym_tide_dock"
     },
     "statue_tide": {
       "ground": [
-        427,
-        428,
-        429,
-        430
+        433,
+        434,
+        435,
+        436
       ],
       "type": "normal",
       "palette": "gym_tide_statue"
     },
     "gym_floor_spark": {
       "ground": [
-        431,
-        431,
-        431,
-        431
-      ],
-      "type": "normal",
-      "palette": "gym_spark"
-    },
-    "circuit_panel": {
-      "ground": [
-        432,
-        433,
-        434,
-        435
-      ],
-      "type": "normal",
-      "palette": "gym_spark_live"
-    },
-    "circuit_cable": {
-      "ground": [
-        436,
-        436,
+        437,
+        437,
         437,
         437
       ],
       "type": "normal",
       "palette": "gym_spark"
     },
-    "gym_wall_spark": {
+    "circuit_panel": {
       "ground": [
         438,
         439,
@@ -2113,159 +2093,159 @@
         441
       ],
       "type": "normal",
+      "palette": "gym_spark_live"
+    },
+    "circuit_cable": {
+      "ground": [
+        442,
+        442,
+        443,
+        443
+      ],
+      "type": "normal",
+      "palette": "gym_spark"
+    },
+    "gym_wall_spark": {
+      "ground": [
+        444,
+        445,
+        446,
+        447
+      ],
+      "type": "normal",
       "palette": "gym_spark_hazard"
     },
     "machine_generator": {
       "ground": [
-        442,
-        443,
-        444,
-        445
+        448,
+        449,
+        450,
+        451
       ],
       "type": "normal",
       "palette": "gym_spark_hazard"
     },
     "machine_coil": {
       "ground": [
-        446,
-        447,
-        448,
-        449
+        452,
+        453,
+        454,
+        455
       ],
       "type": "normal",
       "palette": "gym_spark_live"
     },
     "puzzle_wall_spark": {
       "ground": [
-        450,
-        451,
-        452,
-        453
+        456,
+        457,
+        458,
+        459
       ],
       "type": "normal",
       "palette": "gym_spark_live"
     },
     "gym_floor_stone": {
       "ground": [
-        454,
-        455,
-        456,
-        457
+        460,
+        461,
+        462,
+        463
       ],
       "type": "normal",
       "palette": "gym_stone"
     },
     "gym_wall_stone": {
       "ground": [
-        458,
-        459,
-        460,
-        461
+        464,
+        465,
+        466,
+        467
       ],
       "type": "normal",
       "palette": "gym_stone_wall"
     },
     "rock_ore": {
       "ground": [
-        462,
-        463,
-        464,
-        465
+        468,
+        469,
+        470,
+        471
       ],
       "type": "normal",
       "palette": "gym_stone_ore"
     },
     "rock_rubble": {
       "ground": [
-        466,
-        467,
-        468,
-        469
+        472,
+        473,
+        474,
+        475
       ],
       "type": "normal",
       "palette": "gym_stone"
     },
     "rail_h": {
       "ground": [
-        470,
-        471,
-        472,
-        473
+        476,
+        477,
+        478,
+        479
       ],
       "type": "normal",
       "palette": "gym_stone"
     },
     "rail_v": {
       "ground": [
-        474,
-        475,
-        476,
-        477
+        480,
+        481,
+        482,
+        483
       ],
       "type": "normal",
       "palette": "gym_stone"
     },
     "lamp_mine": {
       "ground": [
-        478,
-        479,
-        480,
-        481
+        484,
+        485,
+        486,
+        487
       ],
       "type": "normal",
       "palette": "gym_stone_lamp"
     },
     "puzzle_wall_stone": {
       "ground": [
-        482,
-        483,
-        484,
-        485
+        488,
+        489,
+        490,
+        491
       ],
       "type": "normal",
       "palette": "gym_stone_wall"
     },
     "gym_floor_mist": {
       "ground": [
-        486,
-        487,
-        488,
-        489
+        492,
+        493,
+        494,
+        495
       ],
       "type": "normal",
       "palette": "gym_mist"
     },
     "gym_floor_mist_deep": {
       "ground": [
-        490,
-        491,
-        492,
-        493
+        496,
+        497,
+        498,
+        499
       ],
       "type": "normal",
       "palette": "gym_mist"
     },
     "gym_floor_mist_path": {
-      "ground": [
-        494,
-        495,
-        496,
-        497
-      ],
-      "type": "normal",
-      "palette": "gym_mist"
-    },
-    "gym_wall_mist": {
-      "ground": [
-        498,
-        498,
-        499,
-        499
-      ],
-      "type": "normal",
-      "palette": "gym_mist_wall"
-    },
-    "statue_mist": {
       "ground": [
         500,
         501,
@@ -2273,29 +2253,29 @@
         503
       ],
       "type": "normal",
-      "palette": "gym_mist_statue"
+      "palette": "gym_mist"
     },
-    "plant_mist": {
+    "gym_wall_mist": {
       "ground": [
         504,
+        504,
         505,
-        506,
-        507
-      ],
-      "type": "normal",
-      "palette": "gym_mist_glow"
-    },
-    "puzzle_wall_mist": {
-      "ground": [
-        508,
-        509,
-        3581,
-        3580
+        505
       ],
       "type": "normal",
       "palette": "gym_mist_wall"
     },
-    "gym_floor_ember": {
+    "statue_mist": {
+      "ground": [
+        506,
+        507,
+        508,
+        509
+      ],
+      "type": "normal",
+      "palette": "gym_mist_statue"
+    },
+    "plant_mist": {
       "ground": [
         510,
         511,
@@ -2303,231 +2283,251 @@
         513
       ],
       "type": "normal",
+      "palette": "gym_mist_glow"
+    },
+    "puzzle_wall_mist": {
+      "ground": [
+        514,
+        515,
+        3587,
+        3586
+      ],
+      "type": "normal",
+      "palette": "gym_mist_wall"
+    },
+    "gym_floor_ember": {
+      "ground": [
+        516,
+        517,
+        518,
+        519
+      ],
+      "type": "normal",
       "palette": "gym_ember"
     },
     "gym_floor_ember_hot": {
       "ground": [
-        514,
-        515,
-        516,
-        517
+        520,
+        521,
+        522,
+        523
       ],
       "type": "normal",
       "palette": "gym_ember_hot"
     },
     "gym_wall_ember": {
       "ground": [
-        518,
-        519,
-        520,
-        521
+        524,
+        525,
+        526,
+        527
       ],
       "type": "normal",
       "palette": "gym_ember_hot"
     },
     "lava": {
       "ground": [
-        522,
-        523,
-        524,
-        525
+        528,
+        529,
+        530,
+        531
       ],
       "type": "normal",
       "palette": "gym_ember_lava",
       "frames": [
         [
-          522,
-          523,
-          524,
-          525
-        ],
-        [
-          526,
-          527,
           528,
-          529
-        ],
-        [
-          523,
-          522,
-          525,
-          524
-        ],
-        [
-          527,
-          526,
           529,
-          528
+          530,
+          531
+        ],
+        [
+          532,
+          533,
+          534,
+          535
+        ],
+        [
+          529,
+          528,
+          531,
+          530
+        ],
+        [
+          533,
+          532,
+          535,
+          534
         ]
       ],
       "frameMs": 250
     },
     "gym_floor_ember_crust": {
       "ground": [
-        530,
-        531,
-        532,
-        533
+        536,
+        537,
+        538,
+        539
       ],
       "type": "normal",
       "palette": "gym_ember_crust"
     },
     "lamp_brazier": {
       "ground": [
-        534,
-        535,
-        536,
-        537
+        540,
+        541,
+        542,
+        543
       ],
       "type": "normal",
       "palette": "gym_ember_hot"
     },
     "puzzle_wall_ember": {
       "ground": [
-        538,
-        539,
-        540,
-        541
+        544,
+        545,
+        546,
+        547
       ],
       "type": "normal",
       "palette": "gym_ember_hot"
     },
     "gym_floor_frost": {
       "ground": [
-        542,
-        542,
-        542,
-        542
+        548,
+        548,
+        548,
+        548
       ],
       "type": "normal",
       "palette": "gym_frost"
     },
     "gym_floor_frost_cracked": {
       "ground": [
-        543,
-        544,
-        545,
-        546
+        549,
+        550,
+        551,
+        552
       ],
       "type": "normal",
       "palette": "gym_frost"
     },
     "gym_floor_frost_snow": {
       "ground": [
-        547,
-        548,
-        549,
-        550
+        553,
+        554,
+        555,
+        556
       ],
       "type": "normal",
       "palette": "snow"
     },
     "gym_wall_frost": {
       "ground": [
-        551,
-        552,
-        553,
-        554
+        557,
+        558,
+        559,
+        560
       ],
       "type": "normal",
       "palette": "gym_frost_wall"
     },
     "pillar_ice": {
       "ground": [
-        555,
-        556,
-        557,
-        558
+        561,
+        562,
+        563,
+        564
       ],
       "type": "normal",
       "palette": "gym_frost_wall"
     },
     "statue_frost": {
       "ground": [
-        559,
-        560,
-        561,
-        562
+        565,
+        566,
+        567,
+        568
       ],
       "type": "normal",
       "palette": "gym_frost_statue"
     },
     "puzzle_wall_frost": {
       "ground": [
-        563,
-        564,
-        565,
-        566
+        569,
+        570,
+        571,
+        572
       ],
       "type": "normal",
       "palette": "gym_frost_wall"
     },
     "gym_floor_dusk": {
       "ground": [
-        567,
-        568,
-        569,
-        570
+        573,
+        574,
+        575,
+        576
       ],
       "type": "normal",
       "palette": "gym_dusk"
     },
     "gym_floor_dusk_rune": {
       "ground": [
-        571,
-        572,
-        573,
-        574
+        577,
+        578,
+        579,
+        580
       ],
       "type": "normal",
       "palette": "gym_dusk_rune"
     },
     "gym_wall_dusk": {
       "ground": [
-        575,
-        576,
-        577,
-        578
+        581,
+        582,
+        583,
+        584
       ],
       "type": "normal",
       "palette": "gym_dusk_wall"
     },
     "pillar_dusk": {
       "ground": [
-        579,
-        580,
-        581,
-        582
+        585,
+        586,
+        587,
+        588
       ],
       "type": "normal",
       "palette": "gym_dusk_wall"
     },
     "statue_dragon": {
       "ground": [
-        583,
-        584,
-        585,
-        586
+        589,
+        590,
+        591,
+        592
       ],
       "type": "normal",
       "palette": "gym_dusk_statue"
     },
     "lamp_dusk": {
       "ground": [
-        587,
-        588,
-        589,
-        590
+        593,
+        594,
+        595,
+        596
       ],
       "type": "normal",
       "palette": "gym_dusk_rune"
     },
     "puzzle_wall_dusk": {
       "ground": [
-        591,
-        592,
-        593,
-        594
+        597,
+        598,
+        599,
+        600
       ],
       "type": "normal",
       "palette": "gym_dusk_rune"

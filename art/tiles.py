@@ -15,6 +15,8 @@ import pixlib  # noqa: E402
 from pixlib import grid  # noqa: E402
 from palettes import TILE  # noqa: E402
 import gym_tiles  # noqa: E402
+import tiles16  # noqa: E402
+from palettes import PALETTES16, TILE16  # noqa: E402
 
 TS = 16
 FRAME_MS = 250
@@ -1532,9 +1534,9 @@ def build_tiles():
 
     add("void", "dark", full(3))
     # ---- outdoor ground
-    add("grass", "outdoor", make_grass())
-    add("grass_alt", "outdoor", make_grass_alt())
-    add("tall_grass", "outdoor", TALL_GRASS)
+    add("grass", "route16", tiles16.route_grass())
+    add("grass_alt", "route16", tiles16.route_grass(1, ((4, 4), (11, 11)), ((12, 3), (2, 12), (8, 8))))
+    add("tall_grass", "route16", tiles16.route_tall_grass(TALL_GRASS))
     add("flowers", "flowers", flowers_frames())
     add("path", "path", path_base())
     for s in "nsew":
@@ -1544,11 +1546,11 @@ def build_tiles():
     add("sand", "sand", sand_tile())
     add("town_floor", "town", town_floor())
     # ---- vegetation
-    add("tree", "outdoor", TREE)
-    add("tree_top", "outdoor", TREE_TOP)
-    add("tree_bottom", "outdoor", TREE_BOTTOM)
-    add("bush", "outdoor", BUSH)
-    add("cut_tree", "outdoor", CUT_TREE)
+    add("tree", "route16", tiles16.route_canopy(TREE))
+    add("tree_top", "route16", tiles16.route_canopy(TREE_TOP, total_h=32))
+    add("tree_bottom", "route16", tiles16.route_canopy(TREE_BOTTOM, oy=16, total_h=32))
+    add("bush", "route16", tiles16.route_canopy(BUSH))
+    add("cut_tree", "route16", tiles16.route_canopy(CUT_TREE))
     add("rock", "rocky", ROCK)
     add("boulder", "rocky", BOULDER)
     add("ledge_s", "outdoor", LEDGE_S)
@@ -1775,8 +1777,12 @@ def build():
         assert name not in meta["metatiles"], f"duplicate tile {name}"
         refs = []
         for fr in frames:
-            img = pixlib.to_rgba(fr, TILE[pal])
-            assert pixlib.colours_used(img) <= 4
+            if pal in TILE16:
+                img = pixlib.to_rgba16(fr, PALETTES16[pal])
+                assert pixlib.colours_used(img) <= 15
+            else:
+                img = pixlib.to_rgba(fr, TILE[pal])
+                assert pixlib.colours_used(img) <= 4
             arr = np.asarray(img.convert("RGBA")).copy()
             sources[(name, len(refs))] = arr
             refs.append([sheet.add(q) for q in split_quads(arr)])

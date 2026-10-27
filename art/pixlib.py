@@ -122,6 +122,20 @@ def to_rgba(a, palette, alpha=255):
     return Image.fromarray(rgba, "RGBA")
 
 
+def to_rgba16(a, palette16, alpha=255):
+    """Render an array of palette slots (1..15) to an RGBA Image using a palettes.Palette16."""
+    h, w = a.shape
+    rgba = np.zeros((h, w, 4), dtype=np.uint8)
+    for i, c in enumerate(palette16.slots):
+        if c is None:
+            assert not (a == i).any(), f"{palette16.name}: slot {i} used but undefined"
+            continue
+        m = a == i
+        rgba[m, 0], rgba[m, 1], rgba[m, 2] = c
+        rgba[m, 3] = alpha
+    return Image.fromarray(rgba, "RGBA")
+
+
 def _chunk(tag, data):
     body = tag + data
     return struct.pack(">I", len(data)) + body + struct.pack(">I", zlib.crc32(body) & 0xFFFFFFFF)

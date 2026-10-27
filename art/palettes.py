@@ -274,6 +274,23 @@ def to16(p4, group="world", name=""):
 
 PALETTES16 = {n: to16(p, tint_group(n), n) for n, p in TILE.items()}
 
+
+def pal16(name, hexes):
+    """Palette16 from up to 15 hex colours for slots 1..15 (slot 0 transparent); unused slots stay None."""
+    assert len(hexes) <= SLOTS - 1, name
+    slots = [None] + [_c(h) for h in hexes] + [None] * (SLOTS - 1 - len(hexes))
+    return Palette16(slots, tint_group(name), name)
+
+
+# Redrawn 16-colour tile palettes (P5d), by map-type batch. Each keeps the 4-colour family colours it replaces
+# so tiles of the same family that are not redrawn yet (ledges, path edges) still sit seamlessly next to them.
+TILE16 = {
+    # route / outdoor vegetation: 1 outline, 2-3 shadow, 4-8 grass ramp, 9-10 cream, 11-12 trunk, 13-15 accents
+    "route16": pal16("route16", ("183020", "285830", "409048", "58A850", "78C060", "98D068", "B0E080", "C8E898",
+                                 "F8F0C0", "E8D8A0", "805828", "A87838", "E04848", "F8D850", "F8F8F8")),
+}
+PALETTES16.update(TILE16)
+
 # --------------------------------------------------------------------------
 # Battle backdrops: one entry per environment, day colours (lightest -> darkest).
 # slots: sky = back wall / horizon, ground = floor, platform = the two mon platforms.
