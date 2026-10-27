@@ -111,7 +111,7 @@ class MapCompilerTool(private val root: File) {
     private fun loadTileNames(): Set<String>? {
         val f = File(root, "assets/gfx/tiles/world.json")
         if (!f.exists()) { warnings.add("assets/gfx/tiles/world.json not found: tile names are not validated"); return null }
-        return Json.parseToJsonElement(f.readText()).jsonObject["tiles"]!!.jsonObject.keys
+        return Json.parseToJsonElement(f.readText()).jsonObject["metatiles"]!!.jsonObject.keys
     }
 
     private fun tok(line: String, file: String, n: Int) = try { ScriptParser.tokenize(line, file, n) } catch (e: ScriptError) { throw CompileError(e.message ?: "", n) }

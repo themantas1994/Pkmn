@@ -33,7 +33,7 @@ a battle scene and the region map at ×2.
 | Item | Value |
 |---|---|
 | Logical screen | 256×224 px. Scale by whole numbers with nearest-neighbour filtering only. |
-| Tile size | 16×16. The tileset is 16 columns wide. |
+| Tile size | Map tiles (metatiles) are 16×16, built from four 8×8 tiles. `world.png` is the 8×8 tile sheet, 32 columns wide. |
 | Character frame | 16×32 (head overlaps the tile above, feet on the last row). Each walk/run sheet is 48×96: rows down/up/left, columns stand/stepA/stepB; right = left mirrored at draw time. Bike/surf: 32×32 frames, 96×96 sheets. |
 | Trainer portrait | 64×64 with a transparent background. The figure is cropped at the bottom edge. |
 | Animation | 4 frames at 250 ms each (`frameMs` in `world.json`). Water drifts 4 px per frame, so it loops in 4 frames. |
@@ -330,11 +330,27 @@ A reviewer (Designer, then CEO for pilots) checks, and QA attaches the output:
 ## Tileset: `assets/gfx/tiles/world.png` + `world.json`
 
 ```json
-{ "tileSize": 16, "columns": 16,
-  "tiles": { "water": { "index": 40, "palette": "water", "frames": [40,41,42,43], "frameMs": 250 } } }
+{ "tileSize": 8, "metatileSize": 16, "columns": 32,
+  "metatiles": {
+    "grass": { "ground": [1,2,3,4], "type": "normal", "palette": "outdoor" },
+    "water": { "ground": [20,21,22,23], "type": "normal", "palette": "water",
+               "frames": [[20,21,22,23],[24,25,26,27],[28,29,30,31],[32,33,34,35]], "frameMs": 250 } } }
 ```
 
-`index` is always the first frame. Animated tiles are `flowers`, `water`, every
+`world.png` holds deduplicated 8×8 tiles. A metatile layer is four tile references in the order top-left, top-right,
+bottom-left, bottom-right. A reference is the tile index, OR 0x400 for a horizontal flip and OR 0x800 for a vertical
+flip (as in GBA tilemap entries); `-1` is an empty (transparent) cell. A metatile has up to two layers, `ground` and
+the optional `top`, and `type` says which of the three draw layers they are (`Assets.metatile`, `MapLayer`):
+
+| `type` | `ground` is | `top` is |
+|---|---|---|
+| `normal` | ground | objects (below the player) |
+| `covered` | ground | overhang (above the player) |
+| `split` | objects | overhang |
+
+`OverworldScreen` draws ground + objects, then actors, then overhang. All current art is single-layer: every metatile is
+`normal` with no `top`. The `*_top` map tiles (`tree_top`, `roof_*_top`, ...) are still separate map tiles; moving them
+into `top`/overhang layers needs map changes and is not done yet. `ground` is always equal to `frames[0]`. Animated tiles are `flowers`, `water`, every
 `water_*` shoreline tile, `waterfall` and `cave_water`. The shoreline tiles
 animate in sync with open water. Index 0 is `void`, a solid near-black tile.
 
@@ -514,8 +530,8 @@ JSON descriptors sit next to their PNG and share its base name.
 1. Write it as a text grid or a shape function in the matching `art/*.py`. Use an
    existing palette, or add a new 4-colour one to `palettes.py` (multiples of 8).
 2. For tiles, `add("name", "palette", grid_or_frames)` in `tiles.build_tiles()`.
-   Indices are assigned in order, so append to the end of the list if the game
-   needs existing indices to stay stable. The game should look tiles up by name
+   The generator splits it into 8×8 tiles and deduplicates them (also mirrored), so
+   indices change when art changes. The game should look tiles up by name
    through `world.json`, never by raw index.
 3. Run `python3 -I art/build_all.py`, check the previews, commit the generator,
    the outputs and the previews together, and add any new output paths to

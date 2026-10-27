@@ -1,952 +1,2535 @@
 {
-  "tileSize": 16,
-  "columns": 16,
-  "tiles": {
+  "tileSize": 8,
+  "metatileSize": 16,
+  "columns": 32,
+  "metatiles": {
     "void": {
-      "index": 0,
+      "ground": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "type": "normal",
       "palette": "dark"
     },
     "grass": {
-      "index": 1,
+      "ground": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "type": "normal",
       "palette": "outdoor"
     },
     "grass_alt": {
-      "index": 2,
-      "palette": "outdoor"
-    },
-    "tall_grass": {
-      "index": 3,
-      "palette": "outdoor"
-    },
-    "flowers": {
-      "index": 4,
-      "palette": "flowers",
-      "frames": [
+      "ground": [
         4,
         5,
         6,
         7
       ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "tall_grass": {
+      "ground": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "flowers": {
+      "ground": [
+        12,
+        1025,
+        13,
+        14
+      ],
+      "type": "normal",
+      "palette": "flowers",
+      "frames": [
+        [
+          12,
+          1025,
+          13,
+          14
+        ],
+        [
+          15,
+          1025,
+          13,
+          16
+        ],
+        [
+          12,
+          1025,
+          13,
+          14
+        ],
+        [
+          17,
+          1025,
+          13,
+          1040
+        ]
+      ],
       "frameMs": 250
     },
     "path": {
-      "index": 8,
+      "ground": [
+        18,
+        19,
+        20,
+        21
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_edge_n": {
-      "index": 9,
+      "ground": [
+        22,
+        23,
+        20,
+        21
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_edge_s": {
-      "index": 10,
+      "ground": [
+        18,
+        19,
+        24,
+        25
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_edge_e": {
-      "index": 11,
+      "ground": [
+        18,
+        26,
+        20,
+        27
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_edge_w": {
-      "index": 12,
+      "ground": [
+        28,
+        19,
+        29,
+        21
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_corner_ne": {
-      "index": 13,
+      "ground": [
+        22,
+        30,
+        20,
+        27
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_corner_nw": {
-      "index": 14,
+      "ground": [
+        31,
+        23,
+        29,
+        21
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_corner_se": {
-      "index": 15,
+      "ground": [
+        18,
+        26,
+        24,
+        32
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "path_corner_sw": {
-      "index": 16,
+      "ground": [
+        28,
+        19,
+        33,
+        25
+      ],
+      "type": "normal",
       "palette": "path"
     },
     "sand": {
-      "index": 17,
+      "ground": [
+        34,
+        35,
+        36,
+        37
+      ],
+      "type": "normal",
       "palette": "sand"
     },
     "town_floor": {
-      "index": 18,
+      "ground": [
+        38,
+        39,
+        39,
+        38
+      ],
+      "type": "normal",
       "palette": "town"
     },
     "tree": {
-      "index": 19,
-      "palette": "outdoor"
-    },
-    "tree_top": {
-      "index": 20,
-      "palette": "outdoor"
-    },
-    "tree_bottom": {
-      "index": 21,
-      "palette": "outdoor"
-    },
-    "bush": {
-      "index": 22,
-      "palette": "outdoor"
-    },
-    "cut_tree": {
-      "index": 23,
-      "palette": "outdoor"
-    },
-    "rock": {
-      "index": 24,
-      "palette": "rocky"
-    },
-    "boulder": {
-      "index": 25,
-      "palette": "rocky"
-    },
-    "ledge_s": {
-      "index": 26,
-      "palette": "outdoor"
-    },
-    "ledge_e": {
-      "index": 27,
-      "palette": "outdoor"
-    },
-    "ledge_w": {
-      "index": 28,
-      "palette": "outdoor"
-    },
-    "fence_h": {
-      "index": 29,
-      "palette": "fence"
-    },
-    "fence_v": {
-      "index": 30,
-      "palette": "fence"
-    },
-    "sign": {
-      "index": 31,
-      "palette": "fence"
-    },
-    "water": {
-      "index": 32,
-      "palette": "water",
-      "frames": [
-        32,
-        33,
-        34,
-        35
-      ],
-      "frameMs": 250
-    },
-    "water_n": {
-      "index": 36,
-      "palette": "water",
-      "frames": [
-        36,
-        37,
-        38,
-        39
-      ],
-      "frameMs": 250
-    },
-    "water_s": {
-      "index": 40,
-      "palette": "water",
-      "frames": [
+      "ground": [
         40,
         41,
         42,
         43
       ],
-      "frameMs": 250
+      "type": "normal",
+      "palette": "outdoor"
     },
-    "water_e": {
-      "index": 44,
-      "palette": "water",
-      "frames": [
+    "tree_top": {
+      "ground": [
         44,
         45,
         46,
         47
       ],
-      "frameMs": 250
+      "type": "normal",
+      "palette": "outdoor"
     },
-    "water_w": {
-      "index": 48,
-      "palette": "water",
-      "frames": [
+    "tree_bottom": {
+      "ground": [
         48,
         49,
         50,
-        51
+        1074
+      ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "bush": {
+      "ground": [
+        51,
+        52,
+        53,
+        54
+      ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "cut_tree": {
+      "ground": [
+        55,
+        56,
+        57,
+        58
+      ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "rock": {
+      "ground": [
+        59,
+        60,
+        61,
+        62
+      ],
+      "type": "normal",
+      "palette": "rocky"
+    },
+    "boulder": {
+      "ground": [
+        63,
+        64,
+        65,
+        66
+      ],
+      "type": "normal",
+      "palette": "rocky"
+    },
+    "ledge_s": {
+      "ground": [
+        67,
+        68,
+        69,
+        69
+      ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "ledge_e": {
+      "ground": [
+        1,
+        70,
+        3,
+        70
+      ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "ledge_w": {
+      "ground": [
+        3142,
+        2,
+        3142,
+        4
+      ],
+      "type": "normal",
+      "palette": "outdoor"
+    },
+    "fence_h": {
+      "ground": [
+        71,
+        72,
+        73,
+        74
+      ],
+      "type": "normal",
+      "palette": "fence"
+    },
+    "fence_v": {
+      "ground": [
+        75,
+        76,
+        77,
+        78
+      ],
+      "type": "normal",
+      "palette": "fence"
+    },
+    "sign": {
+      "ground": [
+        79,
+        80,
+        81,
+        82
+      ],
+      "type": "normal",
+      "palette": "fence"
+    },
+    "water": {
+      "ground": [
+        83,
+        84,
+        84,
+        85
+      ],
+      "type": "normal",
+      "palette": "water",
+      "frames": [
+        [
+          83,
+          84,
+          84,
+          85
+        ],
+        [
+          86,
+          87,
+          88,
+          89
+        ],
+        [
+          84,
+          83,
+          85,
+          84
+        ],
+        [
+          87,
+          86,
+          89,
+          88
+        ]
+      ],
+      "frameMs": 250
+    },
+    "water_n": {
+      "ground": [
+        90,
+        91,
+        84,
+        85
+      ],
+      "type": "normal",
+      "palette": "water",
+      "frames": [
+        [
+          90,
+          91,
+          84,
+          85
+        ],
+        [
+          90,
+          91,
+          88,
+          89
+        ],
+        [
+          90,
+          91,
+          85,
+          84
+        ],
+        [
+          90,
+          91,
+          89,
+          88
+        ]
+      ],
+      "frameMs": 250
+    },
+    "water_s": {
+      "ground": [
+        83,
+        84,
+        2139,
+        92
+      ],
+      "type": "normal",
+      "palette": "water",
+      "frames": [
+        [
+          83,
+          84,
+          2139,
+          92
+        ],
+        [
+          86,
+          87,
+          93,
+          94
+        ],
+        [
+          84,
+          83,
+          95,
+          3162
+        ],
+        [
+          87,
+          86,
+          96,
+          97
+        ]
+      ],
+      "frameMs": 250
+    },
+    "water_e": {
+      "ground": [
+        83,
+        98,
+        84,
+        99
+      ],
+      "type": "normal",
+      "palette": "water",
+      "frames": [
+        [
+          83,
+          98,
+          84,
+          99
+        ],
+        [
+          86,
+          100,
+          88,
+          101
+        ],
+        [
+          84,
+          102,
+          85,
+          103
+        ],
+        [
+          87,
+          104,
+          89,
+          105
+        ]
+      ],
+      "frameMs": 250
+    },
+    "water_w": {
+      "ground": [
+        3173,
+        84,
+        1128,
+        85
+      ],
+      "type": "normal",
+      "palette": "water",
+      "frames": [
+        [
+          3173,
+          84,
+          1128,
+          85
+        ],
+        [
+          106,
+          87,
+          1128,
+          89
+        ],
+        [
+          3173,
+          83,
+          1128,
+          84
+        ],
+        [
+          3173,
+          86,
+          107,
+          88
+        ]
       ],
       "frameMs": 250
     },
     "water_ne": {
-      "index": 52,
+      "ground": [
+        90,
+        108,
+        84,
+        99
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        52,
-        53,
-        54,
-        55
+        [
+          90,
+          108,
+          84,
+          99
+        ],
+        [
+          90,
+          108,
+          88,
+          101
+        ],
+        [
+          90,
+          108,
+          85,
+          103
+        ],
+        [
+          90,
+          108,
+          89,
+          105
+        ]
       ],
       "frameMs": 250
     },
     "water_nw": {
-      "index": 56,
+      "ground": [
+        109,
+        91,
+        1128,
+        85
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        56,
-        57,
-        58,
-        59
+        [
+          109,
+          91,
+          1128,
+          85
+        ],
+        [
+          109,
+          91,
+          1128,
+          89
+        ],
+        [
+          109,
+          91,
+          1128,
+          84
+        ],
+        [
+          109,
+          91,
+          107,
+          88
+        ]
       ],
       "frameMs": 250
     },
     "water_se": {
-      "index": 60,
+      "ground": [
+        83,
+        98,
+        2139,
+        110
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        60,
-        61,
-        62,
-        63
+        [
+          83,
+          98,
+          2139,
+          110
+        ],
+        [
+          86,
+          100,
+          93,
+          3181
+        ],
+        [
+          84,
+          102,
+          95,
+          3181
+        ],
+        [
+          87,
+          104,
+          96,
+          111
+        ]
       ],
       "frameMs": 250
     },
     "water_sw": {
-      "index": 64,
+      "ground": [
+        3173,
+        84,
+        3180,
+        92
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        64,
-        65,
-        66,
-        67
+        [
+          3173,
+          84,
+          3180,
+          92
+        ],
+        [
+          106,
+          87,
+          3180,
+          94
+        ],
+        [
+          3173,
+          83,
+          3180,
+          3162
+        ],
+        [
+          3173,
+          86,
+          112,
+          97
+        ]
       ],
       "frameMs": 250
     },
     "water_ine": {
-      "index": 68,
+      "ground": [
+        83,
+        113,
+        84,
+        85
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        68,
-        69,
-        70,
-        71
+        [
+          83,
+          113,
+          84,
+          85
+        ],
+        [
+          86,
+          114,
+          88,
+          89
+        ],
+        [
+          84,
+          115,
+          85,
+          84
+        ],
+        [
+          87,
+          116,
+          89,
+          88
+        ]
       ],
       "frameMs": 250
     },
     "water_inw": {
-      "index": 72,
+      "ground": [
+        117,
+        84,
+        84,
+        85
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        72,
-        73,
-        74,
-        75
+        [
+          117,
+          84,
+          84,
+          85
+        ],
+        [
+          118,
+          87,
+          88,
+          89
+        ],
+        [
+          119,
+          83,
+          85,
+          84
+        ],
+        [
+          117,
+          86,
+          89,
+          88
+        ]
       ],
       "frameMs": 250
     },
     "water_ise": {
-      "index": 76,
+      "ground": [
+        83,
+        84,
+        84,
+        120
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        76,
-        77,
-        78,
-        79
+        [
+          83,
+          84,
+          84,
+          120
+        ],
+        [
+          86,
+          87,
+          88,
+          121
+        ],
+        [
+          84,
+          83,
+          85,
+          122
+        ],
+        [
+          87,
+          86,
+          89,
+          123
+        ]
       ],
       "frameMs": 250
     },
     "water_isw": {
-      "index": 80,
+      "ground": [
+        83,
+        84,
+        3188,
+        85
+      ],
+      "type": "normal",
       "palette": "water",
       "frames": [
-        80,
-        81,
-        82,
-        83
+        [
+          83,
+          84,
+          3188,
+          85
+        ],
+        [
+          86,
+          87,
+          124,
+          89
+        ],
+        [
+          84,
+          83,
+          125,
+          84
+        ],
+        [
+          87,
+          86,
+          126,
+          88
+        ]
       ],
       "frameMs": 250
     },
     "waterfall": {
-      "index": 84,
+      "ground": [
+        127,
+        128,
+        129,
+        130
+      ],
+      "type": "normal",
       "palette": "waterfall",
       "frames": [
-        84,
-        85,
-        86,
-        87
+        [
+          127,
+          128,
+          129,
+          130
+        ],
+        [
+          131,
+          132,
+          133,
+          134
+        ],
+        [
+          129,
+          130,
+          127,
+          128
+        ],
+        [
+          133,
+          134,
+          131,
+          132
+        ]
       ],
       "frameMs": 250
     },
     "bridge_h": {
-      "index": 88,
+      "ground": [
+        135,
+        135,
+        136,
+        136
+      ],
+      "type": "normal",
       "palette": "bridge"
     },
     "bridge_v": {
-      "index": 89,
+      "ground": [
+        137,
+        138,
+        137,
+        138
+      ],
+      "type": "normal",
       "palette": "bridge"
     },
     "stairs_up": {
-      "index": 90,
+      "ground": [
+        139,
+        1163,
+        140,
+        1164
+      ],
+      "type": "normal",
       "palette": "mountain"
     },
     "stairs_down": {
-      "index": 91,
+      "ground": [
+        141,
+        1165,
+        142,
+        1166
+      ],
+      "type": "normal",
       "palette": "mountain"
     },
     "cave_entrance": {
-      "index": 92,
+      "ground": [
+        143,
+        144,
+        145,
+        146
+      ],
+      "type": "normal",
       "palette": "mountain"
     },
     "mountain_wall": {
-      "index": 93,
+      "ground": [
+        147,
+        148,
+        149,
+        150
+      ],
+      "type": "normal",
       "palette": "mountain"
     },
     "mountain_top": {
-      "index": 94,
+      "ground": [
+        151,
+        152,
+        153,
+        154
+      ],
+      "type": "normal",
       "palette": "mountain"
     },
     "snow": {
-      "index": 95,
+      "ground": [
+        155,
+        156,
+        157,
+        158
+      ],
+      "type": "normal",
       "palette": "snow"
     },
     "ice": {
-      "index": 96,
+      "ground": [
+        159,
+        160,
+        161,
+        162
+      ],
+      "type": "normal",
       "palette": "ice"
     },
     "roof_l": {
-      "index": 97,
+      "ground": [
+        163,
+        164,
+        163,
+        164
+      ],
+      "type": "normal",
       "palette": "roof_red"
     },
     "roof_m": {
-      "index": 98,
+      "ground": [
+        164,
+        164,
+        164,
+        164
+      ],
+      "type": "normal",
       "palette": "roof_red"
     },
     "roof_r": {
-      "index": 99,
+      "ground": [
+        164,
+        165,
+        164,
+        165
+      ],
+      "type": "normal",
       "palette": "roof_red"
     },
     "roof_l_top": {
-      "index": 100,
+      "ground": [
+        166,
+        167,
+        163,
+        164
+      ],
+      "type": "normal",
       "palette": "roof_red"
     },
     "roof_m_top": {
-      "index": 101,
+      "ground": [
+        167,
+        167,
+        164,
+        164
+      ],
+      "type": "normal",
       "palette": "roof_red"
     },
     "roof_r_top": {
-      "index": 102,
+      "ground": [
+        167,
+        168,
+        164,
+        165
+      ],
+      "type": "normal",
       "palette": "roof_red"
     },
     "roof2_l": {
-      "index": 103,
+      "ground": [
+        169,
+        170,
+        169,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "roof2_m": {
-      "index": 104,
+      "ground": [
+        170,
+        170,
+        170,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "roof2_r": {
-      "index": 105,
+      "ground": [
+        170,
+        171,
+        170,
+        171
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "roof2_l_top": {
-      "index": 106,
+      "ground": [
+        172,
+        173,
+        169,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "roof2_m_top": {
-      "index": 107,
+      "ground": [
+        173,
+        173,
+        170,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "roof2_r_top": {
-      "index": 108,
+      "ground": [
+        173,
+        174,
+        170,
+        171
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "center_roof_l": {
-      "index": 109,
+      "ground": [
+        175,
+        176,
+        175,
+        176
+      ],
+      "type": "normal",
       "palette": "roof_center"
     },
     "center_roof_m": {
-      "index": 110,
+      "ground": [
+        176,
+        176,
+        176,
+        176
+      ],
+      "type": "normal",
       "palette": "roof_center"
     },
     "center_roof_r": {
-      "index": 111,
+      "ground": [
+        176,
+        177,
+        176,
+        177
+      ],
+      "type": "normal",
       "palette": "roof_center"
     },
     "center_roof_l_top": {
-      "index": 112,
+      "ground": [
+        178,
+        179,
+        175,
+        176
+      ],
+      "type": "normal",
       "palette": "roof_center"
     },
     "center_roof_m_top": {
-      "index": 113,
+      "ground": [
+        179,
+        179,
+        176,
+        176
+      ],
+      "type": "normal",
       "palette": "roof_center"
     },
     "center_roof_r_top": {
-      "index": 114,
+      "ground": [
+        179,
+        180,
+        176,
+        177
+      ],
+      "type": "normal",
       "palette": "roof_center"
     },
     "mart_roof_l": {
-      "index": 115,
+      "ground": [
+        169,
+        170,
+        169,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "mart_roof_m": {
-      "index": 116,
+      "ground": [
+        170,
+        170,
+        170,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "mart_roof_r": {
-      "index": 117,
+      "ground": [
+        170,
+        171,
+        170,
+        171
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "mart_roof_l_top": {
-      "index": 118,
+      "ground": [
+        172,
+        173,
+        169,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "mart_roof_m_top": {
-      "index": 119,
+      "ground": [
+        173,
+        173,
+        170,
+        170
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "mart_roof_r_top": {
-      "index": 120,
+      "ground": [
+        173,
+        174,
+        170,
+        171
+      ],
+      "type": "normal",
       "palette": "roof_blue"
     },
     "gym_roof_l": {
-      "index": 121,
+      "ground": [
+        181,
+        182,
+        181,
+        182
+      ],
+      "type": "normal",
       "palette": "roof_gym"
     },
     "gym_roof_m": {
-      "index": 122,
+      "ground": [
+        182,
+        182,
+        182,
+        182
+      ],
+      "type": "normal",
       "palette": "roof_gym"
     },
     "gym_roof_r": {
-      "index": 123,
+      "ground": [
+        182,
+        183,
+        182,
+        183
+      ],
+      "type": "normal",
       "palette": "roof_gym"
     },
     "gym_roof_l_top": {
-      "index": 124,
+      "ground": [
+        184,
+        185,
+        181,
+        182
+      ],
+      "type": "normal",
       "palette": "roof_gym"
     },
     "gym_roof_m_top": {
-      "index": 125,
+      "ground": [
+        185,
+        185,
+        182,
+        182
+      ],
+      "type": "normal",
       "palette": "roof_gym"
     },
     "gym_roof_r_top": {
-      "index": 126,
+      "ground": [
+        185,
+        186,
+        182,
+        183
+      ],
+      "type": "normal",
       "palette": "roof_gym"
     },
     "wall_l": {
-      "index": 127,
+      "ground": [
+        187,
+        188,
+        189,
+        190
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "wall_m": {
-      "index": 128,
+      "ground": [
+        188,
+        188,
+        190,
+        190
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "wall_r": {
-      "index": 129,
+      "ground": [
+        188,
+        191,
+        190,
+        192
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "wall_window": {
-      "index": 130,
+      "ground": [
+        193,
+        194,
+        195,
+        196
+      ],
+      "type": "normal",
       "palette": "wall_window"
     },
     "door": {
-      "index": 131,
+      "ground": [
+        197,
+        1221,
+        198,
+        1222
+      ],
+      "type": "normal",
       "palette": "door"
     },
     "center_sign": {
-      "index": 132,
+      "ground": [
+        199,
+        200,
+        201,
+        202
+      ],
+      "type": "normal",
       "palette": "sign_center"
     },
     "center_wall_l": {
-      "index": 133,
+      "ground": [
+        187,
+        188,
+        189,
+        190
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "center_wall_m": {
-      "index": 134,
+      "ground": [
+        188,
+        188,
+        190,
+        190
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "center_wall_r": {
-      "index": 135,
+      "ground": [
+        188,
+        191,
+        190,
+        192
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "center_door": {
-      "index": 136,
+      "ground": [
+        203,
+        204,
+        205,
+        1229
+      ],
+      "type": "normal",
       "palette": "glass_door"
     },
     "mart_sign": {
-      "index": 137,
+      "ground": [
+        206,
+        207,
+        208,
+        209
+      ],
+      "type": "normal",
       "palette": "sign_mart"
     },
     "mart_wall_l": {
-      "index": 138,
+      "ground": [
+        187,
+        188,
+        189,
+        190
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "mart_wall_m": {
-      "index": 139,
+      "ground": [
+        188,
+        188,
+        190,
+        190
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "mart_wall_r": {
-      "index": 140,
+      "ground": [
+        188,
+        191,
+        190,
+        192
+      ],
+      "type": "normal",
       "palette": "wall"
     },
     "mart_door": {
-      "index": 141,
+      "ground": [
+        203,
+        204,
+        205,
+        1229
+      ],
+      "type": "normal",
       "palette": "glass_door"
     },
     "gym_sign": {
-      "index": 142,
+      "ground": [
+        210,
+        211,
+        212,
+        1236
+      ],
+      "type": "normal",
       "palette": "sign_gym"
     },
     "gym_wall_l": {
-      "index": 143,
+      "ground": [
+        213,
+        214,
+        215,
+        216
+      ],
+      "type": "normal",
       "palette": "gym_wall"
     },
     "gym_wall_m": {
-      "index": 144,
+      "ground": [
+        214,
+        214,
+        216,
+        216
+      ],
+      "type": "normal",
       "palette": "gym_wall"
     },
     "gym_wall_r": {
-      "index": 145,
+      "ground": [
+        214,
+        217,
+        216,
+        218
+      ],
+      "type": "normal",
       "palette": "gym_wall"
     },
     "gym_window": {
-      "index": 146,
+      "ground": [
+        219,
+        220,
+        221,
+        222
+      ],
+      "type": "normal",
       "palette": "gym_wall"
     },
     "gym_door": {
-      "index": 147,
+      "ground": [
+        203,
+        204,
+        205,
+        1229
+      ],
+      "type": "normal",
       "palette": "glass_door"
     },
     "floor_wood": {
-      "index": 148,
+      "ground": [
+        223,
+        224,
+        1247,
+        225
+      ],
+      "type": "normal",
       "palette": "floor_wood"
     },
     "floor_tile": {
-      "index": 149,
+      "ground": [
+        226,
+        226,
+        226,
+        226
+      ],
+      "type": "normal",
       "palette": "floor_tile"
     },
     "floor_carpet": {
-      "index": 150,
+      "ground": [
+        227,
+        227,
+        227,
+        228
+      ],
+      "type": "normal",
       "palette": "carpet"
     },
     "wall_in": {
-      "index": 151,
+      "ground": [
+        229,
+        229,
+        230,
+        230
+      ],
+      "type": "normal",
       "palette": "wall_in"
     },
     "wall_in_top": {
-      "index": 152,
+      "ground": [
+        231,
+        231,
+        229,
+        229
+      ],
+      "type": "normal",
       "palette": "wall_in"
     },
     "window_in": {
-      "index": 153,
+      "ground": [
+        232,
+        233,
+        234,
+        1258
+      ],
+      "type": "normal",
       "palette": "window_in"
     },
     "counter": {
-      "index": 154,
+      "ground": [
+        235,
+        236,
+        237,
+        238
+      ],
+      "type": "normal",
       "palette": "furniture"
     },
     "pc": {
-      "index": 155,
+      "ground": [
+        239,
+        240,
+        241,
+        242
+      ],
+      "type": "normal",
       "palette": "tech"
     },
     "bookshelf": {
-      "index": 156,
+      "ground": [
+        243,
+        244,
+        245,
+        246
+      ],
+      "type": "normal",
       "palette": "furniture"
     },
     "table": {
-      "index": 157,
+      "ground": [
+        247,
+        248,
+        249,
+        250
+      ],
+      "type": "normal",
       "palette": "furniture"
     },
     "chair": {
-      "index": 158,
+      "ground": [
+        251,
+        252,
+        253,
+        254
+      ],
+      "type": "normal",
       "palette": "furniture"
     },
     "bed_top": {
-      "index": 159,
+      "ground": [
+        255,
+        1279,
+        256,
+        1280
+      ],
+      "type": "normal",
       "palette": "bed"
     },
     "bed_bottom": {
-      "index": 160,
+      "ground": [
+        257,
+        1281,
+        258,
+        1282
+      ],
+      "type": "normal",
       "palette": "bed"
     },
     "plant": {
-      "index": 161,
+      "ground": [
+        259,
+        260,
+        261,
+        262
+      ],
+      "type": "normal",
       "palette": "plant"
     },
     "tv": {
-      "index": 162,
+      "ground": [
+        263,
+        264,
+        265,
+        266
+      ],
+      "type": "normal",
       "palette": "tv"
     },
     "rug_l": {
-      "index": 163,
+      "ground": [
+        267,
+        268,
+        269,
+        270
+      ],
+      "type": "normal",
       "palette": "rug"
     },
     "rug_r": {
-      "index": 164,
+      "ground": [
+        268,
+        271,
+        270,
+        272
+      ],
+      "type": "normal",
       "palette": "rug"
     },
     "rug_mat": {
-      "index": 165,
+      "ground": [
+        267,
+        271,
+        269,
+        272
+      ],
+      "type": "normal",
       "palette": "rug"
     },
     "stairs_in_up": {
-      "index": 166,
+      "ground": [
+        273,
+        1297,
+        273,
+        1297
+      ],
+      "type": "normal",
       "palette": "floor_wood"
     },
     "stairs_in_down": {
-      "index": 167,
+      "ground": [
+        274,
+        1298,
+        275,
+        1299
+      ],
+      "type": "normal",
       "palette": "floor_wood"
     },
     "healing_machine": {
-      "index": 168,
+      "ground": [
+        276,
+        277,
+        278,
+        279
+      ],
+      "type": "normal",
       "palette": "heal"
     },
     "mart_shelf": {
-      "index": 169,
+      "ground": [
+        280,
+        281,
+        282,
+        283
+      ],
+      "type": "normal",
       "palette": "mart_shelf"
     },
     "cave_floor": {
-      "index": 170,
+      "ground": [
+        284,
+        285,
+        286,
+        287
+      ],
+      "type": "normal",
       "palette": "cave"
     },
     "cave_wall": {
-      "index": 171,
+      "ground": [
+        288,
+        289,
+        290,
+        291
+      ],
+      "type": "normal",
       "palette": "cave"
     },
     "cave_wall_top": {
-      "index": 172,
+      "ground": [
+        292,
+        293,
+        294,
+        295
+      ],
+      "type": "normal",
       "palette": "cave"
     },
     "cave_rock": {
-      "index": 173,
+      "ground": [
+        296,
+        297,
+        298,
+        299
+      ],
+      "type": "normal",
       "palette": "cave"
     },
     "cave_ladder": {
-      "index": 174,
+      "ground": [
+        300,
+        301,
+        302,
+        303
+      ],
+      "type": "normal",
       "palette": "cave"
     },
     "cave_water": {
-      "index": 175,
+      "ground": [
+        304,
+        305,
+        305,
+        306
+      ],
+      "type": "normal",
       "palette": "cave_water",
       "frames": [
-        175,
-        176,
-        177,
-        178
+        [
+          304,
+          305,
+          305,
+          306
+        ],
+        [
+          307,
+          308,
+          309,
+          310
+        ],
+        [
+          305,
+          304,
+          306,
+          305
+        ],
+        [
+          308,
+          307,
+          310,
+          309
+        ]
       ],
       "frameMs": 250
     },
     "gym_floor": {
-      "index": 179,
+      "ground": [
+        311,
+        312,
+        313,
+        314
+      ],
+      "type": "normal",
       "palette": "gym"
     },
     "gym_statue": {
-      "index": 180,
+      "ground": [
+        315,
+        316,
+        317,
+        318
+      ],
+      "type": "normal",
       "palette": "gym"
     },
     "puzzle_switch": {
-      "index": 181,
+      "ground": [
+        319,
+        320,
+        321,
+        322
+      ],
+      "type": "normal",
       "palette": "puzzle"
     },
     "puzzle_wall": {
-      "index": 182,
+      "ground": [
+        323,
+        324,
+        325,
+        326
+      ],
+      "type": "normal",
       "palette": "puzzle"
     },
     "spinner_up": {
-      "index": 183,
+      "ground": [
+        327,
+        328,
+        329,
+        330
+      ],
+      "type": "normal",
       "palette": "puzzle"
     },
     "spinner_down": {
-      "index": 184,
+      "ground": [
+        331,
+        332,
+        333,
+        334
+      ],
+      "type": "normal",
       "palette": "puzzle"
     },
     "spinner_left": {
-      "index": 185,
+      "ground": [
+        327,
+        335,
+        333,
+        336
+      ],
+      "type": "normal",
       "palette": "puzzle"
     },
     "spinner_right": {
-      "index": 186,
+      "ground": [
+        337,
+        328,
+        338,
+        334
+      ],
+      "type": "normal",
       "palette": "puzzle"
     },
     "ruins_floor": {
-      "index": 187,
+      "ground": [
+        339,
+        340,
+        341,
+        339
+      ],
+      "type": "normal",
       "palette": "ruins"
     },
     "ruins_wall": {
-      "index": 188,
+      "ground": [
+        342,
+        343,
+        344,
+        345
+      ],
+      "type": "normal",
       "palette": "ruins"
     },
     "league_floor": {
-      "index": 189,
+      "ground": [
+        346,
+        347,
+        348,
+        349
+      ],
+      "type": "normal",
       "palette": "league"
     },
     "dark_floor": {
-      "index": 190,
+      "ground": [
+        350,
+        351,
+        352,
+        353
+      ],
+      "type": "normal",
       "palette": "dark"
     },
     "forest_entrance": {
-      "index": 191,
+      "ground": [
+        354,
+        355,
+        356,
+        357
+      ],
+      "type": "normal",
       "palette": "forest_gap"
     },
     "ruins_entrance": {
-      "index": 192,
+      "ground": [
+        358,
+        359,
+        360,
+        361
+      ],
+      "type": "normal",
       "palette": "ruins"
     },
     "mine_entrance": {
-      "index": 193,
+      "ground": [
+        362,
+        363,
+        364,
+        365
+      ],
+      "type": "normal",
       "palette": "cave"
     },
     "tower_door": {
-      "index": 194,
+      "ground": [
+        366,
+        367,
+        368,
+        369
+      ],
+      "type": "normal",
       "palette": "tower"
     },
     "gate_door": {
-      "index": 195,
+      "ground": [
+        370,
+        1394,
+        371,
+        1395
+      ],
+      "type": "normal",
       "palette": "gate"
     },
     "building_door": {
-      "index": 196,
+      "ground": [
+        372,
+        1396,
+        373,
+        1397
+      ],
+      "type": "normal",
       "palette": "building"
     },
     "gym_floor_sprout": {
-      "index": 197,
+      "ground": [
+        374,
+        375,
+        376,
+        377
+      ],
+      "type": "normal",
       "palette": "gym_sprout"
     },
     "gym_floor_sprout_stones": {
-      "index": 198,
+      "ground": [
+        378,
+        379,
+        380,
+        381
+      ],
+      "type": "normal",
       "palette": "gym_sprout_stones"
     },
     "gym_wall_hedge": {
-      "index": 199,
+      "ground": [
+        382,
+        383,
+        384,
+        384
+      ],
+      "type": "normal",
       "palette": "gym_sprout_hedge"
     },
     "puzzle_wall_hedge": {
-      "index": 200,
+      "ground": [
+        385,
+        386,
+        387,
+        388
+      ],
+      "type": "normal",
       "palette": "gym_sprout_hedge"
     },
     "bush_blossom": {
-      "index": 201,
+      "ground": [
+        389,
+        390,
+        391,
+        392
+      ],
+      "type": "normal",
       "palette": "gym_sprout_bloom"
     },
     "plant_sprout": {
-      "index": 202,
+      "ground": [
+        393,
+        394,
+        395,
+        396
+      ],
+      "type": "normal",
       "palette": "gym_sprout_pot"
     },
     "statue_sprout": {
-      "index": 203,
+      "ground": [
+        397,
+        398,
+        399,
+        400
+      ],
+      "type": "normal",
       "palette": "gym_sprout_statue"
     },
     "gym_floor_tide": {
-      "index": 204,
+      "ground": [
+        401,
+        402,
+        403,
+        404
+      ],
+      "type": "normal",
       "palette": "gym_tide"
     },
     "gym_wall_tide": {
-      "index": 205,
+      "ground": [
+        405,
+        405,
+        406,
+        406
+      ],
+      "type": "normal",
       "palette": "gym_tide_wall"
     },
     "dock_plank": {
-      "index": 206,
+      "ground": [
+        407,
+        408,
+        409,
+        410
+      ],
+      "type": "normal",
       "palette": "gym_tide_dock"
     },
     "dock_plank_v": {
-      "index": 207,
+      "ground": [
+        411,
+        412,
+        413,
+        414
+      ],
+      "type": "normal",
       "palette": "gym_tide_dock"
     },
     "float_platform": {
-      "index": 208,
+      "ground": [
+        415,
+        416,
+        417,
+        418
+      ],
+      "type": "normal",
       "palette": "gym_tide_float"
     },
     "pillar_mooring": {
-      "index": 209,
+      "ground": [
+        419,
+        420,
+        421,
+        422
+      ],
+      "type": "normal",
       "palette": "gym_tide_dock"
     },
     "puzzle_wall_crate": {
-      "index": 210,
+      "ground": [
+        423,
+        424,
+        425,
+        426
+      ],
+      "type": "normal",
       "palette": "gym_tide_dock"
     },
     "statue_tide": {
-      "index": 211,
+      "ground": [
+        427,
+        428,
+        429,
+        430
+      ],
+      "type": "normal",
       "palette": "gym_tide_statue"
     },
     "gym_floor_spark": {
-      "index": 212,
+      "ground": [
+        431,
+        431,
+        431,
+        431
+      ],
+      "type": "normal",
       "palette": "gym_spark"
     },
     "circuit_panel": {
-      "index": 213,
+      "ground": [
+        432,
+        433,
+        434,
+        435
+      ],
+      "type": "normal",
       "palette": "gym_spark_live"
     },
     "circuit_cable": {
-      "index": 214,
+      "ground": [
+        436,
+        436,
+        437,
+        437
+      ],
+      "type": "normal",
       "palette": "gym_spark"
     },
     "gym_wall_spark": {
-      "index": 215,
+      "ground": [
+        438,
+        439,
+        440,
+        441
+      ],
+      "type": "normal",
       "palette": "gym_spark_hazard"
     },
     "machine_generator": {
-      "index": 216,
+      "ground": [
+        442,
+        443,
+        444,
+        445
+      ],
+      "type": "normal",
       "palette": "gym_spark_hazard"
     },
     "machine_coil": {
-      "index": 217,
+      "ground": [
+        446,
+        447,
+        448,
+        449
+      ],
+      "type": "normal",
       "palette": "gym_spark_live"
     },
     "puzzle_wall_spark": {
-      "index": 218,
+      "ground": [
+        450,
+        451,
+        452,
+        453
+      ],
+      "type": "normal",
       "palette": "gym_spark_live"
     },
     "gym_floor_stone": {
-      "index": 219,
+      "ground": [
+        454,
+        455,
+        456,
+        457
+      ],
+      "type": "normal",
       "palette": "gym_stone"
     },
     "gym_wall_stone": {
-      "index": 220,
+      "ground": [
+        458,
+        459,
+        460,
+        461
+      ],
+      "type": "normal",
       "palette": "gym_stone_wall"
     },
     "rock_ore": {
-      "index": 221,
+      "ground": [
+        462,
+        463,
+        464,
+        465
+      ],
+      "type": "normal",
       "palette": "gym_stone_ore"
     },
     "rock_rubble": {
-      "index": 222,
+      "ground": [
+        466,
+        467,
+        468,
+        469
+      ],
+      "type": "normal",
       "palette": "gym_stone"
     },
     "rail_h": {
-      "index": 223,
+      "ground": [
+        470,
+        471,
+        472,
+        473
+      ],
+      "type": "normal",
       "palette": "gym_stone"
     },
     "rail_v": {
-      "index": 224,
+      "ground": [
+        474,
+        475,
+        476,
+        477
+      ],
+      "type": "normal",
       "palette": "gym_stone"
     },
     "lamp_mine": {
-      "index": 225,
+      "ground": [
+        478,
+        479,
+        480,
+        481
+      ],
+      "type": "normal",
       "palette": "gym_stone_lamp"
     },
     "puzzle_wall_stone": {
-      "index": 226,
+      "ground": [
+        482,
+        483,
+        484,
+        485
+      ],
+      "type": "normal",
       "palette": "gym_stone_wall"
     },
     "gym_floor_mist": {
-      "index": 227,
+      "ground": [
+        486,
+        487,
+        488,
+        489
+      ],
+      "type": "normal",
       "palette": "gym_mist"
     },
     "gym_floor_mist_deep": {
-      "index": 228,
+      "ground": [
+        490,
+        491,
+        492,
+        493
+      ],
+      "type": "normal",
       "palette": "gym_mist"
     },
     "gym_floor_mist_path": {
-      "index": 229,
+      "ground": [
+        494,
+        495,
+        496,
+        497
+      ],
+      "type": "normal",
       "palette": "gym_mist"
     },
     "gym_wall_mist": {
-      "index": 230,
+      "ground": [
+        498,
+        498,
+        499,
+        499
+      ],
+      "type": "normal",
       "palette": "gym_mist_wall"
     },
     "statue_mist": {
-      "index": 231,
+      "ground": [
+        500,
+        501,
+        502,
+        503
+      ],
+      "type": "normal",
       "palette": "gym_mist_statue"
     },
     "plant_mist": {
-      "index": 232,
+      "ground": [
+        504,
+        505,
+        506,
+        507
+      ],
+      "type": "normal",
       "palette": "gym_mist_glow"
     },
     "puzzle_wall_mist": {
-      "index": 233,
+      "ground": [
+        508,
+        509,
+        3581,
+        3580
+      ],
+      "type": "normal",
       "palette": "gym_mist_wall"
     },
     "gym_floor_ember": {
-      "index": 234,
+      "ground": [
+        510,
+        511,
+        512,
+        513
+      ],
+      "type": "normal",
       "palette": "gym_ember"
     },
     "gym_floor_ember_hot": {
-      "index": 235,
+      "ground": [
+        514,
+        515,
+        516,
+        517
+      ],
+      "type": "normal",
       "palette": "gym_ember_hot"
     },
     "gym_wall_ember": {
-      "index": 236,
+      "ground": [
+        518,
+        519,
+        520,
+        521
+      ],
+      "type": "normal",
       "palette": "gym_ember_hot"
     },
     "lava": {
-      "index": 237,
+      "ground": [
+        522,
+        523,
+        524,
+        525
+      ],
+      "type": "normal",
       "palette": "gym_ember_lava",
       "frames": [
-        237,
-        238,
-        239,
-        240
+        [
+          522,
+          523,
+          524,
+          525
+        ],
+        [
+          526,
+          527,
+          528,
+          529
+        ],
+        [
+          523,
+          522,
+          525,
+          524
+        ],
+        [
+          527,
+          526,
+          529,
+          528
+        ]
       ],
       "frameMs": 250
     },
     "gym_floor_ember_crust": {
-      "index": 241,
+      "ground": [
+        530,
+        531,
+        532,
+        533
+      ],
+      "type": "normal",
       "palette": "gym_ember_crust"
     },
     "lamp_brazier": {
-      "index": 242,
+      "ground": [
+        534,
+        535,
+        536,
+        537
+      ],
+      "type": "normal",
       "palette": "gym_ember_hot"
     },
     "puzzle_wall_ember": {
-      "index": 243,
+      "ground": [
+        538,
+        539,
+        540,
+        541
+      ],
+      "type": "normal",
       "palette": "gym_ember_hot"
     },
     "gym_floor_frost": {
-      "index": 244,
+      "ground": [
+        542,
+        542,
+        542,
+        542
+      ],
+      "type": "normal",
       "palette": "gym_frost"
     },
     "gym_floor_frost_cracked": {
-      "index": 245,
+      "ground": [
+        543,
+        544,
+        545,
+        546
+      ],
+      "type": "normal",
       "palette": "gym_frost"
     },
     "gym_floor_frost_snow": {
-      "index": 246,
+      "ground": [
+        547,
+        548,
+        549,
+        550
+      ],
+      "type": "normal",
       "palette": "snow"
     },
     "gym_wall_frost": {
-      "index": 247,
+      "ground": [
+        551,
+        552,
+        553,
+        554
+      ],
+      "type": "normal",
       "palette": "gym_frost_wall"
     },
     "pillar_ice": {
-      "index": 248,
+      "ground": [
+        555,
+        556,
+        557,
+        558
+      ],
+      "type": "normal",
       "palette": "gym_frost_wall"
     },
     "statue_frost": {
-      "index": 249,
+      "ground": [
+        559,
+        560,
+        561,
+        562
+      ],
+      "type": "normal",
       "palette": "gym_frost_statue"
     },
     "puzzle_wall_frost": {
-      "index": 250,
+      "ground": [
+        563,
+        564,
+        565,
+        566
+      ],
+      "type": "normal",
       "palette": "gym_frost_wall"
     },
     "gym_floor_dusk": {
-      "index": 251,
+      "ground": [
+        567,
+        568,
+        569,
+        570
+      ],
+      "type": "normal",
       "palette": "gym_dusk"
     },
     "gym_floor_dusk_rune": {
-      "index": 252,
+      "ground": [
+        571,
+        572,
+        573,
+        574
+      ],
+      "type": "normal",
       "palette": "gym_dusk_rune"
     },
     "gym_wall_dusk": {
-      "index": 253,
+      "ground": [
+        575,
+        576,
+        577,
+        578
+      ],
+      "type": "normal",
       "palette": "gym_dusk_wall"
     },
     "pillar_dusk": {
-      "index": 254,
+      "ground": [
+        579,
+        580,
+        581,
+        582
+      ],
+      "type": "normal",
       "palette": "gym_dusk_wall"
     },
     "statue_dragon": {
-      "index": 255,
+      "ground": [
+        583,
+        584,
+        585,
+        586
+      ],
+      "type": "normal",
       "palette": "gym_dusk_statue"
     },
     "lamp_dusk": {
-      "index": 256,
+      "ground": [
+        587,
+        588,
+        589,
+        590
+      ],
+      "type": "normal",
       "palette": "gym_dusk_rune"
     },
     "puzzle_wall_dusk": {
-      "index": 257,
+      "ground": [
+        591,
+        592,
+        593,
+        594
+      ],
+      "type": "normal",
       "palette": "gym_dusk_rune"
     }
   }

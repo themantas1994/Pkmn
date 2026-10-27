@@ -16,6 +16,7 @@ import pkmn.game.anim.Ease
 import pkmn.engine.campaign.LightPhase
 import pkmn.engine.campaign.WorldEventDef
 import pkmn.game.battle.BattleScreen
+import pkmn.game.gfx.MapLayer
 import pkmn.game.gfx.Palette
 import pkmn.game.gfx.Renderer
 import pkmn.game.input.Button
@@ -825,8 +826,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         r.rect(0, 0, Renderer.W, Renderer.H, if (baseMap.indoor || baseMap.environment == "cave") Palette.BLACK else Color.valueOf("306830"))
         val outdoor = !baseMap.indoor && baseMap.environment != "cave"
         val light = if (outdoor) ctx.lightTint().let { Color(it.r, it.g, it.b, 1f) } else Color.WHITE
-        r.tint(light) {
-            drawMap(r, map, 0, 0, camX, camY, border = true)
+        fun drawMaps(overhang: Boolean) = r.tint(light) {
+            drawMap(r, map, 0, 0, camX, camY, border = true, overhang = overhang)
             for (c in map.connections) {
                 val other = content.mapOrNull(c.map) ?: continue
                 val (ox, oy) = when (c.direction) {
@@ -835,9 +836,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                     "west" -> -other.width to c.offset
                     else -> map.width to c.offset
                 }
-                drawMap(r, other, ox, oy, camX, camY, border = false)
+                drawMap(r, other, ox, oy, camX, camY, border = false, overhang = overhang)
             }
         }
+        drawMaps(overhang = false)
         if (outdoor && ctx.lightPhase() == LightPhase.NIGHT) drawWindowLights(r, camX, camY)
         r.tint(light.cpy().lerp(Color.WHITE, 0.35f)) {
             // Items and obstacles.
@@ -862,6 +864,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
             for (a in all) if (!a.moving && !a.sprite.startsWith("@mon:") && rules.behavior(map, a.x, a.y) == TileBehavior.TALL_GRASS)
                 r.draw(grassFeet, a.x * 16f - camX, a.y * 16f - camY + 10)
         }
+        drawMaps(overhang = true) // overhang layer: tree tops, roof edges, arches are drawn over the player
         doorAnim?.let { d ->
             // The player steps into the opened, dark doorway (drawn over them as it opens), then the warp fades to white.
             r.rect(d[0] * 16f - camX + 2, d[1] * 16f - camY - 4, 12f, 19f, Color(0.09f, 0.06f, 0.06f, 0.85f * d[2]))
@@ -905,17 +908,24 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         }
     }
 
-    private fun drawMap(r: Renderer, m: MapData, ox: Int, oy: Int, camX: Float, camY: Float, border: Boolean) {
+    /** Draws the ground and objects layers (below the player) or, with [overhang], only the overhang layer (above the player). */
+    private fun drawMap(r: Renderer, m: MapData, ox: Int, oy: Int, camX: Float, camY: Float, border: Boolean, overhang: Boolean = false) {
         val x0 = ((camX / 16).toInt() - 1 - ox).coerceAtLeast(if (border) -2 else 0)
         val y0 = ((camY / 16).toInt() - 1 - oy).coerceAtLeast(if (border) -2 else 0)
         val x1 = x0 + Renderer.W / 16 + 3
         val y1 = y0 + Renderer.H / 16 + 3
         val t = game.timeMs
-        val borderTile = if (m.indoor || m.environment == "cave") null else r.assets.tile("tree")
+        val borderTile = if (overhang || m.indoor || m.environment == "cave") null else r.assets.tile("tree")
         for (ty in y0..y1) for (tx in x0..x1) {
             val px = (ox + tx) * 16f - camX; val py = (oy + ty) * 16f - camY
-            if (m.inBounds(tx, ty)) r.draw(r.assets.tile(m.tileAt(tx, ty)).frame(t), px, py)
-            else if (border && borderTile != null && !hasConnectionAt(m, tx, ty)) r.draw(borderTile.frame(t), px, py)
+            if (m.inBounds(tx, ty)) {
+                val mt = r.assets.metatile(m.tileAt(tx, ty))
+                if (overhang) mt.layer(MapLayer.OVERHANG)?.let { r.draw(it.frame(t), px, py) }
+                else {
+                    mt.layer(MapLayer.GROUND)?.let { r.draw(it.frame(t), px, py) }
+                    mt.layer(MapLayer.OBJECTS)?.let { r.draw(it.frame(t), px, py) }
+                }
+            } else if (border && borderTile != null && !hasConnectionAt(m, tx, ty)) r.draw(borderTile.frame(t), px, py)
         }
     }
 

@@ -77,24 +77,34 @@ def assert_15bit(im, what):
     assert not (a % 8).any(), f"{what}: channels must be multiples of 8"
 
 
+def metatile_layers(name, e, sheet_arr):
+    """All composed 16x16 RGBA layers (every ground frame, then the top layer if any) of one metatile."""
+    layers = [tiles.compose(sheet_arr, cells) for cells in e.get("frames", [e["ground"]])]
+    if "top" in e:
+        layers.append(tiles.compose(sheet_arr, e["top"]))
+    return layers
+
+
 def validate_tile_palettes():
-    """Every 16x16 world tile uses <= 15 colours and its colours fit one declared palette (PALETTES16)."""
+    """Every metatile layer uses <= 15 colours and its colours fit one declared palette (PALETTES16)."""
     declared = [set(p.colours()) for p in palettes.PALETTES16.values()]
+    with open(os.path.join(G, "tiles", "world.json"), encoding="utf-8") as f:
+        w = json.load(f)
     with Image.open(os.path.join(G, "tiles", "world.png")) as sheet:
         sheet = sheet.convert("RGBA")
         assert_15bit(sheet, "tiles/world.png")
-        bad = []
-        for ty in range(sheet.height // 16):
-            for tx in range(16):
-                tile = sheet.crop((tx * 16, ty * 16, tx * 16 + 16, ty * 16 + 16))
-                a = np.asarray(tile).reshape(-1, 4)
-                cols = {tuple(int(v) for v in p[:3]) for p in a if p[3] > 0}
-                if not cols:
-                    continue
-                assert len(cols) <= palettes.SLOTS - 1, f"tile {tx},{ty} uses {len(cols)} colours"
-                if not any(cols <= d for d in declared):
-                    bad.append((tx, ty))
-        assert not bad, f"{len(bad)} tiles match no declared palette, first: {bad[:5]}"
+        arr = np.asarray(sheet)
+    bad = []
+    for name, e in w["metatiles"].items():
+        for layer in metatile_layers(name, e, arr):
+            a = layer.reshape(-1, 4)
+            cols = {tuple(int(v) for v in p[:3]) for p in a if p[3] > 0}
+            if not cols:
+                continue
+            assert len(cols) <= palettes.SLOTS - 1, f"metatile {name} uses {len(cols)} colours"
+            if not any(cols <= d for d in declared):
+                bad.append(name)
+    assert not bad, f"{len(bad)} metatiles match no declared palette, first: {bad[:5]}"
 
 
 def validate_tint():
@@ -127,31 +137,37 @@ def validate_tint():
 def validate():
     with open(os.path.join(G, "tiles", "world.json"), encoding="utf-8") as f:
         w = json.load(f)
-    assert w["tileSize"] == 16 and w["columns"] == 16
+    assert w["tileSize"] == 8 and w["metatileSize"] == 16 and w["columns"] == tiles.SHEET_COLUMNS
     with Image.open(os.path.join(G, "tiles", "world.png")) as im:
-        assert im.width == 256 and im.height % 16 == 0
-        n = (im.height // 16) * 16
+        assert im.width == tiles.SHEET_COLUMNS * 8 and im.height % 8 == 0
+        n = (im.height // 8) * tiles.SHEET_COLUMNS
+        sheet_arr = np.asarray(im.convert("RGBA")).copy()
+    # spec section 4 budget: 512 8x8 tiles per primary/secondary set; this single set stays within both
+    assert n <= 1024, f"{n} 8x8 tiles exceed the 2 x 512 budget"
     for t in REQUIRED_TILES:
-        assert t in w["tiles"], f"missing tile {t}"
-    for name, e in w["tiles"].items():
-        for i in e.get("frames", [e["index"]]):
-            assert 0 <= i < n, f"{name} index out of range"
+        assert t in w["metatiles"], f"missing tile {t}"
+    for name, e in w["metatiles"].items():
+        assert e["type"] in tiles.METATILE_TYPES, f"{name}: bad type {e['type']}"
+        refs = [r for cells in e.get("frames", [e["ground"]]) for r in cells] + e.get("top", [])
+        for cells in e.get("frames", [e["ground"]]) + ([e["top"]] if "top" in e else []):
+            assert len(cells) == 4, f"{name}: a layer needs four 8x8 cells"
+        for r in refs:
+            assert r == tiles.EMPTY or 0 <= (r & tiles.INDEX_MASK) < n, f"{name} tile index out of range"
+        assert e.get("frames", [e["ground"]])[0] == e["ground"], f"{name}: ground must equal frame 0"
     for t in ANIMATED + ["lava"]:
-        assert len(w["tiles"][t]["frames"]) == 4
+        assert len(w["metatiles"][t]["frames"]) == 4
     # themed gym tile sets: one non-empty set per gym, every tile present and pairwise distinct
     assert len(gym_tiles.GYM_TILE_NAMES) == 8, "expected 8 themed gym tile sets"
-    with Image.open(os.path.join(G, "tiles", "world.png")) as sheet:
-        sheet = sheet.convert("RGBA")
-        for theme, names in gym_tiles.GYM_TILE_NAMES.items():
-            assert 5 <= len(names) <= 8, f"gym {theme}: {len(names)} tiles"
-            seen = {}
-            for name in names:
-                assert name in w["tiles"], f"gym {theme}: missing tile {name}"
-                for i in w["tiles"][name].get("frames", [w["tiles"][name]["index"]]):
-                    x, y = (i % 16) * 16, (i // 16) * 16
-                    key = sheet.crop((x, y, x + 16, y + 16)).tobytes()
-                    other = seen.setdefault(key, name)
-                    assert other == name or name == "lava", f"gym {theme}: {name} identical to {other}"
+    for theme, names in gym_tiles.GYM_TILE_NAMES.items():
+        assert 5 <= len(names) <= 8, f"gym {theme}: {len(names)} tiles"
+        seen = {}
+        for name in names:
+            assert name in w["metatiles"], f"gym {theme}: missing tile {name}"
+            e = w["metatiles"][name]
+            for cells in e.get("frames", [e["ground"]]):
+                key = tiles.compose(sheet_arr, cells).tobytes()
+                other = seen.setdefault(key, name)
+                assert other == name or name == "lava", f"gym {theme}: {name} identical to {other}"
     for cid in CHAR_IDS:
         check_size(os.path.join(G, "chars", cid + ".png"), (48, 96))
         check_size(os.path.join(G, "trainers", cid + ".png"), (64, 64))
@@ -207,7 +223,7 @@ def validate():
                "status_icons.json", "ball_icons.json", "gimmick_icons.json"):
         with open(os.path.join(G, "ui", jf), encoding="utf-8") as f:
             json.load(f)
-    print("validation OK:", len(w["tiles"]), "tiles,", len(CHAR_IDS), "characters")
+    print("validation OK:", len(w["metatiles"]), "metatiles,", len(CHAR_IDS), "characters")
 
 
 def main():
