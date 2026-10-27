@@ -1,0 +1,16 @@
+{
+  "families": {
+    "water": {
+      "auto": "water@auto", "members": ["water"], "center": "water",
+      "edge": {"n": "water_n", "s": "water_s", "e": "water_e", "w": "water_w"},
+      "outer": {"nw": "water_nw", "ne": "water_ne", "sw": "water_sw", "se": "water_se"},
+      "inner": {"nw": "water_inw", "ne": "water_ine", "sw": "water_isw", "se": "water_ise"}
+    },
+    "path": {
+      "auto": "path@auto", "members": ["path"], "center": "path",
+      "edge": {"n": "path_edge_n", "s": "path_edge_s", "e": "path_edge_e", "w": "path_edge_w"},
+      "outer": {"nw": "path_corner_nw", "ne": "path_corner_ne", "sw": "path_corner_sw", "se": "path_corner_se"},
+      "inner": {}
+    }
+  }
+}
