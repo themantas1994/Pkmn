@@ -1,7 +1,8 @@
-"""Overworld character sheets -> assets/gfx/chars/<id>.png (48x64).
+"""Overworld character sheets -> assets/gfx/chars/<id>.png.
 
-Layout: 4 rows (down, up, left, right) x 3 columns (stand, step A, step B),
-16x16 frames, transparent background, 4 colours per sprite:
+Walk and run sheets are 48x96: 3 rows (down, up, left) x 3 columns (stand, step A, step B) of 16x32 frames; the
+right-facing row is the left row mirrored at draw time. Bike and surf sheets (player m/f) are 96x96 of 32x32 frames in
+the same 3x3 layout. Transparent background, 4 colours per sprite:
     0 white, 1 skin, 2 role colour, 3 outline.
 
 Sprites are assembled from text templates ("paper doll"):
@@ -12,7 +13,7 @@ Template letters:
     h hair  a hat/hood  o outer top  c inner top  d pants/skirt  l legs
     b beard/moustache
 Each character maps h/a/o/c/d/l/b to one of K(outline) W(white) S(skin)
-P(role colour). Right-facing frames are mirrored left-facing ones.
+P(role colour). 
 """
 import os
 import sys
@@ -620,38 +621,69 @@ def hair_highlight(canvas, d):
             canvas[r, c] = "g"
 
 
-def frame(style, body, d, step, mapping, acc):
-    """step: 0 stand, 1 step A, 2 step B"""
-    canvas = np.full((16, 16), ".", dtype="<U1")
-    b = BODIES[body][d]
-    canvas[10:14] = b
-    legs = ROBE_LEGS if body == "robe" else LEGS
+TALL = 32          # walk/run cell height; the head overlaps the tile above
+HEAD_TOP = 10      # first head row inside the 16x32 cell (feet sit on the cell's last row = tile bottom)
+BODY_ROWS = (0, 1, 1, 1, 2, 2, 2, 3)   # 4-row body template stretched to 8 rows
+LEG_ROWS = (0, 0, 0, 1)                # 2-row leg template stretched to 4 rows
+
+
+def _stretch(g, idx):
+    return g[list(idx)]
+
+
+def _hair_highlight_head(h, d):
+    for r, c in HIGHLIGHT[d]:
+        if h[r, c] == "h":
+            h[r, c] = "g"
+
+
+def tall_parts(style, body, d, step, acc):
+    """(upper, legs): upper = head+body grid (28 rows), legs = 4-row grid, both letter grids."""
+    upper = np.full((28, 16), ".", dtype="<U1")
+    b = _stretch(BODIES[body][d], BODY_ROWS)
+    upper[20:28] = b
+    h = head_grid(style, d, acc).copy()
+    _hair_highlight_head(h, d)
+    m = h != "."
+    region = upper[HEAD_TOP:HEAD_TOP + 13]
+    region[m] = h[m]
+    table = ROBE_LEGS if body == "robe" else LEGS
     if d in ("down", "up"):
-        lg = legs[d][0 if step == 0 else 1]
+        lg = table[d][0 if step == 0 else 1]
         if step == 2:
             lg = lg[:, ::-1]
     else:
-        lg = legs[d][step]
-    canvas[14:16] = lg
-    h = head_grid(style, d, acc)
-    m = h != "."
-    canvas[:13][m] = h[m]
-    hair_highlight(canvas, d)
-    a = resolve(canvas, mapping)
-    if d in ("down", "up") and step:
-        # 1px bob: the whole sprite dips while walking
-        a = np.vstack([np.full((1, 16), -1, np.int8), a[:-1]])
-        a[15] = np.where(a[15] == -1, -1, a[15])
-    return a
+        lg = table[d][step]
+    return upper, _stretch(lg, LEG_ROWS)
 
 
-def sheet(spec):
+def _shift(g, dx):
+    if dx == 0:
+        return g
+    out = np.full_like(g, ".")
+    if dx < 0:
+        out[:, :dx] = g[:, -dx:]
+    else:
+        out[:, dx:] = g[:, :-dx]
+    return out
+
+
+def frame(style, body, d, step, mapping, acc, run=False):
+    """16x32 frame. step: 0 stand, 1 step A, 2 step B. Feet stay on the last row in every frame (no pop)."""
+    upper, legs = tall_parts(style, body, d, step, acc)
+    dip = (2 if run else 1) if step else 0
+    if run and step:
+        upper = _shift(upper, -1 if d == "left" else 0)
+    canvas = np.full((TALL, 16), ".", dtype="<U1")
+    canvas[dip:dip + 28] = upper[:28]
+    canvas[28:32] = "."
+    canvas[28:32] = legs
+    return resolve(canvas, mapping)
+
+
+def sheet(spec, run=False):
     role, style, body, mapping, acc = spec[:5]
-    rows = []
-    for d in DIRS:
-        rows.append([frame(style, body, d, s, mapping, acc) for s in range(3)])
-    rows.append([fr[:, ::-1].copy() for fr in rows[2]])
-    return rows
+    return [[frame(style, body, d, s, mapping, acc, run) for s in range(3)] for d in DIRS]
 
 
 def palette_for(spec):
@@ -661,81 +693,105 @@ def palette_for(spec):
 
 
 def render_sheet(rows, pal):
-    img = Image.new("RGBA", (48, 64), (0, 0, 0, 0))
+    """rows: [direction][frame] index grids of equal size -> sheet image (3 columns x 3 rows)."""
+    ch, cw = rows[0][0].shape
+    img = Image.new("RGBA", (cw * 3, ch * len(rows)), (0, 0, 0, 0))
     for r, fr_row in enumerate(rows):
         for c, fr in enumerate(fr_row):
-            img.paste(pixlib.to_rgba(fr, pal), (c * 16, r * 16))
+            img.paste(pixlib.to_rgba(fr, pal), (c * cw, r * ch))
     return img
 
 
-# ---------------------------------------------------------------- bike/surf
+# ---------------------------------------------------------------- bike/surf (32x32 cells)
+WHEEL = chargrid("""
+..kkkk..
+.kwwwwk.
+kwwkkwwk
+kwk..kwk
+kwk..kwk
+kwwkkwwk
+.kwwwwk.
+..kkkk..
+""")
+
+BIKE_FB = {
+    "down": chargrid("""
+.kkkkkkkkkkkkkk.
+..k....kk....k..
+.......kk.......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+.......kk.......
+"""),
+    "up": chargrid("""
+.kkkkkkkkkkkkkk.
+..k..kkkkkk..k..
+.....kooook.....
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+......kwwk......
+.......kk.......
+"""),
+}
+
+
+def _put(canvas, grid, r0, c0):
+    h, w = grid.shape
+    m = grid != "."
+    canvas[r0:r0 + h, c0:c0 + w][m] = grid[m]
+
+
+def _rider(style, body, d, acc, head_row, body_idx, body_row):
+    """letters for a seated rider (head + stretched upper body) on a 32x32 canvas, centred."""
+    canvas = np.full((32, 32), ".", dtype="<U1")
+    _put(canvas, _stretch(BODIES[body][d], body_idx), body_row, 8)
+    h = head_grid(style, d, acc).copy()
+    _hair_highlight_head(h, d)
+    _put(canvas, h, head_row, 8)
+    return canvas
+
+
 def bike_frames(spec):
     role, style, body, mapping, acc = spec[:5]
     rows = []
     for d in DIRS:
         frs = []
         for s in range(3):
-            canvas = np.full((16, 16), ".", dtype="<U1")
-            canvas[10:14] = BODIES["std"][d]
+            canvas = _rider(style, "std", d, acc, 4, (0, 1, 1, 2, 2, 3), 14)
             if d in ("down", "up"):
-                bike = chargrid("""
-.kkkkkkkkkkkkkk.
-..k....kk....k..
-.......kk.......
-......kwwk......
-......kwwk......
-.......kk.......
-""" if d == "down" else """
-.kkkkkkkkkkkkkk.
-..k..kkkkkk..k..
-.....kooook.....
-......kwwk......
-......kwwk......
-.......kk.......
-""")
+                bike = BIKE_FB[d].copy()
                 if s:
-                    bike[3 + (s - 1), 7] = "k"
-                canvas[10:16][bike != "."] = bike[bike != "."]
+                    bike[4 + 2 * s, 5 if s == 1 else 10] = "k"
+                _put(canvas, bike, 20, 8)
             else:
-                bike = chargrid("""
-.....kkkkk......
-..kkk.kook......
-.k.kkkoook.kkk..
-k.kwk.kkk.k.kwk.
-k.kkk.....k.kkk.
-.k...k...k.k...k
-..kkk.....kkk...
-""" .replace("k.kwk.kkk.k.kwk.", "kwkwk.kkk.kwkwk."))
-                bike = bike[:, :16]
-                if s == 1:
-                    bike[3:5] = bike[3:5][:, ::-1][:, ::-1]
-                    bike[4, 2], bike[4, 12] = "w", "w"
-                elif s == 2:
-                    bike[3, 2], bike[3, 12] = "k", "k"
-                canvas[9:16][bike != "."] = bike[bike != "."]
-            h = head_grid(style, d, acc)
-            m = h != "."
-            hh = np.full((16, 16), ".", dtype="<U1")
-            hh[0:13][m] = h[m]
-            hh = np.vstack([np.full((0, 16), "."), hh])
-            mm = hh != "."
-            canvas[mm] = hh[mm]
+                _put(canvas, WHEEL, 24, 3)
+                _put(canvas, WHEEL, 24, 21)
+                for c in range(12, 23):
+                    canvas[22 if c < 18 else 21, c] = "o"
+                _put(canvas, chargrid("kkkk"), 19, 10)
+                _put(canvas, chargrid("kk\nkw"), 19, 22)
+                _put(canvas, chargrid("kllk\nkllk\nkllk"), 20, 14)
+                px = {0: ((14, 28), (18, 28)), 1: ((15, 26), (17, 30)), 2: ((17, 26), (15, 30))}[s]
+                for (x, y) in px:
+                    canvas[y, x] = "k"
             frs.append(resolve(canvas, mapping))
         rows.append(frs)
-    rows.append([fr[:, ::-1].copy() for fr in rows[2]])
     return rows
 
 
 SURF = {
     "down": chargrid("""
-................
-................
-................
-................
-................
-................
-................
-................
 ..kk........kk..
 .kwwkkkkkkkkwwk.
 kwwwwwwwwwwwwwwk
@@ -746,14 +802,6 @@ kwwwwwccwwwwwwwk
 ....kkkkkkkk....
 """),
     "up": chargrid("""
-................
-................
-................
-................
-................
-................
-................
-................
 ....kkkkkkkk....
 ..kkwwwwwwwwkk..
 .kwwwwwwwwwwwwk.
@@ -764,14 +812,6 @@ kwwwwwwwwwwwwwwk
 ......kkkk......
 """),
     "left": chargrid("""
-................
-................
-................
-................
-................
-................
-................
-................
 .kkk............
 kwwwk...kkkkkk..
 kwkwwkkkwwwwwwk.
@@ -784,40 +824,33 @@ kwwwwwwwwwwwwwwk
 }
 
 
+def _widen(g, extra):
+    mid = g.shape[1] // 2 - 1
+    return np.hstack([g[:, :mid], np.repeat(g[:, mid:mid + 1], extra, axis=1), g[:, mid:]])
+
+
 def surf_frames(spec):
     role, style, body, mapping, acc = spec[:5]
     rows = []
+    cmap = dict(mapping, c=P)
     for d in DIRS:
         frs = []
         for s in range(3):
-            canvas = np.full((16, 16), ".", dtype="<U1")
-            # player's upper body
-            canvas[9:12] = BODIES["std"][d][0:3]
-            h = head_grid(style, d, acc)
-            sh = 1 if s == 1 else 0
-            creature = SURF[d].copy()
-            if s == 2:
-                creature = np.vstack([np.full((1, 16), "."), creature[:-1]])
-            m = creature != "."
-            hh = np.full((16, 16), ".", dtype="<U1")
-            hh[0:13][h != "."] = h[h != "."]
-            hh = hh[:, :]
-            # rider sits lower into the creature
-            rider = np.vstack([np.full((1, 16), "."), canvas[:-1]]) if sh else canvas
-            rm = rider != "."
-            out = np.full((16, 16), ".", dtype="<U1")
-            out[rm] = rider[rm]
-            hm = hh != "."
-            hshift = np.vstack([np.full((sh, 16), "."), hh[:16 - sh]]) if sh else hh
-            hm = hshift != "."
-            out[hm] = hshift[hm]
-            # creature drawn on top of rider's lower body
-            out[m & (np.arange(16)[:, None] >= 10)] = creature[m & (np.arange(16)[:, None] >= 10)]
-            # map creature colour: 'c' spots use role colour
-            frs.append(resolve(out, dict(mapping, c=mapping.get("c", W) if False else P)))
+            sink = {0: 0, 1: 1, 2: -1}[s]   # rider bobs; the creature stays put so the waterline never pops
+            rider = _rider(style, "std", d, acc, 8 + sink, (0, 1, 1, 1, 2, 2, 2), 17 + sink)
+            creature = np.full((32, 32), ".", dtype="<U1")
+            _put(creature, _widen(SURF[d], 12), 24, 2)
+            r_idx = resolve(rider, mapping)
+            c_idx = resolve(creature, cmap)
+            out = r_idx.copy()
+            cm = creature != "."
+            out[cm] = c_idx[cm]
+            frs.append(out)
         rows.append(frs)
-    rows.append([fr[:, ::-1].copy() for fr in rows[2]])
     return rows
+
+
+RUN_IDS = ("player_m", "player_f")
 
 
 def build():
@@ -825,11 +858,12 @@ def build():
     for cid, spec in CHARACTERS.items():
         pal = palette_for(spec)
         img = render_sheet(sheet(spec), pal)
-        assert img.size == (48, 64)
+        assert img.size == (48, 96)
         pixlib.save_png(img, os.path.join(out, cid + ".png"))
     for pid in ("player_m", "player_f"):
         spec = CHARACTERS[pid]
         pal = palette_for(spec)
+        pixlib.save_png(render_sheet(sheet(spec, run=True), pal), os.path.join(out, pid + "_run.png"))
         pixlib.save_png(render_sheet(bike_frames(spec), pal), os.path.join(out, pid + "_bike.png"))
         pixlib.save_png(render_sheet(surf_frames(spec), pal), os.path.join(out, pid + "_surf.png"))
 

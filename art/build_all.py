@@ -152,10 +152,12 @@ def validate():
                     other = seen.setdefault(key, name)
                     assert other == name or name == "lava", f"gym {theme}: {name} identical to {other}"
     for cid in CHAR_IDS:
-        check_size(os.path.join(G, "chars", cid + ".png"), (48, 64))
+        check_size(os.path.join(G, "chars", cid + ".png"), (48, 96))
         check_size(os.path.join(G, "trainers", cid + ".png"), (64, 64))
+    for v in ("player_m_run", "player_f_run"):
+        check_size(os.path.join(G, "chars", v + ".png"), (48, 96))
     for v in ("player_m_bike", "player_f_bike", "player_m_surf", "player_f_surf"):
-        check_size(os.path.join(G, "chars", v + ".png"), (48, 64))
+        check_size(os.path.join(G, "chars", v + ".png"), (96, 96))
     for b in ("player_m_back", "player_f_back"):
         check_size(os.path.join(G, "trainers", b + ".png"), (64, 64))
     for o in ("itemball", "boulder", "cut_tree", "sign", "rock_smash", "pokeball_overworld"):
@@ -180,10 +182,11 @@ def validate():
         for fn in os.listdir(d):
             with Image.open(os.path.join(d, fn)) as im:
                 im = im.convert("RGBA")
-                for y in range(0, im.height, 16 if folder == "chars" else im.height):
-                    for x in range(0, im.width, 16 if folder == "chars" else im.width):
-                        h = 16 if folder == "chars" else im.height
-                        wdt = 16 if folder == "chars" else im.width
+                # chars: 3x3 cells (16x32 walk/run, 32x32 bike/surf)
+                wdt = im.width // 3 if folder == "chars" else im.width
+                h = im.height // 3 if folder == "chars" else im.height
+                for y in range(0, im.height, h):
+                    for x in range(0, im.width, wdt):
                         c = pixlib.colours_used(im.crop((x, y, x + wdt, y + h)))
                         assert c <= palettes.SLOTS - 1, f"{folder}/{fn} frame {x},{y} uses {c} colours"
                 assert_15bit(im, f"{folder}/{fn}")
