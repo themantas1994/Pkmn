@@ -637,8 +637,12 @@ class Battle(
     private fun requestReplacements() {
         for (s in sides) {
             // Only as many slots as there are healthy Pokémon on the bench get a replacement; the rest stay empty.
-            var bench = s.canSwitchTo().size
-            for ((slot, a) in s.actives.withIndex()) if (a != null && a.fainted && bench > 0) { pendingSwitches.add(slotKey(s, slot)); bench-- }
+            // Slots already waiting for a replacement have claimed their bench Pokémon.
+            var bench = s.canSwitchTo().size - pendingSwitches.count { keySide(it) == s.index }
+            for ((slot, a) in s.actives.withIndex()) {
+                val key = slotKey(s, slot)
+                if (a != null && a.fainted && bench > 0 && key !in pendingSwitches) { pendingSwitches.add(key); bench-- }
+            }
         }
     }
 

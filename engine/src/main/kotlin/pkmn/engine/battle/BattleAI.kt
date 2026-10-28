@@ -42,8 +42,10 @@ open class BattleAI {
         val noise = if (side.aiLevel >= 3) 5.0 else if (side.aiLevel == 2) 12.0 else 25.0
         val pick = scored.maxByOrNull { it.second + b.rng.nextDouble() * noise }!!.first
         val gimmick = chooseGimmick(b, side, me, foe, pick, req.gimmicks)
-        // Doubles: aim at the foe the move was scored against (moves with a fixed target ignore the location).
-        return Choice.UseMove(pick, gimmick, target = if (b.slotsPerSide > 1) foe.slot + 1 else 0)
+        // Doubles: aim a foe-targeting move at the foe it was scored against; other moves keep their default target.
+        val moveTarget = b.dex.moveOrNull(me.moveSlots[pick].id)?.target
+        val aimAtFoe = b.slotsPerSide > 1 && moveTarget !in Battle.FIXED_TARGETS && moveTarget !in Battle.ALLY_ONLY_TARGETS
+        return Choice.UseMove(pick, gimmick, target = if (aimAtFoe) foe.slot + 1 else 0)
     }
 
     /** Approximate fraction of [defender]'s HP that [attacker]'s best damaging move removes. */

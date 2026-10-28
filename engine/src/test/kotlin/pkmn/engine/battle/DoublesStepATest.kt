@@ -143,6 +143,19 @@ class DoublesStepATest {
     }
 
     @Test
+    fun `the AI does not aim ally or fixed-target moves at a foe`() {
+        val b = battle(listOf(mon("pikachu", moves = listOf("splash")), mon("eevee", moves = listOf("splash"))),
+            listOf(mon("snorlax", moves = listOf("tackle")), mon("plusle", moves = listOf("helpinghand"))), rules = doubles, foeAi = 2)
+        val ai = BattleAI()
+        val ally = ai.chooseAction(b, b.opponent, 1) as Choice.UseMove
+        assertEquals(0, ally.target)
+        assertNull(b.choose(b.opponent, ally, 1))
+        val attack = ai.chooseAction(b, b.opponent, 0) as Choice.UseMove
+        assertTrue(attack.target in 1..2, "a foe-targeting move names a foe slot")
+        assertNull(b.choose(b.opponent, attack, 0))
+    }
+
+    @Test
     fun `random AI doubles battles run without errors`() {
         val pool = dex.species.values.filter { it.formKind == FormKind.BASE && it.isNonstandard == null }
         for (i in 0 until 40) {
