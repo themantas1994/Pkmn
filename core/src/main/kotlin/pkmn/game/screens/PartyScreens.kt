@@ -211,7 +211,7 @@ class PartyScreen(
             val sel = i == cursor
             if (sel) r.rect(0, y - 2, Renderer.W, 28, Palette.HIGHLIGHT)
             if (i == swapFrom) r.rect(0, y - 2, 4, 28, Palette.BLUE)
-            val icon = r.assets.pokemon(m.speciesId, "icon")
+            val icon = r.assets.icon(m.speciesId, if (game.options.reduceMotion || !sel) 0 else (game.timeMs / 400).toInt())
             r.draw(icon, 8f, y.toFloat(), 24f, 24f)
             r.text(m.displayName(dex).take(pkmn.engine.campaign.Nicknames.MAX_LENGTH), 40, y + 2)
             r.text("L${m.level}", 144, y + 2)

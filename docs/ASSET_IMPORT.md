@@ -200,8 +200,7 @@ assets-local/sprites/COVERAGE.json                 coverage against assets/data/
 `SpriteStyler` is a Kotlin port (no Python or Pillow needed) of `sprite_style.py` from the user-supplied
 "pkmn-sprite-style-kit", which is the origin of this algorithm:
 
-- crop the source to its visible pixels, then fit it into 64x64 (battle kinds, standing on the bottom edge, not enlarged) or 16x16
-  (`icon`, centred), with area averaging on premultiplied alpha;
+- crop the source to its visible pixels, then fit it into 64x64 (battle kinds, standing on the bottom edge, not enlarged) or 32x32 (`icon`, centred; output is a 32x64 sheet of two frames, the second bobbed down one pixel)
 - binary alpha with threshold 112/255; transparent pixels get the colour of one opaque seed pixel before quantising;
 - median cut to at most 16 colours (GBA 4bpp) without dithering, then every channel snapped to a multiple of 8 (maximum 248);
 - a one-pixel outline on opaque edge pixels in the darkest palette colour, so it never adds a colour;

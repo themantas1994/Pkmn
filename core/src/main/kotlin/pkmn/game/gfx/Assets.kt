@@ -158,6 +158,15 @@ class Assets(private val importedDir: File?, private val dex: Dex?) {
 
     private val monSprites = HashMap<String, TextureRegion>()
 
+    /** Party/menu icon: bundled icons are a 32x(32*n) sheet of stacked frames; [frame] picks one (wrapping). Placeholders are single-frame. */
+    fun icon(speciesId: String, frame: Int = 0): TextureRegion {
+        val sheet = pokemon(speciesId, "icon")
+        val w = sheet.regionWidth; val h = sheet.regionHeight
+        if (h <= w) return sheet
+        val n = h / w
+        return TextureRegion(sheet.texture, sheet.regionX, sheet.regionY + Math.floorMod(frame, n) * w, w, w)
+    }
+
     /** kind: front, back, front-shiny, back-shiny, icon. */
     fun pokemon(speciesId: String, kind: String = "front"): TextureRegion = monSprites.getOrPut("$kind/$speciesId") {
         val candidates = buildList {

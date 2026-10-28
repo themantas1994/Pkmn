@@ -8,7 +8,7 @@ import kotlin.math.roundToInt
 
 /**
  * Converts locally sourced Pokémon PNGs to the game's GBC-like pixel style: the sprite is cropped to its visible
- * pixels, fitted to a 64x64 battle canvas (bottom-aligned, not enlarged), 16x16 icons, binary alpha, at most sixteen opaque colours (GBA 4bpp), channels snapped to multiples
+ * pixels, fitted to a 64x64 battle canvas (bottom-aligned, not enlarged), 32x32 two-frame icon sheets, binary alpha, at most sixteen opaque colours (GBA 4bpp), channels snapped to multiples
  * of 8, optional one-pixel outline in the darkest palette colour.
  *
  * Kotlin port of `sprite_style.py` from the user-supplied "pkmn-sprite-style-kit" (the origin of the algorithm).
@@ -20,7 +20,9 @@ import kotlin.math.roundToInt
 object SpriteStyler {
     /** Battle sprites: a 64-pixel canvas as on the GBA (docs/gba-graphics-spec.md P6), drawn without enlargement. */
     const val BATTLE_LOGICAL = 64
-    const val ICON_SIZE = 16
+    const val ICON_SIZE = 32
+    /** Icons are a sheet of [ICON_FRAMES] stacked frames; frame 1 is frame 0 bobbed down one pixel. */
+    const val ICON_FRAMES = 2
     const val UPSCALE = 1
     const val ALPHA_THRESHOLD = 112
     const val MAX_COLOURS = 16
@@ -29,13 +31,14 @@ object SpriteStyler {
     const val MAX_INPUT_DIMENSION = 4096
 
     fun logicalSize(kind: String) = if (kind == "icon") ICON_SIZE else BATTLE_LOGICAL
-    fun outputSize(kind: String) = if (kind == "icon") ICON_SIZE else BATTLE_LOGICAL * UPSCALE
+    fun outputWidth(kind: String) = if (kind == "icon") ICON_SIZE else BATTLE_LOGICAL * UPSCALE
+    fun outputHeight(kind: String) = if (kind == "icon") ICON_SIZE * ICON_FRAMES else BATTLE_LOGICAL * UPSCALE
 
     /** Parameters recorded in STYLE_REPORT.json. */
     fun parameters(outline: Boolean): Map<String, Any> = linkedMapOf(
         "battleLogicalCanvas" to "${BATTLE_LOGICAL}x$BATTLE_LOGICAL",
         "battleOutput" to "${BATTLE_LOGICAL * UPSCALE}x${BATTLE_LOGICAL * UPSCALE}",
-        "iconOutput" to "${ICON_SIZE}x$ICON_SIZE",
+        "iconOutput" to "${ICON_SIZE}x${ICON_SIZE * ICON_FRAMES} ($ICON_FRAMES frames)",
         "opaqueColorLimit" to MAX_COLOURS,
         "alpha" to "binary, threshold $ALPHA_THRESHOLD/255",
         "rgbStep" to RGB_STEP,
@@ -105,22 +108,25 @@ object SpriteStyler {
 
         val scale = if (kind == "icon") 1 else UPSCALE
         val out = size * scale
-        val result = BufferedImage(out, out, BufferedImage.TYPE_INT_ARGB)
+        val frames = if (kind == "icon") ICON_FRAMES else 1
+        val result = BufferedImage(out, out * frames, BufferedImage.TYPE_INT_ARGB)
         val row = IntArray(out)
-        for (y in 0 until out) {
+        for (f in 0 until frames) for (y in 0 until out) {
+            // Frame 1 of an icon is frame 0 moved down one pixel (the bottom row falls off).
+            val sy = y - f
             for (x in 0 until out) {
-                val i = (y / scale) * size + (x / scale)
-                row[x] = if (opaque[i]) (0xFF shl 24) or mapped[i] else 0
+                val i = if (sy < 0) -1 else (sy / scale) * size + (x / scale)
+                row[x] = if (i >= 0 && opaque[i]) (0xFF shl 24) or mapped[i] else 0
             }
-            result.setRGB(0, y, out, 1, row, 0, out)
+            result.setRGB(0, f * out + y, out, 1, row, 0, out)
         }
         return result
     }
 
     /** Returns an error message, or null when [image] is a valid styled sprite for [kind]. */
     fun validate(image: BufferedImage, kind: String): String? {
-        val expected = outputSize(kind)
-        if (image.width != expected || image.height != expected) return "unexpected dimensions ${image.width}x${image.height}, expected ${expected}x$expected"
+        val w = outputWidth(kind); val h = outputHeight(kind)
+        if (image.width != w || image.height != h) return "unexpected dimensions ${image.width}x${image.height}, expected ${w}x$h"
         val colours = HashSet<Int>()
         var visible = 0
         for (y in 0 until image.height) for (x in 0 until image.width) {

@@ -213,7 +213,7 @@ class BoxScreen(game: PkmnGame, private val ctx: GameContext, private val op: Op
         for (i in 0 until 30) {
             val x = 8 + (i % 6) * 40; val y = 30 + (i / 6) * 28
             r.rect(x, y, 36, 26, if (i == cursor) Palette.HIGHLIGHT else Palette.SHADE.cpy().also { it.a = 0.3f })
-            b[i]?.let { r.draw(r.assets.pokemon(it.speciesId, "icon"), x + 6f, y + 1f, 24f, 24f) }
+            b[i]?.let { r.draw(r.assets.icon(it.speciesId), x + 6f, y + 1f, 24f, 24f) }
         }
         val sel = b[cursor]
         r.frame(0, 172, Renderer.W, 52)

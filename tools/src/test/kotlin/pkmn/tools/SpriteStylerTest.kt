@@ -75,15 +75,22 @@ class SpriteStylerTest {
     }
 
     @Test
-    fun iconIs16x16FromNonSquareContentKeepingItsAspectRatio() {
-        // A wide 60x20 shape on a 68x56 canvas: cropped to its content, fitted as 16 wide and centred vertically,
+    fun iconIs32x32TwoFrameSheetFromNonSquareContentKeepingItsAspectRatio() {
+        // A wide 60x20 shape on a 68x56 canvas: cropped to its content, fitted as 32 wide and centred vertically,
         // so the top row stays transparent.
         val wide = BufferedImage(68, 56, BufferedImage.TYPE_INT_ARGB)
         for (y in 18 until 38) for (x in 4 until 64) wide.setRGB(x, y, if (x < 34) 0xFF3060C0.toInt() else 0xFF60C030.toInt())
         val out = SpriteStyler.style(wide, "icon")
-        assertEquals(16, out.width); assertEquals(16, out.height)
+        assertEquals(32, out.width); assertEquals(64, out.height)
         assertNull(SpriteStyler.validate(out, "icon"))
-        assertTrue((0 until 16).all { out.getRGB(it, 0) ushr 24 == 0 })
+        assertTrue((0 until 32).all { out.getRGB(it, 0) ushr 24 == 0 })
+    }
+
+    @Test
+    fun iconSecondFrameIsTheFirstBobbedDownOnePixel() {
+        val out = SpriteStyler.style(blob(), "icon")
+        for (y in 1 until 32) for (x in 0 until 32) assertEquals(out.getRGB(x, y - 1), out.getRGB(x, 32 + y), "frame 1 pixel $x,$y")
+        assertTrue((0 until 32).all { out.getRGB(it, 32) ushr 24 == 0 })
     }
 
     @Test
@@ -124,9 +131,9 @@ class SpriteStylerTest {
         assertTrue(plainColours.containsAll(outlinedColours), "outline introduced a colour: $outlinedColours vs $plainColours")
         fun luma(c: Int) = 0.2126 * (c shr 16 and 255) + 0.7152 * (c shr 8 and 255) + 0.0722 * (c and 255)
         val darkest = plainColours.minBy { luma(it) }
-        for (y in 0 until 16) for (x in 0 until 16) {
+        for (y in 0 until 32) for (x in 0 until 32) {
             if (outlined.getRGB(x, y) ushr 24 == 0) continue
-            val edge = x == 0 || y == 0 || x == 15 || y == 15 || listOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1).any { (dx, dy) -> outlined.getRGB(x + dx, y + dy) ushr 24 == 0 }
+            val edge = x == 0 || y == 0 || x == 31 || y == 31 || listOf(-1 to 0, 1 to 0, 0 to -1, 0 to 1).any { (dx, dy) -> outlined.getRGB(x + dx, y + dy) ushr 24 == 0 }
             if (edge) assertEquals(darkest, outlined.getRGB(x, y) and 0xFFFFFF, "edge pixel $x,$y")
         }
     }
@@ -144,7 +151,7 @@ class SpriteStylerTest {
         val five = BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)
         for (i in 0 until 17) five.setRGB(i, 0, (0xFF shl 24) or (i * 8 shl 16))
         assertTrue(SpriteStyler.validate(five, "front")!!.contains("colours"))
-        val halfAlpha = BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB).also { it.setRGB(0, 0, 0x80102030.toInt()) }
+        val halfAlpha = BufferedImage(32, 64, BufferedImage.TYPE_INT_ARGB).also { it.setRGB(0, 0, 0x80102030.toInt()) }
         assertTrue(SpriteStyler.validate(halfAlpha, "icon")!!.contains("alpha"))
     }
 
@@ -156,7 +163,7 @@ class SpriteStylerTest {
         val before = rawFiles.map { sha256(it.readBytes()) }
         assertTrue(pipeline(root, "--only=1-3").run())
         assertEquals(before, rawFiles.map { sha256(it.readBytes()) })
-        for ((kind, id, size) in listOf(Triple("front", "bulbasaur", 64), Triple("icon", "bulbasaur", 16), Triple("back", "ivysaur", 64))) {
+        for ((kind, id, size) in listOf(Triple("front", "bulbasaur", 64), Triple("icon", "bulbasaur", 32), Triple("back", "ivysaur", 64))) {
             val img = ImageIO.read(File(live(root), "$kind/$id.png"))
             assertEquals(size, img.width); assertNull(SpriteStyler.validate(img, kind))
         }
