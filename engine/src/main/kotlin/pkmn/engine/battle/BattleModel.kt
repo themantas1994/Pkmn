@@ -306,6 +306,8 @@ class MoveCtx(val user: BattleMon, val target: BattleMon, val move: ActiveMove) 
     var hitIndex = 0
     var damage = 0
     var substituteHit = false
+    /** False for all but the last target of a spread move: the user's own after-effects run once. */
+    var finalTarget = true
 }
 
 /** Multiplier accumulator using the 4096-based fixed-point chaining used by the official games. */
