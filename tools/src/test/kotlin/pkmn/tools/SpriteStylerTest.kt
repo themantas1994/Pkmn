@@ -55,12 +55,12 @@ class SpriteStylerTest {
     // ------------------------------------------------------------------ styler
 
     @Test
-    fun battleSpriteIs96x96WithAtMostFourColoursAndBinaryAlpha() {
+    fun battleSpriteIs64x64WithAtMost16ColoursAndBinaryAlpha() {
         val out = SpriteStyler.style(blob(), "front")
-        assertEquals(96, out.width); assertEquals(96, out.height)
+        assertEquals(64, out.width); assertEquals(64, out.height)
         assertNull(SpriteStyler.validate(out, "front"))
-        assertTrue(SpriteStyler.opaqueColours(out).size in 1..4)
-        val alphas = (0 until 96).flatMap { y -> (0 until 96).map { x -> out.getRGB(x, y) ushr 24 } }.toSet()
+        assertTrue(SpriteStyler.opaqueColours(out).size in 5..16, "a smooth blob should use a real ramp, not four colours")
+        val alphas = (0 until 64).flatMap { y -> (0 until 64).map { x -> out.getRGB(x, y) ushr 24 } }.toSet()
         assertTrue(alphas.all { it == 0 || it == 255 }, "alpha values: $alphas")
         for (c in SpriteStyler.opaqueColours(out)) for (shift in listOf(16, 8, 0)) {
             val v = c shr shift and 255
@@ -69,9 +69,9 @@ class SpriteStylerTest {
     }
 
     @Test
-    fun battleSpriteIsAChunkyNearestNeighbourGrid() {
+    fun battleSpriteIsNotEnlarged() {
         val out = SpriteStyler.style(blob(), "back")
-        for (y in 0 until 96) for (x in 0 until 96) assertEquals(out.getRGB(x / SpriteStyler.UPSCALE * SpriteStyler.UPSCALE, y / SpriteStyler.UPSCALE * SpriteStyler.UPSCALE), out.getRGB(x, y))
+        assertEquals(1, SpriteStyler.UPSCALE); assertEquals(64, out.width)
     }
 
     @Test
@@ -88,13 +88,13 @@ class SpriteStylerTest {
 
     @Test
     fun smallSpritesAreCroppedToFillTheFrameAndStandOnTheBottomEdge() {
-        // A 12x12 creature in the middle of a 96x96 canvas (as in PokeAPI's sprites of small Pokémon).
+        // A 12x12 creature in the middle of a 96x96 source canvas (as in PokeAPI's sprites of small Pokémon).
         val small = BufferedImage(96, 96, BufferedImage.TYPE_INT_ARGB)
         for (y in 42 until 54) for (x in 42 until 54) small.setRGB(x, y, 0xFF40A040.toInt())
         val out = SpriteStyler.style(small, "front")
-        val opaqueCols = (0 until 96).count { x -> (0 until 96).any { y -> out.getRGB(x, y) ushr 24 == 255 } }
-        assertTrue(opaqueCols >= 80, "cropped sprite fills the frame ($opaqueCols columns)")
-        assertTrue((0 until 96).any { x -> out.getRGB(x, 95) ushr 24 == 255 }, "battle sprites stand on the bottom edge")
+        val opaqueCols = (0 until 64).count { x -> (0 until 64).any { y -> out.getRGB(x, y) ushr 24 == 255 } }
+        assertTrue(opaqueCols >= 53, "cropped sprite fills the frame ($opaqueCols columns)")
+        assertTrue((0 until 64).any { x -> out.getRGB(x, 63) ushr 24 == 255 }, "battle sprites stand on the bottom edge")
     }
 
     @Test
@@ -120,7 +120,7 @@ class SpriteStylerTest {
         val outlined = SpriteStyler.style(blob(), "icon", outline = true)
         val plainColours = SpriteStyler.opaqueColours(plain)
         val outlinedColours = SpriteStyler.opaqueColours(outlined)
-        assertTrue(outlinedColours.size <= 4)
+        assertTrue(outlinedColours.size <= 16)
         assertTrue(plainColours.containsAll(outlinedColours), "outline introduced a colour: $outlinedColours vs $plainColours")
         fun luma(c: Int) = 0.2126 * (c shr 16 and 255) + 0.7152 * (c shr 8 and 255) + 0.0722 * (c and 255)
         val darkest = plainColours.minBy { luma(it) }
@@ -141,8 +141,8 @@ class SpriteStylerTest {
     @Test
     fun validateFlagsBadOutput() {
         assertNotNull(SpriteStyler.validate(BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB), "front"))
-        val five = BufferedImage(96, 96, BufferedImage.TYPE_INT_ARGB)
-        for (i in 0 until 5) five.setRGB(i, 0, (0xFF shl 24) or (i * 8 shl 16))
+        val five = BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB)
+        for (i in 0 until 17) five.setRGB(i, 0, (0xFF shl 24) or (i * 8 shl 16))
         assertTrue(SpriteStyler.validate(five, "front")!!.contains("colours"))
         val halfAlpha = BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB).also { it.setRGB(0, 0, 0x80102030.toInt()) }
         assertTrue(SpriteStyler.validate(halfAlpha, "icon")!!.contains("alpha"))
@@ -156,7 +156,7 @@ class SpriteStylerTest {
         val before = rawFiles.map { sha256(it.readBytes()) }
         assertTrue(pipeline(root, "--only=1-3").run())
         assertEquals(before, rawFiles.map { sha256(it.readBytes()) })
-        for ((kind, id, size) in listOf(Triple("front", "bulbasaur", 96), Triple("icon", "bulbasaur", 16), Triple("back", "ivysaur", 96))) {
+        for ((kind, id, size) in listOf(Triple("front", "bulbasaur", 64), Triple("icon", "bulbasaur", 16), Triple("back", "ivysaur", 64))) {
             val img = ImageIO.read(File(live(root), "$kind/$id.png"))
             assertEquals(size, img.width); assertNull(SpriteStyler.validate(img, kind))
         }
@@ -165,7 +165,7 @@ class SpriteStylerTest {
         val rep = report(root, "STYLE_REPORT.json")
         assertEquals(3, rep["counts"]!!.jsonObject["converted"]!!.jsonPrimitive.int)
         assertEquals("gbc", rep["styleMode"]!!.jsonPrimitive.content)
-        assertEquals(4, rep["style"]!!.jsonObject["opaqueColorLimit"]!!.jsonPrimitive.int)
+        assertEquals(16, rep["style"]!!.jsonObject["opaqueColorLimit"]!!.jsonPrimitive.int)
         assertEquals(3, rep["files"]!!.jsonArray.size)
         assertEquals(sha256(File(live(root), "front/bulbasaur.png").readBytes()),
             rep["files"]!!.jsonArray.first { it.jsonObject["speciesId"]!!.jsonPrimitive.content == "bulbasaur" && it.jsonObject["kind"]!!.jsonPrimitive.content == "front" }
@@ -231,7 +231,7 @@ class SpriteStylerTest {
         raw(root, "front", "bulbasaur"); assertTrue(pipeline(root).run())
         val before = liveHashes(root)
         val fiveColours = { _: BufferedImage, _: String, _: Boolean ->
-            BufferedImage(96, 96, BufferedImage.TYPE_INT_ARGB).also { img -> for (i in 0 until 5) img.setRGB(i, 0, (0xFF shl 24) or (i * 8 shl 16)) }
+            BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB).also { img -> for (i in 0 until 17) img.setRGB(i, 0, (0xFF shl 24) or (i * 8 shl 16)) }
         }
         raw(root, "front", "ivysaur")
         assertFalse(SpriteStylePipeline(root, emptyList(), styler = fiveColours).run())
