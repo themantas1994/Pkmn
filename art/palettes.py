@@ -219,7 +219,9 @@ _LIT = set()  # window / lamp palettes once split out of the wall palettes (P5)
 
 
 def tint_group(name):
-    """Tint group of a named tile palette."""
+    """Tint group of a named tile palette (a redrawn 16-colour palette 'x16' belongs to the group of 'x')."""
+    if name.endswith("16"):
+        name = name[:-2]
     if name in _LIT:
         return "lit"
     if name in _INTERIOR:
@@ -289,6 +291,49 @@ TILE16 = {
     "route16": pal16("route16", ("183020", "285830", "409048", "58A850", "78C060", "98D068", "B0E080", "C8E898",
                                  "F8F0C0", "E8D8A0", "805828", "A87838", "E04848", "F8D850", "F8F8F8")),
 }
+
+
+def _mix(a, b, t):
+    """Colour a moved fraction t towards b, snapped to multiples of 8."""
+    return tuple(min(248, int(round((x + (y - x) * t) / 8.0)) * 8) for x, y in zip(a, b))
+
+
+def ramp16(name, p4):
+    """Expand a 4-colour family palette (lightest -> darkest) into a 16-colour one.
+
+    Every original colour stays in the palette, so redrawn and not-yet-redrawn tiles of a family still match.
+    Returns (Palette16, ramps): ramps[i] lists the slots (light -> dark) that source index i is shaded with."""
+    c0, c1, c2, c3 = p4
+    wanted = (
+        (c0, _mix(c0, c1, 0.5)),
+        (_mix(c1, c0, 0.4), c1, _mix(c1, c2, 0.4)),
+        (_mix(c2, c1, 0.35), c2, _mix(c2, c3, 0.4)),
+        (c3, _mix(c3, c2, 0.4)),
+    )
+    # outline first (slot 1), then dark -> light so the ramp reads like the 4-colour to16() layout
+    colours, ramps = [], []
+    for grp in reversed(wanted):
+        ids = []
+        for c in reversed(grp):
+            if c not in colours:
+                colours.append(c)
+            ids.append(colours.index(c) + 1)
+        ramps.append(tuple(reversed(ids)))
+    ramps.reverse()
+    assert len(colours) <= SLOTS - 1, name
+    slots = [None] + colours + [None] * (SLOTS - 1 - len(colours))
+    return Palette16(slots, tint_group(name), name), tuple(ramps)
+
+
+# Town / interior / cave families redrawn to 16 colours (P5d batch 2). 'x' -> palette 'x16' built from TILE['x'].
+REDRAWN = ("town", "roof_red", "roof_blue", "roof_center", "roof_gym", "wall", "wall_window", "door", "glass_door",
+           "sign_center", "sign_mart", "sign_gym",
+           "floor_wood", "floor_tile", "carpet", "wall_in", "window_in", "furniture", "tv", "bed", "tech", "plant",
+           "heal", "mart_shelf", "rug",
+           "cave", "cave_water")
+RAMPS16 = {}
+for _n in REDRAWN:
+    TILE16[_n + "16"], RAMPS16[_n + "16"] = ramp16(_n + "16", TILE[_n])
 PALETTES16.update(TILE16)
 
 # --------------------------------------------------------------------------
