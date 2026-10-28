@@ -56,7 +56,7 @@ class GymTilesetTest {
                 for (f in frames(n)) for (ref in f) assertTrue((ref and 0x3FF) in 0 until tileCount, "$theme/$n tile $ref out of range (sheet has $tileCount)")
                 val px = pixels(frames(n).first())
                 val colours = px.toSet()
-                assertTrue(colours.size <= 4, "$theme/$n uses ${colours.size} colours")
+                assertTrue(colours.size <= 15, "$theme/$n uses ${colours.size} colours")
                 everyPixelsByTile.put(px, n)?.let { other -> throw AssertionError("$theme: tile $n is identical to $other") }
             }
         }

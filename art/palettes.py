@@ -331,6 +331,10 @@ REDRAWN = ("town", "roof_red", "roof_blue", "roof_center", "roof_gym", "wall", "
            "floor_wood", "floor_tile", "carpet", "wall_in", "window_in", "furniture", "tv", "bed", "tech", "plant",
            "heal", "mart_shelf", "rug",
            "cave", "cave_water")
+# P5d batch 3: remaining route / water, dungeon, league and every gym family
+REDRAWN += ("outdoor", "flowers", "path", "sand", "rocky", "fence", "water", "waterfall", "bridge", "mountain", "snow",
+            "ice", "gym_wall", "gym", "puzzle", "ruins", "league", "dark", "forest_gap", "tower", "gate", "building")
+REDRAWN += tuple(n for n in TILE if n.startswith("gym_") and n not in REDRAWN)
 RAMPS16 = {}
 for _n in REDRAWN:
     TILE16[_n + "16"], RAMPS16[_n + "16"] = ramp16(_n + "16", TILE[_n])

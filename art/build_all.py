@@ -116,11 +116,15 @@ def validate_tint():
     shots = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "docs", "screenshots")
     day = np.asarray(Image.open(os.path.join(shots, "town_day.png")).convert("RGB"))
     colours = {tuple(int(v) for v in c) for c in day.reshape(-1, 3)}
+    # animated water: the shots catch different frames, so day water colours are not compared (shore pixels move)
+    water = {c for n in ("water16", "waterfall16") for c in palettes.PALETTES16[n].colours()}
+    is_water = np.isin(day.reshape(-1, 3) @ np.array([65536, 256, 1]),
+                       [r * 65536 + g * 256 + b for r, g, b in water]).reshape(day.shape[:2])
     for phase in ("morning", "evening", "night"):
         got = np.asarray(Image.open(os.path.join(shots, f"town_{phase}.png")).convert("RGB")).astype(int)
         lut = {c: palettes.tint_rgb(c, phase) for c in colours}
         exp = np.array([lut[tuple(int(v) for v in c)] for c in day.reshape(-1, 3)]).reshape(day.shape)
-        bad = (np.abs(got - exp).max(axis=2) > 8)
+        bad = (np.abs(got - exp).max(axis=2) > 8) & ~is_water
         cells = bad.reshape(day.shape[0] // 16, 16, day.shape[1] // 16, 16).any(axis=(1, 3))
         assert 1 - cells.mean() >= 0.70, f"tint {phase}: only {1 - cells.mean():.0%} of cells within +-8"
         assert bad.mean() <= 0.08, f"tint {phase}: {bad.mean():.1%} of pixels off by more than 8"
