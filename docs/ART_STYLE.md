@@ -455,6 +455,10 @@ layers meet, then the eyes, brows, nose and mouth are stamped on, and the right
 side gets a checker dither for shading. `player_m_back.png` and
 `player_f_back.png` are the larger back views for the battle screen.
 
+Since GBA phase P6 each portrait uses at most 9 colours (limit 16 incl. transparent): the four palette roles plus a
+highlight/shadow ramp for skin and role colour and a grey for white, lit from the upper left per layer (`shade()`).
+`trainer_throw.png` is a 64×128 sheet of two 64×64 frames (hand raised, hand thrown forward) of one generic trainer.
+
 ## UI: `assets/gfx/ui/`
 
 | File | Notes |

@@ -181,6 +181,7 @@ def validate():
         check_size(os.path.join(G, "chars", v + ".png"), (96, 96))
     for b in ("player_m_back", "player_f_back"):
         check_size(os.path.join(G, "trainers", b + ".png"), (64, 64))
+    check_size(os.path.join(G, "trainers", "trainer_throw.png"), (64, 128))
     for o in ("itemball", "boulder", "cut_tree", "sign", "rock_smash", "pokeball_overworld"):
         check_size(os.path.join(G, "objects", o + ".png"), (16, 16))
     check_size(os.path.join(G, "objects", "legendary_shadow.png"), (32, 32))
