@@ -149,7 +149,7 @@ object Conditions {
             }
             override fun onResidual(c: EffectCtx) {
                 val m = c.mon
-                val receiver = m.side.foe.active ?: return
+                val receiver = c.b.opposing(m) ?: return
                 if (receiver.fainted) return
                 val dmg = c.b.directDamage(m, max(1, m.baseMaxHp / 8), receiver, "leechseed")
                 if (dmg > 0) {
@@ -444,7 +444,7 @@ object Conditions {
             override val beforeMovePriority = 12
             private fun carried(c: EffectCtx): Boolean {
                 val s = c.state.source ?: return false
-                return !s.fainted && s.side.active === s && s.volatiles["twoturnmove"]?.moveId == "skydrop"
+                return !s.fainted && s.isActive && s.volatiles["twoturnmove"]?.moveId == "skydrop"
             }
             override fun onBeforeMove(c: EffectCtx, mc: MoveCtx): Boolean {
                 if (carried(c)) return false

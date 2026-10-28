@@ -13,14 +13,20 @@ import kotlin.math.min
  */
 open class BattleAI {
 
-    open fun chooseAction(b: Battle, side: Side): Choice {
-        val me = side.active ?: return Choice.Pass
-        val req = b.request(side) as? Request.Move ?: return Choice.Pass
+    /** Decision for [side]'s Pokémon in slot 0 (the only one in singles). */
+    open fun chooseAction(b: Battle, side: Side): Choice = decide(b, side, 0)
+
+    /** Decision for [side]'s Pokémon in [slot]. Slot 0 goes through [chooseAction] so subclasses overriding it still apply. */
+    open fun chooseAction(b: Battle, side: Side, slot: Int): Choice = if (slot == 0) chooseAction(b, side) else decide(b, side, slot)
+
+    protected fun decide(b: Battle, side: Side, slot: Int): Choice {
+        val me = side.actives.getOrNull(slot) ?: return Choice.Pass
+        val req = b.request(side, slot) as? Request.Move ?: return Choice.Pass
         if (req.lockedMove != null) return Choice.UseMove(0)
         val usable = me.moveSlots.indices.filter { req.usableMoves[it] }
         if (usable.isEmpty()) return Choice.UseMove(0)
         if (side.isWild || side.aiLevel <= 0) return Choice.UseMove(usable[b.rng.nextInt(usable.size)])
-        val foe = side.foe.active ?: return Choice.UseMove(usable.first())
+        val foe = b.opposingActive(side) ?: return Choice.UseMove(usable.first())
 
         // Consider switching out of a losing matchup.
         if (side.aiLevel >= 2 && req.canSwitch && b.rng.nextInt(100) < (if (side.aiLevel >= 3) 70 else 45)) {
@@ -36,7 +42,8 @@ open class BattleAI {
         val noise = if (side.aiLevel >= 3) 5.0 else if (side.aiLevel == 2) 12.0 else 25.0
         val pick = scored.maxByOrNull { it.second + b.rng.nextDouble() * noise }!!.first
         val gimmick = chooseGimmick(b, side, me, foe, pick, req.gimmicks)
-        return Choice.UseMove(pick, gimmick)
+        // Doubles: aim at the foe the move was scored against (moves with a fixed target ignore the location).
+        return Choice.UseMove(pick, gimmick, target = if (b.slotsPerSide > 1) foe.slot + 1 else 0)
     }
 
     /** Approximate fraction of [defender]'s HP that [attacker]'s best damaging move removes. */
@@ -131,7 +138,7 @@ open class BattleAI {
 
     open fun chooseReplacementMon(b: Battle, side: Side): BattleMon {
         val options = side.canSwitchTo()
-        val foe = side.foe.active
+        val foe = b.opposingActive(side)
         if (foe == null || side.aiLevel <= 0 || side.isWild) return options.first()
         // Keep the strongest Pokémon for last when the trainer has several left (classic "ace" behaviour).
         val ace = if (side.aiLevel >= 2 && options.size > 1) options.maxByOrNull { it.level * 10 + it.mon.moves.size } else null

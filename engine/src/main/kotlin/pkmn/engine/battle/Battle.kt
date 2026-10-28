@@ -7,15 +7,21 @@ import pkmn.engine.mon.Pokemon
 import pkmn.engine.mon.Progression
 import pkmn.engine.util.Rng
 import pkmn.engine.util.toId
+import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Singles battle engine. Rules are independent of rendering: the UI submits [Choice]s and plays back [BattleEvent]s.
+ * Battle engine for two sides. Rules are independent of rendering: the UI submits [Choice]s and plays back [BattleEvent]s.
+ *
+ * Each side has one active Pokémon per field slot ([BattleRules.format]: one in singles, two in doubles); requests,
+ * choices, switches and replacements are per slot. Doubles is being built in steps: the turn loop, switching and
+ * targets are slot-aware, while spread moves, ally targets, redirection and per-slot slot conditions come next
+ * (docs/MECHANICS.md, "Double battles"). Singles behaviour is pinned by SinglesGoldenLogTest.
  *
  * Turn structure:
- *  1. both sides choose (player via UI, others via [BattleAI]);
+ *  1. every active slot chooses (player via UI, others via [BattleAI]);
  *  2. actions are ordered (run, items, switches, gimmick transformations, then moves by priority/speed);
  *  3. each action resolves through the event pipeline, with faint checks after every action;
  *  4. end-of-turn residual effects run in [Effect.residualOrder];
@@ -67,19 +73,52 @@ class Battle(
     /** Forces the next obedience rolls (each 0..255) for deterministic tests; consumed in order, then the RNG is used. */
     val forcedObedienceRolls = ArrayDeque<Int>()
 
+    /** Choices for this turn, by slot key ([slotKey]). */
     private val choices = HashMap<Int, Choice>()
+    /** Slots ([slotKey]) whose fainted Pokémon must be replaced before the next turn. */
     private val pendingSwitches = HashSet<Int>()
     private var started = false
     private var currentAction: Any? = null
 
     val player get() = sides[0]
     val opponent get() = sides[1]
+    /** Active Pokémon per side (1 in singles, 2 in doubles). */
+    val slotsPerSide get() = rules.format.activePerSide
 
     init {
-        require(sides.size == 2) { "Only singles battles between two sides are supported" }
+        require(sides.size == 2) { "A battle has exactly two sides" }
         sides[0].foe = sides[1]; sides[1].foe = sides[0]
+        for (s in sides) {
+            while (s.actives.size < slotsPerSide) s.actives.add(null)
+            while (s.actives.size > slotsPerSide) s.actives.removeAt(s.actives.size - 1)
+        }
         Effects.ensureInit()
     }
+
+    /** One map key per (side, slot), used by the per-slot choice and replacement bookkeeping. */
+    private fun slotKey(side: Side, slot: Int) = side.index * SLOT_KEY + slot
+    private fun keySide(key: Int) = key / SLOT_KEY
+    private fun hasPendingSwitch(side: Side) = pendingSwitches.any { keySide(it) == side.index }
+
+    /**
+     * Whether [mon], active in some slot, takes part in choosing this turn. In doubles a slot whose Pokémon fainted with
+     * no replacement left is empty. Singles keeps the original rule (any active Pokémon chooses, even one that has just
+     * fainted, e.g. after the AI previewed Final Gambit), so its behaviour stays byte-identical.
+     */
+    private fun choosesThisTurn(mon: BattleMon?): Boolean = mon != null && (slotsPerSide == 1 || !mon.fainted)
+
+    /**
+     * The opposing Pokémon [side] faces by default. Singles: the foe's active Pokémon (even if it has just fainted), as
+     * the engine always did. Doubles: the first healthy opposing Pokémon, else slot 0.
+     */
+    fun opposingActive(side: Side): BattleMon? {
+        val acts = side.foe.actives
+        if (acts.size == 1) return acts[0]
+        return acts.firstOrNull { it != null && !it.fainted } ?: acts[0]
+    }
+
+    /** [opposingActive] for [mon]'s side. */
+    fun opposing(mon: BattleMon): BattleMon? = opposingActive(mon.side)
 
     // ================================================================= messages
 
@@ -124,8 +163,7 @@ class Battle(
     // ================================================================= effect dispatch
 
     fun isNeutralizingGasActive(): Boolean = sides.any { s ->
-        val a = s.active ?: return@any false
-        !a.fainted && a.ability == "neutralizinggas" && !a.hasVolatile("gastroacid")
+        s.actives.any { a -> a != null && !a.fainted && a.ability == "neutralizinggas" && !a.hasVolatile("gastroacid") }
     }
 
     private val unsuppressable = setOf("asoneglastrier", "asonespectrier", "battlebond", "comatose", "disguise", "gulpmissile",
@@ -210,7 +248,8 @@ class Battle(
         return out
     }
 
-    fun activeMons(): List<BattleMon> = sides.mapNotNull { it.active }.filter { !it.fainted }
+    /** Healthy active Pokémon, side by side and slot by slot. */
+    fun activeMons(): List<BattleMon> = sides.flatMap { it.actives }.filter { it != null && !it.fainted }.map { it!! }
 
     fun activeMonsBySpeed(): List<BattleMon> {
         val list = activeMons().toMutableList()
@@ -219,8 +258,25 @@ class Battle(
             val sa = getSpeed(a); val sb = getSpeed(b)
             if (sa != sb) { if (tr) sa.compareTo(sb) else sb.compareTo(sa) } else 0
         }
-        if (list.size == 2 && getSpeed(list[0]) == getSpeed(list[1]) && rng.nextBoolean()) list.reverse()
+        // Speed ties are random. Two Pokémon (singles) keep the original single coin flip, so the RNG stream is unchanged.
+        if (list.size == 2) { if (getSpeed(list[0]) == getSpeed(list[1]) && rng.nextBoolean()) list.reverse() }
+        else if (list.size > 2) shuffleSpeedTies(list)
         return list
+    }
+
+    /** Shuffles each run of equal-speed Pokémon in a speed-sorted list (Showdown speedSort). */
+    private fun shuffleSpeedTies(list: MutableList<BattleMon>) {
+        var start = 0
+        while (start < list.size) {
+            val spe = getSpeed(list[start])
+            var end = start + 1
+            while (end < list.size && getSpeed(list[end]) == spe) end++
+            for (i in end - 1 downTo start + 1) {
+                val j = start + rng.nextInt(i - start + 1)
+                if (j != i) { val t = list[i]; list[i] = list[j]; list[j] = t }
+            }
+            start = end
+        }
     }
 
     fun weatherSuppressed(): Boolean = activeMons().any { (it.ability == "cloudnine" || it.ability == "airlock") && abilityActive(it) }
@@ -251,17 +307,20 @@ class Battle(
         started = true
         // GSC order: the foe appears ("A wild X appeared!" / "Y sent out X!") before the player's "Go! Z!".
         for (s in sides.reversed()) {
-            val lead = s.mons.firstOrNull { !it.fainted } ?: continue
+            val leads = s.mons.filter { !it.fainted }.take(slotsPerSide)
+            if (leads.isEmpty()) continue
             for (m in s.mons) m.mon.ensureHp(dex)
-            s.active = lead
-            lead.isStarted = true
-            applyIllusion(lead)
-            val text = when (s.controller) {
-                Controller.PLAYER -> "Go! ${lead.shownName}!"
-                Controller.WILD -> "A wild ${lead.shownName} appeared!"
-                Controller.AI -> "${s.name} sent out ${lead.shownName}!"
+            for ((slot, lead) in leads.withIndex()) {
+                s.actives[slot] = lead
+                lead.isStarted = true
+                applyIllusion(lead)
+                val text = when (s.controller) {
+                    Controller.PLAYER -> "Go! ${lead.shownName}!"
+                    Controller.WILD -> "A wild ${lead.shownName} appeared!"
+                    Controller.AI -> "${s.name} sent out ${lead.shownName}!"
+                }
+                events.add(BattleEvent.SwitchIn(s.index, teamIndex(lead), shownSpecies(lead), lead.hp, lead.maxHp, text)); log.add(text)
             }
-            events.add(BattleEvent.SwitchIn(s.index, teamIndex(lead), shownSpecies(lead), lead.hp, lead.maxHp, text)); log.add(text)
         }
         foeHpAtPlayerEntry = opponent.active?.let { it to it.hp }
         // Switch-in effects (Intimidate, weather...) run by speed.
@@ -270,19 +329,24 @@ class Battle(
         checkFaints()
     }
 
-    fun request(side: Side): Request {
+    /** One request per field slot of [side] (a single entry in singles). */
+    fun requests(side: Side): List<Request> = side.actives.indices.map { request(side, it) }
+
+    /** What [side] must decide next for its Pokémon in [slot] (slot 0 is the only one in singles). */
+    fun request(side: Side, slot: Int = 0): Request {
         if (outcome != BattleOutcome.ONGOING) return Request.Wait
+        val key = slotKey(side, slot)
         // Mid-turn: the player picks who comes in after its own U-turn/Baton Pass; everyone else waits.
-        selfSwitchSide?.let { return if (it == side.index) Request.SwitchIn(forced = true, selfSwitch = true) else Request.Wait }
-        if (side.index in pendingSwitches) return if (side.index in replacementChoices) Request.Wait else Request.SwitchIn(true)
-        // While another side is replacing a fainted Pokémon nobody picks a move; [advance] finishes the replacement first.
+        selfSwitchKey?.let { return if (it == key) Request.SwitchIn(forced = true, selfSwitch = true, slot = slot) else Request.Wait }
+        if (key in pendingSwitches) return if (key in replacementChoices) Request.Wait else Request.SwitchIn(true, slot = slot)
+        // While another slot is replacing a fainted Pokémon nobody picks a move; [advance] finishes the replacement first.
         if (pendingSwitches.isNotEmpty()) return Request.Wait
-        val active = side.active ?: return Request.Wait
-        if (choices.containsKey(side.index)) return Request.Wait
+        val active = side.actives.getOrNull(slot)?.takeIf { choosesThisTurn(it) } ?: return Request.Wait
+        if (choices.containsKey(key)) return Request.Wait
         val locked = lockedMove(active)
         val usable = active.moveSlots.map { canSelectMove(active, it) }
         val gimmicks = Gimmick.entries.filter { canUseGimmickNow(active, it) }.toSet()
-        return Request.Move(active, usable, canSwitchOut(active), gimmicks, locked)
+        return Request.Move(active, usable, canSwitchOut(active), gimmicks, locked, slot)
     }
 
     /** The move the active Pokémon is forced to use this turn, if any. */
@@ -305,9 +369,8 @@ class Battle(
     fun isMoveDisabled(mon: BattleMon, moveId: String): Boolean {
         // The Pokémon's own effects and field effects (Gravity).
         for (c in targetHandlers(mon)) if ((c.holder === mon || (c.holder == null && c.side == null)) && c.effect.onDisableMove(c, moveId)) return true
-        // Imprison: the foe that used it seals every move it also knows.
-        val foe = mon.side.foe.active
-        if (foe != null && !foe.fainted && foe.hasVolatile("imprison") && foe.moveSlots.any { it.id == moveId } && moveId != "struggle") return true
+        // Imprison: a foe that used it seals every move it also knows.
+        if (moveId != "struggle" && mon.side.foe.healthyActives().any { f -> f.hasVolatile("imprison") && f.moveSlots.any { it.id == moveId } }) return true
         return false
     }
 
@@ -320,42 +383,51 @@ class Battle(
         return true
     }
 
-    fun choose(side: Side, choice: Choice): String? {
+    /**
+     * Submits [side]'s decision for its Pokémon in [slot] (slot 0 is the only one in singles). Returns null when
+     * accepted, else the reason it was rejected.
+     */
+    fun choose(side: Side, choice: Choice, slot: Int = 0): String? {
         if (outcome != BattleOutcome.ONGOING) return "Battle is over"
-        selfSwitchSide?.let { waiting ->
-            if (waiting != side.index) return "Waiting for the other side to send out a Pokémon"
+        val key = slotKey(side, slot)
+        selfSwitchKey?.let { waiting ->
+            if (waiting != key) return "Waiting for the other side to send out a Pokémon"
             if (choice !is Choice.Switch) return "Must switch"
             val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
-            if (target.fainted || target === side.active) return "Cannot switch to that Pokémon"
+            if (target.fainted || target.isActive) return "Cannot switch to that Pokémon"
             selfSwitchChoice = choice.teamIndex
             continueTurn()
             return null
         }
-        if (side.index in pendingSwitches) {
+        if (key in pendingSwitches) {
             if (choice !is Choice.Switch) return "Must switch"
             val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
-            if (target.fainted || target === side.active) return "Cannot switch to that Pokémon"
-            replacementChoices[side.index] = choice.teamIndex
-            // Resolve now when every side that must replace has chosen (AI sides choose in [advance]).
+            if (target.fainted || target.isActive || isReservedReplacement(side, key, choice.teamIndex)) return "Cannot switch to that Pokémon"
+            replacementChoices[key] = choice.teamIndex
+            // Resolve now when every slot that must be replaced has a choice (AI sides choose in [advance]).
             if (pendingSwitches.all { it in replacementChoices }) resolveReplacements(null)
             return null
         }
         if (pendingSwitches.isNotEmpty()) return "Waiting for the other side to send out a Pokémon"
-        val active = side.active ?: return "No active Pokémon"
+        val active = side.actives.getOrNull(slot)?.takeIf { choosesThisTurn(it) } ?: return "No active Pokémon"
         when (choice) {
             is Choice.UseMove -> {
                 if (lockedMove(active) == null) {
                     val usableAny = active.moveSlots.any { canSelectMove(active, it) }
                     if (usableAny) {
-                        val slot = active.moveSlots.getOrNull(choice.moveIndex) ?: return "Invalid move"
-                        if (!canSelectMove(active, slot)) return "${slot.id} cannot be used"
+                        val ms = active.moveSlots.getOrNull(choice.moveIndex) ?: return "Invalid move"
+                        if (!canSelectMove(active, ms)) return "${ms.id} cannot be used"
                     }
                 }
                 if (choice.gimmick != null && !canUseGimmickNow(active, choice.gimmick)) return "Cannot use ${choice.gimmick}"
+                targetError(active, choice)?.let { return it }
             }
             is Choice.Switch -> {
                 val target = side.mons.getOrNull(choice.teamIndex) ?: return "Invalid Pokémon"
-                if (target.fainted || target === active) return "Cannot switch to that Pokémon"
+                if (target.fainted || target.isActive) return "Cannot switch to that Pokémon"
+                // Two slots of one side cannot both switch to the same Pokémon.
+                if (choices.any { (k, c) -> k != key && keySide(k) == side.index && c is Choice.Switch && c.teamIndex == choice.teamIndex })
+                    return "Cannot switch to that Pokémon"
                 if (!canSwitchOut(active)) return "${active.name} can't be switched out!"
             }
             is Choice.Run -> if (!side.foe.isWild || !rules.canRun) return "No! There's no running from a trainer battle!"
@@ -364,47 +436,70 @@ class Battle(
                 val item = dex.itemOrNull(choice.itemId) ?: return "Unknown item"
                 if (!item.isPokeball) {
                     if (!BagItemEffects.isUsableInBattle(item.id)) return "That can't be used in battle"
-                    val target = side.mons.getOrNull(choice.teamIndex) ?: side.active ?: return "Invalid Pokémon"
+                    val target = side.mons.getOrNull(choice.teamIndex) ?: active
                     if (!BagItemEffects.wouldWork(this, target, item.id, choice.moveIndex)) return "It won't have any effect."
                 }
             }
             Choice.Pass -> {}
         }
-        choices[side.index] = choice
+        choices[key] = choice
         return null
     }
+
+    /** Validates [c]'s target location ([Choice.UseMove.target]) for [user]; null when acceptable. */
+    private fun targetError(user: BattleMon, c: Choice.UseMove): String? {
+        if (c.target == 0) return null
+        if (abs(c.target) > slotsPerSide) return "Invalid target"
+        // Moves with a fixed target (the user, a side, the field) ignore the location; locked moves keep their own.
+        val move = user.moveSlots.getOrNull(c.moveIndex)?.let { dex.moveOrNull(it.id) } ?: return null
+        if (lockedMove(user) != null || move.target in FIXED_TARGETS) return null
+        val side = if (c.target > 0) user.side.foe else user.side
+        val t = side.actives[abs(c.target) - 1] ?: return "Invalid target"
+        if (t === user && move.target != "adjacentAllyOrSelf") return "Can't target itself"
+        if (t.side === user.side && move.target in FOE_ONLY_TARGETS) return "Can't target an ally"
+        if (t.side !== user.side && move.target in ALLY_ONLY_TARGETS) return "Can't target a foe"
+        return null
+    }
+
+    /** True when another slot of [side] already chose [teamIndex] as its replacement (planned or submitted). */
+    private fun isReservedReplacement(side: Side, key: Int, teamIndex: Int): Boolean =
+        replacementChoices.any { (k, t) -> k != key && keySide(k) == side.index && t == teamIndex } ||
+            plannedReplacements.any { (k, t) -> k != key && keySide(k) == side.index && t == teamIndex }
 
     /** Fill in AI choices and run the turn once every side has chosen. Returns true if a turn was executed. */
     fun advance(ai: BattleAI = BattleAI()): Boolean {
         if (outcome != BattleOutcome.ONGOING) return false
         // A suspended turn continues only once the player has picked its self-switch replacement ([choose]).
-        if (selfSwitchSide != null) return false
+        if (selfSwitchKey != null) return false
         // Replacement phase: fainted Pokémon are replaced before anyone picks a move for the next turn.
         if (pendingSwitches.isNotEmpty()) {
-            for (s in sides) if (!s.isPlayer && s.index in pendingSwitches && s.index !in replacementChoices)
-                replacementChoices[s.index] = plannedReplacement(s, ai) ?: ai.chooseReplacement(this, s)
+            for (s in sides) if (!s.isPlayer) for (slot in s.actives.indices) {
+                val key = slotKey(s, slot)
+                if (key in pendingSwitches && key !in replacementChoices)
+                    replacementChoices[key] = plannedReplacement(s, ai, slot) ?: ai.chooseReplacement(this, s)
+            }
             if (pendingSwitches.all { it in replacementChoices }) resolveReplacements(ai)
             return false
         }
-        for (s in sides) if (!s.isPlayer) {
-            if (!choices.containsKey(s.index)) {
+        for (s in sides) if (!s.isPlayer) for (slot in s.actives.indices) {
+            val a = s.actives[slot]?.takeIf { choosesThisTurn(it) } ?: continue
+            if (!choices.containsKey(slotKey(s, slot))) {
                 // A rejected AI decision must never stall the turn: fall back to the first usable move, then to
                 // Pass (always accepted; it resolves to Struggle or the locked move).
-                if (choose(s, ai.chooseAction(this, s)) != null) {
-                    val a = s.active
-                    val slot = a?.moveSlots?.indexOfFirst { canSelectMove(a, it) }?.takeIf { it >= 0 } ?: 0
-                    if (choose(s, Choice.UseMove(slot)) != null) choose(s, Choice.Pass)
+                if (choose(s, ai.chooseAction(this, s, slot), slot) != null) {
+                    val ms = a.moveSlots.indexOfFirst { canSelectMove(a, it) }.takeIf { it >= 0 } ?: 0
+                    if (choose(s, Choice.UseMove(ms), slot) != null) choose(s, Choice.Pass, slot)
                 }
             }
         }
-        if (choices.size < sides.count { it.active != null }) return false
+        if (choices.size < sides.sumOf { s -> s.actives.count { choosesThisTurn(it) } }) return false
         runTurn()
         return true
     }
 
     // ================================================================= turn resolution
 
-    private class Action(val kind: Int, val side: Side, val mon: BattleMon, val choice: Choice, var priority: Int = 0,
+    private class Action(val kind: Int, val side: Side, val mon: BattleMon, val choice: Choice, val slot: Int, var priority: Int = 0,
                          var fractional: Double = 0.0, var speed: Int = 0, val tie: Long = 0)
 
     private fun runTurn() {
@@ -417,12 +512,12 @@ class Battle(
             m.volatiles.remove("protect"); m.volatiles.remove("endure")
         }
         val actions = ArrayList<Action>()
-        for (s in sides) {
-            val c = choices[s.index] ?: continue
-            val mon = s.active ?: continue
+        for (s in sides) for (slot in s.actives.indices) {
+            val c = choices[slotKey(s, slot)] ?: continue
+            val mon = s.actives[slot] ?: continue
             val kind = when (c) { Choice.Run -> 0; is Choice.UseItem -> 1; is Choice.Switch -> 2; else -> 4 }
-            actions.add(Action(kind, s, mon, c, tie = rng.nextLong()))
-            if (c is Choice.UseMove && c.gimmick != null && c.gimmick != Gimmick.ZMOVE) actions.add(Action(3, s, mon, c, tie = rng.nextLong()))
+            actions.add(Action(kind, s, mon, c, slot, tie = rng.nextLong()))
+            if (c is Choice.UseMove && c.gimmick != null && c.gimmick != Gimmick.ZMOVE) actions.add(Action(3, s, mon, c, slot, tie = rng.nextLong()))
         }
         choices.clear()
         // Gimmick transformations happen first so that priority (e.g. Mega abilities) and speed use the new forme.
@@ -438,7 +533,7 @@ class Battle(
                     val am = ActiveMove(move)
                     var p = move.priority
                     if ((a.choice as? Choice.UseMove)?.gimmick == Gimmick.ZMOVE || a.mon.isDynamaxed) p = if (move.isStatus) p else move.priority
-                    for (c in moveHandlers(MoveCtx(a.mon, a.mon.side.foe.active ?: a.mon, am))) if (c.holder === a.mon) {
+                    for (c in moveHandlers(MoveCtx(a.mon, opposing(a.mon) ?: a.mon, am))) if (c.holder === a.mon) {
                         p = c.effect.onModifyPriority(c, am, a.mon, p)
                         a.fractional += c.effect.onFractionalPriority(c, am, a.mon)
                     }
@@ -473,14 +568,14 @@ class Battle(
             val a = turnQueue[turnQueueIndex]
             if (switchFlagCursor < 0) {
                 if (outcome != BattleOutcome.ONGOING) break
-                if ((a.side.active !== a.mon || a.mon.fainted) && a.kind != 2) { turnQueueIndex++; continue }
+                if ((a.side.actives[a.slot] !== a.mon || a.mon.fainted) && a.kind != 2) { turnQueueIndex++; continue }
                 currentAction = a
                 when (val c = a.choice) {
                     Choice.Run -> attemptRun(a.side)
                     is Choice.UseItem -> useBagItem(a.side, c)
-                    is Choice.Switch -> if (a.side.active?.fainted != true) {
+                    is Choice.Switch -> if (a.side.actives[a.slot]?.fainted != true) {
                         val target = a.side.mons[c.teamIndex]
-                        if (!target.fainted && target !== a.side.active) performSwitch(a.side, target, forced = false)
+                        if (!target.fainted && !target.isActive) performSwitch(a.side, target, forced = false, slot = a.slot)
                     }
                     is Choice.UseMove, Choice.Pass -> runMoveAction(a.mon, a.choice)
                 }
@@ -490,9 +585,10 @@ class Battle(
                 if (checkWin()) break
                 switchFlagCursor = 0
             }
-            // Self-switch moves (U-turn, Volt Switch) and forced switches (Roar) resolve immediately.
-            while (switchFlagCursor < sides.size) {
-                if (!resolveSwitchFlags(sides[switchFlagCursor])) return
+            // Self-switch moves (U-turn, Volt Switch) and forced switches (Roar) resolve immediately, side by side and
+            // slot by slot.
+            while (switchFlagCursor < sides.size * slotsPerSide) {
+                if (!resolveSwitchFlags(sides[switchFlagCursor / slotsPerSide], switchFlagCursor % slotsPerSide)) return
                 switchFlagCursor++
             }
             switchFlagCursor = -1
@@ -516,16 +612,19 @@ class Battle(
     private val beforeTurnMoves = ArrayList<Pair<BattleMon, String>>()
     private var turnQueue: List<Action> = emptyList()
     private var turnQueueIndex = 0
-    /** Next side whose switch flags are resolved after the current action; -1 while the action has not run yet. */
+    /**
+     * Next (side, slot) whose switch flags are resolved after the current action, as side * [slotsPerSide] + slot;
+     * -1 while the action has not run yet.
+     */
     private var switchFlagCursor = -1
-    /** Side whose player must pick the Pokémon coming in after its self-switch; the turn is suspended meanwhile. */
-    private var selfSwitchSide: Int? = null
+    /** Slot ([slotKey]) whose player must pick the Pokémon coming in after its self-switch; the turn is suspended meanwhile. */
+    private var selfSwitchKey: Int? = null
     /** That pick, consumed by [resolveSwitchFlags] when the turn resumes. */
     private var selfSwitchChoice: Int? = null
 
     /** Whether another Pokémon still has a move or switch to perform this turn (Showdown queue.willAct(); Protect). */
     fun othersWillAct(user: BattleMon): Boolean = turnQueue.drop(turnQueueIndex + 1).any {
-        it.mon !== user && (it.kind == 2 || it.kind == 4) && it.side.active === it.mon && !it.mon.fainted
+        it.mon !== user && (it.kind == 2 || it.kind == 4) && it.side.actives[it.slot] === it.mon && !it.mon.fainted
     }
 
     private fun resolveChosenMoveId(mon: BattleMon, choice: Choice): String {
@@ -537,8 +636,9 @@ class Battle(
 
     private fun requestReplacements() {
         for (s in sides) {
-            val a = s.active
-            if (a != null && a.fainted && s.canSwitchTo().isNotEmpty()) pendingSwitches.add(s.index)
+            // Only as many slots as there are healthy Pokémon on the bench get a replacement; the rest stay empty.
+            var bench = s.canSwitchTo().size
+            for ((slot, a) in s.actives.withIndex()) if (a != null && a.fainted && bench > 0) { pendingSwitches.add(slotKey(s, slot)); bench-- }
         }
     }
 
@@ -550,29 +650,40 @@ class Battle(
 
     // ================================================================= replacement phase (faint -> next Pokémon)
 
-    /** Team index each side will send in to replace its fainted Pokémon, once chosen. */
+    /** Team index each slot ([slotKey]) will send in to replace its fainted Pokémon, once chosen. */
     private val replacementChoices = HashMap<Int, Int>()
-    /** AI replacements decided early so the Shift-style prompt can announce them; never changed afterwards. */
+    /** AI replacements ([slotKey] -> team index) decided early so the Shift-style prompt can announce them; never changed afterwards. */
     private val plannedReplacements = HashMap<Int, Int>()
     /** Free switch the player asked for while the foe replaces (Shift battle style). */
     private var shiftChoice: Int? = null
 
-    /** True while [side]'s active Pokémon has fainted and must be replaced before the next turn. */
-    fun needsReplacement(side: Side): Boolean = side.index in pendingSwitches
+    /** True while one of [side]'s active Pokémon has fainted and must be replaced before the next turn. */
+    fun needsReplacement(side: Side): Boolean = hasPendingSwitch(side)
 
-    /** The team index the AI will send in for [side] (decided once; the UI may announce it before it happens). */
-    fun plannedReplacement(side: Side, ai: BattleAI = BattleAI()): Int? {
-        if (side.isPlayer || side.index !in pendingSwitches) return null
-        return plannedReplacements.getOrPut(side.index) { ai.chooseReplacement(this, side) }
+    /**
+     * The team index the AI will send in to [side]'s [slot] (default: its first slot awaiting a replacement). Decided
+     * once; the UI may announce it before it happens.
+     */
+    fun plannedReplacement(side: Side, ai: BattleAI = BattleAI(), slot: Int? = null): Int? {
+        if (side.isPlayer) return null
+        val key = slot?.let { slotKey(side, it) } ?: pendingSwitches.filter { keySide(it) == side.index }.minOrNull() ?: return null
+        if (key !in pendingSwitches) return null
+        return plannedReplacements.getOrPut(key) {
+            val pick = ai.chooseReplacement(this, side)
+            // Doubles: never plan the Pokémon another slot of this side already takes.
+            if (!isReservedReplacement(side, key, pick)) pick
+            else side.canSwitchTo().map { teamIndex(it) }.firstOrNull { !isReservedReplacement(side, key, it) } ?: pick
+        }
     }
 
     /**
      * Shift battle style: after a trainer's Pokémon faints and before the next one comes out, the player may switch
-     * for free. Not offered in Set style, in wild battles, or when the player must replace a fainted Pokémon anyway.
+     * for free. Not offered in Set style, in wild battles, in doubles, or when the player must replace a fainted
+     * Pokémon anyway.
      */
     fun shiftAvailable(): Boolean {
-        if (outcome != BattleOutcome.ONGOING || !rules.isTrainerBattle || rules.setMode) return false
-        if (opponent.index !in pendingSwitches || player.index in pendingSwitches) return false
+        if (outcome != BattleOutcome.ONGOING || !rules.isTrainerBattle || rules.setMode || slotsPerSide != 1) return false
+        if (!hasPendingSwitch(opponent) || hasPendingSwitch(player)) return false
         val a = player.active ?: return false
         return !a.fainted && player.canSwitchTo().isNotEmpty() && shiftChoice == null
     }
@@ -602,10 +713,10 @@ class Battle(
      * Returns true if the battle ended. A failed attempt leaves the forced replacement pending.
      */
     fun fleeInsteadOfReplacing(): Boolean {
-        if (outcome != BattleOutcome.ONGOING || !opponent.isWild || player.index !in pendingSwitches) return false
+        if (outcome != BattleOutcome.ONGOING || !opponent.isWild || !hasPendingSwitch(player)) return false
         if (!rules.canRun) { message("No! There's no running!"); return false }
         val next = player.canSwitchTo().firstOrNull() ?: return false
-        val foe = opponent.active ?: return false
+        val foe = opposingActive(player) ?: return false
         runAttempts++
         val ps = next.rawStat(pkmn.engine.data.Stat.SPE).coerceAtLeast(1); val fs = max(1, getSpeed(foe))
         val escaped = next.item == "smokeball" || next.hasType("Ghost") || ps >= fs || rng.nextInt(256) < ((ps * 128 / fs + 30 * runAttempts) % 256)
@@ -623,12 +734,13 @@ class Battle(
             val a = player.active
             if (a != null && !a.fainted && !t.fainted && t !== a) { performSwitch(player, t, forced = false, runEffects = false); incoming.add(t) }
         }
-        for (s in sides) {
-            if (s.index !in pendingSwitches) continue
-            val pick = replacementChoices[s.index] ?: ai?.let { a -> plannedReplacement(s, a) } ?: continue
-            val t = s.mons.getOrNull(pick)?.takeIf { !it.fainted && it !== s.active } ?: s.canSwitchTo().firstOrNull() ?: continue
-            pendingSwitches.remove(s.index)
-            performSwitch(s, t, forced = true, runEffects = false)
+        for (s in sides) for (slot in s.actives.indices) {
+            val key = slotKey(s, slot)
+            if (key !in pendingSwitches) continue
+            val pick = replacementChoices[key] ?: ai?.let { a -> plannedReplacement(s, a, slot) } ?: continue
+            val t = s.mons.getOrNull(pick)?.takeIf { !it.fainted && !it.isActive } ?: s.canSwitchTo().firstOrNull() ?: continue
+            pendingSwitches.remove(key)
+            performSwitch(s, t, forced = true, runEffects = false, slot = slot)
             incoming.add(t)
         }
         replacementChoices.clear()
@@ -639,28 +751,28 @@ class Battle(
     }
 
     /** Returns false when the player must first choose the incoming Pokémon (see [Request.SwitchIn.selfSwitch]). */
-    private fun resolveSwitchFlags(s: Side): Boolean {
-        val a = s.active ?: return true
+    private fun resolveSwitchFlags(s: Side, slot: Int): Boolean {
+        val a = s.actives[slot] ?: return true
         if (a.switchFlag != null && !a.fainted) {
             val options = s.canSwitchTo()
             if (options.isNotEmpty()) {
                 val chosen = if (s.isPlayer) {
                     // The player chooses (no cancelling once the move is done); the turn waits for [choose].
                     val pick = selfSwitchChoice?.let { s.mons.getOrNull(it) }?.takeIf { it in options }
-                    if (pick == null) { selfSwitchSide = s.index; selfSwitchChoice = null; return false }
+                    if (pick == null) { selfSwitchKey = slotKey(s, slot); selfSwitchChoice = null; return false }
                     pick
                 } else BattleAI().chooseReplacementMon(this, s)
-                selfSwitchSide = null; selfSwitchChoice = null
+                selfSwitchKey = null; selfSwitchChoice = null
                 val flag = a.switchFlag
                 a.switchFlag = null
-                performSwitch(s, chosen, forced = false, batonPass = flag == "copyvolatile", shedTail = flag == "shedtail")
+                performSwitch(s, chosen, forced = false, batonPass = flag == "copyvolatile", shedTail = flag == "shedtail", slot = slot)
             } else a.switchFlag = null
         }
         if (a.forceSwitchFlag) {
             a.forceSwitchFlag = false
             val options = s.canSwitchTo()
             if (options.isNotEmpty() && !a.fainted) {
-                performSwitch(s, options[rng.nextInt(options.size)], forced = true, isDrag = true)
+                performSwitch(s, options[rng.nextInt(options.size)], forced = true, isDrag = true, slot = slot)
             }
         }
         return true
@@ -668,8 +780,10 @@ class Battle(
 
     // ================================================================= switching
 
-    fun performSwitch(side: Side, incoming: BattleMon, forced: Boolean, isDrag: Boolean = false, batonPass: Boolean = false, shedTail: Boolean = false, runEffects: Boolean = true) {
-        val out = side.active
+    /** Sends [incoming] into [side]'s field [slot], withdrawing the Pokémon there. */
+    fun performSwitch(side: Side, incoming: BattleMon, forced: Boolean, isDrag: Boolean = false, batonPass: Boolean = false, shedTail: Boolean = false,
+                      runEffects: Boolean = true, slot: Int = 0) {
+        val out = side.actives[slot]
         var passedBoosts: IntArray? = null
         var passedVolatiles: Map<String, EffectState>? = null
         var subHp = 0
@@ -687,7 +801,7 @@ class Battle(
             if (!isDrag) { events.add(BattleEvent.SwitchOut(side.index, teamIndex(out), text)); log.add(text) }
         }
         if (out != null) clearOnSwitchOut(out)
-        side.active = incoming
+        side.actives[slot] = incoming
         incoming.isStarted = true
         incoming.activeTurns = 0
         incoming.activeMoveActions = 0
@@ -699,7 +813,7 @@ class Battle(
             side.controller == Controller.PLAYER -> sendOutText(incoming)
             else -> "${side.name} sent out ${incoming.shownName}!"
         }
-        if (side.isPlayer) foeHpAtPlayerEntry = side.foe.active?.takeIf { !it.fainted }?.let { it to it.hp }
+        if (side.isPlayer) foeHpAtPlayerEntry = opposingActive(side)?.takeIf { !it.fainted }?.let { it to it.hp }
         events.add(BattleEvent.SwitchIn(side.index, teamIndex(incoming), shownSpecies(incoming), incoming.hp, incoming.maxHp, text)); log.add(text)
         if (passedBoosts != null) {
             passedBoosts.copyInto(incoming.boosts)
@@ -717,7 +831,7 @@ class Battle(
 
     /** Gold/Silver/Crystal send-out line, by the foe's remaining HP. */
     private fun sendOutText(mon: BattleMon): String {
-        val foe = mon.side.foe.active?.takeIf { !it.fainted } ?: return "Go! ${mon.shownName}!"
+        val foe = opposing(mon)?.takeIf { !it.fainted } ?: return "Go! ${mon.shownName}!"
         val pct = foe.hp * 100 / maxOf(1, foe.maxHp)
         return when {
             pct >= 70 -> "Go! ${mon.shownName}!"
@@ -730,7 +844,7 @@ class Battle(
     /** Gold/Silver/Crystal recall line, by the damage dealt to the foe since this Pokémon came out. */
     private fun recallText(mon: BattleMon): String {
         val (foe, hpThen) = foeHpAtPlayerEntry ?: return "${mon.name}, come back!"
-        if (foe !== mon.side.foe.active) return "${mon.name}, come back!"
+        if (foe !== opposing(mon)) return "${mon.name}, come back!"
         val dealt = (hpThen - foe.hp).coerceAtLeast(0) * 100 / maxOf(1, foe.maxHp)
         return when {
             dealt <= 0 -> "${mon.name}, that's enough! Come back!"
@@ -784,9 +898,10 @@ class Battle(
     }
 
     private fun updateFacedFoes() {
-        val p = player.active ?: return
-        val o = opponent.active ?: return
-        if (!p.fainted) p.facedFoes.add(o.mon.uid)
+        for (p in player.actives) {
+            if (p == null || p.fainted) continue
+            for (o in opponent.actives) if (o != null) p.facedFoes.add(o.mon.uid)
+        }
     }
 
     // ================================================================= moves
@@ -817,7 +932,7 @@ class Battle(
         user.volatiles["pendingmove"]?.let { move.priority = it.counter }
         user.movedThisTurn = true
         user.activeMoveActions++
-        val target = defaultTarget(user, move)
+        val target = chosenTarget(user, move, (choice as? Choice.UseMove)?.target ?: 0)
         val mc = MoveCtx(user, target, move)
         // Before-move checks (sleep, freeze, paralysis, flinch, confusion, Taunt at execution...).
         // The user's own effects and field effects (Gravity), in Showdown's onBeforeMovePriority order.
@@ -838,10 +953,7 @@ class Battle(
         // The Z-Power is spent only once the move actually goes ahead (sleep, flinch, disobedience etc. keep it).
         if (move.isZ) user.side.usedGimmicks.add(Gimmick.ZMOVE)
         if (!locked && slot != null && moveId != "struggle" && !move.isZ) {
-            var cost = 1
-            val foe = user.side.foe.active
-            if (foe != null && !foe.fainted && foe.ability == "pressure" && abilityActive(foe) && move.target != "self") cost = 2
-            slot.pp = max(0, slot.pp - cost)
+            slot.pp = max(0, slot.pp - ppCost(user, move))
         } else if (move.isZ && slot != null) {
             slot.pp = max(0, slot.pp - 1)
         }
@@ -906,10 +1018,7 @@ class Battle(
     private fun useOtherMove(user: BattleMon, slot: MoveSlot) {
         val base = dex.move(slot.id)
         val move = if (user.isDynamaxed) Gimmicks.maxMoveFor(this, user, base) else ActiveMove(base)
-        var cost = 1
-        val foe = user.side.foe.active
-        if (foe != null && !foe.fainted && foe.ability == "pressure" && abilityActive(foe) && move.target != "self") cost = 2
-        slot.pp = max(0, slot.pp - cost)
+        slot.pp = max(0, slot.pp - ppCost(user, move))
         useMove(MoveCtx(user, defaultTarget(user, move), move))
         user.lastMove = base.id
         lastMoveUsed = base.id
@@ -926,9 +1035,24 @@ class Battle(
         directDamage(m, max(1, dmg), m, "confusion")
     }
 
+    /** PP a move costs: 2 when an opposing Pokémon has Pressure (unless the move targets the user). */
+    private fun ppCost(user: BattleMon, move: ActiveMove): Int =
+        if (move.target != "self" && user.side.foe.healthyActives().any { it.ability == "pressure" && abilityActive(it) }) 2 else 1
+
     fun defaultTarget(user: BattleMon, move: ActiveMove): BattleMon = when (move.target) {
         "self", "adjacentAllyOrSelf", "allies", "allySide", "allyTeam", "adjacentAlly" -> user
-        else -> user.side.foe.active ?: user
+        else -> opposing(user) ?: user
+    }
+
+    /**
+     * The target for [move] chosen at location [loc] ([Choice.UseMove.target]). Location 0, moves with a fixed target
+     * and a chosen Pokémon that is gone (fainted, empty slot) use [defaultTarget].
+     */
+    fun chosenTarget(user: BattleMon, move: ActiveMove, loc: Int): BattleMon {
+        if (loc == 0 || move.target in FIXED_TARGETS || targetsSelf(move)) return defaultTarget(user, move)
+        val side = if (loc > 0) user.side.foe else user.side
+        val t = side.actives.getOrNull(abs(loc) - 1)
+        return if (t != null && !t.fainted) t else defaultTarget(user, move)
     }
 
     fun targetsSelf(move: ActiveMove) = move.target in setOf("self", "adjacentAllyOrSelf", "allies", "allySide", "allyTeam", "adjacentAlly")
@@ -1003,12 +1127,13 @@ class Battle(
         if (move.data.selfdestruct == "always" && !user.fainted && move.data2["damped"] != true) {
             directDamage(user, user.hp, user, move.id, silent = true)
         }
-        // Dancer: the opposing holder copies a dance move right after it is used.
+        // Dancer: an opposing holder copies a dance move right after it is used.
         if (move.hasFlag("dance") && calledBy == null && hit && !move.isZ && !move.isMax) {
-            val dancer = user.side.foe.active
-            if (dancer != null && !dancer.fainted && dancer.ability == "dancer" && abilityActive(dancer) && !dancer.hasVolatile("twoturnmove")) {
-                message("[${nm(dancer)}'s Dancer]")
-                MoveScripts.callMove(this, dancer, move.id)
+            for (dancer in user.side.foe.actives) {
+                if (dancer != null && !dancer.fainted && dancer.ability == "dancer" && abilityActive(dancer) && !dancer.hasVolatile("twoturnmove")) {
+                    message("[${nm(dancer)}'s Dancer]")
+                    MoveScripts.callMove(this, dancer, move.id)
+                }
             }
         }
         return hit
@@ -1018,8 +1143,8 @@ class Battle(
 
     private fun runFieldMove(mc: MoveCtx, script: MoveScript?): Boolean {
         if (mc.move.target == "foeSide") {
-            val foe = mc.user.side.foe.active
-            if (foe != null && reflects(mc, foe)) { reflectMove(MoveCtx(mc.user, foe, mc.move), foe); return true }
+            val foe = mc.user.side.foe.actives.firstOrNull { it != null && reflects(mc, it) }
+            if (foe != null) { reflectMove(MoveCtx(mc.user, foe, mc.move), foe); return true }
         }
         script?.onUseStatus(this, mc)?.let { return it || fail().let { false } }
         val m = mc.move.data
@@ -1839,8 +1964,8 @@ class Battle(
         if (changed) {
             for (c in targetHandlers(target)) c.effect.onAfterBoost(c, target, applied, source)
             // Opposing effects that react to boosts (Mirror Herb, Opportunist).
-            val foe = target.side.foe.active
-            if (foe != null && !foe.fainted && foe.isActive) {
+            for (foe in target.side.foe.actives) {
+                if (foe == null || foe.fainted || !foe.isActive) continue
                 val l = ArrayList<EffectCtx>(); monEffects(foe, null, l)
                 for (c in l) c.effect.onFoeAfterBoost(c, target, applied, source, sourceEffect)
             }
@@ -1959,7 +2084,7 @@ class Battle(
     private val faintProcessed = HashSet<BattleMon>()
 
     fun checkFaints() {
-        for (m in sides.mapNotNull { it.active }) {
+        for (m in sides.flatMap { it.actives }.filterNotNull()) {
             if (!m.fainted || m in faintProcessed) continue
             faintProcessed.add(m)
             val text = "${nm(m)} fainted!"
@@ -2088,7 +2213,7 @@ class Battle(
 
     private fun attemptRun(side: Side) {
         val mon = side.active ?: return
-        val foe = side.foe.active ?: return
+        val foe = opposingActive(side) ?: return
         runAttempts++
         val canAlways = mon.hasType("Ghost") || (mon.item == "smokeball") || (mon.ability == "runaway" && abilityActive(mon))
         if (!canAlways && !canSwitchOut(mon) && side.canSwitchTo().isNotEmpty().let { true }) {
@@ -2114,7 +2239,7 @@ class Battle(
     }
 
     private fun throwBall(side: Side, ball: ItemData) {
-        val target = side.foe.active ?: return
+        val target = opposingActive(side) ?: return
         if (outcome != BattleOutcome.ONGOING || caughtMon != null) return
         message("${side.name} threw a ${ball.name}!")
         if (!side.foe.isWild) {
@@ -2190,6 +2315,13 @@ class Battle(
     }
 
     companion object {
+        /** Multiplier of the side index in a slot key (side * SLOT_KEY + slot); larger than any slot count. */
+        private const val SLOT_KEY = 8
+        /** Move targets that are not chosen by the player (the user, a whole side, the field, every adjacent Pokémon). */
+        val FIXED_TARGETS = setOf("self", "all", "allySide", "foeSide", "allyTeam", "allies", "allAdjacent", "allAdjacentFoes", "randomNormal", "scripted")
+        /** Chosen-target moves that may only aim at a foe, or only at the user's side. */
+        val FOE_ONLY_TARGETS = setOf("adjacentFoe")
+        val ALLY_ONLY_TARGETS = setOf("adjacentAlly", "adjacentAllyOrSelf")
         val BATON_PASSABLE = setOf("substitute", "aquaring", "ingrain", "focusenergy", "magnetrise", "curse", "leechseed",
             "perishsong", "gastroacid", "embargo", "healblock", "confusion", "powertrick", "lockon", "telekinesis")
         /** Battle-only formes that persist on switching (they revert only at the end of battle). */

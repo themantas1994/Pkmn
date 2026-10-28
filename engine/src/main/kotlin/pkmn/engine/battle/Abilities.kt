@@ -77,7 +77,7 @@ object Abilities {
 
     private fun intimidateLike(id: String, stat: String) = reg(object : A(id) {
         override fun onStart(c: EffectCtx, source: BattleMon?) {
-            val foe = c.mon.side.foe.active ?: return
+            val foe = c.b.opposing(c.mon) ?: return
             if (foe.fainted) return
             announce(c)
             if (foe.hasVolatile("substitute")) { c.b.message("${c.b.nm(foe)} wasn't affected!"); return }
@@ -715,7 +715,7 @@ object Abilities {
         intimidateLike("intimidate", "atk")
         reg(object : A("download") {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 announce(c)
                 val def = c.b.applyBoost(foe.rawStat(Stat.DEF), foe.boost("def")); val spd = c.b.applyBoost(foe.rawStat(Stat.SPD), foe.boost("spd"))
                 c.b.boost(c.mon, mapOf((if (def < spd) "atk" else "spa") to 1), c.mon, "download")
@@ -731,20 +731,20 @@ object Abilities {
         reg(object : A("unnerve") { override fun onStart(c: EffectCtx, source: BattleMon?) { announce(c); c.b.message("${if (c.mon.side.isPlayer) "The opposing team" else "Your team"} is too nervous to eat Berries!") } })
         reg(object : A("frisk") {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 foe.item?.let { announce(c); c.b.message("${c.b.nm(c.mon)} frisked ${c.b.nmL(foe)} and found its ${c.b.dex.itemOrNull(it)?.name ?: it}!") }
             }
         })
         reg(object : A("anticipation") {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 val danger = foe.moveSlots.any { s -> c.b.dex.moveOrNull(s.id)?.let { m -> !m.isStatus && (c.b.dex.typeChart.effectiveness(m.type, c.mon.effectiveTypes()) > 1 || m.ohko != null) } == true }
                 if (danger) { announce(c); c.b.message("${c.b.nm(c.mon)} shuddered!") }
             }
         })
         reg(object : A("trace") {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 val banned = setOf("trace", "multitype", "stancechange", "schooling", "comatose", "shieldsdown", "disguise", "rkssystem", "battlebond", "powerconstruct", "iceface", "gulpmissile", "neutralizinggas", "zerotohero", "commander", "imposter", "illusion", "flowergift", "forecast", "hungerswitch", "asoneglastrier", "asonespectrier", "receiver", "powerofalchemy", "wonderguard", "zenmode", "protosynthesis", "quarkdrive", "terashift", "teraformzero")
                 if (foe.ability in banned) return
                 announce(c)
@@ -756,7 +756,7 @@ object Abilities {
         })
         reg(object : A("imposter") {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 if (foe.hasVolatile("substitute") || foe.transformed) return
                 MoveScripts.transform(c.b, c.mon, foe)
             }
@@ -790,7 +790,7 @@ object Abilities {
         reg(object : A("baddreams") {
             override val residualOrder = 25
             override fun onResidual(c: EffectCtx) {
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 if (foe.status == MajorStatus.SLEEP || foe.ability == "comatose") { announce(c); c.b.directDamage(foe, max(1, foe.baseMaxHp / 8), c.mon, "baddreams") }
             }
         })
@@ -932,7 +932,7 @@ object Abilities {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 if (c.state.flag) return
                 c.state.flag = true
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 announce(c); c.b.boost(foe, mapOf("evasion" to -1), c.mon, "supersweetsyrup", secondary = true)
             }
         })
@@ -1072,7 +1072,7 @@ object Abilities {
         })
         reg(object : A("forewarn") {
             override fun onStart(c: EffectCtx, source: BattleMon?) {
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 fun power(id: String): Int {
                     val m = c.b.dex.moveOrNull(id) ?: return 0
                     return when {
@@ -1160,7 +1160,7 @@ object Abilities {
             override val residualOrder = 28
             override fun onResidual(c: EffectCtx) {
                 if (c.mon.item != null) return
-                val foe = c.mon.side.foe.active ?: return
+                val foe = c.b.opposing(c.mon) ?: return
                 val item = foe.lastItem ?: return
                 if (foe.itemConsumedTurn != c.b.turn) return
                 foe.lastItem = null

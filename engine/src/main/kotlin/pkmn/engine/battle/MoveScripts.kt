@@ -374,7 +374,7 @@ object MoveScripts {
         status("curse") { b, mc ->
             val u = mc.user
             if (u.hasType("Ghost")) {
-                val t = u.side.foe.active ?: return@status false
+                val t = b.opposing(u) ?: return@status false
                 if (t.hasVolatile("curse")) return@status false
                 b.directDamage(u, max(1, u.baseMaxHp / 2), u, "curse")
                 b.addVolatile(t, "curse", u, "curse") != null
@@ -396,7 +396,7 @@ object MoveScripts {
         failUnless("spitup") { _, mc -> mc.user.hasVolatile("stockpile") }
         status("haze") { b, _ -> for (m in b.activeMons()) m.boosts.fill(0); b.message("All stat changes were eliminated!"); true }
         afterHitTarget("clearsmog") { b, mc -> mc.target.boosts.fill(0); b.message("${b.nm(mc.target)}'s stat changes were removed!") }
-        status("psychup") { b, mc -> val t = mc.user.side.foe.active ?: return@status false; t.boosts.copyInto(mc.user.boosts); b.message("${b.nm(mc.user)} copied ${b.nmL(t)}'s stat changes!"); true }
+        status("psychup") { b, mc -> val t = b.opposing(mc.user) ?: return@status false; t.boosts.copyInto(mc.user.boosts); b.message("${b.nm(mc.user)} copied ${b.nmL(t)}'s stat changes!"); true }
         status("topsyturvy") { b, mc -> if (mc.target.boosts.all { it == 0 }) return@status false; for (i in mc.target.boosts.indices) mc.target.boosts[i] = -mc.target.boosts[i]; b.message("${b.nm(mc.target)}'s stat changes were all reversed!"); true }
         status("strengthsap") { b, mc ->
             val t = mc.target

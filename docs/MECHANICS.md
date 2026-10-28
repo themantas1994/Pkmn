@@ -4,7 +4,7 @@ Every core mechanic, its status, the ruleset it follows and the evidence. Machin
 
 Status: **tested** = implemented with the named automated tests; **implemented** = in code, only indirectly tested; **simplified** = deliberate simplification; **excluded** = out of scope; **open** = known gap.
 
-Totals: excluded 3, implemented 12, open 1, simplified 4, tested 50.
+Totals: excluded 3, implemented 12, open 2, simplified 4, tested 50.
 
 ## Identity and creation
 
@@ -46,7 +46,8 @@ Totals: excluded 3, implemented 12, open 1, simplified 4, tested 50.
 | PP use, Struggle, PP Up/Max, Ethers/Elixirs | tested | Gen IX | BattleEdgeCaseTest Struggle; FieldItems |  |
 | Mega Evolution, Z-Moves, Dynamax/Gigantamax, Terastallization, Primal, Ultra Burst; one gimmick per battle | tested | Crystalline unified ruleset | GimmickTest |  |
 | Singles | tested | Gen IX | all battle tests |  |
-| Double/triple battles | excluded | — | — | Singles only |
+| Double battles (`BattleRules.format = DOUBLES`) | open | Gen IX | DoublesStepATest; SinglesGoldenLogTest pins singles | Step A done: two active slots per side, one request per slot, chosen targets (`Choice.UseMove.target`), per-slot switching, self-switch and replacement. Not yet: spread moves, ally-targeted moves, redirection, per-slot slot conditions (Wish, Healing Wish), effects that look at "the" foe still use the first healthy one; no UI |
+| Triple battles | excluded | — | — | Not planned |
 | Learnsets: 1379 species/forms (1135 own, 244 inherited, 0 missing); importer cross-checked against raw Showdown (0 discrepancies); world movesets legal (0 errors) | tested | Crystalline policy (docs/LEARNSETS.md) | LearnsetAuditTest; :tools:auditLearnsets; reports/learnsets.md | 32 trainer egg moves are documented conflicts (breeding out of scope) |
 | Shop TMs usable after purchase | tested | — | AcquisitionTest shop TMs | Bug fixed: shop TMs lost their tm: key |
 
