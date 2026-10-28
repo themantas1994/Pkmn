@@ -1,6 +1,6 @@
-"""Trainer battle portraits -> assets/gfx/trainers/<id>.png (64x64).
+"""Trainer battle portraits -> assets/gfx/trainers/<id>.png (64x64, GBA P6: <= 16 colours incl. transparent).
 
-Front-facing upper-body portraits in the 4-colour GSC style, built from
+Front-facing upper-body portraits, built from
 layered vector-ish masks evaluated on the pixel grid (no anti-aliasing):
 back hair -> torso -> inner shirt -> neck -> head -> hair -> hat -> extras.
 After compositing, a 1px outline is drawn on the upper layer wherever two
@@ -55,6 +55,7 @@ class Portrait:
         self.mapping = dict(DEFAULTS, **mapping)
         self.region = np.full((N, N), -1, np.int16)
         self.group = {}
+        self.lcol = {}
         self.col = np.full((N, N), -1, np.int8)
         self.n = 0
 
@@ -70,6 +71,7 @@ class Portrait:
         self.group[self.n] = group or f"g{self.n}"
         self.region[mask] = self.n
         self.col[mask] = self.c(letter)
+        self.lcol[self.n] = self.c(letter)
         return self.n
 
     def outline(self):
@@ -320,7 +322,11 @@ def portrait(cid, spec):
     face(p, cid, style, female, old)
     for a in acc:
         accessory(p, a, mapping)
-    return p.col
+    return p
+
+
+def portrait_shaded(cid, spec):
+    return shade(portrait(cid, spec))
 
 
 def back_portrait(cid, spec):
@@ -351,19 +357,99 @@ def back_portrait(cid, spec):
         for y in range(52, 64):
             if p.col[y, x] not in (K, -1):
                 p.col[y, x] = K
-    return p.col
+    return shade(p)
+
+
+# Extended 16-slot palette: slots 0-3 are the character's 4 palette roles, 4-8 are derived shades.
+HI, SH = 0.28, 0.30
+EXT = {"W_sh": 4, "S_hi": 5, "S_sh": 6, "P_hi": 7, "P_sh": 8}
+
+
+def _mix(c, to, f):
+    return tuple(int(round((a + (b - a) * f) / 8)) * 8 for a, b in zip(c, to))
+
+
+def ext_palette(pal):
+    """4 role colours -> 9 colours: highlight / shadow ramps for skin and role colour, grey shade for white."""
+    w, s, pr, k = [tuple(c[:3]) for c in pal]
+    return [w, s, pr, k, _mix(w, k, 0.22), _mix(s, w, HI), _mix(s, k, SH), _mix(pr, w, HI), _mix(pr, k, SH)]
+
+
+def shade(p):
+    """Light from the upper left: per layer, the far corner of its bounding box gets the shadow tone and the near
+    corner the highlight tone. Only pixels still holding the layer's own colour are shaded, so stamped face detail
+    (eyes, teeth) and the outline keep their flat colour."""
+    out = p.col.copy()
+    ramp = {S: (EXT["S_hi"], S, EXT["S_sh"]), P: (EXT["P_hi"], P, EXT["P_sh"]), W: (W, W, EXT["W_sh"])}
+    for r, base in p.lcol.items():
+        if base not in ramp:
+            continue
+        m = (p.region == r) & (p.col == base)
+        if m.sum() < 12:
+            continue
+        ys, xs = np.nonzero(p.region == r)
+        w, h = max(1, xs.max() - xs.min()), max(1, ys.max() - ys.min())
+        t = ((X - xs.min()) / w + (Y - ys.min()) / h) / 2
+        hi, mid, lo = ramp[base]
+        out[m & (t < 0.30)] = hi
+        out[m & (t > 0.70)] = lo
+    return out
+
+
+def to_img(grid, pal):
+    ext = ext_palette(pal)
+    img = np.zeros((N, N, 4), np.uint8)
+    for i, c in enumerate(ext):
+        img[grid == i] = (*c, 255)
+    return Image.fromarray(img, "RGBA")
+
+
+def _seg(x0, y0, x1, y1, r):
+    dx, dy = x1 - x0, y1 - y0
+    t = np.clip(((XC - x0) * dx + (YC - y0) * dy) / (dx * dx + dy * dy), 0, 1)
+    return (XC - (x0 + t * dx)) ** 2 + (YC - (y0 + t * dy)) ** 2 <= r * r
+
+
+def throw_sheet(cid="kid"):
+    """trainer_throw.png: 64x128, two 64x64 frames (hand raised, hand thrown forward) of one generic trainer."""
+    spec = CHARACTERS[cid]
+    base = portrait_shaded(cid, spec)
+    sheet = np.full((128, 64), -1, np.int8)
+    sx, sy = HCX + 17, SHOULDER + 5
+    for f, (ex, ey, hx, hy) in enumerate(((58, 36, 58, 22), (50, 46, 38, 52))):
+        g = base.copy()
+        arm = _seg(sx, sy, ex, ey, 4) | _seg(ex, ey, hx, hy, 3.5)
+        hand = ell(hx, hy, 4.5, 4.5)
+        ring = np.zeros((N, N), bool)
+        full = arm | hand
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            ring |= np.roll(np.roll(full, dy, 0), dx, 1)
+        g[ring & ~full] = K
+        g[arm] = P
+        g[arm & (Y > ey - 2) & (XC > sx)] = EXT["P_sh"] if f == 0 else P
+        g[hand] = S
+        g[hand & (XC < hx - 1) & (YC < hy - 1)] = EXT["S_hi"]
+        g[hand & ((XC > hx + 1) | (YC > hy + 2)) & ~ring] = EXT["S_sh"]
+        sheet[f * 64:(f + 1) * 64] = g
+    return sheet
 
 
 def build():
     out = os.path.join(pixlib.GFX, "trainers")
     for cid, spec in CHARACTERS.items():
-        a = portrait(cid, spec)
-        img = pixlib.to_rgba(a, palette_for(spec))
+        a = portrait_shaded(cid, spec)
+        img = to_img(a, palette_for(spec))
         assert img.size == (64, 64)
         pixlib.save_png(img, os.path.join(out, cid + ".png"))
+    sheet = throw_sheet()
+    ext = ext_palette(palette_for(CHARACTERS["kid"]))
+    img = np.zeros((128, 64, 4), np.uint8)
+    for i, c in enumerate(ext):
+        img[sheet == i] = (*c, 255)
+    pixlib.save_png(Image.fromarray(img, "RGBA"), os.path.join(out, "trainer_throw.png"))
     for pid in ("player_m", "player_f"):
         spec = CHARACTERS[pid]
-        img = pixlib.to_rgba(back_portrait(pid, spec), palette_for(spec))
+        img = to_img(back_portrait(pid, spec), palette_for(spec))
         pixlib.save_png(img, os.path.join(out, pid + "_back.png"))
 
 
