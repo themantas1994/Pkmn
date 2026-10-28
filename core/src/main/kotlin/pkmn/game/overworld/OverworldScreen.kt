@@ -959,7 +959,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     /** A scheduled event Pokémon: its icon sprite, gently bobbing, sparkling in when it appears. */
     private fun drawEventMon(r: Renderer, a: Actor, camX: Float, camY: Float) {
         val species = a.sprite.removePrefix("@mon:")
-        val tex = r.assets.pokemon(species, "icon")
+        val tex = r.assets.icon(species, if (game.options.reduceMotion) 0 else (game.timeMs / 400).toInt())
         val appear = appearing[a.id] ?: 1f
         val bob = if (game.options.reduceMotion) 0f else kotlin.math.sin(game.timeMs / 300.0).toFloat() * 1.5f
         val w = 24f * appear; val h = 24f * appear
