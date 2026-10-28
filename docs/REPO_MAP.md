@@ -15,6 +15,9 @@
 | `docs/` | formats and mechanics: `WORLD_FORMAT`, `SCRIPTING`, `EVENTS`, `MECHANICS`, `BUILD`, `CAPTURE`, `LEARNSETS` |
 | `tools/visual/run_scenes.sh` | desktop screenshot scenes compared with `docs/screenshots` (CI `visual` job) |
 
+Paperclip: load the full Paperclip skill on demand only (the wake payload already carries the API pattern).
+`STATUS.md` starts with a section list; read just the section you need.
+
 Task cheat sheet: `scripts/gates.sh [content|test [module]|android|all]` runs the CI gates, logs to
 `build/gates/*.log` and prints one line per step. Other audits: `:tools:auditEntrances`,
 `:tools:auditItems`, `:tools:auditLearnsets`, `:tools:auditMoves`, `:tools:checkStatus`,

@@ -2,6 +2,17 @@
 
 Every number in this document was produced by the commands listed next to it. Nothing here is estimated by hand unless it says so.
 
+**Sections** (read only the one you need):
+- Summary: one-table overview of every area.
+- Mechanics update: capture, Pokédex, nicknames, IVs/EVs, sprites: what that update changed.
+- Post-release update: verified fixes: fixes after release and how each was verified.
+- Builds: build commands and results (desktop, Android, release).
+- Tests: test suites, commands and results.
+- Content and coverage: data and world coverage, audits.
+- Performance: benchmarks and measurements.
+- Playtime: content-derived playtime estimate.
+- Known issues and limitations: open problems.
+
 ## Summary
 
 | Area | State |
