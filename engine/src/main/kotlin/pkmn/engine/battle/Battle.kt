@@ -1119,6 +1119,7 @@ class Battle(
         val hit: Boolean = when {
             isFieldMove(move) -> runFieldMove(mc, script)
             targetsSelf(move) -> runSelfMove(mc, script)
+            isSpreadMove(move) -> runSpreadMove(mc, script)
             else -> runTargetedMove(mc, script)
         }
         user.lastMoveFailed = !hit
@@ -1144,6 +1145,36 @@ class Battle(
     }
 
     private fun fail(): Boolean { message("But it failed!"); return false }
+
+    fun isSpreadMove(move: ActiveMove) = slotsPerSide > 1 && move.target in SPREAD_TARGETS
+
+    /**
+     * Pokémon a spread move hits, in field order (foes by slot, then the user's ally for "allAdjacent"). Fainted and
+     * empty slots are skipped.
+     */
+    fun spreadTargets(user: BattleMon, move: ActiveMove): List<BattleMon> {
+        val out = ArrayList<BattleMon>(user.side.foe.healthyActives())
+        if (move.target == "allAdjacent") user.side.healthyActives().filterTo(out) { it !== user }
+        return out
+    }
+
+    /**
+     * Doubles: a move hitting all adjacent foes (or everyone adjacent) runs once per target. With two or more targets it is
+     * a spread hit (0.75x damage, see [calcDamage]); the user's own after-effects (recoil, self stat changes) run once, on
+     * the last target.
+     */
+    private fun runSpreadMove(mc: MoveCtx, script: MoveScript?): Boolean {
+        val targets = spreadTargets(mc.user, mc.move)
+        if (targets.isEmpty()) return runTargetedMove(mc, script)
+        mc.move.spreadHit = targets.size > 1
+        var any = false
+        for ((i, t) in targets.withIndex()) {
+            if (mc.user.fainted && i > 0) break
+            val tc = MoveCtx(mc.user, t, mc.move).also { it.finalTarget = i == targets.lastIndex }
+            if (runTargetedMove(tc, script)) any = true
+        }
+        return any
+    }
 
     private fun runFieldMove(mc: MoveCtx, script: MoveScript?): Boolean {
         if (mc.move.target == "foeSide") {
@@ -1400,7 +1431,7 @@ class Battle(
         if (hitCount == 0) return false
         if (hits > 1 && hitCount > 0 && move.multihit != null) message("The Pokémon was hit $hitCount time${if (hitCount == 1) "" else "s"}!")
         // Primary non-damaging effects of damaging moves.
-        if (!user.fainted) {
+        if (!user.fainted && mc.finalTarget) {
             move.data.self?.let { s ->
                 if (s.boosts.isNotEmpty() && move.data2["selfBoostsHandled"] != true) boost(user, s.boosts, user, move.id)
                 s.volatileStatus?.let { addVolatile(user, it, user, move.id) }
@@ -1571,6 +1602,8 @@ class Battle(
         def = max(1, defMod.apply(def))
         val level = user.level
         var base = floor(floor(floor(2.0 * level / 5 + 2) * bp * atk / def) / 50).toInt() + 2
+        // Spread move hitting more than one target (Showdown modifyDamage: 0.75, before weather).
+        if (move.spreadHit) base = Mod.pokeRound(base * 0.75)
         // Weather.
         val sun = isSun(target) || hasMegaSol(user)
         if (sun) when {
@@ -2322,6 +2355,7 @@ class Battle(
         /** Multiplier of the side index in a slot key (side * SLOT_KEY + slot); larger than any slot count. */
         private const val SLOT_KEY = 8
         /** Move targets that are not chosen by the player (the user, a whole side, the field, every adjacent Pokémon). */
+        val SPREAD_TARGETS = setOf("allAdjacent", "allAdjacentFoes")
         val FIXED_TARGETS = setOf("self", "all", "allySide", "foeSide", "allyTeam", "allies", "allAdjacent", "allAdjacentFoes", "randomNormal", "scripted")
         /** Chosen-target moves that may only aim at a foe, or only at the user's side. */
         val FOE_ONLY_TARGETS = setOf("adjacentFoe")

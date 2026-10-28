@@ -83,3 +83,15 @@ Not changed (unverified or out of scope): a wild Pokémon's Roar against the pla
 - **Trainer-battle EXP bonus (×1.5).** The engine applies it, as Gens V–VI do (Serebii). Some sources say Gen VII+ removed it. No primary source was reachable, so the formula is unchanged. If removed, trainer EXP falls by a third, which bears on the late-game over-levelling.
 - **Scarlet/Violet Set option.** Sources disagree on whether it still exists. Irrelevant here, since Crystalline follows GSC (Shift and Set both offered).
 - **Gen 4 ball-icon states and Gen 5+ Shift wording.** Not used; GSC is the target.
+
+## Doubles rules (engine, PKM-107)
+
+Implemented: speed-ordered queue across four Pokémon, spread moves (`allAdjacent`, `allAdjacentFoes`) hitting each target with 0.75× when two or more are hit, per-slot faint replacement, win/loss across both active slots. Tests: `DoublesBattleTest`.
+
+Not handled yet:
+- Spread move that is protected or misses on the last target skips the user's after-effects (recoil, self stat drops, e.g. Make It Rain) because they run once, on the last target.
+- The spread modifier counts the targets alive at the start of the move; Showdown does the same, but no target-count adjustment is made for a target that Protects.
+- Redirection (Follow Me, Rage Powder, Lightning Rod, Storm Drain), Helping Hand, Instruct, Ally Switch, and partner-targeting abilities (Friend Guard, Plus/Minus, Power Spot) are unimplemented.
+- Simultaneous-faint ordering of replacements uses slot order, not speed order, and Eject Button/Red Card interplay in doubles is untested.
+- Per-target `Dancer`, `Rage` and similar after-hit effects run once per target.
+- `randomNormal` and the field-wide `scripted` targets are unchanged from singles.
