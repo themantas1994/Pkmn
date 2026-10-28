@@ -8,22 +8,22 @@ import kotlin.math.roundToInt
 
 /**
  * Converts locally sourced Pokémon PNGs to the game's GBC-like pixel style: the sprite is cropped to its visible
- * pixels, fitted to a 48x48 logical battle grid (bottom-aligned) enlarged 2x to 96x96 (nearest neighbour), 16x16 icons, binary alpha, at most four opaque colours, channels snapped to multiples
+ * pixels, fitted to a 64x64 battle canvas (bottom-aligned, not enlarged), 16x16 icons, binary alpha, at most sixteen opaque colours (GBA 4bpp), channels snapped to multiples
  * of 8, optional one-pixel outline in the darkest palette colour.
  *
  * Kotlin port of `sprite_style.py` from the user-supplied "pkmn-sprite-style-kit" (the origin of the algorithm).
  * Differences from the kit: no Pillow dependency (own area-averaging downscale and median cut), a sprite without any
  * opaque pixel is an error instead of an empty image, the output is deterministic byte for byte, and (after reviewing
- * the full roster) sprites are cropped to their content and use a 48-pixel grid instead of the kit's uncropped 32-pixel
+ * the full roster) sprites are cropped to their content and use a 64-pixel canvas instead of the kit's uncropped 32-pixel
  * grid, which shrank small Pokémon to a few pixels and lost most detail.
  */
 object SpriteStyler {
-    /** Battle sprites: a 48-pixel grid (Gold/Silver/Crystal battle sprites are 56 px) enlarged 2x to 96 px. */
-    const val BATTLE_LOGICAL = 48
+    /** Battle sprites: a 64-pixel canvas as on the GBA (docs/gba-graphics-spec.md P6), drawn without enlargement. */
+    const val BATTLE_LOGICAL = 64
     const val ICON_SIZE = 16
-    const val UPSCALE = 2
+    const val UPSCALE = 1
     const val ALPHA_THRESHOLD = 112
-    const val MAX_COLOURS = 4
+    const val MAX_COLOURS = 16
     const val RGB_STEP = 8
     /** Refuse absurd inputs (decompression bombs) before decoding them. */
     const val MAX_INPUT_DIMENSION = 4096
