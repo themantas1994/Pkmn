@@ -21,5 +21,6 @@ tasks.test {
     // MoveExecutionTest writes this report as a side effect; :tools:auditMoves reads it, so a build-cache hit must restore it.
     outputs.file(layout.buildDirectory.file("reports/move-execution.json"))
     System.getProperty("fuzz.battles")?.let { systemProperty("fuzz.battles", it) }
+    System.getProperty("golden.update")?.let { systemProperty("golden.update", it) }
     testLogging { showStandardStreams = System.getProperty("showOutput") != null; events("failed"); exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL }
 }
