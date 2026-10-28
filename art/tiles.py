@@ -13,6 +13,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pixlib  # noqa: E402
 from pixlib import grid  # noqa: E402
+import palettes  # noqa: E402
 from palettes import TILE  # noqa: E402
 import gym_tiles  # noqa: E402
 import tiles16  # noqa: E402
@@ -1527,6 +1528,9 @@ def build_tiles():
     def add(name, pal, frames):
         if isinstance(frames, np.ndarray):
             frames = [frames]
+        if pal in palettes.REDRAWN:  # P5d batch 2: shade the 4-colour silhouette with the family's 16-colour ramps
+            pal += "16"
+            frames = [tiles16.shade(f, palettes.RAMPS16[pal]) for f in frames]
         for f in frames:
             assert f.shape == (TS, TS), name
             assert f.min() >= 0, f"{name} has transparent pixels"

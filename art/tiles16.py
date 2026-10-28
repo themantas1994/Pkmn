@@ -90,3 +90,39 @@ def route_canopy(src, trunk=True, oy=0, total_h=None):
                 level = 7.4 - 4.8 * t + (BAYER[y % 2][x % 2] - 1.5) * 0.4  # 7 (lit) .. 3 (shadow)
                 out[y, x] = int(min(7, max(3, round(level))))
     return out
+
+
+def shade(src, ramps, seed=0):
+    """Batch 2 (town, interiors, caves): shade a 4-colour tile with the ramps of its 16-colour palette.
+
+    Silhouettes stay identical. The lightest-but-one ramp step lands on pixels whose upper/left neighbour is darker
+    (lit rim), the darkest on pixels whose lower/right neighbour is a different, lighter value (shaded side), and a
+    sparse dither breaks up flat areas. Index 3 (outline) stays flat. Only tile-local data is used, so tiles that
+    repeat still join without seams."""
+    h, w = src.shape
+    out = np.zeros((h, w), dtype=np.int8)
+    for y in range(h):
+        for x in range(w):
+            v = int(src[y, x])
+            ramp = ramps[v]
+            base = 1 if len(ramp) == 3 else 0
+            if v == 3 or len(ramp) == 1:
+                out[y, x] = ramp[base]
+                continue
+            up = int(src[y - 1, x]) if y > 0 else v
+            left = int(src[y, x - 1]) if x > 0 else v
+            down = int(src[y + 1, x]) if y < h - 1 else v
+            right = int(src[y, x + 1]) if x < w - 1 else v
+            step = 0
+            if up > v or left > v:
+                step = -1
+            elif (down < v or right < v) and down != 3 and right != 3:
+                step = 1
+            else:
+                n = (x * 7 + y * 13 + seed * 5) % 11
+                if n == 0:
+                    step = -1
+                elif n == 5 and (x + y) % 2 == 0:
+                    step = 1
+            out[y, x] = ramp[max(0, min(len(ramp) - 1, base + step))]
+    return out
