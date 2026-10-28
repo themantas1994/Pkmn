@@ -12,7 +12,7 @@ object Items {
 
     private fun itemName(b: Battle, id: String) = b.dex.itemOrNull(id)?.name ?: id
 
-    private fun Battle.unnerved(m: BattleMon) = m.side.foe.active?.let { f -> !f.fainted && f.ability in setOf("unnerve", "asoneglastrier", "asonespectrier") && abilityActive(f) } == true
+    private fun Battle.unnerved(m: BattleMon) = opposing(m)?.let { f -> !f.fainted && f.ability in setOf("unnerve", "asoneglastrier", "asonespectrier") && abilityActive(f) } == true
 
     /** Eats a berry: consumes it and returns the effect multiplier (Ripen doubles it). */
     private fun eat(b: Battle, m: BattleMon, id: String): Int {

@@ -9,6 +9,9 @@ import pkmn.engine.util.toId
 /** Battle gimmicks. A side may use each enabled gimmick at most once per battle; see [BattleRules]. */
 enum class Gimmick { MEGA, ZMOVE, DYNAMAX, TERA, ULTRA_BURST }
 
+/** How many Pokémon each side has on the field at once. */
+enum class BattleFormat(val activePerSide: Int) { SINGLES(1), DOUBLES(2) }
+
 /**
  * Battle format rules. The default ruleset is the unified "Crystalline" ruleset documented in docs/BATTLE_RULES.md:
  * Generation IX mechanics with every earlier official gimmick available when the format enables it.
@@ -41,6 +44,8 @@ data class BattleRules(
      * battle without experience). Only checked when [expEnabled].
      */
     val obedienceCap: Int? = null,
+    /** Singles (one active Pokémon per side) or doubles (two). */
+    val format: BattleFormat = BattleFormat.SINGLES,
 ) {
     companion object {
         val ALL_GIMMICKS = Gimmick.entries.toSet()
@@ -72,7 +77,13 @@ class Side(
     val gimmicks: Set<Gimmick> = emptySet(),
 ) {
     val mons: List<BattleMon> = team.map { BattleMon(it, this, dex) }
-    var active: BattleMon? = null
+    /** Active Pokémon by field position (slot 0 is the only one in singles). [Battle] sizes it from the format. */
+    val actives: MutableList<BattleMon?> = arrayListOf(null)
+    /** The Pokémon in slot 0: the active Pokémon of a singles battle. */
+    var active: BattleMon?
+        get() = actives[0]
+        set(v) { actives[0] = v }
+    /** The opposing side (a battle always has two sides; in doubles it has two active Pokémon). */
     lateinit var foe: Side
     val conditions = LinkedHashMap<String, EffectState>()
     /** Slot conditions (Wish, Healing Wish, ...) keyed by id. */
@@ -87,7 +98,11 @@ class Side(
     val isWild get() = controller == Controller.WILD
     fun hasCondition(id: String) = id in conditions
     fun alive() = mons.filter { !it.fainted }
-    fun canSwitchTo() = mons.filter { !it.fainted && it !== active }
+    fun canSwitchTo() = mons.filter { m -> !m.fainted && actives.none { it === m } }
+    /** Field position of [mon], or -1 when it is not active. */
+    fun slotOf(mon: BattleMon): Int = actives.indexOfFirst { it === mon }
+    /** Active Pokémon that have not fainted, in slot order. */
+    fun healthyActives(): List<BattleMon> = actives.filter { it != null && !it.fainted }.map { it!! }
 
     fun canUseGimmick(g: Gimmick, rules: BattleRules): Boolean {
         if (g !in gimmicks || g !in rules.allowedGimmicks) return false
@@ -175,7 +190,9 @@ class BattleMon(val mon: Pokemon, val side: Side, val dex: Dex) {
     val maxHp: Int get() = if (dynamaxTurns > 0) baseMaxHp * (150 + 5 * mon.dynamaxLevel) / 100 else baseMaxHp
     val level get() = mon.level
     val status: MajorStatus? get() = mon.status
-    val isActive get() = side.active === this
+    val isActive get() = side.actives.any { it === this }
+    /** Field position, or -1 when not active. */
+    val slot get() = side.slotOf(this)
     val isDynamaxed get() = dynamaxTurns > 0
     val hpFraction get() = hp.toDouble() / maxHp
 
@@ -318,7 +335,15 @@ class Mod {
 // ------------------------------------------------------------------- decisions
 
 sealed class Choice {
-    data class UseMove(val moveIndex: Int, val gimmick: Gimmick? = null) : Choice()
+    /**
+     * [target] is the chosen target's location, Showdown style: 0 = the move's default target, 1..n = the opposing
+     * Pokémon in slot n-1, -1..-n = the user's own side in slot n-1 (an ally, or itself). Singles battles only use 0.
+     */
+    data class UseMove(val moveIndex: Int, val gimmick: Gimmick? = null, val target: Int = 0) : Choice() {
+        // Without a target the text matches the original two-field form, so existing logs and transcripts stay stable.
+        override fun toString() = if (target == 0) "UseMove(moveIndex=$moveIndex, gimmick=$gimmick)"
+            else "UseMove(moveIndex=$moveIndex, gimmick=$gimmick, target=$target)"
+    }
     data class Switch(val teamIndex: Int) : Choice()
     data class UseItem(val itemId: String, val teamIndex: Int = -1, val moveIndex: Int = -1) : Choice()
     object Run : Choice()
@@ -326,7 +351,7 @@ sealed class Choice {
     object Pass : Choice()
 }
 
-/** What a side must decide next. */
+/** What a side must decide next for one of its field positions ([Battle.requests] gives one per active slot). */
 sealed class Request {
     data class Move(
         val active: BattleMon,
@@ -335,12 +360,14 @@ sealed class Request {
         val gimmicks: Set<Gimmick>,
         /** Non-null when the Pokémon is locked into an action (recharge, charge turn, rampage). */
         val lockedMove: String?,
+        /** Field position of [active]. */
+        val slot: Int = 0,
     ) : Request()
     /**
-     * The side must send in a Pokémon now. [selfSwitch]: mid-turn replacement after its own U-turn, Baton Pass,
-     * Eject Button... (cannot be cancelled; the rest of the turn runs afterwards). Otherwise it replaces a fainted one.
+     * The side must send in a Pokémon to [slot] now. [selfSwitch]: mid-turn replacement after its own U-turn, Baton
+     * Pass, Eject Button... (cannot be cancelled; the rest of the turn runs afterwards). Otherwise it replaces a fainted one.
      */
-    data class SwitchIn(val forced: Boolean, val selfSwitch: Boolean = false) : Request()
+    data class SwitchIn(val forced: Boolean, val selfSwitch: Boolean = false, val slot: Int = 0) : Request()
     object Wait : Request()
 }
 

@@ -481,7 +481,7 @@ object MoveScriptsExtra {
             if (st.counter < 2) { b.message("${b.nm(u)} is storing energy!"); return@status true }
             u.volatiles.remove("bide")
             b.message("${b.nm(u)} unleashed its energy!")
-            val target = u.side.foe.active
+            val target = b.opposing(u)
             if (st.hp <= 0 || target == null || target.fainted) return@status false
             b.directDamage(target, st.hp * 2, u, "bide", moveDamage = true)
             true
