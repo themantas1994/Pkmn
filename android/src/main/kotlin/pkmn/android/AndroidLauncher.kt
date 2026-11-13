@@ -60,9 +60,33 @@ class AndroidLauncher : AndroidApplication() {
             override fun exit() { moveTaskToBack(true) }
         }
         initialize(PkmnGame(platform) { SynthAudio() }, config)
+        maybeRunDeterminismSelfTest()
         // The copy can take seconds for a personal build: never on the UI thread. The game is already running but its
         // loading screen waits for assetsReady, so nothing reads the sprite directory before it is complete.
         unpackBundledSprites()
+    }
+
+    /**
+     * Debug hook for link-play Phase 0: `adb shell am start -n io.github.pkmncrystalline/.AndroidLauncher --es selftest determinism`
+     * plays 400 seeded AI battles on a background thread and logs the combined hash under PkmnDeterminism
+     * (`adb logcat -s PkmnDeterminism`). Ignored unless the app is debuggable, so release builds never run it.
+     */
+    private fun maybeRunDeterminismSelfTest() {
+        if (applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE == 0) return
+        if (intent?.getStringExtra("selftest") != "determinism") return
+        val tag = "PkmnDeterminism"
+        Thread({
+            try {
+                val dex = pkmn.engine.data.Dex.load(pkmn.engine.data.ContentSource { path ->
+                    try { assets.open(path).use { it.readBytes().toString(Charsets.UTF_8) } } catch (e: java.io.IOException) { null }
+                })
+                android.util.Log.i(tag, "start battles=${pkmn.engine.battle.DeterminismSelfTest.DEFAULT_BATTLES}")
+                val r = pkmn.engine.battle.DeterminismSelfTest.run(dex) { i, h -> android.util.Log.d(tag, "battle $i $h") }
+                android.util.Log.i(tag, pkmn.engine.battle.DeterminismSelfTest.summary(r))
+            } catch (e: Throwable) {
+                android.util.Log.e(tag, "self-test failed", e)
+            }
+        }, "determinism-selftest").apply { isDaemon = true }.start()
     }
 
     override fun onDestroy() {
