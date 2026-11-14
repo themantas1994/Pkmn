@@ -4,12 +4,14 @@ import java.time.LocalTime
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
 import pkmn.engine.battle.*
+import pkmn.engine.data.EvolutionMethod
 import pkmn.engine.data.FormKind
 import pkmn.engine.data.ContentJson
 import pkmn.engine.data.ContentSource
 import pkmn.engine.data.Dex
 import pkmn.engine.mon.*
 import pkmn.engine.save.GameState
+import pkmn.engine.save.PendingTrade
 import pkmn.engine.save.QuestState
 import pkmn.engine.util.Rng
 import pkmn.engine.util.toId
@@ -228,6 +230,61 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         state.party.removeAll { it === received }
         state.party.add(index.coerceAtMost(state.party.size), received)
         return evolutionByItem(received, "linkingcord", null)
+    }
+
+    // ------------------------------------------------------------------ link trades
+
+    /** Why party member [slot] may not be offered in a link trade, or null when it may. */
+    fun linkTradeRefusal(slot: Int): String? {
+        if (slot !in state.party.indices) return "No POKéMON there."
+        if (state.party.withIndex().none { (i, m) -> i != slot && !m.isFainted }) return "That's your last POKéMON that can battle!"
+        return null
+    }
+
+    /**
+     * Applies a link trade from its journal: the Pokémon given away ([PendingTrade.givenUid]) leaves the party and the
+     * received one takes its slot, holding whatever it held. The received Pokémon is registered in the Pokédex and gets
+     * no nickname prompt. With another trainer it is an outsider received at its current level: `metLevel` becomes the
+     * current level (the met level from home is kept in [Pokemon.originalMetLevel]) and friendship returns to the species
+     * base. A Pokémon coming back to its original trainer (same OT id and OT name) is the player's own again, with its
+     * original met level. Its uid is replaced only if this save already uses it. Throws if the given Pokémon is no longer
+     * in the party or is the last one that can battle; [linkTradeRefusal] says so beforehand.
+     */
+    fun performLinkTrade(journal: PendingTrade): LinkTradeResult {
+        val slot = state.party.indexOfFirst { it.uid == journal.givenUid }
+        check(slot >= 0) { "the Pokémon to trade (uid ${journal.givenUid}) is not in the party" }
+        linkTradeRefusal(slot)?.let { error(it) }
+        val given = state.party[slot]
+        val received = journal.received.copy()
+        val sp = received.species(dex)
+        if (received.otId == state.trainerId && received.otName == state.playerName) {
+            received.outsider = false
+            received.metLevel = (received.originalMetLevel ?: received.metLevel).coerceIn(1, received.level)
+            received.originalMetLevel = null
+        } else {
+            if (received.originalMetLevel == null) received.originalMetLevel = received.metLevel.coerceIn(1, received.level)
+            received.outsider = true
+            received.metLevel = received.level
+        }
+        received.friendship = sp.baseFriendship
+        state.party.removeAt(slot)
+        state.pendingNicknames.remove(given.uid)
+        if (received.uid == 0L || state.findByUid(received.uid) != null) received.uid = factory.nextUid()
+        // The party has a free slot now, so acquire stores it there; then it moves into the slot of the one given away.
+        acquire(received, offerNickname = false)
+        state.party.removeAll { it === received }
+        state.party.add(slot.coerceAtMost(state.party.size), received)
+        val evolveTo = progression.evolutionTarget(received, Progression.EvolutionContext(isNight = isNight(), party = state.party,
+            traded = true, tradePartner = given.speciesId))
+        return LinkTradeResult(given, received, slot, evolveTo)
+    }
+
+    /** Completes a trade evolution: evolves, and uses up the held item the evolution needed (Onix's Metal Coat). */
+    fun completeTradeEvolution(mon: Pokemon, target: String): List<String> {
+        val needsItem = mon.species(dex).evolutions.firstOrNull { it.target == target && it.method == EvolutionMethod.TRADE }?.item
+        val pending = evolve(mon, target)
+        if (needsItem != null && mon.heldItem == needsItem) mon.heldItem = null
+        return pending
     }
 
     // ------------------------------------------------------------------ bag / shop / PC
@@ -631,3 +688,6 @@ data class Purchase(val ok: Boolean, val qty: Int, val cost: Int, val bonus: Int
 
 /** Outcome of [GameContext.sell]. */
 data class Sale(val ok: Boolean, val gained: Int, val message: String)
+
+/** Outcome of [GameContext.performLinkTrade]: who left, who arrived in party [slot], and the trade evolution if any. */
+data class LinkTradeResult(val given: Pokemon, val received: Pokemon, val slot: Int, val evolveTo: String?)

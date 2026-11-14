@@ -84,12 +84,42 @@ class SaveFixturesTest {
     }
 
     @Test
-    fun `version 3 fixture loads unchanged`() {
+    fun `version 3 fixture migrates to 4`() {
         val r = loadFixture(3)
-        assertNull(r.migratedFrom)
+        assertEquals(3, r.migratedFrom)
+        assertNull(r.state.pendingTrade)
+        assertTrue(r.state.ownedPokemon().all { it.originalMetLevel == null })
+        assertTrue(r.notices.isEmpty())
         assertCommonProgress(r.state)
         assertTrue(r.state.party[0].outsider); assertFalse(r.state.party[1].outsider)
         assertEquals(1, r.state.itemCount("tm:thunderbolt"))
         assertSurvivesResave(r)
+    }
+
+    @Test
+    fun `version 4 fixture loads and its committed trade journal is cleared`() {
+        val r = loadFixture(4)
+        assertNull(r.migratedFrom)
+        assertCommonProgress(r.state)
+        val pidgey = r.state.party[1]
+        assertEquals("MIO", pidgey.otName); assertTrue(pidgey.outsider); assertEquals(3, pidgey.originalMetLevel)
+        // COMMITTED: the swap is already in the save, so the journal is cleared without a message.
+        assertNull(r.state.pendingTrade)
+        assertTrue(r.notices.isEmpty())
+        assertSurvivesResave(r)
+    }
+
+    @Test
+    fun `a version 4 save is refused as unsupported by code that only knows version 3`() {
+        val dir = Files.createTempDirectory("save-v4-old").toFile()
+        val ok = loadFixture(4)
+        assertEquals(SaveResult.Saved, SaveManager(dir, dex).save(ok.state))
+        val old = SaveManager(dir, dex, currentVersion = 3)
+        val r = old.load()
+        assertIs<LoadResult.Unsupported>(r); assertEquals(4, r.version)
+        // The old code must not write over it either, and the file is untouched.
+        val before = File(dir, "save.json").readBytes()
+        assertIs<SaveResult.Refused>(old.save(GameState()))
+        assertContentEquals(before, File(dir, "save.json").readBytes())
     }
 }

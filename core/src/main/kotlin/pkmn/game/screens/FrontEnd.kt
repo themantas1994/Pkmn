@@ -75,7 +75,7 @@ class TitleScreen(game: PkmnGame) : Screen(game) {
         when (val res = game.saves.load()) {
             is LoadResult.Ok -> {
                 val ctx = game.startSession(res.state)
-                val warn = res.warnings + listOfNotNull(if (res.fromBackup) "The latest save was damaged, so the backup save was loaded." else null)
+                val warn = res.notices + res.warnings + listOfNotNull(if (res.fromBackup) "The latest save was damaged, so the backup save was loaded." else null)
                 val start = { game.resetTo(OverworldScreen(game, ctx)) }
                 if (warn.isNotEmpty()) game.say(*warn.toTypedArray()) { start() } else start()
             }

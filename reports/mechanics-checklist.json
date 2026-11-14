@@ -8,11 +8,11 @@
     "open": "Known gap or unverified behaviour"
   },
   "counts": {
-    "tested": 48,
+    "tested": 60,
     "implemented": 12,
     "simplified": 4,
     "excluded": 3,
-    "open": 1
+    "open": 2
   },
   "mechanics": [
     {
@@ -265,11 +265,19 @@
     },
     {
       "area": "Stats and battle calculations",
-      "mechanic": "Double/triple battles",
+      "mechanic": "Double battles (`BattleRules.format = DOUBLES`)",
+      "status": "open",
+      "ruleset": "Gen IX",
+      "evidence": "DoublesStepATest; SinglesGoldenLogTest pins singles",
+      "note": "Step A done: two active slots per side, one request per slot, chosen targets (`Choice.UseMove.target`), per-slot switching, self-switch and replacement. Not yet: spread moves, ally-targeted moves, redirection, per-slot slot conditions (Wish, Healing Wish), effects that look at \"the\" foe still use the first healthy one; no UI"
+    },
+    {
+      "area": "Stats and battle calculations",
+      "mechanic": "Triple battles",
       "status": "excluded",
       "ruleset": "—",
       "evidence": "—",
-      "note": "Singles only"
+      "note": "Not planned"
     },
     {
       "area": "Stats and battle calculations",
@@ -321,7 +329,7 @@
     },
     {
       "area": "Experience and growth",
-      "mechanic": "Party-wide Exp. Share (option, off by default)",
+      "mechanic": "Party-wide Exp. Share (option or bag switch, off by default; participants full, benched half)",
       "status": "tested",
       "ruleset": "Gen VI+ (option)",
       "evidence": "TimeAndEventsTest/options; PLAYTIME.md",
@@ -365,7 +373,7 @@
       "status": "tested",
       "ruleset": "Gen IX caps and reference level; Gen III/IV check (Bulbapedia, Obedience)",
       "evidence": "ObedienceTest (caps for 0-8 badges at cap-1/cap/cap+1, formula, every outcome, Snore/Sleep Talk, charge/Bide skip, Vital Spirit/Insomnia/uproar/status, Encore/Rage, no-softlock fuzz); ObedienceCampaignTest (starter, gift, egg, trade, capture, evolution, Shedinja, badges mid-run); core BattleFlowTest",
-      "note": "Gen V+ disobedience formulas are undocumented, so the documented Gen III/IV one is used. Separate from the capture badge penalty table (docs/CAPTURE.md)"
+      "note": "Gen V+ disobedience formulas are undocumented, so the documented Gen III/IV one is used. Separate from the capture badge penalty table (docs/CAPTURE.md). Details: [Obedience](#obedience)"
     },
     {
       "area": "Evolution",
@@ -380,8 +388,16 @@
       "mechanic": "Trade evolutions via Linking Cord (offline substitute)",
       "status": "tested",
       "ruleset": "Legends: Arceus item",
-      "evidence": "EvolutionTest Linking Cord",
+      "evidence": "EvolutionTest Linking Cord; LinkTradeCampaignTest Linking Cord",
       "note": ""
+    },
+    {
+      "area": "Evolution",
+      "mechanic": "Trade evolutions after a link trade: plain trade (Kadabra), held item used up (Onix with Metal Coat), `tradewith` partner (Karrablast and Shelmet); an Everstone blocks them",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "LinkTradeCampaignTest evolution tests; core trade screen runs EvolutionScreen",
+      "note": "Level-up evolutions never trigger from a trade"
     },
     {
       "area": "Evolution",
@@ -473,6 +489,22 @@
     },
     {
       "area": "Capture and acquisition",
+      "mechanic": "Link trades (party only, one for one, held items travel): the received Pokémon takes the given one's slot, is an outsider met at its received level with friendship at the species base, no nickname offer, Pokédex registered; back with its original trainer (same OT id and name) it is the player's own again with its original met level; the last Pokémon that can battle cannot be traded",
+      "status": "tested",
+      "ruleset": "Gen IX",
+      "evidence": "LinkTradeCampaignTest; TradeTransactionTest",
+      "note": "Original met level travels as `originalMetLevel`. Details: docs/LINK.md"
+    },
+    {
+      "area": "Capture and acquisition",
+      "mechanic": "Received Pokémon checked before use (link trades and link battle teams): species and form, level, IVs, EVs, moves and PP, item, ability slot, HP, names with font glyphs, met levels",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "MonValidatorTest (a rejecting test per rule)",
+      "note": ""
+    },
+    {
+      "area": "Capture and acquisition",
       "mechanic": "Eggs/breeding",
       "status": "simplified",
       "ruleset": "Design",
@@ -528,11 +560,83 @@
       "note": ""
     },
     {
+      "area": "Items, progression, world",
+      "mechanic": "Trainer prize = class payout × highest trainer level (or `prize` override); defeat penalty = 4 × (1 + badges, max 8) × highest party level, capped at half the wallet; applied once per battle; none for scripted can-lose battles; wild wins pay nothing",
+      "status": "tested",
+      "ruleset": "Crystalline policy (GSC halved the whole wallet, which dwarfed the 12–32/level prizes)",
+      "evidence": "EconomyTest",
+      "note": "Rewards and penalty scale with level; the badge factor is the only progression term"
+    },
+    {
+      "area": "Items, progression, world",
+      "mechanic": "Trainers spot the player at any distance while the trainer is on screen (camera rectangle) with an unobstructed, walkable straight line in its facing direction; `sight 0` never challenges",
+      "status": "tested",
+      "ruleset": "Design",
+      "evidence": "TrainerSightTest (viewport edge, walls, obstacles, terrain)",
+      "note": "On-screen walking/battle start is not covered by unit tests (needs the LibGDX screen)"
+    },
+    {
       "area": "Saves",
       "mechanic": "Atomic, checksummed, versioned saves with backup recovery",
       "status": "tested",
       "ruleset": "—",
       "evidence": "WorldTest save round trip, corruption and tamper tests",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "Only a valid main save is rotated into the backup; a damaged main is moved aside as `.corrupt-*`",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "SaveRecoveryTest rotation tests",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "Crash recovery: a complete temp save (newest attempt), then main, then backup; partial or corrupt copies are never chosen; directory fsync where the platform allows",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "SaveRecoveryTest interrupted-write table",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "A save from a newer game version is reported unsupported, never renamed, downgraded to an older backup or overwritten (saving is refused)",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "SaveRecoveryTest newer-version tests",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "Unknown nature/gender/status/Mint values become Hardy/genderless/healthy/none with a warning; other type errors still fail",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "SaveRecoveryTest enum tests",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "v1, v2, v3 and v4 golden fixtures in the historical schemas load through the migration chain; a v4 save is Unsupported for code that knows v3",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "SaveFixturesTest",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "v3 -> v4 migration (link trades): trade journal and original met level added as null; nothing rewritten",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "SaveFixturesTest v3",
+      "note": ""
+    },
+    {
+      "area": "Saves",
+      "mechanic": "Link trade journal: PREPARED saved before the swap; swap and COMMITTED in one atomic save; on load a PREPARED journal is cancelled with a message and a COMMITTED one cleared; a reconnect with the same trade id completes a one-sided trade",
+      "status": "tested",
+      "ruleset": "Link play plan, trade protocol",
+      "evidence": "TradeTransactionTest (cut at every message index, reset and silent); TradeKillTest (SIGKILL during the save)",
       "note": ""
     },
     {

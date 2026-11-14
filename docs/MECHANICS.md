@@ -4,7 +4,7 @@ Every core mechanic, its status, the ruleset it follows and the evidence. Machin
 
 Status: **tested** = implemented with the named automated tests; **implemented** = in code, only indirectly tested; **simplified** = deliberate simplification; **excluded** = out of scope; **open** = known gap.
 
-Totals: excluded 3, implemented 12, open 2, simplified 4, tested 50.
+Totals: excluded 3, implemented 12, open 2, simplified 4, tested 60.
 
 ## Identity and creation
 
@@ -71,7 +71,8 @@ Totals: excluded 3, implemented 12, open 2, simplified 4, tested 50.
 | Mechanic | Status | Ruleset | Evidence | Note |
 |---|---|---|---|---|
 | Level, item, friendship, time, move, held item, gender, party, location, stat-comparison and special evolutions | tested | Gen IX | EvolutionTest; :tools:validateContent evolution coverage (reports/coverage-evolutions.json) |  |
-| Trade evolutions via Linking Cord (offline substitute) | tested | Legends: Arceus item | EvolutionTest Linking Cord |  |
+| Trade evolutions via Linking Cord (offline substitute) | tested | Legends: Arceus item | EvolutionTest Linking Cord; LinkTradeCampaignTest Linking Cord |  |
+| Trade evolutions after a link trade: plain trade (Kadabra), held item used up (Onix with Metal Coat), `tradewith` partner (Karrablast and Shelmet); an Everstone blocks them | tested | Gen IX | LinkTradeCampaignTest evolution tests; core trade screen runs EvolutionScreen | Level-up evolutions never trigger from a trade |
 | Branching (Wurmple, Toxel by original nature, Burmy cloak...) | tested | Gen IX | EvolutionTest branch selection |  |
 | Cancel with B, Everstone | implemented | Gen IX | EvolutionScreen; EvolutionTest Everstone |  |
 | Evolution keeps nickname, nature, IVs, EVs; registers the new species and shows its Pokédex entry | tested | Gen IX | AcquisitionTest evolution |  |
@@ -88,6 +89,8 @@ Totals: excluded 3, implemented 12, open 2, simplified 4, tested 50.
 | Nickname offer: starter, captures (incl. duplicates/legendaries), gifts; validation; rename/reset | tested | Gen VI+ (12 chars) | AcquisitionTest; scenes capture_flow/starter_nickname |  |
 | Party of 6, PC with 16x30 boxes | tested | Gen IX | AcquisitionTest full party |  |
 | In-game trades (OT is the NPC, no nickname offer) | tested | Gen IX | WorldTest trades |  |
+| Link trades (party only, one for one, held items travel): the received Pokémon takes the given one's slot, is an outsider met at its received level with friendship at the species base, no nickname offer, Pokédex registered; back with its original trainer (same OT id and name) it is the player's own again with its original met level; the last Pokémon that can battle cannot be traded | tested | Gen IX | LinkTradeCampaignTest; TradeTransactionTest | Original met level travels as `originalMetLevel`. Details: docs/LINK.md |
+| Received Pokémon checked before use (link trades and link battle teams): species and form, level, IVs, EVs, moves and PP, item, ability slot, HP, names with font glyphs, met levels | tested | — | MonValidatorTest (a rejecting test per rule) |  |
 | Eggs/breeding | simplified | Design | ScriptVM giveegg | Gift eggs hatch immediately at level 1; no Day Care or breeding |
 
 ## Items, progression, world
@@ -112,7 +115,9 @@ Totals: excluded 3, implemented 12, open 2, simplified 4, tested 50.
 | Crash recovery: a complete temp save (newest attempt), then main, then backup; partial or corrupt copies are never chosen; directory fsync where the platform allows | tested | — | SaveRecoveryTest interrupted-write table |  |
 | A save from a newer game version is reported unsupported, never renamed, downgraded to an older backup or overwritten (saving is refused) | tested | — | SaveRecoveryTest newer-version tests |  |
 | Unknown nature/gender/status/Mint values become Hardy/genderless/healthy/none with a warning; other type errors still fail | tested | — | SaveRecoveryTest enum tests |  |
-| v1, v2 and v3 golden fixtures in the historical schemas load through the migration chain | tested | — | SaveFixturesTest |  |
+| v1, v2, v3 and v4 golden fixtures in the historical schemas load through the migration chain; a v4 save is Unsupported for code that knows v3 | tested | — | SaveFixturesTest |  |
+| v3 -> v4 migration (link trades): trade journal and original met level added as null; nothing rewritten | tested | — | SaveFixturesTest v3 |  |
+| Link trade journal: PREPARED saved before the swap; swap and COMMITTED in one atomic save; on load a PREPARED journal is cancelled with a message and a COMMITTED one cleared; a reconnect with the same trade id completes a one-sided trade | tested | Link play plan, trade protocol | TradeTransactionTest (cut at every message index, reset and silent); TradeKillTest (SIGKILL during the save) |  |
 | v1 -> v2 migration (Pokédex forms, nickname offers, unique ids); no rerolls on load | tested | — | AcquisitionTest migration |  |
 | v2 -> v3 migration (obedience): outsider flag added as false; saved met levels kept; a missing met level becomes the current level; a met level above the current level is repaired | tested | — | ObedienceCampaignTest migration and repair tests |  |
 | Interrupted capture resumes at the nickname prompt | tested | — | AcquisitionTest interruption |  |

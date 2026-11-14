@@ -31,9 +31,10 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
  *                        party SPECIES:LEVEL..., trainer ID, wild SPECIES LEVEL, warp MAP X Y [FACING],
  *                        option NAME VALUE (battleStyle, battleAnimations, animSpeed, textSpeed, realTimeClock),
  *                        clock YYYY-MM-DDTHH:MM [ZONE] (fixed test clock), clock real, waittop SCREEN [frames], item ID [QTY],
- *                        waitstate TEXT [frames] (the battle screen's debug state contains TEXT), save,
- *                        link host [PORT] [flat] (host a link battle with default rules, start when the guest is ready),
- *                        link join CODE|ADDRESS[:PORT] (join a host, ready as soon as it has rules),
+ *                        waitstate TEXT [frames] (the debug state of the top screen (battle, link lobby, link trade) contains TEXT), save,
+ *                        ot (the party's Pokémon with no original trainer get the player as OT, as a catch would),
+ *                        link host [PORT] [flat] [trade] (host a link battle with default rules, or a trade; start when the guest is ready),
+ *                        link join CODE|ADDRESS[:PORT] (join a host, ready as soon as it has rules; follows the host's battle or trade),
  *                        linkplay fight | linkplay forfeit TURN (drive the link battle's menus until its result screen shows)
  *   --shots=<dir>        where screenshots go
  *   --mute               no audio
@@ -102,7 +103,7 @@ class Automation(script: List<String>, private val shots: File) {
         val p = pilot ?: pkmn.game.overworld.Autopilot(g).also { pilot = it }
         if (p.active) { p.tick(); return }
         waitTop?.let { name ->
-            val match = if (name.startsWith("state:")) (g.top() as? pkmn.game.battle.BattleScreen)?.debugState()?.contains(name.removePrefix("state:")) == true
+            val match = if (name.startsWith("state:")) debugState(g.top())?.contains(name.removePrefix("state:")) == true
                 else g.top()?.javaClass?.simpleName == name
             if (match || --waitTopFrames <= 0) { if (waitTopFrames <= 0) println("AUTOMATION waittop $name timed out (top=${g.top()?.javaClass?.simpleName})"); waitTop = null } else return
         }
@@ -126,7 +127,7 @@ class Automation(script: List<String>, private val shots: File) {
                 }
                 "log" -> {
                     val ow = g.screens().filterIsInstance<pkmn.game.overworld.OverworldScreen>().lastOrNull()
-                    println("AUTOMATION frame=${g.frameCount} stack=${g.screens().joinToString(">") { it.javaClass.simpleName }} top=${g.top()?.javaClass?.simpleName} ${(g.top() as? pkmn.game.battle.BattleScreen)?.debugState() ?: ""}${(g.top() as? pkmn.game.link.LinkResultScreen)?.summary()?.let { " $it" } ?: ""} map=${ow?.baseMap?.id} pos=${ow?.player?.x},${ow?.player?.y} moving=${ow?.player?.moving}")
+                    println("AUTOMATION frame=${g.frameCount} stack=${g.screens().joinToString(">") { it.javaClass.simpleName }} top=${g.top()?.javaClass?.simpleName} ${debugState(g.top()) ?: ""}${(g.top() as? pkmn.game.link.LinkResultScreen)?.summary()?.let { " $it" } ?: ""} map=${ow?.baseMap?.id} pos=${ow?.player?.x},${ow?.player?.y} moving=${ow?.player?.moving}")
                     continue
                 }
                 "perf" -> {
@@ -155,6 +156,11 @@ class Automation(script: List<String>, private val shots: File) {
                 }
                 // Level-100 scene parties only obey with enough badges (Obedience), so scenes grant them explicitly.
                 "badges" -> { g.session?.state?.let { st -> st.badges.clear(); st.badges.addAll(1..parts[1].toInt()) }; continue }
+                "ot" -> {
+                    val ctx = g.session ?: continue
+                    ctx.state.party.filter { it.otName.isEmpty() }.forEach { it.otName = ctx.state.playerName; it.otId = ctx.state.trainerId }
+                    continue
+                }
                 "flag" -> { g.session?.state?.setFlag(parts[1]); continue }
                 "item" -> { g.session?.state?.addItem(parts[1], parts.getOrNull(2)?.toInt() ?: 1); continue }
                 "trainer" -> { overworld(g)?.startTrainerBattle(parts[1], canLose = true) {}; return }
@@ -190,7 +196,7 @@ class Automation(script: List<String>, private val shots: File) {
                     val ctx = g.session ?: continue
                     when (parts[1]) {
                         "host" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = true,
-                            port = parts.drop(2).firstNotNullOfOrNull { it.toIntOrNull() } ?: pkmn.engine.link.LinkAddress.DEFAULT_PORT, flat = "flat" in parts)))
+                            port = parts.drop(2).firstNotNullOfOrNull { it.toIntOrNull() } ?: pkmn.engine.link.LinkAddress.DEFAULT_PORT, flat = "flat" in parts, trade = "trade" in parts)))
                         "join" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false,
                             endpoint = pkmn.engine.link.LinkAddress.parse(parts[2]) ?: error("bad link address '${parts[2]}'"))))
                         else -> error("unknown link command '${parts[1]}'")
@@ -230,6 +236,9 @@ class Automation(script: List<String>, private val shots: File) {
             "menu=NONE" in st && "phase=CHOOSE_ACTION" !in st -> linkSteps.addAll(listOf(A to 3, null to 20))
         }
     }
+
+    /** What `log` and `waitstate` see of a screen: the battle's or a link screen's one-line state. */
+    private fun debugState(s: pkmn.game.screens.Screen?): String? = (s as? pkmn.game.battle.BattleScreen)?.debugState() ?: (s as? pkmn.game.link.LinkDebug)?.debugState()
 
     private fun overworld(g: PkmnGame) = g.screens().filterIsInstance<pkmn.game.overworld.OverworldScreen>().lastOrNull()
 

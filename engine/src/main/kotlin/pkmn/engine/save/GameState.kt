@@ -51,6 +51,31 @@ data class Options(
     }
 }
 
+/** Where a link trade stands in the save: see [PendingTrade]. */
+enum class TradeJournalState { PREPARED, COMMITTED }
+
+/**
+ * The journal of a link trade, saved before anything changes hands ("Trade protocol" in the link play plan).
+ *
+ * PREPARED: both players confirmed and this device saved the journal; the party is still unchanged. COMMITTED: the swap
+ * was applied in the same atomic save that set this state. A PREPARED journal is completed only when the other device
+ * reports COMMITTED for the same [tradeId]; otherwise it is cancelled (on the next load, or before another trade).
+ */
+@Serializable
+data class PendingTrade(
+    val tradeId: String,
+    var state: TradeJournalState,
+    val partnerName: String,
+    /** The Pokémon given away (by uid) and the party slot it was in; the received one takes that slot. */
+    val givenUid: Long,
+    val givenSlot: Int,
+    val givenSpecies: String,
+    /** The given Pokémon's name as the player saw it, for messages. */
+    val givenName: String = "",
+    /** The Pokémon received, exactly as it arrived (already validated). */
+    val received: Pokemon,
+)
+
 @Serializable
 data class QuestState(val id: String, var step: Int = 0, var completed: Boolean = false)
 
@@ -114,6 +139,8 @@ class GameState(
     var backY: Int = 0,
     /** Key item registered to SELECT (e.g. bicycle). */
     var registeredItem: String? = null,
+    /** An unfinished link trade (save format 4); null when there is none. */
+    var pendingTrade: PendingTrade? = null,
 ) {
     fun hasFlag(f: String) = f in flags
     fun setFlag(f: String) { flags.add(f) }

@@ -23,7 +23,8 @@ Every number in this document was produced by the commands listed next to it. No
 | Presentation | Gold/Silver/Crystal-style battle flow with party Poké Ball indicators. Elapsed-time animation system for battle and overworld (skippable; speed and off settings) |
 | Time | Device clock and time zone through an injectable `GameClock`; morning/day/night lighting; time-dependent encounters; data-driven weekly events (Thursday-night Mistwood Clefable) |
 | Campaign | Complete from new game to the Hall of Fame, plus post-game: world size from `./gradlew :tools:statusCounts` (maps, trainers, encounter tables, scripts) |
-| Saves | Atomic, checksummed, versioned (v3, with migrations from v1 and v2), with backup/repair; corruption and migration tests pass |
+| Saves | Atomic, checksummed, versioned (v4, with migrations from v1, v2 and v3), with backup/repair; corruption and migration tests pass |
+| Link play | Battles and trades between two devices on the local network, no server. Trades are one party Pokémon for one, held items travel, journaled in the save so a lost link or a killed process never corrupts a save ([docs/LINK.md](docs/LINK.md)) |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
 | Tests | all passing (counts: `./gradlew :tools:statusCounts` after the test run); CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
@@ -91,7 +92,7 @@ Each fix below was reproduced first, then checked with tests and in the running 
 - **APK metadata** (`aapt2 dump badging`): package `io.github.pkmncrystalline`, minSdk 24, targetSdk 35.
 - **Native libraries:** for armeabi-v7a, arm64-v8a, x86 and x86_64.
 - **Desugaring:** `java.time` is desugared for API 24–25.
-- **Permissions:** `VIBRATE` and `INTERNET`; no location. `INTERNET` is needed for Link play (battles between two devices) and nothing else uses the network: it connects only on the local network, never to a server (see `docs/LINK.md`).
+- **Permissions:** `VIBRATE` and `INTERNET`; no location. `INTERNET` is needed for Link play (battles and trades between two devices) and nothing else uses the network: it connects only on the local network, never to a server (see `docs/LINK.md`).
 - **Rebuilt for this update** with `./gradlew :android:assembleDebug :android:assembleRelease`, using SDK platform 35 and build-tools 35.0.0.
 - **Not tested on a device.** The build machine has no KVM, so no emulator could run, and no device was attached. Android-specific behaviour has not been exercised at runtime: launcher, touch input, back button, pause/resume, the clock refresh on resume and process death.
   - It is code-reviewed.
@@ -102,7 +103,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (173 + 45 + 78; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (494 + 154 + 152 with link play trades, from a fresh uncached `scripts/gates.sh all` run on 2026-11-14, skipped: ChipSynthBenchmarkTest in core and ArtBuildDeterminismTest in tools; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.
@@ -122,6 +123,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
   - Every trainer battle in the campaign built and played to completion.
   - Every inline NPC and sign text compiles as a whole sentence.
 - **Saves:** round trip, backup recovery, corrupt files preserved, tampered payload rejected by checksum.
+- **Link trades:** `TradeTransactionTest` cuts the link at every message index of a trade (reset and silent cuts) and checks both saves, the plan's outcome table and the reconnect rule; `TradeKillTest` kills a process with SIGKILL during the trade save 12 times per run; `MonValidatorTest` has a rejecting test per rule; `LinkTradeCampaignTest` covers origin, Pokédex, 1.5x experience, obedience, trading back and trade evolutions; `SaveFixturesTest` covers v1 to v4.
 - **Sprite archive import:** extraction, path-traversal rejection.
 
 - **Battle flow and animation (new):**

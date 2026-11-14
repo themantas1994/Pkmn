@@ -1,0 +1,58 @@
+# Link trade scene, host side (tools/visual/run_link_scene.sh fills in @PORT@). The host's first party Pokémon goes to the guest; the guest's Kadabra comes back and evolves.
+wait 240
+option textSpeed 3
+flag has_pokedex
+party pikachu:30:thunderbolt/quickattack rattata:5:tackle
+ot
+save
+wait 90
+log
+link host @PORT@ trade
+waitstate mode=TRADE 1800
+wait 30
+shot link_host_lobby
+waitstate trade=PICK 1800
+wait 20
+shot trade_pick
+press A
+waitstate trade=CONFIRM 1800
+wait 20
+shot trade_offers
+log
+press A
+waitstate trade=SAVING 900
+wait 10
+shot trade_saving
+waitstate trade=SCENE 900
+wait 90
+shot trade_scene
+waittop TextBox 900
+wait 120
+shot trade_result
+log
+press A
+# The guest offered a Kadabra: it evolves on arrival (a trade evolution), then the game saves again.
+wait 90
+shot trade_evolution_intro
+press A
+wait 100
+shot trade_evolution
+waittop TextBox 900
+wait 120
+shot trade_evolved
+log
+press A
+wait 90
+log
+press A
+wait 90
+log
+press A
+wait 90
+log
+waittop OverworldScreen 900
+wait 20
+shot link_after
+log
+wait 480
+quit

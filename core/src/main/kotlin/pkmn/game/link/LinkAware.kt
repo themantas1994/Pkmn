@@ -10,6 +10,9 @@ interface LinkAware {
     fun linkTick() {}
 }
 
+/** A one-line description of the screen's state, for the desktop automation (`log`, `waitstate`). */
+interface LinkDebug { fun debugState(): String }
+
 /** The device's IPv4 addresses on the local network (site-local ones first), from `java.net` alone. */
 object LocalAddresses {
     fun ipv4(): List<String> {

@@ -21,17 +21,23 @@ sealed interface LobbyMsg
 @Serializable @SerialName("hi")
 data class LobbyHi(val protocol: Int, val gameVersion: String, val dataHash: String, val name: String, val gimmicks: List<String>, val partySize: Int) : LobbyMsg
 
-/** The host's current rule choice. [flat] raises or lowers every Pokémon to level 50 ([LinkRules.levelCap] is then 50). */
+/**
+ * The host's current choice. [flat] raises or lowers every Pokémon to level 50 ([LinkRules.levelCap] is then 50).
+ * [trade]: the session is a trade, not a battle (the battle rules are then ignored).
+ */
 @Serializable @SerialName("rules")
-data class LobbyRules(val rules: LinkRules, val flat: Boolean) : LobbyMsg
+data class LobbyRules(val rules: LinkRules, val flat: Boolean, val trade: Boolean = false) : LobbyMsg
 
 /** The guest is (not) ready to start with the rules shown. */
 @Serializable @SerialName("ready")
 data class LobbyReady(val ready: Boolean, val rulesKey: String = "") : LobbyMsg
 
-/** The host starts the battle with exactly these rules; the battle exchange ([Hello]) follows on the same transport. */
+/**
+ * The host starts with exactly these rules. The battle exchange ([Hello]) follows on the same transport, or with
+ * [trade] the trade exchange ([TradeSync], see [TradeTransaction]).
+ */
 @Serializable @SerialName("start")
-data class LobbyStart(val rules: LinkRules, val flat: Boolean) : LobbyMsg
+data class LobbyStart(val rules: LinkRules, val flat: Boolean, val trade: Boolean = false) : LobbyMsg
 
 /** Leaving the lobby on purpose. */
 @Serializable @SerialName("leave")
@@ -145,7 +151,11 @@ object LinkLobbyRules {
      */
     fun team(dex: Dex, party: List<Pokemon>, flat: Boolean): List<Pokemon> = party.take(6).map { p ->
         p.copy().also { m ->
-            if (flat) { m.level = FLAT_LEVEL; m.exp = m.species(dex).growthRate.expForLevel(FLAT_LEVEL) }
+            if (flat) {
+                m.level = FLAT_LEVEL; m.exp = m.species(dex).growthRate.expForLevel(FLAT_LEVEL)
+                // A met level never exceeds the level; the copy is only for the battle, where met levels play no part.
+                m.metLevel = m.metLevel.coerceIn(1, FLAT_LEVEL); m.originalMetLevel = m.originalMetLevel?.coerceIn(1, FLAT_LEVEL)
+            }
             m.healFully(dex)
         }
     }

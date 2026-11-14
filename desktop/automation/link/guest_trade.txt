@@ -1,0 +1,39 @@
+# Link trade scene, guest side (tools/visual/run_link_scene.sh fills in @PORT@ and @ADDR@).
+wait 300
+option textSpeed 3
+flag has_pokedex
+party kadabra:30:psychic/confusion pidgey:5:tackle
+ot
+save
+wait 90
+log
+link join @ADDR@:@PORT@
+waitstate mode=TRADE 1800
+wait 30
+shot link_guest_lobby
+waitstate trade=PICK 1800
+wait 20
+shot trade_pick
+press A
+waitstate trade=CONFIRM 1800
+wait 20
+shot trade_offers
+log
+press A
+waitstate trade=SAVING 900
+wait 10
+shot trade_saving
+waitstate trade=SCENE 900
+wait 90
+shot trade_scene
+waittop TextBox 900
+wait 120
+shot trade_result
+log
+press A
+waittop OverworldScreen 300
+wait 20
+shot link_after
+log
+wait 480
+quit

@@ -75,8 +75,8 @@ class LinkLobbyTest {
         val flat = LinkLobbyRules.team(dex, party, flat = true)
         assertTrue(flat.all { it.level == 50 && it.exp == it.species(dex).growthRate.expForLevel(50) && it.hp == it.maxHp(dex) })
         assertNotEquals(party[7].level, 50)
-        assertNull(TeamCheck.error(dex, LinkLobbyRules.rules(true, emptySet()), flat))
-        assertNull(TeamCheck.error(dex, LinkLobbyRules.rules(false, emptySet()), asIs))
+        assertNull(MonValidator(dex).checkTeam(LinkLobbyRules.rules(true, emptySet()), flat))
+        assertNull(MonValidator(dex).checkTeam(LinkLobbyRules.rules(false, emptySet()), asIs))
     }
 
     @Test

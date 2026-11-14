@@ -98,7 +98,9 @@ class LockstepBattle(
     private val timeouts = config.timeouts
 
     // The teams: this device heals a copy of every Pokémon it receives, so nobody relies on the sender's HP or PP.
-    private val localMons: List<Pokemon> = localTeam.also { t -> TeamCheck.error(dex, rules, t)?.let { throw IllegalArgumentException("local team rejected: $it") } }.map { it.copy().also { m -> m.healFully(dex) } }
+    private val validator = MonValidator(dex)
+    private val localMons: List<Pokemon> = localTeam.map { it.copy().also { m -> m.healFully(dex) } }
+        .also { t -> validator.checkTeam(rules, t)?.let { throw IllegalArgumentException("local team rejected: $it") } }
     private val seedPart = entropy()
     private val seedNonce = entropy().toString(16)
 
@@ -285,7 +287,7 @@ class LockstepBattle(
         if (remoteHello == null) protocolError("Team before Hello")
         if (remoteMons != null) protocolError("second Team")
         if (m.seedCommit.length != 64) throw LinkProtocolException(VoidReason.BAD_TEAM, "bad seed commitment")
-        TeamCheck.error(dex, rules, m.mons)?.let { throw LinkProtocolException(VoidReason.BAD_TEAM, it) }
+        validator.checkTeam(rules, m.mons)?.let { throw LinkProtocolException(VoidReason.BAD_TEAM, it) }
         remoteMons = m.mons.map { it.also { p -> p.healFully(dex) } }
         remoteSeedCommit = m.seedCommit
     }
@@ -471,30 +473,4 @@ class LockstepBattle(
         sha256Hex("choices|$point|" + choices.sortedBy { it.slot }.joinToString(";") { it.canonical() } + "|$nonce")
 
     private fun validName(n: String) = n.isNotBlank() && n.length <= LinkProtocol.MAX_NAME && n.none { it.isISOControl() }
-}
-
-/** The checks on a received team. Phase 4 replaces this with the full `MonValidator`; these keep the battle engine from receiving nonsense. */
-internal object TeamCheck {
-    fun error(dex: Dex, rules: LinkRules, mons: List<Pokemon>): String? {
-        if (mons.isEmpty() || mons.size > rules.maxTeam) return "team of ${mons.size}"
-        for (m in mons) {
-            val sp = dex.speciesOrNull(m.speciesId) ?: return "unknown species"
-            if (sp.isBattleOnly) return "battle-only form ${sp.id}"
-            if (m.level !in 1..minOf(100, rules.levelCap)) return "level ${m.level}"
-            if (m.moves.isEmpty() || m.moves.size > 4) return "${m.moves.size} moves"
-            if (m.moves.any { dex.moveOrNull(it.id) == null }) return "unknown move"
-            if (m.moves.map { it.id }.distinct().size != m.moves.size) return "duplicate move"
-            if (m.moves.any { it.ppUps !in 0..3 }) return "PP Ups out of range"
-            if (m.dynamaxLevel !in 0..10) return "Dynamax level"
-            if (m.heldItem != null && dex.itemOrNull(m.heldItem) == null) return "unknown item"
-            if (m.abilitySlot !in sp.abilities) return "ability slot ${m.abilitySlot}"
-            val stats = listOf(m.ivs.hp, m.ivs.atk, m.ivs.def, m.ivs.spa, m.ivs.spd, m.ivs.spe)
-            if (stats.any { it !in 0..31 }) return "IVs out of range"
-            val evs = listOf(m.evs.hp, m.evs.atk, m.evs.def, m.evs.spa, m.evs.spd, m.evs.spe)
-            if (evs.any { it !in 0..252 } || evs.sum() > 510) return "EVs out of range"
-            if (m.friendship !in 0..255) return "friendship"
-            if (m.teraType != null && !dex.typeChart.isType(m.teraType!!)) return "tera type"
-        }
-        return null
-    }
 }
