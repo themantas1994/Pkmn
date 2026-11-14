@@ -36,9 +36,12 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
  *   --portrait           phone-like portrait window with touch controls (540x1080, or --size=WxH)
  *   --quickstart[=NAME]  skip title/intro and start a new game (debugging)
  *   --fixedstep          every frame advances 1/60 s regardless of real time (reproducible screenshots)
+ *   --selftest=determinism  play 400 seeded AI battles, print one combined hash and exit (no window). Content is read from
+ *                        --assets=<dir>, else the working directory if it holds data/, else ./assets. Add --verbose for per-battle hashes.
  */
 fun main(args: Array<String>) {
     val opts = args.associate { a -> a.removePrefix("--").substringBefore('=') to a.substringAfter('=', "true") }
+    if (opts["selftest"] == "determinism") runDeterminismSelfTest(opts)
     val saves = File(opts["saves"] ?: (System.getProperty("user.home") + "/.pkmn-crystalline"))
     val platform = DesktopPlatform(saves, forceTouchControls = opts["portrait"] == "true")
     val audio: (() -> GameAudio)? = if (opts["mute"] == "true") ({ NoAudio }) else ({ SynthAudio() })
@@ -58,6 +61,16 @@ fun main(args: Array<String>) {
         if (opts.containsKey("script")) setIdleFPS(60)
     }
     Lwjgl3Application(game, config)
+}
+
+/** Phase 0 of link play: the same combined hash must come out on the desktop JVM and on Android (log tag PkmnDeterminism). */
+private fun runDeterminismSelfTest(opts: Map<String, String>): Nothing {
+    val root = opts["assets"]?.let { File(it) } ?: listOf(File("."), File("assets")).first { File(it, "data/species.json").isFile }
+    val dex = pkmn.engine.data.Dex.load(pkmn.engine.data.DirectoryContentSource(root))
+    val verbose = opts["verbose"] == "true"
+    val r = pkmn.engine.battle.DeterminismSelfTest.run(dex) { i, h -> if (verbose) println("battle $i $h") }
+    println(pkmn.engine.battle.DeterminismSelfTest.summary(r))
+    kotlin.system.exitProcess(0)
 }
 
 /** Feeds scripted input and captures screenshots (used for headless verification under Xvfb). */

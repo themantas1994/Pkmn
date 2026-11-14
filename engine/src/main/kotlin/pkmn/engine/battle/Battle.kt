@@ -124,6 +124,57 @@ class Battle(
 
     fun message(text: String) { events.add(BattleEvent.Message(text)); log.add(text) }
 
+    // ================================================================= state hash
+
+    /**
+     * SHA-256 (lower-case hex) over everything that decides the rest of the battle: turn, outcome, RNG state, field and
+     * side conditions, and for every Pokémon its species, HP, status, PP, boosts, ability, item and volatile effects.
+     * Fixed order, no identity or text: no `uid`, nickname, event text or object references, so two devices that ran the same
+     * seed and choices get the same value. Read-only: it never draws from [rng] or changes the battle.
+     * Used by the determinism self-test ([DeterminismSelfTest]) and, later, to compare both devices of a link battle.
+     */
+    fun stateHash(): String {
+        val h = StateHasher()
+        h.int(turn); h.str(outcome.name); h.long(rng.state)
+        h.str(field.weather); h.effect(field.weatherState)
+        h.str(field.terrain); h.effect(field.terrainState)
+        h.effects(field.pseudoWeather)
+        for (s in sides) {
+            h.str("side"); h.int(s.index)
+            h.effects(s.conditions); h.effects(s.slotConditions)
+            h.int(s.usedGimmicks.size); for (g in s.usedGimmicks.sortedBy { it.ordinal }) h.str(g.name)
+            h.bool(s.faintedLastTurn); h.bool(s.faintedThisTurn); h.int(s.totalFainted)
+            h.int(s.actives.size); for (a in s.actives) h.int(if (a == null) -1 else s.mons.indexOf(a))
+            for (m in s.mons) {
+                h.str(m.species.id); h.int(m.mon.hp); h.str(m.mon.status?.id); h.int(m.mon.sleepTurns); h.int(m.mon.level)
+                h.int(m.mon.moves.size); for (mv in m.mon.moves) { h.str(mv.id); h.int(mv.pp) }
+                h.int(m.moveSlots.size); for (mv in m.moveSlots) { h.str(mv.id); h.int(mv.pp) }
+                for (b in m.boosts) h.int(b)
+                h.strs(m.types); h.str(m.addedType); h.str(m.ability); h.effect(m.abilityState)
+                h.str(m.item); h.effect(m.itemState); h.str(m.lastItem); h.bool(m.itemKnockedOff); h.bool(m.usedItemThisBattle)
+                h.effects(m.volatiles); h.effect(m.statusState)
+                h.str(m.lastMove); h.bool(m.lastMoveFailed); h.bool(m.movedThisTurn); h.bool(m.hurtThisTurn)
+                h.int(m.activeTurns); h.int(m.dynamaxTurns); h.str(m.terastallized); h.bool(m.transformed); h.bool(m.isGigantamax)
+                h.int(m.lastDamage); h.int(m.mon.friendship); h.bool(m.forceSwitchFlag); h.str(m.switchFlag)
+                h.int(m.stellarBoostedTypes.size); for (t in m.stellarBoostedTypes.sorted()) h.str(t)
+            }
+        }
+        return h.finish()
+    }
+
+    /** Length-prefixed, big-endian feed into SHA-256 so no two field sequences can produce the same byte stream. */
+    private class StateHasher {
+        private val md = java.security.MessageDigest.getInstance("SHA-256")
+        fun int(v: Int) { for (i in 3 downTo 0) md.update((v ushr (8 * i)).toByte()) }
+        fun long(v: Long) { for (i in 7 downTo 0) md.update((v ushr (8 * i)).toByte()) }
+        fun bool(v: Boolean) = md.update(if (v) 1 else 0)
+        fun str(v: String?) { if (v == null) int(-1) else { val b = v.toByteArray(Charsets.UTF_8); int(b.size); md.update(b) } }
+        fun strs(v: List<String>) { int(v.size); for (x in v) str(x) }
+        fun effect(e: EffectState) { int(e.duration); int(e.counter); int(e.turns); int(e.hp); str(e.moveId); str(e.type); bool(e.flag) }
+        fun effects(m: Map<String, EffectState>) { int(m.size); for ((k, e) in m) { str(k); effect(e) } }
+        fun finish(): String = md.digest().joinToString("") { "%02x".format(it) }
+    }
+
     /** Name for the start of a sentence, Gold/Silver/Crystal style: "Pikachu", "Enemy Pikachu" (wild or trainer foe). */
     fun nm(mon: BattleMon): String = when (mon.side.controller) {
         Controller.PLAYER -> mon.shownName
