@@ -425,14 +425,17 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return set
     }
 
-    fun playerSide(): Side {
+    /** Gimmicks the player has the key item or the unlock flag for. */
+    fun unlockedGimmicks(): Set<Gimmick> {
         val g = HashSet<Gimmick>()
         if (state.itemCount("keystone") > 0 || state.hasFlag("unlock_mega")) { g.add(Gimmick.MEGA); g.add(Gimmick.ULTRA_BURST) }
         if (state.itemCount("zring") > 0 || state.hasFlag("unlock_zmove")) g.add(Gimmick.ZMOVE)
         if (state.itemCount("dynamaxband") > 0 || state.hasFlag("unlock_dynamax")) g.add(Gimmick.DYNAMAX)
         if (state.itemCount("teraorb") > 0) g.add(Gimmick.TERA)
-        return Side(0, state.playerName, state.party, Controller.PLAYER, dex, gimmicks = g)
+        return g
     }
+
+    fun playerSide(): Side = Side(0, state.playerName, state.party, Controller.PLAYER, dex, gimmicks = unlockedGimmicks())
 
     fun buildTrainerTeam(t: TrainerDef): List<Pokemon> = t.team.map { tm ->
         val local = Rng(toId(t.id).hashCode().toLong() * 31 + tm.species.hashCode())

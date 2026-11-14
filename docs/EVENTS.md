@@ -6,7 +6,7 @@
 - **In the game**, it is `ZonedDateTime.now(Clock.systemDefaultZone())`, read on every query. That means:
   - The device's local wall clock and current time zone are always used, and daylight-saving changes apply.
   - If the player changes the clock or time zone, the next read picks it up.
-  - No network or location permission is involved.
+  - No network or location permission is involved (the network is used only inside Link play, which does not read the clock).
 - **In tests and desktop automation**, a fixed clock is injected instead: `ctx.clock = GameClock.fixed(...)`, or the `clock` automation command.
 
 ### When the game re-reads the clock

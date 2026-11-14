@@ -14,7 +14,7 @@ import java.security.MessageDigest
 /** Constants of the link protocol. */
 object LinkProtocol {
     /** Bumped whenever a message or a rule of the exchange changes; both devices must run the same one. */
-    const val VERSION = 1
+    const val VERSION = 2
 
     /** Bytes in the length prefix of a frame. */
     const val HEADER_BYTES = 4
@@ -164,6 +164,10 @@ data class StateMsg(val point: Int, val turn: Int, val hash: String, val over: B
 /** Sent when nothing else was, so silence means a dead link. */
 @Serializable @SerialName("beat")
 object Heartbeat : LinkMessage
+
+/** The app on the sending device went to the background (Android). The other device shows that instead of a dead link; no grace period is added. */
+@Serializable @SerialName("pause")
+object PauseNotice : LinkMessage
 
 /** Ends the session on purpose; [reason] is a [VoidReason] name. */
 @Serializable @SerialName("abort")

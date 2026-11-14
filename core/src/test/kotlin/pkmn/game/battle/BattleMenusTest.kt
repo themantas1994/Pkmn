@@ -87,3 +87,12 @@ class BattleMenusTest {
         assertEquals(0, BattleMenus.clampCursor(5, 0))
     }
 }
+
+class BattleMenusLinkTest {
+    @Test
+    fun `a link battle has no bag and forfeits instead of running`() {
+        assertEquals(listOf("FIGHT", "PKMN", "FORFEIT"), BattleMenus.actions(false, link = true))
+        assertEquals(listOf("FIGHT", "PKMN", "FORFEIT", "GIMMICK"), BattleMenus.actions(true, link = true))
+        assertEquals(listOf("FIGHT", "PKMN", "PACK", "RUN"), BattleMenus.actions(false))
+    }
+}

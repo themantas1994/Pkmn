@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import pkmn.engine.battle.*
 import pkmn.engine.campaign.GameContext
+import pkmn.engine.link.LockstepBattle
+import pkmn.game.link.LinkAware
 import pkmn.game.PkmnGame
 import pkmn.game.anim.AnimationPlayer
 import pkmn.game.anim.Clip
@@ -32,12 +34,19 @@ class BattleScreen(
     private val battle: Battle,
     private val trainerId: String?,
     private val musicOverride: String?,
+    /** Set for a link battle: [battle] is the session's shared battle and the opponent is the other device. */
+    private val link: LockstepBattle? = null,
     private val onEnd: (BattleOutcome) -> Unit,
-) : Screen(game) {
+) : Screen(game), LinkAware {
     override val blocksAutosave get() = true
     private val dex = ctx.dex
     private val ai = BattleAI()
-    private val flow = BattleFlow(battle, ai)
+    private val flow = BattleFlow(battle, ai, link)
+    /** The side this device plays (the back sprite, the bottom HUD, the menus) and the other one. 0 and 1 outside link battles. */
+    private val local = flow.localSide
+    private val foe = 1 - local
+    private val me get() = battle.sides[local]
+    private val foeSide get() = battle.sides[foe]
     private val trainer = trainerId?.let { ctx.content.trainers[it] }
     private val animData = BattleAnimData.load(game.contentSource)
     private val anim = AnimationPlayer()
@@ -113,6 +122,8 @@ class BattleScreen(
     private var ended = false
     private var finishing = false
 
+    private companion object { val SILENCE_NOTICE_MS = pkmn.engine.link.LinkTimeouts().silenceNoticeMs }
+
     private class BallSprite(var x: Float, var y: Float, var open: Boolean = false, var wobble: Float = 0f, var stars: Float = 0f, val itemId: String? = null)
 
     override fun onEnter() {
@@ -120,7 +131,7 @@ class BattleScreen(
         game.audio.playMusic(music, fadeMs = 0)
         for (s in 0..1) battle.sides[s].mons.forEachIndexed { i, m -> balls[s][i] = if (m.fainted) 2 else if (m.status != null) 1 else 0 }
         for (side in battle.sides) side.mons.forEach { game.audio.prefetchCry(it.mon.speciesId) }
-        battle.start()
+        battle.start() // a no-op for a link battle: the session already started it
         applyAnimOptions()
         intro()
     }
@@ -141,6 +152,9 @@ class BattleScreen(
             steps.add(Step.Do { flow.startPresenting() })
             // The trainer steps aside before throwing the first Poké Ball.
             play(Clip("intro_out", clipTime("victory_slide", 0.7f) * 0.6f, onUpdate = { portrait = 1f - Ease.inQuad(it) }, onEnd = { portrait = 0f }))
+        } else if (link != null) {
+            say("${link.remoteName ?: "Your friend"} wants to battle!")
+            steps.add(Step.Do { flow.startPresenting() })
         } else steps.add(Step.Do { flow.startPresenting() })
     }
 
@@ -196,6 +210,8 @@ class BattleScreen(
     // ================================================================= update
 
     override fun update(dt: Float, input: InputState) {
+        link?.pump(System.nanoTime() / 1_000_000)
+        if (link != null && flow.phase != BattleFlow.Phase.WAITING_REMOTE && flow.pollLink()) { menu = Menu.NONE; gimmickArmed = null }
         applyAnimOptions()
         // B fast-forwards running animations; the end states keep the screen consistent with the engine.
         if (anim.busy && input.justPressed(Button.B)) anim.skipAll()
@@ -222,9 +238,15 @@ class BattleScreen(
                 onSettled()
             }
             BattleFlow.Phase.ENDING, BattleFlow.Phase.DONE -> beginEnd()
+            BattleFlow.Phase.WAITING_REMOTE -> if (flow.pollLink()) return
             else -> onSettled()
         }
     }
+
+    /** The app went to the background (Android): the other device is told, so its player sees why nothing happens. */
+    override fun onAppPaused() { link?.notifyPaused() }
+
+    override fun linkTick() { link?.pump(System.nanoTime() / 1_000_000) }
 
     /** Opens whatever the flow's new phase asks of the player. */
     private fun onSettled() {
@@ -255,7 +277,7 @@ class BattleScreen(
 
     // ================================================================= event presentation
 
-    private fun sideCenter(side: Int) = if (side == 1) 196f to 50f else 64f to 112f
+    private fun sideCenter(side: Int) = if (side == foe) 196f to 50f else 64f to 112f
 
     private fun present(e: BattleEvent) {
         when (e) {
@@ -279,14 +301,14 @@ class BattleScreen(
                 steps.add(Step.WaitText)
                 doNow { game.audio.playSfx("faint") }
                 // Sink, slide away from the centre (player left, foe right) and fade out before the faint message.
-                val dir = if (e.side == 0) -1f else 1f
+                val dir = if (e.side == local) -1f else 1f
                 play(Clip("faint", clipTime("faint", 0.45f), essential = true, onUpdate = { t ->
                     v.drop = Ease.inQuad(t); v.offX = dir * 24f * Ease.inQuad(t); v.alpha = 1f - t
                 }, onEnd = {
                     v.visible = false; v.hud = false; v.drop = 0f; v.offX = 0f; v.alpha = 1f
                 }))
                 // Gold/Silver/Crystal: the wild victory theme starts as soon as the wild Pokémon faints.
-                if (e.side == 1 && battle.opponent.isWild) doNow { game.audio.playMusic("victory_wild", 0) }
+                if (e.side == foe && foeSide.isWild) doNow { game.audio.playMusic("victory_wild", 0) }
                 // Party indicators update the moment the faint is shown.
                 doNow { balls[e.side].let { if (e.teamIndex in it.indices) it[e.teamIndex] = 2 } }
                 say(e.text)
@@ -338,7 +360,7 @@ class BattleScreen(
             is BattleEvent.ExpGain -> presentExp(e)
             is BattleEvent.LevelUp -> {
                 doNow { game.audio.playSfx("level_up") }
-                val v = views[0]
+                val v = views[local]
                 if (v.teamIndex == e.teamIndex) {
                     play(Clip("level_up", clipTime("level_up", 0.45f), onUpdate = { v.whiten = Ease.pulse(it) * 0.6f }, onEnd = {
                         v.whiten = 0f; v.level = e.level; v.exp = 0f
@@ -349,7 +371,7 @@ class BattleScreen(
             is BattleEvent.LearnMovePrompt -> {
                 steps.add(Step.WaitText)
                 doNow {
-                    val mon = battle.player.mons[e.teamIndex].mon
+                    val mon = me.mons[e.teamIndex].mon
                     promptOpen = true
                     text = null
                     MoveLearnFlow.offer(game, ctx, mon, e.moveId) { promptOpen = false }
@@ -379,7 +401,7 @@ class BattleScreen(
             v.maxHp = e.maxHp; v.hp = e.hp.toFloat(); v.status = bm.mon.status?.id
             v.dynamax = false; v.tera = null; v.drop = 0f; v.alpha = 1f; v.whiten = 0f; v.offX = 0f; v.offY = 0f
             v.gender = when (bm.mon.gender) { pkmn.engine.mon.Gender.MALE -> "♂"; pkmn.engine.mon.Gender.FEMALE -> "♀"; else -> "" }
-            if (e.side == 0) v.exp = expFraction(bm)
+            if (e.side == local) v.exp = expFraction(bm)
             appeared[e.side] = true
         }
         if (wildLead && atStart) {
@@ -393,8 +415,8 @@ class BattleScreen(
         // Trainer / player: "X sent out Y!" while the ball flies, opens, and the Pokémon grows out of it.
         show(e.text)
         val (cx, cy) = sideCenter(e.side)
-        val fromX = if (e.side == 1) 256f else 0f
-        val fromY = if (e.side == 1) 20f else 150f
+        val fromX = if (e.side == foe) 256f else 0f
+        val fromY = if (e.side == foe) 20f else 150f
         play(Clip("ball_throw", clipTime("ball_throw", 0.35f), onStart = { game.audio.playSfx("ball_throw"); ball = BallSprite(fromX, fromY) }, onUpdate = { t ->
             ball?.let { it.x = fromX + (cx - 8 - fromX) * t; it.y = fromY + (cy + 10 - fromY) * t - 24 * Ease.pulse(t) }
         }, onEnd = { ball = null }))
@@ -413,7 +435,7 @@ class BattleScreen(
         val style = animData.styleFor(e.moveId, e.moveType, e.category, self)
         val (ux, uy) = sideCenter(e.side)
         val (tx, ty) = sideCenter(e.targetSide)
-        val dir = if (e.side == 0) 1f else -1f
+        val dir = if (e.side == local) 1f else -1f
         if (e.category != "Status") {
             play(Clip("lunge", clipTime("lunge", 0.14f), onUpdate = { user.offX = dir * 8f * Ease.pulse(it) }, onEnd = { user.offX = 0f }))
         }
@@ -461,8 +483,8 @@ class BattleScreen(
     }
 
     private fun presentCatch(e: BattleEvent.CatchAttempt) {
-        val v = views[1]
-        val (cx, cy) = sideCenter(1)
+        val v = views[foe]
+        val (cx, cy) = sideCenter(foe)
         steps.add(Step.WaitText)
         play(Clip("catch_throw", clipTime("catch_throw", 0.55f), essential = true, onStart = { game.audio.playSfx("ball_throw"); ball = BallSprite(40f, 130f, itemId = e.ball) }, onUpdate = { t ->
             ball?.let { it.x = 40f + (cx - 8 - 40f) * t; it.y = 130f + (cy + 4 - 130f) * t - 50f * Ease.pulse(t) }
@@ -477,7 +499,7 @@ class BattleScreen(
         }
         if (e.caught) {
             play(Clip("catch_click", clipTime("catch_result", 0.45f), essential = true, onStart = { game.audio.playSfx("catch_success") }, onUpdate = { t -> ball?.stars = t }, onEnd = {
-                ball?.stars = 0f; v.visible = false; v.hud = false; balls[1].fill(0)
+                ball?.stars = 0f; v.visible = false; v.hud = false; balls[foe].fill(0)
             }))
         } else {
             play(Clip("catch_break", clipTime("catch_result", 0.45f), essential = true, onStart = { ball?.open = true; if (anim.cosmetic) flashScreen = 0.1f }, onUpdate = { t ->
@@ -488,11 +510,11 @@ class BattleScreen(
 
     private fun presentExp(e: BattleEvent.ExpGain) {
         say(e.text)
-        val v = views[0]
+        val v = views[local]
         if (v.teamIndex != e.teamIndex) return // only the Pokémon on the field shows its EXP bar
         // Fill to the end of the bar when a level-up follows for the same Pokémon, otherwise to the final value.
         val levelsUp = upcomingLevelUp(e.teamIndex)
-        val target = if (levelsUp) 1f else expFraction(battle.player.mons[e.teamIndex])
+        val target = if (levelsUp) 1f else expFraction(me.mons[e.teamIndex])
         var from = 0f
         play(Clip("exp", clipTime("exp_fill_full", 0.8f), essential = true, onStart = { from = v.exp }, onUpdate = { t ->
             if (v.teamIndex == e.teamIndex) v.exp = from + (target - from) * t
@@ -520,7 +542,8 @@ class BattleScreen(
     // ================================================================= menus
 
     private fun updateActionMenu(input: InputState) {
-        val count = BattleMenus.actions(availableGimmicks().isNotEmpty()).size
+        val labels = BattleMenus.actions(availableGimmicks().isNotEmpty(), link != null)
+        val count = labels.size
         if (cursor >= count) cursor = count - 1
         for (b in listOf(Button.UP, Button.DOWN, Button.LEFT, Button.RIGHT)) if (input.justPressed(b)) {
             val n = BattleMenus.navigate(cursor, b, count)
@@ -528,20 +551,24 @@ class BattleScreen(
         }
         if (!input.justPressed(Button.A)) return
         game.audio.playSfx("menu_select")
-        when (cursor) {
-            0 -> { menu = Menu.MOVES; gimmickArmed = null; fromGimmickMenu = false }
-            1 -> { menu = Menu.NONE; openParty() }
-            2 -> { menu = Menu.NONE; openBag() }
-            3 -> {
-                if (!battle.opponent.isWild) { menu = Menu.NONE; flow.resume(); say("No! There's no running from a trainer battle!") }
+        when (labels[cursor]) {
+            "FIGHT" -> { menu = Menu.MOVES; gimmickArmed = null; fromGimmickMenu = false }
+            "PKMN" -> { menu = Menu.NONE; openParty() }
+            "PACK" -> { menu = Menu.NONE; openBag() }
+            "RUN" -> {
+                if (!foeSide.isWild) { menu = Menu.NONE; flow.resume(); say("No! There's no running from a trainer battle!") }
                 else submit(Choice.Run)
             }
-            4 -> { menu = Menu.GIMMICKS; gimmickCursor = 0; gimmickArmed = null; fromGimmickMenu = false }
+            "FORFEIT" -> {
+                menu = Menu.NONE
+                askYesNo("Forfeit the battle?") { yes -> if (yes) submit(Choice.Forfeit) else menu = Menu.ACTION }
+            }
+            "GIMMICK" -> { menu = Menu.GIMMICKS; gimmickCursor = 0; gimmickArmed = null; fromGimmickMenu = false }
         }
     }
 
     private fun availableGimmicks(): List<Gimmick> {
-        return BattleMenus.gimmicks(battle.request(battle.player))
+        return BattleMenus.gimmicks(battle.request(me))
     }
 
     private fun updateGimmickMenu(input: InputState) {
@@ -559,7 +586,7 @@ class BattleScreen(
     }
 
     private fun updateMoveMenu(input: InputState) {
-        val active = battle.player.active ?: return
+        val active = me.active ?: return
         val slots = active.moveSlots
         moveCursor = BattleMenus.clampCursor(moveCursor, slots.size)
         if (input.repeat(Button.UP)) { moveCursor = (moveCursor - 1 + slots.size) % slots.size; game.audio.playSfx("menu_move") }
@@ -579,7 +606,7 @@ class BattleScreen(
             gimmickArmed = null; game.audio.playSfx("menu_cancel"); return
         }
         if (input.justPressed(Button.A)) {
-            val req = battle.request(battle.player) as? Request.Move ?: return
+            val req = battle.request(me) as? Request.Move ?: return
             val anyUsable = req.usableMoves.any { it }
             if (anyUsable && !req.usableMoves.getOrElse(moveCursor) { false }) {
                 game.audio.playSfx("error")
@@ -595,7 +622,7 @@ class BattleScreen(
 
     private fun openParty() {
         promptOpen = true
-        push(PartyScreen(game, ctx, PartyScreen.Mode.BATTLE, battle, forced = false) { chosen ->
+        push(PartyScreen(game, ctx, PartyScreen.Mode.BATTLE, battle, forced = false, side = local) { chosen ->
             promptOpen = false
             if (chosen == null) { menu = Menu.ACTION; return@PartyScreen }
             submit(Choice.Switch(chosen))
@@ -604,9 +631,10 @@ class BattleScreen(
 
     private fun openForcedParty() {
         promptOpen = true
-        push(PartyScreen(game, ctx, PartyScreen.Mode.BATTLE, battle, forced = true) { chosen ->
+        push(PartyScreen(game, ctx, PartyScreen.Mode.BATTLE, battle, forced = true, side = local) { chosen ->
             promptOpen = false
             // The party cannot be cancelled here; a rejected pick keeps the flow in FORCED_SWITCH and the party reopens.
+            if (flow.phase != BattleFlow.Phase.FORCED_SWITCH) return@PartyScreen // the link ended while the party was open
             val err = if (chosen == null) "Choose a POKéMON." else flow.forcedPick(chosen)
             if (err != null) say(err)
         })
@@ -614,7 +642,7 @@ class BattleScreen(
 
     private fun openShiftParty() {
         promptOpen = true
-        push(PartyScreen(game, ctx, PartyScreen.Mode.BATTLE, battle, forced = false, shift = true) { chosen ->
+        push(PartyScreen(game, ctx, PartyScreen.Mode.BATTLE, battle, forced = false, shift = true, side = local) { chosen ->
             promptOpen = false
             val err = flow.shiftPick(chosen)
             if (err != null) say(err)
@@ -635,14 +663,15 @@ class BattleScreen(
             if (!ctx.canSpendBattleItem(battle, item)) { flow.resume(); say("You don't have any left!"); return@BagScreen }
             // The item is charged only if the battle accepts it and it takes effect ([GameContext.settleBattleItems]);
             // a rejected choice ("It won't have any effect.") leaves the bag untouched.
-            submit(Choice.UseItem(item, target ?: battle.player.mons.indexOf(battle.player.active)))
+            submit(Choice.UseItem(item, target ?: me.mons.indexOf(me.active)))
         })
     }
 
     private fun submit(c: Choice) {
         menu = Menu.NONE
+        if (link?.isOver == true) return // the session ended while this menu was open; the end of the battle follows
         val err = flow.submit(c)
-        ctx.settleBattleItems(battle)
+        if (link == null) ctx.settleBattleItems(battle)
         gimmickArmed = null
         if (err != null) { flow.resume(); say(err) }
     }
@@ -654,6 +683,8 @@ class BattleScreen(
         val outcome = flow.takeOutcome() ?: return
         finishing = true
         text = null
+        // A link battle ends with the session's result, which the owner reads from the session (a void has no outcome).
+        if (link != null) { doNow { finish(outcome) }; return }
         if (outcome == BattleOutcome.WIN && trainer != null) {
             doNow { game.audio.playMusic(if ("leader" in trainer.trainerClass || trainer.trainerClass == "leader") "victory_gym" else "victory_trainer", 0) }
             play(Clip("victory_slide", clipTime("victory_slide", 0.7f), onUpdate = { portrait = Ease.outQuad(it) }, onEnd = { portrait = 1f }))
@@ -671,7 +702,7 @@ class BattleScreen(
     }
 
     /** One-line state summary for automation logs. */
-    fun debugState(): String = "phase=${flow.phase} cursor=${flow.cursor}/${battle.events.size} steps=${steps.size}:${steps.firstOrNull()?.javaClass?.simpleName} " +
+    fun debugState(): String = (if (link != null) "link=${link.result?.javaClass?.simpleName ?: "live"} " else "") + "turn=${battle.turn} phase=${flow.phase} cursor=${flow.cursor}/${battle.events.size} steps=${steps.size}:${steps.firstOrNull()?.javaClass?.simpleName} " +
         "anim=${anim.currentName} prompt=$promptOpen menu=$menu text=${text?.take(20)} read=$textRead outcome=${battle.outcome}"
 
     override fun onBack(): Boolean {
@@ -709,24 +740,25 @@ class BattleScreen(
             val p = r.assets.trainerPortrait(trainer.portrait ?: ctx.content.trainerClasses[trainer.trainerClass]?.portrait)
             if (p != null) r.draw(p, Renderer.W - (Renderer.W - 160) * portrait, 16f)
         }
-        drawMon(r, 1, 148f + sx, 0f)
-        drawMon(r, 0, 16f + sx, 64f)
+        drawMon(r, foe, 148f + sx, 0f)
+        drawMon(r, local, 16f + sx, 64f)
         fx?.draw(r)
         damageNumber?.let { drawDamageNumber(r, it) }
         ball?.let { drawBall(r, it) }
-        if (views[1].hud) drawFoeHud(r)
-        if (views[0].hud) drawPlayerHud(r)
+        if (views[foe].hud) drawFoeHud(r)
+        if (views[local].hud) drawPlayerHud(r)
         drawPartyBalls(r)
         if (flashScreen > 0 && ((game.timeMs / 60) % 2 == 0L)) r.rect(0, 0, Renderer.W, 160, Color(1f, 1f, 1f, 0.7f))
 
+        drawLinkSilence(r)
         r.frame(0, 160, Renderer.W, 64, alt = true)
         when (menu) {
             Menu.ACTION -> drawActionMenu(r)
             Menu.GIMMICKS -> drawGimmickMenu(r)
             Menu.MOVES -> drawMoveMenu(r)
-            Menu.NONE -> text?.let { t ->
+            Menu.NONE -> (text ?: waitingText())?.let { t ->
                 val lines = r.assets.font8.wrap(t, 29)
-                var left = textShown.toInt()
+                var left = if (text == null) t.length else textShown.toInt()
                 lines.take(3).forEachIndexed { i, line ->
                     val n = left.coerceIn(0, line.length)
                     r.text(line.substring(0, n), 12, 172 + i * 14)
@@ -734,6 +766,22 @@ class BattleScreen(
                 }
             }
         }
+    }
+
+    /** The text of the waiting phase of a link battle, drawn in place of the message box. */
+    private fun waitingText(): String? {
+        val l = link ?: return null
+        if (flow.phase != BattleFlow.Phase.WAITING_REMOTE) return null
+        return if (l.remotePaused) "${l.remoteName ?: "Your friend"} paused the game..." else "Waiting for ${l.remoteName ?: "your friend"}..."
+    }
+
+    /** After a short silence from the other device (a weak link or a frozen game) a box says so, whatever else is on screen. */
+    private fun drawLinkSilence(r: Renderer) {
+        val l = link ?: return
+        if (l.isOver || l.silentForMs() < SILENCE_NOTICE_MS) return
+        r.frame(104, 4, 148, 28, alt = true)
+        r.text("Waiting for", 112, 8, small = true)
+        r.text("${(l.remoteName ?: "your friend").take(18)}...", 112, 18, small = true)
     }
 
     private fun drawDamageNumber(r: Renderer, n: DamageNumber) {
@@ -754,7 +802,7 @@ class BattleScreen(
     private fun drawMon(r: Renderer, side: Int, x: Float, y: Float) {
         val v = views[side]
         if (!v.visible || v.species == null || v.blink || v.scale <= 0f) return
-        val tex = r.assets.pokemon(v.species!!, when { side == 0 && shinyOf(side) -> "back-shiny"; side == 0 -> "back"; shinyOf(side) -> "front-shiny"; else -> "front" })
+        val tex = r.assets.pokemon(v.species!!, when { side == local && shinyOf(side) -> "back-shiny"; side == local -> "back"; shinyOf(side) -> "front-shiny"; else -> "front" })
         val scale = (if (v.dynamax) 1.35f else 1f) * v.scale
         val w = tex.regionWidth * scale; val h = tex.regionHeight * scale
         val dropped = v.drop * h
@@ -814,29 +862,31 @@ class BattleScreen(
     }
 
     private fun drawFoeHud(r: Renderer) {
-        val v = views[1]
+        val v = views[foe]
         hudPanel(r, 4, 4, 120, 36)
         r.text(v.name.take(12), 8, 8)
         r.text("${v.gender}:L${v.level}", 24, 18)
         statusTag(r, v.status, 80, 18)
         hpBar(r, 32, 30, 80, v.hp, v.maxHp)
-        if (battle.opponent.isWild && v.species != null) {
+        if (foeSide.isWild && v.species != null) {
             val base = dex.speciesOrNull(v.species!!)?.baseSpecies
             if (base != null && base in ctx.state.caught) r.text("●", 108, 8, Palette.RED, small = true)
         }
     }
 
     private fun drawPlayerHud(r: Renderer) {
-        val v = views[0]
+        val v = views[local]
         hudPanel(r, 132, 92, 121, 56)
         r.text(v.name.take(12), 136, 96)
         r.text("${v.gender}:L${v.level}", 152, 106)
         statusTag(r, v.status, 208, 106)
         hpBar(r, 160, 118, 80, v.hp, v.maxHp)
         r.text("${v.hp.toInt().toString().padStart(3)}/${v.maxHp.toString().padStart(3)}", 168, 126)
-        r.text("EXP", 136, 140, small = true)
-        r.rect(158, 141, 82, 4, Palette.TEXT)
-        r.rect(159f, 142f, 80 * v.exp.coerceIn(0f, 1f), 2f, Palette.EXP_BLUE)
+        if (link == null) { // a link battle awards no experience
+            r.text("EXP", 136, 140, small = true)
+            r.rect(158, 141, 82, 4, Palette.TEXT)
+            r.rect(159f, 142f, 80 * v.exp.coerceIn(0f, 1f), 2f, Palette.EXP_BLUE)
+        }
     }
 
     /**
@@ -846,9 +896,9 @@ class BattleScreen(
      */
     private fun drawPartyBalls(r: Renderer) {
         if (!showBalls) return
-        val trainerBattle = !battle.opponent.isWild
-        if (trainerBattle) drawBallRow(r, 1, 10, 40, rightToLeft = false)
-        if (trainerBattle || flow.phase == BattleFlow.Phase.INTRO) drawBallRow(r, 0, 196, 150, rightToLeft = true)
+        val trainerBattle = !foeSide.isWild
+        if (trainerBattle) drawBallRow(r, foe, 10, 40, rightToLeft = false)
+        if (trainerBattle || flow.phase == BattleFlow.Phase.INTRO) drawBallRow(r, local, 196, 150, rightToLeft = true)
     }
 
     private val ballCells: Array<TextureRegion>? by lazy {
@@ -892,12 +942,12 @@ class BattleScreen(
     }
 
     private fun drawActionMenu(r: Renderer) {
-        val p = battle.player.active
+        val p = me.active
         val name = p?.name ?: ""
         if (r.textWidth("$name do?") <= 96) { r.text("What will", 12, 176); r.text("$name do?", 12, 192) }
         else { r.text("What will", 12, 170); r.text(name, 12, 184); r.text("do?", 12, 198) }
         r.frame(112, 160, 144, 64)
-        val labels = BattleMenus.actions(availableGimmicks().isNotEmpty())
+        val labels = BattleMenus.actions(availableGimmicks().isNotEmpty(), link != null)
         // Three rows when GIMMICK is present, so the 144x64 frame keeps its two-column layout.
         val rowH = if (labels.size > 4) 14 else 18; val y0 = if (labels.size > 4) 172 else 178
         labels.forEachIndexed { i, s ->
@@ -916,7 +966,7 @@ class BattleScreen(
     }
 
     private fun drawMoveMenu(r: Renderer) {
-        val active = battle.player.active ?: return
+        val active = me.active ?: return
         val slots = active.moveSlots
         r.frame(0, 160, 160, 64)
         slots.forEachIndexed { i, s ->

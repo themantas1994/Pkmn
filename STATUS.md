@@ -91,7 +91,7 @@ Each fix below was reproduced first, then checked with tests and in the running 
 - **APK metadata** (`aapt2 dump badging`): package `io.github.pkmncrystalline`, minSdk 24, targetSdk 35.
 - **Native libraries:** for armeabi-v7a, arm64-v8a, x86 and x86_64.
 - **Desugaring:** `java.time` is desugared for API 24–25.
-- **Permissions:** only `VIBRATE`; no network or location.
+- **Permissions:** `VIBRATE` and `INTERNET`; no location. `INTERNET` is needed for Link play (battles between two devices) and nothing else uses the network: it connects only on the local network, never to a server (see `docs/LINK.md`).
 - **Rebuilt for this update** with `./gradlew :android:assembleDebug :android:assembleRelease`, using SDK platform 35 and build-tools 35.0.0.
 - **Not tested on a device.** The build machine has no KVM, so no emulator could run, and no device was attached. Android-specific behaviour has not been exercised at runtime: launcher, touch input, back button, pause/resume, the clock refresh on resume and process death.
   - It is code-reviewed.

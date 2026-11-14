@@ -1,0 +1,26 @@
+# Link scene, guest side (tools/visual/run_link_scene.sh fills in @PORT@ and @ADDR@). Not a visual-regression scene.
+wait 300
+option textSpeed 3
+option battleAnimations false
+flag has_pokedex
+party charmander:30:ember/scratch
+save
+wait 90
+log
+link join @ADDR@:@PORT@
+wait 40
+shot link_guest_lobby
+waittop BattleScreen 1800
+waitstate menu=ACTION 1800
+shot link_guest_battle
+linkplay fight
+wait 30
+shot link_result
+log
+press A
+waittop OverworldScreen 300
+wait 20
+shot link_after
+log
+wait 480
+quit

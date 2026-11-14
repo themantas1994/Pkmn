@@ -24,7 +24,9 @@ class StartMenu(game: PkmnGame, private val ow: OverworldScreen) : Screen(game) 
     private val items: List<String> get() = buildList {
         if (ctx.state.hasFlag("has_pokedex")) add("POKéDEX")
         if (ctx.state.party.isNotEmpty()) add("POKéMON")
-        add("BAG"); add("MAP"); add("QUESTS"); add(ctx.state.playerName); add("SAVE"); add("OPTIONS"); add("EXIT")
+        add("BAG"); add("MAP"); add("QUESTS"); add(ctx.state.playerName); add("SAVE"); add("OPTIONS")
+        if (ctx.state.hasFlag("has_pokedex")) add("LINK")
+        add("EXIT")
     }
 
     override fun update(dt: Float, input: InputState) {
@@ -40,6 +42,8 @@ class StartMenu(game: PkmnGame, private val ow: OverworldScreen) : Screen(game) 
             "BAG" -> push(BagScreen(game, ctx, BagScreen.Mode.OVERWORLD, null, ow) { _, _ -> })
             "MAP" -> push(TownMapScreen(game, ctx, ow, flyMode = false) {})
             "QUESTS" -> push(QuestScreen(game, ctx))
+            // The menu closes first: after a link battle the player is back on the overworld, not in this menu.
+            "LINK" -> { pop(); game.push(pkmn.game.link.LinkLobbyScreen(game, ctx)) }
             "SAVE" -> game.ask("Would you like to save the game?") { yes ->
                 if (yes) { val ok = ow.save(); game.audio.playSfx("save"); game.say(if (ok) "${ctx.state.playerName} saved the game." else "Saving failed! Please try again.") }
             }
@@ -73,14 +77,18 @@ class PartyScreen(
     private val prompt: String? = null,
     /** Shift battle style: a free switch before the foe's next Pokémon, cancellable and not blocked by trapping. */
     private val shift: Boolean = false,
+    /** The battle side whose Pokémon are listed in [Mode.BATTLE]: 0 except for the guest of a link battle. */
+    private val side: Int = 0,
     private val onChoose: (Int?) -> Unit,
 ) : Screen(game) {
     enum class Mode { OVERWORLD, BATTLE, CHOOSE }
 
     private var cursor = 0
     private var swapFrom = -1
-    private val party get() = ctx.state.party
+    /** A link battle plays healed copies of the party (nothing of it is saved), so its list comes from the battle side. */
+    private val party: MutableList<Pokemon> get() = if (mode == Mode.BATTLE && battle?.isLink == true) battle!!.sides[side].mons.map { it.mon }.toMutableList() else ctx.state.party
     private val dex = ctx.dex
+    private val mine get() = battle!!.sides[side]
 
     override fun update(dt: Float, input: InputState) {
         if (party.isEmpty()) { pop(); onChoose(null); return }
@@ -100,14 +108,14 @@ class PartyScreen(
         when (mode) {
             Mode.CHOOSE -> { pop(); onChoose(cursor) }
             Mode.BATTLE -> {
-                val bm = battle!!.player.mons[cursor]
+                val bm = mine.mons[cursor]
                 val opts = listOf("SWITCH", "SUMMARY", "CANCEL")
                 push(Menu(game, opts, 160, 112, 88, onCancel = {}) { i ->
                     when (opts[i]) {
                         "SWITCH" -> when {
                             bm.fainted -> game.say("There's no will to fight!")
-                            bm === battle.player.active -> game.say("${bm.name} is already in battle!")
-                            !forced && !shift && !battle.canSwitchOut(battle.player.active!!) -> game.say("${battle.player.active!!.name} can't be switched out!")
+                            bm === mine.active -> game.say("${bm.name} is already in battle!")
+                            !forced && !shift && !battle!!.canSwitchOut(mine.active!!) -> game.say("${mine.active!!.name} can't be switched out!")
                             else -> { pop(); onChoose(cursor) }
                         }
                         "SUMMARY" -> push(SummaryScreen(game, ctx, mon))

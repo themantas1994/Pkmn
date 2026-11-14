@@ -177,6 +177,8 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         frameHook?.invoke(this)
         input.update(dt)
         stack.lastOrNull()?.update(dt, input)
+        // A link session must keep talking (heartbeats) while a party, summary or prompt is on top of its battle screen.
+        for (s in stack) if (s is pkmn.game.link.LinkAware && s !== stack.lastOrNull()) s.linkTick()
         flushPending()
         audio.update()
 
@@ -283,6 +285,8 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
         // A finger that is down when the app is backgrounded never delivers its touch-up: drop it or the button sticks.
         touch.releaseAll()
         input.clearAll()
+        // A link battle tells the other device the app is going away (its socket may not survive the background).
+        stack.filterIsInstance<pkmn.game.link.LinkAware>().forEach { it.onAppPaused() }
         // Android may kill the process while backgrounded: autosave when it is safe to do so.
         autosaveTarget(stack)?.autosave()
         saveOptions()

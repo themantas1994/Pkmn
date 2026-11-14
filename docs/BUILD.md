@@ -1,6 +1,6 @@
 # Build, test and install
 
-Everything builds offline once Gradle has fetched its dependencies. The game itself never uses the network.
+Everything builds offline once Gradle has fetched its dependencies. The game uses the network only inside Link play (a direct connection to another device on the local network, see `docs/LINK.md`); everything else is offline.
 
 ## Requirements
 

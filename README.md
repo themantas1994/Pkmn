@@ -1,6 +1,6 @@
 # Pokémon Crystalline: an offline Gen 2-style Pokémon fan game for Android and desktop
 
-**Pokémon Crystalline** is a free, open-source, offline Pokémon fan RPG in the style of Pokémon Gold, Silver and Crystal, with all 1025 Pokémon, modern Gen IX battle rules and a complete original campaign. It is written in Kotlin with LibGDX, runs on **Android** (APK) and **desktop** (LWJGL3), and needs no internet connection to play.
+**Pokémon Crystalline** is a free, open-source, offline Pokémon fan RPG in the style of Pokémon Gold, Silver and Crystal, with all 1025 Pokémon, modern Gen IX battle rules and a complete original campaign. It is written in Kotlin with LibGDX, runs on **Android** (APK) and **desktop** (LWJGL3), and needs no internet connection to play. The one exception is **Link play** (START menu, LINK, once you own the Pokédex): two devices on the same Wi-Fi or hotspot can battle each other over a direct connection. The network is used only inside Link play and only on the local network; there is no server and no account. See [docs/LINK.md](docs/LINK.md).
 
 Keywords: Pokémon fan game, Pokémon Android game, offline Pokémon RPG, Gen 2 Pokémon engine, Kotlin LibGDX game, Pokémon battle engine, open-source Pokémon, Mega Evolution, Z-Moves, Dynamax, Terastallization, no HM slots.
 

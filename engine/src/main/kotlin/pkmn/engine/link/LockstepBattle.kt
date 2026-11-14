@@ -141,6 +141,13 @@ class LockstepBattle(
     private val localStates = HashMap<Int, StateMsg>()
     private var lastStatePoint = -2
 
+    /** True from a [PauseNotice] of the other device until it sends anything else. */
+    var remotePaused = false
+        private set
+
+    /** The app went to the background: tells the other device, so its player sees "paused" rather than a silent link. */
+    fun notifyPaused() { if (!isOver && started) guarded { send(PauseNotice) } }
+
     /** Milliseconds since anything arrived from the other device; the UI shows "Waiting for NAME..." after [LinkTimeouts.silenceNoticeMs]. */
     fun silentForMs(): Long = if (!started) 0 else now - lastRecv
 
@@ -250,8 +257,9 @@ class LockstepBattle(
         if (frame.seq > recvSeq) protocolError("frame ${frame.seq} arrived, expected $recvSeq: a frame was lost")
         recvSeq++
         if (frame.msg != Heartbeat) lastProgress = now
+        remotePaused = frame.msg == PauseNotice
         when (val m = frame.msg) {
-            Heartbeat -> {}
+            Heartbeat, PauseNotice -> {}
             is Abort -> fail(VoidReason.REMOTE_ABORT, "${m.reason}: ${m.detail}".take(200), notify = false)
             is Hello -> onHello(m)
             is TeamMsg -> onTeam(m)

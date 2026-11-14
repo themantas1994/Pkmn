@@ -20,6 +20,7 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
     override val isMobile = false
     override val importedAssetsDir: File? = listOf(File("../assets-local"), File("assets-local")).firstOrNull { it.isDirectory }
     override fun exit() { Gdx.app.exit() }
+    override fun localAddresses() = pkmn.game.link.LocalAddresses.ipv4()
 }
 
 /**
@@ -29,7 +30,11 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
  *                        goto X Y (walk on the current map), log, perf, shot NAME, quit,
  *                        party SPECIES:LEVEL..., trainer ID, wild SPECIES LEVEL, warp MAP X Y [FACING],
  *                        option NAME VALUE (battleStyle, battleAnimations, animSpeed, textSpeed, realTimeClock),
- *                        clock YYYY-MM-DDTHH:MM [ZONE] (fixed test clock), clock real, waittop SCREEN [frames], item ID [QTY]
+ *                        clock YYYY-MM-DDTHH:MM [ZONE] (fixed test clock), clock real, waittop SCREEN [frames], item ID [QTY],
+ *                        waitstate TEXT [frames] (the battle screen's debug state contains TEXT), save,
+ *                        link host [PORT] [flat] (host a link battle with default rules, start when the guest is ready),
+ *                        link join CODE|ADDRESS[:PORT] (join a host, ready as soon as it has rules),
+ *                        linkplay fight | linkplay forfeit TURN (drive the link battle's menus until its result screen shows)
  *   --shots=<dir>        where screenshots go
  *   --mute               no audio
  *   --scale=N            window scale (default 3)
@@ -83,6 +88,10 @@ class Automation(script: List<String>, private val shots: File) {
     /** `waittop NAME [frames]`: pause until the top screen's class is NAME (or the timeout passes). */
     private var waitTop: String? = null
     private var waitTopFrames = 0
+    /** `linkplay`: "fight", or "forfeit:TURN"; null when off. */
+    private var linkPlay: String? = null
+    private var linkPlaySawBattle = false
+    private val linkSteps = ArrayDeque<Pair<Button?, Int>>()
 
     fun attach(game: PkmnGame) {
         shots.mkdirs()
@@ -98,6 +107,7 @@ class Automation(script: List<String>, private val shots: File) {
             if (match || --waitTopFrames <= 0) { if (waitTopFrames <= 0) println("AUTOMATION waittop $name timed out (top=${g.top()?.javaClass?.simpleName})"); waitTop = null } else return
         }
         if (wait > 0) { wait--; if (wait == 0) hold?.let { g.input.inject(it, false); hold = null }; return }
+        if (linkPlay != null) { driveLinkBattle(g); if (linkPlay != null) return }
         while (pc < lines.size) {
             val parts = lines[pc++].trim().split(Regex("\\s+"))
             when (parts[0]) {
@@ -116,7 +126,7 @@ class Automation(script: List<String>, private val shots: File) {
                 }
                 "log" -> {
                     val ow = g.screens().filterIsInstance<pkmn.game.overworld.OverworldScreen>().lastOrNull()
-                    println("AUTOMATION frame=${g.frameCount} stack=${g.screens().joinToString(">") { it.javaClass.simpleName }} top=${g.top()?.javaClass?.simpleName} ${(g.top() as? pkmn.game.battle.BattleScreen)?.debugState() ?: ""} map=${ow?.baseMap?.id} pos=${ow?.player?.x},${ow?.player?.y} moving=${ow?.player?.moving}")
+                    println("AUTOMATION frame=${g.frameCount} stack=${g.screens().joinToString(">") { it.javaClass.simpleName }} top=${g.top()?.javaClass?.simpleName} ${(g.top() as? pkmn.game.battle.BattleScreen)?.debugState() ?: ""}${(g.top() as? pkmn.game.link.LinkResultScreen)?.summary()?.let { " $it" } ?: ""} map=${ow?.baseMap?.id} pos=${ow?.player?.x},${ow?.player?.y} moving=${ow?.player?.moving}")
                     continue
                 }
                 "perf" -> {
@@ -174,9 +184,50 @@ class Automation(script: List<String>, private val shots: File) {
                     g.refreshWorldTime()
                     continue
                 }
+                "linkplay" -> { linkPlay = if (parts[1] == "forfeit") "forfeit:${parts.getOrNull(2) ?: "1"}" else "fight"; continue }
+                "save" -> { println("AUTOMATION save ${overworld(g)?.save()}"); continue }
+                "link" -> {
+                    val ctx = g.session ?: continue
+                    when (parts[1]) {
+                        "host" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = true,
+                            port = parts.drop(2).firstNotNullOfOrNull { it.toIntOrNull() } ?: pkmn.engine.link.LinkAddress.DEFAULT_PORT, flat = "flat" in parts)))
+                        "join" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false,
+                            endpoint = pkmn.engine.link.LinkAddress.parse(parts[2]) ?: error("bad link address '${parts[2]}'"))))
+                        else -> error("unknown link command '${parts[1]}'")
+                    }
+                    return
+                }
                 "quit" -> { Gdx.app.exit(); return }
                 else -> if (parts[0].startsWith("#")) continue
             }
+        }
+    }
+
+    /**
+     * `linkplay`: at the battle's action menu, FIGHT with the first move (or, once the battle has reached the turn, FORFEIT
+     * and confirm); while text is showing, A advances it. Blocks the script until the battle screen is gone, so it goes on
+     * at the result screen.
+     */
+    private fun driveLinkBattle(g: PkmnGame) {
+        val top = g.top()
+        // The battle's own prompts (YES/NO, text boxes) sit on top of it while queued input is still being played.
+        if (top is pkmn.game.link.LinkResultScreen || (linkPlaySawBattle && top is pkmn.game.overworld.OverworldScreen)) { linkPlay = null; linkPlaySawBattle = false; linkSteps.clear(); return }
+        if (top is pkmn.game.battle.BattleScreen) linkPlaySawBattle = true
+        val step = linkSteps.removeFirstOrNull()
+        if (step != null) {
+            val (b, frames) = step
+            if (b == null) wait = frames else { g.input.inject(b, true); hold = b; wait = frames }
+            return
+        }
+        if (top !is pkmn.game.battle.BattleScreen) return
+        val st = top.debugState()
+        val forfeitTurn = linkPlay!!.takeIf { it.startsWith("forfeit:") }?.removePrefix("forfeit:")?.toIntOrNull()
+        val turn = Regex("turn=(\\d+)").find(st)?.groupValues?.get(1)?.toInt() ?: 0
+        val A = Button.A
+        when {
+            "menu=ACTION" in st && forfeitTurn != null && turn >= forfeitTurn -> linkSteps.addAll(listOf(Button.DOWN to 3, null to 10, A to 3, null to 15, A to 3, null to 30))
+            "menu=ACTION" in st -> linkSteps.addAll(listOf(A to 3, null to 10, A to 3, null to 30))
+            "menu=NONE" in st && "phase=CHOOSE_ACTION" !in st -> linkSteps.addAll(listOf(A to 3, null to 20))
         }
     }
 
