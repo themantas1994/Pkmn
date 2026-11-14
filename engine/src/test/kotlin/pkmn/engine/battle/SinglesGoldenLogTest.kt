@@ -52,6 +52,7 @@ class SinglesGoldenLogTest {
         is Choice.UseItem -> "UseItem(${c.itemId}, ${c.teamIndex}, ${c.moveIndex})"
         Choice.Run -> "Run"
         Choice.Pass -> "Pass"
+        Choice.Forfeit -> "Forfeit" // link battles only; never produced here
     }
 
     /** Plays battle [i] and returns its full transcript. */
