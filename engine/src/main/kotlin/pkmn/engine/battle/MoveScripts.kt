@@ -583,7 +583,7 @@ object MoveScripts {
         Effects.move("lockon")?.let { lo -> reg(object : MoveScript("mindreader") { override fun onUseStatus(b: Battle, mc: MoveCtx) = lo.onUseStatus(b, mc) }) }
         status("teleport") { b, mc ->
             if (mc.user.side.isWild) { b.message("${b.nm(mc.user)} fled from battle!"); b.finish(BattleOutcome.FOE_FLED); return@status true }
-            if (mc.user.side.isPlayer && b.opponent.isWild && mc.user.side.canSwitchTo().isEmpty()) { b.message("${b.nm(mc.user)} teleported away!"); b.finish(BattleOutcome.RAN); return@status true }
+            if (mc.user.side.isHuman && b.opponent.isWild && mc.user.side.canSwitchTo().isEmpty()) { b.message("${b.nm(mc.user)} teleported away!"); b.finish(BattleOutcome.RAN); return@status true }
             if (mc.user.side.canSwitchTo().isEmpty()) return@status false
             mc.user.switchFlag = "true"; true
         }
