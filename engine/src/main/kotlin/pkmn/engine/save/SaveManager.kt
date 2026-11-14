@@ -32,8 +32,8 @@ data class SaveEnvelope(
 sealed class LoadResult {
     /**
      * [warnings] report repaired or damaged data. [notices] are ordinary events the player must be told about, such as
-     * a link trade that did not finish ([TradeJournal.resolveOnLoad]); they are not a sign of a damaged save.
-     * [tradeJournal] is the link trade journal the save held before it was resolved (null when there was none).
+     * a link trade that is still open ([TradeJournal.loadNotice]); they are not a sign of a damaged save.
+     * [tradeJournal] is the open link trade journal the save holds (null when there is none). Loading never resolves it.
      */
     data class Ok(
         val state: GameState, val fromBackup: Boolean, val migratedFrom: Int?, val warnings: List<String>,
@@ -186,9 +186,8 @@ class SaveManager(
         val warnings = ArrayList<String>()
         val state = decodeState(env, warnings)
         dex?.let { warnings += SaveValidator(it).repair(state) }
-        val journal = state.pendingTrade
-        val notices = listOfNotNull(TradeJournal.resolveOnLoad(state))
-        LoadResult.Ok(state, fromBackup, if (env.version != currentVersion) env.version else null, warnings, notices, journal)
+        val notices = listOfNotNull(TradeJournal.loadNotice(state))
+        LoadResult.Ok(state, fromBackup, if (env.version != currentVersion) env.version else null, warnings, notices, state.pendingTrade)
     } catch (e: Exception) {
         LoadResult.Failed("Could not decode save: ${e.message}", emptyList())
     }
@@ -230,7 +229,8 @@ class SaveManager(
          */
         /*
          * 4: link trades. GameState.pendingTrade (the trade journal) and Pokemon.originalMetLevel, both null by default,
-         * so nothing in an old payload is rewritten.
+         * so nothing in an old payload is rewritten. PendingTrade.partnerTrainerId (link play Phase 5) was added to v4
+         * before v4 was released: nullable with a default, so a v4 file written without it loads unchanged.
          */
         const val CURRENT_VERSION = 4
 

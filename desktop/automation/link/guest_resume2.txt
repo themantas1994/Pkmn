@@ -1,0 +1,48 @@
+# Interrupted trade scene, part 2, guest side: continued from its save. Its COMMITTED journal survived the restart:
+# the load notice and the UNFINISHED TRADE page (END IT variant, left with B), then the link: it waits for the host to
+# finish the earlier trade, is told so, and the host backs out of the new trade.
+wait 240
+press A
+wait 40
+press A
+waittop TextBox 900
+wait 60
+shot resume_notice
+log
+mashuntil OverworldScreen 900
+wait 30
+link menu
+wait 30
+press DOWN
+wait 8
+press DOWN
+wait 8
+press DOWN
+waitstate menu=UNFINISHED_TRADE 120
+press A
+waitstate lobby=UNFINISHED 120
+wait 20
+shot unfinished_committed
+press B
+waitstate lobby=MENU 120
+wait 10
+press B
+waittop OverworldScreen 300
+wait 20
+link join @ADDR@:@PORT@
+waitstate mode=TRADE 1800
+waittop TextBox 1800
+wait 60
+shot trade_resumed
+log
+press A
+wait 30
+waittop TextBox 2400
+wait 30
+log
+mashuntil OverworldScreen 900
+wait 20
+shot link_after
+log
+wait 480
+quit

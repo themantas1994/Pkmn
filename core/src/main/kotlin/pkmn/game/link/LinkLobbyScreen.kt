@@ -2,6 +2,7 @@ package pkmn.game.link
 
 import pkmn.engine.battle.BattleOutcome
 import pkmn.engine.campaign.GameContext
+import pkmn.engine.campaign.GameTradeStore
 import pkmn.engine.link.LinkAddress
 import pkmn.engine.link.LinkConfig
 import pkmn.engine.link.LinkEndpoint
@@ -17,6 +18,7 @@ import pkmn.game.gfx.Palette
 import pkmn.game.gfx.Renderer
 import pkmn.game.input.Button
 import pkmn.game.input.InputState
+import pkmn.game.overworld.OverworldScreen
 import pkmn.game.screens.NameInputScreen
 import pkmn.game.screens.Screen
 import java.io.Closeable
@@ -25,8 +27,13 @@ import java.util.concurrent.CompletableFuture
 /** The build identity both devices must share. Keep in step with the Gradle `version` (a different build refuses to battle). */
 object LinkBuild { const val GAME_VERSION = "0.1.0" }
 
-/** What the desktop automation (`link host`, `link join`) asks of the lobby: skip the menus and start with default rules. */
-class AutoLink(val host: Boolean, val endpoint: LinkEndpoint? = null, val port: Int = LinkAddress.DEFAULT_PORT, val flat: Boolean = false, val trade: Boolean = false)
+/**
+ * What the desktop automation (`link host`, `link join`) asks of the lobby: skip the menus and start with default rules.
+ * [dropFromPrepared] is a fault for the interrupted-trade scene: in a trade, this device's frames are dropped from its
+ * PREPARED on (as if the link died one way), so the other device never commits while this one does.
+ */
+class AutoLink(val host: Boolean, val endpoint: LinkEndpoint? = null, val port: Int = LinkAddress.DEFAULT_PORT, val flat: Boolean = false, val trade: Boolean = false,
+    val dropFromPrepared: Boolean = false)
 
 /**
  * Link play, from the start menu: host or join, the lobby (the host picks battle or trade and the rules, the guest says
@@ -34,7 +41,7 @@ class AutoLink(val host: Boolean, val endpoint: LinkEndpoint? = null, val port: 
  * copies of the party); a trade saves through its journal ([LinkTradeScreen]). Closing this screen at any point closes the connection.
  */
 class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val auto: AutoLink? = null) : Screen(game), LinkAware, LinkDebug {
-    private enum class Stage { MENU, HOSTING, CONNECTING, LOBBY, STARTING, BATTLE, DONE }
+    private enum class Stage { MENU, UNFINISHED, HOSTING, CONNECTING, LOBBY, STARTING, BATTLE, DONE }
 
     override val blocksAutosave get() = true
     private val dex = ctx.dex
@@ -51,9 +58,10 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     private var autoDone = false
     /** The content hash costs a full serialization: computed once, off the game thread, while the player chooses. */
     private val dataHash: CompletableFuture<String> = CompletableFuture.supplyAsync { LinkFingerprint.dataHash(dex) }
-    private val menuItems = listOf("HOST A GAME", "JOIN WITH A CODE", "JOIN BY ADDRESS", "CANCEL")
+    /** UNFINISHED TRADE (the manual way out of an open trade journal) is listed only while one is open. */
+    private val menuItems get() = listOfNotNull("HOST A GAME", "JOIN WITH A CODE", "JOIN BY ADDRESS", UNFINISHED.takeIf { ctx.state.pendingTrade != null }, "CANCEL")
 
-    override fun debugState(): String = "lobby=$stage connected=${session?.connected == true} mode=${if (session?.trade == true) "TRADE" else "BATTLE"}"
+    override fun debugState(): String = "lobby=$stage menu=${menuItems.getOrNull(cursor)?.replace(' ', '_')} connected=${session?.connected == true} mode=${if (session?.trade == true) "TRADE" else "BATTLE"}"
 
     override fun onEnter() {
         if (ctx.state.party.isEmpty()) { stage = Stage.DONE; notice = "You need a POKéMON to link." ; return }
@@ -101,6 +109,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         session?.pump(System.nanoTime() / 1_000_000)
         when (stage) {
             Stage.MENU -> updateMenu(input)
+            Stage.UNFINISHED -> updateUnfinished(input)
             Stage.HOSTING, Stage.CONNECTING -> if (input.justPressed(Button.B)) cancelConnect()
             Stage.LOBBY -> updateLobby(input)
             Stage.STARTING -> if (input.justPressed(Button.B)) battle?.let { it.abort("left before the battle"); endBattle(it) } else updateStarting()
@@ -116,12 +125,53 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         if (!input.justPressed(Button.A)) return
         game.audio.playSfx("menu_select")
         notice = null
-        when (cursor) {
-            0 -> beginHost(LinkAddress.DEFAULT_PORT)
-            1 -> askCode(manual = false)
-            2 -> askCode(manual = true)
+        when (menuItems[cursor]) {
+            "HOST A GAME" -> beginHost(LinkAddress.DEFAULT_PORT)
+            "JOIN WITH A CODE" -> askCode(manual = false)
+            "JOIN BY ADDRESS" -> askCode(manual = true)
+            UNFINISHED -> { stage = Stage.UNFINISHED; cursor = 0 }
             else -> pop()
         }
+    }
+
+    /**
+     * The manual way out, for a partner who will never come back: one page with what is open and the warning that names
+     * what can be lost, then KEEP WAITING (the default) or CANCEL IT / END IT. The latter removes the journal (cancels a
+     * PREPARED one, ends a COMMITTED one) and saves; the party stays as it is.
+     */
+    private fun updateUnfinished(input: InputState) {
+        if (input.repeat(Button.UP) || input.repeat(Button.DOWN)) cursor = 1 - cursor.coerceIn(0, 1)
+        if (input.justPressed(Button.B) || (input.justPressed(Button.A) && cursor == 0)) { stage = Stage.MENU; cursor = 0; return }
+        if (!input.justPressed(Button.A)) return
+        game.audio.playSfx("menu_select")
+        notice = try {
+            GameTradeStore(ctx) { state -> saveHere(state) }.abandon()
+        } catch (e: Exception) {
+            game.platform.log("Save failed: $e")
+            "The game could not be saved, so the trade is still open."
+        }
+        stage = Stage.MENU; cursor = 0
+    }
+
+    private fun drawUnfinished(r: Renderer) {
+        val summary = ctx.linkTradeSummary() ?: return
+        val warning = ctx.linkTradeAbandonWarning() ?: return
+        val committed = ctx.state.pendingTrade?.state == pkmn.engine.save.TradeJournalState.COMMITTED
+        r.text("UNFINISHED TRADE", 16, 10)
+        r.assets.font6.wrap(summary, 38).take(4).forEachIndexed { i, l -> r.text(l, 10, 30 + i * 12, small = true) }
+        r.assets.font6.wrap(warning, 38).take(6).forEachIndexed { i, l -> r.text(l, 10, 84 + i * 12, Palette.RED, small = true) }
+        r.text("KEEP WAITING", 32, 164); r.text(if (committed) "END IT" else "CANCEL IT", 32, 182)
+        r.cursor(18, 164 + cursor.coerceIn(0, 1) * 18)
+        r.text("B: BACK", 16, 204, small = true)
+    }
+
+    /** Saves with the player's current place, as the menu's SAVE does. */
+    private fun saveHere(state: pkmn.engine.save.GameState): pkmn.engine.save.SaveResult {
+        game.screens().filterIsInstance<OverworldScreen>().lastOrNull()?.let { ow ->
+            state.map = ow.baseMap.id; state.x = ow.player.x; state.y = ow.player.y; state.facing = ow.player.facing.name.lowercase()
+        }
+        ctx.syncRng()
+        return game.saves.save(state)
     }
 
     private fun cancelConnect() { pendingListen?.close(); pendingListen = null; stage = Stage.MENU; notice = null }
@@ -163,7 +213,10 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     }
     private var autoRulesSet = false
     private var autoFrames = 0
-    private companion object { const val AUTO_LOBBY_FRAMES = 90 }
+    private companion object {
+        const val AUTO_LOBBY_FRAMES = 90
+        const val UNFINISHED = "UNFINISHED TRADE"
+    }
 
     private fun startBattle(s: LobbySession) {
         val st = s.start ?: return
@@ -181,7 +234,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     private fun startTrade(s: LobbySession) {
         val name = s.remoteName ?: "your friend"
         stage = Stage.DONE
-        replace(LinkTradeScreen(game, ctx, role, transport!!, name))
+        replace(LinkTradeScreen(game, ctx, role, transport!!, name, dropFromPrepared = auto?.dropFromPrepared == true))
     }
 
     private fun updateStarting() {
@@ -216,6 +269,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     override fun onBack(): Boolean {
         when (stage) {
             Stage.MENU, Stage.DONE -> pop()
+            Stage.UNFINISHED -> { stage = Stage.MENU; cursor = 0 }
             Stage.HOSTING, Stage.CONNECTING -> cancelConnect()
             Stage.LOBBY -> { session?.leave(); finishWith("You left the lobby.") }
             else -> {}
@@ -228,13 +282,17 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     override fun draw(r: Renderer) {
         r.rect(0, 0, Renderer.W, Renderer.H, Palette.WINDOW)
         r.frame(0, 0, Renderer.W, Renderer.H)
-        r.text("LINK", 16, 10)
+        if (stage != Stage.UNFINISHED) r.text("LINK", 16, 10)
         when (stage) {
             Stage.MENU -> {
-                menuItems.forEachIndexed { i, s -> r.text(s, 32, 40 + i * 18); if (i == cursor) r.cursor(18, 40 + i * 18) }
-                r.text("Same Wi-Fi or hotspot only.", 16, 124, small = true)
-                r.text("Nothing is saved or lost.", 16, 136, small = true)
+                val items = menuItems
+                items.forEachIndexed { i, s -> r.text(s, 32, 40 + i * 18, if (s == UNFINISHED) Palette.RED else Palette.TEXT); if (i == cursor) r.cursor(18, 40 + i * 18) }
+                if (ctx.state.pendingTrade == null) {
+                    r.text("Same Wi-Fi or hotspot only.", 16, 124, small = true)
+                    r.text("Nothing is saved or lost.", 16, 136, small = true)
+                } else r.text("A link trade is unfinished.", 16, 136, small = true)
             }
+            Stage.UNFINISHED -> { drawUnfinished(r); return }
             Stage.HOSTING -> {
                 r.text("Tell your friend this CODE:", 16, 36, small = true)
                 val code = addresses.firstOrNull()?.let { LinkAddress.encode(it) } ?: "-------"

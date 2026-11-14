@@ -63,7 +63,7 @@ class TradeKillTest {
                 TradeJournalState.COMMITTED -> {
                     assertTrue(l.state.party.none { it.uid == j.givenUid }, "run $run: COMMITTED, the given Pokémon is gone")
                     assertEquals(j.received.counters["iter"], l.state.party[j.givenSlot].counters["iter"], "run $run: received in its slot")
-                    assertTrue(l.notices.isEmpty())
+                    assertEquals(1, l.notices.size, "run $run: the journal survives the load and the player is told")
                 }
             }
         }

@@ -13,6 +13,8 @@ import pkmn.engine.mon.*
 import pkmn.engine.save.GameState
 import pkmn.engine.save.PendingTrade
 import pkmn.engine.save.QuestState
+import pkmn.engine.save.TradeJournal
+import pkmn.engine.save.TradeJournalState
 import pkmn.engine.util.Rng
 import pkmn.engine.util.toId
 import pkmn.engine.world.*
@@ -218,6 +220,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      */
     fun performTrade(index: Int, want: String, received: Pokemon): String? {
         require(index in tradeCandidates(want)) { "party slot $index is not a $want" }
+        linkTradeLock(state.party[index])?.let { error(it) }
         state.party.removeAt(index)
         // The received Pokémon belongs to another trainer: never one of ours, or it would lose the traded-Pokémon Exp.
         // bonus ([Progression.expYield], 1.5x for any Pokémon whose OT id differs from the player's).
@@ -234,9 +237,21 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
 
     // ------------------------------------------------------------------ link trades
 
+    /**
+     * Why [mon] must stay in the party, or null: it is the Pokémon given in an open PREPARED trade journal, so the trade
+     * can still be finished when the partner links again. It may still battle and gain levels; it may not be released,
+     * deposited or traded (link or in-game). After COMMITTED it has already left the party, so nothing is locked.
+     */
+    fun linkTradeLock(mon: Pokemon): String? {
+        val j = state.pendingTrade ?: return null
+        if (j.state != TradeJournalState.PREPARED || mon.uid != j.givenUid) return null
+        return "${mon.displayName(dex)} is promised to ${j.partnerName} in an unfinished link trade."
+    }
+
     /** Why party member [slot] may not be offered in a link trade, or null when it may. */
     fun linkTradeRefusal(slot: Int): String? {
         if (slot !in state.party.indices) return "No POKéMON there."
+        linkTradeLock(state.party[slot])?.let { return it }
         if (state.party.withIndex().none { (i, m) -> i != slot && !m.isFainted }) return "That's your last POKéMON that can battle!"
         return null
     }
@@ -248,12 +263,14 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      * current level (the met level from home is kept in [Pokemon.originalMetLevel]) and friendship returns to the species
      * base. A Pokémon coming back to its original trainer (same OT id and OT name) is the player's own again, with its
      * original met level. Its uid is replaced only if this save already uses it. Throws if the given Pokémon is no longer
-     * in the party or is the last one that can battle; [linkTradeRefusal] says so beforehand.
+     * in the party or, with [requireAble], is the last one that can battle; [linkTradeRefusal] says so beforehand.
+     * Finishing an open journal after a reconnect passes [requireAble] false: the trade was agreed when the offer was
+     * still allowed, and party members fainting since must not keep it one-sided.
      */
-    fun performLinkTrade(journal: PendingTrade): LinkTradeResult {
+    fun performLinkTrade(journal: PendingTrade, requireAble: Boolean = true): LinkTradeResult {
         val slot = state.party.indexOfFirst { it.uid == journal.givenUid }
         check(slot >= 0) { "the Pokémon to trade (uid ${journal.givenUid}) is not in the party" }
-        linkTradeRefusal(slot)?.let { error(it) }
+        if (requireAble && state.party.withIndex().none { (i, m) -> i != slot && !m.isFainted }) error("That's your last POKéMON that can battle!")
         val given = state.party[slot]
         val received = journal.received.copy()
         val sp = received.species(dex)
@@ -277,6 +294,37 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         val evolveTo = progression.evolutionTarget(received, Progression.EvolutionContext(isNight = isNight(), party = state.party,
             traded = true, tradePartner = given.speciesId))
         return LinkTradeResult(given, received, slot, evolveTo)
+    }
+
+    /**
+     * The warning the LINK menu shows before the manual way out removes the open journal, naming what can be lost; null
+     * when no journal is open. The swap itself is never undone: PREPARED keeps the given Pokémon, COMMITTED keeps the
+     * received one.
+     */
+    fun linkTradeAbandonWarning(): String? {
+        val j = state.pendingTrade ?: return null
+        val p = j.partnerName
+        val given = TradeJournal.givenName(j)
+        val received = j.received.displayName(dex)
+        return when (j.state) {
+            TradeJournalState.PREPARED -> "If you cancel it, you keep $given and won't get $received. If $p's game already finished the trade, $p keeps $given too and $received is lost. Only do this if $p will never link with you again."
+            TradeJournalState.COMMITTED -> "If you end it, you keep $received. If $p's game didn't finish the trade, $p keeps $received too and your $given is lost. Only do this if $p will never link with you again."
+        }
+    }
+
+    /** The YES/NO question after [linkTradeAbandonWarning]; null when no journal is open. */
+    fun linkTradeAbandonQuestion(): String? {
+        val j = state.pendingTrade ?: return null
+        return if (j.state == TradeJournalState.PREPARED) "Cancel the trade with ${j.partnerName}?" else "End the trade with ${j.partnerName}?"
+    }
+
+    /** One line for the LINK menu while a journal is open; null when none is. */
+    fun linkTradeSummary(): String? {
+        val j = state.pendingTrade ?: return null
+        return when (j.state) {
+            TradeJournalState.PREPARED -> "Unfinished trade with ${j.partnerName}: ${TradeJournal.givenName(j)} for ${j.received.displayName(dex)}. Link with ${j.partnerName} again to finish it."
+            TradeJournalState.COMMITTED -> "Trade with ${j.partnerName} done here: you got ${j.received.displayName(dex)}. Link with ${j.partnerName} again so their game finishes it."
+        }
     }
 
     /** Completes a trade evolution: evolves, and uses up the held item the evolution needed (Onix's Metal Coat). */
@@ -358,6 +406,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      */
     fun depositError(index: Int): String? {
         val mon = state.party.getOrNull(index) ?: return "Invalid POKéMON."
+        linkTradeLock(mon)?.let { return it }
         if (state.party.size <= 1) return "You can't deposit your last POKéMON!"
         val ableAfter = state.party.withIndex().any { (i, m) -> i != index && !m.isFainted }
         if (!mon.isFainted && !ableAfter) return "You can't deposit your last healthy POKéMON!"
@@ -370,6 +419,20 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         depositError(index)?.let { return it }
         val box = state.boxes.first { b -> b.any { it == null } }
         box[box.indexOf(null)] = state.party.removeAt(index)
+        return null
+    }
+
+    /** Why the Pokémon in PC [box] slot [slot] cannot be released, or null. */
+    fun releaseError(box: Int, slot: Int): String? {
+        val mon = state.boxes.getOrNull(box)?.getOrNull(slot) ?: return "No POKéMON there."
+        return linkTradeLock(mon)
+    }
+
+    /** Releases the Pokémon in PC [box] slot [slot]. Returns an error message (nothing changed) or null. */
+    fun releaseFromPc(box: Int, slot: Int): String? {
+        releaseError(box, slot)?.let { return it }
+        state.pendingNicknames.remove(state.boxes[box][slot]!!.uid)
+        state.boxes[box][slot] = null
         return null
     }
 

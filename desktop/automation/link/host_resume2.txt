@@ -1,0 +1,53 @@
+# Interrupted trade scene, part 2, host side: the game is started again and continued from its save (no quickstart).
+# The open PREPARED journal survived the restart: the load notice, the LINK menu's UNFINISHED TRADE page (left with
+# KEEP WAITING), then a new link with the guest finishes the trade (the received Kadabra evolves) and the new trade is
+# cancelled at PICK.
+wait 240
+press A
+wait 40
+press A
+waittop TextBox 900
+wait 60
+shot resume_notice
+log
+mashuntil OverworldScreen 900
+wait 30
+link menu
+wait 30
+press DOWN
+wait 8
+press DOWN
+wait 8
+press DOWN
+waitstate menu=UNFINISHED_TRADE 120
+wait 20
+shot link_unfinished
+log
+press A
+waitstate lobby=UNFINISHED 120
+wait 20
+shot unfinished_prepared
+log
+press A
+waitstate lobby=MENU 120
+wait 10
+press B
+waittop OverworldScreen 300
+wait 20
+link host @PORT@ trade
+waitstate mode=TRADE 1800
+waittop TextBox 1800
+wait 60
+shot trade_resumed
+log
+mashuntil trade=PICK 3000
+wait 20
+log
+press B
+wait 30
+mashuntil OverworldScreen 900
+wait 20
+shot link_after
+log
+wait 480
+quit
