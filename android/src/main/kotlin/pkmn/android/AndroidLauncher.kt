@@ -35,6 +35,7 @@ class AndroidLauncher : AndroidApplication() {
         }
         val platform = object : Platform {
             override val name = "android"
+            override fun localAddresses() = pkmn.game.link.LocalAddresses.ipv4()
             override val isMobile = true
             override val saveDir: File = File(filesDir, "saves").apply { mkdirs() }
             /** Official sprites imported by the player (see docs/ASSET_IMPORT.md) live in app storage. */

@@ -104,7 +104,7 @@ class Battle(
     /**
      * Whether [mon], active in some slot, takes part in choosing this turn. In doubles a slot whose Pokémon fainted with
      * no replacement left is empty. Singles keeps the original rule (any active Pokémon chooses, even one that has just
-     * fainted, e.g. after the AI previewed Final Gambit), so its behaviour stays byte-identical.
+     * fainted), so its behaviour stays byte-identical.
      */
     private fun choosesThisTurn(mon: BattleMon?): Boolean = mon != null && (slotsPerSide == 1 || !mon.fainted)
 

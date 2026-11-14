@@ -6,7 +6,9 @@ import pkmn.game.input.Button
 
 /** Pure layout and navigation rules for the battle action menu (two columns; GIMMICK sits alone on the third row). */
 object BattleMenus {
-    fun actions(hasGimmick: Boolean): List<String> = listOf("FIGHT", "PKMN", "PACK", "RUN") + if (hasGimmick) listOf("GIMMICK") else emptyList()
+    /** A link battle has no bag, and its RUN is FORFEIT: giving up is a normal choice there. */
+    fun actions(hasGimmick: Boolean, link: Boolean = false): List<String> =
+        (if (link) listOf("FIGHT", "PKMN", "FORFEIT") else listOf("FIGHT", "PKMN", "PACK", "RUN")) + if (hasGimmick) listOf("GIMMICK") else emptyList()
 
     /** Gimmicks the current request offers, in a stable order. Primal Reversion is automatic and never listed. */
     fun gimmicks(req: Request): List<Gimmick> = (req as? Request.Move)?.gimmicks?.sortedBy { it.ordinal } ?: emptyList()

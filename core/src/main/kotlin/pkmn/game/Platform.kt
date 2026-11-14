@@ -25,6 +25,11 @@ interface Platform {
     val canImportAssets: Boolean get() = false
     /** Lets the player pick a sprite archive and extracts it into [importedAssetsDir]; [done] runs on the game thread. */
     fun importAssets(done: (message: String) -> Unit) {}
+    /**
+     * This device's IPv4 addresses on the local network, for the host's link code (Link play uses the network only on the
+     * local network). Loopback is listed only when there is nothing else, so two instances on one machine can still link.
+     */
+    fun localAddresses(): List<String> = pkmn.game.link.LocalAddresses.ipv4()
     /** Quits the app (desktop) or moves it to the background (Android). */
     fun exit() {}
 }

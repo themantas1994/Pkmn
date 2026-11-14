@@ -14,7 +14,7 @@ import java.security.MessageDigest
 /** Constants of the link protocol. */
 object LinkProtocol {
     /** Bumped whenever a message or a rule of the exchange changes; both devices must run the same one. */
-    const val VERSION = 1
+    const val VERSION = 2
 
     /** Bytes in the length prefix of a frame. */
     const val HEADER_BYTES = 4
@@ -165,6 +165,10 @@ data class StateMsg(val point: Int, val turn: Int, val hash: String, val over: B
 @Serializable @SerialName("beat")
 object Heartbeat : LinkMessage
 
+/** The app on the sending device went to the background (Android). The other device shows that instead of a dead link; no grace period is added. */
+@Serializable @SerialName("pause")
+object PauseNotice : LinkMessage
+
 /** Ends the session on purpose; [reason] is a [VoidReason] name. */
 @Serializable @SerialName("abort")
 data class Abort(val reason: String, val detail: String = "") : LinkMessage
@@ -209,17 +213,34 @@ object FrameCodec {
 /**
  * Cuts a byte stream into frames, for a transport that reads from a socket. The length prefix is checked as soon as its
  * four bytes are in, so an oversized frame is refused before any of its payload is buffered.
+ *
+ * Frames that are complete before a bad prefix are still returned: a valid frame that shares a read with the bad prefix
+ * that ends the link must not be lost. The error is then held in [error] and thrown by the next [feed].
  */
 class FrameBuffer {
     private var buf = ByteArray(0)
 
-    /** Adds received bytes; returns every frame that is now complete. Throws [LinkProtocolException] for an oversized prefix. */
+    /** Set once a bad prefix was seen; the stream cannot be read past it. */
+    var error: LinkProtocolException? = null
+        private set
+
+    /**
+     * Adds received bytes; returns every frame that is now complete. On an oversized prefix, returns the frames before it
+     * and sets [error]; throws [LinkProtocolException] when no frame comes first, or on any call after [error] is set.
+     */
     fun feed(chunk: ByteArray): List<ByteArray> {
+        error?.let { throw it }
         buf += chunk
         val out = ArrayList<ByteArray>()
         while (buf.size >= LinkProtocol.HEADER_BYTES) {
             val len = FrameCodec.readLength(buf)
-            if (len < 0 || len > LinkProtocol.MAX_PAYLOAD) throw LinkProtocolException(VoidReason.OVERSIZED_FRAME, "declared length $len")
+            if (len < 0 || len > LinkProtocol.MAX_PAYLOAD) {
+                val e = LinkProtocolException(VoidReason.OVERSIZED_FRAME, "declared length $len")
+                error = e
+                buf = ByteArray(0)
+                if (out.isEmpty()) throw e
+                return out
+            }
             val total = LinkProtocol.HEADER_BYTES + len
             if (buf.size < total) break
             out.add(buf.copyOfRange(0, total))

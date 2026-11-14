@@ -57,6 +57,17 @@ class LinkFrameTest {
     }
 
     @Test
+    fun `a valid frame read together with an oversized prefix is kept`() {
+        val ok = FrameCodec.encode(Frame(3, Heartbeat))
+        val buf = FrameBuffer()
+        val out = buf.feed(ok + byteArrayOf(0, 1, 0, 1))
+        assertEquals(listOf(ok.toList()), out.map { it.toList() })
+        assertEquals(VoidReason.OVERSIZED_FRAME, buf.error?.reason)
+        // Nothing more is read past the bad prefix.
+        assertEquals(VoidReason.OVERSIZED_FRAME, reason { buf.feed(ok) })
+    }
+
+    @Test
     fun `a stream is cut into frames however the bytes arrive`() {
         val frames = listOf(Heartbeat, Abort("A", "b"), Commit(1, "d")).mapIndexed { i, m -> FrameCodec.encode(Frame(i.toLong(), m)) }
         val stream = frames.reduce { a, b -> a + b }
