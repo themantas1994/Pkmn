@@ -46,12 +46,18 @@ data class BattleRules(
     val obedienceCap: Int? = null,
     /** Singles (one active Pokémon per side) or doubles (two). */
     val format: BattleFormat = BattleFormat.SINGLES,
+    /**
+     * Set only by [link]: this is a battle between two human players (possibly on two devices). Forfeiting
+     * ([Choice.Forfeit]) exists only here; single-player sides cannot give up a battle.
+     */
+    val link: Boolean = false,
 ) {
     /**
      * True when no rule depends on which device is the local player: no running, catching, bag items, experience or
      * badge obedience, and Set style (no Shift prompt). Required for any battle with a [Controller.REMOTE] side.
      */
-    val isLinkSafe: Boolean get() = !canRun && !canCatch && !canUseItems && !expEnabled && obedienceCap == null && setMode
+    val isLinkSafe: Boolean get() = link && !canRun && !canCatch && !canUseItems && !expEnabled && obedienceCap == null && setMode &&
+        format == BattleFormat.SINGLES
 
     companion object {
         val ALL_GIMMICKS = Gimmick.entries.toSet()
@@ -59,6 +65,7 @@ data class BattleRules(
         /**
          * Rules for a link battle between two human players (docs/MULTIPLAYER_LAN_PLAN.md, Phase 1): no running,
          * catching, bag items, experience or obedience, Set style. Both devices must build the battle with equal rules.
+         * Singles only: doubles has no host/guest mirror test yet, so [BattleFormat.DOUBLES] is rejected.
          */
         fun link(
             allowedGimmicks: Set<Gimmick> = emptySet(),
@@ -66,12 +73,15 @@ data class BattleRules(
             levelCap: Int = 100,
             inverse: Boolean = false,
             format: BattleFormat = BattleFormat.SINGLES,
-        ) = BattleRules(
+        ): BattleRules {
+            require(format == BattleFormat.SINGLES) { "Link battles are singles only until doubles is mirror-tested" }
+            return BattleRules(
             allowedGimmicks = allowedGimmicks, oneGimmickPerBattle = oneGimmickPerBattle,
             canRun = false, canCatch = false, canUseItems = false, expEnabled = false, expShareAll = false,
             levelCap = levelCap, isTrainerBattle = true, setMode = true, inverse = inverse, playerOtId = 0,
-            obedienceCap = null, format = format,
-        )
+            obedienceCap = null, format = format, link = true,
+            )
+        }
     }
 }
 
