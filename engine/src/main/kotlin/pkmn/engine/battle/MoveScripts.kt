@@ -114,7 +114,9 @@ object MoveScripts {
         fixed("ruination") { _, mc -> max(1, mc.target.hp / 2) }
         fixed("guardianofalola") { _, mc -> max(1, mc.target.hp * 3 / 4) }
         fixed("psywave") { b, mc -> max(1, mc.user.level * (50 + b.rng.nextInt(101)) / 100) }
-        fixed("finalgambit") { b, mc -> val d = mc.user.hp; b.directDamage(mc.user, d, mc.user, "finalgambit", silent = true); d }
+        // A damage preview (the AI scoring the move) must not faint the user. Guarded for link battles only: single-player AI
+        // previews keep their behaviour, and with it the golden logs.
+        fixed("finalgambit") { b, mc -> val d = mc.user.hp; if (!(b.isLink && b.previewing)) b.directDamage(mc.user, d, mc.user, "finalgambit", silent = true); d }
         reg(object : MoveScript("endeavor") {
             override fun onTry(b: Battle, mc: MoveCtx) = mc.target.hp > mc.user.hp
             override fun fixedDamage(b: Battle, mc: MoveCtx) = mc.target.hp - mc.user.hp
@@ -583,7 +585,7 @@ object MoveScripts {
         Effects.move("lockon")?.let { lo -> reg(object : MoveScript("mindreader") { override fun onUseStatus(b: Battle, mc: MoveCtx) = lo.onUseStatus(b, mc) }) }
         status("teleport") { b, mc ->
             if (mc.user.side.isWild) { b.message("${b.nm(mc.user)} fled from battle!"); b.finish(BattleOutcome.FOE_FLED); return@status true }
-            if (mc.user.side.isPlayer && b.opponent.isWild && mc.user.side.canSwitchTo().isEmpty()) { b.message("${b.nm(mc.user)} teleported away!"); b.finish(BattleOutcome.RAN); return@status true }
+            if (mc.user.side.isHuman && b.opponent.isWild && mc.user.side.canSwitchTo().isEmpty()) { b.message("${b.nm(mc.user)} teleported away!"); b.finish(BattleOutcome.RAN); return@status true }
             if (mc.user.side.canSwitchTo().isEmpty()) return@status false
             mc.user.switchFlag = "true"; true
         }

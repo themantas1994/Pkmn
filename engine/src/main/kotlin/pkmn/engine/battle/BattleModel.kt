@@ -46,13 +46,52 @@ data class BattleRules(
     val obedienceCap: Int? = null,
     /** Singles (one active Pokémon per side) or doubles (two). */
     val format: BattleFormat = BattleFormat.SINGLES,
+    /**
+     * Set only by [link]: this is a battle between two human players (possibly on two devices). Forfeiting
+     * ([Choice.Forfeit]) exists only here; single-player sides cannot give up a battle.
+     */
+    val link: Boolean = false,
 ) {
+    /**
+     * True when no rule depends on which device is the local player: no running, catching, bag items, experience or
+     * badge obedience, and Set style (no Shift prompt). Required for any battle with a [Controller.REMOTE] side.
+     */
+    val isLinkSafe: Boolean get() = link && !canRun && !canCatch && !canUseItems && !expEnabled && obedienceCap == null && setMode &&
+        format == BattleFormat.SINGLES
+
     companion object {
         val ALL_GIMMICKS = Gimmick.entries.toSet()
+
+        /**
+         * Rules for a link battle between two human players (docs/MULTIPLAYER_LAN_PLAN.md, Phase 1): no running,
+         * catching, bag items, experience or obedience, Set style. Both devices must build the battle with equal rules.
+         * Singles only: doubles has no host/guest mirror test yet, so [BattleFormat.DOUBLES] is rejected.
+         */
+        fun link(
+            allowedGimmicks: Set<Gimmick> = emptySet(),
+            oneGimmickPerBattle: Boolean = true,
+            levelCap: Int = 100,
+            inverse: Boolean = false,
+            format: BattleFormat = BattleFormat.SINGLES,
+        ): BattleRules {
+            require(format == BattleFormat.SINGLES) { "Link battles are singles only until doubles is mirror-tested" }
+            return BattleRules(
+            allowedGimmicks = allowedGimmicks, oneGimmickPerBattle = oneGimmickPerBattle,
+            canRun = false, canCatch = false, canUseItems = false, expEnabled = false, expShareAll = false,
+            levelCap = levelCap, isTrainerBattle = true, setMode = true, inverse = inverse, playerOtId = 0,
+            obedienceCap = null, format = format, link = true,
+            )
+        }
     }
 }
 
-enum class Controller { PLAYER, AI, WILD }
+/**
+ * Who decides for a side. [PLAYER] is the human on this device and [REMOTE] the human on the other device of a link
+ * battle; both are human ([Side.isHuman]) and the engine never decides for them. Battle logic may only ask whether a
+ * side is human, wild or AI: whether a human side is local ([Side.isPlayer]) is for display text, which may differ
+ * between the two devices of a link battle.
+ */
+enum class Controller { PLAYER, AI, WILD, REMOTE }
 
 /** Per-effect persistent state attached to a holder (duration counters, stored data). */
 class EffectState(var duration: Int = -1) {
@@ -94,7 +133,10 @@ class Side(
     /** Total number of times a Pokémon on this side fainted (Last Respects, Supreme Overlord). */
     var totalFainted: Int = 0
 
+    /** The human on this device. Display text only (and local bookkeeping such as [Battle.itemsUsed]); logic uses [isHuman]. */
     val isPlayer get() = controller == Controller.PLAYER
+    /** A human decides for this side ([Controller.PLAYER] or [Controller.REMOTE]): the engine waits for its choices. */
+    val isHuman get() = controller == Controller.PLAYER || controller == Controller.REMOTE
     val isWild get() = controller == Controller.WILD
     fun hasCondition(id: String) = id in conditions
     fun alive() = mons.filter { !it.fainted }
@@ -351,6 +393,12 @@ sealed class Choice {
     object Run : Choice()
     /** Used for Struggle when no move is usable, and for locked moves (Outrage, charge turns). */
     object Pass : Choice()
+    /**
+     * A human side gives up ([Battle.choose] accepts it wherever the side has a decision to make). It takes effect once
+     * every side has decided, so the result does not depend on the order choices arrive in: one side forfeiting loses,
+     * both forfeiting is a draw.
+     */
+    object Forfeit : Choice()
 }
 
 /** What a side must decide next for one of its field positions ([Battle.requests] gives one per active slot). */

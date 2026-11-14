@@ -183,7 +183,8 @@ object Conditions {
                 if (source?.item == "gripclaw") 8 else 5 + b.rng.nextInt(2)
             override fun onStart(c: EffectCtx, source: BattleMon?) {
                 c.b.message("${c.b.nm(c.mon)} was trapped!")
-                c.state.data["bandmult"] = source?.item == "bindingband"
+                // Stored only when true: [Battle.stateHash] hashes non-empty data, and an untouched map keeps old hashes.
+                if (source?.item == "bindingband") c.state.data["bandmult"] = true
             }
             override fun onResidual(c: EffectCtx) {
                 val src = c.state.source

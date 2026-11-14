@@ -11,7 +11,15 @@ import kotlin.math.min
  *  - aiLevel 2: also considers KOs, setup, hazards, recovery, switching out of bad matchups and gimmick timing.
  *  - aiLevel 3 (bosses): level 2 with less randomness and smarter replacements.
  */
-open class BattleAI {
+open class BattleAI(
+    /**
+     * Random source for the AI's own choices. Null (the default) draws from the battle's generator, which is what keeps
+     * single-player battles reproducible. A link battle passes its own: only the device that plays a side asks the AI for
+     * it, so drawing from the shared battle generator would put the two devices out of step.
+     */
+    private val rng: pkmn.engine.util.Rng? = null,
+) {
+    private fun rngOf(b: Battle) = rng ?: b.rng
 
     /** Decision for [side]'s Pokémon in slot 0 (the only one in singles). */
     open fun chooseAction(b: Battle, side: Side): Choice = decide(b, side, 0)
@@ -25,11 +33,11 @@ open class BattleAI {
         if (req.lockedMove != null) return Choice.UseMove(0)
         val usable = me.moveSlots.indices.filter { req.usableMoves[it] }
         if (usable.isEmpty()) return Choice.UseMove(0)
-        if (side.isWild || side.aiLevel <= 0) return Choice.UseMove(usable[b.rng.nextInt(usable.size)])
+        if (side.isWild || side.aiLevel <= 0) return Choice.UseMove(usable[rngOf(b).nextInt(usable.size)])
         val foe = b.opposingActive(side) ?: return Choice.UseMove(usable.first())
 
         // Consider switching out of a losing matchup.
-        if (side.aiLevel >= 2 && req.canSwitch && b.rng.nextInt(100) < (if (side.aiLevel >= 3) 70 else 45)) {
+        if (side.aiLevel >= 2 && req.canSwitch && rngOf(b).nextInt(100) < (if (side.aiLevel >= 3) 70 else 45)) {
             val myBest = usable.maxOf { scoreMove(b, me, foe, me.moveSlots[it].id, side.aiLevel) }
             val threat = threatTo(b, foe, me)
             if (myBest < 25 && threat >= 0.55) {
@@ -40,7 +48,7 @@ open class BattleAI {
 
         val scored = usable.map { it to scoreMove(b, me, foe, me.moveSlots[it].id, side.aiLevel) }
         val noise = if (side.aiLevel >= 3) 5.0 else if (side.aiLevel == 2) 12.0 else 25.0
-        val pick = scored.maxByOrNull { it.second + b.rng.nextDouble() * noise }!!.first
+        val pick = scored.maxByOrNull { it.second + rngOf(b).nextDouble() * noise }!!.first
         val gimmick = chooseGimmick(b, side, me, foe, pick, req.gimmicks)
         // Doubles: aim a foe-targeting move at the foe it was scored against; other moves keep their default target.
         val moveTarget = b.dex.moveOrNull(me.moveSlots[pick].id)?.target
@@ -63,10 +71,13 @@ open class BattleAI {
         val m = b.dex.moveOrNull(moveId) ?: return 0
         if (m.isStatus) return 0
         val mc = MoveCtx(attacker, defender, ActiveMove(m))
+        // Some base-power scripts (Magnitude, Present...) and speed ties draw random numbers even in a preview. In a link battle
+        // only the device that plays this side previews, so the draws are given back; single-player keeps its RNG stream.
+        val saved = b.rng.state
         val dmg = try {
             b.previewing = true
             b.calcDamage(mc, forPreview = true) ?: 0
-        } catch (e: Exception) { 0 } finally { b.previewing = false }
+        } catch (e: Exception) { 0 } finally { b.previewing = false; if (b.isLink) b.rng.restore(saved) }
         val hits = m.multihit?.let { (it[0] + it[1]) / 2 } ?: 1
         val acc = if (m.accuracy <= 0) 1.0 else m.accuracy / 100.0
         return (dmg * hits * acc).toInt()
@@ -145,7 +156,7 @@ open class BattleAI {
         // Keep the strongest Pokémon for last when the trainer has several left (classic "ace" behaviour).
         val ace = if (side.aiLevel >= 2 && options.size > 1) options.maxByOrNull { it.level * 10 + it.mon.moves.size } else null
         val pool = if (ace != null) options - ace else options
-        return pool.maxByOrNull { threatTo(b, it, foe) - threatTo(b, foe, it) * 0.7 + b.rng.nextDouble() * 0.05 } ?: options.first()
+        return pool.maxByOrNull { threatTo(b, it, foe) - threatTo(b, foe, it) * 0.7 + rngOf(b).nextDouble() * 0.05 } ?: options.first()
     }
 
     fun chooseReplacement(b: Battle, side: Side): Int = side.mons.indexOf(chooseReplacementMon(b, side))

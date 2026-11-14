@@ -87,6 +87,7 @@ class Battle(
 
     init {
         require(sides.size == 2) { "A battle has exactly two sides" }
+        require(sides.none { it.controller == Controller.REMOTE } || rules.isLinkSafe) { "A link battle needs BattleRules.link()" }
         sides[0].foe = sides[1]; sides[1].foe = sides[0]
         for (s in sides) {
             while (s.actives.size < slotsPerSide) s.actives.add(null)
@@ -134,8 +135,12 @@ class Battle(
      * Used by the determinism self-test ([DeterminismSelfTest]) and, later, to compare both devices of a link battle.
      */
     fun stateHash(): String {
-        val h = StateHasher()
+        val h = StateHasher { m -> if (m == null) -1 else m.side.index * SLOT_KEY + m.side.mons.indexOf(m) }
         h.int(turn); h.str(outcome.name); h.long(rng.state)
+        // Battle-level memory and a suspended turn (a self-switch waiting for its pick): both decide what happens next.
+        h.str(lastMoveUsed); h.str(lastSuccessfulMoveThisTurn); h.int(runAttempts)
+        h.int(selfSwitchKey ?: -1); h.int(turnQueueIndex); h.int(turnQueue.size); h.int(switchFlagCursor)
+        h.int(pendingSwitches.size); for (k in pendingSwitches.sorted()) h.int(k)
         h.str(field.weather); h.effect(field.weatherState)
         h.str(field.terrain); h.effect(field.terrainState)
         h.effects(field.pseudoWeather)
@@ -157,34 +162,65 @@ class Battle(
                 h.int(m.activeTurns); h.int(m.dynamaxTurns); h.str(m.terastallized); h.bool(m.transformed); h.bool(m.isGigantamax)
                 h.int(m.lastDamage); h.int(m.mon.friendship); h.bool(m.forceSwitchFlag); h.str(m.switchFlag)
                 h.int(m.stellarBoostedTypes.size); for (t in m.stellarBoostedTypes.sorted()) h.str(t)
+                // Memory that later moves, abilities and items read: who dealt the last damage, who gets the KO credit, what
+                // hurt last, counters, and the disguise or pre-transform form. Persons are hashed as side*8+team index.
+                h.ref(m.koCredit); h.ref(m.lastMoveTarget); h.ref(m.illusion)
+                val dr = m.lastDamagedBy
+                if (dr == null) h.int(-1) else { h.ref(dr.source); h.int(dr.amount); h.str(dr.category); h.int(dr.turn) }
+                h.str(m.lastHpLossEffect); h.int(m.timesAttacked); h.bool(m.statsRaisedThisTurn); h.bool(m.statsLoweredThisTurn)
+                h.int(m.critsThisBattle); h.int(m.itemConsumedTurn); h.int(m.activeMoveActions); h.bool(m.isStarted)
+                h.str(m.preTransformSpecies?.id); h.str(m.baseAbility); h.str(m.originalItem)
             }
         }
         return h.finish()
     }
 
     /** Length-prefixed, big-endian feed into SHA-256 so no two field sequences can produce the same byte stream. */
-    private class StateHasher {
+    private class StateHasher(private val refOf: (BattleMon?) -> Int) {
         private val md = java.security.MessageDigest.getInstance("SHA-256")
         fun int(v: Int) { for (i in 3 downTo 0) md.update((v ushr (8 * i)).toByte()) }
         fun long(v: Long) { for (i in 7 downTo 0) md.update((v ushr (8 * i)).toByte()) }
         fun bool(v: Boolean) = md.update(if (v) 1 else 0)
         fun str(v: String?) { if (v == null) int(-1) else { val b = v.toByteArray(Charsets.UTF_8); int(b.size); md.update(b) } }
         fun strs(v: List<String>) { int(v.size); for (x in v) str(x) }
-        fun effect(e: EffectState) { int(e.duration); int(e.counter); int(e.turns); int(e.hp); str(e.moveId); str(e.type); bool(e.flag) }
+        fun ref(m: BattleMon?) = int(refOf(m))
+        fun effect(e: EffectState) {
+            int(e.duration); int(e.counter); int(e.turns); int(e.hp); str(e.moveId); str(e.type); bool(e.flag)
+            // Who set it (a trap's source, a leech's seeder, a Wish's user).
+            ref(e.source)
+            // Script data that can change an outcome (e.g. Binding Band's "bandmult"). Text-only keys are skipped. An empty
+            // map feeds nothing, so states without data hash as before.
+            val keys = e.data.keys.filter { it !in TEXT_ONLY_DATA }.sorted()
+            if (keys.isEmpty()) return
+            str("data"); int(keys.size)
+            for (k in keys) {
+                str(k)
+                when (val v = e.data[k]) {
+                    null -> int(-1)
+                    is Boolean -> { int(0); bool(v) }
+                    is Int -> { int(1); int(v) }
+                    is String -> { int(2); str(v) }
+                    else -> error("EffectState.data[\"$k\"] holds a ${v::class.simpleName}; hash it explicitly in Battle.stateHash")
+                }
+            }
+        }
         fun effects(m: Map<String, EffectState>) { int(m.size); for ((k, e) in m) { str(k); effect(e) } }
         fun finish(): String = md.digest().joinToString("") { "%02x".format(it) }
     }
 
-    /** Name for the start of a sentence, Gold/Silver/Crystal style: "Pikachu", "Enemy Pikachu" (wild or trainer foe). */
+    /**
+     * Name for the start of a sentence, Gold/Silver/Crystal style: "Pikachu", "Enemy Pikachu" (wild, trainer or link foe).
+     * Display text: in a link battle each device names its own side without the prefix.
+     */
     fun nm(mon: BattleMon): String = when (mon.side.controller) {
         Controller.PLAYER -> mon.shownName
-        Controller.WILD, Controller.AI -> "Enemy ${mon.shownName}"
+        Controller.WILD, Controller.AI, Controller.REMOTE -> "Enemy ${mon.shownName}"
     }
 
     /** Name in the middle of a sentence. */
     fun nmL(mon: BattleMon): String = when (mon.side.controller) {
         Controller.PLAYER -> mon.shownName
-        Controller.WILD, Controller.AI -> "enemy ${mon.shownName}"
+        Controller.WILD, Controller.AI, Controller.REMOTE -> "enemy ${mon.shownName}"
     }
 
     /** Illusion: disguise [mon] as the last healthy party member that is not itself (Showdown's rule). */
@@ -299,6 +335,18 @@ class Battle(
         return out
     }
 
+    /** A link battle: one side is played on the other device ([Controller.REMOTE]). */
+    val isLink = sides.any { it.controller == Controller.REMOTE }
+
+    /** [allHandlers] in side and slot order, with no speed sort and so no random tie-break. For order-free checks. */
+    private fun unsortedHandlers(): List<EffectCtx> {
+        val out = ArrayList<EffectCtx>(24)
+        fieldEffects(out)
+        for (s in sides) sideEffects(s, out)
+        for (m in activeMons()) monEffects(m, null, out)
+        return out
+    }
+
     /** Healthy active Pokémon, side by side and slot by slot. */
     fun activeMons(): List<BattleMon> = sides.flatMap { it.actives }.filter { it != null && !it.fainted }.map { it!! }
 
@@ -368,12 +416,13 @@ class Battle(
                 val text = when (s.controller) {
                     Controller.PLAYER -> "Go! ${lead.shownName}!"
                     Controller.WILD -> "A wild ${lead.shownName} appeared!"
-                    Controller.AI -> "${s.name} sent out ${lead.shownName}!"
+                    Controller.AI, Controller.REMOTE -> "${s.name} sent out ${lead.shownName}!"
                 }
                 events.add(BattleEvent.SwitchIn(s.index, teamIndex(lead), shownSpecies(lead), lead.hp, lead.maxHp, text)); log.add(text)
             }
         }
-        foeHpAtPlayerEntry = opponent.active?.let { it to it.hp }
+        // Recall-line text for the local player's side (side 0 in single-player battles, either side in a link battle).
+        foeHpAtPlayerEntry = sides.firstOrNull { it.isPlayer }?.let { opposingActive(it) }?.let { it to it.hp }
         // Switch-in effects (Intimidate, weather...) run by speed.
         for (m in activeMonsBySpeed()) runSwitchInEffects(m)
         updateFacedFoes()
@@ -386,6 +435,7 @@ class Battle(
     /** What [side] must decide next for its Pokémon in [slot] (slot 0 is the only one in singles). */
     fun request(side: Side, slot: Int = 0): Request {
         if (outcome != BattleOutcome.ONGOING) return Request.Wait
+        if (side.index in forfeits) return Request.Wait
         val key = slotKey(side, slot)
         // Mid-turn: the player picks who comes in after its own U-turn/Baton Pass; everyone else waits.
         selfSwitchKey?.let { return if (it == key) Request.SwitchIn(forced = true, selfSwitch = true, slot = slot) else Request.Wait }
@@ -430,7 +480,11 @@ class Battle(
         if (mon.item == "shedshell" && itemActive(mon)) return true
         if (mon.hasType("Ghost")) return true
         if (lockedMove(mon) != null && lockedMove(mon) != "uproar") return false
-        for (c in allHandlers()) if (c.effect.onTrapPokemon(c, mon)) return false
+        // Whether anything traps does not depend on handler order, but [allHandlers] breaks speed ties with the RNG, so
+        // [request] would draw random numbers. In a link battle each device may call [request] a different number of
+        // times (it only shows its own side's prompt), so link battles skip the sort. Single-player battles keep the draw:
+        // their RNG stream, and with it the golden logs and the determinism hash, stays unchanged.
+        for (c in if (isLink) unsortedHandlers() else allHandlers()) if (c.effect.onTrapPokemon(c, mon)) return false
         return true
     }
 
@@ -440,6 +494,8 @@ class Battle(
      */
     fun choose(side: Side, choice: Choice, slot: Int = 0): String? {
         if (outcome != BattleOutcome.ONGOING) return "Battle is over"
+        if (side.index in forfeits) return "Already forfeited"
+        if (choice is Choice.Forfeit) return if (rules.link) chooseForfeit(side, slot) else "Forfeiting is only possible in a link battle"
         val key = slotKey(side, slot)
         selfSwitchKey?.let { waiting ->
             if (waiting != key) return "Waiting for the other side to send out a Pokémon"
@@ -456,7 +512,7 @@ class Battle(
             if (target.fainted || target.isActive || isReservedReplacement(side, key, choice.teamIndex)) return "Cannot switch to that Pokémon"
             replacementChoices[key] = choice.teamIndex
             // Resolve now when every slot that must be replaced has a choice (AI sides choose in [advance]).
-            if (pendingSwitches.all { it in replacementChoices }) resolveReplacements(null)
+            if (replacementsDecided()) { if (!resolveForfeits()) resolveReplacements(null) }
             return null
         }
         if (pendingSwitches.isNotEmpty()) return "Waiting for the other side to send out a Pokémon"
@@ -492,9 +548,53 @@ class Battle(
                 }
             }
             Choice.Pass -> {}
+            Choice.Forfeit -> {} // handled above
         }
         choices[key] = choice
         return null
+    }
+
+    /** Sides (by index) that chose [Choice.Forfeit] at the current decision point; applied by [resolveForfeits]. */
+    private val forfeits = java.util.TreeSet<Int>()
+
+    /**
+     * [Choice.Forfeit] for [side]. Accepted wherever the side has a decision to make. A mid-turn self-switch has a single
+     * decider, so it ends the battle at once; otherwise it waits until every other decision of this point is in
+     * ([advance] for moves, the last replacement for fainted Pokémon), so the arrival order never matters.
+     */
+    private fun chooseForfeit(side: Side, slot: Int): String? {
+        if (!side.isHuman) return "Only a player can forfeit"
+        if (request(side, slot) == Request.Wait) return "Nothing to decide now"
+        forfeits.add(side.index)
+        val key = slotKey(side, slot)
+        when {
+            selfSwitchKey == key -> resolveForfeits()
+            pendingSwitches.isNotEmpty() -> if (replacementsDecided()) resolveForfeits()
+            // Moves: the forfeit stands in for every slot of the side; [advance] applies it once the other side chose.
+            else -> for ((s, a) in side.actives.withIndex()) if (choosesThisTurn(a)) choices[slotKey(side, s)] = Choice.Forfeit
+        }
+        return null
+    }
+
+    /** Every slot awaiting a replacement has a pick, or belongs to a side that forfeited. */
+    private fun replacementsDecided() = pendingSwitches.all { it in replacementChoices || keySide(it) in forfeits }
+
+    /** Ends the battle if a side forfeited: one side forfeiting loses, both forfeiting is a draw. Returns true if it ended. */
+    private fun resolveForfeits(): Boolean {
+        if (forfeits.isEmpty()) return false
+        for (i in forfeits) message("${sides[i].name} forfeited the match!")
+        val o = when {
+            forfeits.size == sides.size -> BattleOutcome.DRAW
+            sides[0].index in forfeits -> BattleOutcome.LOSE
+            else -> BattleOutcome.WIN
+        }
+        forfeits.clear(); choices.clear(); replacementChoices.clear(); plannedReplacements.clear(); pendingSwitches.clear(); shiftChoice = null
+        // A forfeit during a suspended turn abandons the rest of it.
+        selfSwitchKey = null; selfSwitchChoice = null
+        turnQueue = emptyList(); turnQueueIndex = 0; switchFlagCursor = -1; currentAction = null
+        for (s in sides) for (m in s.mons) m.volatiles.remove("pendingmove")
+        finish(o)
+        return true
     }
 
     /** Validates [c]'s target location ([Choice.UseMove.target]) for [user]; null when acceptable. */
@@ -517,22 +617,26 @@ class Battle(
         replacementChoices.any { (k, t) -> k != key && keySide(k) == side.index && t == teamIndex } ||
             plannedReplacements.any { (k, t) -> k != key && keySide(k) == side.index && t == teamIndex }
 
-    /** Fill in AI choices and run the turn once every side has chosen. Returns true if a turn was executed. */
+    /**
+     * Fill in AI choices and run the turn once every side has chosen. Human sides ([Side.isHuman]: the local player and,
+     * in a link battle, the remote one) are always waited for. Returns true if a turn was executed (false when a forfeit
+     * ended the battle instead).
+     */
     fun advance(ai: BattleAI = BattleAI()): Boolean {
         if (outcome != BattleOutcome.ONGOING) return false
         // A suspended turn continues only once the player has picked its self-switch replacement ([choose]).
         if (selfSwitchKey != null) return false
         // Replacement phase: fainted Pokémon are replaced before anyone picks a move for the next turn.
         if (pendingSwitches.isNotEmpty()) {
-            for (s in sides) if (!s.isPlayer) for (slot in s.actives.indices) {
+            for (s in sides) if (!s.isHuman) for (slot in s.actives.indices) {
                 val key = slotKey(s, slot)
                 if (key in pendingSwitches && key !in replacementChoices)
                     replacementChoices[key] = plannedReplacement(s, ai, slot) ?: ai.chooseReplacement(this, s)
             }
-            if (pendingSwitches.all { it in replacementChoices }) resolveReplacements(ai)
+            if (replacementsDecided()) { if (!resolveForfeits()) resolveReplacements(ai) }
             return false
         }
-        for (s in sides) if (!s.isPlayer) for (slot in s.actives.indices) {
+        for (s in sides) if (!s.isHuman) for (slot in s.actives.indices) {
             val a = s.actives[slot]?.takeIf { choosesThisTurn(it) } ?: continue
             if (!choices.containsKey(slotKey(s, slot))) {
                 // A rejected AI decision must never stall the turn: fall back to the first usable move, then to
@@ -544,6 +648,7 @@ class Battle(
             }
         }
         if (choices.size < sides.sumOf { s -> s.actives.count { choosesThisTurn(it) } }) return false
+        if (resolveForfeits()) return false
         runTurn()
         return true
     }
@@ -629,6 +734,7 @@ class Battle(
                         if (!target.fainted && !target.isActive) performSwitch(a.side, target, forced = false, slot = a.slot)
                     }
                     is Choice.UseMove, Choice.Pass -> runMoveAction(a.mon, a.choice)
+                    Choice.Forfeit -> {} // never queued: [advance] resolves forfeits before a turn runs
                 }
                 checkFaints()
                 runUpdate()
@@ -720,7 +826,7 @@ class Battle(
      * once; the UI may announce it before it happens.
      */
     fun plannedReplacement(side: Side, ai: BattleAI = BattleAI(), slot: Int? = null): Int? {
-        if (side.isPlayer) return null
+        if (side.isHuman) return null
         val key = slot?.let { slotKey(side, it) } ?: pendingSwitches.filter { keySide(it) == side.index }.minOrNull() ?: return null
         if (key !in pendingSwitches) return null
         return plannedReplacements.getOrPut(key) {
@@ -811,8 +917,8 @@ class Battle(
         if (a.switchFlag != null && !a.fainted) {
             val options = s.canSwitchTo()
             if (options.isNotEmpty()) {
-                val chosen = if (s.isPlayer) {
-                    // The player chooses (no cancelling once the move is done); the turn waits for [choose].
+                val chosen = if (s.isHuman) {
+                    // The player (local or remote) chooses (no cancelling once the move is done); the turn waits for [choose].
                     val pick = selfSwitchChoice?.let { s.mons.getOrNull(it) }?.takeIf { it in options }
                     if (pick == null) { selfSwitchKey = slotKey(s, slot); selfSwitchChoice = null; return false }
                     pick
@@ -1033,7 +1139,7 @@ class Battle(
      */
     private fun obeys(user: BattleMon, moveId: String): Boolean {
         val cap = rules.obedienceCap ?: return true
-        if (!rules.expEnabled || user.side.controller != Controller.PLAYER) return true
+        if (!rules.expEnabled || !user.side.isHuman) return true
         val level = Obedience.referenceLevel(user.mon)
         if (level <= cap) return true
         val asleepSleepMove = user.status == MajorStatus.SLEEP && dex.moveOrNull(moveId)?.sleepUsable == true
@@ -2181,7 +2287,8 @@ class Battle(
             m.mon.status = null
             m.side.faintedThisTurn = true
             m.side.totalFainted++
-            if (m.side.isPlayer) m.mon.friendship = max(0, m.mon.friendship - 1)
+            // Any human trainer's Pokémon: in a link battle both sides lose friendship alike (Return and Frustration read it).
+            if (m.side.isHuman) m.mon.friendship = max(0, m.mon.friendship - 1)
             // Only a direct attack KO credits the attacker (Showdown: the fainting effect must be a Move).
             val killer = m.koCredit?.takeIf { it !== m }
             // The fainted Pokémon's own effects (Destiny Bond, Grudge, primal weather): its HP is already 0, so collect them
@@ -2195,7 +2302,7 @@ class Battle(
             }
             if (m.isDynamaxed) endDynamax(m, silent = true)
             m.volatiles.clear()
-            if (!m.side.isPlayer && rules.expEnabled) awardExp(m)
+            if (!m.side.isHuman && rules.expEnabled) awardExp(m)
         }
         // Allow a Pokémon revived mid-battle (Revival Blessing) to faint again later.
         faintProcessed.removeAll { !it.fainted }
@@ -2288,7 +2395,7 @@ class Battle(
             m.mon.heldItem = when {
                 m.itemKnockedOff -> m.originalItem
                 m.item == null -> null
-                s.isPlayer && m.originalItem == null && opponent.isWild -> m.item // stolen from a wild Pokémon
+                s.isHuman && m.originalItem == null && opponent.isWild -> m.item // stolen from a wild Pokémon
                 else -> if (m.item == m.originalItem) m.originalItem else m.originalItem
             }
             if (m.mon.hp > m.mon.maxHp(dex)) m.mon.hp = m.mon.maxHp(dex)
@@ -2405,6 +2512,11 @@ class Battle(
     companion object {
         /** Multiplier of the side index in a slot key (side * SLOT_KEY + slot); larger than any slot count. */
         private const val SLOT_KEY = 8
+        /**
+         * [EffectState.data] keys that only feed display text and are left out of [stateHash]: Wish's "name" (the
+         * "X's wish came true!" line). Every other key is hashed.
+         */
+        private val TEXT_ONLY_DATA = setOf("name")
         /** Move targets that are not chosen by the player (the user, a whole side, the field, every adjacent Pokémon). */
         val SPREAD_TARGETS = setOf("allAdjacent", "allAdjacentFoes")
         val FIXED_TARGETS = setOf("self", "all", "allySide", "foeSide", "allyTeam", "allies", "allAdjacent", "allAdjacentFoes", "randomNormal", "scripted")
