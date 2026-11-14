@@ -17,8 +17,9 @@ import pkmn.engine.link.LobbyStart
 
 /**
  * The lobby between two connected devices, before the battle: both say who they are ([LobbyHi]), the host picks the rules
- * from what both players have, the guest says it is ready and the host starts. No game objects and no clock: the screen
- * calls [pump] each frame and reads the fields. Pure logic over a [LinkTransport], so it is tested with a loopback link.
+ * from what both players have, the guest says it is ready and the host starts. No game objects and no clock of its own:
+ * the screen calls [pump] each frame with the time and reads the fields. A peer that connects but sends no hello within
+ * [helloTimeoutMs] ends the lobby, so a stray connection cannot hold the host's only slot forever. Pure logic over a [LinkTransport], so it is tested with a loopback link.
  *
  * Whatever goes wrong ends in [error] (a sentence for the player); the transport is closed and the session is finished.
  * When [start] is set, the battle exchange takes over the same transport.
@@ -31,7 +32,13 @@ class LobbySession(
     private val dataHash: String,
     private val localGimmicks: Set<Gimmick>,
     private val partySize: Int,
+    private val helloTimeoutMs: Long = HELLO_TIMEOUT_MS,
 ) {
+    companion object {
+        /** How long a connected peer may stay silent before its hello. */
+        const val HELLO_TIMEOUT_MS = 15_000L
+    }
+
     /** What the battle starts with, once the lobby is done. */
     class Start(val rules: LinkRules, val flat: Boolean)
 
@@ -57,6 +64,8 @@ class LobbySession(
     val finished get() = error != null || start != null
 
     private var sentHi = false
+    /** Time of the first [pump]; -1 before it. */
+    private var startedAt = -1L
     private var rulesFromHost: LinkRules? = null
 
     /** Gimmicks both players have unlocked, sorted. */
@@ -65,9 +74,10 @@ class LobbySession(
     /** The rules as they stand now (host) or as the host last sent them (guest); null before the guest has any. */
     val rules: LinkRules? get() = if (role == LinkRole.HOST) LinkLobbyRules.rules(flat, if (gimmicksOn) commonGimmicks else emptySet()) else rulesFromHost
 
-    /** Reads what arrived and sends what is due. */
-    fun pump() {
+    /** Reads what arrived and sends what is due. [nowMs] is a monotonic clock in milliseconds. */
+    fun pump(nowMs: Long) {
         if (finished) return
+        if (startedAt < 0) startedAt = nowMs
         try {
             if (!sentHi) { send(LobbyHi(LinkProtocol.VERSION, gameVersion, dataHash, localName, localGimmicks.map { it.name }.sorted(), partySize)); sentHi = true }
             while (!finished) {
@@ -75,6 +85,7 @@ class LobbySession(
                 handle(LobbyCodec.decode(bytes))
             }
             if (!finished && transport.isClosed) fail("${remoteName ?: "The other player"} left the lobby.")
+            if (!finished && !connected && nowMs - startedAt >= helloTimeoutMs) fail("The other device didn't answer.", tell = true)
         } catch (e: LinkProtocolException) {
             fail("The link broke (${e.reason.name.lowercase().replace('_', ' ')}).", tell = true)
         }

@@ -97,6 +97,23 @@ class LinkNetTest {
     }
 
     @Test
+    fun `a valid frame in the same read as an oversized prefix is delivered before the close`() {
+        val gt = GameThread()
+        var accepted: TcpTransport? = null
+        val l = TcpTransport.listen(0, gt.post, { accepted = it }, { fail(it) })
+        val raw = Socket().apply { connect(InetSocketAddress("127.0.0.1", l.port), 2000) }
+        assertTrue(gt.until { accepted != null })
+        // One write, so the reader gets the valid frame and the bad prefix in a single read.
+        raw.getOutputStream().write(frame(9) + byteArrayOf(0x00, 0x7f, -1, -1)); raw.getOutputStream().flush()
+        val got = ArrayList<ByteArray>()
+        assertTrue(gt.until { accepted!!.receive()?.let { got.add(it) }; got.size == 2 })
+        assertEquals(9L, FrameCodec.decode(got[0]).seq)
+        assertEquals(VoidReason.OVERSIZED_FRAME, assertFailsWith<LinkProtocolException> { FrameCodec.decode(got[1]) }.reason)
+        assertTrue(gt.until { accepted!!.isClosed })
+        raw.close()
+    }
+
+    @Test
     fun `connecting to nothing reports an error`() {
         val gt = GameThread()
         val free = java.net.ServerSocket(0).use { it.localPort }

@@ -96,7 +96,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     // ================================================================= update
 
     override fun update(dt: Float, input: InputState) {
-        session?.pump()
+        session?.pump(System.nanoTime() / 1_000_000)
         when (stage) {
             Stage.MENU -> updateMenu(input)
             Stage.HOSTING, Stage.CONNECTING -> if (input.justPressed(Button.B)) cancelConnect()

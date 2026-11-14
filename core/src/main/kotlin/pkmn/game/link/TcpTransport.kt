@@ -62,7 +62,9 @@ class TcpTransport(private val socket: Socket, private val post: (Runnable) -> U
             while (true) {
                 val n = input.read(buf)
                 if (n < 0) break
+                // Frames complete before a bad prefix are delivered first; the error then ends the read.
                 for (f in frames.feed(buf.copyOf(n))) post { inbox.addLast(f) }
+                frames.error?.let { throw it }
             }
         } catch (e: LinkProtocolException) {
             // Oversized prefix: let the session see (and report) it, then drop the connection.

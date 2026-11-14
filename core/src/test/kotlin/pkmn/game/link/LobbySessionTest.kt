@@ -12,7 +12,7 @@ class LobbySessionTest {
         val g = LobbySession(LinkRole.GUEST, l.b, "GUEST", guestVersion, guestHash, guestGim, guestParty)
         return Triple(h, g, l)
     }
-    private fun run(h: LobbySession, g: LobbySession, n: Int = 6) = repeat(n) { h.pump(); g.pump() }
+    private fun run(h: LobbySession, g: LobbySession, n: Int = 6) = repeat(n) { h.pump(0); g.pump(0) }
 
     @Test
     fun `host picks the rules, guest readies, host starts with the common gimmicks`() {
@@ -66,18 +66,18 @@ class LobbySessionTest {
         val send = { m: LobbyMsg -> l.a.send(LobbyCodec.encode(m)) }
         send(LobbyHi(LinkProtocol.VERSION, "1", "h", "HOST", listOf("MEGA", "TERA"), 3))
         send(LobbyRules(LinkLobbyRules.rules(false, setOf(Gimmick.TERA)), false))
-        g.pump(); g.pump()
+        g.pump(0); g.pump(0)
         assertNotNull(g.error)
         val l2 = LoopbackLink({ 0 })
         val g2 = LobbySession(LinkRole.GUEST, l2.b, "GUEST", "1", "h", setOf(Gimmick.MEGA), 3)
         l2.a.send(LobbyCodec.encode(LobbyHi(LinkProtocol.VERSION, "1", "h", "HOST", emptyList(), 3)))
         l2.a.send(LobbyCodec.encode(LobbyStart(LinkLobbyRules.rules(false, emptySet()), false))) // no rules, not ready
-        g2.pump(); g2.pump()
+        g2.pump(0); g2.pump(0)
         assertNotNull(g2.error); assertNull(g2.start)
         val l3 = LoopbackLink({ 0 })
         val g3 = LobbySession(LinkRole.GUEST, l3.b, "GUEST", "1", "h", emptySet(), 3)
         l3.a.send(FrameCodec.encode(Frame(0, Heartbeat))) // a battle frame in the lobby
-        g3.pump()
+        g3.pump(0)
         assertNotNull(g3.error)
     }
 
@@ -92,5 +92,29 @@ class LobbySessionTest {
         g.setReady(true); run(h, g)
         assertTrue(h.guestReady); assertTrue(h.startBattle()); run(h, g)
         assertNull(g.error); assertNotNull(g.start)
+    }
+
+    @Test
+    fun `a peer that connects and never says hello is dropped after the deadline`() {
+        val l = LoopbackLink({ 0 })
+        val h = LobbySession(LinkRole.HOST, l.a, "HOST", "1", "h", emptySet(), 6, helloTimeoutMs = 1_000)
+        h.pump(5_000)
+        h.pump(5_999)
+        assertNull(h.error, "still within the deadline")
+        h.pump(6_000)
+        assertFalse(h.connected)
+        assertEquals("The other device didn't answer.", h.error)
+        assertTrue(l.a.isClosed)
+    }
+
+    @Test
+    fun `a hello inside the deadline keeps the lobby open past it`() {
+        val l = LoopbackLink({ 0 })
+        val h = LobbySession(LinkRole.HOST, l.a, "HOST", "1", "h", emptySet(), 6, helloTimeoutMs = 1_000)
+        val g = LobbySession(LinkRole.GUEST, l.b, "GUEST", "1", "h", emptySet(), 3, helloTimeoutMs = 1_000)
+        h.pump(0); g.pump(500); h.pump(900); g.pump(900)
+        assertTrue(h.connected && g.connected)
+        h.pump(60_000); g.pump(60_000)
+        assertNull(h.error); assertNull(g.error)
     }
 }
