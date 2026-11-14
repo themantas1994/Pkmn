@@ -26,14 +26,14 @@ import java.util.concurrent.CompletableFuture
 object LinkBuild { const val GAME_VERSION = "0.1.0" }
 
 /** What the desktop automation (`link host`, `link join`) asks of the lobby: skip the menus and start with default rules. */
-class AutoLink(val host: Boolean, val endpoint: LinkEndpoint? = null, val port: Int = LinkAddress.DEFAULT_PORT, val flat: Boolean = false)
+class AutoLink(val host: Boolean, val endpoint: LinkEndpoint? = null, val port: Int = LinkAddress.DEFAULT_PORT, val flat: Boolean = false, val trade: Boolean = false)
 
 /**
- * Link play, from the start menu: host or join, the lobby (the host picks the rules, the guest says ready), then the
- * battle and its result. Everything runs on the local network and writes nothing to the save: the battle plays healed
- * copies of the party. Closing this screen at any point closes the connection.
+ * Link play, from the start menu: host or join, the lobby (the host picks battle or trade and the rules, the guest says
+ * ready), then the battle and its result, or the trade. Everything runs on the local network. A battle writes nothing to the save (it plays healed
+ * copies of the party); a trade saves through its journal ([LinkTradeScreen]). Closing this screen at any point closes the connection.
  */
-class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val auto: AutoLink? = null) : Screen(game), LinkAware {
+class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val auto: AutoLink? = null) : Screen(game), LinkAware, LinkDebug {
     private enum class Stage { MENU, HOSTING, CONNECTING, LOBBY, STARTING, BATTLE, DONE }
 
     override val blocksAutosave get() = true
@@ -52,6 +52,8 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     /** The content hash costs a full serialization: computed once, off the game thread, while the player chooses. */
     private val dataHash: CompletableFuture<String> = CompletableFuture.supplyAsync { LinkFingerprint.dataHash(dex) }
     private val menuItems = listOf("HOST A GAME", "JOIN WITH A CODE", "JOIN BY ADDRESS", "CANCEL")
+
+    override fun debugState(): String = "lobby=$stage connected=${session?.connected == true} mode=${if (session?.trade == true) "TRADE" else "BATTLE"}"
 
     override fun onEnter() {
         if (ctx.state.party.isEmpty()) { stage = Stage.DONE; notice = "You need a POKéMON to link." ; return }
@@ -127,27 +129,35 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     private fun updateLobby(input: InputState) {
         val s = session ?: return
         s.error?.let { finishWith(it); return }
-        s.start?.let { startBattle(s); return }
+        s.start?.let { if (it.trade) startTrade(s) else startBattle(s); return }
         if (!s.connected) { if (input.justPressed(Button.B)) { s.leave(); finishWith("You left the lobby.") }; return }
-        val rows = if (role == LinkRole.HOST) 3 else 1
+        val rows = hostRows(s).size.takeIf { role == LinkRole.HOST } ?: 1
         if (input.repeat(Button.UP)) cursor = (cursor + rows - 1) % rows
         if (input.repeat(Button.DOWN)) cursor = (cursor + 1) % rows
         if (input.justPressed(Button.B)) { s.leave(); finishWith("You left the lobby."); return }
         // Automation waits a moment first, so a script can capture the lobby.
-        if (auto != null && !autoDone) { if (++autoFrames > AUTO_LOBBY_FRAMES) autoStep(s); return }
+        if (auto != null && !autoDone) {
+            if (role == LinkRole.HOST && !autoRulesSet) { autoRulesSet = true; s.setFlat(auto.flat); s.setTrade(auto.trade) }
+            if (++autoFrames > AUTO_LOBBY_FRAMES) autoStep(s)
+            return
+        }
         if (!input.justPressed(Button.A)) return
         game.audio.playSfx("menu_select")
-        if (role == LinkRole.HOST) when (cursor) {
-            0 -> s.setFlat(!s.flat)
-            1 -> s.setGimmicks(!s.gimmicksOn)
+        if (role == LinkRole.HOST) when (hostRows(s).getOrNull(cursor)) {
+            Row.MODE -> s.setTrade(!s.trade)
+            Row.LEVELS -> s.setFlat(!s.flat)
+            Row.GIMMICKS -> s.setGimmicks(!s.gimmicksOn)
             else -> if (!s.startBattle()) game.audio.playSfx("error")
         } else s.setReady(!s.guestReady)
     }
 
+    /** The host's menu rows: a trade has no battle rules to choose. */
+    private enum class Row { MODE, LEVELS, GIMMICKS, START }
+    private fun hostRows(s: LobbySession) = if (s.trade) listOf(Row.MODE, Row.START) else listOf(Row.MODE, Row.LEVELS, Row.GIMMICKS, Row.START)
+
     /** Automation: the guest is ready as soon as it has rules; the host starts as soon as the guest is ready. */
     private fun autoStep(s: LobbySession) {
         if (role == LinkRole.HOST) {
-            if (!autoRulesSet) { autoRulesSet = true; s.setFlat(auto!!.flat) }
             if (s.startBattle()) autoDone = true
         } else if (s.rules != null) { s.setReady(true) }
     }
@@ -165,6 +175,13 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
             transport?.close()
             finishWith("Your party can't be used for a link battle: ${e.message?.take(60)}")
         }
+    }
+
+    /** The trade takes over the lobby's connection; this screen is replaced by the trade screen and leaves the link open. */
+    private fun startTrade(s: LobbySession) {
+        val name = s.remoteName ?: "your friend"
+        stage = Stage.DONE
+        replace(LinkTradeScreen(game, ctx, role, transport!!, name))
     }
 
     private fun updateStarting() {
@@ -248,16 +265,23 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         val host = role == LinkRole.HOST
         val levels = "LEVELS: " + if (s.flat) "FLAT 50" else "AS THEY ARE"
         val gim = "GIMMICKS: " + (rules?.gimmicks?.joinToString(" ") { it.take(4) }?.ifEmpty { "NONE" } ?: "-")
+        val mode = "MODE: " + if (s.trade) "TRADE" else "BATTLE"
+        val start = if (s.guestReady) "START" else "START (friend not ready)"
         if (host) {
-            r.text(levels, 32, 66); r.text(gim, 32, 84)
-            r.text(if (s.guestReady) "START" else "START (friend not ready)", 32, 102)
-            r.cursor(18, 66 + cursor * 18)
-            r.text("Friend: " + if (s.guestReady) "READY" else "choosing...", 16, 134, small = true)
+            val rows = hostRows(s)
+            rows.forEachIndexed { i, row ->
+                r.text(when (row) { Row.MODE -> mode; Row.LEVELS -> levels; Row.GIMMICKS -> gim; Row.START -> start }, 32, 66 + i * 18)
+            }
+            r.cursor(18, 66 + cursor.coerceIn(0, rows.size - 1) * 18)
+            r.text("Friend: " + if (s.guestReady) "READY" else "choosing...", 16, 142, small = true)
+        } else if (rules == null) {
+            r.text("Waiting for the host's rules...", 16, 66)
+            r.text("READY", 32, 108); r.cursor(18, 108)
         } else {
-            r.text(if (rules == null) "Waiting for the host's rules..." else levels, 16, 66)
-            if (rules != null) r.text(gim, 16, 84)
-            r.text(if (s.guestReady) "READY!  (A: not ready)" else "READY", 32, 108); r.cursor(18, 108)
-            if (s.guestReady) r.text("Waiting for the host to start...", 16, 134, small = true)
+            r.text(mode, 16, 66)
+            if (!s.trade) { r.text(levels, 16, 84); r.text(gim, 16, 102) }
+            r.text(if (s.guestReady) "READY!  (A: not ready)" else "READY", 32, 126); r.cursor(18, 126)
+            if (s.guestReady) r.text("Waiting for the host to start...", 16, 148, small = true)
         }
         r.text("B: LEAVE", 16, 200, small = true)
     }

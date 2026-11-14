@@ -333,7 +333,9 @@ object MoveLearnFlow {
 /** Evolution sequence; B cancels while the animation runs (classic behaviour). */
 class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val mon: Pokemon, private val target: String,
                       /** Bag item (stone, Linking Cord) spent only when the evolution completes; a cancel keeps it. */
-                      private val spendOnEvolve: String? = null, private val then: () -> Unit) : Screen(game) {
+                      private val spendOnEvolve: String? = null,
+                      /** A link trade evolution: [GameContext.completeTradeEvolution] also uses up the held item it needed. */
+                      private val tradeEvolution: Boolean = false, private val then: () -> Unit) : Screen(game) {
     override val blocksAutosave get() = true
     private var t = 0f
     private var stage = 0 // 0 intro text, 1 animating, 2 done
@@ -367,7 +369,11 @@ class EvolutionScreen(game: PkmnGame, private val ctx: GameContext, private val 
         if (t >= 4.5f) {
             stage = 2
             val newSpecies = ctx.dexState(target) != pkmn.engine.campaign.DexState.CAUGHT
-            val pending = if (spendOnEvolve != null) ctx.completeItemEvolution(mon, target, spendOnEvolve) else ctx.evolve(mon, target)
+            val pending = when {
+                tradeEvolution -> ctx.completeTradeEvolution(mon, target)
+                spendOnEvolve != null -> ctx.completeItemEvolution(mon, target, spendOnEvolve)
+                else -> ctx.evolve(mon, target)
+            }
             game.audio.playSfx("evolution_finish")
             val newName = ctx.dex.species(target).name
             game.say("Congratulations! Your $oldName evolved into $newName!") {

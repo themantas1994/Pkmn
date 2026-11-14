@@ -246,14 +246,14 @@ class LockstepBattleTest {
     fun `teams the engine cannot trust are refused`() {
         val rules = LinkTestSupport.rules()
         fun bad(change: (pkmn.engine.mon.Pokemon) -> Unit): String? =
-            TeamCheck.error(pkmn.engine.TestSupport.dex, rules, listOf(LinkTestSupport.teams(3).first.first().copy().also(change)))
+            MonValidator(pkmn.engine.TestSupport.dex).checkTeam(rules, listOf(LinkTestSupport.teams(3).first.first().copy().also(change)))
         assertEquals(null, bad { })
         assertTrue(bad { it.moves[0].ppUps = 99 } != null)
         assertTrue(bad { it.moves[0].ppUps = -1 } != null)
         assertTrue(bad { it.dynamaxLevel = 5000 } != null)
         assertTrue(bad { it.teraType = "Foo" } != null)
         assertTrue(bad { it.moves.add(it.moves[0].copy()) } != null)
-        assertTrue(bad { it.level = 80 }.let { err -> TeamCheck.error(pkmn.engine.TestSupport.dex, rules.copy(levelCap = 50), listOf(LinkTestSupport.teams(3).first.first().copy().also { m -> m.level = 80 })) != null })
+        assertTrue(bad { it.level = 80 }.let { err -> MonValidator(pkmn.engine.TestSupport.dex).checkTeam(rules.copy(levelCap = 50), listOf(LinkTestSupport.teams(3).first.first().copy().also { m -> m.level = 80 })) != null })
     }
 
     @Test

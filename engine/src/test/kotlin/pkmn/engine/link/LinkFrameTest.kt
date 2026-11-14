@@ -92,4 +92,16 @@ class LinkFrameTest {
         assertEquals(LinkFingerprint.dataHash(dex), LinkFingerprint.dataHash(dex))
         assertEquals(64, LinkTestSupport.dataHash.length)
     }
+
+    @Test
+    fun `data hash covers learnsets`() {
+        fun withLearnsets(ls: List<pkmn.engine.data.LearnsetData>) = pkmn.engine.data.Dex(
+            dex.species.values.toList(), dex.moves.values.toList(), dex.abilities.values.toList(), dex.items.values.toList(),
+            dex.typeChart, { ls }, dex.manifest,
+        )
+        val all = dex.learnsets.values.toList()
+        assertEquals(LinkFingerprint.dataHash(dex), LinkFingerprint.dataHash(withLearnsets(all)))
+        val changed = all.map { if (it.species == "pikachu") it.copy(levelUp = it.levelUp.drop(1)) else it }
+        kotlin.test.assertNotEquals(LinkFingerprint.dataHash(dex), LinkFingerprint.dataHash(withLearnsets(changed)))
+    }
 }

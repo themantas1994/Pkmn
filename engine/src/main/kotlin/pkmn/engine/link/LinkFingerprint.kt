@@ -5,16 +5,18 @@ import pkmn.engine.data.AbilityData
 import pkmn.engine.data.ContentJson
 import pkmn.engine.data.Dex
 import pkmn.engine.data.ItemData
+import pkmn.engine.data.LearnsetData
 import pkmn.engine.data.MoveData
 import pkmn.engine.data.SpeciesData
 import java.security.MessageDigest
 
-/** The battle-relevant content of a [Dex] as one hash, so two devices with different data refuse to battle. */
+/** The content of a [Dex] that link play depends on, as one hash, so two devices with different data refuse to link. */
 object LinkFingerprint {
     /**
-     * SHA-256 (hex) over species, moves, abilities, items, the type chart and the content version, each in id order.
-     * Learnsets and Pokédex text are left out: no battle decision reads them. Costs a full serialization of the content,
-     * so compute it once per session.
+     * SHA-256 (hex) over species, moves, abilities, items, learnsets, the type chart and the content version, each in id
+     * order. Learnsets are in because a traded Pokémon learns moves on this device after the trade (level-up and
+     * evolution moves). Pokédex text is left out: nothing in a link session reads it. Costs a full serialization of the
+     * content, so compute it once per session.
      */
     fun dataHash(dex: Dex): String {
         val md = MessageDigest.getInstance("SHA-256")
@@ -23,6 +25,7 @@ object LinkFingerprint {
         feed("moves", ContentJson.encodeToString(ListSerializer(MoveData.serializer()), dex.moves.values.sortedBy { it.id }))
         feed("abilities", ContentJson.encodeToString(ListSerializer(AbilityData.serializer()), dex.abilities.values.sortedBy { it.id }))
         feed("items", ContentJson.encodeToString(ListSerializer(ItemData.serializer()), dex.items.values.sortedBy { it.id }))
+        feed("learnsets", ContentJson.encodeToString(ListSerializer(LearnsetData.serializer()), dex.learnsets.values.sortedBy { it.species }))
         val types = dex.typeChart.types
         feed("types", types.joinToString(",") + "|" + types.joinToString(";") { a -> types.joinToString(",") { d -> dex.typeChart.effectiveness(a, d).toString() } })
         feed("content", dex.manifest?.contentVersion?.toString() ?: "-")

@@ -160,7 +160,7 @@ class ObedienceCampaignTest {
         // Re-saving writes the current version.
         SaveManager(dir, dex).save(st)
         assertNull((SaveManager(dir, dex).load() as LoadResult.Ok).migratedFrom)
-        assertEquals(3, SaveManager.CURRENT_VERSION)
+        assertEquals(4, SaveManager.CURRENT_VERSION)
     }
 
     @Test

@@ -14,7 +14,7 @@ import java.security.MessageDigest
 /** Constants of the link protocol. */
 object LinkProtocol {
     /** Bumped whenever a message or a rule of the exchange changes; both devices must run the same one. */
-    const val VERSION = 2
+    const val VERSION = 3
 
     /** Bytes in the length prefix of a frame. */
     const val HEADER_BYTES = 4

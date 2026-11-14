@@ -95,6 +95,12 @@ class Pokemon(
     var fainted: Boolean = false,
     /** Nature applied to stats by a Mint (Generation VIII+). The original [nature] is kept and still shown. */
     var mintNature: Nature? = null,
+    /**
+     * The met level the Pokémon had with its original trainer, kept while it is away after a link trade (the receiver
+     * sets [metLevel] to the received level). It travels with the Pokémon, so a trade back home restores it. Null while
+     * the Pokémon has never left its original trainer.
+     */
+    var originalMetLevel: Int? = null,
 ) {
     /** The nature that modifies stats: the Mint's if one was used, otherwise the original nature. */
     val statNature: Nature get() = mintNature ?: nature
@@ -278,27 +284,33 @@ class Progression(private val dex: Dex) {
         val environment: String = "plain",
         /** The player just spun on the spot in the overworld (Milcery evolves if it holds a Sweet). */
         val spun: Boolean = false,
+        /** The Pokémon was just received in a link trade: trade evolutions apply (an Everstone still blocks them). */
+        val traded: Boolean = false,
+        /** With [traded]: the species it was traded for, which decides `tradewith:` (Karrablast and Shelmet). */
+        val tradePartner: String? = null,
     )
 
     /** Returns the species this Pokémon would evolve into now, or null. Unusable region-specific evolutions are skipped. */
     fun evolutionTarget(mon: Pokemon, ctx: EvolutionContext): String? {
         val sp = mon.species(dex)
         if (mon.heldItem == "everstone" && ctx.usedItem == null && !ctx.linkingCord) return null
+        // Level-up style evolutions only happen on a plain check, never as the result of an item, cord or trade.
+        val plain = ctx.usedItem == null && !ctx.linkingCord && !ctx.traded
         val ok = ArrayList<EvolutionData>()
         for (evo in sp.evolutions) {
             if (dex.speciesOrNull(evo.target) == null) continue
             if (evo.gender != null && (evo.gender == "M") != (mon.gender == Gender.MALE)) continue
             if (!conditionMet(mon, evo, ctx)) continue
             val met = when (evo.method) {
-                EvolutionMethod.LEVEL -> ctx.usedItem == null && !ctx.linkingCord && mon.level >= (evo.level ?: 1)
-                EvolutionMethod.LEVEL_FRIENDSHIP -> ctx.usedItem == null && !ctx.linkingCord && mon.friendship >= 160
-                EvolutionMethod.LEVEL_MOVE -> ctx.usedItem == null && !ctx.linkingCord && mon.moves.any { it.id == evo.move }
-                EvolutionMethod.LEVEL_HOLD -> ctx.usedItem == null && !ctx.linkingCord && mon.heldItem == evo.item
-                EvolutionMethod.LEVEL_EXTRA -> ctx.usedItem == null && !ctx.linkingCord && mon.level >= (evo.level ?: 1)
+                EvolutionMethod.LEVEL -> plain && mon.level >= (evo.level ?: 1)
+                EvolutionMethod.LEVEL_FRIENDSHIP -> plain && mon.friendship >= 160
+                EvolutionMethod.LEVEL_MOVE -> plain && mon.moves.any { it.id == evo.move }
+                EvolutionMethod.LEVEL_HOLD -> plain && mon.heldItem == evo.item
+                EvolutionMethod.LEVEL_EXTRA -> plain && mon.level >= (evo.level ?: 1)
                 EvolutionMethod.USE_ITEM -> ctx.usedItem != null && ctx.usedItem == evo.item
-                // Trade evolutions use the official Linking Cord item (from Legends: Arceus) in single-player.
-                EvolutionMethod.TRADE -> ctx.linkingCord && (evo.item == null || mon.heldItem == evo.item)
-                EvolutionMethod.OTHER -> ctx.usedItem == null && !ctx.linkingCord && otherMet(mon, evo, ctx)
+                // A link trade, or in single-player the official Linking Cord item (from Legends: Arceus).
+                EvolutionMethod.TRADE -> (ctx.linkingCord || ctx.traded) && (evo.item == null || mon.heldItem == evo.item)
+                EvolutionMethod.OTHER -> plain && otherMet(mon, evo, ctx)
             }
             if (met) ok.add(evo)
         }
@@ -353,7 +365,8 @@ class Progression(private val dex: Dex) {
                 c == "atk=def" -> mon.stat(dex, Stat.ATK) == mon.stat(dex, Stat.DEF)
                 c.startsWith("party:") -> ctx.party.any { it !== mon && it.speciesId == c.removePrefix("party:") }
                 c.startsWith("partytype:") -> ctx.party.any { it !== mon && c.removePrefix("partytype:") in it.species(dex).types }
-                c.startsWith("tradewith:") -> true // Linking Cord replaces the trade partner requirement.
+                // A link trade needs the right partner; the Linking Cord replaces the partner requirement.
+                c.startsWith("tradewith:") -> if (ctx.traded) ctx.tradePartner?.let { dex.speciesOrNull(it)?.baseSpecies ?: it } == c.removePrefix("tradewith:") else true
                 c.startsWith("location:") -> c.removePrefix("location:") in ctx.locationTags
                 c == "movetype:Fairy+friendship" -> mon.friendship >= 160 && mon.moves.any { dex.moveOrNull(it.id)?.type == "Fairy" }
                 // Inkay: hold the device upside-down; on desktop/tests the context flag substitutes.

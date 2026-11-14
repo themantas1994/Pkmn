@@ -30,7 +30,15 @@ data class SaveEnvelope(
 )
 
 sealed class LoadResult {
-    data class Ok(val state: GameState, val fromBackup: Boolean, val migratedFrom: Int?, val warnings: List<String>) : LoadResult()
+    /**
+     * [warnings] report repaired or damaged data. [notices] are ordinary events the player must be told about, such as
+     * a link trade that did not finish ([TradeJournal.resolveOnLoad]); they are not a sign of a damaged save.
+     * [tradeJournal] is the link trade journal the save held before it was resolved (null when there was none).
+     */
+    data class Ok(
+        val state: GameState, val fromBackup: Boolean, val migratedFrom: Int?, val warnings: List<String>,
+        val notices: List<String> = emptyList(), val tradeJournal: PendingTrade? = null,
+    ) : LoadResult()
     object NoSave : LoadResult()
     /** No main, temporary or backup copy could be read. The main and backup files are preserved (renamed with .corrupt). */
     data class Failed(val reason: String, val preservedFiles: List<String>) : LoadResult()
@@ -64,7 +72,13 @@ sealed class SaveResult {
  * Loading migrates old versions and validates content against the [Dex] (unknown species/moves/items are repaired
  * or reported, never silently dropped).
  */
-class SaveManager(private val dir: File, private val dex: Dex? = null, private val slot: String = "save") {
+class SaveManager(
+    private val dir: File,
+    private val dex: Dex? = null,
+    private val slot: String = "save",
+    /** The newest format this code reads and writes. Only tests lower it, to act as an older game. */
+    private val currentVersion: Int = CURRENT_VERSION,
+) {
     private val main get() = File(dir, "$slot.json")
     private val backup get() = File(dir, "$slot.json.bak")
     private val tmp get() = File(dir, "$slot.json.tmp")
@@ -90,7 +104,7 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
         }
         val payload = json.encodeToJsonElement(GameState.serializer(), state)
         val payloadText = json.encodeToString(JsonElement.serializer(), payload)
-        val env = SaveEnvelope(version = CURRENT_VERSION, savedAt = System.currentTimeMillis(), sha256 = sha256(payloadText), payload = payload)
+        val env = SaveEnvelope(version = currentVersion, savedAt = System.currentTimeMillis(), sha256 = sha256(payloadText), payload = payload)
         val bytes = json.encodeToString(SaveEnvelope.serializer(), env).toByteArray(Charsets.UTF_8)
         FileOutputStream(tmp).use { out ->
             out.write(bytes)
@@ -149,7 +163,7 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
             val version = (root["version"] as? JsonPrimitive)?.intOrNull
             when {
                 format != FORMAT || version == null -> Copy.Corrupt
-                version > CURRENT_VERSION -> Copy.Newer(version)
+                version > currentVersion -> Copy.Newer(version)
                 else -> {
                     val env = json.decodeFromJsonElement(SaveEnvelope.serializer(), root)
                     val text = json.encodeToString(JsonElement.serializer(), env.payload)
@@ -164,7 +178,7 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
     private fun decodeState(env: SaveEnvelope, warnings: MutableList<String>): GameState {
         var payload = env.payload.jsonObject
         var v = env.version
-        while (v < CURRENT_VERSION) { payload = migrate(v, payload); v++ }
+        while (v < currentVersion) { payload = migrate(v, payload); v++ }
         return json.decodeFromJsonElement(GameState.serializer(), coerceUnknownEnums(payload, warnings))
     }
 
@@ -172,7 +186,9 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
         val warnings = ArrayList<String>()
         val state = decodeState(env, warnings)
         dex?.let { warnings += SaveValidator(it).repair(state) }
-        LoadResult.Ok(state, fromBackup, if (env.version != CURRENT_VERSION) env.version else null, warnings)
+        val journal = state.pendingTrade
+        val notices = listOfNotNull(TradeJournal.resolveOnLoad(state))
+        LoadResult.Ok(state, fromBackup, if (env.version != currentVersion) env.version else null, warnings, notices, journal)
     } catch (e: Exception) {
         LoadResult.Failed("Could not decode save: ${e.message}", emptyList())
     }
@@ -212,7 +228,11 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
          * 3: badge obedience. Every Pokémon records whether it is an outsider (gift/trade) next to its met level. Old
          * Pokémon become outsider = false; a Pokémon saved without a met level gets its current level as the reference.
          */
-        const val CURRENT_VERSION = 3
+        /*
+         * 4: link trades. GameState.pendingTrade (the trade journal) and Pokemon.originalMetLevel, both null by default,
+         * so nothing in an old payload is rewritten.
+         */
+        const val CURRENT_VERSION = 4
 
         /** Migration from version [from] to from+1 on the raw JSON payload. */
         fun migrate(from: Int, payload: JsonObject): JsonObject = when (from) {
@@ -223,7 +243,7 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
             }
             // 2 -> 3: obedience fields on every party and PC Pokémon.
             2 -> migrateObedience(payload)
-            // 1 -> 2: the new fields have safe defaults; nothing to rewrite in the raw payload.
+            // 1 -> 2 and 3 -> 4: the new fields have safe defaults; nothing to rewrite in the raw payload.
             else -> payload
         }
 
@@ -318,6 +338,9 @@ class SaveValidator(private val dex: Dex) {
             }
             mon.level = mon.level.coerceIn(1, 100)
             // The obedience reference level can never exceed the current level (levels only go up).
+            mon.originalMetLevel?.let { o ->
+                if (o !in 1..100) { warnings.add("${mon.speciesId}: original met level $o out of range; removed."); mon.originalMetLevel = null }
+            }
             if (mon.metLevel !in 1..mon.level) {
                 warnings.add("${mon.speciesId}: met level ${mon.metLevel} out of range; set to ${mon.metLevel.coerceIn(1, mon.level)}.")
                 mon.metLevel = mon.metLevel.coerceIn(1, mon.level)

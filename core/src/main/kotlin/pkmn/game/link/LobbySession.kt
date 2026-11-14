@@ -22,7 +22,7 @@ import pkmn.engine.link.LobbyStart
  * [helloTimeoutMs] ends the lobby, so a stray connection cannot hold the host's only slot forever. Pure logic over a [LinkTransport], so it is tested with a loopback link.
  *
  * Whatever goes wrong ends in [error] (a sentence for the player); the transport is closed and the session is finished.
- * When [start] is set, the battle exchange takes over the same transport.
+ * When [start] is set, the battle exchange (or, when [Start.trade], the trade exchange) takes over the same transport.
  */
 class LobbySession(
     val role: LinkRole,
@@ -40,7 +40,7 @@ class LobbySession(
     }
 
     /** What the battle starts with, once the lobby is done. */
-    class Start(val rules: LinkRules, val flat: Boolean)
+    class Start(val rules: LinkRules, val flat: Boolean, val trade: Boolean = false)
 
     var remoteName: String? = null
         private set
@@ -53,6 +53,9 @@ class LobbySession(
     var flat = false
         private set
     var gimmicksOn = true
+        private set
+    /** Host: trade instead of battle. Guest: what the host last sent. The battle rules are then ignored. */
+    var trade = false
         private set
     var guestReady = false
         private set
@@ -97,6 +100,9 @@ class LobbySession(
     /** Host: allow the gimmicks both players have, or none. */
     fun setGimmicks(on: Boolean) { if (role == LinkRole.HOST && connected && start == null && on != gimmicksOn) { gimmicksOn = on; changed() } }
 
+    /** Host: a trade (true) or a battle (false). */
+    fun setTrade(on: Boolean) { if (role == LinkRole.HOST && connected && start == null && on != trade) { trade = on; changed() } }
+
     /** Guest: ready (or not) to play with the rules shown. */
     fun setReady(ready: Boolean) {
         if (role != LinkRole.GUEST || !connected || rulesFromHost == null || start != null || ready == guestReady) return
@@ -108,9 +114,9 @@ class LobbySession(
     fun startBattle(): Boolean {
         if (role != LinkRole.HOST || !connected || !guestReady || finished) return false
         val r = rules ?: return false
-        r.error()?.let { fail("These rules can't be played: $it."); return false }
-        send(LobbyStart(r, flat))
-        start = Start(r, flat)
+        if (!trade) r.error()?.let { fail("These rules can't be played: $it."); return false }
+        send(LobbyStart(r, flat, trade))
+        start = Start(r, flat, trade)
         return true
     }
 
@@ -125,11 +131,11 @@ class LobbySession(
     // ------------------------------------------------------------------ internals
 
     /** Identifies the rules a Ready refers to, so a Ready that crosses a rules change on the wire is ignored. */
-    private fun rulesKey(): String = (if (role == LinkRole.HOST) rules else rulesFromHost)?.let { "$it|$flat" } ?: ""
+    private fun rulesKey(): String = (if (role == LinkRole.HOST) rules else rulesFromHost)?.let { "$it|$flat|$trade" } ?: ""
 
     private fun changed() { guestReady = false; sendRules() }
 
-    private fun sendRules() { rules?.let { send(LobbyRules(it, flat)) } }
+    private fun sendRules() { rules?.let { send(LobbyRules(it, flat, trade)) } }
 
     private fun send(m: LobbyMsg) { transport.send(LobbyCodec.encode(m)) }
 
@@ -148,7 +154,7 @@ class LobbySession(
                 if (m.rules.error() != null || m.flat != (m.rules.levelCap == LinkLobbyRules.FLAT_LEVEL)) bad("rules")
                 // The host's rules may only use gimmicks this device really has.
                 if (m.rules.gimmicks.any { g -> localGimmicks.none { it.name == g } }) bad("rules")
-                rulesFromHost = m.rules; flat = m.flat; guestReady = false
+                rulesFromHost = m.rules; flat = m.flat; trade = m.trade; guestReady = false
             }
             is LobbyReady -> {
                 if (role != LinkRole.HOST || !connected) bad("ready")
@@ -156,8 +162,8 @@ class LobbySession(
                 if (m.rulesKey == rulesKey()) guestReady = m.ready
             }
             is LobbyStart -> {
-                if (role != LinkRole.GUEST || !connected || rulesFromHost != m.rules || m.flat != flat || !guestReady) bad("start")
-                start = Start(m.rules, m.flat)
+                if (role != LinkRole.GUEST || !connected || rulesFromHost != m.rules || m.flat != flat || m.trade != trade || !guestReady) bad("start")
+                start = Start(m.rules, m.flat, m.trade)
             }
             LobbyLeave -> fail("${remoteName ?: "The other player"} left the lobby.")
         }
