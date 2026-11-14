@@ -10,6 +10,9 @@ class Rng(seed: Long) {
     var state: Long = seed
         private set
 
+    /** Puts the generator back to a [saved] [state]. For look-ahead (AI damage previews) that must not use up random numbers. */
+    fun restore(saved: Long) { state = saved }
+
     fun nextLong(): Long {
         state += -0x61c8864680b583ebL
         var z = state

@@ -135,8 +135,12 @@ class Battle(
      * Used by the determinism self-test ([DeterminismSelfTest]) and, later, to compare both devices of a link battle.
      */
     fun stateHash(): String {
-        val h = StateHasher()
+        val h = StateHasher { m -> if (m == null) -1 else m.side.index * SLOT_KEY + m.side.mons.indexOf(m) }
         h.int(turn); h.str(outcome.name); h.long(rng.state)
+        // Battle-level memory and a suspended turn (a self-switch waiting for its pick): both decide what happens next.
+        h.str(lastMoveUsed); h.str(lastSuccessfulMoveThisTurn); h.int(runAttempts)
+        h.int(selfSwitchKey ?: -1); h.int(turnQueueIndex); h.int(turnQueue.size); h.int(switchFlagCursor)
+        h.int(pendingSwitches.size); for (k in pendingSwitches.sorted()) h.int(k)
         h.str(field.weather); h.effect(field.weatherState)
         h.str(field.terrain); h.effect(field.terrainState)
         h.effects(field.pseudoWeather)
@@ -158,21 +162,32 @@ class Battle(
                 h.int(m.activeTurns); h.int(m.dynamaxTurns); h.str(m.terastallized); h.bool(m.transformed); h.bool(m.isGigantamax)
                 h.int(m.lastDamage); h.int(m.mon.friendship); h.bool(m.forceSwitchFlag); h.str(m.switchFlag)
                 h.int(m.stellarBoostedTypes.size); for (t in m.stellarBoostedTypes.sorted()) h.str(t)
+                // Memory that later moves, abilities and items read: who dealt the last damage, who gets the KO credit, what
+                // hurt last, counters, and the disguise or pre-transform form. Persons are hashed as side*8+team index.
+                h.ref(m.koCredit); h.ref(m.lastMoveTarget); h.ref(m.illusion)
+                val dr = m.lastDamagedBy
+                if (dr == null) h.int(-1) else { h.ref(dr.source); h.int(dr.amount); h.str(dr.category); h.int(dr.turn) }
+                h.str(m.lastHpLossEffect); h.int(m.timesAttacked); h.bool(m.statsRaisedThisTurn); h.bool(m.statsLoweredThisTurn)
+                h.int(m.critsThisBattle); h.int(m.itemConsumedTurn); h.int(m.activeMoveActions); h.bool(m.isStarted)
+                h.str(m.preTransformSpecies?.id); h.str(m.baseAbility); h.str(m.originalItem)
             }
         }
         return h.finish()
     }
 
     /** Length-prefixed, big-endian feed into SHA-256 so no two field sequences can produce the same byte stream. */
-    private class StateHasher {
+    private class StateHasher(private val refOf: (BattleMon?) -> Int) {
         private val md = java.security.MessageDigest.getInstance("SHA-256")
         fun int(v: Int) { for (i in 3 downTo 0) md.update((v ushr (8 * i)).toByte()) }
         fun long(v: Long) { for (i in 7 downTo 0) md.update((v ushr (8 * i)).toByte()) }
         fun bool(v: Boolean) = md.update(if (v) 1 else 0)
         fun str(v: String?) { if (v == null) int(-1) else { val b = v.toByteArray(Charsets.UTF_8); int(b.size); md.update(b) } }
         fun strs(v: List<String>) { int(v.size); for (x in v) str(x) }
+        fun ref(m: BattleMon?) = int(refOf(m))
         fun effect(e: EffectState) {
             int(e.duration); int(e.counter); int(e.turns); int(e.hp); str(e.moveId); str(e.type); bool(e.flag)
+            // Who set it (a trap's source, a leech's seeder, a Wish's user).
+            ref(e.source)
             // Script data that can change an outcome (e.g. Binding Band's "bandmult"). Text-only keys are skipped. An empty
             // map feeds nothing, so states without data hash as before.
             val keys = e.data.keys.filter { it !in TEXT_ONLY_DATA }.sorted()
@@ -321,7 +336,7 @@ class Battle(
     }
 
     /** A link battle: one side is played on the other device ([Controller.REMOTE]). */
-    private val isLink = sides.any { it.controller == Controller.REMOTE }
+    val isLink = sides.any { it.controller == Controller.REMOTE }
 
     /** [allHandlers] in side and slot order, with no speed sort and so no random tie-break. For order-free checks. */
     private fun unsortedHandlers(): List<EffectCtx> {
@@ -480,7 +495,7 @@ class Battle(
     fun choose(side: Side, choice: Choice, slot: Int = 0): String? {
         if (outcome != BattleOutcome.ONGOING) return "Battle is over"
         if (side.index in forfeits) return "Already forfeited"
-        if (choice is Choice.Forfeit) return chooseForfeit(side, slot)
+        if (choice is Choice.Forfeit) return if (rules.link) chooseForfeit(side, slot) else "Forfeiting is only possible in a link battle"
         val key = slotKey(side, slot)
         selfSwitchKey?.let { waiting ->
             if (waiting != key) return "Waiting for the other side to send out a Pokémon"
