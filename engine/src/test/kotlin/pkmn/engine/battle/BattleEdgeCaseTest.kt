@@ -232,4 +232,27 @@ class BattleEdgeCaseTest {
         assertNull(zoro.illusion)
         assertTrue(b.log.any { it.contains("illusion wore off") })
     }
+
+    @Test
+    fun `scoring final gambit is a pure preview and does not faint the AI's pokemon`() {
+        // Issue #63: the preview used to run the self-KO for real in single-player battles.
+        val b = battle(listOf(mon("pikachu", level = 50, moves = listOf("tackle"))), listOf(mon("snorlax", level = 50, moves = listOf("finalgambit", "tackle"))))
+        val ai = b.opponent.active!!
+        val hp = ai.hp
+        BattleAI().scoreMove(b, ai, b.player.active!!, "finalgambit", 1)
+        assertEquals(hp, ai.hp)
+        assertFalse(ai.fainted)
+    }
+
+    @Test
+    fun `final gambit used for real still deals the user's hp and faints the user`() {
+        val b = battle(listOf(mon("snorlax", level = 50, moves = listOf("finalgambit"))), listOf(mon("blissey", level = 100, moves = listOf("splash"))))
+        val user = b.player.active!!
+        val hp = user.hp
+        val foe = b.opponent.active!!
+        val foeHp = foe.hp
+        turn(b, Choice.UseMove(0), Choice.UseMove(0))
+        assertTrue(user.fainted)
+        assertEquals(foeHp - hp, foe.hp)
+    }
 }
