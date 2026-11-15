@@ -258,7 +258,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         if (stage == Stage.DONE) return
         // The session may still be settling its last state message; the result screen waits for it.
         stage = Stage.DONE
-        replace(LinkResultScreen(game, lb).also { handOff = it })
+        replace(LinkResultScreen(game, lb) { res -> ctx.recordLinkBattle(res, if (lb.role == LinkRole.HOST) 0 else 1) }.also { handOff = it })
     }
 
     private fun finishWith(text: String) {
@@ -359,7 +359,8 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
 interface LinkSessionScreen { var onClose: (() -> Unit)? }
 
 /** How a link session ended, as both players see it: the result (or why there is none) and the shared state hash. */
-class LinkResultScreen(game: PkmnGame, private val lb: LockstepBattle) : Screen(game), LinkSessionScreen {
+class LinkResultScreen(game: PkmnGame, private val lb: LockstepBattle, private val onResult: (LinkResult) -> Unit = {}) : Screen(game), LinkSessionScreen {
+    private var recorded = false
     override val blocksAutosave get() = true
     override var onClose: (() -> Unit)? = null
     override fun onExit() { onClose?.invoke(); onClose = null }
@@ -372,6 +373,7 @@ class LinkResultScreen(game: PkmnGame, private val lb: LockstepBattle) : Screen(
 
     override fun update(dt: Float, input: InputState) {
         lb.pump(System.nanoTime() / 1_000_000)
+        result?.let { if (!recorded) { recorded = true; onResult(it) } }
         if (result != null && (input.justPressed(Button.A) || input.justPressed(Button.B))) pop()
     }
 
