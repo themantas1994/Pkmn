@@ -62,8 +62,9 @@ The unfinished trade stays in the save until the two players **link again**:
   swapped, the other finishes the swap now (with its trade evolution); if neither had, both keep their Pokémon. Then the
   new trade starts as usual.
 - Until then the Pokémon you offered stays in your party: it can battle and gain levels, but it cannot be released,
-  deposited in the PC, or traded (link or in-game). Changes it makes in the meantime (levels, a held item taken or given)
-  do not travel: the friend receives it as it was offered. A link trade with someone else is refused until the
+  deposited in the PC, or traded (link or in-game), and its held item cannot be taken, swapped or given ("NAME is
+  promised to FRIEND in an unfinished link trade."). Changes it makes in the meantime (levels, or a held item used up
+  or stolen in a battle) do not travel: the friend receives it as it was offered. A link trade with someone else is refused until the
   unfinished one is settled; link battles work as usual.
 - If the friend will never link again, START, **LINK**, **UNFINISHED TRADE** (listed only while a trade is unfinished) shows
   what is open and what can be lost, then **KEEP WAITING** or **CANCEL IT** (you keep your Pokémon and don't get theirs)
@@ -115,8 +116,8 @@ Also `trade_evolved.png` (the evolution's last message), and `trade_guest_lobby.
   (the guest drops its frames from its PREPARED on, so only the guest swaps), checks both saves (host PREPARED, guest
   COMMITTED), starts both games again from their saves (load notices, the UNFINISHED TRADE page) and links them again:
   the host finishes the trade and no journal is left. The `discovery` scenario has the guest find the host by discovery
-  (no code typed), plays a 3 VS 3 battle that the guest forfeits at its first decision, checks the same state hash and that
-  neither save changed, and captures the trainer card with the new win.
+  (no code typed), plays a 3 VS 3 battle to the end (`linkplay` sends in the next Pokémon after a faint), checks the same
+  state hash and winner and that neither save changed, and captures the trainer card with the new win or loss.
   Output in `build/link-scene/`.
 - `desktop/automation/link/attendant.txt`: the Link attendant in Fernwick's Pokémon Center opens the LINK menu.
 - Desktop to Android emulator: the emulator reaches the host PC at `10.0.2.2` (JOIN BY ADDRESS `10.0.2.2`); the other direction

@@ -240,12 +240,40 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
     /**
      * Why [mon] must stay in the party, or null: it is the Pokémon given in an open PREPARED trade journal, so the trade
      * can still be finished when the partner links again. It may still battle and gain levels; it may not be released,
-     * deposited or traded (link or in-game). After COMMITTED it has already left the party, so nothing is locked.
+     * deposited or traded (link or in-game), and its held item may not be taken, swapped or given ([takeHeldItem],
+     * [giveHeldItem]). After COMMITTED it has already left the party, so nothing is locked.
      */
     fun linkTradeLock(mon: Pokemon): String? {
         val j = state.pendingTrade ?: return null
         if (j.state != TradeJournalState.PREPARED || mon.uid != j.givenUid) return null
         return "${mon.displayName(dex)} is promised to ${j.partnerName} in an unfinished link trade."
+    }
+
+    /**
+     * Takes [mon]'s held item into the bag. Returns why it could not (nothing changed), or null. Locked for the Pokémon
+     * given in an open PREPARED journal ([linkTradeLock]): the friend's copy of the trade holds the item as offered.
+     */
+    fun takeHeldItem(mon: Pokemon): String? {
+        linkTradeLock(mon)?.let { return it }
+        val item = mon.heldItem ?: return "${mon.displayName(dex)} isn't holding anything."
+        if (state.addItem(item) < 1) return "The BAG has no room for the ${itemName(item)}."
+        mon.heldItem = null
+        return null
+    }
+
+    /**
+     * Gives [mon] the bag item [id] to hold; an item it held goes back to the bag. Returns why it could not (nothing
+     * changed), or null. Locked like [takeHeldItem].
+     */
+    fun giveHeldItem(mon: Pokemon, id: String): String? {
+        linkTradeLock(mon)?.let { return it }
+        if (state.itemCount(id) < 1) return "There is no ${itemName(id)} in the BAG."
+        val old = mon.heldItem
+        if (old != null && old != id && state.itemRoom(old) < 1) return "The BAG has no room for the ${itemName(old)}."
+        state.removeItem(id)
+        if (old != null) state.addItem(old)
+        mon.heldItem = id
+        return null
     }
 
     /** Why party member [slot] may not be offered in a link trade, or null when it may. */

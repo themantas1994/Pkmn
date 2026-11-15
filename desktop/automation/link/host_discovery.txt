@@ -32,7 +32,7 @@ waittop OverworldScreen 300
 wait 20
 shot link_after
 log
-# The trainer card shows the link record (the guest forfeited: one win).
+# The trainer card shows the link record (one win or one loss: the winner differs per run).
 press START
 wait 20
 press DOWN

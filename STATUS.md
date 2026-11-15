@@ -27,7 +27,7 @@ Every number in this document was produced by the commands listed next to it. No
 | Link play | Battles and trades between two devices on the local network, no server: host discovery with the typed code as fallback, a Link attendant in every Pokémon Center, rule presets (levels as they are, flat 50, 3 VS 3), a 20 s reconnect for a lost battle link, a link record on the trainer card. Trades are one party Pokémon for one, held items travel, journaled in the save so a lost link, a restart or a killed process never corrupts a save or settles an interrupted trade on one side ([docs/LINK.md](docs/LINK.md)). Not yet run on real devices: [docs/LINK-HARDWARE-CHECKLIST.md](docs/LINK-HARDWARE-CHECKLIST.md) |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
-| Tests | all passing (counts: `./gradlew :tools:statusCounts` after the test run); CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
+| Tests | all passing (counts: `./gradlew :tools:statusCounts` after the test run); CI runs them on every push. 56 reproducible visual-regression screenshots of the real desktop game (`tools/visual/run_scenes.sh`, 2026-11-15) |
 | Learnsets and moves | Every species/form audited (`:tools:auditLearnsets`: 0 errors) and every move executed in battle (`MoveExecutionTest`: 0 unsupported); see [docs/LEARNSETS.md](docs/LEARNSETS.md), [reports/moves-audit.md](reports/moves-audit.md) |
 | Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
 
@@ -103,7 +103,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (494 + 154 + 152 with link play trades, from a fresh uncached `scripts/gates.sh all` run on 2026-11-14, skipped: ChipSynthBenchmarkTest in core and ArtBuildDeterminismTest in tools; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (525 + 160 + 152 with link play phase 5, from a fresh uncached `scripts/gates.sh all` run on 2026-11-15, skipped: ChipSynthBenchmarkTest in core and ArtBuildDeterminismTest in tools; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.

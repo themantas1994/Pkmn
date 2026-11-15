@@ -76,6 +76,38 @@ class TradeJournalLockTest {
     }
 
     @Test
+    fun `the given Pokémon's held item cannot be taken, swapped or given`() {
+        val (a, _) = preparedHost()
+        val st = a.ctx.state
+        val pidgey = st.party[0]
+        st.addItem("oranberry"); st.addItem("potion")
+        // As offered: holding nothing. Giving is refused.
+        pidgey.heldItem = null
+        assertEquals(lock, a.ctx.giveHeldItem(pidgey, "oranberry"))
+        assertNull(pidgey.heldItem); assertEquals(1, st.itemCount("oranberry"))
+        // Holding an item (a save from a build before this lock): taking and swapping are refused too.
+        pidgey.heldItem = "oranberry"
+        assertEquals(lock, a.ctx.takeHeldItem(pidgey))
+        assertEquals(lock, a.ctx.giveHeldItem(pidgey, "potion"))
+        assertEquals("oranberry", pidgey.heldItem); assertEquals(1, st.itemCount("oranberry")); assertEquals(1, st.itemCount("potion"))
+        // The other Pokémon are not locked.
+        val rattata = st.party[1]
+        assertNull(a.ctx.giveHeldItem(rattata, "potion"))
+        assertEquals("potion", rattata.heldItem); assertEquals(0, st.itemCount("potion"))
+        assertNull(a.ctx.takeHeldItem(rattata))
+        assertNull(rattata.heldItem); assertEquals(1, st.itemCount("potion"))
+    }
+
+    @Test
+    fun `nothing about held items is locked by a COMMITTED journal`() {
+        val (a, b) = devices()
+        interrupt(a, b, committed = "host")
+        val received = a.ctx.state.party[0]
+        a.ctx.state.addItem("potion")
+        assertNull(a.ctx.giveHeldItem(received, "potion")); assertNull(a.ctx.takeHeldItem(received))
+    }
+
+    @Test
     fun `the given Pokémon can still battle and gain levels, and the trade still finishes`() {
         val (a, b) = preparedHost()
         val pidgey = a.ctx.state.party[0]
