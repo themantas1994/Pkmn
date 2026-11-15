@@ -19,6 +19,8 @@ wait 8
 press DOWN
 wait 8
 press DOWN
+wait 8
+press DOWN
 waitstate menu=UNFINISHED_TRADE 120
 wait 20
 shot link_unfinished

@@ -77,7 +77,8 @@ class BattleFlowLinkTest {
     @Test
     fun `the session ending while waiting ends the flow`() {
         val l = LoopbackLink({ 0 })
-        val cfg = LinkConfig("t", LinkLobbyRules.rules(false, emptySet()), dataHash = hash)
+        // A lost link first pauses the battle for the grace period (here 100 ms of the frame clock), then voids it.
+        val cfg = LinkConfig("t", LinkLobbyRules.rules(false, emptySet()), timeouts = LinkTimeouts(graceMs = 100), dataHash = hash)
         val h = Device(LockstepBattle(LinkRole.HOST, l.a, dex, cfg, team(0, 3), "HOST"), autoChoose = false)
         val g = LockstepBattle(LinkRole.GUEST, l.b, dex, cfg, team(2, 3), "GUEST")
         var t = 0L
@@ -85,8 +86,10 @@ class BattleFlowLinkTest {
         assertEquals(BattleFlow.Phase.CHOOSE_ACTION, h.flow!!.phase)
         h.flow!!.submit(Choice.UseMove(0)); h.frame(t)
         assertEquals(BattleFlow.Phase.WAITING_REMOTE, h.flow!!.phase)
-        l.b.close(); t += 16; h.frame(t); h.frame(t + 16)
-        assertTrue(h.ended)
+        l.b.close(); t += 16; h.frame(t)
+        assertTrue(h.lb.reconnecting && !h.ended, "paused, waiting for the same peer")
+        h.frame(t + 200); h.frame(t + 216)
+        assertTrue(h.ended, "ended after the grace period: ${h.lb.result}")
         assertIs<LinkResult.Voided>(h.lb.result)
     }
 }

@@ -45,6 +45,9 @@ class LobbySession(
     var remoteName: String? = null
         private set
     private var remoteGimmicks: Set<String> = emptySet()
+    /** The other player's party size from its hello (a three-against-three battle needs three on both sides). */
+    var remotePartySize = 0
+        private set
     /** True once the other device's [LobbyHi] passed the checks. */
     var connected = false
         private set
@@ -54,6 +57,11 @@ class LobbySession(
         private set
     var gimmicksOn = true
         private set
+    /** Host: each player picks this many ("three against three"), 0 for the whole team. Guest: what the host last sent. */
+    var pick = 0
+        private set
+    /** The preset the current rules match. */
+    val preset get() = LinkLobbyRules.Preset.entries.firstOrNull { it.flat == flat && it.pick == pick } ?: LinkLobbyRules.Preset.AS_THEY_ARE
     /** Host: trade instead of battle. Guest: what the host last sent. The battle rules are then ignored. */
     var trade = false
         private set
@@ -75,7 +83,7 @@ class LobbySession(
     val commonGimmicks: Set<Gimmick> get() = LinkLobbyRules.common(localGimmicks.map { it.name }, remoteGimmicks)
 
     /** The rules as they stand now (host) or as the host last sent them (guest); null before the guest has any. */
-    val rules: LinkRules? get() = if (role == LinkRole.HOST) LinkLobbyRules.rules(flat, if (gimmicksOn) commonGimmicks else emptySet()) else rulesFromHost
+    val rules: LinkRules? get() = if (role == LinkRole.HOST) LinkLobbyRules.rules(flat, if (gimmicksOn) commonGimmicks else emptySet(), pick) else rulesFromHost
 
     /** Reads what arrived and sends what is due. [nowMs] is a monotonic clock in milliseconds. */
     fun pump(nowMs: Long) {
@@ -94,8 +102,14 @@ class LobbySession(
         }
     }
 
-    /** Host: levels as they are or flat 50. */
-    fun setFlat(on: Boolean) { if (role == LinkRole.HOST && connected && start == null && on != flat) { flat = on; changed() } }
+    /** Host: levels as they are or flat 50 (with the whole team). */
+    fun setFlat(on: Boolean) = setPreset(if (on) LinkLobbyRules.Preset.FLAT_50 else LinkLobbyRules.Preset.AS_THEY_ARE)
+
+    /** Host: one of the rule presets (levels as they are, flat 50, three against three). */
+    fun setPreset(p: LinkLobbyRules.Preset) {
+        if (role != LinkRole.HOST || !connected || start != null || p == preset) return
+        flat = p.flat; pick = p.pick; changed()
+    }
 
     /** Host: allow the gimmicks both players have, or none. */
     fun setGimmicks(on: Boolean) { if (role == LinkRole.HOST && connected && start == null && on != gimmicksOn) { gimmicksOn = on; changed() } }
@@ -115,6 +129,8 @@ class LobbySession(
         if (role != LinkRole.HOST || !connected || !guestReady || finished) return false
         val r = rules ?: return false
         if (!trade) r.error()?.let { fail("These rules can't be played: $it."); return false }
+        // Refused, not failed: the host can pick other rules.
+        if (!trade && r.pick > 0 && (partySize < r.pick || remotePartySize < r.pick)) return false
         send(LobbyStart(r, flat, trade))
         start = Start(r, flat, trade)
         return true
@@ -152,9 +168,11 @@ class LobbySession(
             is LobbyRules -> {
                 if (role != LinkRole.GUEST || !connected) bad("rules")
                 if (m.rules.error() != null || m.flat != (m.rules.levelCap == LinkLobbyRules.FLAT_LEVEL)) bad("rules")
+                // Only the presets: 3 VS 3 is played at levels as they are.
+                if (m.rules.pick !in setOf(0, LinkLobbyRules.PICK) || (m.rules.pick > 0 && m.flat)) bad("rules")
                 // The host's rules may only use gimmicks this device really has.
                 if (m.rules.gimmicks.any { g -> localGimmicks.none { it.name == g } }) bad("rules")
-                rulesFromHost = m.rules; flat = m.flat; trade = m.trade; guestReady = false
+                rulesFromHost = m.rules; flat = m.flat; pick = m.rules.pick; trade = m.trade; guestReady = false
             }
             is LobbyReady -> {
                 if (role != LinkRole.HOST || !connected) bad("ready")
@@ -181,6 +199,7 @@ class LobbySession(
         }
         remoteName = m.name
         remoteGimmicks = m.gimmicks.toSet()
+        remotePartySize = m.partySize
         connected = true
         if (role == LinkRole.HOST) sendRules()
     }

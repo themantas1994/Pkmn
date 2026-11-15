@@ -343,6 +343,9 @@ class TrainerCardScreen(game: PkmnGame, private val ctx: GameContext) : Screen(g
             }
         }
         ctx.content.info.badges.lastOrNull { it.number in s.badges }?.let { r.text("Latest: ${it.name} Badge", 16, 160) }
+        val lr = s.linkRecord
+        r.text("LINK  WON ${lr.won}  LOST ${lr.lost}${if (lr.drawn > 0) "  DRAW ${lr.drawn}" else ""}  VOID ${lr.voided}", 16, 184, small = true)
+        r.text("LINK TRADES ${lr.trades}", 16, 196, small = true)
         r.assets.trainerPortrait(if (s.playerGender == "f") "player_f" else "player_m")?.let { r.draw(it, 176, 20) }
     }
 }

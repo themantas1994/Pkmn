@@ -69,6 +69,7 @@ class GameTradeStore(private val ctx: GameContext, private val save: (GameState)
         val sets = listOf(s.seen, s.caught, s.formsSeen, s.formsCaught, s.shiniesCaught).map { it.toSet() }
         val nicknames = s.pendingNicknames.toList()
         val journal = s.pendingTrade
+        val trades = s.linkRecord.trades
         val trade = lastTrade
         try {
             change()
@@ -81,6 +82,7 @@ class GameTradeStore(private val ctx: GameContext, private val save: (GameState)
             listOf(s.seen, s.caught, s.formsSeen, s.formsCaught, s.shiniesCaught).zip(sets).forEach { (cur, old) -> cur.clear(); cur.addAll(old) }
             s.pendingNicknames.clear(); s.pendingNicknames.addAll(nicknames)
             s.pendingTrade = journal
+            s.linkRecord.trades = trades
             lastTrade = trade
             throw e
         }

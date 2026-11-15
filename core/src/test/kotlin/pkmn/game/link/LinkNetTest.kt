@@ -172,14 +172,17 @@ class LinkNetTest {
     }
 
     @Test
-    fun `a peer that vanishes mid battle voids it on the survivor`() {
+    fun `a peer that vanishes mid battle voids it on the survivor after the grace period`() {
         val gt = GameThread(); val p = connect(gt)
         val rules = LinkLobbyRules.rules(false, emptySet())
-        val cfg = LinkConfig("test", rules, dataHash = hash)
+        // A short grace period keeps the test quick; the rule is the same as with the default 20 s.
+        val cfg = LinkConfig("test", rules, timeouts = LinkTimeouts(graceMs = 1_000), dataHash = hash)
         val host = LockstepBattle(LinkRole.HOST, p.host, dex, cfg, team(1, 3), "HOST")
         val guest = LockstepBattle(LinkRole.GUEST, p.guest, dex, cfg, team(2, 3), "GUEST")
         assertTrue(gt.until { host.pump(System.nanoTime() / 1_000_000); guest.pump(System.nanoTime() / 1_000_000); act(host); act(guest); host.battle != null && guest.battle != null && host.battle!!.turn >= 2 })
         p.guest.close() // the other device dies: its socket closes
+        assertTrue(gt.until { host.pump(System.nanoTime() / 1_000_000); act(host); host.reconnecting || host.isOver })
+        assertTrue(host.reconnecting && !host.isOver, "paused first, waiting for the same peer")
         assertTrue(gt.until { host.pump(System.nanoTime() / 1_000_000); act(host); host.isOver })
         assertEquals(VoidReason.LINK_LOST, assertIs<LinkResult.Voided>(host.result).reason)
     }

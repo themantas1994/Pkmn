@@ -134,11 +134,28 @@ object LinkAddress {
 /** What the lobby turns into battle input: rules from the host's choices and the local party as healed battle copies. */
 object LinkLobbyRules {
     const val FLAT_LEVEL = 50
+    /** How many each player picks in the "three against three" preset. */
+    const val PICK = 3
 
-    /** Rules for a battle: [gimmicks] are the ones both players have unlocked (the host decides whether to allow them). */
-    fun rules(flat: Boolean, gimmicks: Set<Gimmick>): LinkRules = LinkRules(
+    /** The battle rule presets the host chooses from in the lobby. */
+    enum class Preset(val label: String, val flat: Boolean, val pick: Int) {
+        AS_THEY_ARE("LEVELS AS THEY ARE", false, 0),
+        FLAT_50("FLAT 50", true, 0),
+        THREE_VS_THREE("3 VS 3", false, PICK);
+
+        companion object {
+            /** The preset that [rules] were made from. */
+            fun of(rules: LinkRules): Preset = entries.firstOrNull { it.pick == rules.pick && it.flat == (rules.levelCap == FLAT_LEVEL) } ?: AS_THEY_ARE
+        }
+    }
+
+    /**
+     * Rules for a battle: [gimmicks] are the ones both players have unlocked (the host decides whether to allow them);
+     * [pick] > 0 is "three against three" (each player picks that many after seeing both teams).
+     */
+    fun rules(flat: Boolean, gimmicks: Set<Gimmick>, pick: Int = 0): LinkRules = LinkRules(
         gimmicks = gimmicks.map { it.name }.sorted(), levelCap = if (flat) FLAT_LEVEL else 100,
-        format = BattleFormat.SINGLES.name,
+        format = BattleFormat.SINGLES.name, pick = pick,
     )
 
     /** Gimmicks present in both lists, ignoring names this build does not know. */

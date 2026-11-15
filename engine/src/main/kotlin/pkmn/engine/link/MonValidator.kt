@@ -76,6 +76,7 @@ class MonValidator(private val dex: Dex) {
     /** Checks a whole team for a link battle. */
     fun checkTeam(rules: LinkRules, mons: List<Pokemon>): String? {
         if (mons.isEmpty() || mons.size > rules.maxTeam) return "team of ${mons.size}"
+        if (mons.size < rules.pick) return "team of ${mons.size}, ${rules.pick} must be picked"
         for (m in mons) check(m, forTrade = false, levelCap = rules.levelCap)?.let { return it.reason }
         return null
     }

@@ -174,6 +174,8 @@ class ScriptHost(
             "bike" -> { ow.toggleBike(); resume() }
             "flash" -> { ow.useFlash(); resume() }
             "set_tera_type" -> setTeraType(args.firstOrNull()?.replaceFirstChar { it.uppercase() } ?: "Normal")
+            // The Pokémon Center's Link attendant: the same lobby as the start menu's LINK entry; the script goes on once it closes.
+            "link" -> game.push(pkmn.game.link.LinkLobbyScreen(game, ctx, onClose = { resume() }))
             else -> { game.platform.log("Unknown special '$name'"); resume() }
         }
     }

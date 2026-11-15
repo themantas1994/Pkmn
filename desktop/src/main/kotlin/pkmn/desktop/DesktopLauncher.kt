@@ -36,6 +36,8 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
  *                        link host [PORT] [flat] [trade] (host a link battle with default rules, or a trade; start when the guest is ready),
  *                        link join CODE|ADDRESS[:PORT] (join a host, ready as soon as it has rules; follows the host's battle or trade),
  *                        add `dropprepared` to either to drop this device's trade frames from its PREPARED on (interrupted-trade scene),
+ *                        link find [NAME] [three] (discovery: join the first host listed, or the one named NAME), `three` on host/join: the
+ *                        three-against-three preset (the host chooses it; both pick the first three automatically),
  *                        link menu (open the LINK menu as the start menu does), mashuntil TEXT [frames] (press A every 20 frames until
  *                        the top screen's class name or debug state contains TEXT),
  *                        linkplay fight | linkplay forfeit TURN (drive the link battle's menus until its result screen shows)
@@ -210,9 +212,10 @@ class Automation(script: List<String>, private val shots: File) {
                     when (parts[1]) {
                         "host" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = true,
                             port = parts.drop(2).firstNotNullOfOrNull { it.toIntOrNull() } ?: pkmn.engine.link.LinkAddress.DEFAULT_PORT, flat = "flat" in parts, trade = "trade" in parts,
-                            dropFromPrepared = "dropprepared" in parts)))
+                            dropFromPrepared = "dropprepared" in parts, three = "three" in parts)))
                         "join" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false,
-                            endpoint = pkmn.engine.link.LinkAddress.parse(parts[2]) ?: error("bad link address '${parts[2]}'"), dropFromPrepared = "dropprepared" in parts)))
+                            endpoint = pkmn.engine.link.LinkAddress.parse(parts[2]) ?: error("bad link address '${parts[2]}'"), dropFromPrepared = "dropprepared" in parts, three = "three" in parts)))
+                        "find" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false, discover = true, discoverName = parts.drop(2).firstOrNull { it != "three" }, three = "three" in parts)))
                         "menu" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx))
                         else -> error("unknown link command '${parts[1]}'")
                     }

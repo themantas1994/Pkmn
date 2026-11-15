@@ -247,7 +247,8 @@ class SaveManager(
         /*
          * 4: link trades. GameState.pendingTrade (the trade journal) and Pokemon.originalMetLevel, both null by default,
          * so nothing in an old payload is rewritten. PendingTrade.partnerTrainerId (link play Phase 5) was added to v4
-         * before v4 was released: nullable with a default, so a v4 file written without it loads unchanged.
+         * before v4 was released: nullable with a default, so a v4 file written without it loads unchanged. The same
+         * holds for GameState.linkRecord (link play Phase 5, the trainer card's link record), which defaults to zeros.
          */
         const val CURRENT_VERSION = 4
 

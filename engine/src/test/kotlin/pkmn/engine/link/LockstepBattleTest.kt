@@ -207,20 +207,32 @@ class LockstepBattleTest {
 
     @Test
     fun `silence voids the session after the timeout and heartbeats keep it alive`() {
-        val s = Session(2, LinkFaults(cutAt = 6, silentCut = true))
+        // Before the battle has started (cut at the second Hello): void after voidMs of silence.
+        val early = Session(2, LinkFaults(cutAt = 1, silentCut = true))
         var t = 0L
-        while (t < 30_000 && !s.host.isOver) { t += 1000; s.now = t; s.host.pump(t); s.guest.pump(t) }
-        assertTrue(!s.host.isOver, "30 s of silence is still within the limit")
-        assertTrue(s.host.silentForMs() >= LinkTimeouts().silenceNoticeMs)
-        while (t < 90_000 && !(s.host.isOver && s.guest.isOver)) { t += 1000; s.now = t; s.host.pump(t); s.guest.pump(t) }
+        while (t < 30_000 && !early.host.isOver) { t += 1000; early.now = t; early.host.pump(t); early.guest.pump(t) }
+        assertTrue(!early.host.isOver, "30 s of silence is still within the limit")
+        while (t < 90_000 && !(early.host.isOver && early.guest.isOver)) { t += 1000; early.now = t; early.host.pump(t); early.guest.pump(t) }
         val ends = listOf(VoidReason.TIMEOUT, VoidReason.LINK_LOST) // whoever times out first closes the link
-        assertTrue(voided(s.host.result).reason in ends); assertTrue(voided(s.guest.result).reason in ends)
-        assertTrue(listOf(s.host, s.guest).any { voided(it.result).reason == VoidReason.TIMEOUT })
+        assertTrue(voided(early.host.result).reason in ends); assertTrue(voided(early.guest.result).reason in ends)
+        assertTrue(listOf(early.host, early.guest).any { voided(it.result).reason == VoidReason.TIMEOUT })
+        // Once it has started: after silenceNoticeMs the link counts as lost, the battle waits graceMs for a reconnect, then is void.
+        val s = Session(2, LinkFaults(cutAt = 6, silentCut = true))
+        t = 0L
+        val lim = LinkTimeouts()
+        while (t < lim.silenceNoticeMs + 3000 && !s.host.reconnecting) { t += 1000; s.now = t; s.host.pump(t); s.guest.pump(t) }
+        val lostAt = t
+        assertTrue(s.host.battle != null && s.host.reconnecting && !s.host.isOver, "paused, waiting for a reconnect")
+        while (t < lostAt + lim.graceMs - 2000) { t += 1000; s.now = t; s.host.pump(t); s.guest.pump(t) }
+        assertTrue(!s.host.isOver && s.host.reconnectLeftMs() in 1..3000, "still in the grace period: ${s.host.reconnectLeftMs()}")
+        while (t < 60_000 && !(s.host.isOver && s.guest.isOver)) { t += 1000; s.now = t; s.host.pump(t); s.guest.pump(t) }
+        assertEquals(VoidReason.LINK_LOST, voided(s.host.result).reason); assertEquals(VoidReason.LINK_LOST, voided(s.guest.result).reason)
         // A healthy but idle link (nobody chooses for two minutes) stays up: heartbeats count as life.
         val idle = Session(2)
         var u = 0L
         while (u < 150_000) { u += 1000; idle.now = u; idle.host.pump(u); idle.guest.pump(u) }
         assertTrue(!idle.host.isOver && !idle.guest.isOver)
+        assertTrue(!idle.host.reconnecting && !idle.guest.reconnecting)
     }
 
     @Test

@@ -284,6 +284,7 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
             received.metLevel = received.level
         }
         received.friendship = sp.baseFriendship
+        state.linkRecord.trades++
         state.party.removeAt(slot)
         state.pendingNicknames.remove(given.uid)
         if (received.uid == 0L || state.findByUid(received.uid) != null) received.uid = factory.nextUid()
@@ -324,6 +325,22 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return when (j.state) {
             TradeJournalState.PREPARED -> "Unfinished trade with ${j.partnerName}: ${TradeJournal.givenName(j)} for ${j.received.displayName(dex)}. Link with ${j.partnerName} again to finish it."
             TradeJournalState.COMMITTED -> "Trade with ${j.partnerName} done here: you got ${j.received.displayName(dex)}. Link with ${j.partnerName} again so their game finishes it."
+        }
+    }
+
+    /**
+     * Counts a finished link battle in [GameState.linkRecord] from this device's side ([localSide]: 0 host, 1 guest).
+     * The caller saves it with the next save; the battle itself never writes the save.
+     */
+    fun recordLinkBattle(result: pkmn.engine.link.LinkResult, localSide: Int) {
+        val r = state.linkRecord
+        when (result) {
+            is pkmn.engine.link.LinkResult.Voided -> r.voided++
+            is pkmn.engine.link.LinkResult.Completed -> when (result.winnerSide) {
+                null -> r.drawn++
+                localSide -> r.won++
+                else -> r.lost++
+            }
         }
     }
 

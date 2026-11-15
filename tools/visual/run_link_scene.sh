@@ -5,17 +5,19 @@
 #   killed  the guest process is killed (kill -9) mid-battle; the host's result is "link lost" and it returns to the overworld
 #   trade   both trade their first party Pokémon (the guest offers a Kadabra, so the host's evolves to Alakazam on arrival);
 #           each save then holds the other's (species and OT), the party sizes are unchanged and no trade journal is left
+#   discovery  the guest finds the host by discovery (no code typed) and they play a "three against three" battle (each
+#           picks three); both show the matching result, as in battle
 #   resume  an interrupted trade: the guest drops its frames from its PREPARED on, so only the guest swaps (journals: host
 #           PREPARED, guest COMMITTED). Both games are closed and continued from their saves (load notices, the LINK menu's
 #           UNFINISHED TRADE page), then link again: the host finishes the trade and both saves hold it, with no journal left
 # In the battle scenarios the survivor's save files must be byte-identical before and after the link (nothing is written).
 # Output: build/link-scene/<scenario>/{host,guest}/*.png and *.log. Exit status is non-zero when any check fails.
-#   tools/visual/run_link_scene.sh [battle|forfeit|killed|trade|resume ...]     (default: all five)
+#   tools/visual/run_link_scene.sh [battle|forfeit|killed|trade|resume|discovery ...]     (default: all six)
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 OUT="$ROOT/build/link-scene"
 BASE_PORT="${LINK_PORT:-47840}"
-SCENARIOS=("$@"); [ ${#SCENARIOS[@]} -eq 0 ] && SCENARIOS=(battle forfeit killed trade resume)
+SCENARIOS=("$@"); [ ${#SCENARIOS[@]} -eq 0 ] && SCENARIOS=(battle forfeit killed trade resume discovery)
 rm -rf "$OUT" && mkdir -p "$OUT"
 "$ROOT/gradlew" -q -p "$ROOT" :desktop:installDist || { echo "build failed"; exit 1; }
 BIN="$ROOT/desktop/build/install/desktop/bin/desktop"
@@ -126,14 +128,14 @@ for sc in "${SCENARIOS[@]}"; do
   # ---- checks
   hl=$(grep "top=LinkResultScreen" "$dir/host.log" | tail -1); gl=$(grep "top=LinkResultScreen" "$dir/guest.log" | tail -1)
   case "$sc" in
-    battle|forfeit)
+    battle|forfeit|discovery)
       [ -n "$hl" ] && [ -n "$gl" ] || fail "a result screen was never logged (host: ${hl:+yes}, guest: ${gl:+yes})"
       hh=$(field <(echo "$hl") hash); gh=$(field <(echo "$gl") hash)
       hw=$(field <(echo "$hl") winnerSide); gw=$(field <(echo "$gl") winnerSide)
       [ "$(field <(echo "$hl") link)" = completed ] && [ "$(field <(echo "$gl") link)" = completed ] || fail "not both completed: [$hl] [$gl]"
       [ -n "$hh" ] && [ "$hh" = "$gh" ] && echo "  same state hash: $hh" || fail "hashes differ: '$hh' vs '$gh'"
       [ "$hw" = "$gw" ] && echo "  same winner side: $hw" || fail "winners differ: '$hw' vs '$gw'"
-      [ "$sc" = forfeit ] && { [ "$hw" = 0 ] && echo "  the host won by forfeit" || fail "forfeit: expected the host to win, winnerSide=$hw"; }
+      [ "$sc" != battle ] && { [ "$hw" = 0 ] && echo "  the host won by forfeit" || fail "forfeit: expected the host to win, winnerSide=$hw"; }
       [ "$gsave_before" = "$gsave_after" ] && echo "  guest save unchanged ($gsave_after)" || fail "guest save changed: $gsave_before -> $gsave_after"
       ;;
     killed)
@@ -147,7 +149,15 @@ for sc in "${SCENARIOS[@]}"; do
   esac
   last=$(last_log "$dir/host.log")
   echo "$last" | grep -q "top=OverworldScreen" && echo "  host is back on the overworld" || fail "host did not end on the overworld: [$last]"
-  if [ "$sc" = trade ]; then
+  if [ "$sc" = discovery ]; then
+    grep -h "top=LinkLobbyScreen" "$dir/guest.log" | grep -q "hosts=[1-9]" && echo "  the guest found the host by discovery" || fail "the guest never listed a host"
+    grep -q "^LINK host code=" "$dir/guest.log" && fail "the guest hosted?"
+    grep -h "top=LinkLobbyScreen" "$dir/host.log" | grep -q "preset=THREE_VS_THREE" && echo "  three against three" || fail "the host never chose 3 VS 3"
+    [ -f "$dir/host/shots/trainer_card.png" ] || fail "missing host screenshot trainer_card"
+    for who in host guest; do for f in link_${who}_lobby link_pick link_${who}_battle link_result link_after; do [ -f "$dir/$who/shots/$f.png" ] || fail "missing $who screenshot $f"; done; done
+    [ -f "$dir/guest/shots/link_discovery.png" ] || fail "missing guest screenshot link_discovery"
+    [ "$hsave_before" = "$hsave_after" ] && echo "  host save unchanged ($hsave_after)" || fail "host save changed: $hsave_before -> $hsave_after"
+  elif [ "$sc" = trade ]; then
     hmon_after=$(party0 "$dir/host/saves"); gmon_after=$(party0 "$dir/guest/saves")
     [ -n "$hmon_before" ] && [ -n "$gmon_before" ] && [ "$hmon_before" != "$gmon_before" ] || fail "no usable save before the trade: host [$hmon_before] guest [$gmon_before]"
     # The guest offered a Kadabra with the guest as OT; it evolved to Alakazam on arrival (a trade evolution), and that was saved.

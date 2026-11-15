@@ -66,6 +66,9 @@ object LinkTestSupport {
         i: Int, faults: LinkFaults = LinkFaults(), cfgHost: LinkConfig = config(), cfgGuest: LinkConfig = config(),
         maxTeam: Int = 6, wrapHost: (LinkTransport) -> LinkTransport = { it }, wrapGuest: (LinkTransport) -> LinkTransport = { it },
         hostForfeitAt: Int? = null, guestForfeitAt: Int? = null,
+        fixedTeams: Pair<List<Pokemon>, List<Pokemon>>? = null,
+        /** With a pick rule: what each device picks as soon as it may (null: the test picks itself). */
+        var hostPick: List<Int>? = null, var guestPick: List<Int>? = null,
     ) {
         var now = 0L
         val link = LoopbackLink({ now }, faults)
@@ -74,7 +77,7 @@ object LinkTestSupport {
         private val hostAi: AiPlayer
         private val guestAi: AiPlayer
         init {
-            val (t1, t2) = teams(i, maxTeam)
+            val (t1, t2) = fixedTeams ?: teams(i, maxTeam)
             host = LockstepBattle(LinkRole.HOST, wrapHost(link.a), dex, cfgHost, t1, "Host", Rng(31000L + i)::nextLong)
             guest = LockstepBattle(LinkRole.GUEST, wrapGuest(link.b), dex, cfgGuest, t2, "Guest", Rng(41000L + i)::nextLong)
             hostAi = AiPlayer(host, 51000L + i, hostForfeitAt)
@@ -82,14 +85,18 @@ object LinkTestSupport {
         }
 
         /** Advances the clock by [stepMs] and lets both devices read, decide and send, until both end or [maxTicks] pass. */
-        fun run(stepMs: Long = 100, maxTicks: Int = 20000): Session {
+        fun run(stepMs: Long = 100, maxTicks: Int = 20000, until: () -> Boolean = { false }): Session {
             var t = 0
-            while ((!host.isOver || !guest.isOver) && t++ < maxTicks) {
-                now += stepMs
-                host.pump(now); hostAi.act(); guest.pump(now); guestAi.act()
-                host.pump(now); guest.pump(now)
-            }
+            while ((!host.isOver || !guest.isOver) && t++ < maxTicks && !until()) tick(stepMs)
             return this
+        }
+
+        /** One round: the clock moves on, both devices read, pick or decide, and send. */
+        fun tick(stepMs: Long = 100) {
+            now += stepMs
+            host.pump(now); if (host.awaitingLocalPick) hostPick?.let { host.pick(it) }; hostAi.act()
+            guest.pump(now); if (guest.awaitingLocalPick) guestPick?.let { guest.pick(it) }; guestAi.act()
+            host.pump(now); guest.pump(now)
         }
 
         fun outcomes(): Pair<LinkResult?, LinkResult?> = host.result to guest.result

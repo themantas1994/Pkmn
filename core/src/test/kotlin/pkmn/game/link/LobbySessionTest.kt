@@ -179,4 +179,41 @@ class LobbySessionTest {
         g.pump(0)
         assertNull(g.error); assertTrue(g.start!!.trade)
     }
+
+    @Test
+    fun `the host's rule presets reach the guest, and three against three needs three on both sides`() {
+        val (h, g, _) = pair()
+        run(h, g)
+        assertEquals(LinkLobbyRules.Preset.AS_THEY_ARE, g.preset)
+        for (p in listOf(LinkLobbyRules.Preset.FLAT_50, LinkLobbyRules.Preset.THREE_VS_THREE, LinkLobbyRules.Preset.AS_THEY_ARE)) {
+            g.setReady(true); run(h, g)
+            h.setPreset(p); run(h, g)
+            assertEquals(p, g.preset); assertEquals(p.pick, g.rules!!.pick); assertEquals(if (p.flat) 50 else 100, g.rules!!.levelCap)
+            assertFalse(h.guestReady, "a preset change withdraws ready")
+        }
+        h.setPreset(LinkLobbyRules.Preset.THREE_VS_THREE); run(h, g)
+        g.setReady(true); run(h, g)
+        assertTrue(h.startBattle()); run(h, g)
+        assertEquals(3, g.start!!.rules.pick)
+        // A guest with two Pokémon: the host cannot start 3 VS 3 (and nothing fails: other rules still work).
+        val (h2, g2, _) = pair(guestParty = 2)
+        run(h2, g2)
+        h2.setPreset(LinkLobbyRules.Preset.THREE_VS_THREE); run(h2, g2)
+        g2.setReady(true); run(h2, g2)
+        assertFalse(h2.startBattle()); assertNull(h2.error)
+        h2.setPreset(LinkLobbyRules.Preset.FLAT_50); run(h2, g2); g2.setReady(true); run(h2, g2)
+        assertTrue(h2.startBattle())
+    }
+
+    @Test
+    fun `rules no preset allows end the lobby instead of crashing the guest`() {
+        val (h, g, l) = pair()
+        run(h, g)
+        // A modified host sends 3 VS 3 at flat 50.
+        l.a.send(LobbyCodec.encode(LobbyRules(LinkLobbyRules.rules(true, emptySet(), pick = 3), flat = true)))
+        run(h, g)
+        assertNotNull(g.error)
+        assertEquals(LinkLobbyRules.Preset.AS_THEY_ARE, g.preset)
+    }
 }
+

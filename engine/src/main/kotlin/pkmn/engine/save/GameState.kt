@@ -82,6 +82,14 @@ data class PendingTrade(
     val partnerTrainerId: Int? = null,
 )
 
+/**
+ * The player's link play record, shown on the trainer card. Battles count on both devices when their result is known
+ * (a void battle counts as void, never as a win or a loss); a trade counts in the save that applies the swap.
+ * Added inside save format 4 before it was released: a file without it starts at zero.
+ */
+@Serializable
+data class LinkRecord(var won: Int = 0, var lost: Int = 0, var drawn: Int = 0, var voided: Int = 0, var trades: Int = 0)
+
 @Serializable
 data class QuestState(val id: String, var step: Int = 0, var completed: Boolean = false)
 
@@ -147,6 +155,8 @@ class GameState(
     var registeredItem: String? = null,
     /** An unfinished link trade (save format 4); null when there is none. */
     var pendingTrade: PendingTrade? = null,
+    /** Link battles won, lost, drawn and void, and link trades done (trainer card). */
+    var linkRecord: LinkRecord = LinkRecord(),
 ) {
     fun hasFlag(f: String) = f in flags
     fun setFlag(f: String) { flags.add(f) }

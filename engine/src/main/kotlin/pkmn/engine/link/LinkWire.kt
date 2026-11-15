@@ -14,7 +14,7 @@ import java.security.MessageDigest
 /** Constants of the link protocol. */
 object LinkProtocol {
     /** Bumped whenever a message or a rule of the exchange changes; both devices must run the same one. */
-    const val VERSION = 4
+    const val VERSION = 5
 
     /** Bytes in the length prefix of a frame. */
     const val HEADER_BYTES = 4
@@ -76,6 +76,11 @@ data class LinkRules(
     val format: String = BattleFormat.SINGLES.name,
     /** Most Pokémon one trainer may bring. */
     val maxTeam: Int = 6,
+    /**
+     * 0: each player brings the whole team. Otherwise each player picks this many from their team after seeing both
+     * teams (the "three against three" preset); the picks are committed before either is revealed ([PickCommit]).
+     */
+    val pick: Int = 0,
 ) {
     /** Null when the rules can be played, otherwise why not. */
     fun error(): String? {
@@ -83,6 +88,7 @@ data class LinkRules(
         if (gimmicks.any { n -> Gimmick.entries.none { it.name == n } }) return "unknown gimmick"
         if (levelCap !in 1..100) return "level cap must be 1..100"
         if (maxTeam !in 1..6) return "team size must be 1..6"
+        if (pick !in 0..maxTeam) return "pick must be 0..team size"
         val f = BattleFormat.entries.firstOrNull { it.name == format } ?: return "unknown format"
         if (f != BattleFormat.SINGLES) return "only singles can be played over a link yet"
         return null
@@ -160,6 +166,21 @@ data class Reveal(val point: Int, val choices: List<WireChoice>, val nonce: Stri
 /** The battle state after decision point [point] (-1: after the start), compared with the other device's. */
 @Serializable @SerialName("state")
 data class StateMsg(val point: Int, val turn: Int, val hash: String, val over: Boolean) : LinkMessage
+
+/** "Three against three": hash of this device's picks (team indices in battle order), sent before either side's picks are known. */
+@Serializable @SerialName("pickc")
+data class PickCommit(val digest: String) : LinkMessage
+
+/** The picks behind [PickCommit.digest]; sent only after both commitments are in. */
+@Serializable @SerialName("pickr")
+data class PickReveal(val indices: List<Int>, val nonce: String) : LinkMessage
+
+/**
+ * First frame on a new connection after a lost one (sent outside the numbered stream, seq -1): the session it belongs
+ * to and the next frame number this device expects. The other device then sends again every frame from that number on.
+ */
+@Serializable @SerialName("resume")
+data class Resume(val token: String, val nextSeq: Long) : LinkMessage
 
 /** Sent when nothing else was, so silence means a dead link. */
 @Serializable @SerialName("beat")

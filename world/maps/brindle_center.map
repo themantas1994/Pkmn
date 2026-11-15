@@ -30,3 +30,4 @@ npc researcher 1 6 sprite=scientist face=right script=p1_mushroom_researcher
 npc p4a_dex_aide_1 2 4 sprite=scientist face=right script=p4a_dex_aide_1
 # PKM-75 Linden Field Notes vol. 1
 npc p5a_contact 6 6 sprite=scientist face=up script=p5a_brindle_contact
+npc link_attendant 6 2 sprite=clerk face=down script=p5_link_attendant

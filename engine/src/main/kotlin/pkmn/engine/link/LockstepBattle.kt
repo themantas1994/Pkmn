@@ -20,8 +20,15 @@ data class LinkTimeouts(
     val heartbeatMs: Long = 3_000,
     /** After this much silence the UI may show "Waiting for ...". See [LockstepBattle.silentForMs]. */
     val silenceNoticeMs: Long = 10_000,
-    /** After this much silence the battle is void. */
+    /** After this much silence the battle is void (before it started), or the link counts as lost (after: see [graceMs]). */
     val voidMs: Long = 60_000,
+    /**
+     * Once the battle has started, a lost link (closed, or silent for [silenceNoticeMs]) pauses it for this long while
+     * the owner reconnects ([LockstepBattle.resume]); after that it is void.
+     */
+    val graceMs: Long = 20_000,
+    /** A connection offered during the grace period must bring a valid Resume within this time, or it is dropped. */
+    val resumeAnswerMs: Long = 3_000,
     /**
      * After this long without a real message (heartbeats and repeats do not count) from a device that owes us something
      * (a team, a choice, a state), the battle is void. Covers a peer that only sends heartbeats. Generous: it includes
@@ -66,12 +73,22 @@ data class LocalDecision(val slot: Int, val request: Request)
  * were applied [StateMsg] (state hash). A mismatch, a lost link, a malformed frame or an illegal choice voids the
  * battle; nothing is written anywhere, so a void battle costs nothing.
  *
+ * With [LinkRules.pick] ("three against three") each player picks from both teams after [TeamMsg]: [PickCommit] on
+ * both devices first, then [PickReveal], then [SeedReveal]; the battle uses the picked Pokémon in the order picked.
+ *
+ * Once both teams are in (also while picking), a lost link does not void the session at once: the battle pauses ([reconnecting]) for
+ * [LinkTimeouts.graceMs] while the owner opens a new connection to the same peer and hands it to [resume] (the host
+ * listens again, the guest connects again). The guest sends [Resume] (session token, next expected frame) first; the
+ * host answers with its own only after the token matched, so a stranger who connects learns nothing and is dropped
+ * without ending the battle ([needsTransport] asks the owner for another connection). Each device then repeats every
+ * frame the other has not seen, so the battle goes on at the same point and the state hashes are compared as before.
+ *
  * Not thread-safe and not blocking: the owner calls [pump] regularly (for example every frame) with the current time in
  * milliseconds, and [submit] when the local player has chosen. All I/O goes through the [LinkTransport].
  */
 class LockstepBattle(
     val role: LinkRole,
-    private val transport: LinkTransport,
+    private var transport: LinkTransport,
     private val dex: Dex,
     private val config: LinkConfig,
     localTeam: List<Pokemon>,
@@ -115,7 +132,8 @@ class LockstepBattle(
     var remoteName: String? = null
         private set
 
-    // Stream state.
+    // Stream state. Every numbered frame sent is kept so it can be sent again after a reconnect.
+    private val sentFrames = ArrayList<ByteArray>()
     private var sendSeq = 0L
     private var recvSeq = 0L
     private var started = false
@@ -143,6 +161,77 @@ class LockstepBattle(
     private val localStates = HashMap<Int, StateMsg>()
     private var lastStatePoint = -2
 
+    // Picks ("three against three").
+    private var localPick: List<Int>? = null
+    private val pickNonce = entropy().toString(16) + entropy().toString(16)
+    private var sentPickCommit = false
+    private var sentPickReveal = false
+    private var remotePickCommit: String? = null
+    private var remotePick: List<Int>? = null
+
+    // Reconnect.
+    /** True while the link is lost and the battle waits for [resume]; it is void after [LinkTimeouts.graceMs]. */
+    var reconnecting = false
+        private set
+    private var lostAt = 0L
+    private var resumeSent = false
+    /** When the connection being tried was handed to [resume]. */
+    private var offeredAt = 0L
+    /** Times the battle went on after a lost link. */
+    var resumes = 0
+        private set
+
+    /** How many Pokémon each player picks (0: the whole team). */
+    val pickCount get() = rules.pick
+    /** This device's team (healed copies), in team order: what [pick] indexes. */
+    val localTeam: List<Pokemon> get() = localMons
+    /** The other device's whole team, once it arrived (shown while picking). */
+    val remoteTeam: List<Pokemon>? get() = remoteMons
+    /** True while the local player must pick ([pick]): both teams are in and this device has not picked yet. */
+    val awaitingLocalPick get() = !isOver && rules.pick > 0 && remoteMons != null && localPick == null
+    /** True once this device has picked and waits for the other player's picks. */
+    val awaitingRemotePick get() = !isOver && rules.pick > 0 && localPick != null && remotePick == null
+
+    /** True while [reconnecting] and the connection to try is gone: the owner should listen or connect again. */
+    val needsTransport get() = reconnecting && !isOver && transport.isClosed
+
+    /** Milliseconds of the grace period left while [reconnecting]. */
+    fun reconnectLeftMs(): Long = if (reconnecting) (timeouts.graceMs - (now - lostAt)).coerceAtLeast(0) else 0
+
+    /**
+     * The local player's picks: [LinkRules.pick] distinct team indices, in battle order. Returns null when accepted,
+     * otherwise why not. Nothing about them leaves this device but a hash until both devices have committed.
+     */
+    fun pick(indices: List<Int>): String? {
+        if (!awaitingLocalPick) return "Nothing to pick now"
+        if (indices.size != rules.pick || indices.distinct().size != indices.size || indices.any { it !in localMons.indices }) return "Pick ${rules.pick} different Pokémon"
+        localPick = indices.toList()
+        guarded { progress() }
+        return null
+    }
+
+    /**
+     * True once both teams (and so both seed commitments) are in: from then on a lost link pauses instead of voiding,
+     * also while the players pick ("three against three").
+     */
+    val canResume get() = remoteSeedCommit != null && sentTeam
+
+    /**
+     * A new connection to the same peer after the link was lost: the session goes on over [t] once both devices have
+     * exchanged [Resume]. Only once [canResume]; ignored once it is over. A connection that brings no valid [Resume]
+     * within [LinkTimeouts.resumeAnswerMs] is closed, so a silent stranger cannot hold the host's only slot.
+     */
+    fun resume(t: LinkTransport) {
+        if (isOver || !canResume) { t.close(); return }
+        try { transport.close() } catch (_: Exception) {}
+        transport = t
+        if (!reconnecting) { reconnecting = true; lostAt = now }
+        offeredAt = now
+        resumeSent = false
+        // The guest speaks first; the host answers only a valid Resume.
+        if (role == LinkRole.GUEST) guarded { sendResume() }
+    }
+
     /** True from a [PauseNotice] of the other device until it sends anything else. */
     var remotePaused = false
         private set
@@ -151,7 +240,7 @@ class LockstepBattle(
     fun notifyPaused() { if (!isOver && started) guarded { send(PauseNotice) } }
 
     /** Milliseconds since anything arrived from the other device; the UI shows "Waiting for NAME..." after [LinkTimeouts.silenceNoticeMs]. */
-    fun silentForMs(): Long = if (!started) 0 else now - lastRecv
+    fun silentForMs(): Long = if (!started || reconnecting) 0 else now - lastRecv
 
     /** Decisions this device still owes, with the engine's request for each. Empty when waiting for the other device. */
     fun pendingLocal(): List<LocalDecision> {
@@ -200,19 +289,81 @@ class LockstepBattle(
             if (!sentHello) { send(Hello(LinkProtocol.VERSION, config.gameVersion, dataHash, localName, rules)); sentHello = true }
             while (!isOver) {
                 val bytes = transport.receive() ?: break
+                if (reconnecting) { if (!acceptResume(bytes)) break; continue }
                 lastRecv = now
                 handle(FrameCodec.decode(bytes))
             }
+            if (reconnecting) {
+                if (!isOver && now - lostAt >= timeouts.graceMs) fail(VoidReason.LINK_LOST, "no reconnect within ${timeouts.graceMs} ms", notify = false)
+                // Nothing valid on this connection in time: drop it so the owner can listen or connect again.
+                else if (!transport.isClosed && now - offeredAt >= timeouts.resumeAnswerMs) try { transport.close() } catch (_: Exception) {}
+                return@guarded
+            }
             if (!isOver) progress()
-            if (!isOver && transport.isClosed) fail(VoidReason.LINK_LOST, "the connection closed", notify = false)
-            if (!isOver) checkDecisionTimeout()
-            if (!isOver && now - lastRecv >= timeouts.voidMs) fail(VoidReason.TIMEOUT, "no message for ${now - lastRecv} ms", notify = true)
-            if (!isOver && now - lastSent >= timeouts.heartbeatMs) send(Heartbeat)
+            if (!isOver && transport.isClosed) { if (canResume) linkLost() else fail(VoidReason.LINK_LOST, "the connection closed", notify = false) }
+            if (!isOver && !reconnecting && canResume && now - lastRecv >= timeouts.silenceNoticeMs && !remotePaused) linkLost()
+            if (!isOver && !reconnecting) checkDecisionTimeout()
+            if (!isOver && !reconnecting && now - lastRecv >= timeouts.voidMs) fail(VoidReason.TIMEOUT, "no message for ${now - lastRecv} ms", notify = true)
+            if (!isOver && !reconnecting && now - lastSent >= timeouts.heartbeatMs) send(Heartbeat)
         }
+    }
+
+    /** The battle has started and the link is gone: pause and wait for [resume] for up to [LinkTimeouts.graceMs]. */
+    private fun linkLost() {
+        if (reconnecting) return
+        reconnecting = true
+        resumeSent = false
+        lostAt = now
+        try { transport.close() } catch (_: Exception) {}
+    }
+
+    private fun sendResume() {
+        if (resumeSent) return
+        transport.send(FrameCodec.encode(Frame(-1, Resume(sessionToken(), recvSeq))))
+        resumeSent = true
+        lastSent = now
+    }
+
+    /** Identifies this battle on both devices: both seed commitments, host first. A peer that knows it is the same peer. */
+    private fun sessionToken(): String {
+        val hostCommit = if (role == LinkRole.HOST) seedCommit(seedPart, seedNonce) else remoteSeedCommit!!
+        val guestCommit = if (role == LinkRole.HOST) remoteSeedCommit!! else seedCommit(seedPart, seedNonce)
+        return sha256Hex("resume|$hostCommit|$guestCommit")
+    }
+
+    /**
+     * The first frame on a connection offered while [reconnecting]: only a [Resume] of this session is accepted. Anything
+     * else (a stranger, garbage, the wrong session) closes that connection and the battle keeps waiting. Returns whether
+     * the battle goes on over it.
+     */
+    private fun acceptResume(bytes: ByteArray): Boolean {
+        val m = try { FrameCodec.decode(bytes).takeIf { it.seq == -1L }?.msg as? Resume } catch (_: LinkProtocolException) { null }
+        if (m == null || m.token != sessionToken() || m.nextSeq < 0 || m.nextSeq > sendSeq) {
+            try { transport.close() } catch (_: Exception) {}
+            return false
+        }
+        lastRecv = now
+        onResume(m)
+        return true
+    }
+
+    private fun onResume(m: Resume) {
+        sendResume()
+        // Everything the other device has not seen, in order; it ignores frames it already has.
+        for (i in m.nextSeq.toInt() until sentFrames.size) transport.send(sentFrames[i])
+        reconnecting = false
+        resumes++
+        // The decision timeout keeps running across reconnects, so dropping the link cannot stall a battle for ever.
+        lastRecv = now; lastSent = now
     }
 
     /** True while the other device must send something before anything can go on. */
     private fun peerOwes(): Boolean {
+        if (rules.pick > 0 && remoteMons != null && remoteSeed == null) {
+            // Picking: the other device owes its commitment; once this device has picked, its reveal and seed too.
+            if (remotePickCommit == null) return true
+            return localPick != null
+        }
         if (remoteSeed == null) return true
         val p = point
         if (p != null) return p.remoteSlots.isNotEmpty() && !p.remoteApplied
@@ -247,13 +398,18 @@ class LockstepBattle(
     // ------------------------------------------------------------------ sending
 
     private fun send(msg: LinkMessage) {
-        transport.send(FrameCodec.encode(Frame(sendSeq++, msg)))
+        val bytes = FrameCodec.encode(Frame(sendSeq++, msg))
+        sentFrames.add(bytes)
+        // While the link is down the frame waits in [sentFrames]; [onResume] sends it.
+        if (!reconnecting) transport.send(bytes)
         lastSent = now
     }
 
     // ------------------------------------------------------------------ receiving
 
     private fun handle(frame: Frame) {
+        // A Resume belongs only at the start of a new connection ([acceptResume]).
+        if (frame.msg is Resume) protocolError("Resume on a running connection")
         // One stream, one counter: a repeated frame is ignored, a missing one ends the session.
         if (frame.seq < recvSeq) return
         if (frame.seq > recvSeq) protocolError("frame ${frame.seq} arrived, expected $recvSeq: a frame was lost")
@@ -269,7 +425,28 @@ class LockstepBattle(
             is Commit -> onCommit(m)
             is Reveal -> onReveal(m)
             is StateMsg -> onState(m)
+            is PickCommit -> onPickCommit(m)
+            is PickReveal -> onPickReveal(m)
+            is Resume -> {}
         }
+    }
+
+    private fun onPickCommit(m: PickCommit) {
+        if (rules.pick == 0 || remoteMons == null) protocolError("PickCommit without a pick rule or before Team")
+        if (remotePickCommit != null) protocolError("second PickCommit")
+        if (m.digest.length != 64) protocolError("bad pick digest")
+        remotePickCommit = m.digest
+    }
+
+    private fun onPickReveal(m: PickReveal) {
+        val commit = remotePickCommit ?: protocolError("PickReveal before PickCommit")
+        // The other device may reveal only after it saw this device's commitment.
+        if (!sentPickCommit) protocolError("PickReveal before this device committed")
+        if (remotePick != null) protocolError("second PickReveal")
+        if (pickDigest(m.indices, m.nonce) != commit) throw LinkProtocolException(VoidReason.COMMIT_MISMATCH, "picks do not match their commitment")
+        val team = remoteMons!!
+        if (m.indices.size != rules.pick || m.indices.distinct().size != m.indices.size || m.indices.any { it !in team.indices }) throw LinkProtocolException(VoidReason.BAD_TEAM, "bad picks")
+        remotePick = m.indices
     }
 
     private fun onHello(m: Hello) {
@@ -294,6 +471,7 @@ class LockstepBattle(
 
     private fun onSeed(m: SeedReveal) {
         if (remoteMons == null) protocolError("Seed before Team")
+        if (rules.pick > 0 && remotePick == null) protocolError("Seed before the picks")
         if (remoteSeed != null) protocolError("second Seed")
         if (seedCommit(m.part, m.nonce) != remoteSeedCommit) throw LinkProtocolException(VoidReason.COMMIT_MISMATCH, "seed does not match its commitment")
         remoteSeed = m
@@ -338,6 +516,13 @@ class LockstepBattle(
         if (remoteHello != null && !sentTeam) {
             send(TeamMsg(localMons, seedCommit(seedPart, seedNonce))); sentTeam = true
         }
+        if (remoteMons != null && rules.pick > 0) {
+            val mine = localPick ?: return
+            if (!sentPickCommit) { send(PickCommit(pickDigest(mine, pickNonce))); sentPickCommit = true }
+            if (remotePickCommit == null) return
+            if (!sentPickReveal) { send(PickReveal(mine, pickNonce)); sentPickReveal = true }
+            if (remotePick == null) return
+        }
         if (remoteMons != null && !sentSeed) {
             send(SeedReveal(seedPart, seedNonce)); sentSeed = true
         }
@@ -346,8 +531,10 @@ class LockstepBattle(
     }
 
     private fun buildBattle() {
-        val hostMons = if (role == LinkRole.HOST) localMons else remoteMons!!
-        val guestMons = if (role == LinkRole.HOST) remoteMons!! else localMons
+        val mine = localPick?.map { localMons[it] } ?: localMons
+        val theirs = remotePick?.map { remoteMons!![it] } ?: remoteMons!!
+        val hostMons = if (role == LinkRole.HOST) mine else theirs
+        val guestMons = if (role == LinkRole.HOST) theirs else mine
         val hostName = if (role == LinkRole.HOST) localName else remoteName!!
         val guestName = if (role == LinkRole.HOST) remoteName!! else localName
         val hostPart = if (role == LinkRole.HOST) seedPart else remoteSeed!!.part
@@ -468,6 +655,8 @@ class LockstepBattle(
     // ------------------------------------------------------------------ hashing
 
     private fun seedCommit(part: Long, nonce: String) = sha256Hex("seed|$part|$nonce")
+
+    private fun pickDigest(indices: List<Int>, nonce: String) = sha256Hex("pick|${indices.joinToString(",")}|$nonce")
 
     private fun digest(point: Int, choices: List<WireChoice>, nonce: String) =
         sha256Hex("choices|$point|" + choices.sortedBy { it.slot }.joinToString(";") { it.canonical() } + "|$nonce")

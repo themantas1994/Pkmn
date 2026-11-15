@@ -24,7 +24,7 @@ Every number in this document was produced by the commands listed next to it. No
 | Time | Device clock and time zone through an injectable `GameClock`; morning/day/night lighting; time-dependent encounters; data-driven weekly events (Thursday-night Mistwood Clefable) |
 | Campaign | Complete from new game to the Hall of Fame, plus post-game: world size from `./gradlew :tools:statusCounts` (maps, trainers, encounter tables, scripts) |
 | Saves | Atomic, checksummed, versioned (v4, with migrations from v1, v2 and v3), with backup/repair; corruption and migration tests pass |
-| Link play | Battles and trades between two devices on the local network, no server. Trades are one party Pokémon for one, held items travel, journaled in the save so a lost link or a killed process never corrupts a save ([docs/LINK.md](docs/LINK.md)) |
+| Link play | Battles and trades between two devices on the local network, no server: host discovery with the typed code as fallback, a Link attendant in every Pokémon Center, rule presets (levels as they are, flat 50, 3 VS 3), a 20 s reconnect for a lost battle link, a link record on the trainer card. Trades are one party Pokémon for one, held items travel, journaled in the save so a lost link, a restart or a killed process never corrupts a save or settles an interrupted trade on one side ([docs/LINK.md](docs/LINK.md)). Not yet run on real devices: [docs/LINK-HARDWARE-CHECKLIST.md](docs/LINK-HARDWARE-CHECKLIST.md) |
 | Capture | Scarlet/Violet formula in 1/4096 steps (badge penalty, critical captures, all balls); low-level bonus on Casual only. Pokédex entry on first registration; nickname offer for every Pokémon obtained ([docs/CAPTURE.md](docs/CAPTURE.md)) |
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
 | Tests | all passing (counts: `./gradlew :tools:statusCounts` after the test run); CI runs them on every push. 32 reproducible visual-regression screenshots of the real desktop game |
@@ -92,7 +92,7 @@ Each fix below was reproduced first, then checked with tests and in the running 
 - **APK metadata** (`aapt2 dump badging`): package `io.github.pkmncrystalline`, minSdk 24, targetSdk 35.
 - **Native libraries:** for armeabi-v7a, arm64-v8a, x86 and x86_64.
 - **Desugaring:** `java.time` is desugared for API 24–25.
-- **Permissions:** `VIBRATE` and `INTERNET`; no location. `INTERNET` is needed for Link play (battles and trades between two devices) and nothing else uses the network: it connects only on the local network, never to a server (see `docs/LINK.md`).
+- **Permissions:** `VIBRATE` and `INTERNET`; no location. `INTERNET` is needed for Link play (battles and trades between two devices) and nothing else uses the network: it connects only on the local network, never to a server; finding a host uses a UDP broadcast on the local network while hosting or looking for a game (no multicast, so no further permission). See `docs/LINK.md`.
 - **Rebuilt for this update** with `./gradlew :android:assembleDebug :android:assembleRelease`, using SDK platform 35 and build-tools 35.0.0.
 - **Not tested on a device.** The build machine has no KVM, so no emulator could run, and no device was attached. Android-specific behaviour has not been exercised at runtime: launcher, touch input, back button, pause/resume, the clock refresh on resume and process death.
   - It is code-reviewed.
