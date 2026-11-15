@@ -1,0 +1,36 @@
+# Discovery scene, host side (tools/visual/run_link_scene.sh fills in @PORT@): hosts without telling anyone a code; the guest
+# finds it by discovery. The host chooses the "three against three" preset; both pick their first three. Not a
+# visual-regression scene: the winner differs per run.
+wait 240
+option textSpeed 3
+option battleAnimations false
+flag has_pokedex
+party pikachu:30:thunderbolt/quickattack rattata:30:tackle pidgey:30:gust sentret:30:scratch
+save
+wait 90
+log
+link host @PORT@ three
+wait 20
+shot link_host_waiting
+waitstate preset=THREE_VS_THREE 1800
+wait 30
+shot link_host_lobby
+waitstate pick=LOCAL 1800
+wait 30
+shot link_pick
+log
+waittop BattleScreen 1800
+waitstate menu=ACTION 1800
+shot link_host_battle
+log
+linkplay fight
+wait 30
+shot link_result
+log
+press A
+waittop OverworldScreen 300
+wait 20
+shot link_after
+log
+wait 480
+quit

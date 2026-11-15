@@ -778,6 +778,13 @@ class BattleScreen(
     /** After a short silence from the other device (a weak link or a frozen game) a box says so, whatever else is on screen. */
     private fun drawLinkSilence(r: Renderer) {
         val l = link ?: return
+        if (!l.isOver && l.reconnecting) {
+            // The grace period: the battle is paused at this point and goes on when the same friend is back.
+            r.frame(104, 4, 148, 28, alt = true)
+            r.text("Link lost. Reconnecting", 112, 8, small = true)
+            r.text("${(l.remoteName ?: "your friend").take(12)}... ${(l.reconnectLeftMs() + 999) / 1000}s", 112, 18, small = true)
+            return
+        }
         if (l.isOver || l.silentForMs() < SILENCE_NOTICE_MS) return
         r.frame(104, 4, 148, 28, alt = true)
         r.text("Waiting for", 112, 8, small = true)

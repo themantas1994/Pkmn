@@ -1,0 +1,37 @@
+# Discovery scene, guest side (fills in @PORT@ and @ADDR@, unused here): `link find` lists the hosts on the network and
+# joins the first one; no code is typed. It forfeits at its first decision (linkplay does not drive the replacement
+# prompt that a faint brings up in a three-Pokémon battle).
+wait 300
+option textSpeed 3
+option battleAnimations false
+flag has_pokedex
+party charmander:30:ember/scratch squirtle:30:watergun/tackle bulbasaur:30:vinewhip/tackle
+save
+wait 90
+log
+link find HOST three
+waitstate hosts=1 900
+wait 20
+shot link_discovery
+log
+waitstate connected=true 1800
+wait 40
+shot link_guest_lobby
+waitstate pick=LOCAL 1800
+wait 30
+shot link_pick
+waittop BattleScreen 1800
+waitstate menu=ACTION 1800
+shot link_guest_battle
+log
+linkplay forfeit 0
+wait 30
+shot link_result
+log
+press A
+waittop OverworldScreen 300
+wait 20
+shot link_after
+log
+wait 480
+quit

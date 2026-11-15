@@ -18,6 +18,8 @@ wait 8
 press DOWN
 wait 8
 press DOWN
+wait 8
+press DOWN
 waitstate menu=UNFINISHED_TRADE 120
 press A
 waitstate lobby=UNFINISHED 120
