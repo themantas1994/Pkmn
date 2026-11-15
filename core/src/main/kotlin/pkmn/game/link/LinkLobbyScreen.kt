@@ -40,7 +40,7 @@ class AutoLink(val host: Boolean, val endpoint: LinkEndpoint? = null, val port: 
  * ready), then the battle and its result, or the trade. Everything runs on the local network. A battle writes nothing to the save (it plays healed
  * copies of the party); a trade saves through its journal ([LinkTradeScreen]). Closing this screen at any point closes the connection.
  */
-class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val auto: AutoLink? = null) : Screen(game), LinkAware, LinkDebug {
+class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val auto: AutoLink? = null, private val onClose: (() -> Unit)? = null) : Screen(game), LinkAware, LinkDebug {
     private enum class Stage { MENU, UNFINISHED, HOSTING, CONNECTING, LOBBY, STARTING, BATTLE, DONE }
 
     override val blocksAutosave get() = true
@@ -211,6 +211,8 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
             if (s.startBattle()) autoDone = true
         } else if (s.rules != null) { s.setReady(true) }
     }
+    /** The screen this one was replaced with (trade or result); it inherits [onClose]. */
+    private var handOff: LinkSessionScreen? = null
     private var autoRulesSet = false
     private var autoFrames = 0
     private companion object {
@@ -234,7 +236,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     private fun startTrade(s: LobbySession) {
         val name = s.remoteName ?: "your friend"
         stage = Stage.DONE
-        replace(LinkTradeScreen(game, ctx, role, transport!!, name, dropFromPrepared = auto?.dropFromPrepared == true))
+        replace(LinkTradeScreen(game, ctx, role, transport!!, name, dropFromPrepared = auto?.dropFromPrepared == true).also { handOff = it })
     }
 
     private fun updateStarting() {
@@ -250,7 +252,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         if (stage == Stage.DONE) return
         // The session may still be settling its last state message; the result screen waits for it.
         stage = Stage.DONE
-        replace(LinkResultScreen(game, lb))
+        replace(LinkResultScreen(game, lb).also { handOff = it })
     }
 
     private fun finishWith(text: String) {
@@ -262,6 +264,8 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     override fun onAppPaused() { if (stage == Stage.STARTING) battle?.notifyPaused() }
 
     override fun onExit() {
+        // replace() hands over to the trade or result screen; the attendant's script still waits for the link to end.
+        handOff?.let { next -> next.onClose = onClose } ?: onClose?.invoke()
         pendingListen?.close()
         if (stage != Stage.DONE && stage != Stage.BATTLE) transport?.close()
     }
@@ -345,9 +349,14 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     }
 }
 
+/** A screen that ends a link session; [onClose] runs once when it is removed (the attendant's script resumes then). */
+interface LinkSessionScreen { var onClose: (() -> Unit)? }
+
 /** How a link session ended, as both players see it: the result (or why there is none) and the shared state hash. */
-class LinkResultScreen(game: PkmnGame, private val lb: LockstepBattle) : Screen(game) {
+class LinkResultScreen(game: PkmnGame, private val lb: LockstepBattle) : Screen(game), LinkSessionScreen {
     override val blocksAutosave get() = true
+    override var onClose: (() -> Unit)? = null
+    override fun onExit() { onClose?.invoke(); onClose = null }
     private var started = false
 
     /** Null while the other device's last state message is still on its way. */

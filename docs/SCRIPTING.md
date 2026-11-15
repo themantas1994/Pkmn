@@ -74,4 +74,4 @@ then consume the fossil/item, set the completion flag or finish the quest; other
 | `setrespawn`, `save`, `fly`, `evolve`, `halloffame`, `credits`, `pokedex` | misc |
 | `trade <want> <give> <level> [nick=] [item=] [ot=] [moves=]…` | in-game trade: player picks a party `<want>` (any forme) and receives `<give>` (OT = `ot`, default TRADER); trade evolutions trigger; `result` 1 if traded, 0 if declined / no match |
 | `call <script>` / `return` | subroutine |
-| `special <name> [args]` | engine hook for one-off features: `bike`, `flash`, `set_tera_type <Type>` (pick a party member; result 1 if changed) |
+| `special <name> [args]` | engine hook for one-off features: `bike`, `flash`, `set_tera_type <Type>` (pick a party member; result 1 if changed), `link` (open the Link play lobby, as the start menu's LINK entry does; the script goes on when the link screens close) |

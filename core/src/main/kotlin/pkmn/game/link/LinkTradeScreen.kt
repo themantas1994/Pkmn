@@ -33,7 +33,8 @@ class LinkTradeScreen(
     remoteName: String,
     /** Automation fault only ([AutoLink.dropFromPrepared]). */
     dropFromPrepared: Boolean = false,
-) : Screen(game), LinkAware, LinkDebug {
+) : Screen(game), LinkAware, LinkDebug, LinkSessionScreen {
+    override var onClose: (() -> Unit)? = null
     private enum class Phase { SYNC, PICK, WAIT_OFFER, CONFIRM, WAIT_CONFIRM, SAVING, SCENE, MESSAGE, CLOSING }
 
     override val blocksAutosave get() = true
@@ -188,6 +189,7 @@ class LinkTradeScreen(
         // Closed from outside before the trade ended: back out if it is still allowed, else just drop the link
         // (a prepared trade keeps its journal and finishes on the next link with the same friend).
         if (!tx.isOver) { tx.cancel(); if (!tx.isOver) transport.close() }
+        onClose?.invoke(); onClose = null
     }
 
     // ================================================================= drawing
