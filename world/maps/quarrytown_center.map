@@ -20,3 +20,4 @@ warp 4 7 -> quarrytown 6 16 down
 warp 5 7 -> quarrytown 6 16 down
 npc nurse 5 2 sprite=nurse face=down script=p2_nurse
 npc qc_miner 8 5 sprite=hiker face=left text="Garnet's Pokémon are as hard as the bedrock. Bring Water or Grass, or bring a lot of Potions."
+npc link_attendant 7 2 sprite=clerk face=down script=p5_link_attendant

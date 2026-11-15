@@ -23,3 +23,4 @@ npc vc_tech 8 5 sprite=scientist face=left script=p2_voltara_center_tech
 # Expansion E1: catch-count aide #3 and a trader.
 npc p4a_dex_aide_3 1 4 sprite=scientist face=right script=p4a_dex_aide_3
 npc p4a_vc_trader 9 4 sprite=cooltrainer_f face=left script=p4a_vc_trader
+npc link_attendant 7 2 sprite=clerk face=down script=p5_link_attendant

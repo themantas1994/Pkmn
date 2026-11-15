@@ -27,3 +27,4 @@ npc nurse 4 2 sprite=nurse face=down script=p1_nurse
 npc c_trainer 7 5 sprite=cooltrainer_m face=left text="Use the PC in the corner to store Pokémon you catch.\pYou can only carry six at once!"
 # Expansion E1: in-game trade (Pidgey -> Rookidee).
 npc p4a_fern_trader 1 4 sprite=pokefan face=right script=p4a_fern_trader
+npc link_attendant 6 2 sprite=clerk face=down script=p5_link_attendant
