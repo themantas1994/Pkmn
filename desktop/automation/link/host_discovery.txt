@@ -32,5 +32,25 @@ waittop OverworldScreen 300
 wait 20
 shot link_after
 log
+# The trainer card shows the link record (the guest forfeited: one win).
+press START
+wait 20
+press DOWN
+wait 8
+press DOWN
+wait 8
+press DOWN
+wait 8
+press DOWN
+wait 8
+press DOWN
+wait 8
+press A
+waittop TrainerCardScreen 120
+wait 20
+shot trainer_card
+press B
+wait 20
+press B
 wait 480
 quit

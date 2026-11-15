@@ -8,7 +8,7 @@
     "open": "Known gap or unverified behaviour"
   },
   "counts": {
-    "tested": 61,
+    "tested": 65,
     "implemented": 12,
     "simplified": 4,
     "excluded": 3,
@@ -670,6 +670,38 @@
       "ruleset": "—",
       "evidence": "AcquisitionTest interruption",
       "note": ""
+    },
+    {
+      "area": "Link play",
+      "mechanic": "Rule presets: levels as they are, flat 50, three against three (each player picks three after seeing both teams; picks are committed, then revealed, then the seed; the battle uses them in the order picked)",
+      "status": "tested",
+      "ruleset": "Link play plan, Phase 5",
+      "evidence": "LinkPickTest (30 lockstep battles, picks not sent before both commitments, a reveal that does not match voids); LobbySessionTest presets; run_link_scene.sh discovery",
+      "note": "3 VS 3 needs three Pokémon on both sides"
+    },
+    {
+      "area": "Link play",
+      "mechanic": "Lost link in a started link battle: paused for 20 s while the host listens again and the guest reconnects; the guest proves the session first (token from both seed commitments), each side repeats the frames the other missed, the battle goes on at the same point with the per-point state hash check; after 20 s it is void; nothing is saved either way",
+      "status": "tested",
+      "ruleset": "Link play plan, Phase 5",
+      "evidence": "LinkReconnectTest (resumed battles end with the same hash as without the cut; grace period runs out; a stranger is dropped); LockstepBattleTest silence",
+      "note": "Before the battle starts a lost link still voids at once"
+    },
+    {
+      "area": "Link play",
+      "mechanic": "Host discovery on the local network: UDP broadcast announcements and queries (`java.net`, no multicast, no extra Android permission); the typed code stays as the fallback",
+      "status": "tested",
+      "ruleset": "Link play plan, Phase 5",
+      "evidence": "LinkDiscoveryTest; run_link_scene.sh discovery",
+      "note": "Real Wi-Fi and hotspot behaviour: docs/LINK-HARDWARE-CHECKLIST.md"
+    },
+    {
+      "area": "Link play",
+      "mechanic": "Link record on the trainer card: battles won, lost, drawn and void, link trades; stored in the save (inside v4, defaults to zero)",
+      "status": "tested",
+      "ruleset": "—",
+      "evidence": "LinkRecordTest (each result, a trade counts once per device, a failed commit does not count)",
+      "note": "A battle result is kept with the next save"
     }
   ]
 }

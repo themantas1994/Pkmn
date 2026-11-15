@@ -31,26 +31,20 @@ wait 120
 shot trade_result
 log
 press A
-# The guest offered a Kadabra: it evolves on arrival (a trade evolution), then the game saves again.
-wait 90
+# The guest offered a Kadabra: it evolves on arrival (a trade evolution), then the game saves again. Each step waits for
+# its screen instead of counting A presses, so a change in the evolution or Pokédex flow does not break the scene.
+waittop TextBox 600
+wait 60
 shot trade_evolution_intro
 press A
+waittop EvolutionScreen 300
 wait 100
 shot trade_evolution
 waittop TextBox 900
 wait 120
 shot trade_evolved
 log
-press A
-wait 90
-log
-press A
-wait 90
-log
-press A
-wait 90
-log
-waittop OverworldScreen 900
+mashuntil OverworldScreen 2400
 wait 20
 shot link_after
 log

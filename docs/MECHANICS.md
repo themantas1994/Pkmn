@@ -4,7 +4,7 @@ Every core mechanic, its status, the ruleset it follows and the evidence. Machin
 
 Status: **tested** = implemented with the named automated tests; **implemented** = in code, only indirectly tested; **simplified** = deliberate simplification; **excluded** = out of scope; **open** = known gap.
 
-Totals: excluded 3, implemented 12, open 2, simplified 4, tested 61.
+Totals: excluded 3, implemented 12, open 2, simplified 4, tested 65.
 
 ## Identity and creation
 
@@ -122,6 +122,15 @@ Totals: excluded 3, implemented 12, open 2, simplified 4, tested 61.
 | v1 -> v2 migration (Pokédex forms, nickname offers, unique ids); no rerolls on load | tested | — | AcquisitionTest migration |  |
 | v2 -> v3 migration (obedience): outsider flag added as false; saved met levels kept; a missing met level becomes the current level; a met level above the current level is repaired | tested | — | ObedienceCampaignTest migration and repair tests |  |
 | Interrupted capture resumes at the nickname prompt | tested | — | AcquisitionTest interruption |  |
+
+## Link play
+
+| Mechanic | Status | Ruleset | Evidence | Note |
+|---|---|---|---|---|
+| Rule presets: levels as they are, flat 50, three against three (each player picks three after seeing both teams; picks are committed, then revealed, then the seed; the battle uses them in the order picked) | tested | Link play plan, Phase 5 | LinkPickTest (30 lockstep battles, picks not sent before both commitments, a reveal that does not match voids); LobbySessionTest presets; run_link_scene.sh discovery | 3 VS 3 needs three Pokémon on both sides |
+| Lost link in a started link battle: paused for 20 s while the host listens again and the guest reconnects; the guest proves the session first (token from both seed commitments), each side repeats the frames the other missed, the battle goes on at the same point with the per-point state hash check; after 20 s it is void; nothing is saved either way | tested | Link play plan, Phase 5 | LinkReconnectTest (resumed battles end with the same hash as without the cut; grace period runs out; a stranger is dropped); LockstepBattleTest silence | Before the battle starts a lost link still voids at once |
+| Host discovery on the local network: UDP broadcast announcements and queries (`java.net`, no multicast, no extra Android permission); the typed code stays as the fallback | tested | Link play plan, Phase 5 | LinkDiscoveryTest; run_link_scene.sh discovery | Real Wi-Fi and hotspot behaviour: docs/LINK-HARDWARE-CHECKLIST.md |
+| Link record on the trainer card: battles won, lost, drawn and void, link trades; stored in the save (inside v4, defaults to zero) | tested | — | LinkRecordTest (each result, a trade counts once per device, a failed commit does not count) | A battle result is kept with the next save |
 
 ## Obedience
 

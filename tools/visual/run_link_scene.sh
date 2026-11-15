@@ -153,6 +153,7 @@ for sc in "${SCENARIOS[@]}"; do
     grep -h "top=LinkLobbyScreen" "$dir/guest.log" | grep -q "hosts=[1-9]" && echo "  the guest found the host by discovery" || fail "the guest never listed a host"
     grep -q "^LINK host code=" "$dir/guest.log" && fail "the guest hosted?"
     grep -h "top=LinkLobbyScreen" "$dir/host.log" | grep -q "preset=THREE_VS_THREE" && echo "  three against three" || fail "the host never chose 3 VS 3"
+    [ -f "$dir/host/shots/trainer_card.png" ] || fail "missing host screenshot trainer_card"
     for who in host guest; do for f in link_${who}_lobby link_pick link_${who}_battle link_result link_after; do [ -f "$dir/$who/shots/$f.png" ] || fail "missing $who screenshot $f"; done; done
     [ -f "$dir/guest/shots/link_discovery.png" ] || fail "missing guest screenshot link_discovery"
     [ "$hsave_before" = "$hsave_after" ] && echo "  host save unchanged ($hsave_after)" || fail "host save changed: $hsave_before -> $hsave_after"
