@@ -61,7 +61,7 @@ class LobbySession(
     var pick = 0
         private set
     /** The preset the current rules match. */
-    val preset get() = LinkLobbyRules.Preset.entries.first { it.flat == flat && it.pick == pick }
+    val preset get() = LinkLobbyRules.Preset.entries.firstOrNull { it.flat == flat && it.pick == pick } ?: LinkLobbyRules.Preset.AS_THEY_ARE
     /** Host: trade instead of battle. Guest: what the host last sent. The battle rules are then ignored. */
     var trade = false
         private set
@@ -168,7 +168,8 @@ class LobbySession(
             is LobbyRules -> {
                 if (role != LinkRole.GUEST || !connected) bad("rules")
                 if (m.rules.error() != null || m.flat != (m.rules.levelCap == LinkLobbyRules.FLAT_LEVEL)) bad("rules")
-                if (m.rules.pick !in setOf(0, LinkLobbyRules.PICK)) bad("rules")
+                // Only the presets: 3 VS 3 is played at levels as they are.
+                if (m.rules.pick !in setOf(0, LinkLobbyRules.PICK) || (m.rules.pick > 0 && m.flat)) bad("rules")
                 // The host's rules may only use gimmicks this device really has.
                 if (m.rules.gimmicks.any { g -> localGimmicks.none { it.name == g } }) bad("rules")
                 rulesFromHost = m.rules; flat = m.flat; pick = m.rules.pick; trade = m.trade; guestReady = false

@@ -27,6 +27,8 @@ data class LinkTimeouts(
      * the owner reconnects ([LockstepBattle.resume]); after that it is void.
      */
     val graceMs: Long = 20_000,
+    /** A connection offered during the grace period must bring a valid Resume within this time, or it is dropped. */
+    val resumeAnswerMs: Long = 3_000,
     /**
      * After this long without a real message (heartbeats and repeats do not count) from a device that owes us something
      * (a team, a choice, a state), the battle is void. Covers a peer that only sends heartbeats. Generous: it includes
@@ -74,7 +76,7 @@ data class LocalDecision(val slot: Int, val request: Request)
  * With [LinkRules.pick] ("three against three") each player picks from both teams after [TeamMsg]: [PickCommit] on
  * both devices first, then [PickReveal], then [SeedReveal]; the battle uses the picked Pokémon in the order picked.
  *
- * Once the battle has started, a lost link does not void it at once: the battle pauses ([reconnecting]) for
+ * Once both teams are in (also while picking), a lost link does not void the session at once: the battle pauses ([reconnecting]) for
  * [LinkTimeouts.graceMs] while the owner opens a new connection to the same peer and hands it to [resume] (the host
  * listens again, the guest connects again). The guest sends [Resume] (session token, next expected frame) first; the
  * host answers with its own only after the token matched, so a stranger who connects learns nothing and is dropped
@@ -173,6 +175,8 @@ class LockstepBattle(
         private set
     private var lostAt = 0L
     private var resumeSent = false
+    /** When the connection being tried was handed to [resume]. */
+    private var offeredAt = 0L
     /** Times the battle went on after a lost link. */
     var resumes = 0
         private set
@@ -207,15 +211,22 @@ class LockstepBattle(
     }
 
     /**
-     * A new connection to the same peer after the link was lost: the battle goes on over [t] once both devices have
-     * exchanged [Resume]. Only for a battle that has started; ignored once it is over.
+     * True once both teams (and so both seed commitments) are in: from then on a lost link pauses instead of voiding,
+     * also while the players pick ("three against three").
+     */
+    val canResume get() = remoteSeedCommit != null && sentTeam
+
+    /**
+     * A new connection to the same peer after the link was lost: the session goes on over [t] once both devices have
+     * exchanged [Resume]. Only once [canResume]; ignored once it is over. A connection that brings no valid [Resume]
+     * within [LinkTimeouts.resumeAnswerMs] is closed, so a silent stranger cannot hold the host's only slot.
      */
     fun resume(t: LinkTransport) {
-        if (isOver) { t.close(); return }
-        if (battle == null) { t.close(); return }
+        if (isOver || !canResume) { t.close(); return }
         try { transport.close() } catch (_: Exception) {}
         transport = t
         if (!reconnecting) { reconnecting = true; lostAt = now }
+        offeredAt = now
         resumeSent = false
         // The guest speaks first; the host answers only a valid Resume.
         if (role == LinkRole.GUEST) guarded { sendResume() }
@@ -284,10 +295,11 @@ class LockstepBattle(
             }
             if (reconnecting) {
                 if (!isOver && now - lostAt >= timeouts.graceMs) fail(VoidReason.LINK_LOST, "no reconnect within ${timeouts.graceMs} ms", notify = false)
+                // Nothing valid on this connection in time: drop it so the owner can listen or connect again.
+                else if (!transport.isClosed && now - offeredAt >= timeouts.resumeAnswerMs) try { transport.close() } catch (_: Exception) {}
                 return@guarded
             }
             if (!isOver) progress()
-            val canResume = battle != null
             if (!isOver && transport.isClosed) { if (canResume) linkLost() else fail(VoidReason.LINK_LOST, "the connection closed", notify = false) }
             if (!isOver && !reconnecting && canResume && now - lastRecv >= timeouts.silenceNoticeMs && !remotePaused) linkLost()
             if (!isOver && !reconnecting) checkDecisionTimeout()
@@ -341,7 +353,8 @@ class LockstepBattle(
         for (i in m.nextSeq.toInt() until sentFrames.size) transport.send(sentFrames[i])
         reconnecting = false
         resumes++
-        lastRecv = now; lastProgress = now; lastSent = now; owedSince = -1
+        // The decision timeout keeps running across reconnects, so dropping the link cannot stall a battle for ever.
+        lastRecv = now; lastSent = now
     }
 
     /** True while the other device must send something before anything can go on. */

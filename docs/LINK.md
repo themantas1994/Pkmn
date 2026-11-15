@@ -32,8 +32,12 @@ design: the link play pull requests (#60, #65, #64, #67 and Phase 5).
 - **A lost link** (Wi-Fi drops, the phone locks, the other game freezes): after 10 s of silence, or at once when the
   connection closes, the battle pauses with "Link lost. Reconnecting" and a countdown. If the same friend is back within
   20 s the battle goes on at the same turn (both games check every turn that they still agree). After that it is void:
-  nobody wins or loses. Before the battle has started, a lost link ends it at once. On Android, going to the background
-  sends a pause notice to the other device.
+  nobody wins or loses. This also covers the 3 VS 3 picks; before both teams are in, a lost link ends the session at once.
+  On Android, going to the background sends a pause notice to the other device.
+- Known limits: if the link drops exactly as the battle ends, one device may already show the result while the other waits
+  and then calls it void (it can't know the last message arrived). The reconnect proves "the same friend" with a value
+  built from what both games exchanged at the start; someone recording the Wi-Fi traffic could copy it. Link play is
+  meant for friends on a trusted network.
 
 ## Trading
 Each trade counts on both trainer cards (link trades), in the save that applies the swap.

@@ -215,7 +215,7 @@ class Automation(script: List<String>, private val shots: File) {
                             dropFromPrepared = "dropprepared" in parts, three = "three" in parts)))
                         "join" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false,
                             endpoint = pkmn.engine.link.LinkAddress.parse(parts[2]) ?: error("bad link address '${parts[2]}'"), dropFromPrepared = "dropprepared" in parts, three = "three" in parts)))
-                        "find" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false, discover = true, discoverName = parts.getOrNull(2), three = "three" in parts)))
+                        "find" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false, discover = true, discoverName = parts.drop(2).firstOrNull { it != "three" }, three = "three" in parts)))
                         "menu" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx))
                         else -> error("unknown link command '${parts[1]}'")
                     }

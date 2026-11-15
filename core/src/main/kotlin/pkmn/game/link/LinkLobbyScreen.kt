@@ -63,7 +63,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     /** The host the guest joined, to connect again after a lost link. */
     private var joinEndpoint: LinkEndpoint? = null
     /** Host: the mode chosen while waiting (announced by discovery), applied to the lobby once the friend is in. */
-    private var hostTrade = false
+    @Volatile private var hostTrade = false
     private var hostModeApplied = false
     private var announcer: LinkDiscovery.Announcer? = null
     private var browser: LinkDiscovery.Browser? = null
@@ -292,6 +292,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
             val team = LinkLobbyRules.team(dex, ctx.state.party, st.flat)
             battle = LockstepBattle(role, transport!!, dex, LinkConfig(LinkBuild.GAME_VERSION, st.rules, dataHash = dataHash.get()), team, ctx.state.playerName)
             stage = Stage.STARTING
+            cursor = 0; picks.clear(); notice = null
         } catch (e: IllegalArgumentException) {
             transport?.close()
             finishWith("Your party can't be used for a link battle: ${e.message?.take(60)}")
@@ -308,6 +309,8 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     private fun updateStarting(input: InputState) {
         val lb = battle ?: return
         lb.pump(System.nanoTime() / 1_000_000)
+        // A lost link while picking pauses too (both teams are in): reconnect here as during the battle.
+        driveReconnect()
         if (lb.isOver) { endBattle(lb); return }
         if (lb.awaitingLocalPick) { updatePick(lb, input); return }
         val b = lb.battle ?: return
@@ -330,6 +333,8 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         if (input.justPressed(Button.B) && picks.isNotEmpty()) { picks.removeAt(picks.size - 1); return }
         if (!input.justPressed(Button.A)) return
         game.audio.playSfx("menu_select")
+        notice = null
+        cursor = cursor.coerceIn(0, team.size - 1)
         if (cursor in picks) picks.remove(cursor) else picks.add(cursor)
         if (picks.size == lb.pickCount) { lb.pick(picks.toList())?.let { notice = it; picks.clear() } }
     }
@@ -355,8 +360,12 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
             r.text("L${m.level}", 158, y + 11, small = true)
         }
         r.frame(0, 168, Renderer.W, 56)
-        if (lb.awaitingLocalPick) { r.text("Choose ${lb.pickCount - picks.size} more.", 12, 180); r.text("A: PICK  B: UNDO", 12, 200, small = true) }
-        else r.text("Waiting for ${(lb.remoteName ?: "your friend").take(12)} to pick...", 12, 184)
+        when {
+            lb.reconnecting -> { r.text("Link lost. Reconnecting...", 12, 180); r.text("${(lb.reconnectLeftMs() + 999) / 1000}s", 12, 200, small = true) }
+            notice != null -> r.font(notice!!) { lines -> lines.take(2).forEachIndexed { i, l -> r.text(l, 12, 180 + i * 14) } }
+            lb.awaitingLocalPick -> { r.text("Choose ${lb.pickCount - picks.size} more.", 12, 180); r.text("A: PICK  B: UNDO", 12, 200, small = true) }
+            else -> r.text("Waiting for ${(lb.remoteName ?: "your friend").take(12)} to pick...", 12, 184)
+        }
     }
 
     /**

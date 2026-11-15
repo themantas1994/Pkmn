@@ -684,8 +684,8 @@
       "mechanic": "Lost link in a started link battle: paused for 20 s while the host listens again and the guest reconnects; the guest proves the session first (token from both seed commitments), each side repeats the frames the other missed, the battle goes on at the same point with the per-point state hash check; after 20 s it is void; nothing is saved either way",
       "status": "tested",
       "ruleset": "Link play plan, Phase 5",
-      "evidence": "LinkReconnectTest (resumed battles end with the same hash as without the cut; grace period runs out; a stranger is dropped); LockstepBattleTest silence",
-      "note": "Before the battle starts a lost link still voids at once"
+      "evidence": "LinkReconnectTest (resumed battles end with the same hash as without the cut; grace period runs out; a stranger who sends junk or stays silent is dropped; a loss while picking resumes too); LockstepBattleTest silence; LinkNetTest (real sockets)",
+      "note": "Before both teams are in a lost link still voids at once"
     },
     {
       "area": "Link play",

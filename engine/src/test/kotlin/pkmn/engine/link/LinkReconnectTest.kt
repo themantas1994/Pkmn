@@ -92,4 +92,42 @@ class LinkReconnectTest {
         assertEquals(VoidReason.LINK_LOST, assertIs<LinkResult.Voided>(s.host.result).reason)
         assertEquals(0, s.host.resumes)
     }
+
+    @Test
+    fun `a stranger who connects and stays silent is dropped in time for the real peer`() {
+        // A battle that lasts beyond turn 3, so the cut lands inside it.
+        val i = (0 until 40).first { Session(it).run().host.battle!!.turn >= 4 }
+        val cut = frameAtTurn(i, 2)
+        val reference = Session(i).run()
+        val s = Session(i, LinkFaults(cutAt = cut))
+        s.run(stepMs = 500, until = { s.host.reconnecting && s.guest.reconnecting })
+        val stranger = LoopbackLink({ s.now })
+        s.host.resume(stranger.a)
+        assertFalse(s.host.needsTransport, "holding the stranger's connection")
+        repeat(8) { s.tick(500) } // 4 s: longer than resumeAnswerMs
+        assertTrue(s.host.needsTransport && s.host.reconnecting && !s.host.isOver, "the silent connection was dropped: needs=${s.host.needsTransport} rec=${s.host.reconnecting} over=${s.host.result} left=${s.host.reconnectLeftMs()}")
+        val again = LoopbackLink({ s.now })
+        s.host.resume(again.a); s.guest.resume(again.b)
+        s.run()
+        assertEquals((reference.host.result as LinkResult.Completed).hash, completed(s.guest.result).hash)
+    }
+
+    @Test
+    fun `a link lost while the players pick pauses and resumes too`() {
+        val rules = LinkTestSupport.rules().copy(pick = 3)
+        val teams = pkmn.engine.util.Rng(99).let { r -> List(4) { LinkTestSupport.randomMon(r, 40) } to List(4) { LinkTestSupport.randomMon(r, 40) } }
+        val ref = Session(8, cfgHost = LinkTestSupport.config(rules), cfgGuest = LinkTestSupport.config(rules), fixedTeams = teams, hostPick = listOf(0, 1, 2), guestPick = listOf(3, 2, 1)).run()
+        // Cut right after both teams: the guest has not picked yet.
+        val s = Session(8, LinkFaults(cutAt = 4), cfgHost = LinkTestSupport.config(rules), cfgGuest = LinkTestSupport.config(rules), fixedTeams = teams, hostPick = listOf(0, 1, 2))
+        s.run(stepMs = 500, until = { s.host.reconnecting && s.guest.reconnecting })
+        assertNull(s.host.battle); assertTrue(s.host.canResume && s.guest.canResume)
+        s.guestPick = listOf(3, 2, 1)
+        repeat(4) { s.tick(500) }
+        val again = LoopbackLink({ s.now })
+        s.host.resume(again.a); s.guest.resume(again.b)
+        s.run()
+        assertEquals(completed(ref.host.result).hash, completed(s.host.result).hash)
+        assertEquals(completed(s.host.result).hash, completed(s.guest.result).hash)
+    }
 }
+

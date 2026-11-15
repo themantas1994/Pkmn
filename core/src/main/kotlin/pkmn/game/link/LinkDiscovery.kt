@@ -27,6 +27,8 @@ object LinkDiscovery {
     private const val QUERY = "$MAGIC?"
     /** A host not heard from for this long drops off the list. */
     const val STALE_MS = 4_000L
+    /** Most hosts listed at once (a flood of fake announcements cannot grow the list without end). */
+    const val MAX_HOSTS = 16
     private const val PERIOD_MS = 1_000L
 
     /** One host as the guest's list shows it. */
@@ -92,8 +94,11 @@ object LinkDiscovery {
                     try {
                         val p = DatagramPacket(buf, buf.size)
                         sock.receive(p)
-                        if (String(p.data, 0, p.length, Charsets.UTF_8) == QUERY) sock.send(DatagramPacket(data, data.size, p.address, p.port))
-                    } catch (_: java.net.SocketTimeoutException) {}
+                        // Answer only the local network (no reflection to anywhere else).
+                        val from = p.address.hostAddress
+                        if (from != null && LinkAddress.isLocal(from) && String(p.data, 0, p.length, Charsets.UTF_8) == QUERY) sock.send(DatagramPacket(data, data.size, p.address, p.port))
+                    } catch (_: java.net.SocketTimeoutException) {
+                    } catch (_: java.io.IOException) { Thread.sleep(250) } // a network change: keep going
                 }
             } catch (_: Exception) {
             } finally { send.close(); sock?.close() }
@@ -103,16 +108,33 @@ object LinkDiscovery {
     }
 
     /** The guest side: collects hosts until closed. [hosts] is safe to read from the game thread. */
-    class Browser(private val clock: () -> Long = System::currentTimeMillis) : Closeable {
+    class Browser(private val clock: () -> Long = System::currentTimeMillis, listen: Boolean = true) : Closeable {
         @Volatile private var open = true
         private val seen = ConcurrentHashMap<String, Host>()
         /** False when the discovery port could not be opened (another program has it): only the typed code works. */
         @Volatile var listening = true
             private set
-        private val thread = Thread({ run() }, "link-browse").apply { isDaemon = true; start() }
+        init { if (listen) Thread({ run() }, "link-browse").apply { isDaemon = true; start() } }
 
         /** Hosts heard from recently, by name. */
-        val hosts: List<Host> get() { val now = clock(); return seen.values.filter { now - it.seenAtMs < STALE_MS }.sortedBy { it.name } }
+        val hosts: List<Host> get() {
+            val now = clock()
+            seen.entries.removeIf { now - it.value.seenAtMs >= STALE_MS }
+            return seen.values.sortedWith(compareBy({ it.name }, { it.address }))
+        }
+
+        /** Records [h]: one entry per address and port; the same host heard on loopback and on its LAN address is one entry. */
+        internal fun record(h: Host) {
+            val now = h.seenAtMs
+            seen.entries.removeIf { now - it.value.seenAtMs >= STALE_MS }
+            val loop = h.address.startsWith("127.")
+            val twin = seen.entries.firstOrNull { (_, o) -> o.name == h.name && o.port == h.port && (o.address.startsWith("127.") != loop) }
+            when {
+                twin != null && loop -> seen[twin.key] = twin.value.copy(seenAtMs = now) // keep the LAN address
+                twin != null -> { seen.remove(twin.key); seen["${h.address}:${h.port}"] = h }
+                seen.size < MAX_HOSTS || seen.containsKey("${h.address}:${h.port}") -> seen["${h.address}:${h.port}"] = h
+            }
+        }
 
         private fun run() {
             val sock = try { socket(ANNOUNCE_PORT) } catch (_: Exception) { listening = false; return }
@@ -130,13 +152,9 @@ object LinkDiscovery {
                         val p = DatagramPacket(buf, buf.size)
                         sock.receive(p)
                         val addr = p.address.hostAddress ?: continue
-                        parse(String(p.data, 0, p.length, Charsets.UTF_8), addr, clock())?.let { h ->
-                            // One entry per host: the same host can be heard on its LAN address and, on this machine, on loopback.
-                            val key = "${h.name}|${h.port}"
-                            val old = seen[key]
-                            seen[key] = if (old != null && h.address.startsWith("127.") && !old.address.startsWith("127.")) h.copy(address = old.address) else h
-                        }
-                    } catch (_: java.net.SocketTimeoutException) {}
+                        parse(String(p.data, 0, p.length, Charsets.UTF_8), addr, clock())?.let { record(it) }
+                    } catch (_: java.net.SocketTimeoutException) {
+                    } catch (_: java.io.IOException) { Thread.sleep(250) } // a network change: keep going
                 }
             } catch (_: Exception) {
             } finally { sock.close() }
