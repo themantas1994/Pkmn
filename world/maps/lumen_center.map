@@ -20,3 +20,4 @@ warp 4 7 -> lumen_village 16 4 down
 warp 5 7 -> lumen_village 16 4 down
 npc nurse 5 2 sprite=nurse face=down script=p2_nurse
 npc lc_scholar 8 5 sprite=scientist face=left text="Unown come in 28 shapes. I've only found the letters for \"NAP\". Fitting."
+npc link_attendant 7 2 sprite=clerk face=down script=p5_link_attendant

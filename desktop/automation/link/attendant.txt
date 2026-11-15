@@ -1,0 +1,19 @@
+# Pokémon Center Link attendant: talk to her, the greeting shows, then the Link play lobby opens (her script calls `special link`).
+wait 240
+option textSpeed 3
+flag has_pokedex
+party pikachu:30:thunderbolt/quickattack rattata:5:tackle
+ot
+warp brindle_center 6 4 up
+wait 60
+press A
+wait 60
+shot attendant_talk
+press A
+wait 60
+press A
+wait 20
+waittop LinkLobbyScreen 600
+wait 30
+shot attendant_lobby
+quit
