@@ -97,15 +97,19 @@ class SaveFixturesTest {
     }
 
     @Test
-    fun `version 4 fixture loads and its committed trade journal is cleared`() {
+    fun `version 4 fixture loads and its committed trade journal survives the load`() {
         val r = loadFixture(4)
         assertNull(r.migratedFrom)
         assertCommonProgress(r.state)
         val pidgey = r.state.party[1]
         assertEquals("MIO", pidgey.otName); assertTrue(pidgey.outsider); assertEquals(3, pidgey.originalMetLevel)
-        // COMMITTED: the swap is already in the save, so the journal is cleared without a message.
-        assertNull(r.state.pendingTrade)
-        assertTrue(r.notices.isEmpty())
+        // COMMITTED: kept (a restart decides nothing). The fixture predates partnerTrainerId, so no link can recognise
+        // the partner: only the manual way out ends it, and the notice says so.
+        val j = assertNotNull(r.state.pendingTrade)
+        assertEquals(TradeJournalState.COMMITTED, j.state); assertEquals("MIO", j.partnerName); assertNull(j.partnerTrainerId)
+        assertEquals(r.tradeJournal, j)
+        assertFalse(TradeJournal.isPartner(j, "MIO", null))
+        assertEquals(listOf("A link trade with MIO from an earlier version of the game is unfinished. End it from the LINK menu (UNFINISHED TRADE)."), r.notices)
         assertSurvivesResave(r)
     }
 

@@ -147,6 +147,7 @@ class ScriptHost(
         game.push(PartyScreen(game, ctx, PartyScreen.Mode.CHOOSE, null, false, null, "Trade which POKéMON?") { t ->
             if (t == null) { resume(0); return@PartyScreen }
             if (t !in ctx.tradeCandidates(req.want)) { game.say("That's not ${wantName.uppercase()}.") { resume(0) }; return@PartyScreen }
+            ctx.linkTradeLock(ctx.state.party[t])?.let { why -> game.say(why) { resume(0) }; return@PartyScreen }
             val given = ctx.state.party[t].displayName(ctx.dex)
             val evolveTo = ctx.performTrade(t, req.want, req.offer)
             game.audio.playSfx("trade")

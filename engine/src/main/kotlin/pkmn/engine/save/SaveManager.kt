@@ -32,8 +32,8 @@ data class SaveEnvelope(
 sealed class LoadResult {
     /**
      * [warnings] report repaired or damaged data. [notices] are ordinary events the player must be told about, such as
-     * a link trade that did not finish ([TradeJournal.resolveOnLoad]); they are not a sign of a damaged save.
-     * [tradeJournal] is the link trade journal the save held before it was resolved (null when there was none).
+     * a link trade that is still open ([TradeJournal.loadNotice]); they are not a sign of a damaged save.
+     * [tradeJournal] is the open link trade journal the save holds (null when there is none). Loading never resolves it.
      */
     data class Ok(
         val state: GameState, val fromBackup: Boolean, val migratedFrom: Int?, val warnings: List<String>,
@@ -106,22 +106,39 @@ class SaveManager(
         val payloadText = json.encodeToString(JsonElement.serializer(), payload)
         val env = SaveEnvelope(version = currentVersion, savedAt = System.currentTimeMillis(), sha256 = sha256(payloadText), payload = payload)
         val bytes = json.encodeToString(SaveEnvelope.serializer(), env).toByteArray(Charsets.UTF_8)
-        FileOutputStream(tmp).use { out ->
-            out.write(bytes)
-            out.flush()
-            out.fd.sync()
+        // A save either happens or it does not, also when it throws: callers (the link trade journal) roll memory back on
+        // an exception, so the files must then still load as the old state. A complete temporary copy left behind would
+        // be taken by the next load (crash recovery) and make the file disagree with memory.
+        try {
+            FileOutputStream(tmp).use { out ->
+                out.write(bytes)
+                out.flush()
+                out.fd.sync()
+            }
+            // Verify what we wrote before replacing the good save.
+            check(inspect(tmp) is Copy.Valid) { "Save verification failed" }
+            testFault?.invoke("tmp-written")
+            if (main.exists()) {
+                // Only a save that would load may become the backup; a damaged main is kept aside instead.
+                if (mainCopy is Copy.Valid && decodes(mainCopy.env)) replace(main, backup)
+                else replace(main, File(dir, main.name + ".corrupt-" + System.currentTimeMillis()))
+            }
+            testFault?.invoke("main-moved")
+            replace(tmp, main)
+            testFault?.invoke("replaced")
+        } catch (e: Exception) {
+            // The new save may already be in place (a failure after the final copy): then it did happen.
+            val inPlace = try { main.exists() && main.readBytes().contentEquals(bytes) } catch (_: Exception) { false }
+            tmp.delete()
+            if (inPlace) { syncDir(); return SaveResult.Saved }
+            throw e
         }
-        // Verify what we wrote before replacing the good save.
-        check(inspect(tmp) is Copy.Valid) { "Save verification failed" }
-        if (main.exists()) {
-            // Only a save that would load may become the backup; a damaged main is kept aside instead.
-            if (mainCopy is Copy.Valid && decodes(mainCopy.env)) replace(main, backup)
-            else replace(main, File(dir, main.name + ".corrupt-" + System.currentTimeMillis()))
-        }
-        replace(tmp, main)
         syncDir()
         return SaveResult.Saved
     }
+
+    /** Tests only: called at named steps of [save] ("tmp-written", "main-moved", "replaced"); throwing simulates a failure there. */
+    internal var testFault: ((String) -> Unit)? = null
 
     @Synchronized
     fun load(): LoadResult {
@@ -186,9 +203,8 @@ class SaveManager(
         val warnings = ArrayList<String>()
         val state = decodeState(env, warnings)
         dex?.let { warnings += SaveValidator(it).repair(state) }
-        val journal = state.pendingTrade
-        val notices = listOfNotNull(TradeJournal.resolveOnLoad(state))
-        LoadResult.Ok(state, fromBackup, if (env.version != currentVersion) env.version else null, warnings, notices, journal)
+        val notices = listOfNotNull(TradeJournal.loadNotice(state))
+        LoadResult.Ok(state, fromBackup, if (env.version != currentVersion) env.version else null, warnings, notices, state.pendingTrade)
     } catch (e: Exception) {
         LoadResult.Failed("Could not decode save: ${e.message}", emptyList())
     }
@@ -230,7 +246,8 @@ class SaveManager(
          */
         /*
          * 4: link trades. GameState.pendingTrade (the trade journal) and Pokemon.originalMetLevel, both null by default,
-         * so nothing in an old payload is rewritten.
+         * so nothing in an old payload is rewritten. PendingTrade.partnerTrainerId (link play Phase 5) was added to v4
+         * before v4 was released: nullable with a default, so a v4 file written without it loads unchanged.
          */
         const val CURRENT_VERSION = 4
 

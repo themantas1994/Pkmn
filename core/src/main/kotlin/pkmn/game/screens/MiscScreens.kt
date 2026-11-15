@@ -198,8 +198,14 @@ class BoxScreen(game: PkmnGame, private val ctx: GameContext, private val op: Op
                 ctx.state.party.add(mon)
                 game.say("Withdrew ${mon.displayName(ctx.dex)}.")
             }
-            Op.RELEASE -> game.ask("Release ${mon.displayName(ctx.dex)}? It won't come back.") { yes ->
-                if (yes) { boxes[box][cursor] = null; game.say("${mon.displayName(ctx.dex)} was released outside. Bye-bye, ${mon.displayName(ctx.dex)}!") }
+            Op.RELEASE -> {
+                ctx.releaseError(box, cursor)?.let { game.say(it); return }
+                val (b, c) = box to cursor
+                game.ask("Release ${mon.displayName(ctx.dex)}? It won't come back.") { yes ->
+                    if (!yes) return@ask
+                    val err = ctx.releaseFromPc(b, c)
+                    game.say(err ?: "${mon.displayName(ctx.dex)} was released outside. Bye-bye, ${mon.displayName(ctx.dex)}!")
+                }
             }
         }
     }

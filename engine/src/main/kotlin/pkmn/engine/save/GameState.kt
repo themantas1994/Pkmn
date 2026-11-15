@@ -58,8 +58,9 @@ enum class TradeJournalState { PREPARED, COMMITTED }
  * The journal of a link trade, saved before anything changes hands ("Trade protocol" in the link play plan).
  *
  * PREPARED: both players confirmed and this device saved the journal; the party is still unchanged. COMMITTED: the swap
- * was applied in the same atomic save that set this state. A PREPARED journal is completed only when the other device
- * reports COMMITTED for the same [tradeId]; otherwise it is cancelled (on the next load, or before another trade).
+ * was applied in the same atomic save that set this state. Neither state is resolved by a load or by time: only a link
+ * with the same partner ([partnerName], [partnerTrainerId]) or the player's manual choice in the LINK menu resolves it
+ * (rules in [TradeJournal] and `TradeTransaction`). While it is open, the given Pokémon stays in the party.
  */
 @Serializable
 data class PendingTrade(
@@ -74,6 +75,11 @@ data class PendingTrade(
     val givenName: String = "",
     /** The Pokémon received, exactly as it arrived (already validated). */
     val received: Pokemon,
+    /**
+     * The partner's trainer id, so "the same partner" is recognised after a restart (with [partnerName]). Null in
+     * journals written before it existed (link play Phase 4, never released): those are ended only by the manual way out.
+     */
+    val partnerTrainerId: Int? = null,
 )
 
 @Serializable

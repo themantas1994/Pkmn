@@ -31,13 +31,15 @@ class LinkTradeScreen(
     role: LinkRole,
     private val transport: LinkTransport,
     remoteName: String,
+    /** Automation fault only ([AutoLink.dropFromPrepared]). */
+    dropFromPrepared: Boolean = false,
 ) : Screen(game), LinkAware, LinkDebug {
     private enum class Phase { SYNC, PICK, WAIT_OFFER, CONFIRM, WAIT_CONFIRM, SAVING, SCENE, MESSAGE, CLOSING }
 
     override val blocksAutosave get() = true
     private val dex = ctx.dex
     private val store = GameTradeStore(ctx) { state -> saveGame(state) }
-    private val tx = TradeTransaction(role, transport, dex, store, ctx.state.playerName, remoteName)
+    private val tx = TradeTransaction(role, if (dropFromPrepared) DropFromPrepared(transport) else transport, dex, store, ctx.state.playerName, remoteName)
     private var phase = Phase.SYNC
     private var cursor = 0
     private var noticeShown = false
@@ -165,7 +167,7 @@ class LinkTradeScreen(
         phase = Phase.CLOSING
         val text = when (res) {
             is TradeTransaction.Result.Cancelled -> res.reason
-            is TradeTransaction.Result.Interrupted -> res.reason + " Link with ${tx.remoteName} again to finish the trade; if the game is closed first, it is cancelled."
+            is TradeTransaction.Result.Interrupted -> res.reason + " Link with ${tx.remoteName} again to finish the trade. It stays open until then, also if the game is closed."
             is TradeTransaction.Result.Completed -> return
         }
         game.audio.playSfx("error")
@@ -282,5 +284,18 @@ class LinkTradeScreen(
         r.text(tx.localName.take(12), 24, 142, small = true)
         r.text(tx.remoteName.take(12), 168, 142, small = true)
         if (p < 1f) r.text("Trading" + ".".repeat(((sceneT * 3).toInt() % 3) + 1), 16, 170)
+    }
+}
+
+/**
+ * Automation fault for the interrupted-trade scene: passes trade frames through until this device sends PREPARED, then
+ * silently drops everything it sends (the frames from the other device still arrive). The other device never gets this
+ * PREPARED, so it never commits, while this device commits on the other's PREPARED: the one-message window, on purpose.
+ */
+private class DropFromPrepared(private val inner: LinkTransport) : LinkTransport by inner {
+    private var dropping = false
+    override fun send(frame: ByteArray) {
+        if (!dropping && pkmn.engine.link.TradeCodec.decode(frame) is pkmn.engine.link.TradePrepared) dropping = true
+        if (!dropping) inner.send(frame)
     }
 }

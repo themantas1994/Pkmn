@@ -8,7 +8,7 @@
     "open": "Known gap or unverified behaviour"
   },
   "counts": {
-    "tested": 60,
+    "tested": 61,
     "implemented": 12,
     "simplified": 4,
     "excluded": 3,
@@ -633,10 +633,18 @@
     },
     {
       "area": "Saves",
-      "mechanic": "Link trade journal: PREPARED saved before the swap; swap and COMMITTED in one atomic save; on load a PREPARED journal is cancelled with a message and a COMMITTED one cleared; a reconnect with the same trade id completes a one-sided trade",
+      "mechanic": "Link trade journal: PREPARED saved before the swap; swap and COMMITTED in one atomic save; both survive a load (the player is told) and are resolved only by a link with the same partner (name and trainer id): PREPARED completes against COMMITTED, cancels against PREPARED or no journal; COMMITTED clears against COMMITTED or no journal and waits for the partner's COMMITTED against PREPARED",
       "status": "tested",
       "ruleset": "Link play plan, trade protocol",
-      "evidence": "TradeTransactionTest (cut at every message index, reset and silent); TradeKillTest (SIGKILL during the save)",
+      "evidence": "TradeTransactionTest (cut at every message index, reset, silent and one-way, then a restart of neither, either or both devices and a reconnect: always the whole trade or none; also a cut at every message of the reconnect or a failed save in it, then a clean link); TradeKillTest (SIGKILL during the save); SaveAtomicityTest (a save that throws leaves the old state on disk); run_link_scene.sh resume",
+      "note": "A save rolled back to its backup or overwritten by a new game can still leave a trade one-sided"
+    },
+    {
+      "area": "Saves",
+      "mechanic": "Open trade journal locks: the given Pokémon cannot be released, deposited, traded or given to an in-game trade (it can battle and level); a link trade with another partner is refused until the journal is resolved; link battles are not affected. Manual way out in the LINK menu (UNFINISHED TRADE) with a warning naming what can be lost",
+      "status": "tested",
+      "ruleset": "Link play plan, Phase 5",
+      "evidence": "TradeJournalLockTest (each lock, both journal states of the manual way out)",
       "note": ""
     },
     {

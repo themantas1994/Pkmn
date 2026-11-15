@@ -21,6 +21,8 @@ class GameTradeStore(private val ctx: GameContext, private val save: (GameState)
 
     override val party: List<Pokemon> get() = ctx.state.party
 
+    override val trainerId: Int get() = ctx.state.trainerId
+
     override fun refusal(uid: Long): String? {
         val slot = ctx.state.party.indexOfFirst { it.uid == uid }
         return if (slot < 0) "That POKéMON is not in your party." else ctx.linkTradeRefusal(slot)
@@ -31,19 +33,27 @@ class GameTradeStore(private val ctx: GameContext, private val save: (GameState)
         transact { ctx.state.pendingTrade = journal.copy(state = TradeJournalState.PREPARED, givenSlot = slot) }
     }
 
-    override fun commit(journal: PendingTrade) {
+    override fun commit(journal: PendingTrade, resume: Boolean) {
         transact {
-            lastTrade = ctx.performLinkTrade(journal)
+            lastTrade = ctx.performLinkTrade(journal, requireAble = !resume)
             ctx.state.pendingTrade = journal.copy(state = TradeJournalState.COMMITTED, givenSlot = lastTrade!!.slot)
         }
     }
 
     override fun clear() { transact { ctx.state.pendingTrade = null } }
 
-    override fun resolveStale(): String? {
-        var notice: String? = null
-        transact { notice = TradeJournal.resolveOnLoad(ctx.state) }
-        return notice
+    /**
+     * The manual way out (LINK menu): removes the open journal and saves, after the player saw
+     * [GameContext.linkTradeAbandonWarning]. The party is left as it is. Returns what happened, or null when no journal
+     * was open. Throws when the save fails (the journal is then still open, in memory and on disk).
+     */
+    fun abandon(): String? {
+        val j = ctx.state.pendingTrade ?: return null
+        clear()
+        return when (j.state) {
+            TradeJournalState.PREPARED -> "The trade with ${j.partnerName} was cancelled. You kept ${TradeJournal.givenName(j)}."
+            TradeJournalState.COMMITTED -> "The trade with ${j.partnerName} was ended. You keep ${j.received.displayName(ctx.dex)}."
+        }
     }
 
     /**

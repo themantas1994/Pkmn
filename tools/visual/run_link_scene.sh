@@ -5,14 +5,17 @@
 #   killed  the guest process is killed (kill -9) mid-battle; the host's result is "link lost" and it returns to the overworld
 #   trade   both trade their first party Pokémon (the guest offers a Kadabra, so the host's evolves to Alakazam on arrival);
 #           each save then holds the other's (species and OT), the party sizes are unchanged and no trade journal is left
+#   resume  an interrupted trade: the guest drops its frames from its PREPARED on, so only the guest swaps (journals: host
+#           PREPARED, guest COMMITTED). Both games are closed and continued from their saves (load notices, the LINK menu's
+#           UNFINISHED TRADE page), then link again: the host finishes the trade and both saves hold it, with no journal left
 # In the battle scenarios the survivor's save files must be byte-identical before and after the link (nothing is written).
 # Output: build/link-scene/<scenario>/{host,guest}/*.png and *.log. Exit status is non-zero when any check fails.
-#   tools/visual/run_link_scene.sh [battle|forfeit|killed ...]     (default: all four)
+#   tools/visual/run_link_scene.sh [battle|forfeit|killed|trade|resume ...]     (default: all five)
 set -uo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 OUT="$ROOT/build/link-scene"
 BASE_PORT="${LINK_PORT:-47840}"
-SCENARIOS=("$@"); [ ${#SCENARIOS[@]} -eq 0 ] && SCENARIOS=(battle forfeit killed trade)
+SCENARIOS=("$@"); [ ${#SCENARIOS[@]} -eq 0 ] && SCENARIOS=(battle forfeit killed trade resume)
 rm -rf "$OUT" && mkdir -p "$OUT"
 "$ROOT/gradlew" -q -p "$ROOT" :desktop:installDist || { echo "build failed"; exit 1; }
 BIN="$ROOT/desktop/build/install/desktop/bin/desktop"
@@ -20,12 +23,13 @@ failed=0
 fail() { echo "  FAIL: $*"; failed=1; }
 
 # Starts one instance in its own process group; prints the group id. $1 name, $2 scenario dir, $3 script, $4 player name
+# (empty: no quickstart, the game starts at the title and continues its save), $5 log file (default $2/$1.log)
 start_instance() {
-  local name="$1" dir="$2" script="$3" player="$4"
+  local name="$1" dir="$2" script="$3" player="$4" log="${5:-$2/$1.log}"
   mkdir -p "$dir/$name/shots" "$dir/$name/saves"
   ( cd "$ROOT/assets" && exec setsid timeout 240 xvfb-run -a -s "-screen 0 1024x768x24" \
-      "$BIN" --quickstart="$player" --mute --fixedstep --scale=1 --saves="$dir/$name/saves" \
-      --script="$script" --shots="$dir/$name/shots" > "$dir/$name.log" 2>&1 ) &
+      "$BIN" ${player:+--quickstart="$player"} --mute --fixedstep --scale=1 --saves="$dir/$name/saves" \
+      --script="$script" --shots="$dir/$name/shots" > "$log" 2>&1 ) &
   echo $!
 }
 save_hash() { ( cd "$1" && find . -type f ! -name options.json | sort | xargs -r sha256sum | sha256sum | cut -c1-16 ); }
@@ -36,11 +40,54 @@ save_json() { echo "$1/save.json"; }
 party0() { jq -r '.payload.party[0] | "\(.speciesId) \(.otName)"' "$(save_json "$1")" 2>/dev/null; }
 party_len() { jq -r '.payload.party | length' "$(save_json "$1")" 2>/dev/null; }
 journal() { jq -r '.payload.pendingTrade // "none" | if type == "string" then . else "open" end' "$(save_json "$1")" 2>/dev/null; }
+journal_state() { jq -r '.payload.pendingTrade.state // "none"' "$(save_json "$1")" 2>/dev/null; }
+# Waits for a process group to end (up to $2 seconds), else kills it and fails. $1 pid, $2 seconds, $3 name
+wait_end() { for _ in $(seq "$2"); do kill -0 "$1" 2>/dev/null || return 0; sleep 1; done; fail "$3 still running"; kill -9 -- "-$1" 2>/dev/null; }
+# Starts a host and then a guest on the host's port, for one part of a scenario; sets hpid and gpid. $1 dir, $2 part suffix,
+# $3 host player name, $4 guest player name (empty: continue the save)
+start_pair() {
+  local dir="$1" part="$2"
+  sed "s/@PORT@/$port/" "$ROOT/desktop/automation/link/host_$sc$part.txt" > "$dir/host$part.txt"
+  sed "s/@PORT@/$port/; s/@ADDR@/127.0.0.1/" "$ROOT/desktop/automation/link/guest_$sc$part.txt" > "$dir/guest$part.txt"
+  hpid=$(start_instance host "$dir" "$dir/host$part.txt" "$3" "$dir/host$part.log")
+  for _ in $(seq 150); do grep -q "^LINK host code=" "$dir/host$part.log" 2>/dev/null && break; sleep 1; done
+  grep -q "^LINK host code=" "$dir/host$part.log" || { fail "host$part never started listening"; return 1; }
+  gpid=$(start_instance guest "$dir" "$dir/guest$part.txt" "$4" "$dir/guest$part.log")
+}
+
+# The interrupted-trade scenario: two runs of both games, the second continuing the saves of the first.
+run_resume() {
+  local dir="$1"
+  start_pair "$dir" 1 HOST GUEST || return
+  wait_end "$hpid" 200 host1; wait_end "$gpid" 60 guest1
+  local hmon1 gmon1 hlen glen
+  hmon1=$(party0 "$dir/host/saves"); gmon1=$(party0 "$dir/guest/saves"); hlen=$(party_len "$dir/host/saves"); glen=$(party_len "$dir/guest/saves")
+  [ "$(journal_state "$dir/host/saves")" = PREPARED ] && [ "$hmon1" = "pikachu HOST" ] && echo "  part 1: host kept its Pikachu, journal PREPARED" \
+    || fail "part 1: host should hold [pikachu HOST] with a PREPARED journal: [$hmon1] $(journal_state "$dir/host/saves")"
+  [ "$(journal_state "$dir/guest/saves")" = COMMITTED ] && [ "$gmon1" = "pikachu HOST" ] && echo "  part 1: guest swapped (one-sided), journal COMMITTED" \
+    || fail "part 1: guest should hold [pikachu HOST] with a COMMITTED journal: [$gmon1] $(journal_state "$dir/guest/saves")"
+  start_pair "$dir" 2 "" "" || return
+  wait_end "$hpid" 220 host2; wait_end "$gpid" 60 guest2
+  for who in host guest; do
+    last=$(last_log "$dir/${who}2.log")
+    echo "$last" | grep -q "top=OverworldScreen" && echo "  $who is back on the overworld" || fail "$who did not end on the overworld: [$last]"
+    grep -q "Exception\|timed out" "$dir/${who}1.log" "$dir/${who}2.log" && fail "$who: an exception or a timed-out wait: $(grep -h "Exception\|timed out" "$dir/${who}1.log" "$dir/${who}2.log" | head -3)"
+  done
+  local hmon2 gmon2
+  hmon2=$(party0 "$dir/host/saves"); gmon2=$(party0 "$dir/guest/saves")
+  [ "$hmon2" = "alakazam GUEST" ] && echo "  part 2: the host finished the trade (the Kadabra evolved): $hmon2" || fail "part 2: host slot 0 is [$hmon2], expected [alakazam GUEST]"
+  [ "$gmon2" = "pikachu HOST" ] && echo "  part 2: the guest still holds the host's Pikachu" || fail "part 2: guest slot 0 is [$gmon2]"
+  [ "$(party_len "$dir/host/saves")" = "$hlen" ] && [ "$(party_len "$dir/guest/saves")" = "$glen" ] && echo "  party sizes unchanged ($hlen, $glen)" || fail "party sizes changed"
+  [ "$(journal "$dir/host/saves")" = none ] && [ "$(journal "$dir/guest/saves")" = none ] && echo "  no trade journal left in either save" || fail "a trade journal is left: host $(journal "$dir/host/saves"), guest $(journal "$dir/guest/saves")"
+  for f in trade_interrupted resume_notice link_unfinished unfinished_prepared unfinished_question trade_resumed link_after; do [ -f "$dir/host/shots/$f.png" ] || fail "missing host screenshot $f"; done
+  for f in trade_one_sided resume_notice unfinished_committed trade_resumed link_after; do [ -f "$dir/guest/shots/$f.png" ] || fail "missing guest screenshot $f"; done
+}
 
 for sc in "${SCENARIOS[@]}"; do
   echo "scenario $sc"
   dir="$OUT/$sc"; mkdir -p "$dir"
   port=$((BASE_PORT + RANDOM % 200))
+  if [ "$sc" = resume ]; then run_resume "$dir"; pkill -9 -f "pkmn.desktop.*--saves=$dir" 2>/dev/null; continue; fi
   sed "s/@PORT@/$port/" "$ROOT/desktop/automation/link/host_$sc.txt" > "$dir/host.txt"
   sed "s/@PORT@/$port/; s/@ADDR@/127.0.0.1/" "$ROOT/desktop/automation/link/guest_$sc.txt" > "$dir/guest.txt"
   hpid=$(start_instance host "$dir" "$dir/host.txt" HOST)

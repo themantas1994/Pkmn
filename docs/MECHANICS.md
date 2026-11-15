@@ -4,7 +4,7 @@ Every core mechanic, its status, the ruleset it follows and the evidence. Machin
 
 Status: **tested** = implemented with the named automated tests; **implemented** = in code, only indirectly tested; **simplified** = deliberate simplification; **excluded** = out of scope; **open** = known gap.
 
-Totals: excluded 3, implemented 12, open 2, simplified 4, tested 60.
+Totals: excluded 3, implemented 12, open 2, simplified 4, tested 61.
 
 ## Identity and creation
 
@@ -117,7 +117,8 @@ Totals: excluded 3, implemented 12, open 2, simplified 4, tested 60.
 | Unknown nature/gender/status/Mint values become Hardy/genderless/healthy/none with a warning; other type errors still fail | tested | — | SaveRecoveryTest enum tests |  |
 | v1, v2, v3 and v4 golden fixtures in the historical schemas load through the migration chain; a v4 save is Unsupported for code that knows v3 | tested | — | SaveFixturesTest |  |
 | v3 -> v4 migration (link trades): trade journal and original met level added as null; nothing rewritten | tested | — | SaveFixturesTest v3 |  |
-| Link trade journal: PREPARED saved before the swap; swap and COMMITTED in one atomic save; on load a PREPARED journal is cancelled with a message and a COMMITTED one cleared; a reconnect with the same trade id completes a one-sided trade | tested | Link play plan, trade protocol | TradeTransactionTest (cut at every message index, reset and silent); TradeKillTest (SIGKILL during the save) |  |
+| Link trade journal: PREPARED saved before the swap; swap and COMMITTED in one atomic save; both survive a load (the player is told) and are resolved only by a link with the same partner (name and trainer id): PREPARED completes against COMMITTED, cancels against PREPARED or no journal; COMMITTED clears against COMMITTED or no journal and waits for the partner's COMMITTED against PREPARED | tested | Link play plan, trade protocol | TradeTransactionTest (cut at every message index, reset, silent and one-way, then a restart of neither, either or both devices and a reconnect: always the whole trade or none; also a cut at every message of the reconnect or a failed save in it, then a clean link); TradeKillTest (SIGKILL during the save); SaveAtomicityTest (a save that throws leaves the old state on disk); run_link_scene.sh resume | A save rolled back to its backup or overwritten by a new game can still leave a trade one-sided |
+| Open trade journal locks: the given Pokémon cannot be released, deposited, traded or given to an in-game trade (it can battle and level); a link trade with another partner is refused until the journal is resolved; link battles are not affected. Manual way out in the LINK menu (UNFINISHED TRADE) with a warning naming what can be lost | tested | Link play plan, Phase 5 | TradeJournalLockTest (each lock, both journal states of the manual way out) |  |
 | v1 -> v2 migration (Pokédex forms, nickname offers, unique ids); no rerolls on load | tested | — | AcquisitionTest migration |  |
 | v2 -> v3 migration (obedience): outsider flag added as false; saved met levels kept; a missing met level becomes the current level; a met level above the current level is repaired | tested | — | ObedienceCampaignTest migration and repair tests |  |
 | Interrupted capture resumes at the nickname prompt | tested | — | AcquisitionTest interruption |  |

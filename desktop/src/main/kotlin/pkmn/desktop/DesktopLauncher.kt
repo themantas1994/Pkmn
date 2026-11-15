@@ -35,6 +35,9 @@ class DesktopPlatform(override val saveDir: File, override val forceTouchControl
  *                        ot (the party's Pokémon with no original trainer get the player as OT, as a catch would),
  *                        link host [PORT] [flat] [trade] (host a link battle with default rules, or a trade; start when the guest is ready),
  *                        link join CODE|ADDRESS[:PORT] (join a host, ready as soon as it has rules; follows the host's battle or trade),
+ *                        add `dropprepared` to either to drop this device's trade frames from its PREPARED on (interrupted-trade scene),
+ *                        link menu (open the LINK menu as the start menu does), mashuntil TEXT [frames] (press A every 20 frames until
+ *                        the top screen's class name or debug state contains TEXT),
  *                        linkplay fight | linkplay forfeit TURN (drive the link battle's menus until its result screen shows)
  *   --shots=<dir>        where screenshots go
  *   --mute               no audio
@@ -92,6 +95,9 @@ class Automation(script: List<String>, private val shots: File) {
     /** `linkplay`: "fight", or "forfeit:TURN"; null when off. */
     private var linkPlay: String? = null
     private var linkPlaySawBattle = false
+    /** `mashuntil TEXT [frames]`: press A until the top screen's class or debug state matches TEXT. */
+    private var mashUntil: String? = null
+    private var mashFrames = 0
     private val linkSteps = ArrayDeque<Pair<Button?, Int>>()
 
     fun attach(game: PkmnGame) {
@@ -108,6 +114,12 @@ class Automation(script: List<String>, private val shots: File) {
             if (match || --waitTopFrames <= 0) { if (waitTopFrames <= 0) println("AUTOMATION waittop $name timed out (top=${g.top()?.javaClass?.simpleName})"); waitTop = null } else return
         }
         if (wait > 0) { wait--; if (wait == 0) hold?.let { g.input.inject(it, false); hold = null }; return }
+        mashUntil?.let { text ->
+            val top = g.top()
+            if (top?.javaClass?.simpleName == text || debugState(top)?.contains(text) == true) mashUntil = null
+            else if (--mashFrames <= 0) { println("AUTOMATION mashuntil $text timed out (top=${top?.javaClass?.simpleName})"); mashUntil = null }
+            else { if (mashFrames % 20 == 0) { g.input.inject(Button.A, true); hold = Button.A; wait = 2; mashFrames -= 2 }; return }
+        }
         if (linkPlay != null) { driveLinkBattle(g); if (linkPlay != null) return }
         while (pc < lines.size) {
             val parts = lines[pc++].trim().split(Regex("\\s+"))
@@ -143,6 +155,7 @@ class Automation(script: List<String>, private val shots: File) {
                 "shot" -> { screenshot(File(shots, parts[1] + ".png")); continue }
                 "waittop" -> { waitTop = parts[1]; waitTopFrames = parts.getOrNull(2)?.toInt() ?: 1200; return }
                 "waitstate" -> { waitTop = "state:" + parts[1]; waitTopFrames = parts.getOrNull(2)?.toInt() ?: 1200; return }
+                "mashuntil" -> { mashUntil = parts[1]; mashFrames = parts.getOrNull(2)?.toInt() ?: 1200; return }
                 "party" -> {
                     val ctx = g.session ?: continue
                     ctx.state.party.clear()
@@ -196,9 +209,11 @@ class Automation(script: List<String>, private val shots: File) {
                     val ctx = g.session ?: continue
                     when (parts[1]) {
                         "host" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = true,
-                            port = parts.drop(2).firstNotNullOfOrNull { it.toIntOrNull() } ?: pkmn.engine.link.LinkAddress.DEFAULT_PORT, flat = "flat" in parts, trade = "trade" in parts)))
+                            port = parts.drop(2).firstNotNullOfOrNull { it.toIntOrNull() } ?: pkmn.engine.link.LinkAddress.DEFAULT_PORT, flat = "flat" in parts, trade = "trade" in parts,
+                            dropFromPrepared = "dropprepared" in parts)))
                         "join" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx, pkmn.game.link.AutoLink(host = false,
-                            endpoint = pkmn.engine.link.LinkAddress.parse(parts[2]) ?: error("bad link address '${parts[2]}'"))))
+                            endpoint = pkmn.engine.link.LinkAddress.parse(parts[2]) ?: error("bad link address '${parts[2]}'"), dropFromPrepared = "dropprepared" in parts)))
+                        "menu" -> g.push(pkmn.game.link.LinkLobbyScreen(g, ctx))
                         else -> error("unknown link command '${parts[1]}'")
                     }
                     return

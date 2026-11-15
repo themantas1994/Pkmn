@@ -1,0 +1,31 @@
+# Interrupted trade scene, part 1, guest side (fills in @PORT@ and @ADDR@). `dropprepared`: everything this device sends
+# from its PREPARED on is lost. It still gets the host's PREPARED, so it swaps and saves COMMITTED; the host never does.
+wait 300
+option textSpeed 3
+flag has_pokedex
+party kadabra:30:psychic/confusion pidgey:5:tackle
+ot
+save
+wait 90
+log
+link join @ADDR@:@PORT@ dropprepared
+waitstate mode=TRADE 1800
+wait 30
+shot link_guest_lobby
+waitstate trade=PICK 1800
+wait 20
+press A
+waitstate trade=CONFIRM 1800
+wait 20
+press A
+waitstate trade=SCENE 4200
+waittop TextBox 900
+wait 60
+shot trade_one_sided
+log
+mashuntil OverworldScreen 900
+wait 20
+shot resume1_after
+log
+wait 240
+quit

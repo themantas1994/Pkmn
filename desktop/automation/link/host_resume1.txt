@@ -1,0 +1,30 @@
+# Interrupted trade scene, part 1, host side (tools/visual/run_link_scene.sh fills in @PORT@). The guest drops its own
+# frames from its PREPARED on: this device saves PREPARED and never hears back, so after 30 s of silence the trade is
+# interrupted here and the journal stays open (the guest has already swapped: the one-message window).
+wait 240
+option textSpeed 3
+flag has_pokedex
+party pikachu:30:thunderbolt/quickattack rattata:5:tackle
+ot
+save
+wait 90
+log
+link host @PORT@ trade
+waitstate mode=TRADE 1800
+waitstate trade=PICK 1800
+wait 20
+press A
+waitstate trade=CONFIRM 1800
+wait 20
+press A
+waitstate trade=SAVING 900
+waittop TextBox 4200
+wait 60
+shot trade_interrupted
+log
+mashuntil OverworldScreen 900
+wait 20
+shot resume1_after
+log
+wait 240
+quit

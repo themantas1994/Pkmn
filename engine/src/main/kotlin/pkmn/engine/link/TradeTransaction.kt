@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 import pkmn.engine.data.Dex
 import pkmn.engine.mon.Pokemon
 import pkmn.engine.save.PendingTrade
+import pkmn.engine.save.TradeJournal
 import pkmn.engine.save.TradeJournalState
 import java.security.SecureRandom
 
@@ -22,11 +23,12 @@ sealed interface TradeMsg
 data class TradePartyEntry(val speciesId: String, val level: Int, val nickname: String? = null, val shiny: Boolean = false)
 
 /**
- * First message of each device: the trade journal it still has open, if any (the reconnect rule), and a summary of its
- * party so each screen can show both parties side by side.
+ * First message of each device: the trade journal it still has open, if any (the reconnect rule), a summary of its
+ * party so each screen can show both parties side by side, and its trainer id, so a journal recognises the same
+ * partner after a restart ([PendingTrade.partnerTrainerId]).
  */
 @Serializable @SerialName("sync")
-data class TradeSync(val openId: String? = null, val openState: String? = null, val party: List<TradePartyEntry> = emptyList()) : TradeMsg
+data class TradeSync(val openId: String? = null, val openState: String? = null, val party: List<TradePartyEntry> = emptyList(), val trainerId: Int? = null) : TradeMsg
 
 /** The Pokémon this device offers, and its half of the trade id. */
 @Serializable @SerialName("offer")
@@ -44,9 +46,19 @@ data class TradePrepared(val tradeId: String) : TradeMsg
 @Serializable @SerialName("committed")
 data class TradeCommitted(val tradeId: String) : TradeMsg
 
-/** This device ends the trade before it prepared (the player backed out, a bad offer, a failed save). */
+/**
+ * This device ends the trade before it prepared (the player backed out, a bad offer, a failed save), or at SYNC:
+ * [BUSY] (it has an open journal with another partner) or [RESUME_FAILED] (it could not save the finish of the earlier
+ * trade with this partner; its journal stays open).
+ */
 @Serializable @SerialName("cancel")
-data class TradeCancel(val reason: String) : TradeMsg
+data class TradeCancel(val reason: String) : TradeMsg {
+    companion object {
+        const val DECLINED = "declined"
+        const val BUSY = "busy"
+        const val RESUME_FAILED = "resume failed"
+    }
+}
 
 /** Keeps a quiet link alive while the players choose. */
 @Serializable @SerialName("beat")
@@ -91,16 +103,20 @@ interface TradeStore {
     val journal: PendingTrade?
     /** The party the player can trade from (summarised for the other device). */
     val party: List<Pokemon>
+    /** This player's trainer id, sent at SYNC so the partner's journal can recognise this player. */
+    val trainerId: Int
     /** Why the local Pokémon with [uid] may not be traded away, or null. */
     fun refusal(uid: Long): String?
     /** Saves [journal] (state PREPARED). The party is unchanged. */
     fun prepare(journal: PendingTrade)
-    /** Applies the swap of [journal] and saves it with the journal set to COMMITTED, in one save. */
-    fun commit(journal: PendingTrade)
+    /**
+     * Applies the swap of [journal] and saves it with the journal set to COMMITTED, in one save. [resume]: finishing an
+     * open journal after a reconnect (the "last Pokémon that can battle" check, made when the offer was allowed, is
+     * not repeated).
+     */
+    fun commit(journal: PendingTrade, resume: Boolean = false)
     /** Removes the journal and saves. */
     fun clear()
-    /** Resolves a journal that belongs to no running trade, as a load does; returns a sentence for the player or null. */
-    fun resolveStale(): String?
 }
 
 /** Timeouts of a trade, in milliseconds of the clock passed to [TradeTransaction.pump]. */
@@ -109,8 +125,9 @@ data class TradeTimeouts(val heartbeatMs: Long = 3_000, val voidMs: Long = 30_00
 /**
  * One link trade between two devices, over a [LinkTransport] ("Trade protocol" in the link play plan):
  *
- * 1. SYNC: each device reports the journal it still has open. With the same trade id on both, a device that is still
- *    PREPARED while the other is COMMITTED completes the swap; every other open journal is resolved as on load.
+ * 1. SYNC: each device reports the journal it still has open and its trainer id, and resolves its own journal if it was
+ *    written with this partner (the rules in [onSync]). A journal with another partner is left alone and this device
+ *    refuses the trade until it is resolved. A trade starts only when no journal is open on either device.
  * 2. OFFER: each device sends the Pokémon it offers. A received offer must pass [MonValidator].
  * 3. CONFIRM: each player accepts or declines after seeing both offers.
  * 4. PREPARED: each device saves the journal as PREPARED, then sends PREPARED.
@@ -118,8 +135,9 @@ data class TradeTimeouts(val heartbeatMs: Long = 3_000, val voidMs: Long = 30_00
  * 6. On the other's COMMITTED: clear the journal and save.
  *
  * A link lost before this device saved PREPARED cancels the trade with nothing saved. Lost after that, the journal stays
- * as it is: a PREPARED one is completed by a reconnect with the same partner, or cancelled on the next load or trade;
- * a COMMITTED one is already applied. No clock of its own: the screen calls [pump] each frame with the time.
+ * as it is, through restarts, until the next SYNC with the same partner (or the player's manual way out): no device
+ * ever decides alone whether a swap the other may have applied happened. No clock of its own: the screen calls [pump]
+ * each frame with the time.
  */
 class TradeTransaction(
     val role: LinkRole,
@@ -138,7 +156,10 @@ class TradeTransaction(
         data class Completed(val received: Pokemon, val givenUid: Long, val confirmed: Boolean) : Result()
         /** Nothing changed on this device. */
         data class Cancelled(val reason: String) : Result()
-        /** The link was lost after this device saved PREPARED: the trade did not happen here; the journal stays open. */
+        /**
+         * The session ended while a journal stays open on this device: the link was lost after this device saved
+         * PREPARED (the trade did not happen here), or an earlier trade could not be resolved at SYNC.
+         */
         data class Interrupted(val reason: String) : Result()
     }
 
@@ -178,6 +199,13 @@ class TradeTransaction(
     private var now = 0L
     private var lastSent = 0L
     private var lastRecv = 0L
+    /** The other player's trainer id from its SYNC (null when it sent none). */
+    private var remoteTrainerId: Int? = null
+    /**
+     * Set at SYNC while this device holds a COMMITTED journal and the partner a PREPARED one for the same trade: the
+     * partner completes the swap and sends COMMITTED, and only then may this journal go.
+     */
+    private var awaitingCommit: String? = null
 
     /** The trade id both devices compute from the two nonces (host first). */
     val tradeId: String? get() {
@@ -213,7 +241,9 @@ class TradeTransaction(
      */
     fun cancel() {
         if (isOver || stage > Stage.CONFIRM) return
-        sendQuietly(TradeCancel("declined"))
+        sendQuietly(TradeCancel(TradeCancel.DECLINED))
+        // Leaving during SYNC never touches a journal: an earlier trade still open here waits for the next link.
+        if (stage == Stage.SYNC && store.journal != null) return interrupted("You left before the earlier trade with $remoteName was resolved.")
         end(Result.Cancelled("You cancelled the trade."))
     }
 
@@ -226,7 +256,7 @@ class TradeTransaction(
             if (!sentSync) {
                 val j = store.journal
                 val party = store.party.take(6).map { TradePartyEntry(it.speciesId, it.level, it.nickname, it.shiny) }
-                send(TradeSync(j?.tradeId, j?.state?.name, party)); sentSync = true
+                send(TradeSync(j?.tradeId, j?.state?.name, party, store.trainerId)); sentSync = true
             }
             while (!isOver) {
                 val bytes = transport.receive() ?: break
@@ -267,12 +297,31 @@ class TradeTransaction(
                 send(TradeCommitted(j.tradeId))
             }
             is TradeCommitted -> {
+                val waited = awaitingCommit
+                if (stage == Stage.SYNC && waited != null) {
+                    if (m.tradeId != waited) protocol("committed")
+                    // The partner finished the earlier trade: both devices hold the swap, the journal can go.
+                    store.clear()
+                    awaitingCommit = null
+                    notice = "$remoteName's game has finished your earlier trade too."
+                    stage = Stage.OFFER
+                    return
+                }
                 if (stage != Stage.COMMITTED || m.tradeId != tradeId) protocol("committed")
                 store.clear()
                 end(Result.Completed(remoteOffer!!, localOffer!!.uid, confirmed = true))
             }
             is TradeCancel -> when {
-                stage <= Stage.CONFIRM -> end(Result.Cancelled(if (m.reason == "declined") "$remoteName cancelled the trade." else "$remoteName ended the trade."))
+                stage == Stage.SYNC && awaitingCommit != null ->
+                    end(Result.Interrupted("$remoteName's game could not finish your earlier trade."))
+                // Ended before the journals were compared: a journal open here stays as it is.
+                stage == Stage.SYNC && store.journal != null -> end(Result.Interrupted("$remoteName ended the link before your earlier trade was settled."))
+                stage <= Stage.CONFIRM -> end(Result.Cancelled(when (m.reason) {
+                    TradeCancel.DECLINED -> "$remoteName cancelled the trade."
+                    TradeCancel.BUSY -> "$remoteName has an unfinished trade with someone else and can't trade until it is finished."
+                    TradeCancel.RESUME_FAILED -> "$remoteName's game could not finish your earlier trade."
+                    else -> "$remoteName ended the trade."
+                }))
                 // The other device sends Cancel only before it prepared, so it never commits: the journal can go.
                 stage == Stage.PREPARED -> { store.clear(); end(Result.Cancelled("$remoteName could not save the trade.")) }
                 else -> protocol("cancel")
@@ -280,29 +329,67 @@ class TradeTransaction(
         }
     }
 
+    /**
+     * The reconnect rules. Only a journal written with this partner (same name and trainer id) is resolved here; both
+     * devices see both journals, so they decide the same way:
+     *
+     * | this device | the partner's SYNC          | outcome                                                    |
+     * |-------------|-----------------------------|------------------------------------------------------------|
+     * | PREPARED    | COMMITTED, same trade id    | complete the swap, send COMMITTED, clear                   |
+     * | PREPARED    | PREPARED, same trade id     | cancel (both do)                                           |
+     * | PREPARED    | no journal for that id      | cancel                                                     |
+     * | COMMITTED   | COMMITTED, same trade id    | clear (the partner's COMMITTED has arrived)                |
+     * | COMMITTED   | PREPARED, same trade id     | wait for the partner's COMMITTED, then clear               |
+     * | COMMITTED   | no journal for that id      | clear (the partner has resolved it)                        |
+     *
+     * Cancelling a PREPARED journal when the partner holds none is safe because a COMMITTED journal is never dropped
+     * without seeing the partner's state: not on load, not at a SYNC with someone else, and with this partner only when
+     * the partner is COMMITTED too or has no journal for that id. A partner that has none therefore never applied the
+     * swap or has already seen this device finish. (The exceptions are outside the protocol: the manual way out, a save
+     * rolled back to its backup, a new game over the save.) A failed save while resolving ends the session with the
+     * journal still open. A journal with another partner stays open and this device refuses the trade ([TradeCancel.BUSY]).
+     */
     private fun onSync(m: TradeSync) {
         if (stage != Stage.SYNC || remoteSynced) protocol("sync")
         if (m.party.size !in 1..6) throw LinkProtocolException(VoidReason.BAD_TEAM, "party of ${m.party.size}")
         m.party.firstNotNullOfOrNull { validator.checkPartyEntry(it) }?.let { throw LinkProtocolException(VoidReason.BAD_TEAM, "party: ${it.reason}") }
         remoteSynced = true
         remoteParty = m.party
+        remoteTrainerId = m.trainerId
         val mine = store.journal
-        if (mine != null && m.openId == mine.tradeId) {
-            // The reconnect rule. Both devices see both states, so they decide the same way.
-            if (mine.state == TradeJournalState.PREPARED && m.openState == TradeJournalState.COMMITTED.name) {
-                notice = try {
-                    store.commit(mine)
-                    "The trade with ${mine.partnerName} was completed. You received ${mine.received.displayName(dex)}."
-                } catch (e: Exception) {
-                    // The Pokémon to give is no longer in the party: the trade cannot finish here.
-                    "The trade with ${mine.partnerName} could not be finished. You kept ${mine.givenName.ifEmpty { mine.givenSpecies.uppercase() }}."
+        if (mine != null && TradeJournal.isPartner(mine, remoteName, m.trainerId)) {
+            val peerState = if (m.openId == mine.tradeId) m.openState else null
+            val kept = TradeJournal.givenName(mine)
+            when (mine.state) {
+                TradeJournalState.PREPARED -> when (peerState) {
+                    TradeJournalState.COMMITTED.name -> {
+                        try { store.commit(mine, resume = true) } catch (e: Exception) {
+                            // Not applied here (the store restored memory); the partner keeps its COMMITTED and waits.
+                            sendQuietly(TradeCancel(TradeCancel.RESUME_FAILED))
+                            return interrupted("The trade with $remoteName could not be finished here (${e.message}). Link again to try once more.")
+                        }
+                        send(TradeCommitted(mine.tradeId))
+                        store.clear()
+                        notice = "The trade with $remoteName was completed. You received ${mine.received.displayName(dex)}."
+                    }
+                    TradeJournalState.PREPARED.name -> {
+                        store.clear()
+                        notice = "The interrupted trade with $remoteName didn't happen on either side. You kept $kept."
+                    }
+                    else -> {
+                        store.clear()
+                        notice = "The interrupted trade with $remoteName didn't happen. You kept $kept."
+                    }
                 }
-            } else if (mine.state == TradeJournalState.PREPARED) {
-                notice = "The trade with ${mine.partnerName} was not finished. You kept ${mine.givenName.ifEmpty { mine.givenSpecies.uppercase() }}."
+                TradeJournalState.COMMITTED -> {
+                    if (peerState == TradeJournalState.PREPARED.name) { awaitingCommit = mine.tradeId; return }
+                    store.clear()
+                }
             }
-            store.clear()
-        } else if (mine != null) {
-            notice = store.resolveStale()
+        }
+        store.journal?.let { open ->
+            sendQuietly(TradeCancel(TradeCancel.BUSY))
+            return end(Result.Cancelled("You have an unfinished trade with ${open.partnerName}. Link with ${open.partnerName} to finish it, or end it from the LINK menu."))
         }
         stage = Stage.OFFER
     }
@@ -319,6 +406,7 @@ class TradeTransaction(
         val j = PendingTrade(
             tradeId = tradeId!!, state = TradeJournalState.PREPARED, partnerName = remoteName, givenUid = given.uid,
             givenSlot = -1, givenSpecies = given.speciesId, givenName = given.displayName(dex), received = remoteOffer!!.copy(),
+            partnerTrainerId = remoteTrainerId,
         )
         try { store.prepare(j) } catch (e: Exception) {
             sendQuietly(TradeCancel("save failed"))
@@ -331,9 +419,11 @@ class TradeTransaction(
 
     private fun lost(reason: String) {
         when (stage) {
-            Stage.SYNC, Stage.OFFER, Stage.CONFIRM -> end(Result.Cancelled(reason))
+            // A journal still open here (waiting for the partner, or a resolve whose save failed) stays for the next link.
+            Stage.SYNC -> if (store.journal != null) interrupted(reason) else end(Result.Cancelled(reason))
+            Stage.OFFER, Stage.CONFIRM -> end(Result.Cancelled(reason))
             Stage.PREPARED -> interrupted(reason)
-            // Applied and saved here; the other device may not know yet. The journal clears on the next load or trade.
+            // Applied and saved here; the other device may not know yet. The journal stays until the next link with it.
             Stage.COMMITTED -> end(Result.Completed(remoteOffer!!, localOffer!!.uid, confirmed = false))
             Stage.DONE -> {}
         }
