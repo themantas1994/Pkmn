@@ -641,7 +641,7 @@
     },
     {
       "area": "Saves",
-      "mechanic": "Open trade journal locks: the given Pokémon cannot be released, deposited, traded or given to an in-game trade (it can battle and level); a link trade with another partner is refused until the journal is resolved; link battles are not affected. Manual way out in the LINK menu (UNFINISHED TRADE) with a warning naming what can be lost",
+      "mechanic": "Open trade journal locks: the given Pokémon cannot be released, deposited, traded or given to an in-game trade, and its held item cannot be taken, swapped or given (it can battle and level); a link trade with another partner is refused until the journal is resolved; link battles are not affected. Manual way out in the LINK menu (UNFINISHED TRADE) with a warning naming what can be lost",
       "status": "tested",
       "ruleset": "Link play plan, Phase 5",
       "evidence": "TradeJournalLockTest (each lock, both journal states of the manual way out)",

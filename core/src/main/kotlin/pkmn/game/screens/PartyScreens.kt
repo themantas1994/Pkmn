@@ -193,17 +193,13 @@ class PartyScreen(
             when (opts[i]) {
                 "TAKE" -> {
                     val it = mon.heldItem
-                    if (it == null) game.say("${mon.displayName(dex)} isn't holding anything.")
-                    else if (ctx.state.addItem(it) < 1) game.say("The BAG has no room for the ${ctx.itemName(it)}.")
-                    else { mon.heldItem = null; game.say("Took the ${ctx.itemName(it)} from ${mon.displayName(dex)}.") }
+                    val why = ctx.takeHeldItem(mon)
+                    game.say(why ?: "Took the ${ctx.itemName(it!!)} from ${mon.displayName(dex)}.")
                 }
                 "GIVE" -> push(BagScreen(game, ctx, BagScreen.Mode.GIVE, null) { item, _ ->
                     if (item == null) return@BagScreen
                     val old = mon.heldItem
-                    if (old != null && old != item && ctx.state.itemRoom(old) < 1) { game.say("The BAG has no room for the ${ctx.itemName(old)}."); return@BagScreen }
-                    ctx.state.removeItem(item)
-                    if (old != null) ctx.state.addItem(old)
-                    mon.heldItem = item
+                    ctx.giveHeldItem(mon, item)?.let { why -> game.say(why); return@BagScreen }
                     game.say("${mon.displayName(dex)} is now holding the ${ctx.itemName(item)}." + if (old != null) "\nReturned the ${ctx.itemName(old)} to the BAG." else "")
                 })
             }

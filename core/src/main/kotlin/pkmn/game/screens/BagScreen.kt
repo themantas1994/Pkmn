@@ -95,11 +95,7 @@ class BagScreen(
                 "USE" -> use(id)
                 "GIVE" -> push(PartyScreen(game, ctx, PartyScreen.Mode.CHOOSE, null, false, null, "Give to which POKéMON?") { t ->
                     val mon = t?.let { ctx.state.party[it] } ?: return@PartyScreen
-                    val old = mon.heldItem
-                    if (old != null && old != id && ctx.state.itemRoom(old) < 1) { game.say("The BAG has no room for the ${ctx.itemName(old)}."); return@PartyScreen }
-                    ctx.state.removeItem(id)
-                    if (old != null) ctx.state.addItem(old)
-                    mon.heldItem = id
+                    ctx.giveHeldItem(mon, id)?.let { why -> game.say(why); return@PartyScreen }
                     game.say("${mon.displayName(dex)} is now holding the ${ctx.itemName(id)}.")
                 })
                 "REGISTER" -> { ctx.state.registeredItem = id; game.say("Registered the ${ctx.itemName(id)} to SELECT.") }

@@ -702,6 +702,16 @@ class BattleScreen(
     }
 
     /** One-line state summary for automation logs. */
+    /**
+     * For automation (`linkplay`): while a fainted Pokémon must be replaced, the team index of the first one that can
+     * come in, else null. Reads state only.
+     */
+    fun replacementIndex(): Int? {
+        if (flow.phase != BattleFlow.Phase.FORCED_SWITCH) return null
+        val side = battle.sides[local]
+        return side.mons.indices.firstOrNull { !side.mons[it].fainted && side.mons[it] !== side.active }
+    }
+
     fun debugState(): String = (if (link != null) "link=${link.result?.javaClass?.simpleName ?: "live"} " else "") + "turn=${battle.turn} phase=${flow.phase} cursor=${flow.cursor}/${battle.events.size} steps=${steps.size}:${steps.firstOrNull()?.javaClass?.simpleName} " +
         "anim=${anim.currentName} prompt=$promptOpen menu=$menu text=${text?.take(20)} read=$textRead outcome=${battle.outcome}"
 

@@ -135,7 +135,7 @@ for sc in "${SCENARIOS[@]}"; do
       [ "$(field <(echo "$hl") link)" = completed ] && [ "$(field <(echo "$gl") link)" = completed ] || fail "not both completed: [$hl] [$gl]"
       [ -n "$hh" ] && [ "$hh" = "$gh" ] && echo "  same state hash: $hh" || fail "hashes differ: '$hh' vs '$gh'"
       [ "$hw" = "$gw" ] && echo "  same winner side: $hw" || fail "winners differ: '$hw' vs '$gw'"
-      [ "$sc" != battle ] && { [ "$hw" = 0 ] && echo "  the host won by forfeit" || fail "forfeit: expected the host to win, winnerSide=$hw"; }
+      [ "$sc" = forfeit ] && { [ "$hw" = 0 ] && echo "  the host won by forfeit" || fail "forfeit: expected the host to win, winnerSide=$hw"; }
       [ "$gsave_before" = "$gsave_after" ] && echo "  guest save unchanged ($gsave_after)" || fail "guest save changed: $gsave_before -> $gsave_after"
       ;;
     killed)

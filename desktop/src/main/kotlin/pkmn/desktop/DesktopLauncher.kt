@@ -97,6 +97,8 @@ class Automation(script: List<String>, private val shots: File) {
     /** `linkplay`: "fight", or "forfeit:TURN"; null when off. */
     private var linkPlay: String? = null
     private var linkPlaySawBattle = false
+    /** The forced party screen `linkplay` already moved the cursor on (it starts at the top each time one opens). */
+    private var linkParty: Any? = null
     /** `mashuntil TEXT [frames]`: press A until the top screen's class or debug state matches TEXT. */
     private var mashUntil: String? = null
     private var mashFrames = 0
@@ -229,7 +231,7 @@ class Automation(script: List<String>, private val shots: File) {
 
     /**
      * `linkplay`: at the battle's action menu, FIGHT with the first move (or, once the battle has reached the turn, FORFEIT
-     * and confirm); while text is showing, A advances it. Blocks the script until the battle screen is gone, so it goes on
+     * and confirm); while text is showing, A advances it; after a faint, the first Pokémon that can come in replaces it. Blocks the script until the battle screen is gone, so it goes on
      * at the result screen.
      */
     private fun driveLinkBattle(g: PkmnGame) {
@@ -241,6 +243,13 @@ class Automation(script: List<String>, private val shots: File) {
         if (step != null) {
             val (b, frames) = step
             if (b == null) wait = frames else { g.input.inject(b, true); hold = b; wait = frames }
+            return
+        }
+        // A faint opens the party, which cannot be cancelled: move to the first Pokémon that can come in, then SWITCH.
+        if (top is pkmn.game.screens.PartyScreen) {
+            val i = g.screens().filterIsInstance<pkmn.game.battle.BattleScreen>().lastOrNull()?.replacementIndex() ?: return
+            if (top !== linkParty) { linkParty = top; repeat(i) { linkSteps.addAll(listOf(Button.DOWN to 3, null to 6)) } }
+            linkSteps.addAll(listOf(Button.A to 3, null to 10, Button.A to 3, null to 30))
             return
         }
         if (top !is pkmn.game.battle.BattleScreen) return

@@ -1,6 +1,5 @@
 # Discovery scene, guest side (fills in @PORT@ and @ADDR@, unused here): `link find` lists the hosts on the network and
-# joins the first one; no code is typed. It forfeits at its first decision (linkplay does not drive the replacement
-# prompt that a faint brings up in a three-Pokémon battle).
+# joins the first one; no code is typed. Both sides fight to the end (linkplay sends in the next Pokémon after a faint).
 wait 300
 option textSpeed 3
 option battleAnimations false
@@ -24,7 +23,7 @@ waittop BattleScreen 1800
 waitstate menu=ACTION 1800
 shot link_guest_battle
 log
-linkplay forfeit 0
+linkplay fight
 wait 30
 shot link_result
 log
