@@ -79,7 +79,7 @@ run_resume() {
   [ "$gmon2" = "pikachu HOST" ] && echo "  part 2: the guest still holds the host's Pikachu" || fail "part 2: guest slot 0 is [$gmon2]"
   [ "$(party_len "$dir/host/saves")" = "$hlen" ] && [ "$(party_len "$dir/guest/saves")" = "$glen" ] && echo "  party sizes unchanged ($hlen, $glen)" || fail "party sizes changed"
   [ "$(journal "$dir/host/saves")" = none ] && [ "$(journal "$dir/guest/saves")" = none ] && echo "  no trade journal left in either save" || fail "a trade journal is left: host $(journal "$dir/host/saves"), guest $(journal "$dir/guest/saves")"
-  for f in trade_interrupted resume_notice link_unfinished unfinished_prepared trade_resumed link_after; do [ -f "$dir/host/shots/$f.png" ] || fail "missing host screenshot $f"; done
+  for f in trade_interrupted resume_notice link_unfinished unfinished_prepared unfinished_question trade_resumed link_after; do [ -f "$dir/host/shots/$f.png" ] || fail "missing host screenshot $f"; done
   for f in trade_one_sided resume_notice unfinished_committed trade_resumed link_after; do [ -f "$dir/guest/shots/$f.png" ] || fail "missing guest screenshot $f"; done
 }
 

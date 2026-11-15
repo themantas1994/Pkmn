@@ -51,9 +51,11 @@ A save that fails while a trade is being saved leaves the file exactly as it was
 save file never disagree about a trade. What can still leave a trade one-sided is outside the link: the manual way out above, a save that was damaged so the
 backup save was loaded, or a new game started over the save.
 
-| Interrupted | Load notice | LINK menu | UNFINISHED TRADE (offered) | UNFINISHED TRADE (swapped) | Linked again |
-|---|---|---|---|---|---|
-| ![](link-screens/trade_interrupted.png) | ![](link-screens/resume_notice.png) | ![](link-screens/link_unfinished.png) | ![](link-screens/unfinished_prepared.png) | ![](link-screens/unfinished_committed.png) | ![](link-screens/trade_resumed.png) |
+| Interrupted | Load notice | LINK menu | UNFINISHED TRADE (offered) | Asked again | UNFINISHED TRADE (swapped) | Linked again |
+|---|---|---|---|---|---|---|
+| ![](link-screens/trade_interrupted.png) | ![](link-screens/resume_notice.png) | ![](link-screens/link_unfinished.png) | ![](link-screens/unfinished_prepared.png) | ![](link-screens/unfinished_question.png) | ![](link-screens/unfinished_committed.png) | ![](link-screens/trade_resumed.png) |
+
+Also `trade_one_sided.png`: the device that swapped, in the same interrupted trade.
 
 The received Pokémon is an outsider (level-based obedience, no nickname prompt) unless it returns to its original trainer.
 Engine side: `TradeTransaction` (the reconnect rules are in `onSync`), `GameTradeStore`, `TradeJournal`, `MonValidator`, `GameContext.linkTradeLock`; screens: `LinkTradeScreen`, `LinkLobbyScreen` (UNFINISHED TRADE).
