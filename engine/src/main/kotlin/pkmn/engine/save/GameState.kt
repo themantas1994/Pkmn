@@ -77,7 +77,7 @@ data class PendingTrade(
     val received: Pokemon,
     /**
      * The partner's trainer id, so "the same partner" is recognised after a restart (with [partnerName]). Null in
-     * journals written before it existed (link play Phase 4): those match on the name alone.
+     * journals written before it existed (link play Phase 4, never released): those are ended only by the manual way out.
      */
     val partnerTrainerId: Int? = null,
 )

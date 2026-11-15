@@ -146,8 +146,8 @@ class TradeJournalLockTest {
         assertFalse(pkmn.engine.save.TradeJournal.isPartner(j, "MIO", 8))
         assertFalse(pkmn.engine.save.TradeJournal.isPartner(j, "MIO", null), "a peer that sends no id is not this partner")
         assertFalse(pkmn.engine.save.TradeJournal.isPartner(j, "MIA", 7))
-        // A journal written before ids were stored (link play Phase 4) matches on the name.
+        // A journal written before ids were stored (link play Phase 4) matches nobody: a name alone could be someone else.
         val old = j.copy(partnerTrainerId = null)
-        assertTrue(pkmn.engine.save.TradeJournal.isPartner(old, "MIO", 8)); assertFalse(pkmn.engine.save.TradeJournal.isPartner(old, "MIA", 8))
+        assertFalse(pkmn.engine.save.TradeJournal.isPartner(old, "MIO", 7)); assertFalse(pkmn.engine.save.TradeJournal.isPartner(old, "MIO", null))
     }
 }

@@ -106,22 +106,39 @@ class SaveManager(
         val payloadText = json.encodeToString(JsonElement.serializer(), payload)
         val env = SaveEnvelope(version = currentVersion, savedAt = System.currentTimeMillis(), sha256 = sha256(payloadText), payload = payload)
         val bytes = json.encodeToString(SaveEnvelope.serializer(), env).toByteArray(Charsets.UTF_8)
-        FileOutputStream(tmp).use { out ->
-            out.write(bytes)
-            out.flush()
-            out.fd.sync()
+        // A save either happens or it does not, also when it throws: callers (the link trade journal) roll memory back on
+        // an exception, so the files must then still load as the old state. A complete temporary copy left behind would
+        // be taken by the next load (crash recovery) and make the file disagree with memory.
+        try {
+            FileOutputStream(tmp).use { out ->
+                out.write(bytes)
+                out.flush()
+                out.fd.sync()
+            }
+            // Verify what we wrote before replacing the good save.
+            check(inspect(tmp) is Copy.Valid) { "Save verification failed" }
+            testFault?.invoke("tmp-written")
+            if (main.exists()) {
+                // Only a save that would load may become the backup; a damaged main is kept aside instead.
+                if (mainCopy is Copy.Valid && decodes(mainCopy.env)) replace(main, backup)
+                else replace(main, File(dir, main.name + ".corrupt-" + System.currentTimeMillis()))
+            }
+            testFault?.invoke("main-moved")
+            replace(tmp, main)
+            testFault?.invoke("replaced")
+        } catch (e: Exception) {
+            // The new save may already be in place (a failure after the final copy): then it did happen.
+            val inPlace = try { main.exists() && main.readBytes().contentEquals(bytes) } catch (_: Exception) { false }
+            tmp.delete()
+            if (inPlace) { syncDir(); return SaveResult.Saved }
+            throw e
         }
-        // Verify what we wrote before replacing the good save.
-        check(inspect(tmp) is Copy.Valid) { "Save verification failed" }
-        if (main.exists()) {
-            // Only a save that would load may become the backup; a damaged main is kept aside instead.
-            if (mainCopy is Copy.Valid && decodes(mainCopy.env)) replace(main, backup)
-            else replace(main, File(dir, main.name + ".corrupt-" + System.currentTimeMillis()))
-        }
-        replace(tmp, main)
         syncDir()
         return SaveResult.Saved
     }
+
+    /** Tests only: called at named steps of [save] ("tmp-written", "main-moved", "replaced"); throwing simulates a failure there. */
+    internal var testFault: ((String) -> Unit)? = null
 
     @Synchronized
     fun load(): LoadResult {

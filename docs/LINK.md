@@ -47,7 +47,8 @@ The unfinished trade stays in the save until the two players **link again**:
   / **END IT** (you already have theirs). If the friend's game had finished the trade, the friend keeps both Pokémon
   and one is lost; that is why it is a last resort.
 
-What can still leave a trade one-sided is outside the link: the manual way out above, a save that was damaged so the
+A save that fails while a trade is being saved leaves the file exactly as it was before that save, so the game and its
+save file never disagree about a trade. What can still leave a trade one-sided is outside the link: the manual way out above, a save that was damaged so the
 backup save was loaded, or a new game started over the save.
 
 | Interrupted | Load notice | LINK menu | UNFINISHED TRADE (offered) | UNFINISHED TRADE (swapped) | Linked again |

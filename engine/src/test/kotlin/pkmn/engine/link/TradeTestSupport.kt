@@ -28,10 +28,14 @@ object TradeTestSupport {
         var failSaves = 0
         /** When positive, counts saves down and fails the one that reaches 0 (2 = the next save works, the one after fails). */
         var failOnSave = 0
+        /** When set, the next save fails at this step of SaveManager.save ("tmp-written", "main-moved"), after writing files. */
+        var failInsideSave: String? = null
         private fun newStore() = GameTradeStore(ctx) { s ->
             if (failSaves > 0) { failSaves--; throw java.io.IOException("disk full") }
             if (failOnSave > 0 && --failOnSave == 0) throw java.io.IOException("disk full")
-            SaveManager(dir, dex).save(s)
+            val sm = SaveManager(dir, dex)
+            failInsideSave?.let { step -> failInsideSave = null; sm.testFault = { at -> if (at == step) throw java.io.IOException("failed at $at") } }
+            sm.save(s)
         }
         var store = newStore()
             private set

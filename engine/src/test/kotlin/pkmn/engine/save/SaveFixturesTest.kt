@@ -103,12 +103,13 @@ class SaveFixturesTest {
         assertCommonProgress(r.state)
         val pidgey = r.state.party[1]
         assertEquals("MIO", pidgey.otName); assertTrue(pidgey.outsider); assertEquals(3, pidgey.originalMetLevel)
-        // COMMITTED: kept until the partner links again (a restart decides nothing). The fixture predates
-        // partnerTrainerId, so it matches the partner by name.
+        // COMMITTED: kept (a restart decides nothing). The fixture predates partnerTrainerId, so no link can recognise
+        // the partner: only the manual way out ends it, and the notice says so.
         val j = assertNotNull(r.state.pendingTrade)
         assertEquals(TradeJournalState.COMMITTED, j.state); assertEquals("MIO", j.partnerName); assertNull(j.partnerTrainerId)
         assertEquals(r.tradeJournal, j)
-        assertEquals(listOf("Your link trade with MIO is done on your side. Link with MIO again so their game can finish it too."), r.notices)
+        assertFalse(TradeJournal.isPartner(j, "MIO", null))
+        assertEquals(listOf("A link trade with MIO from an earlier version of the game is unfinished. End it from the LINK menu (UNFINISHED TRADE)."), r.notices)
         assertSurvivesResave(r)
     }
 

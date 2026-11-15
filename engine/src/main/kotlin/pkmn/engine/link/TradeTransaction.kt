@@ -314,6 +314,8 @@ class TradeTransaction(
             is TradeCancel -> when {
                 stage == Stage.SYNC && awaitingCommit != null ->
                     end(Result.Interrupted("$remoteName's game could not finish your earlier trade."))
+                // Ended before the journals were compared: a journal open here stays as it is.
+                stage == Stage.SYNC && store.journal != null -> end(Result.Interrupted("$remoteName ended the link before your earlier trade was settled."))
                 stage <= Stage.CONFIRM -> end(Result.Cancelled(when (m.reason) {
                     TradeCancel.DECLINED -> "$remoteName cancelled the trade."
                     TradeCancel.BUSY -> "$remoteName has an unfinished trade with someone else and can't trade until it is finished."

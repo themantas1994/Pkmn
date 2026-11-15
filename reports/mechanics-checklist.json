@@ -636,7 +636,7 @@
       "mechanic": "Link trade journal: PREPARED saved before the swap; swap and COMMITTED in one atomic save; both survive a load (the player is told) and are resolved only by a link with the same partner (name and trainer id): PREPARED completes against COMMITTED, cancels against PREPARED or no journal; COMMITTED clears against COMMITTED or no journal and waits for the partner's COMMITTED against PREPARED",
       "status": "tested",
       "ruleset": "Link play plan, trade protocol",
-      "evidence": "TradeTransactionTest (cut at every message index, reset, silent and one-way, then a restart of neither, either or both devices and a reconnect: always the whole trade or none); TradeKillTest (SIGKILL during the save); run_link_scene.sh resume",
+      "evidence": "TradeTransactionTest (cut at every message index, reset, silent and one-way, then a restart of neither, either or both devices and a reconnect: always the whole trade or none; also a cut at every message of the reconnect or a failed save in it, then a clean link); TradeKillTest (SIGKILL during the save); SaveAtomicityTest (a save that throws leaves the old state on disk); run_link_scene.sh resume",
       "note": "A save rolled back to its backup or overwritten by a new game can still leave a trade one-sided"
     },
     {

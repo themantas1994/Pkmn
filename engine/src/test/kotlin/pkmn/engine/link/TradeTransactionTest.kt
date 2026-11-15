@@ -221,6 +221,60 @@ class TradeTransactionTest {
     }
 
     @Test
+    fun `faults in the reconnect session too - a cut at any of its messages or a failed save there - then a clean link still settle the trade`() {
+        var cases = 0
+        for (first in listOf("host", "guest", "none")) for (cut2 in 0..12) for (fail in listOf("none", "host", "guest", "host late", "guest late")) {
+            val what = "first session: $first swapped; reconnect cut at $cut2, failed save: $fail"
+            val (a, b) = devices()
+            val before = everything(a, b)
+            val clock = Clock()
+            TradeTestSupport.interrupt(a, b, committed = first, clock = clock)
+            a.restart(); b.restart()
+            // "late": the save fails after its files were written (SaveManager must then leave the old state on disk).
+            when (fail) { "host" -> a.failSaves = 1; "guest" -> b.failSaves = 1; "host late" -> a.failInsideSave = "main-moved"; "guest late" -> b.failInsideSave = "main-moved" }
+            run(LoopbackLink({ clock.t }, LinkFaults(cutAt = cut2)), clock, a, b, offer = false, nonces = "c3" to "d4")
+            a.failSaves = 0; b.failSaves = 0; a.failInsideSave = null; b.failInsideSave = null
+            // Memory and file agree after any failure; half the cases also restart before the last link.
+            for (d in listOf(a, b)) assertEquals(d.load().tradeJournal?.let { it.tradeId to it.state }, d.ctx.state.pendingTrade?.let { it.tradeId to it.state }, "$what: ${d.name} memory and file")
+            if (cut2 % 2 == 0) { a.restart(); b.restart() }
+            run(LoopbackLink({ clock.t }), clock, a, b, offer = false, nonces = "e5" to "f6")
+            val swapped = first != "none"
+            assertEquals(swapped, hasReceived(a, "MIO", "kadabra"), "$what: host")
+            assertEquals(swapped, hasReceived(b, "ARI", "pidgey"), "$what: guest")
+            for (d in listOf(a, b)) {
+                assertNull(d.ctx.state.pendingTrade, "$what ${d.name}: journal resolved")
+                val l = d.load()
+                assertNull(l.tradeJournal, "$what ${d.name}: on disk"); assertUniqueUids(l.state.ownedPokemon(), "$what ${d.name}")
+            }
+            assertEquals(before, everything(a, b), "$what: no Pokémon lost or duplicated")
+            cases++
+        }
+        assertEquals(3 * 13 * 5, cases)
+    }
+
+    @Test
+    fun `a commit save that fails after writing its files leaves the save as memory has it`() {
+        val (a, b) = devices()
+        a.failInsideSave = null
+        val clock = Clock(); val link = LoopbackLink({ clock.t })
+        val h = TradeTransaction(LinkRole.HOST, link.a, dex, a.store, "ARI", "MIO")
+        val g = TradeTransaction(LinkRole.GUEST, link.b, dex, b.store, "MIO", "ARI")
+        repeat(4) { h.pump(0); g.pump(0) }
+        h.offer(a.ctx.state.party[0]); g.offer(b.ctx.state.party[0])
+        repeat(2) { h.pump(0); g.pump(0) }
+        h.confirm(true); g.confirm(true)
+        // The host's PREPARED save works; its commit save fails after the new file was complete.
+        h.pump(0)
+        assertEquals(TradeJournalState.PREPARED, a.ctx.state.pendingTrade?.state)
+        a.failInsideSave = "main-moved"
+        repeat(4) { h.pump(0); g.pump(0) }
+        assertIs<TradeTransaction.Result.Interrupted>(h.result)
+        assertEquals(TradeJournalState.PREPARED, a.ctx.state.pendingTrade?.state); assertEquals("pidgey", a.ctx.state.party[0].speciesId)
+        val l = a.load()
+        assertEquals(TradeJournalState.PREPARED, l.tradeJournal?.state, "the file agrees with memory"); assertEquals("pidgey", l.state.party[0].speciesId)
+    }
+
+    @Test
     fun `a journal with another partner is kept through a load and that trade is refused, then the partner resolves it`() {
         val (a, b) = devices()
         val c = Device("KAI", 303, listOf("geodude", "zubat"))

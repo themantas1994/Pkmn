@@ -13,6 +13,7 @@ object TradeJournal {
      */
     fun loadNotice(state: GameState): String? {
         val j = state.pendingTrade ?: return null
+        if (j.partnerTrainerId == null) return "A link trade with ${j.partnerName} from an earlier version of the game is unfinished. End it from the LINK menu (UNFINISHED TRADE)."
         return when (j.state) {
             TradeJournalState.PREPARED -> "The link trade with ${j.partnerName} was interrupted. Link with ${j.partnerName} again to finish it."
             TradeJournalState.COMMITTED -> "Your link trade with ${j.partnerName} is done on your side. Link with ${j.partnerName} again so their game can finish it too."
@@ -20,11 +21,12 @@ object TradeJournal {
     }
 
     /**
-     * Whether a linked player named [name] with trainer id [trainerId] is the partner of [j]. The name must match, and
-     * the trainer id too when the journal stored one (a journal written before ids were stored matches on the name).
+     * Whether a linked player named [name] with trainer id [trainerId] is the partner of [j]: both must match. A journal
+     * written before trainer ids were stored (link play Phase 4, never released) matches nobody, because a name alone
+     * could be someone else's: only the manual way out ends it.
      */
     fun isPartner(j: PendingTrade, name: String, trainerId: Int?): Boolean =
-        j.partnerName == name && (j.partnerTrainerId == null || j.partnerTrainerId == trainerId)
+        j.partnerName == name && j.partnerTrainerId != null && j.partnerTrainerId == trainerId
 
     /** The name of the given Pokémon for messages. */
     fun givenName(j: PendingTrade): String = j.givenName.ifEmpty { j.givenSpecies.uppercase() }

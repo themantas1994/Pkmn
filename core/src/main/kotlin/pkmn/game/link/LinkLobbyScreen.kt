@@ -19,6 +19,7 @@ import pkmn.game.gfx.Renderer
 import pkmn.game.input.Button
 import pkmn.game.input.InputState
 import pkmn.game.overworld.OverworldScreen
+import pkmn.game.ui.ask
 import pkmn.game.screens.NameInputScreen
 import pkmn.game.screens.Screen
 import java.io.Closeable
@@ -136,21 +137,26 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
 
     /**
      * The manual way out, for a partner who will never come back: one page with what is open and the warning that names
-     * what can be lost, then KEEP WAITING (the default) or CANCEL IT / END IT. The latter removes the journal (cancels a
-     * PREPARED one, ends a COMMITTED one) and saves; the party stays as it is.
+     * what can be lost, then KEEP WAITING (the default) or CANCEL IT / END IT, which asks YES/NO once more and then
+     * removes the journal (cancels a PREPARED one, ends a COMMITTED one) and saves; the party stays as it is.
      */
     private fun updateUnfinished(input: InputState) {
         if (input.repeat(Button.UP) || input.repeat(Button.DOWN)) cursor = 1 - cursor.coerceIn(0, 1)
         if (input.justPressed(Button.B) || (input.justPressed(Button.A) && cursor == 0)) { stage = Stage.MENU; cursor = 0; return }
         if (!input.justPressed(Button.A)) return
         game.audio.playSfx("menu_select")
-        notice = try {
-            GameTradeStore(ctx) { state -> saveHere(state) }.abandon()
-        } catch (e: Exception) {
-            game.platform.log("Save failed: $e")
-            "The game could not be saved, so the trade is still open."
+        // The one step that can knowingly cost a Pokémon: asked once more, NO by B.
+        val question = ctx.linkTradeAbandonQuestion() ?: run { stage = Stage.MENU; cursor = 0; return }
+        game.ask(question) { yes ->
+            if (!yes) return@ask
+            notice = try {
+                GameTradeStore(ctx) { state -> saveHere(state) }.abandon()
+            } catch (e: Exception) {
+                game.platform.log("Save failed: $e")
+                "The game could not be saved, so the trade is still open."
+            }
+            stage = Stage.MENU; cursor = 0
         }
-        stage = Stage.MENU; cursor = 0
     }
 
     private fun drawUnfinished(r: Renderer) {
