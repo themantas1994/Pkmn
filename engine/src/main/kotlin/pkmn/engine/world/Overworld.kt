@@ -14,7 +14,6 @@ sealed class StepResult {
     /** Crossing a seamless map edge connection. */
     data class Transfer(val map: String, val x: Int, val y: Int) : StepResult()
     /** Asks the player to start surfing (stepping toward water from land). */
-    object OfferSurf : StepResult()
     /** Leaves water onto land. */
     data class Land(val x: Int, val y: Int) : StepResult()
 }
@@ -66,7 +65,8 @@ class OverworldRules(private val ctx: GameContext) {
             else -> {}
         }
         if (b == TileBehavior.WATER) {
-            return if (surfing) StepResult.Walk(nx, ny) else StepResult.OfferSurf
+            // Without SURF the water is a wall: the prompt belongs to A facing the water (GSC), not to a held direction.
+            return if (surfing) StepResult.Walk(nx, ny) else StepResult.Bump("water")
         }
         if (TileRules.isSolid(b)) {
             // Walking "into" a warp from a warp tile (stairs against a wall) still triggers the warp.
@@ -111,6 +111,20 @@ class OverworldRules(private val ctx: GameContext) {
             }
         }
         return null
+    }
+
+    /**
+     * How many of the [steps] a spotting trainer may walk from (fromX, fromY) in direction [facing]: the leading tiles that
+     * are [walkableTerrain] and not [blocked]. A trainer that spotted a surfing player across water stops at the shore.
+     */
+    fun approachSteps(map: MapData, fromX: Int, fromY: Int, facing: Facing, steps: Int, blocked: (Int, Int) -> Boolean): Int {
+        var x = fromX; var y = fromY; var n = 0
+        while (n < steps) {
+            x += facing.dx; y += facing.dy
+            if (!walkableTerrain(map, x, y) || blocked(x, y)) break
+            n++
+        }
+        return n
     }
 
     /** Terrain that stops a trainer's line of sight: out of bounds, solid tiles (walls, hedges, counters) and active obstacles (boulders, cut trees, rocks). */

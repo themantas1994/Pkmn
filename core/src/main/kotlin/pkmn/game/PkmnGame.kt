@@ -151,6 +151,8 @@ class PkmnGame(val platform: Platform, private val audioFactory: (() -> GameAudi
     // ------------------------------------------------------------------ screen stack
 
     fun push(s: Screen) { pending.add { stack.add(s); s.onEnter() } }
+    /** Exits every screen above [base] (menus, party, bag), leaving [base] on top. Screens pushed afterwards stay above it. */
+    fun closeAbove(base: Screen) { pending.add { val i = stack.indexOf(base); if (i >= 0) while (stack.size > i + 1) stack.removeAt(stack.size - 1).onExit() } }
     fun pop(s: Screen) { pending.add { if (stack.remove(s)) s.onExit() } }
     fun replace(old: Screen, new: Screen) { pending.add { val i = stack.indexOf(old); if (i >= 0) { stack[i] = new; old.onExit(); new.onEnter() } else { stack.add(new); new.onEnter() } } }
     fun resetTo(s: Screen) { pending.add { stack.toList().forEach { it.onExit() }; stack.clear(); stack.add(s); s.onEnter() } }

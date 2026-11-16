@@ -109,11 +109,11 @@ class BagScreen(
     private fun use(id: String) {
         val owScreen = ow
         when {
-            id == "bicycle" -> { pop(); owScreen?.toggleBike(); return }
-            id in setOf("oldrod", "goodrod", "superrod") -> { pop(); owScreen?.fish(id); return }
+            id == "bicycle" -> { owScreen?.closeMenus() ?: pop(); owScreen?.toggleBike(); return }
+            id in setOf("oldrod", "goodrod", "superrod") -> { owScreen?.closeMenus() ?: pop(); owScreen?.fish(id); return }
             id == "escaperope" -> {
                 if (owScreen == null || !(owScreen.baseMap.environment == "cave" || owScreen.baseMap.dark)) { game.say("This isn't the time to use that!"); return }
-                ctx.state.removeItem(id); pop()
+                ctx.state.removeItem(id); owScreen.closeMenus()
                 val (m, x, y) = ctx.respawnPoint()
                 owScreen.warpTo(m, x, y, pkmn.engine.world.Facing.DOWN) {}
                 return
