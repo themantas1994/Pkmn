@@ -12,6 +12,10 @@ import pkmn.game.ui.TextBox
 import pkmn.game.ui.YesNo
 import pkmn.game.ui.say
 
+/** The badge number (1..8) a `badge N` announcement [text] refers to, or null if it is not one. */
+internal fun announcedBadge(text: String, badgeName: (Int) -> String): Int? =
+    (1..8).firstOrNull { n -> text.contains("received the ${badgeName(n)}!") }
+
 /**
  * Executes a [ScriptVM] on the overworld: every [ScriptRequest] is turned into UI (dialogue, menus, battles,
  * movement, screens) and the VM is resumed with the result when that UI completes.
@@ -64,7 +68,9 @@ class ScriptHost(
         when (req) {
             is ScriptRequest.Say -> {
                 // The `badge N` command announces "<player> received the <Name> Badge!": show the badge art with it.
-                val badge = (1..8).firstOrNull { n -> req.text.contains("received the ${ctx.badgeName(n)}!") }?.let { game.assets.badge(it) }
+                val badgeNo = announcedBadge(req.text) { ctx.badgeName(it) }
+                if (badgeNo != null) game.audio.playSfx("badge")
+                val badge = badgeNo?.let { game.assets.badge(it) }
                 val decor: ((pkmn.game.gfx.Renderer) -> Unit)? = badge?.let { art ->
                     { r ->
                         val x = (pkmn.game.gfx.Renderer.W - 48) / 2; val y = TextBox.BOX_Y - 64

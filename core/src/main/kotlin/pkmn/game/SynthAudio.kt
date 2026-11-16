@@ -24,7 +24,7 @@ class SynthAudio : GameAudio {
     private val aliases = mapOf(
         "door" to Sfx.DOOR_ENTER, "ledge" to Sfx.LEDGE_JUMP, "cut" to Sfx.HIT_NORMAL, "rock_smash" to Sfx.HIT_NORMAL,
         "cry" to Sfx.STATUS_INFLICTED, "encounter" to Sfx.TRAINER_SPOTTED, "trade" to Sfx.WARP,
-        "caught" to Sfx.CATCH_SUCCESS, "badge" to Sfx.ITEM_GET,
+        "caught" to Sfx.CATCH_SUCCESS, "badge" to Sfx.ITEM_GET, "buy" to Sfx.ITEM_GET,
     )
     private var cries: CryBank? = null
     private var sfxVolume = 1f

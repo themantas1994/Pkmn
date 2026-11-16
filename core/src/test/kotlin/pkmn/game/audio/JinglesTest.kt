@@ -22,4 +22,9 @@ class JinglesTest {
         assertEquals("jingle_badge", Jingles.files["badge"])
         assertEquals("jingle_item", Jingles.files["item_get"])
     }
+
+    @Test
+    fun martPurchaseIdIsNotAJingle() {
+        assertTrue("buy" !in Jingles.files, "a mart purchase must stay a plain sound effect")
+    }
 }
