@@ -103,7 +103,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (544 + 182 + 182, `./gradlew :tools:statusCounts` after a full test run on 2026-11-16 with the art venv built, skipped: only ChipSynthBenchmarkTest in core, as in CI; 525 + 160 + 152 with link play phase 5; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets and reports are committed, checks that the numbers quoted here match the build outputs (`:tools:checkStatus`), runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (544 + 182 + 192, `./gradlew :tools:statusCounts` after a full test run on 2026-11-16 with the art venv built, skipped: only ChipSynthBenchmarkTest in core, as in CI; 525 + 160 + 152 with link play phase 5; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets and reports are committed, checks that the numbers quoted here match the build outputs (`:tools:checkStatus`), runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.
@@ -179,13 +179,15 @@ From `./gradlew :tools:validateContent`; details in [reports/COVERAGE.md](report
 
 **World:** `./gradlew :tools:compileMaps` reports the world size (also `:tools:statusCounts`); 0 errors, 0 warnings. It validates every reference, tile name, sprite, shop and move-tutor list.
 
-**Progression:** `./gradlew :tools:checkProgression` reports 0 errors and 0 warnings. It checks four things:
-- Every gym can be reached with the badges earned before it. A field move counts only with its badge and an obtainable Pokémon that can learn it.
+**Progression:** `./gradlew :tools:checkProgression` reports 0 errors and 0 warnings. It uses the strict reach model (ice slides, solid guard NPCs, flag tiles, script conditions on badges and flags, and step triggers that turn the player back stay closed until their script lets the player through). It checks these things, each covered by fixture-world tests that make it fail:
+- Every gym can be reached with the badges earned before it. A field move counts once its badge is earned (God Bidoof performs it).
 - The Hall of Fame can be reached with eight badges.
 - No map is orphaned.
-- No tile traps the player away from a Pokémon Center.
+- No tile traps the player away from a Pokémon Center (error).
+- No Strength-boulder push loses a route or reward.
+- Every turn-back gate seals something: while it is closed, opening it must reach new tiles.
 
-Maps reachable with 0..8 badges: 111, 113, 114, 152, 210, 210, 210, 225, 225.
+Maps reachable with 0..8 badges: 52, 54, 81, 101, 165, 165, 165, 180, 225.
 
 ## Performance
 
@@ -252,8 +254,8 @@ The model is a content sum, not a measurement of real players. It assumes a typi
 - **Singles only:** no double battles.
 - **Playtime is below target.** About 24 h to the Hall of Fame with optional content (estimate); see the Playtime section.
 - **Late-game difficulty depends on Exp. Share.** With it off (the new default) the model has exploring players 4–9 levels above gym aces. With it on, they are 16–23 levels above. Challenge difficulty still caps levels at the next leader's ace.
-- **Some checks are approximate.** Ice-sliding puzzles were verified with a separate simulator during authoring, not by `checkProgression`, which treats ice as walkable. Waterfalls can be climbed but not descended, so areas above them have one-way ledges back down.
+- **Some checks are approximate.** Waterfalls can be climbed but not descended, so areas above them have one-way ledges back down.
 - **Missing evolution methods:** Kubfu/Urshifu (not obtainable) and Vivillon Fancy (event-only) cannot evolve in-game, and regional-variant evolutions are disabled by design. Milcery evolves by spinning on the spot while it holds a Sweet.
 - **Necrozma fusion is simplified.** The engine has no N-Solarizer/N-Lunarizer fusion. The post-game "Prism Pedestal" swaps a Necrozma for a fresh level-75 Dusk Mane or Dawn Wings, so the player's own Necrozma (level, EVs) is replaced.
-- **Static checks are optimistic.** The progression checker assumes story gates open once their flags are set. It proves nothing is unreachable, but it does not prove every scripted gate opens.
+- **Static checks are partly optimistic.** Script conditions other than badges and flags (items, quests, variables, trainer wins) count as "maybe", and a flag counts as settable once any reachable script sets it. It proves nothing is unreachable, but it does not prove every scripted gate opens.
 - **Automated play coverage is limited.** It covers the opening hour of the game, every menu, the battle flows above, and teleported checks of several expansion areas (Mistwood, Quarrytown, Eclipse Atoll, Ashfall City). The expansion areas have not been walked through end to end. Later areas are covered by the script and battle tests and by the progression checker, not by full playthroughs.
