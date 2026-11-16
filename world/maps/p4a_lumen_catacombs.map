@@ -32,6 +32,7 @@ trigger 14 7 1 1 script=p4a_lc_stone_e unless=p4a_cat_open
 trigger 10 5 1 1 script=p4a_lc_stone_n unless=p4a_cat_open
 trigger 6 7 1 1 script=p4a_lc_stone_w unless=p4a_cat_open
 trigger 10 9 1 1 script=p4a_lc_stone_s unless=p4a_cat_open
+tile 11 11 sign
 sign 11 11 script=p4a_lc_clue
 sign 12 0 script=p4a_lc_mural
 

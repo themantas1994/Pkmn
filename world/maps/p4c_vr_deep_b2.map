@@ -35,7 +35,7 @@ end
 warp 24 2 -> p4c_vr_deep_b1 26 20 right
 trainer p4c_vd2_veteran_marisol 4 6 sprite=cooltrainer_f face=down sight=3
 trainer p4c_vd2_cool_teodor 21 7 sprite=cooltrainer_m face=left sight=4
-trainer p4c_vd2_sage_ondrej 13 3 sprite=sage face=down sight=2
+trainer p4c_vd2_sage_ondrej 13 3 sprite=sage face=left sight=2
 trainer p4c_vd2_hiker_magnus 8 12 sprite=hiker face=right sight=4
 npc vd2_remnant 13 16 sprite=scientist face=up script=p4c_remnant_depths hideif=p4c_remnant_depths_done
 npc vd2_remnant_grunt 15 17 sprite=grunt_m face=left text="Sir, I really think we should have run further than Victory Road. It's FULL of Ace Trainers." hideif=p4c_remnant_depths_done

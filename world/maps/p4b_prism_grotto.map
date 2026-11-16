@@ -55,7 +55,7 @@ trainer p4b_grotto_diver_kenji 22 9 sprite=swimmer_m face=down sight=4
 trainer p4b_grotto_diver_lorna 20 19 sprite=swimmer_f face=up sight=3
 trainer p4b_grotto_lass_gemma 18 14 sprite=lass face=left sight=3
 trainer p4b_grotto_hiker_flint 30 11 sprite=hiker face=down sight=4
-trainer p4b_grotto_scientist_pryce 24 25 sprite=scientist face=right sight=3
+trainer p4b_grotto_scientist_pryce 24 25 sprite=scientist face=down sight=3
 item p4b_grotto_water 8 7 mysticwater
 item p4b_grotto_restore 32 10 fullrestore
 item p4b_grotto_revive 29 21 maxrevive
