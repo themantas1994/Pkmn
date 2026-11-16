@@ -93,6 +93,7 @@ class AudioEngine(
 
     /** Id of the music currently playing (or about to after a fade), as seen by the audio thread. */
     val currentMusicId: String? get() = pendingMusic ?: currentMusic
+    internal val playingMusicId: String? get() = currentMusic
 
     private val thread: Thread? = if (startThread) Thread(::runLoop, "pkmn-audio").apply {
         isDaemon = true
@@ -228,6 +229,9 @@ class AudioEngine(
                 is Cmd.StopSfx -> for (i in 0 until SFX_SLOTS) { sfx[i].stop(); sfxIds[i] = null }
                 is Cmd.PlayJingle -> {
                     val s = loadSong(c.id) ?: continue
+                    // A music change or stop queued behind a fade is applied now: the fade-out never completes while the
+                    // jingle owns the output, and the old track would otherwise fade back in afterwards.
+                    if (pendingMusic != null || pendingStop) { fadeStep = 0f; onFadeOutComplete() }
                     jingle.load(s)
                     jingleActive = true
                 }

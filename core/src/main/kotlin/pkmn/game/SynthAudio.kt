@@ -10,12 +10,21 @@ import java.io.File
 import pkmn.game.audio.AudioEngine
 import pkmn.game.audio.Sfx
 
+/** Game sound ids that play a one-shot song (file in `audio/music`) instead of a sound effect. */
+object Jingles {
+    val files = mapOf(
+        "heal" to "jingle_heal", "item_get" to "jingle_item", "level_up" to "jingle_levelup", "save" to "jingle_save",
+        "caught" to "jingle_caught", "badge" to "jingle_badge",
+    )
+}
+
 /** [GameAudio] backed by the runtime chiptune synthesizer. Maps game sound ids onto [Sfx]. */
 class SynthAudio : GameAudio {
     private val engine = AudioEngine({ id -> Gdx.files.internal("audio/music/$id.mml").takeIf { it.exists() }?.readString("UTF-8") })
     private val aliases = mapOf(
         "door" to Sfx.DOOR_ENTER, "ledge" to Sfx.LEDGE_JUMP, "cut" to Sfx.HIT_NORMAL, "rock_smash" to Sfx.HIT_NORMAL,
         "cry" to Sfx.STATUS_INFLICTED, "encounter" to Sfx.TRAINER_SPOTTED, "trade" to Sfx.WARP,
+        "caught" to Sfx.CATCH_SUCCESS, "badge" to Sfx.ITEM_GET,
     )
     private var cries: CryBank? = null
     private var sfxVolume = 1f
@@ -47,7 +56,6 @@ class SynthAudio : GameAudio {
 
     override fun prefetchCry(speciesId: String) { cries?.prefetch(speciesId) }
 
-    private val jingles = setOf("heal", "item_get", "level_up", "save")
     override var currentMusic: String? = null
         private set
 
@@ -60,7 +68,7 @@ class SynthAudio : GameAudio {
     override fun stopMusic(fadeMs: Int) { currentMusic = null; engine.stopMusic(fadeMs) }
 
     override fun playSfx(id: String) {
-        if (id in jingles && Gdx.files.internal("audio/music/jingle_$id.mml").exists() && id != "item_get") { engine.playJingle("jingle_$id"); return }
+        Jingles.files[id]?.let { file -> if (Gdx.files.internal("audio/music/$file.mml").exists()) { engine.playJingle(file); return } }
         val sfx = Sfx.fromId(id) ?: aliases[id] ?: return
         engine.playSfx(sfx)
     }

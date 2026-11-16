@@ -162,6 +162,10 @@ own key, tempo and groove. `battle_rival` reuses the opening phrase of `rival_th
 | evolution | A minor | 120 | 32.0 |
 
 Jingles (one-shots, 3.0–7.3 s): `jingle_heal`, `jingle_item`, `jingle_badge`, `jingle_levelup`, `jingle_caught`, `jingle_save`.
+They play through `GameAudio.playSfx` with the ids in `Jingles` (`SynthAudio.kt`): `heal`, `item_get` (item pickups),
+`level_up`, `save`, `caught` (a catch) and `badge`. A test checks that every id resolves to a file here. A music change
+or stop queued during a fade is applied when a jingle starts, so the old track does not fade back in. The hit sound
+looks ahead for the `Effectiveness` event after the HP change (`HitFx.effectivenessAfter`).
 
 ## Map music inventory
 
