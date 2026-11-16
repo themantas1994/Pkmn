@@ -2,14 +2,14 @@
 
 `tools/visual/run_scenes.sh` captures the key scenes in the **real desktop game** under Xvfb, then compares them with the baselines in this folder.
 - **Capture:** each scene is a plain automation script in `desktop/automation/scenes/`. Runs use `--fixedstep`, so every frame advances exactly 1/60 s. Each scene also sets a fixed clock, so captures are reproducible: two consecutive runs matched 26/26 pixel-for-pixel.
-- **Compare:** `tools screenshots` (`ScreenshotCompare.kt`) fails a scene when more than 1 % of its pixels change by more than 24 per channel.
+- **Compare:** `tools screenshots` (`ScreenshotCompare.kt`) fails a scene when more than 30 pixels change by more than 8 per channel, when its size changes, or when a captured scene has no baseline (use `--update` to add it).
 
 ```sh
 tools/visual/run_scenes.sh            # capture to build/screenshots and compare; non-zero exit on a change
 tools/visual/run_scenes.sh --update   # capture and replace the baselines after an intended change
 ```
 
-This needs `xvfb-run`. It is not part of CI, because the GitHub runner has no Xvfb set up by this workflow; run it before changing the presentation.
+This needs `xvfb-run`. CI runs it in the `visual` job (it installs Xvfb), so a visual change fails the PR until the baselines are updated.
 
 | Scene script | Screenshots |
 |---|---|
