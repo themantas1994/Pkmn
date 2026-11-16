@@ -15,6 +15,7 @@ import pkmn.engine.data.Dex
 import pkmn.engine.mon.Gender
 import pkmn.engine.mon.MajorStatus
 import pkmn.engine.mon.Nature
+import pkmn.engine.mon.Pokemon
 import java.io.File
 import java.io.FileOutputStream
 import java.security.MessageDigest
@@ -44,7 +45,7 @@ sealed class LoadResult {
 
 sealed class SaveResult {
     object Saved : SaveResult()
-    /** Nothing was written: a copy from a newer game version exists and would have been overwritten. */
+    /** Nothing was written: a copy from a newer game version, or one this version cannot load, would have been overwritten. */
     data class Refused(val reason: String) : SaveResult()
 }
 
@@ -88,6 +89,14 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
         newestUnsupported(listOf(mainCopy, inspect(tmp), inspect(backup)))?.let { v ->
             return SaveResult.Refused("A save from a newer game version (v$v) exists; update the game to keep playing it.")
         }
+        // A copy that load refuses (unknown species) is still the player's data: rotating it into .bak or replacing it
+        // would destroy it or an older backup, so refuse and leave every file untouched.
+        for (c in listOf(inspect(tmp), mainCopy)) {
+            val unknown = unknownSpeciesIn(c)
+            if (unknown.isNotEmpty()) return SaveResult.Refused(
+                "The existing save has Pokémon this version does not know (${unknown.joinToString { "'$it'" }}), " +
+                    "so the game was not saved. No save file was changed; use a game version that has them.")
+        }
         val payload = json.encodeToJsonElement(GameState.serializer(), state)
         val payloadText = json.encodeToString(JsonElement.serializer(), payload)
         val env = SaveEnvelope(version = CURRENT_VERSION, savedAt = System.currentTimeMillis(), sha256 = sha256(payloadText), payload = payload)
@@ -117,7 +126,10 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
         }
         for ((f, c) in copies) {
             if (c !is Copy.Valid) continue
-            val r = decode(c.env, fromBackup = f == backup) as? LoadResult.Ok ?: continue
+            val r = try { decode(c.env, fromBackup = f == backup) } catch (e: UnloadableSave) {
+                // Refused, not corrupt: nothing is renamed or rewritten, and an older copy is not loaded instead.
+                return LoadResult.Failed(e.message ?: "This save cannot be loaded.", emptyList())
+            } as? LoadResult.Ok ?: continue
             return when (f) {
                 tmp -> r.copy(warnings = r.warnings + "The last save was interrupted; it was recovered from the temporary save file.")
                 backup -> r.copy(warnings = r.warnings + "Main save was missing or unreadable; restored the backup.")
@@ -133,6 +145,9 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
         }
         return LoadResult.Failed("Save data is corrupted.", preserved)
     }
+
+    /** The save decodes but holds data that cannot be repaired; [load] refuses it without touching any file. */
+    private class UnloadableSave(message: String) : RuntimeException(message)
 
     private fun newestUnsupported(copies: List<Copy>): Int? = copies.filterIsInstance<Copy.Newer>().maxOfOrNull { it.version }
 
@@ -159,6 +174,13 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
         }
     } catch (e: Exception) { Copy.Corrupt }
 
+    /** Unknown species [load] would refuse in [copy]; empty when there is no [dex], the copy is not valid, or it does not decode. */
+    private fun unknownSpeciesIn(copy: Copy): List<String> {
+        val d = dex ?: return emptyList()
+        if (copy !is Copy.Valid) return emptyList()
+        return try { SaveValidator(d).unknownSpecies(decodeState(copy.env, ArrayList())) } catch (e: Exception) { emptyList() }
+    }
+
     private fun decodes(env: SaveEnvelope): Boolean = try { decodeState(env, ArrayList()); true } catch (e: Exception) { false }
 
     private fun decodeState(env: SaveEnvelope, warnings: MutableList<String>): GameState {
@@ -171,8 +193,17 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
     private fun decode(env: SaveEnvelope, fromBackup: Boolean): LoadResult = try {
         val warnings = ArrayList<String>()
         val state = decodeState(env, warnings)
-        dex?.let { warnings += SaveValidator(it).repair(state) }
+        dex?.let { d ->
+            val v = SaveValidator(d)
+            val unknown = v.unknownSpecies(state)
+            if (unknown.isNotEmpty()) throw UnloadableSave(
+                "This save has Pokémon this version does not know (${unknown.joinToString { "'$it'" }}), " +
+                    "so it was not loaded. The save file was not changed; use a game version that has them.")
+            warnings += v.repair(state)
+        }
         LoadResult.Ok(state, fromBackup, if (env.version != CURRENT_VERSION) env.version else null, warnings)
+    } catch (e: UnloadableSave) {
+        throw e
     } catch (e: Exception) {
         LoadResult.Failed("Could not decode save: ${e.message}", emptyList())
     }
@@ -295,15 +326,71 @@ class SaveManager(private val dir: File, private val dex: Dex? = null, private v
 
 /** Validates loaded content against the current game data and repairs what it safely can. */
 class SaveValidator(private val dex: Dex) {
+    private companion object {
+        const val BOX_COUNT = 16
+        const val BOX_SIZE = 30
+        const val PARTY_SIZE = 6
+    }
+
+    private fun baseMatch(id: String): String? = id.takeWhile { it.isLetter() }.let { base -> dex.species.keys.firstOrNull { it == base } }
+
+    /**
+     * Species ids of owned Pokémon that are not in the Dex and have no base species to fall back to. [repair] cannot
+     * fix these (every later `species(dex)` call on them would throw), so a save holding one must not be loaded.
+     */
+    fun unknownSpecies(state: GameState): List<String> =
+        (state.party + state.boxes.flatten().filterNotNull())
+            .filter { dex.speciesOrNull(it.speciesId) == null && baseMatch(it.speciesId) == null }
+            .map { it.speciesId }.distinct()
+
+    /**
+     * Brings the party and PC to their fixed shape: 16 boxes of 30 slots, at most 6 party members, at most 4 moves per
+     * Pokémon. Pokémon that no longer fit are moved to the first free PC slot (a new box if the PC is full), never dropped.
+     */
+    private fun repairStructure(state: GameState): List<String> {
+        val warnings = ArrayList<String>()
+        while (state.boxes.size < BOX_COUNT) state.boxes.add(MutableList(BOX_SIZE) { null })
+        val overflow = ArrayList<Pokemon>()
+        for ((i, box) in state.boxes.withIndex()) {
+            if (box.size > BOX_SIZE) {
+                val extra = box.subList(BOX_SIZE, box.size)
+                overflow.addAll(extra.filterNotNull())
+                extra.clear()
+                warnings.add("Box ${i + 1} held more than ${BOX_SIZE} Pokémon slots; the extra Pokémon were moved to free PC slots.")
+            }
+            while (box.size < BOX_SIZE) box.add(null)
+        }
+        if (state.party.size > PARTY_SIZE) {
+            val extra = state.party.subList(PARTY_SIZE, state.party.size)
+            overflow.addAll(extra)
+            extra.clear()
+            warnings.add("The party held more than ${PARTY_SIZE} Pokémon; the extra Pokémon were moved to the PC.")
+        }
+        for (mon in overflow) {
+            val box = state.boxes.firstOrNull { b -> b.any { it == null } }
+                ?: MutableList<Pokemon?>(BOX_SIZE) { null }.also { state.boxes.add(it) }
+            box[box.indexOf(null)] = mon
+        }
+        for (mon in state.party + state.boxes.flatten().filterNotNull()) {
+            if (mon.moves.size > 4) {
+                warnings.add("${mon.speciesId}: knew ${mon.moves.size} moves; kept the first 4.")
+                mon.moves.subList(4, mon.moves.size).clear()
+            }
+        }
+        return warnings
+    }
+
     fun repair(state: GameState): List<String> {
         val warnings = ArrayList<String>()
+        warnings += repairStructure(state)
         val all = state.party + state.boxes.flatten().filterNotNull()
         for (mon in all) {
             if (dex.speciesOrNull(mon.speciesId) == null) {
-                val base = mon.speciesId.takeWhile { it.isLetter() }
-                val fallback = dex.species.keys.firstOrNull { it == base } ?: "missingno"
-                warnings.add("Unknown species '${mon.speciesId}' kept as '${if (fallback == "missingno") mon.speciesId else fallback}'.")
-                if (fallback != "missingno") mon.speciesId = fallback
+                val fallback = baseMatch(mon.speciesId)
+                if (fallback != null) {
+                    warnings.add("Unknown species '${mon.speciesId}' replaced with '$fallback'.")
+                    mon.speciesId = fallback
+                }
                 continue
             }
             val bad = mon.moves.filter { dex.moveOrNull(it.id) == null }
@@ -312,8 +399,11 @@ class SaveValidator(private val dex: Dex) {
                 mon.moves.removeAll(bad)
                 if (mon.moves.isEmpty()) mon.moves.add(pkmn.engine.mon.MoveSlot("tackle", 35))
             }
-            if (mon.heldItem != null && dex.itemOrNull(mon.heldItem) == null) {
-                warnings.add("${mon.speciesId}: unknown held item '${mon.heldItem}' moved to the bag as unknown data was removed.")
+            val held = mon.heldItem
+            if (held != null && dex.itemOrNull(held) == null) {
+                warnings.add("${mon.speciesId}: unknown held item '$held' moved to the bag as unknown data was removed.")
+                // Written directly: addItem would refuse an id the Dex does not know, and the item must not be lost.
+                state.bag[held] = (state.bag[held] ?: 0) + 1
                 mon.heldItem = null
             }
             mon.level = mon.level.coerceIn(1, 100)

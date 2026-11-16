@@ -40,7 +40,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         private set
     val player = Actor("player", "player_m", 0, 0, Facing.DOWN)
     private val actors = LinkedHashMap<String, Actor>()
-    private var scriptBusy = false
+    private val busyLock = ScriptBusy()
+    private var scriptBusy: Boolean
+        get() = busyLock.busy
+        set(v) { busyLock.busy = v }
     private val autosaveGate = AutosaveGate()
     private var lockInput = 0f
     private var turnGrace = 0f
@@ -684,7 +687,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         game.audio.playSfx("trainer_spotted")
         waitTimer = 0.8f
         waitDone = {
-            val steps = (kotlin.math.abs(player.x - a.x) + kotlin.math.abs(player.y - a.y)) - 1
+            val dist = (kotlin.math.abs(player.x - a.x) + kotlin.math.abs(player.y - a.y)) - 1
+            // Never walk onto water or other tiles an NPC cannot stand on (the player may be surfing); battle from the shore instead.
+            val steps = rules.approachSteps(map, a.x, a.y, a.facing, dist) { x, y -> occupant(x, y) != null }
             repeat(steps) { a.path.addLast(a.facing) }
             if (steps <= 0) begin() else a.onPathDone = { begin() }
         }
@@ -708,7 +713,8 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     }
 
     private fun runBattle(battle: Battle, trainerId: String?, canLose: Boolean, music: String? = null, onDone: (BattleOutcome) -> Unit) {
-        scriptBusy = true
+        // A battle started by a running script must not unlock input: the script is still running afterwards.
+        val restoreBusy = busyLock.enter()
         game.audio.playSfx("battle_start")
         val screen = BattleScreen(game, ctx, battle, trainerId, music) { outcome ->
             battleIntro = null
@@ -720,7 +726,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                     if (lost) ctx.healParty()
                     game.audio.playMusic(if (state.surfing) "ocean_surf" else if (state.biking) "bike" else baseMap.music)
                     runEvolutions(battle.leveledUp.toList()) {
-                        scriptBusy = false
+                        restoreBusy()
                         pendingTrainerCheck = true
                         if (stepsSinceSave > 0) autosave()
                         onDone(outcome)
@@ -751,7 +757,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
 
     /** Runs evolution screens one after another for the given party indices. */
     fun runEvolutions(indices: List<Int>, spun: Boolean = false, then: () -> Unit) {
-        val pending = ctx.pendingEvolutions(indices, map, spun)
+        val pending = ctx.pendingEvolutions(indices, map, spun, upsideDown = game.platform.isUpsideDown())
         fun next(i: Int) {
             if (i >= pending.size) { then(); return }
             val (idx, target) = pending[i]

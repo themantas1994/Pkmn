@@ -66,7 +66,7 @@ class FieldItems(private val ctx: GameContext) {
         return FieldItemResult(true, "${ctx.state.playerName} used the REPEL. Weak wild POKéMON will stay away.")
     }
 
-    fun useOn(mon: Pokemon, item: String, moveIndex: Int = -1): FieldItemResult {
+    fun useOn(mon: Pokemon, item: String, moveIndex: Int = -1, upsideDown: Boolean = false): FieldItemResult {
         val name = mon.displayName(dex)
         if (item.startsWith("tm:")) {
             val move = item.removePrefix("tm:")
@@ -118,7 +118,7 @@ class FieldItems(private val ctx: GameContext) {
                 val ups = ctx.progression.addExp(mon, needed)
                 mon.friendship = minOf(255, mon.friendship + 3)
                 val moves = ups.flatMap { it.newMoves }
-                val evo = ctx.pendingEvolutions(listOf(ctx.state.party.indexOf(mon)), null).firstOrNull()?.second
+                val evo = ctx.pendingEvolutions(listOf(ctx.state.party.indexOf(mon)), null, upsideDown = upsideDown).firstOrNull()?.second
                 return FieldItemResult(true, "$name grew to Lv. ${mon.level}!", evolveTo = evo, newMoves = moves)
             }
             "linkingcord" -> {

@@ -192,7 +192,7 @@ class PokemonFactory(private val dex: Dex) {
     /** The last four level-up moves learnable at or below [level] (standard wild Pokémon moveset rule). */
     fun defaultMoves(speciesId: String, level: Int): List<String> {
         val ls = dex.learnset(speciesId) ?: return listOf("tackle")
-        val learned = ls.levelUp.filter { it.level <= level }.map { it.move }.filter { dex.moves[it]?.isNonstandard != "LGPE" || true }
+        val learned = ls.levelUp.filter { it.level <= level }.map { it.move }
         val distinct = LinkedHashSet<String>()
         for (m in learned.asReversed()) { if (distinct.size >= 4) break; distinct.add(m) }
         return distinct.toList().asReversed().ifEmpty { listOf("tackle") }

@@ -199,7 +199,7 @@ class BoxScreen(game: PkmnGame, private val ctx: GameContext, private val op: Op
                 game.say("Withdrew ${mon.displayName(ctx.dex)}.")
             }
             Op.RELEASE -> game.ask("Release ${mon.displayName(ctx.dex)}? It won't come back.") { yes ->
-                if (yes) { boxes[box][cursor] = null; game.say("${mon.displayName(ctx.dex)} was released outside. Bye-bye, ${mon.displayName(ctx.dex)}!") }
+                if (yes) game.say(ctx.releaseFromBox(box, cursor).message)
             }
         }
     }

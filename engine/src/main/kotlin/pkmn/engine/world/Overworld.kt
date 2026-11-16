@@ -113,6 +113,20 @@ class OverworldRules(private val ctx: GameContext) {
         return null
     }
 
+    /**
+     * How many of the [steps] a spotting trainer may walk from (fromX, fromY) in direction [facing]: the leading tiles that
+     * are [walkableTerrain] and not [blocked]. A trainer that spotted a surfing player across water stops at the shore.
+     */
+    fun approachSteps(map: MapData, fromX: Int, fromY: Int, facing: Facing, steps: Int, blocked: (Int, Int) -> Boolean): Int {
+        var x = fromX; var y = fromY; var n = 0
+        while (n < steps) {
+            x += facing.dx; y += facing.dy
+            if (!walkableTerrain(map, x, y) || blocked(x, y)) break
+            n++
+        }
+        return n
+    }
+
     /** Terrain that stops a trainer's line of sight: out of bounds, solid tiles (walls, hedges, counters) and active obstacles (boulders, cut trees, rocks). */
     fun sightBlockedAt(map: MapData, x: Int, y: Int): Boolean =
         !map.inBounds(x, y) || TileRules.isSolid(behavior(map, x, y)) || map.obstacles.any { it.x == x && it.y == y && obstacleActive(it) }

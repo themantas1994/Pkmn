@@ -2238,7 +2238,7 @@ class Battle(
                 m.itemKnockedOff -> m.originalItem
                 m.item == null -> null
                 s.isPlayer && m.originalItem == null && opponent.isWild -> m.item // stolen from a wild Pokémon
-                else -> if (m.item == m.originalItem) m.originalItem else m.originalItem
+                else -> m.originalItem
             }
             if (m.mon.hp > m.mon.maxHp(dex)) m.mon.hp = m.mon.maxHp(dex)
             if (m.fainted) { m.mon.hp = 0; m.mon.status = null }
@@ -2253,7 +2253,7 @@ class Battle(
         val foe = opposingActive(side) ?: return
         runAttempts++
         val canAlways = mon.hasType("Ghost") || (mon.item == "smokeball") || (mon.ability == "runaway" && abilityActive(mon))
-        if (!canAlways && !canSwitchOut(mon) && side.canSwitchTo().isNotEmpty().let { true }) {
+        if (!canAlways && !canSwitchOut(mon)) {
             var trapped = false
             for (c in allHandlers()) if (c.effect.onTrapPokemon(c, mon)) trapped = true
             if (trapped) { message("${nm(mon)} can't escape!"); return }

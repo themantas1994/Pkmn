@@ -316,6 +316,27 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
         return null
     }
 
+    /** Result of [releaseFromBox]: [message] is shown to the player either way. */
+    data class ReleaseResult(val released: Boolean, val message: String)
+
+    /**
+     * Releases the Pokémon in PC box [box], slot [slot]. A held item goes back to the bag; if the bag cannot take it the
+     * release is refused (the Pokémon and its item stay where they are).
+     */
+    fun releaseFromBox(box: Int, slot: Int): ReleaseResult {
+        val mon = state.boxes.getOrNull(box)?.getOrNull(slot) ?: return ReleaseResult(false, "There is no POKéMON there.")
+        val name = mon.displayName(dex)
+        val item = mon.heldItem
+        var note = ""
+        if (item != null) {
+            if (state.addItem(item) < 1) return ReleaseResult(false, "The bag is full, so $name's ${itemName(item)} can't be returned. Make room first.")
+            mon.heldItem = null
+            note = " Its ${itemName(item)} was returned to the bag."
+        }
+        state.boxes[box][slot] = null
+        return ReleaseResult(true, "$name was released outside. Bye-bye, $name!$note")
+    }
+
     /** Completes an item evolution (stone, Linking Cord): evolves and only then spends the item. Returns pending move prompts. */
     fun completeItemEvolution(mon: Pokemon, target: String, item: String): List<String> {
         val pending = evolve(mon, target)
@@ -561,10 +582,10 @@ class GameContext(val dex: Dex, val content: WorldContent, var state: GameState)
      * Party members that should evolve (index -> target species): after battle, or with [spun] after the player spins
      * on the spot, in which case only spin evolutions (Milcery) are considered.
      */
-    fun pendingEvolutions(candidates: Collection<Int>, map: MapData?, spun: Boolean = false): List<Pair<Int, String>> {
+    fun pendingEvolutions(candidates: Collection<Int>, map: MapData?, spun: Boolean = false, upsideDown: Boolean = false): List<Pair<Int, String>> {
         val ctx = Progression.EvolutionContext(isNight = isNight(), isDusk = state.options.realTimeClock && now().hour in 17..18, raining = map?.weather == "rain",
             party = state.party, locationTags = map?.tags?.toSet() ?: emptySet(), coins = state.coins, environment = map?.environment ?: "plain",
-            spun = spun)
+            spun = spun, deviceUpsideDown = upsideDown)
         return candidates.mapNotNull { i ->
             val m = state.party.getOrNull(i) ?: return@mapNotNull null
             if (m.isFainted) return@mapNotNull null

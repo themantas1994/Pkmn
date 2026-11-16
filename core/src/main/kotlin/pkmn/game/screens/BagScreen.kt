@@ -133,7 +133,7 @@ class BagScreen(
         if (!field.needsTarget(id)) { game.say("${ctx.state.playerName}: This isn't the time to use that!"); return }
         push(PartyScreen(game, ctx, PartyScreen.Mode.CHOOSE, null, false, null, "Use on which POKéMON?") { t ->
             val mon = t?.let { ctx.state.party[it] } ?: return@PartyScreen
-            val r = field.useOn(mon, id)
+            val r = field.useOn(mon, id, upsideDown = game.platform.isUpsideDown())
             if (!r.ok) { game.say(r.message); return@PartyScreen }
             if (r.consumed) ctx.state.removeItem(id)
             if (id in setOf("hpup", "protein", "iron", "calcium", "zinc", "carbos") || id.endsWith("potion") || r.message.isNotEmpty()) game.audio.playSfx("heal")
