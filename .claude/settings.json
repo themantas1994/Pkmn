@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git reset --hard*)",
+      "Bash(sudo *)",
+      "Read(**/.env)",
+      "Read(**/.env.*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"$CLAUDE_CODE_REMOTE\" = true ] && [ -x \"$CLAUDE_PROJECT_DIR/.claude/cloud-start.sh\" ] && \"$CLAUDE_PROJECT_DIR/.claude/cloud-start.sh\"; exit 0",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"$CLAUDE_CODE_REMOTE\" = true ] && [ -f \"$HOME/.claude/hooks/library_first_gate.py\" ] && exec python3 -I \"$HOME/.claude/hooks/library_first_gate.py\"; exit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
