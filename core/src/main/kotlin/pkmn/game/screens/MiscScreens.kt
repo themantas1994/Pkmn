@@ -112,7 +112,7 @@ class ShopScreen(game: PkmnGame, private val ctx: GameContext, private val shopI
                         val buyResult = ctx.buy(id, n, p)
                         if (!buyResult.ok) game.say(buyResult.message) { buy() }
                         else {
-                            game.audio.playSfx("item_get")
+                            game.audio.playSfx("buy")
                             val bonus = if (buyResult.bonus > 0) "\nHere, have ${buyResult.bonus} PREMIER BALL as a bonus!" else ""
                             game.say("Here you are! Thank you!$bonus") { buy() }
                         }
