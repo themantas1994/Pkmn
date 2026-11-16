@@ -64,18 +64,23 @@ script p2_quarry_foreman
     say "FOREMAN: Take that fossil to the lab north of the square. They'll wake it right up."
   elif flag p2_found_pickaxe
     say "FOREMAN: My lucky pickaxe! I can't dig a single stone without it.\pAs thanks, pick one of these fossils from the last dig."
-    choice "Which fossil?" "Jaw Fossil" "Sail Fossil"
+    choice "Which fossil?" "Jaw Fossil" "Sail Fossil" "Not yet"
     if result 0
       giveitem jawfossil
-    else
+      setflag p2_fossil_given
+    elif result 1
       giveitem sailfossil
+      setflag p2_fossil_given
+    else
+      say "FOREMAN: Take your time. The fossils aren't going anywhere."
     end
-    setflag p2_fossil_given
-    if not quest p2_fossil_dig started
-      quest p2_fossil_dig start
+    if flag p2_fossil_given
+      if not quest p2_fossil_dig started
+        quest p2_fossil_dig start
+        quest p2_fossil_dig next
+      end
       quest p2_fossil_dig next
     end
-    quest p2_fossil_dig next
   else
     say "FOREMAN: Lost my lucky pickaxe on Route 8, somewhere in the north canyon rocks.\pBring it back and I'll make it worth your while!"
     if not quest p2_fossil_dig started

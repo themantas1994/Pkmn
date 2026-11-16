@@ -66,7 +66,7 @@ script p2_lumen_elder
 end
 
 script p2_lumen_kanto_choice
-  choice "Which Pokémon will you take?" "Bulbasaur" "Charmander" "Squirtle"
+  choice "Which Pokémon will you take?" "Bulbasaur" "Charmander" "Squirtle" "Not yet"
   if result 0
     givemon bulbasaur 18
     if result 1
@@ -79,12 +79,14 @@ script p2_lumen_kanto_choice
       setflag p2_kanto_charmander
       setflag p2_kanto_gift
     end
-  else
+  elif result 2
     givemon squirtle 18
     if result 1
       setflag p2_kanto_squirtle
       setflag p2_kanto_gift
     end
+  else
+    say "ELDER IONE: Take your time. The choice is yours alone."
   end
   if flag p2_kanto_gift
     quest p2_kanto_legacy next

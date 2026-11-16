@@ -76,7 +76,8 @@ class ScriptHost(
             }
             is ScriptRequest.Ask -> game.push(TextBox(game, req.text) { game.push(YesNo(game, req.text) { yes -> resume(if (yes) 1 else 0) }) })
             is ScriptRequest.Choice -> {
-                val menu = Menu(game, req.options, 160, 40, onCancel = { resume(req.options.size - 1) }) { i -> resume(i) }
+                val l = ChoiceLayout.place(req.options.size, req.options.maxOf { game.assets.font8.width(it) })
+                val menu = Menu(game, req.options, l.x, l.y, l.width, l.visible, onCancel = { resume(req.options.size - 1) }) { i -> resume(i) }
                 menu.prompt = req.prompt
                 game.push(menu)
             }
@@ -163,6 +164,7 @@ class ScriptHost(
             val mon = t?.let { ctx.state.party[it] } ?: run { resume(0); return@PartyScreen }
             val fixed = mon.species(ctx.dex).requiredTeraType
             if (fixed != null) { game.say("${mon.displayName(ctx.dex)}'s TERA TYPE can't be changed.") { resume(0) }; return@PartyScreen }
+            if (mon.teraType == type) { game.say("${mon.displayName(ctx.dex)}'s TERA TYPE is already ${type.uppercase()}.") { resume(0) }; return@PartyScreen }
             mon.teraType = type
             game.audio.playSfx("heal")
             game.say("${mon.displayName(ctx.dex)}'s TERA TYPE became ${type.uppercase()}!") { resume(1) }
@@ -178,5 +180,24 @@ class ScriptHost(
             "link" -> game.push(pkmn.game.link.LinkLobbyScreen(game, ctx, onClose = { resume() }))
             else -> { game.platform.log("Unknown special '$name'"); resume() }
         }
+    }
+}
+
+/**
+ * Where a script `choice` menu goes on the 256x224 screen: right-aligned (so long labels stay on screen), at most
+ * [MAX_ROWS] rows (the Menu scrolls the rest), and above the prompt box that [Menu.prompt] draws at the bottom.
+ */
+object ChoiceLayout {
+    const val MAX_ROWS = 8
+    data class Place(val x: Int, val y: Int, val width: Int, val visible: Int)
+
+    /** [longestLabelPx] is the pixel width of the longest option (Menu adds 28 px for the cursor and padding). */
+    fun place(options: Int, longestLabelPx: Int): Place {
+        val width = longestLabelPx + 28
+        val visible = minOf(options, MAX_ROWS)
+        val height = visible * 16 + 16
+        val x = (pkmn.game.gfx.Renderer.W - width - 4).coerceAtLeast(0)
+        val y = minOf(40, pkmn.game.ui.TextBox.BOX_Y - height).coerceAtLeast(0)
+        return Place(x, y, width, visible)
     }
 }
