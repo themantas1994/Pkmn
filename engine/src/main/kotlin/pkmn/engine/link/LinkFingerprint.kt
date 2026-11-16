@@ -13,6 +13,16 @@ import java.security.MessageDigest
 /** The content of a [Dex] that link play depends on, as one hash, so two devices with different data refuse to link. */
 object LinkFingerprint {
     /**
+     * The pinned combined hash of `DeterminismSelfTest` (400 seeded battles). `DeterminismTest` fails when battle behaviour
+     * or content changes it; re-pin with `./gradlew :engine:test --tests '*DeterminismTest*' -Dgolden.update=true`. Both
+     * devices send [rulesId] with their game version, so two builds with different battle rules refuse to link.
+     */
+    const val PINNED_COMBINED_HASH = "f3ae87c7a4e66836a5f76794c4795792f0e6e39bebcc72fff5916effbe0a405f"
+
+    /** Short id of the engine rules this build plays by (the start of [PINNED_COMBINED_HASH]). */
+    val rulesId: String get() = PINNED_COMBINED_HASH.take(8)
+
+    /**
      * SHA-256 (hex) over species, moves, abilities, items, learnsets, the type chart and the content version, each in id
      * order. Learnsets are in because a traded Pokémon learns moves on this device after the trade (level-up and
      * evolution moves). Pokédex text is left out: nothing in a link session reads it. Costs a full serialization of the
