@@ -1,4 +1,4 @@
-# Route 5 — coastal meadow south of Port Tidewater (Part 2 start). B1 boundary: top row open only at x=9,10.
+# Route 5 — coastal meadow south of Port Tidewater (Part 2 start). Badge-2 gate: the trigger spans the full row 3 (x=2..17), the only way south.
 map route5
 name "Route 5"
 location "Route 5"
@@ -56,7 +56,7 @@ end
 sign 8 2 text="ROUTE 5\nPort Tidewater - Lumen Village"
 # Badge-2 checkpoint (B1 contract): nobody heads south before beating Marina.
 npc r5_officer 11 3 sprite=policeman face=left script=p2_route5_officer
-trigger 9 3 2 1 script=p2_route5_gate unless=p2_route5_open
+trigger 2 3 16 1 script=p2_route5_gate unless=p2_route5_open
 
 trainer p2_r5_lass_tessa 6 9 sprite=lass face=right sight=4
 trainer p2_r5_youngster_ned 11 16 sprite=youngster face=left sight=4

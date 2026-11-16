@@ -30,7 +30,7 @@ WWWWWWWWWWWWWWWWWWWW
 end
 
 warp 3 2 -> p4c_frozen_falls 4 3 down
-trainer p4c_ffd_cool_ingrid 9 15 sprite=cooltrainer_f face=up sight=3
+trainer p4c_ffd_cool_ingrid 9 15 sprite=cooltrainer_f face=right sight=3
 trainer p4c_ffd_boarder_kale 7 3 sprite=cooltrainer_m face=left sight=2
 npc ffd_sculpture 16 16 sprite=boulder text="A statue of ice in the shape of a great dragon. Its eyes are two chips of Never-Melt Ice."
 item ffd_choiceband 17 15 choiceband
