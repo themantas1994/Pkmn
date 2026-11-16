@@ -26,16 +26,38 @@ class ScreenshotCompareTest {
 
     @Test
     fun identicalAndSmallDriftPass() = withDirs { a, b ->
-        png(File(b, "s.png")); png(File(a, "s.png"), paint = changePixels(50)) // 0.5 % < 1 % allowance
+        png(File(b, "s.png")); png(File(a, "s.png"), paint = changePixels(25)) // within the ~30 px allowance
         assertTrue(ScreenshotCompare(a, b, update = false).run())
     }
 
     @Test
     fun changeBeyondAllowanceFails() = withDirs { a, b ->
-        png(File(b, "s.png")); png(File(a, "s.png"), paint = changePixels(200)) // 2 %
+        png(File(b, "s.png")); png(File(a, "s.png"), paint = changePixels(200))
         assertFalse(ScreenshotCompare(a, b, update = false).run())
-        // Tiny per-channel noise below the tolerance never counts.
-        png(File(a, "s.png"), paint = changePixels(5000, 0x848484))
+        // Tiny per-channel noise below the tolerance (8) never counts.
+        png(File(a, "s.png"), paint = changePixels(5000, 0x868686))
+        assertTrue(ScreenshotCompare(a, b, update = false).run())
+        png(File(a, "s.png"), paint = changePixels(5000, 0x8A8A8A)) // 10 per channel: counts, far over the allowance
+        assertFalse(ScreenshotCompare(a, b, update = false).run())
+    }
+
+    /** C7-8: 40 changed pixels (a small sprite or tile glitch) must fail; the old 1 % allowance let ~570 of 57,344 through. */
+    @Test
+    fun aFortyPixelChangeFails() = withDirs { a, b ->
+        png(File(b, "s.png")); png(File(a, "s.png"), paint = changePixels(40))
+        assertFalse(ScreenshotCompare(a, b, update = false).run())
+        png(File(b, "s.png"), 256, 224); png(File(a, "s.png"), 256, 224, paint = changePixels(60))
+        assertFalse(ScreenshotCompare(a, b, update = false).run())
+    }
+
+    /** C7-8: a captured scene with no committed baseline fails, unless the run is `--update`, which adds it. */
+    @Test
+    fun sceneWithoutBaselineFailsUnlessUpdating() = withDirs { a, b ->
+        png(File(a, "new.png"))
+        assertFalse(ScreenshotCompare(a, b, update = false).run())
+        assertFalse(File(b, "new.png").exists())
+        assertTrue(ScreenshotCompare(a, b, update = true).run())
+        assertTrue(File(b, "new.png").exists())
         assertTrue(ScreenshotCompare(a, b, update = false).run())
     }
 

@@ -103,7 +103,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (525 + 160 + 152 with link play phase 5, from a fresh uncached `scripts/gates.sh all` run on 2026-11-15, skipped: ChipSynthBenchmarkTest in core and ArtBuildDeterminismTest in tools; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets are committed, runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (544 + 182 + 182, `./gradlew :tools:statusCounts` after a full test run on 2026-11-16 with the art venv built, skipped: only ChipSynthBenchmarkTest in core, as in CI; 525 + 160 + 152 with link play phase 5; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets and reports are committed, checks that the numbers quoted here match the build outputs (`:tools:checkStatus`), runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.
@@ -185,7 +185,7 @@ From `./gradlew :tools:validateContent`; details in [reports/COVERAGE.md](report
 - No map is orphaned.
 - No tile traps the player away from a Pokémon Center.
 
-Maps reachable with 0..8 badges: 110, 112, 113, 150, 209, 209, 209, 223, 223.
+Maps reachable with 0..8 badges: 111, 113, 114, 152, 210, 210, 210, 225, 225.
 
 ## Performance
 
@@ -194,7 +194,7 @@ Maps reachable with 0..8 badges: 110, 112, 113, 150, 209, 209, 209, 223, 223.
 | Metric | Value |
 |---|---|
 | Species/moves data load (all learnsets) | ~0.5 s |
-| World load (223 maps, 459 scripts) | ~0.14 s |
+| World load (225 maps, 537 scripts) | ~0.14 s |
 | Battle turn resolution | mean 0.22 ms, p95 0.79 ms |
 | AI decision | mean 0.09 ms, p95 0.35 ms |
 | Save (full party + 8 full boxes, 149 KB) | median 15 ms |

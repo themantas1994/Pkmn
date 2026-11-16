@@ -18,11 +18,11 @@ Pokémon Showdown and PokeAPI are community-maintained datasets, not official ga
 
 ## Summary
 
-- Species and forms: **1379**; findings: **0 errors**, 88 warnings, 18 infos; conflicts: 32.
+- Species and forms: **1379**; findings: **0 errors**, 90 warnings, 18 infos; conflicts: 34.
 - Learnsets: own 1135, inherited from base 140, inherited via changesFrom 104, own entry with empty level-up 0, missing 0.
 - Importer vs raw Showdown: 1151 entries recomputed, **0 discrepancies** (82 raw entries are not roster species and are not imported).
-- World: 1917 Pokémon (1424 explicit moves) checked, **32 illegal/conflicting assignments** {"egg-only":32}.
-- TMs in the world: 96 placements, 77 distinct moves; 0 with no obtainable learner.
+- World: 1959 Pokémon (1572 explicit moves) checked, **34 illegal/conflicting assignments** {"egg-only":34}.
+- TMs in the world: 102 placements, 79 distinct moves; 0 with no obtainable learner.
 - Machine-legal pairs: 71647; with Gen IX TM/TR/tutor 36592; legal only in older generations **31893** (15656 for Gen IX species, 16237 for species outside Gen IX).
 
 ## Findings by code
@@ -30,7 +30,7 @@ Pokémon Showdown and PokeAPI are community-maintained datasets, not official ga
 | severity | code | count |
 |---|---|---|
 | warning | `inherited-form-types-differ` | 49 |
-| warning | `world-egg-only` | 32 |
+| warning | `world-egg-only` | 34 |
 | warning | `signature-egg-only` | 5 |
 | warning | `move-without-learner` | 1 |
 | warning | `tm-nonstandard-move` | 1 |
@@ -86,7 +86,7 @@ World assignments (trainer/gift moves, TMs, tutor entries) that use such moves: 
 
 ## World legality
 
-Pokémon checked by kind: {"event":1,"giveegg":3,"givemon":28,"trade":14,"trainer":1840,"wildbattle":31}. Legality routes: {"EGG":32,"LEVEL_UP":763,"MACHINE":607,"PREVO_LEVEL_UP":22}.
+Pokémon checked by kind: {"event":1,"giveegg":5,"givemon":28,"trade":14,"trainer":1880,"wildbattle":31}. Legality routes: {"EGG":34,"LEVEL_UP":818,"MACHINE":693,"PREVO_LEVEL_UP":27}.
 
 | issue | species | move | level | source |
 |---|---|---|---|---|
@@ -121,12 +121,14 @@ Pokémon checked by kind: {"event":1,"giveegg":3,"givemon":28,"trade":14,"traine
 | egg-only | ferrothorn | leechseed | 75 | `world/trainers/p3c_tower.txt:174` |
 | egg-only | lapras | freezedry | 48 | `world/trainers/p4c_leg7.txt:254` |
 | egg-only | bisharp | suckerpunch | 59 | `world/trainers/p4c_leg9.txt:279` |
+| egg-only | typhlosion | extrasensory | 58 | `world/trainers/p5b.txt:57` |
+| egg-only | grimeralola | shadowsneak | 57 | `world/trainers/p5c.txt:27` |
 | egg-only | dragonair | extremespeed | 50 | `world/scripts/p3b_dragonspire.pks:167 (p3b_draca)` |
 
 ## TM availability
 
 Obtainable species: 756. TMs without an obtainable learner: none. With at most three: none.
-Machine-legal moves with no TM in the world: 304 of 376. Audit vs `Progression.canLearnMachine`: 0 mismatches over 124110 pairs.
+Machine-legal moves with no TM in the world: 302 of 376. Audit vs `Progression.canLearnMachine`: 0 mismatches over 126868 pairs.
 
 ## Tutors
 
@@ -134,4 +136,4 @@ Machine-legal moves with no TM in the world: 304 of 376. Audit vs `Progression.c
 
 ## Conflicts
 
-32 entries {"egg-only":32}; each has {species, move, issue, selectedValue, justification, source} in `reports/learnsets.json` (`conflicts`).
+34 entries {"egg-only":34}; each has {species, move, issue, selectedValue, justification, source} in `reports/learnsets.json` (`conflicts`).

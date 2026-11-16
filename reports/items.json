@@ -792,9 +792,9 @@
       "hidden": false,
       "tile": "cave_floor",
       "verdict": "gated",
-      "earliestStage": 4,
-      "earliestStageIfNpcGone": 4,
-      "earliestStageOptimisticModel": 4,
+      "earliestStage": 3,
+      "earliestStageIfNpcGone": 3,
+      "earliestStageOptimisticModel": 3,
       "defects": []
     },
     {
@@ -5248,9 +5248,9 @@
       "hidden": false,
       "tile": "cave_floor",
       "verdict": "gated",
-      "earliestStage": 4,
-      "earliestStageIfNpcGone": 4,
-      "earliestStageOptimisticModel": 4,
+      "earliestStage": 3,
+      "earliestStageIfNpcGone": 3,
+      "earliestStageOptimisticModel": 3,
       "defects": []
     },
     {
@@ -5264,9 +5264,9 @@
       "hidden": true,
       "tile": "cave_rock",
       "verdict": "gated",
-      "earliestStage": 4,
-      "earliestStageIfNpcGone": 4,
-      "earliestStageOptimisticModel": 4,
+      "earliestStage": 3,
+      "earliestStageIfNpcGone": 3,
+      "earliestStageOptimisticModel": 3,
       "defects": []
     },
     {
@@ -5296,9 +5296,9 @@
       "hidden": false,
       "tile": "cave_floor",
       "verdict": "gated",
-      "earliestStage": 4,
-      "earliestStageIfNpcGone": 4,
-      "earliestStageOptimisticModel": 4,
+      "earliestStage": 3,
+      "earliestStageIfNpcGone": 3,
+      "earliestStageOptimisticModel": 3,
       "defects": []
     },
     {
@@ -5312,9 +5312,9 @@
       "hidden": true,
       "tile": "cave_wall",
       "verdict": "gated",
-      "earliestStage": 4,
-      "earliestStageIfNpcGone": 4,
-      "earliestStageOptimisticModel": 4,
+      "earliestStage": 3,
+      "earliestStageIfNpcGone": 3,
+      "earliestStageOptimisticModel": 3,
       "defects": []
     },
     {
@@ -5328,9 +5328,9 @@
       "hidden": false,
       "tile": "cave_floor",
       "verdict": "gated",
-      "earliestStage": 4,
-      "earliestStageIfNpcGone": 4,
-      "earliestStageOptimisticModel": 4,
+      "earliestStage": 3,
+      "earliestStageIfNpcGone": 3,
+      "earliestStageOptimisticModel": 3,
       "defects": []
     },
     {
@@ -5344,9 +5344,9 @@
       "hidden": false,
       "tile": "cave_floor",
       "verdict": "gated",
-      "earliestStage": 4,
-      "earliestStageIfNpcGone": 4,
-      "earliestStageOptimisticModel": 4,
+      "earliestStage": 3,
+      "earliestStageIfNpcGone": 3,
+      "earliestStageOptimisticModel": 3,
       "defects": []
     },
     {

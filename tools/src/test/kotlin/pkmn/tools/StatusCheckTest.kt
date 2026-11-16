@@ -71,4 +71,44 @@ class StatusCheckTest {
             assertEquals(listOf("core: pkmn.game.audio.ChipSynthBenchmarkTest (1 ran, CI skips it)"), sc.notLikeCi())
         } finally { tmp.deleteRecursively() }
     }
+
+    /** A tmp root with the repo's compiled world and a minimal reports/progression.json (maps reachable per badge stage). */
+    private fun withRoot(reach: List<Int> = (0..8).map { 100 + it }, body: (File, StatusCheck.World) -> Unit) {
+        val tmp = Files.createTempDirectory("status").toFile()
+        try {
+            for (d in listOf("world", "maps", "scripts")) File(repo, "assets/$d").copyRecursively(File(tmp, "assets/$d"))
+            File(tmp, "reports").mkdirs()
+            File(tmp, "reports/progression.json").writeText("""{"stages":[${reach.joinToString(",") { """{"maps":$it}""" }}]}""")
+            body(tmp, StatusCheck(tmp).world())
+        } finally { tmp.deleteRecursively() }
+    }
+
+    /** C7-1: a quoted number in a format no rule covers used to pass silently; now it is a problem. */
+    @Test
+    fun numbersInAnUnrecognisedFormatFail() = withRoot { tmp, _ ->
+        for (doc in listOf("We have 12 maps, 30 trainers and so on.", "All passing (12 + 3 + 4).", "Maps reachable with 0..8 badges: see the report.",
+            "All tests: 12 engine tests, 3 core tests.")) {
+            val problems = StatusCheck(tmp, doc).check()
+            assertTrue(problems.any { "no check covers" in it }, "$doc -> $problems")
+        }
+    }
+
+    /** C7-1: the formats STATUS.md really uses (the "525 + 160 + 152" triple, the world-load row, the reach list) are checked. */
+    @Test
+    fun theFormatsStatusMdUsesAreChecked() = withRoot { tmp, w ->
+        xml(File(tmp, "engine/build/test-results/test"), 10)
+        xml(File(tmp, "core/build/test-results/test"), 5)
+        xml(File(tmp, "tools/build/test-results/test"), 7)
+        val good = "all passing (10 + 5 + 7 with a feature, from a run; 9 + 5 + 7 before it). | World load (${w.maps} maps, ${w.scripts} scripts) |\n" +
+            "Maps reachable with 0..8 badges: ${(0..8).joinToString(", ") { (100 + it).toString() }}."
+        assertEquals(emptyList(), StatusCheck(tmp, good).check())
+        val triple = StatusCheck(tmp, good.replace("10 + 5 + 7", "10 + 5 + 8")).check()
+        assertTrue(triple.any { "test counts" in it }, triple.toString())
+        val load = StatusCheck(tmp, good.replace("${w.maps} maps", "${w.maps + 1} maps")).check()
+        assertTrue(load.any { "world counts" in it }, load.toString())
+        val reach = StatusCheck(tmp, good.replace("100, 101", "99, 101")).check()
+        assertTrue(reach.any { "reachable" in it }, reach.toString())
+        val short = StatusCheck(tmp, good.replace(", 108.", ".")).check()
+        assertTrue(short.any { "reachable" in it }, short.toString())
+    }
 }

@@ -6,12 +6,14 @@ import kotlin.math.abs
 
 /**
  * Visual regression check: compares freshly captured automation screenshots with committed baselines.
- * A screenshot fails when more than [maxDiffShare] of its pixels differ by more than [channelTolerance] in any channel,
- * or when its size changed. `--update` copies the new captures over the baselines.
+ * A screenshot fails when more than [maxDiffPixels] pixels differ by more than [channelTolerance] in any channel,
+ * when its size changed, or when a captured scene has no baseline. `--update` copies the new captures over the baselines
+ * (and adds new scenes). The allowance is a pixel count, not a share: 1 % of a 256x224 screen is ~570 px, which hid a
+ * replaced tile or sprite (C7-8).
  * Usage: tools screenshots <actualDir> <baselineDir> [--update]
  */
 class ScreenshotCompare(private val actual: File, private val baseline: File, private val update: Boolean,
-                        private val maxDiffShare: Double = 0.01, private val channelTolerance: Int = 24) {
+                        private val maxDiffPixels: Int = 30, private val channelTolerance: Int = 8) {
     data class Result(val name: String, val status: String, val diffShare: Double)
 
     fun run(): Boolean {
@@ -22,7 +24,7 @@ class ScreenshotCompare(private val actual: File, private val baseline: File, pr
         for (r in results) println("  %-32s %-9s %6.2f%% pixels differ".format(r.name, r.status, r.diffShare * 100))
         val missingNow = baseline.listFiles { f -> f.extension == "png" }.orEmpty().map { it.name }.filter { n -> shots.none { it.name == n } }
         missingNow.forEach { println("  %-32s %-9s".format(it, "NOT-CAPTURED")) }
-        val failed = results.count { it.status == "CHANGED" || it.status == "SIZE" } + missingNow.size
+        val failed = results.count { it.status == "CHANGED" || it.status == "SIZE" || it.status == "NO-BASE" } + missingNow.size
         println("Screenshots: ${results.size} compared, $failed failing" + if (update) " (baselines updated)" else "")
         return update || failed == 0
     }
@@ -46,7 +48,7 @@ class ScreenshotCompare(private val actual: File, private val baseline: File, pr
             if (d > channelTolerance) diff++
         }
         val share = diff.toDouble() / (a.width.toLong() * a.height)
-        val changed = share > maxDiffShare
+        val changed = diff > maxDiffPixels
         if (changed && update) f.copyTo(base, overwrite = true)
         return Result(f.name, if (changed) "CHANGED" else "ok", share)
     }

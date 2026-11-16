@@ -61,6 +61,7 @@ Defects by code: stricter-than-optimistic 5
 | 2 | ppup (hidden) | route7:route7_pppup | 23,22 |
 | 2 | hardstone (hidden) | route8:route8_rockiumz_spare | 5,5 |
 | 3 | hpup (hidden) | ashfall_city:ashfall_city_p4b_ash_hidden | 24,25 |
+| 3 | rockterashard | crystal_cavern_1f:crystal_cavern_1f_cc_rockterashard | 24,4 |
 | 3 | ultraball | crystal_cavern_1f:crystal_cavern_1f_cc_ultraball | 9,10 |
 | 3 | rarecandy (hidden) | crystal_cavern_1f:crystal_cavern_1f_cc_hidden_rarecandy | 22,12 |
 | 3 | fairyterashard | crystal_cavern_b1:crystal_cavern_b1_ccb_fairyterashard | 6,2 |
@@ -136,6 +137,12 @@ Defects by code: stricter-than-optimistic 5
 | 3 | bigpearl (hidden) | p4b_steam_grotto:p4b_steam_grotto_p4b_steam_pearl | 2,19 |
 | 3 | domefossil (hidden) | p4b_strata_gulch:p4b_strata_gulch_p4b_gulch_dome | 3,26 |
 | 3 | softsand | p4b_strata_gulch:p4b_strata_gulch_p4b_gulch_soft | 2,27 |
+| 3 | iceterashard | p4c_geode_hollow:p4c_geode_hollow_gh_iceshard | 26,2 |
+| 3 | bignugget (hidden) | p4c_geode_hollow:p4c_geode_hollow_gh_hidden_nugget | 2,7 |
+| 3 | ghostterashard | p4c_geode_hollow:p4c_geode_hollow_gh_ghostshard | 2,13 |
+| 3 | abilitycapsule (hidden) | p4c_geode_hollow:p4c_geode_hollow_gh_hidden_capsule | 22,16 |
+| 3 | darkterashard | p4c_geode_hollow:p4c_geode_hollow_gh_darkshard | 6,18 |
+| 3 | fireterashard | p4c_geode_hollow:p4c_geode_hollow_gh_fireshard | 17,18 |
 | 3 | maxrepel | route10:route10_r10_maxrepel | 3,3 |
 | 3 | ppup (hidden) | route10:route10_p4c_r10_hidden_ppup | 30,5 |
 | 3 | revive (hidden) | route10:route10_r10_hidden_revive | 29,13 |
@@ -180,7 +187,6 @@ Defects by code: stricter-than-optimistic 5
 | 4 | bigpearl (hidden) | coral_route17:coral_route17_r17_hidden2 | 6,9 |
 | 4 | nevermeltice | coral_route17:coral_route17_r17_neverm | 21,17 |
 | 4 | ppmax | coral_town:coral_town_ct_ppmax | 3,19 |
-| 4 | rockterashard | crystal_cavern_1f:crystal_cavern_1f_cc_rockterashard | 24,4 |
 | 4 | bignugget (hidden) | dragonspire_city:dragonspire_city_ds_hidden1 | 34,5 |
 | 4 | pearlstring (hidden) | dragonspire_city:dragonspire_city_ds_hidden3 | 27,17 |
 | 4 | dragonscale (hidden) | dragonspire_city:dragonspire_city_ds_hidden2 | 1,22 |
@@ -228,13 +234,7 @@ Defects by code: stricter-than-optimistic 5
 | 4 | blackglasses | p4c_eclipse_workshop:p4c_eclipse_workshop_ew_blackglasses | 2,11 |
 | 4 | fullrestore | p4c_eclipse_workshop:p4c_eclipse_workshop_ew_fullrestore | 25,12 |
 | 4 | bignugget (hidden) | p4c_eclipse_workshop:p4c_eclipse_workshop_ew_hidden_nugget | 18,16 |
-| 4 | iceterashard | p4c_geode_hollow:p4c_geode_hollow_gh_iceshard | 26,2 |
-| 4 | bignugget (hidden) | p4c_geode_hollow:p4c_geode_hollow_gh_hidden_nugget | 2,7 |
 | 4 | dragonterashard | p4c_geode_hollow:p4c_geode_hollow_gh_dragonshard | 16,10 |
-| 4 | ghostterashard | p4c_geode_hollow:p4c_geode_hollow_gh_ghostshard | 2,13 |
-| 4 | abilitycapsule (hidden) | p4c_geode_hollow:p4c_geode_hollow_gh_hidden_capsule | 22,16 |
-| 4 | darkterashard | p4c_geode_hollow:p4c_geode_hollow_gh_darkshard | 6,18 |
-| 4 | fireterashard | p4c_geode_hollow:p4c_geode_hollow_gh_fireshard | 17,18 |
 | 4 | dynamaxcandy | p4c_rime_den:p4c_rime_den_rd_dynamaxcandy | 13,7 |
 | 4 | maxmushrooms | p4c_rime_den:p4c_rime_den_rd_maxmushrooms | 3,9 |
 | 4 | wishingpiece (hidden) | p4c_rime_den:p4c_rime_den_rd_hidden_wishing | 10,10 |
@@ -446,7 +446,7 @@ Defects by code: stricter-than-optimistic 5
 | coral_town | coral_town_ct_hidden3 | rarecandy x1 | 12,17 | yes | flowers | reachable | 0 | 0 |
 | coral_town | coral_town_ct_ppmax | ppmax x1 | 3,19 |  | sand | gated | 4 | 4 |
 | coral_town | coral_town_ct_hidden2 | bigpearl x1 | 24,21 | yes | sand | reachable | 0 | 0 |
-| crystal_cavern_1f | crystal_cavern_1f_cc_rockterashard | rockterashard x2 | 24,4 |  | cave_floor | gated | 4 | 4 |
+| crystal_cavern_1f | crystal_cavern_1f_cc_rockterashard | rockterashard x2 | 24,4 |  | cave_floor | gated | 3 | 3 |
 | crystal_cavern_1f | crystal_cavern_1f_cc_ultraball | ultraball x2 | 9,10 |  | cave_floor | gated | 3 | 3 |
 | crystal_cavern_1f | crystal_cavern_1f_cc_hidden_rarecandy | rarecandy x1 | 22,12 | yes | cave_floor | gated | 3 | 3 |
 | crystal_cavern_b1 | crystal_cavern_b1_ccb_fairyterashard | fairyterashard x2 | 6,2 |  | cave_floor | gated | 3 | 3 |
@@ -723,13 +723,13 @@ Defects by code: stricter-than-optimistic 5
 | p4c_frozen_falls_depths | p4c_frozen_falls_depths_ffd_choiceband | choiceband x1 | 17,15 |  | cave_floor | gated | 7 | 7 |
 | p4c_frozen_falls_depths | p4c_frozen_falls_depths_ffd_neverice | nevermeltice x1 | 8,16 |  | cave_floor | gated | 7 | 7 |
 | p4c_frozen_falls_depths | p4c_frozen_falls_depths_ffd_hidden_ppmax | ppmax x1 | 14,16 | yes | cave_floor | gated | 7 | 7 |
-| p4c_geode_hollow | p4c_geode_hollow_gh_iceshard | iceterashard x2 | 26,2 |  | cave_floor | gated | 4 | 4 |
-| p4c_geode_hollow | p4c_geode_hollow_gh_hidden_nugget | bignugget x1 | 2,7 | yes | cave_rock | gated | 4 | 4 |
+| p4c_geode_hollow | p4c_geode_hollow_gh_iceshard | iceterashard x2 | 26,2 |  | cave_floor | gated | 3 | 3 |
+| p4c_geode_hollow | p4c_geode_hollow_gh_hidden_nugget | bignugget x1 | 2,7 | yes | cave_rock | gated | 3 | 3 |
 | p4c_geode_hollow | p4c_geode_hollow_gh_dragonshard | dragonterashard x2 | 16,10 |  | cave_floor | gated | 4 | 4 |
-| p4c_geode_hollow | p4c_geode_hollow_gh_ghostshard | ghostterashard x2 | 2,13 |  | cave_floor | gated | 4 | 4 |
-| p4c_geode_hollow | p4c_geode_hollow_gh_hidden_capsule | abilitycapsule x1 | 22,16 | yes | cave_wall | gated | 4 | 4 |
-| p4c_geode_hollow | p4c_geode_hollow_gh_darkshard | darkterashard x2 | 6,18 |  | cave_floor | gated | 4 | 4 |
-| p4c_geode_hollow | p4c_geode_hollow_gh_fireshard | fireterashard x2 | 17,18 |  | cave_floor | gated | 4 | 4 |
+| p4c_geode_hollow | p4c_geode_hollow_gh_ghostshard | ghostterashard x2 | 2,13 |  | cave_floor | gated | 3 | 3 |
+| p4c_geode_hollow | p4c_geode_hollow_gh_hidden_capsule | abilitycapsule x1 | 22,16 | yes | cave_wall | gated | 3 | 3 |
+| p4c_geode_hollow | p4c_geode_hollow_gh_darkshard | darkterashard x2 | 6,18 |  | cave_floor | gated | 3 | 3 |
+| p4c_geode_hollow | p4c_geode_hollow_gh_fireshard | fireterashard x2 | 17,18 |  | cave_floor | gated | 3 | 3 |
 | p4c_rime_den | p4c_rime_den_rd_dynamaxcandy | dynamaxcandy x1 | 13,7 |  | cave_floor | gated | 4 | 4 |
 | p4c_rime_den | p4c_rime_den_rd_maxmushrooms | maxmushrooms x1 | 3,9 |  | cave_floor | gated | 4 | 4 |
 | p4c_rime_den | p4c_rime_den_rd_hidden_wishing | wishingpiece x1 | 10,10 | yes | cave_floor | gated | 4 | 4 |

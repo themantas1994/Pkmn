@@ -60,9 +60,9 @@
       "badges": 0,
       "fieldMoves": [],
       "blockedFieldMoves": [],
-      "maps": 110,
-      "tiles": 20727,
-      "obtainableSpecies": 550
+      "maps": 111,
+      "tiles": 20787,
+      "obtainableSpecies": 552
     },
     {
       "badges": 1,
@@ -70,9 +70,9 @@
         "CUT"
       ],
       "blockedFieldMoves": [],
-      "maps": 112,
-      "tiles": 21165,
-      "obtainableSpecies": 555
+      "maps": 113,
+      "tiles": 21227,
+      "obtainableSpecies": 557
     },
     {
       "badges": 2,
@@ -82,9 +82,9 @@
         "ROCK_SMASH"
       ],
       "blockedFieldMoves": [],
-      "maps": 113,
-      "tiles": 21641,
-      "obtainableSpecies": 556
+      "maps": 114,
+      "tiles": 21703,
+      "obtainableSpecies": 558
     },
     {
       "badges": 3,
@@ -95,9 +95,9 @@
         "STRENGTH"
       ],
       "blockedFieldMoves": [],
-      "maps": 150,
-      "tiles": 31436,
-      "obtainableSpecies": 640
+      "maps": 152,
+      "tiles": 31747,
+      "obtainableSpecies": 642
     },
     {
       "badges": 4,
@@ -109,8 +109,8 @@
         "SURF"
       ],
       "blockedFieldMoves": [],
-      "maps": 209,
-      "tiles": 51308,
+      "maps": 210,
+      "tiles": 51370,
       "obtainableSpecies": 733
     },
     {
@@ -124,8 +124,8 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 209,
-      "tiles": 51308,
+      "maps": 210,
+      "tiles": 51370,
       "obtainableSpecies": 733
     },
     {
@@ -139,8 +139,8 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 209,
-      "tiles": 51308,
+      "maps": 210,
+      "tiles": 51370,
       "obtainableSpecies": 733
     },
     {
@@ -155,8 +155,8 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 223,
-      "tiles": 54642,
+      "maps": 225,
+      "tiles": 54874,
       "obtainableSpecies": 735
     },
     {
@@ -171,8 +171,8 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 223,
-      "tiles": 54642,
+      "maps": 225,
+      "tiles": 54874,
       "obtainableSpecies": 735
     }
   ],

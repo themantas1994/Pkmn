@@ -4,6 +4,12 @@ on:
   push:
   pull_request:
 
+# Least privilege: no job writes to the repository, packages or checks.
+permissions:
+  contents: read
+
+# Actions are pinned by commit SHA (the comment names the tag); dependabot (.github/dependabot.yml) proposes updates.
+
 # JDK policy: every module compiles to Java 17 bytecode (sourceCompatibility/jvmTarget 17) and the Android Gradle Plugin
 # needs JDK 17+. So the full pipeline runs on JDK 17, the minimum we support (and what local development uses), and a
 # second job runs the tests on JDK 21 to prove the 17-target code is also fine on a newer runtime. See docs/BUILD.md.
@@ -12,20 +18,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
-      - uses: actions/setup-python@v5
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
         with:
           packages: "platforms;android-35 build-tools;35.0.0"
       - name: Regenerate art (pinned numpy/Pillow, deterministic)
         run: ./gradlew :tools:buildArt
+      # assets/data is generated from data-src/ by the importer; regenerating it here lets the assets check below catch a hand edit
+      # (or a model change) that disagrees with the importer (C7-11, C8-4).
+      - name: Regenerate assets/data from data-src (importer)
+        run: ./gradlew :tools:importData
       - name: Content gates
         run: ./gradlew :tools:compileMaps :tools:checkProgression :tools:validateContent :tools:buildAssetManifest
       - name: Generated content is committed (modified, deleted or untracked files under assets/)
@@ -36,6 +47,8 @@ jobs:
         run: ./gradlew :engine:test :core:test :tools:test
       - name: Move execution audit (needs the engine test results)
         run: ./gradlew :tools:auditMoves
+      - name: Generated reports are committed (modified or untracked files under reports/, host-specific ones excluded)
+        run: scripts/check-generated-assets.sh --reports
       - name: STATUS.md numbers match the build outputs
         run: ./gradlew :tools:checkStatus
       - name: Android lint
@@ -46,12 +59,12 @@ jobs:
         run: ./gradlew :android:assembleDebug :android:assembleRelease :android:bundleRelease -Ppkmn.release.allowDebugSigning=true
       - name: APK size budget (release <=12 MB, debug <=16 MB, AAB <=11 MB, assets/gfx <=5 MB)
         run: ./gradlew :tools:apkBudget -Pargs=--require
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: android
           path: |
             android/build/outputs/apk/debug/*.apk
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: reports
@@ -62,12 +75,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: temurin
           java-version: 21
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
       - run: ./gradlew :engine:test :core:test :tools:test
 
   visual:
@@ -75,15 +89,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: gradle/actions/wrapper-validation@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
         with:
           distribution: temurin
           java-version: 17
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
       - run: sudo apt-get update && sudo apt-get install -y xvfb libgl1-mesa-dri
       - run: tools/visual/run_scenes.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: visual-screenshots
