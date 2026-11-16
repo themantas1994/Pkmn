@@ -28,7 +28,7 @@ end
 
 trainer p3c_r14_ranger_kai
   class ranger
-  name "Kai"
+  name "Rowan"
   ai 1
   intro "This jungle is my beat. Let's see your stuff!"
   defeat "Okay, okay, you pass."

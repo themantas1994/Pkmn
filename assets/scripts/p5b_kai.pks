@@ -1,11 +1,11 @@
-# Side-quest chain B: "Kai's Notebook" (PKM-77, design PKM-51). One quest (p5b_kai_notebook), seven steps (0-6); the capstone ends with `quest done`.
+# Side-quest chain B: the rival's notebook (PKM-77, design PKM-51). One quest (p5b_kai_notebook), seven steps (0-6); the capstone ends with `quest done`.
 # Step 0 cache (Route 3), 1 judges (Port Tidewater), 2 terminals (Voltara lab), 3 rails (Quarrytown), 4 spar (Seraphine), 5 apology (Frostmere), 6 capstone (Victory Road).
 # Nothing here is on the critical path; rewards are items, TMs and lore. The spar and capstone are level-capped (see world/trainers/p5b.txt).
 
 # Shared hint for an NPC or spot whose step is not open.
 script p5b_not_yet
   if quest p5b_kai_notebook done
-    say "Nothing more here. Kai's notebook is finished."
+    say "Nothing more here. {rival}'s notebook is finished."
   elif quest p5b_kai_notebook started
     say "Nothing here yet. Your quest log lists the entries in order."
   else
@@ -16,11 +16,11 @@ end
 # ---------------------------------------------------------------- Entry 1: the page (Brindle City) and the cache (Route 3)
 script p5b_page
   if quest p5b_kai_notebook done or quest p5b_kai_notebook started
-    say "The bench is empty now. You already have {rival}'s page."
+    say "Only grass by the Gym sign now. You already have {rival}'s page."
   elif badge 1
-    say "A torn page from a notebook is wedged under the bench. The handwriting is {rival}'s.\p\"ENTRY 1. Hazel made me work for that Badge. Fine. I'm hiding my spare supplies on Route 3, far west, behind the first tree you need Cut for.\pIf you're reading this, you're following me. Good.\""
+    say "A torn page from a notebook is caught in the grass by the Gym sign. The handwriting is {rival}'s.\p\"ENTRY 1. Hazel made me work for that Badge. Fine. I'm hiding my spare supplies on Route 3, far west, behind the first tree you need Cut for.\pIf you're reading this, you're following me. Good.\""
     quest p5b_kai_notebook start
-    say "Your quest log now has Kai's Notebook."
+    say "\"Rival's Notebook\" is now in your quest log."
   else
     say "A scrap of notebook paper is pinned under a stone. The ink is smudged. Maybe it will make sense after the gym."
   end
@@ -243,7 +243,7 @@ script p5b_qt_foreman
   faceplayer
   if quest p5b_kai_notebook step == 3 and badges >= 4
     if flag p5b_rails_done
-      say "FOREMAN: The carts are back on schedule! A kid with a notebook told me you'd come. Here, a TM for your trouble.\pHe left a page for you.\p\"ENTRY 5. Seraphine Town. You said winning is about reading the field. Prove it in an honest spar, no tricks.\""
+      say "FOREMAN: The carts are back on schedule! A kid with a notebook told me you'd come. Here, a TM for your trouble.\pThey left a page for you.\p\"ENTRY 5. Seraphine Town. You said winning is about reading the field. Prove it in an honest spar, no tricks.\""
       tm rockslide
       quest p5b_kai_notebook next
     else
@@ -292,7 +292,7 @@ end
 script p5b_fm_kai
   faceplayer
   if quest p5b_kai_notebook step == 5 and badges >= 7
-    say "{rival}: I'm sorry. For the way I talked to you in Hollowbrook, for all of it. I was scared of losing to you.\pHere. My first Poké Ball, the one I caught my starter with. I want you to keep it."
+    say "{rival}: I'm sorry. For the way I talked to you in Hollowbrook, for all of it. I was scared of losing to you.\pHere. My first Poké Ball, the one I was given my starter in. I want you to keep it."
     giveitem luxuryball 1
     say "{rival}: One more page. \"CAPSTONE. Victory Road, the ladder on 2F in the east chamber. Come and finish it.\""
     setflag p5b_apology

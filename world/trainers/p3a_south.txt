@@ -148,7 +148,7 @@ end
 
 trainer p3a_r11_swim_kai
   class swimmer_m
-  name "Kai"
+  name "Nalu"
   intro "Out here, only the strong swimmers survive!"
   defeat "Sunk!"
   after "Wailord can swim across the ocean without stopping."
