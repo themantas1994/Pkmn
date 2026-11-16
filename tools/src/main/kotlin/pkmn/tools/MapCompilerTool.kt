@@ -23,7 +23,9 @@ import java.io.File
  *  world/shops.txt, world/tutors.txt, world/quests.txt, world/campaign.json
  *  world/scripts/NAME.pks     event scripts (copied after validation)
  */
-class MapCompilerTool(private val root: File) {
+class MapCompilerTool(private val root: File,
+                      /** Rewrite the placement baseline instead of checking it: `PKMN_UPDATE_PLACEMENT_BASELINE=1 ./gradlew :tools:compileMaps`. */
+                      private val updatePlacementBaseline: Boolean = System.getenv("PKMN_UPDATE_PLACEMENT_BASELINE") == "1") {
     private val world = File(root, "world")
     private val outMaps = File(root, "assets/maps")
     private val outWorld = File(root, "assets/world")
@@ -546,6 +548,7 @@ class MapCompilerTool(private val root: File) {
                 if (m.warps.any { w -> w.x == it.x && w.y == it.y }) errors.add("$where: item ${it.id} at ${it.x},${it.y} sits on a warp tile")
             }
         }
+        placementChecks(maps, scripts)
         // Scripts: referenced trainers, maps, shops, items, species.
         for (s in scripts.values) for (ins in s.code) if (ins is Instr.Cmd) {
             val a = ins.args
@@ -567,5 +570,17 @@ class MapCompilerTool(private val root: File) {
         val usedTrainers = maps.flatMap { m -> m.npcs.mapNotNull { it.trainer } } +
             scripts.values.flatMap { s -> s.code.filterIsInstance<Instr.Cmd>().filter { it.name == "battle" }.map { it.args[0] } }
         for (t in trainers) if (t.id !in usedTrainers) warnings.add("trainer '${t.id}' is never used")
+    }
+
+    /**
+     * [WorldPlacementChecks]: a violation not listed in the baseline is an error. The baseline (tools/world-placement-baseline.txt)
+     * holds today's known violations and only shrinks; a missing file means an empty baseline.
+     */
+    private fun placementChecks(maps: List<MapData>, scripts: Map<String, CompiledScript>) {
+        val violations = WorldPlacementChecks.check(maps, scripts)
+        val file = File(root, WorldPlacementChecks.BASELINE_PATH)
+        if (updatePlacementBaseline) { file.parentFile.mkdirs(); file.writeText(WorldPlacementChecks.render(violations)); println("Wrote ${violations.size} placement baseline entries to ${file.path}"); return }
+        val baseline = WorldPlacementChecks.loadBaseline(file)
+        for (v in violations) if (v.key !in baseline) errors.add("placement ${v.rule}: ${v.where} ${v.pos}: ${v.detail}")
     }
 }

@@ -231,15 +231,22 @@ class WorldAnalysis(root: File) : ReachWorld {
     }
 
     /** Whether a script reference can be activated from reachable tiles (adjacent to an NPC/sign, across a counter, or inside a trigger). */
-    override fun activatable(r: ScriptRef, reach: Reach): Boolean = when (r.kind) {
-        "enter" -> r.map in reach.maps
-        "trigger" -> (r.x until r.x + r.w).any { x -> (r.y until r.y + r.h).any { y -> Node(r.map, x, y) in reach.nodes } }
-        else -> listOf(0 to 1, 0 to -1, -1 to 0, 1 to 0).any { (dx, dy) ->
-            Node(r.map, r.x + dx, r.y + dy) in reach.nodes || Node(r.map, r.x + 2 * dx, r.y + 2 * dy) in reach.nodes
-        }
-    }
+    override fun activatable(r: ScriptRef, reach: Reach): Boolean = activatableFrom(r, reach, maps[r.map])
 
     companion object {
+        /** NPC or sign: a reachable tile next to it, or two tiles away with a counter tile in between (a clerk behind a counter), never through a wall. */
+        fun activatableFrom(r: ScriptRef, reach: Reach, map: MapData?): Boolean = when (r.kind) {
+            "enter" -> r.map in reach.maps
+            "trigger" -> (r.x until r.x + r.w).any { x -> (r.y until r.y + r.h).any { y -> Node(r.map, x, y) in reach.nodes } }
+            else -> listOf(0 to 1, 0 to -1, -1 to 0, 1 to 0).any { (dx, dy) ->
+                Node(r.map, r.x + dx, r.y + dy) in reach.nodes ||
+                    (Node(r.map, r.x + 2 * dx, r.y + 2 * dy) in reach.nodes && map != null && isCounter(map, r.x + dx, r.y + dy))
+            }
+        }
+
+        private fun isCounter(m: MapData, x: Int, y: Int) =
+            m.inBounds(x, y) && (listOf(m.tileAt(x, y)) + m.flagTiles.filter { it.x == x && it.y == y }.map { it.tile }).any { TileRules.behavior(it) == TileBehavior.COUNTER }
+
         /** Mirror of `GameContext.canUseFieldMove` (named-badge rule) for a player holding badges 1..[badges], the order the campaign awards them. */
         fun fieldMovesAt(badges: Int): Set<FieldMove> = FieldMove.entries.filter { badges >= it.badgeRequired }.toSet()
     }
