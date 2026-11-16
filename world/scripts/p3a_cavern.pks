@@ -30,59 +30,95 @@ script p3a_cc_tera_exchange
   if result yes
     choice "Which type?" "Fire" "Water" "Grass" "Electric" "Ice" "Fighting" "Poison" "Ground" "Flying" "Psychic" "Bug" "Rock" "Ghost" "Dragon" "Dark" "Steel" "Fairy" "Normal"
     if result 0 and item fireterashard >= 3
-      takeitem fireterashard 3
       special set_tera_type Fire
+      if result 1
+        takeitem fireterashard 3
+      end
     elif result 1 and item waterterashard >= 3
-      takeitem waterterashard 3
       special set_tera_type Water
+      if result 1
+        takeitem waterterashard 3
+      end
     elif result 2 and item grassterashard >= 3
-      takeitem grassterashard 3
       special set_tera_type Grass
+      if result 1
+        takeitem grassterashard 3
+      end
     elif result 3 and item electricterashard >= 3
-      takeitem electricterashard 3
       special set_tera_type Electric
+      if result 1
+        takeitem electricterashard 3
+      end
     elif result 4 and item iceterashard >= 3
-      takeitem iceterashard 3
       special set_tera_type Ice
+      if result 1
+        takeitem iceterashard 3
+      end
     elif result 5 and item fightingterashard >= 3
-      takeitem fightingterashard 3
       special set_tera_type Fighting
+      if result 1
+        takeitem fightingterashard 3
+      end
     elif result 6 and item poisonterashard >= 3
-      takeitem poisonterashard 3
       special set_tera_type Poison
+      if result 1
+        takeitem poisonterashard 3
+      end
     elif result 7 and item groundterashard >= 3
-      takeitem groundterashard 3
       special set_tera_type Ground
+      if result 1
+        takeitem groundterashard 3
+      end
     elif result 8 and item flyingterashard >= 3
-      takeitem flyingterashard 3
       special set_tera_type Flying
+      if result 1
+        takeitem flyingterashard 3
+      end
     elif result 9 and item psychicterashard >= 3
-      takeitem psychicterashard 3
       special set_tera_type Psychic
+      if result 1
+        takeitem psychicterashard 3
+      end
     elif result 10 and item bugterashard >= 3
-      takeitem bugterashard 3
       special set_tera_type Bug
+      if result 1
+        takeitem bugterashard 3
+      end
     elif result 11 and item rockterashard >= 3
-      takeitem rockterashard 3
       special set_tera_type Rock
+      if result 1
+        takeitem rockterashard 3
+      end
     elif result 12 and item ghostterashard >= 3
-      takeitem ghostterashard 3
       special set_tera_type Ghost
+      if result 1
+        takeitem ghostterashard 3
+      end
     elif result 13 and item dragonterashard >= 3
-      takeitem dragonterashard 3
       special set_tera_type Dragon
+      if result 1
+        takeitem dragonterashard 3
+      end
     elif result 14 and item darkterashard >= 3
-      takeitem darkterashard 3
       special set_tera_type Dark
+      if result 1
+        takeitem darkterashard 3
+      end
     elif result 15 and item steelterashard >= 3
-      takeitem steelterashard 3
       special set_tera_type Steel
+      if result 1
+        takeitem steelterashard 3
+      end
     elif result 16 and item fairyterashard >= 3
-      takeitem fairyterashard 3
       special set_tera_type Fairy
+      if result 1
+        takeitem fairyterashard 3
+      end
     elif result 17 and item normalterashard >= 3
-      takeitem normalterashard 3
       special set_tera_type Normal
+      if result 1
+        takeitem normalterashard 3
+      end
     else
       say "QUARTZ: Hmm, you don't have 3 shards of that type. They glitter in caves all over Tessera!"
     end
