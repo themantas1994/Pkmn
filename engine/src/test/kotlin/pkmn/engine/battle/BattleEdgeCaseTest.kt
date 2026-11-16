@@ -165,12 +165,15 @@ class BattleEdgeCaseTest {
     }
 
     @Test
-    fun `perish song faints both sides after three turns`() {
+    fun `perish song faints the faster holder first after three turns and that side loses`() {
         val b = battle(listOf(mon("lapras", moves = listOf("perishsong", "splash"))), listOf(mon("blissey", moves = listOf("splash"))))
         turn(b, Choice.UseMove(0), Choice.UseMove(0))
         repeat(3) { if (b.outcome == BattleOutcome.ONGOING) turn(b, Choice.UseMove(1), Choice.UseMove(0)) }
+        // Lapras is faster, so its count runs out first; the win is checked after each residual handler, so the battle
+        // ends there and Blissey's count never reaches zero.
         assertTrue(b.player.mons[0].fainted)
-        assertTrue(b.opponent.mons[0].fainted)
+        assertFalse(b.opponent.mons[0].fainted)
+        assertEquals(BattleOutcome.LOSE, b.outcome)
     }
 
     @Test

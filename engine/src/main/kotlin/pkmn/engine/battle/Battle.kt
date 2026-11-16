@@ -1273,6 +1273,8 @@ class Battle(
                 return true
             }
         }
+        // Showdown faints a self-destructing user (Explosion) before its hit lands, so it counts as fainting first.
+        val selfKoOrder = if (move.data.selfdestruct == "always") ++hpZeroClock else 0L
         val hit: Boolean = when {
             isFieldMove(move) -> runFieldMove(mc, script)
             targetsSelf(move) -> runSelfMove(mc, script)
@@ -1288,6 +1290,7 @@ class Battle(
         script?.onAfterUse(this, mc, hit)
         if (move.data.selfdestruct == "always" && !user.fainted && move.data2["damped"] != true) {
             directDamage(user, user.hp, user, move.id, silent = true)
+            if (user.fainted) hpZeroOrder[user] = selfKoOrder
         }
         // Dancer: an opposing holder copies a dance move right after it is used.
         if (move.hasFlag("dance") && calledBy == null && hit && !move.isZ && !move.isMax) {
@@ -1851,6 +1854,7 @@ class Battle(
         }
         amount = amount.coerceIn(0, target.hp)
         target.hp -= amount
+        if (amount > 0) markIfHpZero(target)
         if (amount > 0) breakIllusion(target)
         target.hurtThisTurn = true
         target.lastDamage = amount
@@ -1872,6 +1876,7 @@ class Battle(
         amt = amt.coerceIn(0, target.hp)
         if (amt == 0) return 0
         target.hp -= amt
+        markIfHpZero(target)
         target.koCredit = if (moveDamage && source !== target) source else null
         target.lastHpLossEffect = effectId
         hpEvent(target, -amt, effectId)
@@ -2234,6 +2239,8 @@ class Battle(
             if (c.holder != null && (c.holder.fainted || !c.holder.isActive)) continue
             c.effect.onResidual(c)
             checkFaints()
+            // Showdown checks the win after every residual handler; the rest are skipped once a side is out.
+            if (checkWin()) return
             runUpdate()
         }
         // Durations.
@@ -2276,6 +2283,15 @@ class Battle(
     // ================================================================= fainting / outcome
 
     private val faintProcessed = HashSet<BattleMon>()
+
+    /**
+     * When each Pokémon last reached 0 HP, as a running count (Showdown's faint queue order). When both sides run out
+     * together, the side of the Pokémon that fainted last wins (Gen 5+).
+     */
+    private var hpZeroClock = 0L
+    private val hpZeroOrder = HashMap<BattleMon, Long>()
+
+    private fun markIfHpZero(mon: BattleMon) { if (mon.fainted) hpZeroOrder[mon] = ++hpZeroClock }
 
     fun checkFaints() {
         for (m in sides.flatMap { it.actives }.filterNotNull()) {
@@ -2368,7 +2384,15 @@ class Battle(
         val pAlive = player.alive().isNotEmpty()
         val oAlive = opponent.alive().isNotEmpty()
         when {
-            !pAlive && !oAlive -> finish(BattleOutcome.DRAW)
+            // Both out at once: the side of the last Pokémon to faint wins. A draw only comes from a mutual forfeit.
+            !pAlive && !oAlive -> {
+                val last = hpZeroOrder.entries.filter { it.key.fainted }.maxByOrNull { it.value }?.key
+                finish(when {
+                    last == null -> BattleOutcome.DRAW
+                    last.side === player -> BattleOutcome.WIN
+                    else -> BattleOutcome.LOSE
+                })
+            }
             !oAlive -> finish(BattleOutcome.WIN)
             !pAlive -> finish(BattleOutcome.LOSE)
             else -> return false
