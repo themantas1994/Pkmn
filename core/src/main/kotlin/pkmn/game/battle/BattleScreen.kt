@@ -110,7 +110,6 @@ class BattleScreen(
     private var fromGimmickMenu = false
 
     // Effects
-    private var pendingSE = 1.0
     private var fx: MoveFx? = null
     private var ball: BallSprite? = null
     private var flashScreen = 0f
@@ -295,7 +294,7 @@ class BattleScreen(
             is BattleEvent.MoveUsed -> show(e.text)
             is BattleEvent.MoveEffect -> presentMoveEffect(e)
             is BattleEvent.HpChange -> presentHp(e)
-            is BattleEvent.Effectiveness -> pendingSE = e.multiplier
+            is BattleEvent.Effectiveness -> {}
             is BattleEvent.Faint -> {
                 val v = views[e.side]
                 steps.add(Step.WaitText)
@@ -308,7 +307,8 @@ class BattleScreen(
                     v.visible = false; v.hud = false; v.drop = 0f; v.offX = 0f; v.alpha = 1f
                 }))
                 // Gold/Silver/Crystal: the wild victory theme starts as soon as the wild Pokémon faints.
-                if (e.side == foe && foeSide.isWild) doNow { game.audio.playMusic("victory_wild", 0) }
+                // Not after a double KO that also ends the player's side: the blackout comes next.
+                if (e.side == foe && foeSide.isWild) doNow { if (me.alive().isNotEmpty()) game.audio.playMusic("victory_wild", 0) }
                 // Party indicators update the moment the faint is shown.
                 doNow { balls[e.side].let { if (e.teamIndex in it.indices) it[e.teamIndex] = 2 } }
                 say(e.text)
@@ -453,10 +453,9 @@ class BattleScreen(
         }
         // A revived Pokémon (Revival Blessing) is usable again.
         if (e.delta > 0 && e.hp == e.delta) doNow { balls[e.side].let { if (e.teamIndex in it.indices) it[e.teamIndex] = 0 } }
-        val se = pendingSE
-        pendingSE = 1.0
         val isAttack = e.delta < 0 && e.cause == "move"
         if (isAttack) {
+            val se = HitFx.effectivenessAfter(battle.events, flow.cursor)
             doNow { game.audio.playSfx(when { se > 1 -> "hit_super_effective"; se < 1 -> "hit_not_very_effective"; else -> "hit_normal" }) }
             val crit = HitFx.critFollows(battle.events, flow.cursor)
             val strength = HitFx.flashStrength(kotlin.math.abs(e.delta).toFloat() / maxOf(1, e.maxHp), crit)
@@ -498,7 +497,7 @@ class BattleScreen(
                 onUpdate = { t -> ball?.wobble = kotlin.math.sin(t * 2 * Math.PI).toFloat() * 3f }, onEnd = { ball?.wobble = 0f }))
         }
         if (e.caught) {
-            play(Clip("catch_click", clipTime("catch_result", 0.45f), essential = true, onStart = { game.audio.playSfx("catch_success") }, onUpdate = { t -> ball?.stars = t }, onEnd = {
+            play(Clip("catch_click", clipTime("catch_result", 0.45f), essential = true, onStart = { game.audio.playSfx("caught") }, onUpdate = { t -> ball?.stars = t }, onEnd = {
                 ball?.stars = 0f; v.visible = false; v.hud = false; balls[foe].fill(0)
             }))
         } else {

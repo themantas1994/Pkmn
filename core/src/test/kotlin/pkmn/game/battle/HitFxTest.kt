@@ -30,4 +30,20 @@ class HitFxTest {
         assertTrue(HitFx.flashStrength(0.5f, false) > HitFx.flashStrength(0.05f, false))
         assertTrue(HitFx.flashStrength(1f, false) <= 0.9f)
     }
+
+    @Test
+    fun `effectiveness is read from the events after this hit, not the previous one`() {
+        val eff = BattleEvent.Effectiveness(2.0)
+        assertEquals(2.0, HitFx.effectivenessAfter(listOf(eff, BattleEvent.Message("A critical hit!")), 0))
+        assertEquals(0.5, HitFx.effectivenessAfter(listOf(BattleEvent.Message("A critical hit!"), BattleEvent.Effectiveness(0.5)), 0))
+    }
+
+    @Test
+    fun `effectiveness look-ahead stops at the next hit or move`() {
+        val next = listOf(BattleEvent.Effectiveness(2.0), hp, BattleEvent.Effectiveness(0.5))
+        assertEquals(2.0, HitFx.effectivenessAfter(next, 0))
+        assertEquals(1.0, HitFx.effectivenessAfter(listOf(hp, BattleEvent.Effectiveness(0.5)), 0))
+        assertEquals(1.0, HitFx.effectivenessAfter(listOf(BattleEvent.TurnStart(2), BattleEvent.Effectiveness(2.0)), 0))
+        assertEquals(1.0, HitFx.effectivenessAfter(emptyList(), 0))
+    }
 }

@@ -101,6 +101,30 @@ class AudioEngineTest {
         assertTrue(peak(e, 40) > 500, "music resumes after the jingle")
     }
 
+    @Test
+    fun jingleDuringAFadeCompletesTheQueuedMusicChange() {
+        val e = engine()
+        e.playMusic("a", 0)
+        peak(e, 5)
+        e.playMusic("b", 300) // fade-out starts, "b" is queued
+        peak(e, 2)
+        e.playJingle("jingle")
+        peak(e, 80) // jingle plays and ends, music fades back in
+        assertEquals("b", e.playingMusicId, "the queued track starts instead of the old one fading back in")
+    }
+
+    @Test
+    fun jingleDuringAStopFadeCompletesTheStop() {
+        val e = engine()
+        e.playMusic("a", 0)
+        peak(e, 5)
+        e.stopMusic(300)
+        peak(e, 2)
+        e.playJingle("jingle")
+        peak(e, 80)
+        assertEquals(null, e.playingMusicId, "the queued stop is applied instead of the old track resuming")
+    }
+
     /** Polls [cond] until it holds or [timeoutMs] passes; condition-based so slow machines only take longer, never fail spuriously. */
     private fun await(timeoutMs: Long = 10_000, cond: () -> Boolean): Boolean {
         val end = System.nanoTime() + timeoutMs * 1_000_000
