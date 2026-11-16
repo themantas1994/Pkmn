@@ -191,7 +191,7 @@ class LobbySession(
         if (connected) bad("a second hello")
         when {
             m.protocol != LinkProtocol.VERSION -> return fail("The other game speaks a different link version.", tell = true)
-            m.gameVersion != gameVersion -> return fail("The other game is version ${m.gameVersion.take(16)}, yours is $gameVersion.", tell = true)
+            m.gameVersion != gameVersion -> return fail("The other game is a different build. Update both.", tell = true)
             m.dataHash != dataHash -> return fail("The other game has different content.", tell = true)
             m.name.isBlank() || m.name.length > LinkProtocol.MAX_NAME || m.name.any { it.isISOControl() } -> bad("name")
             m.partySize !in 1..6 -> return fail("${m.name} has no Pokémon that can battle.", tell = true)

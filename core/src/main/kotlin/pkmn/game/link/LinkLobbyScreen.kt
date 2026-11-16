@@ -25,8 +25,23 @@ import pkmn.game.screens.Screen
 import java.io.Closeable
 import java.util.concurrent.CompletableFuture
 
-/** The build identity both devices must share. Keep in step with the Gradle `version` (a different build refuses to battle). */
-object LinkBuild { const val GAME_VERSION = "0.1.0" }
+/**
+ * The build identity both devices must share: the Gradle `version` (keep in step) plus the engine-rules id, so two builds
+ * with the same version but different battle behaviour refuse to link instead of desyncing mid-battle.
+ */
+object LinkBuild { val GAME_VERSION: String = "0.1.0+r${LinkFingerprint.rulesId}" }
+
+/** The local content hash, computed off the game thread: asked every frame, never waited for, and a failure is a state, not a throw. */
+class LocalHash(private val future: CompletableFuture<String>) {
+    enum class State { PENDING, READY, FAILED }
+    var value: String? = null; private set
+    fun poll(): State {
+        if (value != null) return State.READY
+        if (!future.isDone) return State.PENDING
+        value = try { future.get() } catch (e: Exception) { return State.FAILED }
+        return State.READY
+    }
+}
 
 /**
  * What the desktop automation (`link host`, `link join`) asks of the lobby: skip the menus and start with default rules.
@@ -46,7 +61,7 @@ class AutoLink(val host: Boolean, val endpoint: LinkEndpoint? = null, val port: 
  * copies of the party); a trade saves through its journal ([LinkTradeScreen]). Closing this screen at any point closes the connection.
  */
 class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val auto: AutoLink? = null, private val onClose: (() -> Unit)? = null) : Screen(game), LinkAware, LinkDebug {
-    private enum class Stage { MENU, UNFINISHED, BROWSING, HOSTING, CONNECTING, LOBBY, STARTING, BATTLE, DONE }
+    private enum class Stage { MENU, UNFINISHED, BROWSING, HOSTING, CONNECTING, CHECKING, LOBBY, STARTING, BATTLE, DONE }
 
     override val blocksAutosave get() = true
     private val dex = ctx.dex
@@ -76,7 +91,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
     private var autoPickFrames = 0
     private var autoDone = false
     /** The content hash costs a full serialization: computed once, off the game thread, while the player chooses. */
-    private val dataHash: CompletableFuture<String> = CompletableFuture.supplyAsync { LinkFingerprint.dataHash(dex) }
+    private val dataHash = LocalHash(CompletableFuture.supplyAsync { LinkFingerprint.dataHash(dex) })
     /** UNFINISHED TRADE (the manual way out of an open trade journal) is listed only while one is open. */
     private val menuItems get() = listOfNotNull("HOST A GAME", "FIND A HOST", "JOIN WITH A CODE", "JOIN BY ADDRESS", UNFINISHED.takeIf { ctx.state.pendingTrade != null }, "CANCEL")
 
@@ -122,8 +137,21 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         if (stage != Stage.HOSTING && stage != Stage.CONNECTING) { t.close(); return }
         stopDiscovery()
         transport = t
-        session = LobbySession(role, t, ctx.state.playerName, LinkBuild.GAME_VERSION, dataHash.get(), ctx.unlockedGimmicks(), ctx.state.party.size.coerceAtMost(6))
-        stage = Stage.LOBBY; cursor = 0
+        stage = Stage.CHECKING; cursor = 0
+        checkLocalHash()
+    }
+
+    /** Opens the lobby once the content hash is ready; until then the screen says so (a fast peer must not freeze the frame). */
+    private fun checkLocalHash() {
+        val t = transport ?: return
+        when (dataHash.poll()) {
+            LocalHash.State.PENDING -> {}
+            LocalHash.State.FAILED -> finishWith("Could not check this game's content. Try again.")
+            LocalHash.State.READY -> {
+                session = LobbySession(role, t, ctx.state.playerName, LinkBuild.GAME_VERSION, dataHash.value!!, ctx.unlockedGimmicks(), ctx.state.party.size.coerceAtMost(6))
+                stage = Stage.LOBBY; cursor = 0
+            }
+        }
     }
 
     private fun askCode(manual: Boolean) {
@@ -145,6 +173,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
             Stage.BROWSING -> updateBrowsing(input)
             Stage.HOSTING -> if (input.justPressed(Button.B)) cancelConnect() else if (input.justPressed(Button.A)) { hostTrade = !hostTrade; game.audio.playSfx("menu_select") }
             Stage.CONNECTING -> if (input.justPressed(Button.B)) cancelConnect()
+            Stage.CHECKING -> if (input.justPressed(Button.B)) { transport?.close(); transport = null; stage = Stage.MENU; notice = null } else checkLocalHash()
             Stage.LOBBY -> updateLobby(input)
             Stage.STARTING -> if (input.justPressed(Button.B) && !(battle?.awaitingLocalPick == true && picks.isNotEmpty())) battle?.let { it.abort("left before the battle"); endBattle(it) } else updateStarting(input)
             Stage.BATTLE -> {}
@@ -290,7 +319,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
         val st = s.start ?: return
         try {
             val team = LinkLobbyRules.team(dex, ctx.state.party, st.flat)
-            battle = LockstepBattle(role, transport!!, dex, LinkConfig(LinkBuild.GAME_VERSION, st.rules, dataHash = dataHash.get()), team, ctx.state.playerName)
+            battle = LockstepBattle(role, transport!!, dex, LinkConfig(LinkBuild.GAME_VERSION, st.rules, dataHash = dataHash.value), team, ctx.state.playerName)
             stage = Stage.STARTING
             cursor = 0; picks.clear(); notice = null
         } catch (e: IllegalArgumentException) {
@@ -416,6 +445,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
             Stage.MENU, Stage.DONE -> pop()
             Stage.UNFINISHED -> { stage = Stage.MENU; cursor = 0 }
             Stage.HOSTING, Stage.CONNECTING -> cancelConnect()
+            Stage.CHECKING -> { transport?.close(); transport = null; stage = Stage.MENU; notice = null }
             Stage.BROWSING -> { stopDiscovery(); stage = Stage.MENU; cursor = 1 }
             Stage.LOBBY -> { session?.leave(); finishWith("You left the lobby.") }
             else -> {}
@@ -465,6 +495,7 @@ class LinkLobbyScreen(game: PkmnGame, private val ctx: GameContext, private val 
                 r.text("A: CHANGE MODE  B: CANCEL", 16, 200, small = true)
             }
             Stage.CONNECTING -> { r.text("Connecting...", 16, 40); r.text("B: CANCEL", 16, 200, small = true) }
+            Stage.CHECKING -> { r.text("Checking the other game...", 16, 40); r.text("B: CANCEL", 16, 200, small = true) }
             Stage.LOBBY -> drawLobby(r)
             Stage.STARTING -> battle?.takeIf { it.pickCount > 0 && it.battle == null && it.remoteTeam != null }?.let { drawPick(r, it); return } ?: r.text("Starting the battle...", 16, 40)
             Stage.BATTLE -> {}
@@ -567,7 +598,7 @@ class LinkResultScreen(game: PkmnGame, private val lb: LockstepBattle, private v
         VoidReason.LINK_LOST -> "The link was lost."
         VoidReason.TIMEOUT -> "No answer for too long."
         VoidReason.REMOTE_ABORT -> "The other player left."
-        VoidReason.GAME_VERSION, VoidReason.PROTOCOL_VERSION -> "Different game versions."
+        VoidReason.GAME_VERSION, VoidReason.PROTOCOL_VERSION -> "The other game is a different build. Update both."
         VoidReason.DATA_MISMATCH -> "Different game content."
         VoidReason.HASH_MISMATCH -> "The games disagreed."
         else -> "The link failed (${v.name.lowercase().replace('_', ' ')})."

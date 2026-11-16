@@ -39,7 +39,7 @@ class LobbySessionTest {
     @Test
     fun `different versions, content or an empty party end the lobby with a message`() {
         for ((mk, text) in listOf(
-            pair(guestVersion = "2") to "version", pair(guestHash = "x") to "content", pair(guestParty = 0) to "no Pokémon")) {
+            pair(guestVersion = "2") to "different build", pair(guestHash = "x") to "content", pair(guestParty = 0) to "no Pokémon")) {
             val (h, g) = mk.first to mk.second
             run(h, g)
             assertNotNull(h.error, text); assertNotNull(g.error)
