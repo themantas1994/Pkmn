@@ -18,6 +18,8 @@ interface ReachWorld {
     val start: WorldAnalysis.Node
     val scriptRefs: List<WorldAnalysis.ScriptRef>
     fun commands(scriptId: String): List<Instr.Cmd>
+    /** The compiled instructions (with branches) of a script; fixtures that only list commands get them as straight-line code. */
+    fun code(scriptId: String): List<Instr> = commands(scriptId)
     fun activatable(r: WorldAnalysis.ScriptRef, reach: WorldAnalysis.Reach): Boolean
     fun connectionTarget(m: MapData, nx: Int, ny: Int, dx: Int, dy: Int): WorldAnalysis.Node?
 }
@@ -30,7 +32,7 @@ interface ReachWorld {
  * Field moves, ledges, water, warps, seamless connections and script warps are modelled exactly. So "unreachable"
  * findings are real; "reachable" means reachable once the story flags along the way are set.
  */
-class WorldAnalysis(root: File) : ReachWorld {
+class WorldAnalysis(root: File) : ProgressWorld {
     val content = WorldContent(DirectoryContentSource(File(root, "assets")))
     val dex: Dex = Dex.load(DirectoryContentSource(File(root, "assets")))
     override val maps: Map<String, MapData> = content.index.maps.associateWith { content.map(it) }
@@ -49,6 +51,8 @@ class WorldAnalysis(root: File) : ReachWorld {
             m.onEnter?.let { add(ScriptRef(m.id, it, "enter", -1, -1)) }
         }
     }
+
+    override fun code(scriptId: String): List<Instr> = content.scripts[scriptId]?.code.orEmpty()
 
     private val cmdCache = HashMap<String, List<Instr.Cmd>>()
 
@@ -72,11 +76,11 @@ class WorldAnalysis(root: File) : ReachWorld {
         scriptRefs.filter { it.map == mapId && (kinds == null || it.kind in kinds) }.flatMap { r -> commands(r.script).map { r to it } }
 
     /** Script reference that awards each badge number. */
-    val badgeRefs: Map<Int, ScriptRef> = buildMap {
+    override val badgeRefs: Map<Int, ScriptRef> = buildMap {
         for (r in scriptRefs) for (c in commands(r.script)) if (c.name == "badge") c.args[0].toIntOrNull()?.let { putIfAbsent(it, r) }
     }
 
-    val hallOfFameRef: ScriptRef? = scriptRefs.firstOrNull { r -> commands(r.script).any { it.name == "halloffame" } }
+    override val hallOfFameRef: ScriptRef? = scriptRefs.firstOrNull { r -> commands(r.script).any { it.name == "halloffame" } }
 
     /**
      * Trainers fought by scripts on a map. Starter-dependent variants (several `battle` commands in one script sharing

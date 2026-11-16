@@ -4,7 +4,7 @@
   "warningCount": 0,
   "errorsByCode": {},
   "warningsByCode": {},
-  "model": "optimistic static reachability; script gates assumed passable once their flags are set",
+  "model": "strict static reachability: ice slides, solid guard NPCs, flag tiles, script conditions on badges and flags, turn-back triggers closed until their script lets the player through",
   "gyms": [
     {
       "badge": 1,
@@ -22,25 +22,25 @@
       "badge": 3,
       "map": "voltara_gym",
       "script": "p2_volta",
-      "firstReachableWithBadges": 0
+      "firstReachableWithBadges": 2
     },
     {
       "badge": 4,
       "map": "quarrytown_gym",
       "script": "p2_garnet",
-      "firstReachableWithBadges": 0
+      "firstReachableWithBadges": 3
     },
     {
       "badge": 5,
       "map": "seraphine_gym",
       "script": "p2_elowen",
-      "firstReachableWithBadges": 3
+      "firstReachableWithBadges": 4
     },
     {
       "badge": 6,
       "map": "ashfall_gym",
       "script": "p3a_ash_blaise",
-      "firstReachableWithBadges": 3
+      "firstReachableWithBadges": 4
     },
     {
       "badge": 7,
@@ -52,7 +52,7 @@
       "badge": 8,
       "map": "dragonspire_gym_2f",
       "script": "p3b_ryuga",
-      "firstReachableWithBadges": 4
+      "firstReachableWithBadges": 7
     }
   ],
   "stages": [
@@ -60,9 +60,10 @@
       "badges": 0,
       "fieldMoves": [],
       "blockedFieldMoves": [],
-      "maps": 111,
-      "tiles": 20787,
-      "obtainableSpecies": 552
+      "maps": 52,
+      "tiles": 8674,
+      "closedGates": 9,
+      "obtainableSpecies": 335
     },
     {
       "badges": 1,
@@ -70,9 +71,10 @@
         "CUT"
       ],
       "blockedFieldMoves": [],
-      "maps": 113,
-      "tiles": 21227,
-      "obtainableSpecies": 557
+      "maps": 54,
+      "tiles": 9097,
+      "closedGates": 9,
+      "obtainableSpecies": 342
     },
     {
       "badges": 2,
@@ -82,9 +84,10 @@
         "ROCK_SMASH"
       ],
       "blockedFieldMoves": [],
-      "maps": 114,
-      "tiles": 21703,
-      "obtainableSpecies": 558
+      "maps": 81,
+      "tiles": 14297,
+      "closedGates": 8,
+      "obtainableSpecies": 427
     },
     {
       "badges": 3,
@@ -95,9 +98,10 @@
         "STRENGTH"
       ],
       "blockedFieldMoves": [],
-      "maps": 152,
-      "tiles": 31747,
-      "obtainableSpecies": 642
+      "maps": 101,
+      "tiles": 19707,
+      "closedGates": 7,
+      "obtainableSpecies": 511
     },
     {
       "badges": 4,
@@ -109,9 +113,10 @@
         "SURF"
       ],
       "blockedFieldMoves": [],
-      "maps": 210,
-      "tiles": 51370,
-      "obtainableSpecies": 733
+      "maps": 165,
+      "tiles": 37507,
+      "closedGates": 6,
+      "obtainableSpecies": 668
     },
     {
       "badges": 5,
@@ -124,9 +129,10 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 210,
-      "tiles": 51370,
-      "obtainableSpecies": 733
+      "maps": 165,
+      "tiles": 37507,
+      "closedGates": 6,
+      "obtainableSpecies": 668
     },
     {
       "badges": 6,
@@ -139,9 +145,10 @@
         "FLY"
       ],
       "blockedFieldMoves": [],
-      "maps": 210,
-      "tiles": 51370,
-      "obtainableSpecies": 733
+      "maps": 165,
+      "tiles": 37507,
+      "closedGates": 6,
+      "obtainableSpecies": 668
     },
     {
       "badges": 7,
@@ -155,9 +162,10 @@
         "WATERFALL"
       ],
       "blockedFieldMoves": [],
-      "maps": 225,
-      "tiles": 54874,
-      "obtainableSpecies": 735
+      "maps": 180,
+      "tiles": 41628,
+      "closedGates": 3,
+      "obtainableSpecies": 686
     },
     {
       "badges": 8,
@@ -172,7 +180,8 @@
       ],
       "blockedFieldMoves": [],
       "maps": 225,
-      "tiles": 54874,
+      "tiles": 53450,
+      "closedGates": 0,
       "obtainableSpecies": 735
     }
   ],

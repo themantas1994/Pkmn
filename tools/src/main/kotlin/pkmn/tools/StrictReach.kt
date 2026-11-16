@@ -1,6 +1,8 @@
 package pkmn.tools
 
+import pkmn.engine.world.Cond
 import pkmn.engine.world.FieldMove
+import pkmn.engine.world.Instr
 import pkmn.engine.world.MapData
 import pkmn.engine.world.TileBehavior
 import pkmn.engine.world.TileRules
@@ -28,19 +30,54 @@ import pkmn.engine.world.Warp
  *
  * Script `warp` commands (ferries, cutscenes) count only when the script is one the player can trigger from reachable tiles.
  *
- * Not modelled (kept optimistic, like [WorldAnalysis]): conditions inside scripts, step-trigger scripts that turn the player
- * back, Fly, items blocking (a visible item can always be picked up from where the player stands, which removes it).
+ * With `badges` given (the progression checker), two more rules apply:
+ *
+ * * **Script conditions** are evaluated per stage ([ScriptPaths]): `badges`/`badge` exactly, `flag` against the flags set so far,
+ *   everything else as "maybe". Only commands on paths that can run count (a `setflag` or `hide` behind `if badges >= 5` does
+ *   nothing at 2 badges).
+ * * **Gate triggers** (a trigger whose script can `move player`) keep their tiles closed until some path of the script ends
+ *   without turning the player back, or until their `unless` flag is set (or their `if` flag is unset).
+ *
+ * Not modelled (kept optimistic, like [WorldAnalysis]): Fly, items blocking (a visible item can always be picked up from where
+ * the player stands, which removes it). Without `badges`, conditions and turn-back triggers stay optimistic too (ItemAudit).
  */
 class StrictReach(private val w: ReachWorld) {
     data class P(val map: String, val x: Int, val y: Int, val surf: Boolean)
 
-    class Result(val stand: Set<P>, val flags: Set<String>) {
+    /** [edges] (step outcomes between standing tiles) and [scriptWarps] (source map to landing spot of a reachable `warp` script) are only filled by the final pass. */
+    class Result(val stand: Set<P>, val flags: Set<String>, private val edges: Map<WorldAnalysis.Node, List<WorldAnalysis.Node>> = emptyMap(),
+                 private val scriptWarps: Set<Pair<String, WorldAnalysis.Node>> = emptySet(), val closedGates: Set<String> = emptySet()) {
         private val tiles: Set<WorldAnalysis.Node> by lazy { stand.mapTo(HashSet()) { WorldAnalysis.Node(it.map, it.x, it.y) } }
         val nodes: Set<WorldAnalysis.Node> get() = tiles
         fun canStand(map: String, x: Int, y: Int) = WorldAnalysis.Node(map, x, y) in tiles
         val maps: Set<String> by lazy { tiles.mapTo(HashSet()) { it.map } }
         fun asReach() = WorldAnalysis.Reach(tiles, emptyMap(), emptyMap(), emptyMap())
+
+        /** Reach with walking edges and script-warp edges (a script warp is usable from anywhere on its map, like [WorldAnalysis.reach]). */
+        fun fullReach(): WorldAnalysis.Reach {
+            val all = HashMap<WorldAnalysis.Node, List<WorldAnalysis.Node>>(edges)
+            val mapEdges = HashMap<String, MutableSet<String>>()
+            val walkEdges = HashMap<String, MutableSet<String>>()
+            for ((n, tos) in edges) for (t in tos) if (t.map != n.map) { walkEdges.getOrPut(n.map) { HashSet() }.add(t.map); mapEdges.getOrPut(n.map) { HashSet() }.add(t.map) }
+            for ((map, target) in scriptWarps) {
+                for (n in tiles) if (n.map == map) all[n] = all[n].orEmpty() + target
+                if (target.map != map) mapEdges.getOrPut(map) { HashSet() }.add(target.map)
+            }
+            return WorldAnalysis.Reach(tiles, all, mapEdges, walkEdges)
+        }
     }
+
+    /** A trigger whose script can turn the player back: its tiles stay closed until a path of the script lets the player through. */
+    class Gate(val id: String, val map: String, val tiles: List<Pair<Int, Int>>, val script: String, val unlessFlag: String?, val ifFlag: String?)
+
+    /** Every turn-back trigger in the world. */
+    val gates: List<Gate> = w.maps.values.flatMap { m ->
+        m.triggers.filter { t -> w.commands(t.script).any { it.name == "move" && it.args.firstOrNull() == "player" } }.map { t ->
+            Gate("${m.id}:${t.x},${t.y}:${t.script}", m.id, (t.x until t.x + t.w).flatMap { x -> (t.y until t.y + t.h).map { y -> x to y } }, t.script, t.unlessFlag, t.ifFlag)
+        }
+    }
+
+    private val paths = ScriptPaths(w)
 
     private val maps = w.maps
     private val dirs = listOf(0 to 1, 0 to -1, -1 to 0, 1 to 0)
@@ -76,28 +113,51 @@ class StrictReach(private val w: ReachWorld) {
         Prepared(m, firm, soft)
     }
 
-    /** Computes the standing positions reachable with [moves]; see the class comment for [npcsGone]. */
-    fun reach(moves: Set<FieldMove>, npcsGone: Boolean): Result {
+    /**
+     * Computes the standing positions reachable with [moves]; see the class comment for [npcsGone]. [badges] switches on script
+     * conditions and turn-back triggers; [openGates] are gate ids treated as passable (the gate-seal check).
+     */
+    fun reach(moves: Set<FieldMove>, npcsGone: Boolean, badges: Int? = null, openGates: Set<String> = emptySet()): Result {
         val flags = HashSet<String>()
         val gone = HashSet<String>()   // "map:npc" removed by a reachable script
         val extra = HashSet<P>()       // landing spots of `warp` commands in scripts the player can trigger (ferries, cutscenes)
+        val warpFrom = HashSet<Pair<String, WorldAnalysis.Node>>()
         while (true) {
-            val stand = bfs(moves, npcsGone, flags, gone, extra)
+            val closed = closedGates(badges, flags, openGates)
+            val stand = bfs(moves, npcsGone, flags, gone, extra, closed, null)
             val reach = Result(stand, flags).asReach()
-            val before = flags.size + gone.size + extra.size
+            val before = flags.size + gone.size + extra.size + warpFrom.size
             for (r in w.scriptRefs) if (r.map in reach.maps && w.activatable(r, reach))
-                for (c in w.commands(r.script)) when (c.name) {
+                for (c in (if (badges == null) w.commands(r.script) else paths.explore(r.script, badges, flags).commands)) when (c.name) {
                     "setflag" -> flags.add(c.args[0])
                     // Commands that set a flag implicitly (ScriptVM / GameContext.recordHallOfFame).
                     "halloffame" -> flags.add("hall_of_fame")
                     "pokedex" -> flags.add("has_pokedex")
                     "unlock" -> flags.add("unlock_${c.args[0]}")
                     "hide", "move" -> gone.add("${r.map}:${c.args[0]}")
-                    "warp" -> if (c.args.size >= 3 && c.args[0] in maps) extra.add(P(c.args[0], c.args[1].toIntOrNull() ?: 0, c.args[2].toIntOrNull() ?: 0, false))
+                    "warp" -> if (c.args.size >= 3 && c.args[0] in maps) {
+                        val t = P(c.args[0], c.args[1].toIntOrNull() ?: 0, c.args[2].toIntOrNull() ?: 0, false)
+                        extra.add(t); warpFrom.add(r.map to WorldAnalysis.Node(t.map, t.x, t.y))
+                    }
                 }
-            if (flags.size + gone.size + extra.size == before) return Result(stand, HashSet(flags))
+            if (flags.size + gone.size + extra.size + warpFrom.size == before) {
+                val edges = HashMap<WorldAnalysis.Node, MutableList<WorldAnalysis.Node>>()
+                val finalStand = bfs(moves, npcsGone, flags, gone, extra, closed, edges)
+                return Result(finalStand, HashSet(flags), edges, warpFrom, closedIds(badges, flags, openGates))
+            }
         }
     }
+
+    private fun gateOpen(g: Gate, badges: Int?, flags: Set<String>, openGates: Set<String>): Boolean =
+        badges == null || g.id in openGates || (g.unlessFlag != null && g.unlessFlag in flags) || (g.ifFlag != null && g.ifFlag !in flags) ||
+            paths.explore(g.script, badges, flags).cleanEnd
+
+    private fun closedIds(badges: Int?, flags: Set<String>, openGates: Set<String>): Set<String> =
+        gates.filter { !gateOpen(it, badges, flags, openGates) }.mapTo(HashSet()) { it.id }
+
+    /** Tile keys per map that a closed gate trigger blocks. */
+    private fun closedGates(badges: Int?, flags: Set<String>, openGates: Set<String>): Map<String, Set<Int>> =
+        gates.filter { !gateOpen(it, badges, flags, openGates) }.groupBy { it.map }.mapValues { (_, gs) -> gs.flatMap { g -> g.tiles.map { (x, y) -> key(x, y) } }.toSet() }
 
     private fun behaviors(p: Prepared, x: Int, y: Int, flags: Set<String>): List<TileBehavior> {
         val base = TileRules.behavior(p.m.tileAt(x, y))
@@ -106,10 +166,12 @@ class StrictReach(private val w: ReachWorld) {
         return if (extra.isEmpty()) listOf(base) else (listOf(base) + extra).distinct()
     }
 
-    private fun bfs(moves: Set<FieldMove>, npcsGone: Boolean, flags: Set<String>, goneNpcs: Set<String>, extraStarts: Set<P>): Set<P> {
+    private fun bfs(moves: Set<FieldMove>, npcsGone: Boolean, flags: Set<String>, goneNpcs: Set<String>, extraStarts: Set<P>,
+                    closedGateKeys: Map<String, Set<Int>>, edgesOut: HashMap<WorldAnalysis.Node, MutableList<WorldAnalysis.Node>>?): Set<P> {
         val solidKeys: Map<String, Set<Int>> = prepared.mapValues { (id, pm) ->
-            if (pm.soft.isEmpty()) pm.firmNpc
-            else pm.firmNpc + pm.soft.filter { !npcsGone && !(it.hideIf != null && it.hideIf in flags) && "$id:${it.id}" !in goneNpcs }.map { it.key }
+            val gate = closedGateKeys[id].orEmpty()
+            if (pm.soft.isEmpty()) pm.firmNpc + gate
+            else pm.firmNpc + gate + pm.soft.filter { !npcsGone && !(it.hideIf != null && it.hideIf in flags) && "$id:${it.id}" !in goneNpcs }.map { it.key }
         }
         val seen = HashSet<P>()
         val queue = ArrayDeque<P>()
@@ -209,21 +271,93 @@ class StrictReach(private val w: ReachWorld) {
         extraStarts.forEach { add(it) }
         while (queue.isNotEmpty()) {
             val n = queue.removeFirst()
-            for (d in dirs) for (t in outcomes(n, d)) add(t)
+            for (d in dirs) for (t in outcomes(n, d)) {
+                add(t)
+                edgesOut?.getOrPut(WorldAnalysis.Node(n.map, n.x, n.y)) { ArrayList() }?.add(WorldAnalysis.Node(t.map, t.x, t.y))
+            }
             // Waterfall: climb from the water below it while surfing.
             if (n.surf && FieldMove.WATERFALL in moves && FieldMove.SURF in moves) {
                 val pm = prepared.getValue(n.map)
                 if (pm.m.inBounds(n.x, n.y - 1) && TileRules.behavior(pm.m.tileAt(n.x, n.y - 1)) == TileBehavior.WATERFALL) {
                     var y = n.y
                     while (pm.m.inBounds(n.x, y - 1) && TileRules.behavior(pm.m.tileAt(n.x, y - 1)) == TileBehavior.WATERFALL) y--
-                    if (pm.m.inBounds(n.x, y - 1)) {
+                    if (pm.m.inBounds(n.x, y - 1) && !TileRules.isSolid(TileRules.behavior(pm.m.tileAt(n.x, y - 1)))) {
                         val top = P(n.map, n.x, y - 1, TileRules.behavior(pm.m.tileAt(n.x, y - 1)) == TileBehavior.WATER)
                         add(top)
+                        edgesOut?.getOrPut(WorldAnalysis.Node(n.map, n.x, n.y)) { ArrayList() }?.add(WorldAnalysis.Node(top.map, top.x, top.y))
                     }
                 }
             }
         }
         // `entries` registered after a back user was expanded are handled in warp(); add the ones known now for completeness.
         return seen
+    }
+}
+
+/**
+ * Which commands of a script can run, and whether it can finish without turning the player back (`move player`), given the number
+ * of badges and the flags that may be set. Conditions are three-valued: `badges`/`badge` are exact, `flag X` is false while X cannot
+ * be set yet and "maybe" afterwards, every other condition is "maybe" (both branches are followed).
+ */
+class ScriptPaths(private val w: ReachWorld) {
+    class Outcome(val commands: List<Instr.Cmd>, val cleanEnd: Boolean)
+
+    private enum class Tri { T, F, M }
+
+    fun explore(scriptId: String, badges: Int, flags: Set<String>, depth: Int = 0): Outcome {
+        val code = w.code(scriptId)
+        val cmds = LinkedHashSet<Instr.Cmd>()
+        val seen = HashSet<Int>()
+        val stack = ArrayDeque<Pair<Int, Boolean>>()
+        stack.add(0 to false)
+        var clean = false
+        while (stack.isNotEmpty()) {
+            val (pc, back) = stack.removeLast()
+            if (pc >= code.size) { if (!back) clean = true; continue }
+            if (!seen.add(pc * 2 + if (back) 1 else 0)) continue
+            when (val i = code[pc]) {
+                is Instr.Cmd -> {
+                    cmds.add(i)
+                    when {
+                        i.name == "return" -> if (!back) clean = true
+                        i.name == "move" && i.args.firstOrNull() == "player" -> stack.add(pc + 1 to true)
+                        i.name == "call" && depth < 8 -> {
+                            val sub = explore(i.args[0], badges, flags, depth + 1)
+                            cmds.addAll(sub.commands)
+                            stack.add(pc + 1 to (back || !sub.cleanEnd))
+                        }
+                        else -> stack.add(pc + 1 to back)
+                    }
+                }
+                is Instr.Jump -> stack.add(i.target to back)
+                is Instr.JumpIfNot -> when (tri(i.cond, badges, flags)) {
+                    Tri.T -> stack.add(pc + 1 to back)
+                    Tri.F -> stack.add(i.target to back)
+                    Tri.M -> { stack.add(pc + 1 to back); stack.add(i.target to back) }
+                }
+            }
+        }
+        return Outcome(cmds.toList(), clean)
+    }
+
+    private fun tri(c: Cond, badges: Int, flags: Set<String>): Tri = when (c) {
+        is Cond.Not -> when (tri(c.c, badges, flags)) { Tri.T -> Tri.F; Tri.F -> Tri.T; Tri.M -> Tri.M }
+        is Cond.And -> tri(c.a, badges, flags).let { a -> val b = tri(c.b, badges, flags); if (a == Tri.F || b == Tri.F) Tri.F else if (a == Tri.T && b == Tri.T) Tri.T else Tri.M }
+        is Cond.Or -> tri(c.a, badges, flags).let { a -> val b = tri(c.b, badges, flags); if (a == Tri.T || b == Tri.T) Tri.T else if (a == Tri.F && b == Tri.F) Tri.F else Tri.M }
+        is Cond.Atom -> atom(c.words, badges, flags)
+    }
+
+    private fun atom(w: List<String>, badges: Int, flags: Set<String>): Tri = when (w[0]) {
+        "true" -> Tri.T
+        "false" -> Tri.F
+        "flag" -> if (w[1] in flags) Tri.M else Tri.F
+        "badges" -> if (cmp(badges, w[1], w[2].toInt())) Tri.T else Tri.F
+        "badge" -> if (w[1].toInt() <= badges) Tri.T else Tri.F
+        else -> Tri.M
+    }
+
+    private fun cmp(value: Int, op: String, rhs: Int) = when (op) {
+        ">=" -> value >= rhs; "<=" -> value <= rhs; ">" -> value > rhs; "<" -> value < rhs; "==", "=" -> value == rhs; "!=" -> value != rhs
+        else -> true
     }
 }
