@@ -40,7 +40,10 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         private set
     val player = Actor("player", "player_m", 0, 0, Facing.DOWN)
     private val actors = LinkedHashMap<String, Actor>()
-    private var scriptBusy = false
+    private val busyLock = ScriptBusy()
+    private var scriptBusy: Boolean
+        get() = busyLock.busy
+        set(v) { busyLock.busy = v }
     private val autosaveGate = AutosaveGate()
     private var lockInput = 0f
     private var turnGrace = 0f
@@ -99,6 +102,7 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         flashUsed = false
         if (state.surfing && !rulesWater(x, y)) state.surfing = false
         if (newMap.indoor) state.biking = false
+        player.sprite = playerSprite() // the resets above may have turned surfing or biking off
         refreshMap()
         rebuildActors()
         val music = when {
@@ -311,7 +315,6 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
                 player.progress = 0f; player.tilesPerSecond = speed(running); player.stepParity = !player.stepParity
                 if (fromMap == baseMap.id) player.teleport(r.x, r.y)
             }
-            StepResult.OfferSurf -> offerSurf()
             is StepResult.Bump -> {
                 if (r.reason == "boulder" && pushBoulder(dir)) return
                 if (bumpCooldown <= 0) { game.audio.playSfx("bump"); bumpCooldown = 0.3f }
@@ -499,6 +502,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     fun fadeOut(then: () -> Unit) { fadeTarget = 1f; fadeDone = then; if (fade == 1f) { fadeDone = null; then() } }
     fun fadeIn(then: () -> Unit) { fadeTarget = 0f; fadeDone = then; if (fade == 0f) { fadeDone = null; then() } }
 
+    /** Closes the START menu and anything opened from it, so timers and fades run on the overworld (only the top screen updates). */
+    fun closeMenus() = game.closeAbove(this)
+
     fun warpTo(mapId: String, x: Int, y: Int, facing: Facing?, then: () -> Unit) {
         fadeOut { loadMap(mapId, x, y, facing); fadeIn(then) }
     }
@@ -684,7 +690,9 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
         game.audio.playSfx("trainer_spotted")
         waitTimer = 0.8f
         waitDone = {
-            val steps = (kotlin.math.abs(player.x - a.x) + kotlin.math.abs(player.y - a.y)) - 1
+            val dist = (kotlin.math.abs(player.x - a.x) + kotlin.math.abs(player.y - a.y)) - 1
+            // Never walk onto water or other tiles an NPC cannot stand on (the player may be surfing); battle from the shore instead.
+            val steps = rules.approachSteps(map, a.x, a.y, a.facing, dist) { x, y -> occupant(x, y) != null }
             repeat(steps) { a.path.addLast(a.facing) }
             if (steps <= 0) begin() else a.onPathDone = { begin() }
         }
@@ -708,19 +716,20 @@ class OverworldScreen(game: PkmnGame, val ctx: GameContext) : Screen(game), Auto
     }
 
     private fun runBattle(battle: Battle, trainerId: String?, canLose: Boolean, music: String? = null, onDone: (BattleOutcome) -> Unit) {
-        scriptBusy = true
+        // A battle started by a running script must not unlock input: the script is still running afterwards.
+        val restoreBusy = busyLock.enter()
         game.audio.playSfx("battle_start")
         val screen = BattleScreen(game, ctx, battle, trainerId, music) { outcome ->
             battleIntro = null
             val msgs = ctx.applyBattleResult(battle, trainerId, canLose)
             val lost = outcome == BattleOutcome.LOSE || outcome == BattleOutcome.DRAW
             val after = {
-                if (lost && !canLose) blackout { scriptBusy = false; onDone(outcome) }
+                if (lost && !canLose) blackout { restoreBusy(); onDone(outcome) }
                 else {
                     if (lost) ctx.healParty()
                     game.audio.playMusic(if (state.surfing) "ocean_surf" else if (state.biking) "bike" else baseMap.music)
                     runEvolutions(battle.leveledUp.toList()) {
-                        scriptBusy = false
+                        restoreBusy()
                         pendingTrainerCheck = true
                         if (stepsSinceSave > 0) autosave()
                         onDone(outcome)

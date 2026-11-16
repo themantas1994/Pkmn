@@ -257,7 +257,7 @@ class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow
         if (input.justPressed(Button.B)) { pop(); onClose(); return }
         if (flyMode && input.justPressed(Button.A) && list.isNotEmpty()) {
             val t = list[cursor]
-            pop()
+            ow.closeMenus() // the map, the party and the START menu under it
             val go = { ctx.state.surfing = false; ow.warpTo(t.id, t.flyX, t.flyY, Facing.DOWN) { onClose() } }
             if (flyAnnounce != null) game.say(flyAnnounce) { go() } else go()
         }
