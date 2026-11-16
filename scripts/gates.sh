@@ -5,8 +5,8 @@
 #   test    = :engine:test :core:test :tools:test
 #   test <module> [--tests <pattern>]   = only :<module>:test (engine|core|tools), optional filter for fast iteration
 #   android = :android:assembleDebug
-# reports/ files that were clean before the run are restored afterwards (they embed host-specific sprite coverage);
-# set GATES_KEEP_REPORTS=1 to keep regenerated reports.
+# Regenerated reports/ are kept (CI diffs them, so commit them when they change). Only the host-specific ones (timings, local
+# sprite coverage; see HOST_REPORTS in scripts/check-generated-assets.sh) are restored afterwards.
 # Exit status is the first failing step's real status. Logs: ${GATES_LOG_DIR:-build/gates}/<step>.log
 set -uo pipefail
 cd "$(git rev-parse --show-toplevel)"
@@ -27,16 +27,9 @@ run_step() { # name, command...
   return $rc
 }
 
-reports_before="$(git diff --name-only -- reports)"
-restore_reports() {
-  [ "${GATES_KEEP_REPORTS:-0}" = 1 ] && return 0
-  local f
-  while IFS= read -r f; do
-    [ -n "$f" ] && ! grep -qxF "$f" <<<"$reports_before" && git checkout -q -- "$f"
-  done < <(git diff --name-only -- reports)
-  return 0
-}
-trap restore_reports EXIT
+# Host-specific reports that were already modified before the run are left alone (someone is working on them).
+export GATES_DIRTY_BEFORE="$(git diff --name-only -- reports)"
+trap 'scripts/check-generated-assets.sh --restore-host-reports' EXIT
 
 gradle() { ./gradlew --console=plain -q "$@"; }
 

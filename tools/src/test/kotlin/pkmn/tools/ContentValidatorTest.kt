@@ -259,6 +259,16 @@ class ContentValidatorTest {
         assertEquals(mapOf("tackle" to "FULL"), ok["moves"])
         assertEquals("PARTIAL", ok.getValue("abilities")["overgrow"])
     }
+
+    /** C7-10: battle coverage that cannot be computed used to be written as "unavailable" with the validation still ok. */
+    @Test
+    fun unavailableBattleCoverageIsAnError() {
+        val issues = Issues()
+        ContentValidator.requireBattleCoverage(Result.success(emptyMap<String, Map<String, String>>()), issues)
+        assertEquals(emptySet(), codes(issues))
+        ContentValidator.requireBattleCoverage(Result.failure<Map<String, Map<String, String>>>(ClassNotFoundException("pkmn.engine.battle.BattleCoverage")), issues)
+        assertEquals(setOf("coverage-unavailable"), codes(issues))
+    }
 }
 
 enum class FakeStatus { FULL, PARTIAL }

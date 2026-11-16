@@ -78,6 +78,9 @@ class ContentValidator(private val root: File) {
             "${r.from}->${r.evo.target}", "condition '${r.evo.condition}' was not mapped to a condition code",
             "Unmapped conditions are ignored by Progression; the evolution still works without the extra requirement.")
 
+        val battle = BattleCoverageReport.load(content.dex)
+        requireBattleCoverage(battle, issues)
+
         val reports = linkedMapOf(
             "content-validation.json" to issues.toJson {
                 put("generatedBy", "pkmn.tools.ContentValidator")
@@ -90,7 +93,6 @@ class ContentValidator(private val root: File) {
             "coverage-evolutions.json" to evolutionCoverage(content, evo),
             "coverage-registered.json" to BattleCoverageReport.registeredJson(content.dex),
         )
-        val battle = BattleCoverageReport.load(content.dex)
         val totals = mapOf("moves" to content.moves.size, "abilities" to content.abilities.size, "items" to content.items.count { it.hasBattleData })
         val fileFor = mapOf("moves" to "coverage-moves.json", "abilities" to "coverage-abilities.json", "items" to "coverage-held-items.json")
         for (kind in BattleCoverageReport.KINDS) {
@@ -605,5 +607,16 @@ class ContentValidator(private val root: File) {
         /** Showdown condition ids used as volatiles that are not named after a move. */
         val BASE_VOLATILES = setOf("confusion", "flinch", "partiallytrapped", "trapped", "mustrecharge", "lockedmove",
             "twoturnmove", "choicelock", "stall", "futuremove", "healreplacement", "dynamax", "commanded", "commanding")
+
+        /**
+         * The coverage reports are computed from the engine's BattleCoverage, which is always on the tools' classpath.
+         * If it cannot be loaded or throws, the reports used to say "available: false" and the gate still passed (C7-10).
+         */
+        fun requireBattleCoverage(battle: Result<*>, issues: Issues) {
+            battle.exceptionOrNull()?.let {
+                issues.error("coverage-unavailable", "pkmn.engine.battle.BattleCoverage",
+                    "battle coverage could not be computed (${it::class.simpleName}: ${it.message ?: ""}); the coverage reports would say unavailable".trim())
+            }
+        }
     }
 }

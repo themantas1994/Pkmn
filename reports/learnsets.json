@@ -2,7 +2,7 @@
   "summary": {
     "species": 1379,
     "errors": 0,
-    "warnings": 88,
+    "warnings": 90,
     "infos": 18,
     "errorsByCode": {},
     "warningsByCode": {
@@ -10,11 +10,11 @@
       "move-without-learner": 1,
       "signature-egg-only": 5,
       "tm-nonstandard-move": 1,
-      "world-egg-only": 32
+      "world-egg-only": 34
     },
-    "conflicts": 32,
+    "conflicts": 34,
     "conflictsByIssue": {
-      "egg-only": 32
+      "egg-only": 34
     }
   },
   "dataset": {
@@ -5627,26 +5627,26 @@
     }
   },
   "world": {
-    "monsChecked": 1917,
-    "monsWithExplicitMoves": 358,
-    "movesChecked": 1424,
+    "monsChecked": 1959,
+    "monsWithExplicitMoves": 395,
+    "movesChecked": 1572,
     "byKind": {
       "event": 1,
-      "giveegg": 3,
+      "giveegg": 5,
       "givemon": 28,
       "trade": 14,
-      "trainer": 1840,
+      "trainer": 1880,
       "wildbattle": 31
     },
     "legalityRoutes": {
-      "EGG": 32,
-      "LEVEL_UP": 763,
-      "MACHINE": 607,
-      "PREVO_LEVEL_UP": 22
+      "EGG": 34,
+      "LEVEL_UP": 818,
+      "MACHINE": 693,
+      "PREVO_LEVEL_UP": 27
     },
-    "illegalAssignmentCount": 32,
+    "illegalAssignmentCount": 34,
     "illegalAssignmentsByIssue": {
-      "egg-only": 32
+      "egg-only": 34
     },
     "illegalAssignments": [
       {
@@ -5960,6 +5960,26 @@
         "detail": "egg move (breeding not implemented)"
       },
       {
+        "source": "world/trainers/p5b.txt:57",
+        "kind": "trainer",
+        "owner": "p5b_cap_typhlosion",
+        "species": "typhlosion",
+        "level": 58,
+        "move": "extrasensory",
+        "issue": "egg-only",
+        "detail": "egg move (breeding not implemented)"
+      },
+      {
+        "source": "world/trainers/p5c.txt:27",
+        "kind": "trainer",
+        "owner": "p5c_ex_corvin",
+        "species": "grimeralola",
+        "level": 57,
+        "move": "shadowsneak",
+        "issue": "egg-only",
+        "detail": "egg move (breeding not implemented)"
+      },
+      {
         "source": "world/scripts/p3b_dragonspire.pks:167 (p3b_draca)",
         "kind": "givemon",
         "owner": "p3b_draca",
@@ -5973,19 +5993,19 @@
     "obtainableSpecies": 756
   },
   "tmAvailability": {
-    "tmItemsInWorld": 96,
-    "distinctTmMoves": 77,
+    "tmItemsInWorld": 102,
+    "distinctTmMoves": 79,
     "placementsByKind": {
       "map": 26,
-      "script": 38,
-      "shop": 32
+      "script": 42,
+      "shop": 34
     },
     "machineLegalMoves": 376,
-    "machineLegalMovesWithoutAnyTm": 304,
+    "machineLegalMovesWithoutAnyTm": 302,
     "tmsNoObtainableLearner": [],
     "tmsWithAtMostThreeObtainableLearners": [],
     "engineCanLearnMachineCrossCheck": {
-      "pairsChecked": 124110,
+      "pairsChecked": 126868,
       "speciesSkipped": 0,
       "mismatches": 0,
       "sample": []
@@ -6102,7 +6122,7 @@
         "placements": [
           {
             "kind": "script",
-            "source": "world/scripts/p2_lumen.pks:125 (p2_lumen_weaver)"
+            "source": "world/scripts/p2_lumen.pks:127 (p2_lumen_weaver)"
           }
         ],
         "learnersAll": 327,
@@ -6149,6 +6169,10 @@
           {
             "kind": "shop",
             "source": "assets/world/shops.json:p3c_coral_tms"
+          },
+          {
+            "kind": "shop",
+            "source": "assets/world/shops.json:p5c_ex_eclipse"
           }
         ],
         "learnersAll": 287,
@@ -6267,6 +6291,10 @@
           {
             "kind": "script",
             "source": "world/scripts/p3c_legends.pks:160 (p3c_cinder_maiden)"
+          },
+          {
+            "kind": "script",
+            "source": "world/scripts/p5b_kai.pks:323 (p5b_kai_cap)"
           }
         ],
         "learnersAll": 274,
@@ -6414,6 +6442,20 @@
         "isNonstandard": null
       },
       {
+        "move": "foulplay",
+        "placements": [
+          {
+            "kind": "script",
+            "source": "world/scripts/p5c_eclipse.pks:112 (p5c_archivist)"
+          }
+        ],
+        "learnersAll": 229,
+        "learnersObtainable": 102,
+        "learnersViaTmOrTutorList": 229,
+        "learnersGen9": 185,
+        "isNonstandard": null
+      },
+      {
         "move": "freezedry",
         "placements": [
           {
@@ -6446,7 +6488,7 @@
         "placements": [
           {
             "kind": "script",
-            "source": "world/scripts/p4b_leg6.pks:62 (p4b_kaen)"
+            "source": "world/scripts/p4b_leg6.pks:76 (p4b_kaen)"
           }
         ],
         "learnersAll": 226,
@@ -6674,7 +6716,7 @@
         "placements": [
           {
             "kind": "script",
-            "source": "world/scripts/p4b_leg5.pks:113 (p4b_rowan)"
+            "source": "world/scripts/p4b_leg5.pks:115 (p4b_rowan)"
           }
         ],
         "learnersAll": 226,
@@ -6780,7 +6822,11 @@
         "placements": [
           {
             "kind": "script",
-            "source": "world/scripts/p2_mid.pks:158 (p2_garnet)"
+            "source": "world/scripts/p2_mid.pks:180 (p2_garnet)"
+          },
+          {
+            "kind": "script",
+            "source": "world/scripts/p5b_kai.pks:247 (p5b_qt_foreman)"
           }
         ],
         "learnersAll": 531,
@@ -6910,7 +6956,7 @@
         "placements": [
           {
             "kind": "script",
-            "source": "world/scripts/p4b_leg4.pks:121 (p4b_temple_scholar)"
+            "source": "world/scripts/p4b_leg4.pks:149 (p4b_temple_scholar)"
           }
         ],
         "learnersAll": 441,
@@ -6963,6 +7009,20 @@
         "learnersObtainable": 736,
         "learnersViaTmOrTutorList": 1355,
         "learnersGen9": 970,
+        "isNonstandard": null
+      },
+      {
+        "move": "suckerpunch",
+        "placements": [
+          {
+            "kind": "shop",
+            "source": "assets/world/shops.json:p5c_ex_eclipse"
+          }
+        ],
+        "learnersAll": 162,
+        "learnersObtainable": 96,
+        "learnersViaTmOrTutorList": 102,
+        "learnersGen9": 74,
         "isNonstandard": null
       },
       {
@@ -7091,6 +7151,10 @@
           {
             "kind": "script",
             "source": "world/scripts/p2_voltara.pks:182 (p2_volta)"
+          },
+          {
+            "kind": "script",
+            "source": "world/scripts/p5b_kai.pks:118 (p5b_term_press_ok)"
           },
           {
             "kind": "shop",
@@ -7556,6 +7620,22 @@
       "selectedValue": "trainer p4c_rem_captain_sable L59 moves=knockoff,ironhead,suckerpunch,swordsdance",
       "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
       "source": "world/trainers/p4c_leg9.txt:279"
+    },
+    {
+      "species": "typhlosion",
+      "move": "extrasensory",
+      "issue": "egg-only",
+      "selectedValue": "trainer p5b_cap_typhlosion L58 moves=eruption,flamethrower,focusblast,extrasensory",
+      "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
+      "source": "world/trainers/p5b.txt:57"
+    },
+    {
+      "species": "grimeralola",
+      "move": "shadowsneak",
+      "issue": "egg-only",
+      "selectedValue": "trainer p5c_ex_corvin L57 moves=poisonjab,crunch,knockoff,shadowsneak",
+      "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
+      "source": "world/trainers/p5c.txt:27"
     },
     {
       "species": "dragonair",
@@ -8094,6 +8174,18 @@
       "code": "world-egg-only",
       "subject": "world/trainers/p4c_leg9.txt:279",
       "message": "p4c_rem_captain_sable: bisharp L59 knows suckerpunch: egg move (breeding not implemented)"
+    },
+    {
+      "severity": "warning",
+      "code": "world-egg-only",
+      "subject": "world/trainers/p5b.txt:57",
+      "message": "p5b_cap_typhlosion: typhlosion L58 knows extrasensory: egg move (breeding not implemented)"
+    },
+    {
+      "severity": "warning",
+      "code": "world-egg-only",
+      "subject": "world/trainers/p5c.txt:27",
+      "message": "p5c_ex_corvin: grimeralola L57 knows shadowsneak: egg move (breeding not implemented)"
     },
     {
       "severity": "info",

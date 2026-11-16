@@ -1,6 +1,7 @@
 package pkmn.tools
 
 import pkmn.engine.campaign.WorldContent
+import kotlinx.serialization.json.*
 import pkmn.engine.data.DirectoryContentSource
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
@@ -11,7 +12,11 @@ import javax.xml.parsers.DocumentBuilderFactory
  * them. If the document does quote a phrase below, it must still match, so a stale pinned number fails CI.
  *
  *  * world: "N maps, N trainers, N encounter tables, N scripts"  (from assets/)
- *  * tests: "N engine, N core and N tool tests"                  (from <module>/build/test-results/test (JUnit XML); skipped tests excluded)
+ *  * world load: "(N maps, N scripts)"                           (same source)
+ *  * tests: "N engine, N core and N tool tests", or the first triple of "all passing (A + B + C ..."
+ *                                                                (from <module>/build/test-results/test (JUnit XML); skipped tests excluded)
+ *  * reach: "Maps reachable with 0..8 badges: a, b, ..."          (from reports/progression.json)
+ * A quoted number in any other shape of those phrases fails the check (C7-1), so nothing can drift unnoticed.
  *
  * Test counts are only checked when all three result directories exist (run `:engine:test :core:test :tools:test` first).
  * The counts must be CI's, so a run whose skips differ from CI's is rejected: ArtBuildDeterminismTest is skipped without
@@ -24,6 +29,18 @@ class StatusCheck(private val root: File, private val statusText: String? = null
     companion object {
         /** Suites CI skips by design (opt-in, machine-dependent). Any other skip, or one of these running, is not CI's count. */
         val CI_SKIPPED = setOf("pkmn.game.audio.ChipSynthBenchmarkTest")
+
+        private val WORLD_LIST = Regex("""(\d+) maps, (\d+) trainers, (\d+) encounter tables, (\d+) scripts""")
+        private val WORLD_LOAD = Regex("""\((\d+) maps, (\d+) scripts\)""")
+        private val TESTS_PHRASE = Regex("""(\d+) engine, (\d+) core and (\d+) tool tests""")
+        /** "all passing (525 + 160 + 152 with ..., history; 494 + 154 + 152 ...)": only the first triple is current; the span is the whole parenthesis. */
+        private val TESTS_TRIPLE = Regex("""all passing \((\d+) \+ (\d+) \+ (\d+)[^)]*\)""")
+        private val REACH_LIST = Regex("""Maps reachable with 0\.\.8 badges: ([\d, ]+)\.""")
+        /** Shapes of quoted numbers that must be covered by a rule above. */
+        private val LOOSE = listOf(
+            Regex("""\d+ maps, \d+ \w+"""), Regex("""\(\d+ maps"""), Regex("""\d+ (engine|core|tool) tests?"""),
+            Regex("""\d+ \+ \d+ \+ \d+"""), Regex("""Maps reachable with[^\n]*"""),
+        )
     }
 
     fun world(): World {
@@ -60,26 +77,51 @@ class StatusCheck(private val root: File, private val statusText: String? = null
         return if (e != null && c != null && t != null) Tests(e, c, t) else null
     }
 
-    /** Mismatches between STATUS.md and the computed numbers (empty = consistent). */
+    /** Maps reachable per badge stage 0..8, from reports/progression.json (written by `:tools:checkProgression`), or null when absent. */
+    fun reachByBadges(): List<Int>? {
+        val f = File(root, "reports/progression.json")
+        if (!f.isFile) return null
+        val stages = Json.parseToJsonElement(f.readText()).jsonObject["stages"]?.jsonArray ?: return null
+        return stages.map { it.jsonObject.getValue("maps").jsonPrimitive.int }
+    }
+
+    /**
+     * Mismatches between STATUS.md and the computed numbers (empty = consistent).
+     * Every quoted number must match one of the formats below; a number in a format no rule covers is a problem too
+     * (it could drift unnoticed), so a document whose numbers match nothing no longer passes.
+     */
     fun check(): List<String> {
         val status = statusText ?: File(root, "STATUS.md").readText()
         val problems = ArrayList<String>()
-        val wm = Regex("""(\d+) maps, (\d+) trainers, (\d+) encounter tables, (\d+) scripts""").findAll(status).toList()
+        val covered = ArrayList<IntRange>()
+        fun rule(re: Regex) = re.findAll(status).toList().onEach { covered += it.range }
         val w = world()
-        for (m in wm) {
+        for (m in rule(WORLD_LIST)) {
             val got = World(m.groupValues[1].toInt(), m.groupValues[2].toInt(), m.groupValues[3].toInt(), m.groupValues[4].toInt())
             if (got != w) problems += "STATUS.md world counts $got differ from the compiled world $w"
+        }
+        for (m in rule(WORLD_LOAD)) {
+            val got = m.groupValues[1].toInt() to m.groupValues[2].toInt()
+            if (got != w.maps to w.scripts) problems += "STATUS.md world counts (maps, scripts) $got differ from the compiled world (${w.maps}, ${w.scripts})"
         }
         val t = tests()
         val notLikeCi = notLikeCi()
         if (notLikeCi.isNotEmpty()) problems += "the last test run skipped or ran different tests than CI: ${notLikeCi.joinToString("; ")}"
-        if (t != null && notLikeCi.isEmpty()) {
-            val tm = Regex("""(\d+) engine, (\d+) core and (\d+) tool tests""").findAll(status).toList()
-            for (m in tm) {
-                val got = Tests(m.groupValues[1].toInt(), m.groupValues[2].toInt(), m.groupValues[3].toInt())
-                if (got != t) problems += "STATUS.md test counts $got differ from the last test run $t"
+        val testCounts = rule(TESTS_PHRASE).map { Tests(it.groupValues[1].toInt(), it.groupValues[2].toInt(), it.groupValues[3].toInt()) } +
+            // "all passing (A + B + C ..." quotes the current counts first; the rest of the parenthesis is history.
+            rule(TESTS_TRIPLE).map { Tests(it.groupValues[1].toInt(), it.groupValues[2].toInt(), it.groupValues[3].toInt()) }
+        if (t != null && notLikeCi.isEmpty()) for (got in testCounts) if (got != t) problems += "STATUS.md test counts $got differ from the last test run $t"
+        for (m in rule(REACH_LIST)) {
+            val got = m.groupValues[1].split(',').map { it.trim().toIntOrNull() ?: -1 }
+            val want = reachByBadges()
+            when {
+                want == null -> problems += "STATUS.md quotes maps reachable per badge but reports/progression.json is missing (run :tools:checkProgression)"
+                got != want -> problems += "STATUS.md maps reachable with 0..8 badges $got differ from reports/progression.json $want"
             }
         }
+        for (loose in LOOSE) for (m in loose.findAll(status))
+            if (covered.none { m.range.first >= it.first && m.range.last <= it.last })
+                problems += "STATUS.md quotes \"${m.value.take(60)}\" but no check covers that format; use one of the checked formats (see StatusCheck)"
         return problems
     }
 

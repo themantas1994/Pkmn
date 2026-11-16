@@ -74,7 +74,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 15 HP",
-        "drain: user regained 7 HP for 15 damage (1/2)"
+        "drain: user regained 8 HP for 15 damage (1/2)"
       ],
       "failures": [],
       "repro": "mew L100 [absorb] vs snorlax L100 [splash]"
@@ -1288,7 +1288,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 45 HP",
-        "drain: user regained 22 HP for 45 damage (1/2)"
+        "drain: user regained 23 HP for 45 damage (1/2)"
       ],
       "failures": [],
       "repro": "mew L100 [bouncybubble] vs snorlax L100 [splash]"
@@ -2586,7 +2586,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 91 HP",
-        "state diff: foe.hp: 461 -> 370; foe.hp: 461 -> 374; foe.status: - -> par; foe.hp: 461 -> 364; foe.hp: 461 -> 371; foe.status: - -> slp"
+        "state diff: foe.hp: 461 -> 370; foe.status: - -> slp; foe.hp: 461 -> 374; foe.status: - -> par; foe.hp: 461 -> 364; foe.hp: 461 -> 371"
       ],
       "failures": [],
       "repro": "mew L100 [direclaw] vs snorlax L100 [splash]"
@@ -3034,8 +3034,8 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 111 HP",
-        "drain: user regained 55 HP for 111 damage (1/2)",
-        "state diff: user.hp: 170 -> 225; foe.hp: 461 -> 350; user.hp: 170 -> 223; foe.hp: 461 -> 355; user.hp: 170 -> 229; foe.hp: 461 -> 343"
+        "drain: user regained 56 HP for 111 damage (1/2)",
+        "state diff: user.hp: 170 -> 226; foe.hp: 461 -> 350; user.hp: 170 -> 223; foe.hp: 461 -> 355; user.hp: 170 -> 229; foe.hp: 461 -> 343"
       ],
       "failures": [],
       "repro": "mew L100 [dreameater] vs snorlax L100 [splash]"
@@ -4926,7 +4926,7 @@
         "damage: hit 1 time(s) for 118 HP",
         "neverMisses: did not miss",
         "usedMaxMove: log has 'used G-Max Gravitas!'",
-        "state diff: user.hp: 261 -> 522; user.dynamax: 0 -> 2; foe.hp: 461 -> 343; field.pseudo:  -> gravity; foe.hp: 461 -> 347; foe.hp: 461 -> 334"
+        "state diff: user.hp: 261 -> 485; user.dynamax: 0 -> 2; foe.hp: 461 -> 228; field.pseudo:  -> gravity; foe.hp: 461 -> 232; foe.hp: 461 -> 219"
       ],
       "failures": [],
       "repro": "orbeetle L100 [hyperspacehole] vs snorlax L100 [splash] gimmick=DYNAMAX (G-Max orbeetle using hyperspacehole)"
@@ -5386,7 +5386,7 @@
       "seeds": 4,
       "evidence": [
         "pseudoWeather:gravity: pseudo-weather: gravity",
-        "state diff: field.pseudo:  -> gravity"
+        "state diff: user.hp: 341 -> 296; foe.hp: 461 -> 346; field.pseudo:  -> gravity; user.hp: 341 -> 297; user.hp: 341 -> 299"
       ],
       "failures": [],
       "repro": "mew L100 [gravity] vs snorlax L100 [splash]"
@@ -6218,7 +6218,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 85 HP",
-        "drain: user regained 42 HP for 85 damage (1/2)"
+        "drain: user regained 43 HP for 85 damage (1/2)"
       ],
       "failures": [],
       "repro": "mew L100 [hornleech] vs snorlax L100 [splash]"
@@ -7088,7 +7088,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 91 HP",
-        "drain: user regained 45 HP for 91 damage (1/2)"
+        "drain: user regained 46 HP for 91 damage (1/2)"
       ],
       "failures": [],
       "repro": "mew L100 [leechlife] vs snorlax L100 [splash]"
@@ -7178,7 +7178,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 103 HP",
-        "recoil: user lost 51 HP for 103 damage (1/2)"
+        "recoil: user lost 52 HP for 103 damage (1/2)"
       ],
       "failures": [],
       "repro": "mew L100 [lightofruin] vs snorlax L100 [splash]"
@@ -7616,7 +7616,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 59 HP",
-        "drain: user regained 29 HP for 59 damage (1/2)",
+        "drain: user regained 30 HP for 59 damage (1/2)",
         "secondary#0:status:brn: foe got brn (20%)"
       ],
       "failures": [],
@@ -12485,7 +12485,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 182 HP",
-        "recoil: user lost 45 HP for 182 damage (1/4)"
+        "recoil: user lost 46 HP for 182 damage (1/4)"
       ],
       "failures": [],
       "repro": "mew L100 [submission] vs snorlax L100 [splash]"
@@ -12916,7 +12916,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 102 HP",
-        "recoil: user lost 25 HP for 102 damage (1/4)"
+        "recoil: user lost 26 HP for 102 damage (1/4)"
       ],
       "failures": [],
       "repro": "mew L100 [takedown] vs snorlax L100 [splash]"
@@ -14178,7 +14178,7 @@
       "seeds": 4,
       "evidence": [
         "damage: hit 1 time(s) for 102 HP",
-        "recoil: user lost 25 HP for 102 damage (1/4)"
+        "recoil: user lost 26 HP for 102 damage (1/4)"
       ],
       "failures": [],
       "repro": "mew L100 [wildcharge] vs snorlax L100 [splash]"
