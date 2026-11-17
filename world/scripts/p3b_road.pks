@@ -6,7 +6,7 @@ script p3b_vr_gate
     setflag p3b_vr_checked
     say "OFFICER: Badge check! One, two... eight! All genuine. Victory Road is yours. Good luck!"
   else
-    say "OFFICER: Halt! Only trainers with all eight Badges may enter Victory Road."
+    say "OFFICER: Halt! Only trainers with all eight badges may enter Victory Road."
     move player left
   end
 end
@@ -37,7 +37,7 @@ end
 script p3b_vr1_hiker
   faceplayer
   if field waterfall
-    say "HIKER: See that waterfall? With your Badges you can climb right up it!"
+    say "HIKER: See that waterfall? With your badges you can climb right up it!"
   else
     say "HIKER: The way up is that big waterfall. You need the Frost Badge to use Waterfall. No Pokémon needed, God Bidoof handles it!\pThere's a ledge on the east side if you need to come back down."
   end

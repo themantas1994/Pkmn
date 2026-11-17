@@ -25,7 +25,7 @@ script p3b_dragonspire_arrive
   setflag p3b_arrived
   emote ds_lys !
   say "LYS: A traveler from the west road! Welcome to Dragonspire City, home of the Dragon Clan.\pI'm Lys. Sorry, we're all a little jumpy. The sky over Mt. Prism keeps turning purple, and people in black were seen heading south."
-  say "LYS: If you're here for the Dusk Spire, Ryuga only accepts challengers with seven Badges. The tower is right up the main avenue."
+  say "LYS: If you're here for the Dusk Spire, Ryuga only accepts challengers with seven badges. The tower is right up the main avenue."
   quest p3a_story done
   quest p3b_story start
 end
@@ -45,7 +45,7 @@ script p3b_gym_door
   if badges >= 7
     setflag p3b_gym_open
   else
-    say "A deep voice echoes from the tower: \"Only a trainer bearing seven Badges may climb the Dusk Spire!\""
+    say "A deep voice echoes from the tower: \"Only a trainer bearing seven badges may climb the Dusk Spire!\""
     if not badge 1
       say "The Badge Case is missing the Brindle City Badge (Badge 1)."
     end
@@ -314,7 +314,7 @@ script p3b_ryuga
       say "RYUGA: Magnificent. You and your Pokémon fly as one. Take the Dusk Badge!"
       badge 8
       setflag p3b_badge8
-      say "RYUGA: With eight Badges, the road to the Pokémon League lies open before you."
+      say "RYUGA: With eight badges, the road to the Pokémon League lies open before you."
       tm dragonpulse
       giveitem dragoniumz
       say "RYUGA: Dragon Pulse, and a Dragonium Z for your Z-Ring.\pNow listen. My scouts report Team Eclipse marching up Umbral Pass toward Prism Summit, hauling some great lens. I have told the south gate to let you pass."

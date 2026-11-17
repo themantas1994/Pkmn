@@ -211,7 +211,7 @@ trainer p4c_vd2_cool_teodor
   name "Teodor"
   intro "Rock bottom of Victory Road. Literally. Let's battle like it's the League!"
   defeat "League-level loss, at least."
-  after "Nox Terastallizes. Watch what colour her Pokémon glow before you pick your move."
+  after "Nox Terastallizes. Watch what color her Pokémon glow before you pick your move."
   mon garchomp 61
   mon rotomwash 60
   mon weavile 60

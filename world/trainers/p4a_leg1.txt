@@ -25,7 +25,7 @@ end
 # Pip: phone-style rematch trainer (script p4a_pip). One team per badge tier.
 trainer p4a_pip_1
   class youngster
-  name "Pip"
+  name "Tobin"
   intro "My Bidoof and I are going to be famous! Battle me!"
   defeat "Whoa! You're the real deal!"
   mon bidoof 5
@@ -34,7 +34,7 @@ end
 
 trainer p4a_pip_2
   class youngster
-  name "Pip"
+  name "Tobin"
   intro "I've been training every single day! Let's go!"
   defeat "Still not enough?!"
   mon bibarel 18
@@ -44,7 +44,7 @@ end
 
 trainer p4a_pip_3
   class youngster
-  name "Pip"
+  name "Tobin"
   intro "Remember me? Bibarel's teeth are sharper than ever!"
   defeat "You keep getting stronger too. Not fair!"
   mon bibarel 31
@@ -55,7 +55,7 @@ end
 
 trainer p4a_pip_4
   class youngster
-  name "Pip"
+  name "Tobin"
   intro "This time for sure! My team's in the top percentage of ALL teams!"
   defeat "Haha... I knew it. You're a legend."
   mon bibarel 45

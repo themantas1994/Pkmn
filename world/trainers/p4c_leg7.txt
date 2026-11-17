@@ -262,7 +262,7 @@ trainer p4c_rh2_psychic_aurora
   name "Aurora"
   intro "The Power Spot hums through the ice... I've been listening for days."
   defeat "The humming stopped. Oh, it's just my ears ringing."
-  after "Galar particles pool deepest in the den below. Something big sleeps there."
+  after "Power Spot particles pool deepest in the den below. Something big sleeps there."
   mon gothitelle 48
   mon gardevoir 48
   mon cryogonal 47
@@ -283,7 +283,7 @@ end
 trainer p4c_gh_hiker_marlstone
   class hiker
   name "Marlstone"
-  intro "Every colour of crystal, all in one cave! I could live here. I might already live here."
+  intro "Every color of crystal, all in one cave! I could live here. I might already live here."
   defeat "Cracked like a geode!"
   after "Somebody's been prying open Quartz's sample crates. Wasn't me. I only lick the crystals."
   mon gigalith 46
@@ -316,7 +316,7 @@ end
 trainer p4c_gh_beauty_opaline
   class beauty
   name "Opaline"
-  intro "I only wear crystals I find myself. Battle me and I'll show you my favourites!"
+  intro "I only wear crystals I find myself. Battle me and I'll show you my favorites!"
   defeat "My sparkle... faded."
   after "Tinkaton smash crystals with their hammers. Mine is very gentle. Mostly."
   mon tinkaton 47

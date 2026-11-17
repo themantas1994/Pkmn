@@ -184,7 +184,7 @@ end
 script p3a_r11_cottage_fisher
   faceplayer
   if not flag p3a_got_goodrod_tip
-    say "I'm the one who found Lapras in my net. Felt terrible!\pHere, take this. Fish around Route 11 with it and you'll hook some real beauties."
+    say "I'm the one who found Lapras in my net. Felt terrible!\pHere, take these. Dive Balls work best on Pokémon from deep water."
     giveitem diveball 3
     setflag p3a_got_goodrod_tip
   else

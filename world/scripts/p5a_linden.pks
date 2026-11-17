@@ -68,7 +68,7 @@ script p5a_r7_camera
       say "The frame is empty. The note says: \"Joltik roam the grass here at night. Meet one first so the camera can lock on.\""
     end
   else
-    say "A trail camera on a tripod labelled \"Linden Field Notes\"."
+    say "A trail camera on a tripod labeled \"Linden Field Notes\"."
   end
 end
 
@@ -109,7 +109,7 @@ script p5a_lumen_contact
   end
 end
 
-# ---------------------------------------------------------------- Vol. 4: mist behaviour (Mistwood logger, Seraphine Fairy Keeper's house)
+# ---------------------------------------------------------------- Vol. 4: mist behavior (Mistwood logger, Seraphine Fairy Keeper's house)
 script p5a_mist_post
   if quest p5a_linden_notes step == 3 and badges >= 5
     if time morning and not flag p5a_mist_m
@@ -127,7 +127,7 @@ script p5a_mist_post
       say "The logger records each time of day once: morning, day and night. This time of day is already logged. Come back at another."
     end
   else
-    say "A weatherproof post labelled \"Linden Field Notes - fog logger\"."
+    say "A weatherproof post labeled \"Linden Field Notes - fog logger\"."
   end
 end
 
@@ -174,7 +174,7 @@ script p5a_sensor_city
       say "It is too dark to set the sensor. Come back in the morning or by day."
     end
   else
-    say "A bracket on a post, labelled \"Linden Field Notes - sensor mount\"."
+    say "A bracket on a post, labeled \"Linden Field Notes - sensor mount\"."
   end
 end
 
@@ -196,7 +196,7 @@ script p5a_sensor_trail
       say "It is too dark to set the sensor. Come back in the morning or by day."
     end
   else
-    say "A bracket on a post, labelled \"Linden Field Notes - sensor mount\"."
+    say "A bracket on a post, labeled \"Linden Field Notes - sensor mount\"."
   end
 end
 
@@ -218,7 +218,7 @@ script p5a_sensor_route9
       say "It is too dark to set the sensor. Come back in the morning or by day."
     end
   else
-    say "A bracket on a post, labelled \"Linden Field Notes - sensor mount\"."
+    say "A bracket on a post, labeled \"Linden Field Notes - sensor mount\"."
   end
 end
 
@@ -246,7 +246,7 @@ script p5a_marker_1
     setflag p5a_cold_1
     say "Marker 1 (Frostmere end): wild Pokémon huddle in the lee of the rocks. Log saved."
   else
-    say "A frost-proof marker labelled \"Linden Field Notes - route log\"."
+    say "A frost-proof marker labeled \"Linden Field Notes - route log\"."
   end
 end
 
@@ -255,7 +255,7 @@ script p5a_marker_2
     setflag p5a_cold_2
     say "Marker 2 (mid-route): tracks lead to the frozen falls and stop. The snow keeps its secrets. Log saved."
   else
-    say "A frost-proof marker labelled \"Linden Field Notes - route log\"."
+    say "A frost-proof marker labeled \"Linden Field Notes - route log\"."
   end
 end
 
@@ -264,7 +264,7 @@ script p5a_marker_3
     setflag p5a_cold_3
     say "Marker 3 (Dragonspire end): the wind drops and the snow thins. Fewer Pokémon, but bigger ones. Log saved."
   else
-    say "A frost-proof marker labelled \"Linden Field Notes - route log\"."
+    say "A frost-proof marker labeled \"Linden Field Notes - route log\"."
   end
 end
 
@@ -371,7 +371,7 @@ script p5a_thesis_finish
     quest p5a_linden_notes done
     say "DR. HOLT: The Professor sent this: an Ability Capsule, and his pin of thanks.\pYou have earned a place in the Linden Field Notes. He'd like a word at the lab."
   else
-    say "DR. ORREL: Your thesis needs a stronger defence. Come back when you are ready."
+    say "DR. ORREL: Your thesis needs a stronger defense. Come back when you are ready."
   end
 end
 

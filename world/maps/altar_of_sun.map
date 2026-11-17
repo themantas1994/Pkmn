@@ -1,7 +1,7 @@
 # Altar of the Sun — Solgaleo (L70) descends here. Catching it lets the atoll warden grant Ultra Burst.
 map altar_of_sun
 name "Altar of the Sun"
-location "Eclipse Atoll"
+location "Sundial Atoll"
 music ruins
 environment building
 class ruins

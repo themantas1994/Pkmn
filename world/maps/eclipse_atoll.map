@@ -1,8 +1,8 @@
-# Eclipse Atoll — ring-shaped atoll south of Route 15. The Altar of the Sun (north, Solgaleo) and the Altar of the
+# Sundial Atoll — ring-shaped atoll south of Route 15. The Altar of the Sun (north, Solgaleo) and the Altar of the
 # Moon (south, Lunala) face each other across the lagoon; the Light Crater islet (surf) hides Necrozma's refuge.
 map eclipse_atoll
-name "Eclipse Atoll"
-location "Eclipse Atoll"
+name "Sundial Atoll"
+location "Sundial Atoll"
 music ruins
 environment sand
 region 26 26

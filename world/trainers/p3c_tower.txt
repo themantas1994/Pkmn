@@ -138,7 +138,7 @@ end
 # ---------------------------------------------------------------- Tier C (L75 Tower Aces)
 trainer p3c_bt_c1
   class p3c_towerace
-  name "Kaito"
+  name "Kenzo"
   portrait cooltrainer_m
   ai 3
   intro "Round seven. Every challenger meets me sooner or later."

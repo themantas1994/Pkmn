@@ -33,7 +33,7 @@ script p4c_hl_brynn
 end
 
 script p4c_rime_reading1
-  say "The vent glows red. Galar particles swirl up around your feet!"
+  say "The vent glows red. Power Spot particles swirl up around your feet!"
   say "The Power Spot Scope beeped. Reading recorded!"
   setflag p4c_rime_read1
   quest p4c_power_survey next

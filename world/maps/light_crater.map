@@ -2,7 +2,7 @@
 # it recovers here (L72). The Prism Pedestal can fuse Necrozma with Solgaleo's or Lunala's light (Ultra Burst forms).
 map light_crater
 name "Light Crater"
-location "Eclipse Atoll"
+location "Sundial Atoll"
 music ruins
 environment cave
 region 26 26

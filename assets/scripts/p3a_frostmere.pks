@@ -130,6 +130,6 @@ script p3a_fm_lodge_scientist
     setflag p3a_letter_done
     quest p3a_letter done
   else
-    say "Power Spots gather Galar particles from deep underground. On those spots, Pokémon can grow gigantic!"
+    say "Power Spots gather Power Spot particles from deep underground. On those spots, Pokémon can grow gigantic!"
   end
 end
