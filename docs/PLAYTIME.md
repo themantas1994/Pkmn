@@ -10,21 +10,21 @@ Every figure here comes from `./gradlew :tools:estimatePlaytime`, which writes `
 
 Before changing any balance, the estimator was extended with a sensitivity table (`levelSensitivity` in the report). It simulates the party's level on arrival at each boss under different experience rules, without grinding.
 
-Party level minus the boss's ace level, gyms 1 to 8 and then the Champion:
+Party level minus the boss's ace level, gyms 1 to 8 and then the Champion. "Path + optional" is the one definition of "with optional" used everywhere: the critical path plus every optional trainer and optional wild battle of the leg.
 
 | Rules | Gap per boss |
 |---|---|
-| Exp. Share **on**, critical path only | +4 +5 +5 +6 +7 +6 +8 +8 **+11** |
-| Exp. Share **on**, path + optional trainers | +8 +10 +11 +13 +16 +17 +19 +22 **+23** |
-| Exp. Share on, *no* ×1.5 trainer bonus, path + optional | +6 +8 +8 +9 +11 +12 +13 +16 +16 |
-| Exp. Share **off**, path + optional trainers | +6 +6 +6 +5 +6 +5 +4 +5 **+3** |
-| Exp. Share **off**, critical path only | +3 +2 +0 −1 −2 −4 −4 −7 **−7** |
+| Exp. Share **on**, critical path only | +4 +6 +7 +7 +9 +8 +9 +8 **+15** |
+| Exp. Share **on**, path + optional | +13 +13 +14 +15 +19 +20 +21 +21 **+26** |
+| Exp. Share on, *no* ×1.5 trainer bonus, path + optional | +12 +12 +11 +12 +15 +15 +16 +15 **+19** |
+| Exp. Share **off**, path + optional | +10 +9 +8 +7 +8 +7 +6 +4 **+5** |
+| Exp. Share **off**, critical path only | +3 +2 +2 +0 +0 −3 −3 −6 **−4** |
 
 ### Findings
 
-- **The cause is the party-wide Exp. Share combined with the optional content.** The three expansions added about 357 optional trainers. Under the modern share every party member earns from all of them, so a player who explores arrives 16–23 levels above the late bosses. The model's earlier "+9–11" figure counted critical-path EXP only, so it understated the problem.
-- **The trainer-battle ×1.5 bonus is not the driver.** Removing it still leaves +16 at the end. The bonus is also unverified for Gen VII+ (see `docs/FIDELITY.md`), so it is unchanged.
-- **Boss levels are not too low.** With Gold/Silver/Crystal-style experience (participants only), exploring players arrive 3–6 levels ahead: a classic margin. Raising boss levels would punish players who skip optional areas, who are already 7 levels behind by the end.
+- **The cause is the party-wide Exp. Share combined with the optional content.** The three expansions added about 357 optional trainers. Under the modern share every party member earns from all of them, so a player who explores arrives 13–26 levels above the late bosses. The model's earlier "+9–11" figure counted critical-path EXP only, so it understated the problem.
+- **The trainer-battle ×1.5 bonus is not the driver.** Removing it still leaves +19 at the end. The bonus is also unverified for Gen VII+ (see `docs/FIDELITY.md`), so it is unchanged.
+- **Boss levels are not too low.** With Gold/Silver/Crystal-style experience (participants only), exploring players arrive 4–10 levels ahead: a classic margin. Raising boss levels would punish players who skip optional areas, who are already 7 levels behind by the end.
 
 ## What changed
 
@@ -41,24 +41,24 @@ Party level minus the boss's ace level, gyms 1 to 8 and then the Champion:
 
 ## Result (model)
 
-| Leg | Critical (min) | With optional (min) | Level, critical path only / with optional, vs ace | Grind (critical / optional) |
+| Leg | Critical (min) | With optional (min) | Level, critical path only / with optional, vs ace | Grind min (critical / optional) |
 |---|---|---|---|---|
-| Start → Gym 1 | 50 | 135 | 17 / 24 vs 14 | 0 / 0 |
-| Gym 1 → Gym 2 | 65 | 147 | 23 / 30 vs 21 | 0 / 0 |
-| Gym 2 → Gym 3 | 61 | 153 | 28 / 36 vs 28 | 0 / 0 |
-| Gym 3 → Gym 4 | 55 | 136 | 33 / 42 vs 34 | 0 / 0 |
-| Gym 4 → Gym 5 | 61 | 136 | 38 / 48 vs 40 | 0 / 0 |
-| Gym 5 → Gym 6 | 56 | 121 | 44 / 53 vs 46 | 8 / 0 |
-| Gym 6 → Gym 7 | 87 | 146 | 50 / 58 vs 52 | 4 / 0 |
-| Gym 7 → Gym 8 | 94 | 179 | 56 / 64 vs 58 | 37 / 0 |
-| Gym 8 → Hall of Fame | 162 | 178 | 64 / 70 vs 66 | 39 / 0 |
+| Start → Gym 1 | 54 | 137 | 17 / 24 vs 14 | 0 / 0 |
+| Gym 1 → Gym 2 | 76 | 150 | 23 / 30 vs 21 | 0 / 0 |
+| Gym 2 → Gym 3 | 80 | 155 | 30 / 36 vs 28 | 0 / 0 |
+| Gym 3 → Gym 4 | 58 | 118 | 34 / 41 vs 34 | 0 / 0 |
+| Gym 4 → Gym 5 | 79 | 166 | 40 / 48 vs 40 | 0 / 0 |
+| Gym 5 → Gym 6 | 49 | 122 | 44 / 53 vs 46 | 1 / 0 |
+| Gym 6 → Gym 7 | 88 | 147 | 50 / 58 vs 52 | 4 / 0 |
+| Gym 7 → Gym 8 | 94 | 106 | 56 / 62 vs 58 | 37 / 0 |
+| Gym 8 → Hall of Fame | 198 | 287 | 64 / 71 vs 66 | 0 / 0 |
 
 In hours:
-- **Critical path:** 12.7 h (was 11.1 h). The extra time is the grinding a player needs if they skip all side content in the last legs. Grinding stays **optional**: exploring the side areas gives the same levels with no grinding.
-- **With optional content:** 24.4 h (unchanged).
+- **Critical path:** 14.2 h. It includes the detours the story requires (the map where a flag that opens a gate or guard on the way is set, e.g. the Power Plant, the Keystone and the Z-Ring), which the earlier shortest-route estimate left out. Grinding stays **optional**: exploring the side areas gives the same levels with no grinding.
+- **With optional content:** 25.5 h.
 - **Post-game:** 4.5 h.
 
-The "with optional" columns still sit 4–9 levels above the gym aces. That is a GSC-like margin, not the previous 16–23.
+The "with optional" columns sit 4–10 levels above the gym aces. That is a GSC-like margin, not the previous 13–26.
 
 ## Why the estimate is still below 30 h
 

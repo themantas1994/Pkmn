@@ -46,7 +46,8 @@ class StrictReach(private val w: ReachWorld) {
 
     /** [edges] (step outcomes between standing tiles) and [scriptWarps] (source map to landing spot of a reachable `warp` script) are only filled by the final pass. */
     class Result(val stand: Set<P>, val flags: Set<String>, private val edges: Map<WorldAnalysis.Node, List<WorldAnalysis.Node>> = emptyMap(),
-                 private val scriptWarps: Set<Pair<String, WorldAnalysis.Node>> = emptySet(), val closedGates: Set<String> = emptySet()) {
+                 private val scriptWarps: Set<Pair<String, WorldAnalysis.Node>> = emptySet(), val closedGates: Set<String> = emptySet(),
+                 /** Map of the first reachable script that set each flag, in the order the flags became settable. */ val flagOrigin: Map<String, String> = emptyMap()) {
         private val tiles: Set<WorldAnalysis.Node> by lazy { stand.mapTo(HashSet()) { WorldAnalysis.Node(it.map, it.x, it.y) } }
         val nodes: Set<WorldAnalysis.Node> get() = tiles
         fun canStand(map: String, x: Int, y: Int) = WorldAnalysis.Node(map, x, y) in tiles
@@ -69,6 +70,34 @@ class StrictReach(private val w: ReachWorld) {
 
     /** A trigger whose script can turn the player back: its tiles stay closed until a path of the script lets the player through. */
     class Gate(val id: String, val map: String, val tiles: List<Pair<Int, Int>>, val script: String, val unlessFlag: String?, val ifFlag: String?)
+
+    /** Flags that directly hold something shut: gate `unless` flags, NPC `hideif` flags, flag tiles, and `flag` conditions in gate and guard scripts. */
+    val gatingFlags: Set<String> by lazy {
+        val out = LinkedHashSet<String>()
+        fun atoms(scriptId: String, seen: MutableSet<String> = HashSet()) {
+            if (!seen.add(scriptId)) return
+            for (i in w.code(scriptId)) when (i) {
+                is Instr.JumpIfNot -> collect(i.cond, out)
+                is Instr.Cmd -> if (i.name == "call") atoms(i.args[0], seen)
+                else -> {}
+            }
+        }
+        for (g in gates) { g.unlessFlag?.let { out.add(it) }; atoms(g.script) }
+        for (m in w.maps.values) {
+            m.flagTiles.forEach { out.add(it.flag) }
+            for (n in m.npcs) { n.hideIf?.let { out.add(it) }; if (n.movement != "wander" && possiblyGone(m, n.id)) n.script?.let { atoms(it) } }
+        }
+        out
+    }
+
+    private fun collect(c: Cond, out: MutableSet<String>) {
+        when (c) {
+            is Cond.Atom -> if (c.words[0] == "flag") out.add(c.words[1])
+            is Cond.Not -> collect(c.c, out)
+            is Cond.And -> { collect(c.a, out); collect(c.b, out) }
+            is Cond.Or -> { collect(c.a, out); collect(c.b, out) }
+        }
+    }
 
     /** Every turn-back trigger in the world. */
     val gates: List<Gate> = w.maps.values.flatMap { m ->
@@ -117,8 +146,10 @@ class StrictReach(private val w: ReachWorld) {
      * Computes the standing positions reachable with [moves]; see the class comment for [npcsGone]. [badges] switches on script
      * conditions and turn-back triggers; [openGates] are gate ids treated as passable (the gate-seal check).
      */
-    fun reach(moves: Set<FieldMove>, npcsGone: Boolean, badges: Int? = null, openGates: Set<String> = emptySet()): Result {
-        val flags = HashSet<String>()
+    fun reach(moves: Set<FieldMove>, npcsGone: Boolean, badges: Int? = null, openGates: Set<String> = emptySet(), bannedFlags: Set<String> = emptySet()): Result {
+        val flags = LinkedHashSet<String>()
+        val origin = LinkedHashMap<String, String>()
+        fun setFlag(f: String, map: String) { if (f !in bannedFlags && flags.add(f)) origin[f] = map }
         val gone = HashSet<String>()   // "map:npc" removed by a reachable script
         val extra = HashSet<P>()       // landing spots of `warp` commands in scripts the player can trigger (ferries, cutscenes)
         val warpFrom = HashSet<Pair<String, WorldAnalysis.Node>>()
@@ -129,11 +160,11 @@ class StrictReach(private val w: ReachWorld) {
             val before = flags.size + gone.size + extra.size + warpFrom.size
             for (r in w.scriptRefs) if (r.map in reach.maps && w.activatable(r, reach))
                 for (c in (if (badges == null) w.commands(r.script) else paths.explore(r.script, badges, flags).commands)) when (c.name) {
-                    "setflag" -> flags.add(c.args[0])
+                    "setflag" -> setFlag(c.args[0], r.map)
                     // Commands that set a flag implicitly (ScriptVM / GameContext.recordHallOfFame).
-                    "halloffame" -> flags.add("hall_of_fame")
-                    "pokedex" -> flags.add("has_pokedex")
-                    "unlock" -> flags.add("unlock_${c.args[0]}")
+                    "halloffame" -> setFlag("hall_of_fame", r.map)
+                    "pokedex" -> setFlag("has_pokedex", r.map)
+                    "unlock" -> setFlag("unlock_${c.args[0]}", r.map)
                     "hide", "move" -> gone.add("${r.map}:${c.args[0]}")
                     "warp" -> if (c.args.size >= 3 && c.args[0] in maps) {
                         val t = P(c.args[0], c.args[1].toIntOrNull() ?: 0, c.args[2].toIntOrNull() ?: 0, false)
@@ -143,7 +174,7 @@ class StrictReach(private val w: ReachWorld) {
             if (flags.size + gone.size + extra.size + warpFrom.size == before) {
                 val edges = HashMap<WorldAnalysis.Node, MutableList<WorldAnalysis.Node>>()
                 val finalStand = bfs(moves, npcsGone, flags, gone, extra, closed, edges)
-                return Result(finalStand, HashSet(flags), edges, warpFrom, closedIds(badges, flags, openGates))
+                return Result(finalStand, LinkedHashSet(flags), edges, warpFrom, closedIds(badges, flags, openGates), LinkedHashMap(origin))
             }
         }
     }
