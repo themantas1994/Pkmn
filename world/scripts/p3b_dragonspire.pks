@@ -26,6 +26,7 @@ script p3b_dragonspire_arrive
   emote ds_lys !
   say "LYS: A traveler from the west road! Welcome to Dragonspire City, home of the Dragon Clan.\pI'm Lys. Sorry, we're all a little jumpy. The sky over Mt. Prism keeps turning purple, and people in black were seen heading south."
   say "LYS: If you're here for the Dusk Spire, Ryuga only accepts challengers with seven Badges. The tower is right up the main avenue."
+  quest p3a_story done
   quest p3b_story start
 end
 
@@ -45,6 +46,27 @@ script p3b_gym_door
     setflag p3b_gym_open
   else
     say "A deep voice echoes from the tower: \"Only a trainer bearing seven Badges may climb the Dusk Spire!\""
+    if not badge 1
+      say "The Badge Case is missing the Brindle City Badge (Badge 1)."
+    end
+    if not badge 2
+      say "The Badge Case is missing the Port Tidewater Badge (Badge 2)."
+    end
+    if not badge 3
+      say "The Badge Case is missing Badge 3."
+    end
+    if not badge 4
+      say "The Badge Case is missing Badge 4."
+    end
+    if not badge 5
+      say "The Badge Case is missing Badge 5. Elowen's Gym is back in Seraphine, and the badge is what lets you fly."
+    end
+    if not badge 6
+      say "The Badge Case is missing the Ashfall City Badge (Badge 6)."
+    end
+    if not badge 7
+      say "The Badge Case is missing the Frostmere Badge (Badge 7)."
+    end
     move player down
   end
 end

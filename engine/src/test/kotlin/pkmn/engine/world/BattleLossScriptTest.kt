@@ -49,7 +49,7 @@ class BattleLossScriptTest {
     @Test
     fun `other gym and story trainer battles also end on a loss`() {
         for ((id, flag) in listOf("p2_volta" to "p2_badge3", "p3a_ash_blaise" to "p3a_beat_blaise", "p4c_ws_chief" to "p4c_ws_chief_beaten",
-            "p1_ww_grunt_boss" to "p1_ww_grunts_fled", "p2_plant_captain" to "p2_power_restored", "p3a_ash_rival_battle" to "p3a_rival_ashfall")) {
+            "p1_ww_grunt_boss" to "p1_ww_grunts_fled", "p2_plant_captain" to "p2_power_restored")) {  // p3a_ash_rival_battle is canlose since L1 (W5-4); StoryFlagsTest covers it
             val ctx = newCtx()
             ctx.state.setFlag("starter_grass")
             lost(id, ctx)

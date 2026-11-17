@@ -51,7 +51,11 @@ end
 script p3b_vr_rival
   face vr3_rival right
   playerface left
-  say "{rival}: There you are. I've been waiting.\pFrom Hollowbrook to the summit, you've been one step ahead the whole way. So here's the deal: one last battle. Right here, before the League."
+  if flag p5b_kai_done
+    say "{rival}: Same spot, new promise. Go!\pOne more battle before the League. That's the deal."
+  else
+    say "{rival}: There you are. I've been waiting.\pFrom Hollowbrook to the summit, you've been one step ahead the whole way. So here's the deal: one last battle. Right here, before the League."
+  end
   if flag starter_grass
     battle p3b_rival_vr_typhlosion canlose
   elif flag starter_fire

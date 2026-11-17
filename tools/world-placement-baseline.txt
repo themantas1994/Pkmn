@@ -1,8 +1,8 @@
 # World placement baseline: violations of tools/WorldPlacementChecks that exist today.
 # Format: rule where pos. A line may only be removed (fix the map), never added; CI fails on a stale line.
-choice.no-cancel p3b_draca line 153
-choice.no-cancel p3b_draca line 157
-choice.no-cancel p3b_draca line 161
+choice.no-cancel p3b_draca line 175
+choice.no-cancel p3b_draca line 179
+choice.no-cancel p3b_draca line 183
 choice.no-cancel p3c_prism_pedestal line 346
 ledge.dead p4c_roost_trail 18,5
 ledge.dead p4c_roost_trail 4,5

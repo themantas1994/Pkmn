@@ -6,13 +6,18 @@ script p3a_ash_rival_battle
   playerface left
   say "{rival}: There you are, {player}! I just cooled off in the hot spring.\pBlaise's Gym is next, but first... I want to see how strong you've gotten!"
   if flag starter_grass
-    battle p3a_rival_ashfall_typhlosion
+    battle p3a_rival_ashfall_typhlosion canlose
   elif flag starter_fire
-    battle p3a_rival_ashfall_feraligatr
+    battle p3a_rival_ashfall_feraligatr canlose
   else
-    battle p3a_rival_ashfall_meganium
+    battle p3a_rival_ashfall_meganium canlose
   end
-  say "{rival}: Tch. You're the real deal.\pHey... Team Eclipse has been sniffing around Crystal Cavern south of here. Watch yourself."
+  if result win
+    say "{rival}: Tch. You're the real deal."
+  else
+    say "{rival}: Ha! Got you this time.\pDon't take it hard. Heal up at the Pokémon Center, then come and show me what you've got."
+  end
+  say "{rival}: Hey... Team Eclipse has been sniffing around Crystal Cavern south of here. Watch yourself."
   setflag p3a_rival_ashfall
   hide ash_rival
 end
