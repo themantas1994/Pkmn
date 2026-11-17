@@ -52,7 +52,7 @@ script p5b_judge_idle
   if quest p5b_kai_notebook done or flag p5b_judges_done
     say "JUDGE: The contest is over. Thank you for the show!"
   elif quest p5b_kai_notebook step == 1
-    say "JUDGE: Judging begins once you have two Badges. Come back then."
+    say "JUDGE: Judging begins once you have two badges. Come back then."
   else
     say "JUDGE: A cooking contest is planned here. Not today."
   end
@@ -132,7 +132,7 @@ script p5b_term_idle
   if quest p5b_kai_notebook done or flag p5b_terms_done
     say "The terminal runs clean. No glitches."
   elif quest p5b_kai_notebook step == 2
-    say "The screen flickers. You need three Badges before the lab lets you touch it."
+    say "The screen flickers. You need three badges before the lab lets you touch it."
   else
     say "A lab terminal, flickering. It is not your business yet."
   end
@@ -176,7 +176,7 @@ end
 
 script p5b_term_log
   if quest p5b_kai_notebook step == 2 and badges >= 3
-    say "GLITCH LOG: The sequence that stabilises the lab is\n  B (east wall), then A (west wall), then C (south, by the door)."
+    say "GLITCH LOG: The sequence that stabilizes the lab is\n  B (east wall), then A (west wall), then C (south, by the door)."
   else
     call p5b_term_idle
   end
@@ -250,7 +250,7 @@ script p5b_qt_foreman
       say "FOREMAN: The carts keep running wild. Reset the three rails in the order they run: north-west lever, east lever, south-west lever on the sand."
     end
   elif quest p5b_kai_notebook step == 3
-    say "FOREMAN: The carts are a mess, but it takes four Badges to be allowed in the shafts."
+    say "FOREMAN: The carts are a mess, but it takes four badges to be allowed in the shafts."
   elif quest p5b_kai_notebook done or flag p5b_rails_done
     say "FOREMAN: The carts are running fine. Thanks!"
   else
@@ -280,7 +280,7 @@ script p5b_st_kai
       heal
     end
   elif quest p5b_kai_notebook step == 4
-    say "{rival}: Come back when you have five Badges. An honest spar needs an honest challenge."
+    say "{rival}: Come back when you have five badges. An honest spar needs an honest challenge."
   elif quest p5b_kai_notebook done
     say "{rival}: That spar in the mist was the day I started respecting you."
   else
@@ -298,7 +298,7 @@ script p5b_fm_kai
     setflag p5b_apology
     quest p5b_kai_notebook next
   elif quest p5b_kai_notebook step == 5
-    say "{rival}: Not yet. I'll wait here until you have seven Badges."
+    say "{rival}: Not yet. I'll wait here until you have seven badges."
   elif quest p5b_kai_notebook done or flag p5b_apology
     say "{rival}: The Ball is yours. I only asked you to hold on to it."
   else
@@ -330,7 +330,7 @@ script p5b_kai_cap
       heal
     end
   elif quest p5b_kai_notebook step == 6 and not quest p5b_kai_notebook done
-    say "{rival}: Eight Badges first. Then we finish this."
+    say "{rival}: Eight badges first. Then we finish this."
   elif quest p5b_kai_notebook done
     if random 3
       say "{rival}: The notebook is full, but I keep writing in the margins."

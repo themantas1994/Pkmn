@@ -32,9 +32,9 @@ quest p4b_stolen_light "Stolen Light"
 end
 
 quest p4b_lost_poppy "Lost in the Mist"
-  desc "Mrs. Rowan's daughter Poppy chased a Clefairy into Mistwood, north of Seraphine Town."
+  desc "Mrs. Marlow's daughter Poppy chased a Clefairy into Mistwood, north of Seraphine Town."
   step "Find Poppy in Mistwood."
-  step "Let Mrs. Rowan in Seraphine Town know that Poppy is safe."
+  step "Let Mrs. Marlow in Seraphine Town know that Poppy is safe."
 end
 
 # --- Leg 6: Route 9, Ashfall City ---

@@ -43,7 +43,7 @@ script p1_wh_grunt_boss
   face wh_grunt_boss down
   say "GRUNT LEADER: Another hero? Marina's already boxed in.\pYou'll make a fine second prisoner!"
   battle p1_wh_grunt_boss
-  say "GRUNT LEADER: Grr... Fine! Keep your shard! We've got plenty more to collect.\pEclipse, pull out!"
+  say "GRUNT LEADER: Grr... Fine! You win this round. We've got plenty more shards to collect.\pEclipse, pull out!"
   fadeout
   setflag p1_heist_foiled
   hide wh_grunt_boss

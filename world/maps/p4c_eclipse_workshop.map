@@ -41,7 +41,7 @@ tileif p4c_ws_a 15 5 cave_floor
 tileif p4c_ws_b 13 6 cave_floor
 tileif p4c_ws_b 14 6 cave_floor
 tileif p4c_ws_b 15 6 cave_floor
-sign 12 9 text="AUTHORISED PERSONNEL ONLY. Lens Division, Team Eclipse. (The gates open from the side rooms.)"
+sign 12 9 text="AUTHORIZED PERSONNEL ONLY. Lens Division, Team Eclipse. (The gates open from the side rooms.)"
 trainer p4c_ew_grunt_a 10 15 sprite=grunt_m face=down sight=3
 trainer p4c_ew_grunt_b 20 8 sprite=grunt_f face=left sight=4
 trainer p4c_ew_sci_lumen 7 12 sprite=scientist face=right sight=3

@@ -54,7 +54,7 @@ script p3c_coral_legends
     giveitem goldbottlecap
     quest p3c_legends done
   else
-    say "OLD MAN: Six guardians watch over these isles, young Champion.\pThe sun lion and moon bat on Eclipse Atoll. The storm bird beneath Tempest Isle.\pThe sea and land titans, south and west. And the sky serpent atop the Sky Pillar, who settles their quarrels.\pCatch all six and come tell me. I'd love to see it before I go."
+    say "OLD MAN: Six guardians watch over these isles, young Champion.\pThe sun lion and moon bat on Sundial Atoll. The storm bird beneath Tempest Isle.\pThe sea and land titans, south and west. And the sky serpent atop the Sky Pillar, who settles their quarrels.\pCatch all six and come tell me. I'd love to see it before I go."
     if not quest p3c_legends started
       quest p3c_legends start
     end

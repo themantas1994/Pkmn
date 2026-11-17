@@ -12,7 +12,7 @@ script p4b_bryn
     quest p4b_canary_lamp done
     say "BRYN: Stealth Rock. Sharp stones float around the foe's side, and every Pokémon they send out gets a nasty surprise."
   elif quest p4b_canary_lamp started
-    say "BRYN: The lamp should be in the deepest gallery, past the flooded level. You'll need Strength and Flash, and the Badges that unlock them."
+    say "BRYN: The lamp should be in the deepest gallery, past the flooded level. You'll need Strength and Flash, and the badges that unlock them."
   else
     say "BRYN: Shaft No. 3. I worked it thirty years, until the day it caved in.\pNobody was hurt, thank the stones. But my partner Tam's lamp is still down in the vault, and Tam's long gone now.\pIf you're heading in, would you look for it? I'd like to keep something of his."
     quest p4b_canary_lamp start

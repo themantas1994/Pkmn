@@ -285,7 +285,7 @@ end
 # --- Pylon Ridge ---
 trainer p4b_ridge_worker_rook
   class p4b_worker
-  name "Rook"
+  name "Dunstan"
   intro "Lineman on duty! Don't touch the pylons. Touch my Pokémon instead! In battle!"
   defeat "Short-circuited..."
   after "Team Eclipse spliced into our lines up here before the Voltara blackout. We're still finding their clamps."

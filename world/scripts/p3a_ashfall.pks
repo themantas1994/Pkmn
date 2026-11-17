@@ -137,7 +137,7 @@ script p3a_ash_spa_gentleman
     giveitem lavacookie 3
     setflag p3a_got_lavacookie
   elif not flag p3a_letter
-    say "Say, are you heading north? My daughter works with a ranger named Hollis up in Frostmere.\pCould you take her this letter? She never answers her PokéNav."
+    say "Say, are you heading north? My daughter works with a ranger named Hollis up in Frostmere.\pCould you take her this letter? She never answers her Pokégear."
     setflag p3a_letter
     quest p3a_letter start
     say "{player} took the letter."

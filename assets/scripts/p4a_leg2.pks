@@ -239,7 +239,7 @@ end
 
 # ---------------------------------------------------------------- S.S. Driftwood
 script p4a_wreck_log1
-  say "A water-stained page is nailed to the wall:\p\"CAPTAIN'S LOG. Cargo: twelve crates of glowing crystal from the Coral Isles. The crew says they hum at night.\""
+  say "A water-stained page is nailed to the wall:\p\"CAPTAIN'S LOG. Cargo: twelve crates of glowing crystal from Mt. Prism. The crew says they hum at night.\""
 end
 
 script p4a_wreck_log2

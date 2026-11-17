@@ -234,7 +234,7 @@ end
 
 trainer p4a_lh_lass_mira
   class lass
-  name "Mira"
+  name "Mina"
   intro "My grandpa is the keeper! Battle me and I'll introduce you!"
   defeat "Grandpa would be proud of you, not me."
   after "A Wingull snatched Grandpa's key and flew off toward the beach. Wingull love shiny things!"

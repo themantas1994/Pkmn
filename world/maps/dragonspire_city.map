@@ -53,7 +53,7 @@ building house_blue 30 6 -> dragonspire_house2 3 5 up
 building lab 4 14 -> dragonspire_shrine 5 9 up
 building house 11 14 -> dragonspire_house3 3 5 up
 sign 3 12 text="DRAGONSPIRE CITY\nWhere wings meet the dusk."
-sign 19 7 text="DRAGONSPIRE GYM - THE DUSK SPIRE\nLeader: RYUGA\nThe Wings of Twilight!\pChallengers must carry seven Badges."
+sign 19 7 text="DRAGONSPIRE GYM - THE DUSK SPIRE\nLeader: RYUGA\nThe Wings of Twilight!\pChallengers must carry seven badges."
 sign 15 25 text="UMBRAL PASS ahead\nTo PRISM SUMMIT.\nClan permission required."
 sign 33 12 text="ROUTE 13 ahead\nVictory Road - Prism Plateau"
 sign 21 13 text="SCALEMIRROR POND\nPlease do not feed the Dratini. They are not here. Probably."

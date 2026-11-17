@@ -334,7 +334,7 @@ trainer p3c_r15_swimmer_kana
   ai 1
   intro "The reefs are my playground!"
   defeat "Out-swum!"
-  after "South of here is Eclipse Atoll. The altars there are ancient."
+  after "South of here is Sundial Atoll. The altars there are ancient."
   mon alomomola 61
   mon corsola 61
   mon mantine 62

@@ -7,7 +7,7 @@ script p2_route5_gate
     quest p2_story start
   else
     face r5_officer left
-    say "OFFICER: Hold it! Route 5 is closed to trainers without the Tide Badge.\pBeat Marina at the Port Tidewater Gym, then come back."
+    say "OFFICER: Hold it! Route 5 is closed to trainers with fewer than two badges.\pBeat Marina at the Port Tidewater Gym, then come back."
     move player up
   end
 end

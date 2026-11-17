@@ -28,13 +28,13 @@ script p3b_ps2_lens_tech
   if flag p3b_eclipse_defeated
     say "TECHNICIAN: I'm just here to dismantle the relay. I quit Team Eclipse. Mostly because there's no more Team Eclipse."
   else
-    say "TECHNICIAN: Don't hurt me! I just maintain the relay crystals.\pThey pipe light up to Lord Umbra's lens at the summit. When it's full, he'll aim it at the Prism Pokémon. Something about 'feeding it until it never wakes'..."
+    say "TECHNICIAN: Don't hurt me! I just maintain the relay crystals.\pThey pipe light up to Lord Umbra's lens at the summit. When it's full, he'll aim it at the Prism Pokémon. Something about 'until it wakes and drinks the light'..."
   end
 end
 
 script p3b_vesper
   face vesper right
-  say "VESPER: So, the light-bearer arrives exactly on schedule. I am Vesper, Admin of Team Eclipse.\pI have seen a thousand futures. In each one, the eclipse falls. Let me show you yours."
+  say "VESPER: So, the light-bearer arrives exactly on schedule. I am Vesper, Admin of Team Eclipse.\pI have seen a hundred futures. In most of them, the eclipse falls. Let me show you yours."
   battle p3b_admin_vesper
   if result win
     say "VESPER: The visions... flicker. Interesting.\pCorvin guards the last corridor. He has been sulking about you since Mt. Prism."

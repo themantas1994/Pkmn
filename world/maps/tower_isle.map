@@ -40,7 +40,7 @@ sign 8 10 text="BATTLE TOWER\nSeven battles. No mercy. Glory to the unbeaten!"
 tile 8 10 sign
 npc ti_gentleman 15 11 sprite=gentleman face=left text="The Tower Tycoon only appears once a challenger wins twenty battles in a row.\pI've seen it happen once. Once!"
 npc ti_psychic 7 7 sprite=psychic move=wander text="Lightning keeps striking that little islet to the south-east. Something up there loves the storm."
-npc ti_sailor 19 12 sprite=sailor face=left text="Ahoy! Surf east from the Coral Town pier and you'll hit the reefs of Route 15... wait, that's south. Bah, the sea's the sea!"
+npc ti_sailor 19 12 sprite=sailor face=left text="Ahoy! Surf south from the Coral Town pier and you'll hit the reefs of Route 15. Can't miss 'em!"
 npc zapdos 17 20 sprite=legendary_shadow face=down script=p3c_zapdos hideif=p3c_caught_zapdos
 item ti_ppmax 6 14 ppmax
 hidden ti_hidden1 20 9 cometshard

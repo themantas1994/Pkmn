@@ -1,7 +1,7 @@
 # Altar of the Moon — Lunala (L70) alights here. Catching it lets the atoll warden grant Ultra Burst.
 map altar_of_moon
 name "Altar of the Moon"
-location "Eclipse Atoll"
+location "Sundial Atoll"
 music ruins
 environment building
 class ruins

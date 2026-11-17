@@ -50,7 +50,7 @@ trainer p3b_up_ranger_cass
   name "Cass"
   intro "I patrol this pass. Prove you're not with those Eclipse creeps!"
   defeat "Okay, definitely not with them."
-  after "The tarn has an islet with something shiny on it. Bring a Surfer."
+  after "The tarn has an islet with something shiny on it. You'll have to Surf across."
   mon sandslash 53
   mon lycanroc 53
   mon skarmory 54

@@ -17,7 +17,7 @@ script p2_voltara_officer
   if badge 3
     say "OFFICER: The Spark Badge! Dr. Mira asked me to send badge holders to her lab first.\pIt's the big building east of the plaza."
   else
-    say "OFFICER: Route 7 is closed. The blackout knocked down power lines all over the hills.\pVolta's crew will clear them once the power is back."
+    say "OFFICER: Route 7 is closed. The blackout knocked down power lines all over the hills.\pDr. Mira will have the road cleared as soon as she can."
   end
 end
 
@@ -26,7 +26,7 @@ script p2_voltara_east_gate
   if badge 3
     say "OFFICER: Not so fast! Dr. Mira wants to see you at her lab before you go."
   else
-    say "OFFICER: Sorry, Route 7 is closed until the power's back!"
+    say "OFFICER: Sorry, Route 7 is closed until Dr. Mira clears it!"
   end
   move player left
 end

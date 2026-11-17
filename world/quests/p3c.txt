@@ -24,8 +24,8 @@ quest p3c_primal "Sea, Land and Sky"
   step "Climb the Sky Pillar on Pillar Isle and face Rayquaza."
 end
 
-quest p3c_ultra "Light of the Eclipse"
-  desc "The warden of Eclipse Atoll guards an ancient secret of sun, moon and the Prism Pokémon."
+quest p3c_ultra "Light of Sun and Moon"
+  desc "The warden of Sundial Atoll guards an ancient secret of sun, moon and the Prism Pokémon."
   step "Catch Solgaleo or Lunala at the atoll's altars."
   step "Return to the atoll warden."
 end

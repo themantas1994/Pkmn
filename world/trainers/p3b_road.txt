@@ -134,7 +134,7 @@ end
 
 trainer p3b_vr1_veteran_rook
   class p3b_veteran_m
-  name "Rook"
+  name "Garrick"
   intro "You climbed the falls! Few get this far. Fewer get farther!"
   defeat "Farther it is."
   after "The ladder is to the west. Upstairs, boulders block the way."

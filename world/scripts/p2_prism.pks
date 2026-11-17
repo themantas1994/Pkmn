@@ -9,7 +9,7 @@ end
 
 script p2_corvin
   face corvin down
-  say "CORVIN: Well, well. The brat who ruined our siphon in Voltara.\pI am Corvin, Admin of Team Eclipse. This mountain's light will feed the eclipse, and you will not interfere."
+  say "CORVIN: Well, well. The brat who beat our captain in Voltara.\pI am Corvin, Admin of Team Eclipse. This mountain's light will feed the eclipse, and you will not interfere."
   battle p2_admin_corvin
   say "CORVIN: Tch. Your light is irritatingly bright.\pNo matter. We've harvested enough crystal here. The summit can wait for Lord Umbra."
   setflag p2_beat_corvin

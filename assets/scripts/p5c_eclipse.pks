@@ -4,7 +4,7 @@
 
 # ---------------------------------------------------------------- Document texts (read on pickup, replayed in the archive)
 script p5c_doc_1
-  say "DOCUMENT 1, Rook's notes: \"Umbra started Team Eclipse after the Great Heat. One summer every field around Tessera dried to dust.\pNobody blamed the sun. So Umbra decided to.\""
+  say "DOCUMENT 1, Rook's notes: \"Team Eclipse is an ancient cult, and Umbra revived it after the Great Heat. One summer every field around Tessera dried to dust.\pNobody blamed the sun. So Umbra decided to.\""
 end
 
 script p5c_doc_2
