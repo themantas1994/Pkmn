@@ -103,7 +103,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (544 + 182 + 192, `./gradlew :tools:statusCounts` after a full test run on 2026-11-16 with the art venv built, skipped: only ChipSynthBenchmarkTest in core, as in CI; 525 + 160 + 152 with link play phase 5; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets and reports are committed, checks that the numbers quoted here match the build outputs (`:tools:checkStatus`), runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (544 + 182 + 194, `./gradlew :tools:statusCounts` after a full test run on 2026-11-16 with the art venv built, skipped: only ChipSynthBenchmarkTest in core, as in CI; 525 + 160 + 152 with link play phase 5; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets and reports are committed, checks that the numbers quoted here match the build outputs (`:tools:checkStatus`), runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.
