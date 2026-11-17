@@ -29,7 +29,7 @@ Every number in this document was produced by the commands listed next to it. No
 | Mechanics | Natures (incl. Mints), IVs, EVs and the stat formula verified; every core mechanic classified in [docs/MECHANICS.md](docs/MECHANICS.md) |
 | Tests | all passing (counts: `./gradlew :tools:statusCounts` after the test run); CI runs them on every push. 56 reproducible visual-regression screenshots of the real desktop game (`tools/visual/run_scenes.sh`, 2026-11-15) |
 | Learnsets and moves | Every species/form audited (`:tools:auditLearnsets`: 0 errors) and every move executed in battle (`MoveExecutionTest`: 0 unsupported); see [docs/LEARNSETS.md](docs/LEARNSETS.md), [reports/moves-audit.md](reports/moves-audit.md) |
-| Playtime | Content-derived estimate: 12.7 h critical path, 24.4 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
+| Playtime | Content-derived estimate: 14.2 h critical path, 25.5 h with optional content, plus 4.5 h post-game. Below the ~30 h-to-the-E4 target; see [docs/PLAYTIME.md](docs/PLAYTIME.md) |
 
 ## Mechanics update: capture, Pokédex, nicknames, IVs/EVs, sprites
 
@@ -64,7 +64,7 @@ Each fix below was reproduced first, then checked with tests and in the running 
 | Zone entrances drawn as house doors (29 warps), one exit landing on water | Generic `door` stamp reused for forests, towers, ruins, mines; Frozen Falls → Route 12 landing | Explicit entrance classes, 6 new entrance tiles, map data fixed, compiler errors on mismatches | `reports/entrances.md`, [docs/WORLD_VALIDATION.md](docs/WORLD_VALIDATION.md) |
 | `gym_window` was walkable | Not in the solid-tile list | Solid | `EntranceTest` |
 | TM Stone Edge drawn on a solid rock | Placement | Moved one tile; same id and flag | `reports/items.md` |
-| Party 16–23 levels above late bosses with optional content | Party-wide Exp. Share together with the expansions' optional trainers | Exp. Share off by default for **new** players; existing option files keep it on | [docs/PLAYTIME.md](docs/PLAYTIME.md), `TimeAndEventsTest` |
+| Party 13–26 levels above late bosses with optional content | Party-wide Exp. Share together with the expansions' optional trainers | Exp. Share off by default for **new** players; existing option files keep it on | [docs/PLAYTIME.md](docs/PLAYTIME.md), `TimeAndEventsTest` |
 | `java.time` would crash on Android 7.0–7.1 (minSdk 24) | No core-library desugaring | Desugaring enabled (`desugar_jdk_libs` 2.1.5) | APK dex contains `j$.time` |
 | Empty or broken time-of-day encounter table gave no encounters | Fallback only when the key was missing | Period + `any` slots, then a documented fallback chain | `TimeAndEventsTest` |
 
@@ -103,7 +103,7 @@ See [docs/BUILD.md](docs/BUILD.md) for full build, test, signing and install ins
 
 ## Tests
 
-`./gradlew :engine:test :core:test :tools:test`, all passing (544 + 185 + 197, `./gradlew :tools:statusCounts` after a full test run on 2026-11-17 with the art venv built, skipped: only ChipSynthBenchmarkTest in core, as in CI; 525 + 160 + 152 with link play phase 5; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets and reports are committed, checks that the numbers quoted here match the build outputs (`:tools:checkStatus`), runs the tests and builds the debug APK and release bundle on every push.
+`./gradlew :engine:test :core:test :tools:test`, all passing (544 + 185 + 199, `./gradlew :tools:statusCounts` after a full test run on 2026-11-16 with the art venv built, skipped: only ChipSynthBenchmarkTest in core, as in CI; 525 + 160 + 152 with link play phase 5; 494 + 154 + 152 with link play trades; 173 + 45 + 78 before link play; 148 + 44 + 78 before badge obedience; 106 + 44 + 40 before the mechanics update). GitHub Actions (`.github/workflows/ci.yml`) runs the content gates, checks that generated assets and reports are committed, checks that the numbers quoted here match the build outputs (`:tools:checkStatus`), runs the tests and builds the debug APK and release bundle on every push.
 
 **Engine:**
 - **Battle core:** damage formula against hand-computed values, immunities, abilities, items, status, hazards, protection, choice lock, experience.
@@ -213,33 +213,33 @@ Android devices were not measured; see Builds.
 
 ## Playtime
 
-Updated in this release; the analysis is in [docs/PLAYTIME.md](docs/PLAYTIME.md). The table below is the earlier one, kept for comparison.
+The analysis is in [docs/PLAYTIME.md](docs/PLAYTIME.md); every number below is copied from `reports/playtime.json`.
 
-`./gradlew :tools:estimatePlaytime` writes `reports/playtime.json`. This is a model, not a measurement. It sums, along the route between gyms:
-- Walking.
+`./gradlew :tools:estimatePlaytime` writes `reports/playtime.json` (about 9 minutes: it checks which flags each leg needs by re-running the strict reach with each candidate flag banned). This is a model, not a measurement. It sums, along the route between gyms:
+- Walking, including the detours the story requires (the map where a flag opening a gate or guard on the way is set).
 - Trainer battles.
 - Expected wild encounters.
 - Dialogue.
 - Grinding, from a simulation of the party's experience.
 
 The model's constants are listed in the report. Current result:
-- Critical path: **12.7 h** (was 11.1 h; the extra time is optional grinding for players who skip all side content, now that Exp. Share is off by default).
-- With optional content: **24.4 h**.
+- Critical path: **14.2 h**.
+- With optional content: **25.5 h** (critical path plus every optional trainer and optional wild battle; one definition, used in the table and the sensitivity rows).
 - Post-game: **4.5 h**.
 
-| Leg | Critical (min) | With optional (min) | Party level on arrival vs boss ace |
-|---|---|---|---|
-| Start → Gym 1 | 50 | 135 | 18 vs 14 |
-| Gym 1 → Gym 2 | 65 | 147 | 26 vs 21 |
-| Gym 2 → Gym 3 | 61 | 153 | 33 vs 28 |
-| Gym 3 → Gym 4 | 55 | 136 | 40 vs 34 |
-| Gym 4 → Gym 5 | 61 | 136 | 47 vs 40 |
-| Gym 5 → Gym 6 | 48 | 121 | 52 vs 46 |
-| Gym 6 → Gym 7 | 82 | 146 | 60 vs 52 |
-| Gym 7 → Gym 8 | 58 | 179 | 66 vs 58 |
-| Gym 8 → Hall of Fame | 123 | 178 | 77 vs 66 |
+| Leg | Critical (min) | With optional (min) | Level, critical path only / with optional, vs ace | Grind min (critical / optional) |
+|---|---|---|---|---|
+| Start → Gym 1 | 54 | 137 | 17 / 24 vs 14 | 0 / 0 |
+| Gym 1 → Gym 2 | 76 | 150 | 23 / 30 vs 21 | 0 / 0 |
+| Gym 2 → Gym 3 | 80 | 155 | 30 / 36 vs 28 | 0 / 0 |
+| Gym 3 → Gym 4 | 58 | 118 | 34 / 41 vs 34 | 0 / 0 |
+| Gym 4 → Gym 5 | 79 | 166 | 40 / 48 vs 40 | 0 / 0 |
+| Gym 5 → Gym 6 | 49 | 122 | 44 / 53 vs 46 | 1 / 0 |
+| Gym 6 → Gym 7 | 88 | 147 | 50 / 58 vs 52 | 4 / 0 |
+| Gym 7 → Gym 8 | 94 | 106 | 56 / 62 vs 58 | 37 / 0 |
+| Gym 8 → Hall of Fame | 198 | 287 | 64 / 71 vs 66 | 0 / 0 |
 
-Three expansion passes added 78 optional maps, about 357 trainers, 27 side quests, 6 in-game trades and several gifts. That took the with-optional estimate from 12.5 h to 24.4 h. It is still below the ~30 h target to the Elite Four; with the post-game the total is about 29 h.
+Three expansion passes added 78 optional maps, about 357 trainers, 27 side quests, 6 in-game trades and several gifts. That took the with-optional estimate from 12.5 h to 25.5 h. It is still below the ~30 h target to the Elite Four; with the post-game the total is about 30 h.
 
 The model is a content sum, not a measurement of real players. It assumes a typical player reads about half of the optional dialogue and fights a share of the wild encounters, and it does not count puzzle-solving time, deaths or backtracking for items.
 
@@ -252,8 +252,8 @@ The model is a content sum, not a measurement of real players. It assumes a typi
 - **Pokémon sprites are placeholders in public builds.** Official sprites are only available through the local import path and the one-command personal APK (`./gradlew :android:assemblePersonalDebugWithSprites`; never share that APK). PokeAPI has no files for Zygarde-Mega and 379 icons, and the 4 Ogerpon Tera forms have no mapping, so they use the fallback. The styled sprites are an automated approximation, and some need hand touch-ups. Trainer, overworld and UI art is original and complete.
 - **Obedience uses the Generation III/IV disobedience formula** with Scarlet/Violet's badge caps and met-level rule, because the Generation V+ formulas are undocumented. Breeding is out of scope (gift Eggs hatch at once). Wild Pokémon hold no items. See [docs/MECHANICS.md](docs/MECHANICS.md).
 - **Singles only:** no double battles.
-- **Playtime is below target.** About 24 h to the Hall of Fame with optional content (estimate); see the Playtime section.
-- **Late-game difficulty depends on Exp. Share.** With it off (the new default) the model has exploring players 4–9 levels above gym aces. With it on, they are 16–23 levels above. Challenge difficulty still caps levels at the next leader's ace.
+- **Playtime is below target.** About 26 h to the Hall of Fame with optional content (estimate); see the Playtime section.
+- **Late-game difficulty depends on Exp. Share.** With it off (the new default) the model has exploring players 4–10 levels above gym aces. With it on, they are 13–26 levels above. Challenge difficulty still caps levels at the next leader's ace.
 - **Some checks are approximate.** Waterfalls can be climbed but not descended, so areas above them have one-way ledges back down.
 - **Missing evolution methods:** Kubfu/Urshifu (not obtainable) and Vivillon Fancy (event-only) cannot evolve in-game, and regional-variant evolutions are disabled by design. Milcery evolves by spinning on the spot while it holds a Sweet.
 - **Necrozma fusion is simplified.** The engine has no N-Solarizer/N-Lunarizer fusion. The post-game "Prism Pedestal" swaps a Necrozma for a fresh level-75 Dusk Mane or Dawn Wings, so the player's own Necrozma (level, EVs) is replaced.

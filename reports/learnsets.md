@@ -123,7 +123,7 @@ Pokémon checked by kind: {"event":1,"giveegg":5,"givemon":28,"trade":14,"traine
 | egg-only | bisharp | suckerpunch | 59 | `world/trainers/p4c_leg9.txt:279` |
 | egg-only | typhlosion | extrasensory | 58 | `world/trainers/p5b.txt:57` |
 | egg-only | grimeralola | shadowsneak | 57 | `world/trainers/p5c.txt:27` |
-| egg-only | dragonair | extremespeed | 50 | `world/scripts/p3b_dragonspire.pks:167 (p3b_draca)` |
+| egg-only | dragonair | extremespeed | 50 | `world/scripts/p3b_dragonspire.pks:189 (p3b_draca)` |
 
 ## TM availability
 

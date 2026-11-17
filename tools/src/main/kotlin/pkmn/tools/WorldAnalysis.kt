@@ -251,6 +251,22 @@ class WorldAnalysis(root: File) : ProgressWorld {
         private fun isCounter(m: MapData, x: Int, y: Int) =
             m.inBounds(x, y) && (listOf(m.tileAt(x, y)) + m.flagTiles.filter { it.x == x && it.y == y }.map { it.tile }).any { TileRules.behavior(it) == TileBehavior.COUNTER }
 
+        fun shortestMapPath(reach: Reach, from: String, to: String): List<String>? {
+            if (from == to) return listOf(from)
+            val prev = HashMap<String, String>()
+            val queue = ArrayDeque<String>().apply { add(from) }
+            val seen = hashSetOf(from)
+            while (queue.isNotEmpty()) {
+                val m = queue.removeFirst()
+                for (t in reach.mapEdges[m].orEmpty()) if (seen.add(t)) {
+                    prev[t] = m
+                    if (t == to) return generateSequence(to) { prev[it] }.toList().reversed()
+                    queue.add(t)
+                }
+            }
+            return null
+        }
+
         /** Mirror of `GameContext.canUseFieldMove` (named-badge rule) for a player holding badges 1..[badges], the order the campaign awards them. */
         fun fieldMovesAt(badges: Int): Set<FieldMove> = FieldMove.entries.filter { badges >= it.badgeRequired }.toSet()
     }
@@ -268,20 +284,7 @@ class WorldAnalysis(root: File) : ProgressWorld {
         return Stage(badges, moves, reach, withEvolutions(reach.maps.flatMap { speciesOn(it) }.toSet()))
     }
 
-    /** Shortest map-to-map route within a reach. */
-    fun mapPath(reach: Reach, from: String, to: String): List<String>? {
-        if (from == to) return listOf(from)
-        val prev = HashMap<String, String>()
-        val queue = ArrayDeque<String>().apply { add(from) }
-        val seen = hashSetOf(from)
-        while (queue.isNotEmpty()) {
-            val m = queue.removeFirst()
-            for (t in reach.mapEdges[m].orEmpty()) if (seen.add(t)) {
-                prev[t] = m
-                if (t == to) return generateSequence(to) { prev[it] }.toList().reversed()
-                queue.add(t)
-            }
-        }
-        return null
-    }
+    /** Shortest map-to-map route within a reach (script gates ignored; see [RequiredRoute] for the route a player must take). */
+    fun mapPath(reach: Reach, from: String, to: String): List<String>? = shortestMapPath(reach, from, to)
+
 }
