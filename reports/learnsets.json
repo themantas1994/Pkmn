@@ -5980,7 +5980,7 @@
         "detail": "egg move (breeding not implemented)"
       },
       {
-        "source": "world/scripts/p3b_dragonspire.pks:167 (p3b_draca)",
+        "source": "world/scripts/p3b_dragonspire.pks:189 (p3b_draca)",
         "kind": "givemon",
         "owner": "p3b_draca",
         "species": "dragonair",
@@ -6240,7 +6240,7 @@
         "placements": [
           {
             "kind": "script",
-            "source": "world/scripts/p3b_dragonspire.pks:296 (p3b_ryuga)"
+            "source": "world/scripts/p3b_dragonspire.pks:318 (p3b_ryuga)"
           },
           {
             "kind": "shop",
@@ -6702,7 +6702,7 @@
         "placements": [
           {
             "kind": "script",
-            "source": "world/scripts/p3a_ashfall.pks:78 (p3a_ash_blaise)"
+            "source": "world/scripts/p3a_ashfall.pks:83 (p3a_ash_blaise)"
           }
         ],
         "learnersAll": 147,
@@ -7643,7 +7643,7 @@
       "issue": "egg-only",
       "selectedValue": "givemon p3b_draca L50 moves=extremespeed,dragonrush,aquatail,dragondance",
       "justification": "legal in the games but only via breeding, which is out of scope; either replace the move or implement breeding (egg move (breeding not implemented))",
-      "source": "world/scripts/p3b_dragonspire.pks:167 (p3b_draca)"
+      "source": "world/scripts/p3b_dragonspire.pks:189 (p3b_draca)"
     }
   ],
   "findings": [
@@ -7986,7 +7986,7 @@
     {
       "severity": "warning",
       "code": "world-egg-only",
-      "subject": "world/scripts/p3b_dragonspire.pks:167 (p3b_draca)",
+      "subject": "world/scripts/p3b_dragonspire.pks:189 (p3b_draca)",
       "message": "p3b_draca: dragonair L50 knows extremespeed: egg move (breeding not implemented)"
     },
     {
