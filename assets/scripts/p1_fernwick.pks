@@ -3,6 +3,7 @@
 script p1_fern_aide_call
   emote aide !
   say "AIDE: {player}! Over here! Prof. Linden asked me to catch you."
+  quest main_story done
   call p1_fern_aide_gift
 end
 

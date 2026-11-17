@@ -280,6 +280,9 @@ class TownMapScreen(game: PkmnGame, private val ctx: GameContext, private val ow
     }
 }
 
+/** First row shown by a scrolling list of [rows] visible rows, so the cursor row is always on screen. */
+internal fun listWindowTop(cursor: Int, size: Int, rows: Int): Int = (cursor - rows / 2).coerceIn(0, maxOf(0, size - rows))
+
 class QuestScreen(game: PkmnGame, private val ctx: GameContext) : Screen(game) {
     private var cursor = 0
     private val entries get() = ctx.state.quests.values.toList().sortedBy { it.completed }
@@ -299,10 +302,12 @@ class QuestScreen(game: PkmnGame, private val ctx: GameContext) : Screen(game) {
         r.text("QUESTS", 8, 8)
         val list = entries
         if (list.isEmpty()) { r.text("No quests yet.", 16, 40); return }
-        list.take(7).forEachIndexed { i, q ->
+        val top = listWindowTop(cursor, list.size, 7)
+        list.drop(top).take(7).forEachIndexed { row, q ->
+            val i = top + row
             val def = ctx.content.quests[q.id]
-            r.text((if (q.completed) "✓ " else "") + (def?.name ?: q.id).take(26), 18, 32 + i * 14, if (q.completed) Palette.GREY else Palette.TEXT)
-            if (i == cursor) r.cursor(8, 32 + i * 14)
+            r.text((if (q.completed) "✓ " else "") + (def?.name ?: q.id).take(26), 18, 32 + row * 14, if (q.completed) Palette.GREY else Palette.TEXT)
+            if (i == cursor) r.cursor(8, 32 + row * 14)
         }
         val q = list.getOrNull(cursor) ?: return
         val def = ctx.content.quests[q.id]

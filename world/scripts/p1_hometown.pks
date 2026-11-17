@@ -9,6 +9,18 @@ script house_mom
     giveitem potion 2
     say "MOM: Hold the B button to run, dear. Don't forget to call home!"
     setflag mom_running_shoes
+  elif flag hall_of_fame
+    say "MOM: {player}! You're the Champion! I watched the whole thing on TV and cried like a baby.\pWelcome home, sweetheart. Sit down. Let me make you something to eat."
+    heal
+    say "MOM: There. You've done it all, and I'm so proud of you."
+  elif badges >= 8
+    say "MOM: Eight badges! You'll be going to the Pokémon League next, won't you?\pBe careful, dear. I know you'll be wonderful."
+    heal
+    say "MOM: There, all rested. Go and make us proud, {player}!"
+  elif badges >= 3
+    say "MOM: Badge after badge! The neighbors won't stop talking about you."
+    heal
+    say "MOM: There, all rested. Go show them, {player}!"
   elif badges >= 2
     say "MOM: Two badges! The neighbors won't stop talking about you."
     heal
@@ -24,6 +36,8 @@ script rival_mom
   faceplayer
   if not flag got_starter
     say "Oh, {player}! {rival} left for the lab ages ago. That kid never waits for anyone."
+  elif flag hall_of_fame
+    say "{rival} told me everything! You're the Champion, {player}, and {rival} couldn't be prouder.\pI think {rival} is secretly already planning a rematch."
   elif badges >= 1
     say "{rival} called! Said you two keep bumping into each other.\pI think {rival} is secretly happy about it."
   else
