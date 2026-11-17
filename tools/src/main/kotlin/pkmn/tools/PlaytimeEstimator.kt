@@ -64,7 +64,15 @@ class PlaytimeEstimator(private val root: File) {
         var fullTotal = 0.0
         val counted = HashSet<String>()
         val seenOptional = HashSet<String>()
-        val paths = (1 until milestones.size).map { i -> w.mapPath(stages[i - 1].reach, milestones[i - 1].second, milestones[i].second) }
+        // The critical path includes the detours that set the flags opening gates and guards on the way (RequiredRoute).
+        val router = RequiredRoute(w)
+        val doneFlags = HashSet<String>()
+        val routes = (1 until milestones.size).map { i ->
+            val r = router.route(i - 1, milestones[i - 1].second, milestones[i].second, doneFlags)
+            r?.let { doneFlags.addAll(it.requiredFlags) }
+            r
+        }
+        val paths = routes.map { it?.maps }
         val legOfPathMap = HashMap<String, Int>()
         paths.forEachIndexed { leg, p -> p?.forEach { legOfPathMap.putIfAbsent(it, leg + 1) } }
         val optionalLeg = attachOptional(stages.last().reach, legOfPathMap)
@@ -78,7 +86,8 @@ class PlaytimeEstimator(private val root: File) {
                 continue
             }
             // Maps passed again on a later leg cost traversal only.
-            val costs = path.map { m -> mapCost(m, critical = true, revisit = m in counted) }
+            val visited = HashSet<String>()
+            val costs = path.map { m -> mapCost(m, critical = true, revisit = m in counted || !visited.add(m)) }
             counted.addAll(path)
             val optional = optionalLeg.filter { (m, leg) -> leg == i && m !in counted && m !in seenOptional && m in stage.reach.maps }.keys
             seenOptional.addAll(optional)
@@ -91,7 +100,7 @@ class PlaytimeEstimator(private val root: File) {
             partyFull.defeatWild((costs + optionalCosts).sumOf { it.wildBattles } * K.WILD_FIGHT_SHARE, stage.reach.maps)
             val bossLevel = bossAceLevel(to, toLabel)
             legData.add(LegData("$fromLabel -> $toLabel", costs.flatMap { it.trainerIds }, optionalCosts.flatMap { it.trainerIds },
-                costs.sumOf { it.wildBattles } * K.WILD_FIGHT_SHARE, stage.reach.maps, bossLevel, i))
+                costs.sumOf { it.wildBattles } * K.WILD_FIGHT_SHARE, optionalCosts.sumOf { it.wildBattles } * K.WILD_FIGHT_SHARE, stage.reach.maps, bossLevel, i))
             val grind = party.grindTo(bossLevel - K.LEVEL_MARGIN, stage.reach.maps)
             val grindFull = partyFull.grindTo(bossLevel - K.LEVEL_MARGIN, stage.reach.maps)
             val legCritical = costs.sumOf { it.total } + grind.seconds
@@ -101,6 +110,7 @@ class PlaytimeEstimator(private val root: File) {
             legs.add(buildJsonObject {
                 put("leg", "$fromLabel -> $toLabel"); put("badges", i - 1)
                 put("path", JsonArray(path.map { JsonPrimitive(it) }))
+                put("requiredFlags", JsonArray(routes[i - 1]?.requiredFlags.orEmpty().map { JsonPrimitive(it) }))
                 put("criticalMinutes", (legCritical / 60).roundToInt())
                 put("fullMinutes", (legFull / 60).roundToInt())
                 put("trainersOnPath", costs.sumOf { it.trainerIds.size })
@@ -224,7 +234,7 @@ class PlaytimeEstimator(private val root: File) {
 
     // ------------------------------------------------------------------ difficulty sensitivity
 
-    data class LegData(val label: String, val pathTrainers: List<String>, val optionalTrainers: List<String>, val wildFought: Double,
+    data class LegData(val label: String, val pathTrainers: List<String>, val optionalTrainers: List<String>, val wildFought: Double, val optionalWildFought: Double,
                        val maps: Set<String>, val bossAce: Int, val badgesAfter: Int)
 
     /**
@@ -247,7 +257,8 @@ class PlaytimeEstimator(private val root: File) {
                     for (l in legs) {
                         for (t in l.pathTrainers) p.defeatTrainer(t)
                         if (v.optional) for (t in l.optionalTrainers) p.defeatTrainer(t)
-                        p.defeatWild(l.wildFought, l.maps)
+                        // "With optional" means the same everywhere: optional trainers and optional wild battles (as partyLevelWithOptional).
+                        p.defeatWild(l.wildFought + if (v.optional) l.optionalWildFought else 0.0, l.maps)
                         add(buildJsonObject { put("leg", l.label); put("partyLevel", p.level); put("bossAce", l.bossAce); put("gap", p.level - l.bossAce) })
                         p = p.grown(l.badgesAfter)
                     }
